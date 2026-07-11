@@ -1,0 +1,292 @@
+Jul 11 2026 15:33:01 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1021,"type":2,"value":11.28}
+Jul 11 2026 15:33:01 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1022,"type":2,"value":0.07}
+Jul 11 2026 15:33:01 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1023,"type":2,"value":105.37}
+Jul 11 2026 15:33:01 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1024,"type":2,"value":15.81}
+Jul 11 2026 15:33:01 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1026,"type":2,"value":105.37}
+Jul 11 2026 15:33:02 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1027,"type":2,"value":0.09}
+Jul 11 2026 15:33:02 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1029,"type":2,"value":105.37}
+Jul 11 2026 15:33:02 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1030,"type":2,"value":23.79}
+Jul 11 2026 15:33:02 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1032,"type":2,"value":105.37}
+Jul 11 2026 15:33:02 - info: incoming request:  [3026685,"192.168.1.143","GET","/api/v1/status"," : {}"]
+Jul 11 2026 15:33:02 - info: incoming request:  [3026686,"192.168.1.143","GET","/api/v1/drivers/files?query=%7B%22isProxy%22:false,%22isAgent%22:false%7D&"," : {}"]
+Jul 11 2026 15:33:03 - info: incoming request:  [3026687,"192.168.1.143","GET","/api/v1/status"," : {}"]
+Jul 11 2026 15:33:03 - info: incoming request:  [3026688,"192.168.1.143","GET","/api/v1/drivers/files?query=%7B%22isProxy%22:false,%22isAgent%22:true%7D&"," : {}"]
+Jul 11 2026 15:33:03 - verbose: {"evtName":"OnVariableChanged","iddevice":422,"idvariable":4568,"type":2,"value":287739}
+Jul 11 2026 15:33:03 - verbose: {"evtName":"OnVariableChanged","iddevice":278,"idvariable":4568,"type":2,"value":562279}
+Jul 11 2026 15:33:07 - info: incoming request:  [3026689,"192.168.1.192","GET","/api/v1/media_sessions"," : {}"]
+Jul 11 2026 15:33:07 - debug: queue processing request: ["GET","/api/v1/media_sessions","","{}",""]
+Jul 11 2026 15:33:07 - info: Sending Manager Command  <c4soap name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:07 - info: Sending c4soap request: <c4soap seq="71c3c7243398acf16b928b3419c4619f" name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:07 - info: Received c4soap response <c4soap name="SendToMediaSessionManager" result="1" seq="71c3c7243398acf16b928b3419c4619f"><mediasessions><mediasession><sessionid>1102</sessionid><deviceid>35<
+Jul 11 2026 15:33:07 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:11 - verbose: {"evtName":"OnVariableChanged","iddevice":587,"idvariable":4567,"type":2,"value":65027}
+Jul 11 2026 15:33:11 - verbose: {"evtName":"OnVariableChanged","iddevice":587,"idvariable":4569,"type":2,"value":340}
+Jul 11 2026 15:33:13 - info: incoming request:  [3026690,"192.168.1.71","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:13 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:13 - info: Sending c4soap request: <c4soap seq="f3ad1b3a1ff9b28ca3c36024d318fb7a" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:13 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="f3ad1b3a1ff9b28ca3c36024d318fb7a"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:13 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:13 - info: incoming request:  [3026691,"127.0.0.1","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:13 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:13 - info: Sending c4soap request: <c4soap seq="8dc07e863cf22367e52d155334c747fe" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:13 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="8dc07e863cf22367e52d155334c747fe"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:13 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:14 - info: incoming request:  [3026692,"192.168.1.47","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:14 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:14 - info: Sending c4soap request: <c4soap seq="8d4e252ecc2c1d85bc8f0c0ef461147d" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:14 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="8d4e252ecc2c1d85bc8f0c0ef461147d"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:14 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:15 - verbose: {"evtName":"OnVariableChanged","iddevice":585,"idvariable":4571,"type":2,"value":12958}
+Jul 11 2026 15:33:15 - verbose: {"evtName":"OnVariableChanged","iddevice":585,"idvariable":4572,"type":2,"value":81}
+Jul 11 2026 15:33:15 - verbose: {"evtName":"OnVariableChanged","iddevice":416,"idvariable":4568,"type":2,"value":257013}
+Jul 11 2026 15:33:17 - info: incoming request:  [3026693,"192.168.1.192","GET","/api/v1/media_sessions"," : {}"]
+Jul 11 2026 15:33:17 - debug: queue processing request: ["GET","/api/v1/media_sessions","","{}",""]
+Jul 11 2026 15:33:17 - info: Sending Manager Command  <c4soap name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:17 - info: Sending c4soap request: <c4soap seq="64448696604669954672e06f7524e0e1" name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:17 - info: Received c4soap response <c4soap name="SendToMediaSessionManager" result="1" seq="64448696604669954672e06f7524e0e1"><mediasessions><mediasession><sessionid>1102</sessionid><deviceid>35<
+Jul 11 2026 15:33:17 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:17 - verbose: {"evtName":"OnNetworkBindingStatusChanged","iddevice":464,"idbinding":6001,"status":"offline"}
+Jul 11 2026 15:33:17 - info: Processing network binding event: {"evtName":"OnNetworkBindingStatusChanged","iddevice":464,"idbinding":6001,"status":"offline"}
+Jul 11 2026 15:33:17 - info: OnNetworkBindingStatusChanged for 464, binding 6001
+Jul 11 2026 15:33:17 - verbose: {"evtName":"OnNetworkBindingStatusChanged","iddevice":470,"idbinding":6001,"status":"offline"}
+Jul 11 2026 15:33:17 - info: Processing network binding event: {"evtName":"OnNetworkBindingStatusChanged","iddevice":470,"idbinding":6001,"status":"offline"}
+Jul 11 2026 15:33:17 - info: OnNetworkBindingStatusChanged for 470, binding 6001
+Jul 11 2026 15:33:18 - info: itemChangedQueue.drain.  emit bProjectParsedByBroker.  tasks: []
+Jul 11 2026 15:33:18 - info: Project re-parsed.  Flushing items request cache.
+Jul 11 2026 15:33:18 - info: Room DataToUI listeners: 28
+Jul 11 2026 15:33:19 - verbose: {"evtName":"OnVariableChanged","iddevice":346,"idvariable":4568,"type":2,"value":444151}
+Jul 11 2026 15:33:20 - verbose: {"evtName":"OnVariableChanged","iddevice":246,"idvariable":4568,"type":2,"value":16200}
+Jul 11 2026 15:33:21 - verbose: {"evtName":"OnVariableChanged","iddevice":242,"idvariable":4568,"type":2,"value":606117}
+Jul 11 2026 15:33:27 - info: incoming request:  [3026694,"192.168.1.192","GET","/api/v1/media_sessions"," : {}"]
+Jul 11 2026 15:33:27 - debug: queue processing request: ["GET","/api/v1/media_sessions","","{}",""]
+Jul 11 2026 15:33:27 - info: Sending Manager Command  <c4soap name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:27 - info: Sending c4soap request: <c4soap seq="67c32ea557dec0fbac74530de0a03bfe" name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:27 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - info: Received c4soap response <c4soap name="SendToMediaSessionManager" result="1" seq="67c32ea557dec0fbac74530de0a03bfe"><mediasessions><mediasession><sessionid>1102</sessionid><deviceid>35<
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:28 - verbose: {"evtName":"OnAlive","status":"Getting AV Devices"}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnVariableChanged","iddevice":410,"idvariable":4567,"type":2,"value":105746}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnVariableChanged","iddevice":410,"idvariable":4569,"type":2,"value":525}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnVariableChanged","iddevice":418,"idvariable":4567,"type":2,"value":85247}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnVariableChanged","iddevice":418,"idvariable":4569,"type":2,"value":342}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnDataToUI","iddevice":81,"data":{"is_connected":true},"time":1783802010}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnDataToUI","iddevice":81,"data":{"message":""},"time":1783802010}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnDataToUI","iddevice":81,"data":{"setpoint_single_f":74},"time":1783802010}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnDataToUI","iddevice":81,"data":{"setpoint_single_c":23},"time":1783802010}
+Jul 11 2026 15:33:30 - verbose: {"evtName":"OnDataToUI","iddevice":80,"data":{"devicecommand":{"command":"UPDATE_PROPERTY","params":{"param":[{"name":"Attribs","value":{"type":"NUMBER","static":0}},{"name":"Name","value":{"type":"STRING","static":"Last Status Update"}},{"name":"Value","value":{"type":"STRING","static":"Sat Jul 11 15:33:30 2026"}}]}}},"time":1783802010}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1012,"type":2,"value":52.66}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1013,"type":2,"value":52.66}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1014,"type":2,"value":105.24}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1017,"type":2,"value":105.24}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":535,"idvariable":4568,"type":2,"value":231617}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1018,"type":2,"value":1.92}
+Jul 11 2026 15:33:31 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1020,"type":2,"value":105.22}
+Jul 11 2026 15:33:31 - info: incoming request:  [3026695,"127.0.0.1","GET","/api/v1/director_info"," : {}"]
+Jul 11 2026 15:33:31 - debug: queue processing request: ["GET","/api/v1/director_info","","{}",""]
+Jul 11 2026 15:33:32 - info: incoming request:  [3026696,"127.0.0.1","GET","/api/v1/status"," : {}"]
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1021,"type":2,"value":11.4}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1023,"type":2,"value":105.22}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1024,"type":2,"value":15.73}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1026,"type":2,"value":105.22}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1027,"type":2,"value":0.12}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1029,"type":2,"value":105.22}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1030,"type":2,"value":23.74}
+Jul 11 2026 15:33:32 - verbose: {"evtName":"OnVariableChanged","iddevice":225,"idvariable":1032,"type":2,"value":105.22}
+Jul 11 2026 15:33:34 - verbose: {"evtName":"OnAuthorizedConnectionDisconnected","name":"Composer_david@propertyrenewal.llc_AMIGA","ipaddress":"192.168.1.25","port":56314}
+Jul 11 2026 15:33:34 - verbose: {"evtName":"OnAuthorizedConnectionDisconnected","name":"Composer_david@propertyrenewal.llc_AMIGA","ipaddress":"192.168.1.25","port":56315}
+Jul 11 2026 15:33:36 - verbose: {"evtName":"OnZigbeeMeshChanged","id":85,"mesh":{"mesh_info":{"class_id":0,"tracking_level":0,"version":182,"status_":1,"xpanid_":{"class_id":0,"tracking_level":0,"version":182,"addr":"b655df9ef3c59da1"},"panid_":4217,"channel_":15,"preconfiguredKey_":{"count":16,"item_version":0,"item":[90,105,103,66,101,101,65,108,108,105,97,110,99,101,48,57]},"networkKey_":{"count":16,"item_version":0,"item":[72,78,63,33,112,78,43,56,104,100,54,119,120,59,80,70]},"allowJoining_":0,"zigbee3_":0,"trustCenterData_":{"lid_":{"class_id":0,"tracking_level":0,"version":182,"id_":"11448415235094810368"},"trust_center_outgoing_frame_counter_":0,"network_key_outgoing_frame_counter_":8331265}}}}
+Jul 11 2026 15:33:36 - verbose: {"evtName":"OnZigbeeMeshChanged","id":202,"mesh":{"mesh_info":{"class_id":0,"tracking_level":0,"version":182,"status_":1,"xpanid_":{"class_id":0,"tracking_level":0,"version":182,"addr":"9533d267bd86b45b"},"panid_":16920,"channel_":12,"preconfiguredKey_":{"count":16,"item_version":0,"item":[89,50,35,90,119,124,49,83,75,70,79,114,41,74,87,87]},"networkKey_":{"count":16,"item_version":0,"item":[82,34,73,124,89,67,43,33,60,60,62,106,36,104,92,71]},"allowJoining_":0,"zigbee3_":1,"trustCenterData_":{"lid_":{"class_id":0,"tracking_level":0,"version":182,"id_":"15486455250985881344"},"trust_center_outgoing_frame_counter_":20496,"network_key_outgoing_frame_counter_":5371210}}}}
+Jul 11 2026 15:33:36 - verbose: {"evtName":"OnVariableChanged","iddevice":431,"idvariable":4568,"type":2,"value":276786}
+Jul 11 2026 15:33:36 - info: incoming request:  [3026697,"192.168.1.143","GET","/api/v1/properties?filter=countryNameCode,cityName"," : {}"]
+Jul 11 2026 15:33:36 - info: incoming request:  [3026698,"192.168.1.143","GET","/api/v1/director_info"," : {}"]
+Jul 11 2026 15:33:36 - debug: queue processing request: ["GET","/api/v1/properties?filter=countryNameCode,cityName","","{}",""]
+Jul 11 2026 15:33:36 - debug: queue processing request: ["GET","/api/v1/director_info","","{}",""]
+Jul 11 2026 15:33:36 - info: Sending c4soap request: <c4soap seq="248904ccb059dc261cfd64c7d268aacb" name="GetItem" async="False"><param name="iditem" type="number">1</param><param name="filter" type="number">0</param></c4soap>
+Jul 11 2026 15:33:36 - info: incoming request:  [3026699,"192.168.1.143","GET","/api/v1/properties"," : {}"]
+Jul 11 2026 15:33:36 - debug: queue processing request: ["GET","/api/v1/properties","","{}",""]
+Jul 11 2026 15:33:36 - info: Sending c4soap request: <c4soap seq="f9ddfab02c83b957f6dfc0eca2f049f8" name="GetItem" async="False"><param name="iditem" type="number">1</param><param name="filter" type="number">0</param></c4soap>
+Jul 11 2026 15:33:36 - info: Received c4soap response <c4soap name="GetItem" result="1" seq="248904ccb059dc261cfd64c7d268aacb"><item majorversion="4" minorversion="1" buildnumber="0" buildrevision="743847"><id>1</i
+Jul 11 2026 15:33:36 - info: Got Project Item.
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_keycap_finish
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_text_size
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_text_alignment
+Jul 11 2026 15:33:36 - verbose: Connecting sysman client to 127.0.0.1:5810
+Jul 11 2026 15:33:36 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:36 - info: Received c4soap response <c4soap name="GetItem" result="1" seq="f9ddfab02c83b957f6dfc0eca2f049f8"><item majorversion="4" minorversion="1" buildnumber="0" buildrevision="743847"><id>1</i
+Jul 11 2026 15:33:36 - info: Got Project Item.
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_keycap_finish
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_text_size
+Jul 11 2026 15:33:36 - warn: Unknown property in ProjectProperties. lux_text_alignment
+Jul 11 2026 15:33:36 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:36 - info: nclient connected
+Jul 11 2026 15:33:36 - info: Subscription client connected:  ["TlvdcGZssXtXkksCABBn"," from ","127.0.0.1"]
+Jul 11 2026 15:33:36 - info: incoming request:  [3026700,"192.168.1.143","GET","/api/v1/items/network?filter=name,protocolName,protocolId,id,roomName,roomId,aggregateOnline,bindings.address,bindings.uuid,bindings.type,bindings.ssdpType,bindings.typeName,connections.online,connections.address,connections.port&SubscriptionClient=TlvdcGZssXtXkksCABBn&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29yZTVfMDAwRkZGOUZDNDcwIiwiU2VydmljZXMiOiJkaXJlY3RvcixzeXNtYW4iLCJVc2VyTmFtZSI6IkNOPUNvbXBvc2VyX2RhdmlkQHByb3BlcnR5cmVuZXdhbC5sbGNfT1NCT1JORVBDLEw9RHJhcGVyLFNUPVV0YWgsQz1VUyIsIlBlcm1pc3Npb25zIjoiL3N5c21hbiwvZGlyZWN0b3IiLCJpYXQiOjE3ODM4MDE5NzUsImV4cCI6MTc4Mzg4ODM3NX0.qyHJ6JHX7tt4wM7v0mPR1Hv7Exy59k-K_6IYRzehUDbQ4Xj9Oc2quy1_IXq0nLB060Z55Es2aK1bqk3bxm6QQYKuJ0Ub8aBBQnoEQVzMn2Ra41K4YNR0vWp0sbn2ceioR9HWMp-S6ailc8WlDYV_5SlkKRRi4x61_NtGojz-16DsczGzc1vgMYPYHOgX0zGaLRmw7xdU9FFHcT3NgScJFhjKneubdSufe5xp0QePZ088IaBnQTe123BT5UlRmJOjL54xvRmLt9r3-JV_TT1khBvaTvNcBZa6twl6JMosE6kZbhdtz0CVSEWSfk5IcM0Xa3YcE75QiHsV3l1LbeoSSuyQCRmcsnrpLzDtsOYwi3Vvj6cu-GuOgiw2sGjm5LhhqVeL3MLihhyLHFoIUC5lIUAHXQCA3ISXRKENeGpLFJzWVuDJV_4k-tlJGJ9gSGUMQT-_FaRcWaGYSFn9UmWA5hVN2HRJFLSFJaxLX42HlNcZa2Sud6qGzHY1OWF6MIgv&zigbeeOnInitialResponse=false&zigbeeDetails=false&checkFrequency=30000"," : {}"]
+Jul 11 2026 15:33:36 - debug: queue processing request: ["GET","/api/v1/items/network?filter=name,protocolName,protocolId,id,roomName,roomId,aggregateOnline,bindings.address,bindings.uuid,bindings.type,bindings.ssdpType,bind","...","{}",""]
+Jul 11 2026 15:33:36 - info: incoming request:  [3026701,"192.168.1.143","GET","/api/v1/items?SubscriptionClient=TlvdcGZssXtXkksCABBn&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29yZTVfMDAwRkZGOUZDNDcwIiwiU2VydmljZXMiOiJkaXJlY3RvcixzeXNtYW4iLCJVc2VyTmFtZSI6IkNOPUNvbXBvc2VyX2RhdmlkQHByb3BlcnR5cmVuZXdhbC5sbGNfT1NCT1JORVBDLEw9RHJhcGVyLFNUPVV0YWgsQz1VUyIsIlBlcm1pc3Npb25zIjoiL3N5c21hbiwvZGlyZWN0b3IiLCJpYXQiOjE3ODM4MDE5NzUsImV4cCI6MTc4Mzg4ODM3NX0.qyHJ6JHX7tt4wM7v0mPR1Hv7Exy59k-K_6IYRzehUDbQ4Xj9Oc2quy1_IXq0nLB060Z55Es2aK1bqk3bxm6QQYKuJ0Ub8aBBQnoEQVzMn2Ra41K4YNR0vWp0sbn2ceioR9HWMp-S6ailc8WlDYV_5SlkKRRi4x61_NtGojz-16DsczGzc1vgMYPYHOgX0zGaLRmw7xdU9FFHcT3NgScJFhjKneubdSufe5xp0QePZ088IaBnQTe123BT5UlRmJOjL54xvRmLt9r3-JV_TT1khBvaTvNcBZa6twl6JMosE6kZbhdtz0CVSEWSfk5IcM0Xa3YcE75QiHsV3l1LbeoSSuyQCRmcsnrpLzDtsOYwi3Vvj6cu-GuOgiw2sGjm5LhhqVeL3MLihhyLHFoIUC5lIUAHXQCA3ISXRKENeGpLFJzWVuDJV_4k-tlJGJ9gSGUMQT-_FaRcWaGYSFn9UmWA5hVN2HRJFLSFJaxLX42HlNcZa2Sud6qGzHY1OWF6MIgv&fields=id,compareStatus"," : {}"]
+Jul 11 2026 15:33:36 - info: updating w/ znode data
+Jul 11 2026 15:33:36 - debug: queue processing request: ["GET","/api/v1/items?SubscriptionClient=TlvdcGZssXtXkksCABBn&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29yZTVfMDAwRkZGOUZDNDcwIiwiU2Vyd","...","{}",""]
+Jul 11 2026 15:33:36 - info: incoming request:  [3026702,"192.168.1.143","GET","/api/v1/items/100001/variables?q={%22varName%22:%22CP-DiagnosticsIgnoredDevices%22}&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29yZTVfMDAwRkZGOUZDNDcwIiwiU2VydmljZXMiOiJkaXJlY3RvcixzeXNtYW4iLCJVc2VyTmFtZSI6IkNOPUNvbXBvc2VyX2RhdmlkQHByb3BlcnR5cmVuZXdhbC5sbGNfT1NCT1JORVBDLEw9RHJhcGVyLFNUPVV0YWgsQz1VUyIsIlBlcm1pc3Npb25zIjoiL3N5c21hbiwvZGlyZWN0b3IiLCJpYXQiOjE3ODM4MDE5NzUsImV4cCI6MTc4Mzg4ODM3NX0.qyHJ6JHX7tt4wM7v0mPR1Hv7Exy59k-K_6IYRzehUDbQ4Xj9Oc2quy1_IXq0nLB060Z55Es2aK1bqk3bxm6QQYKuJ0Ub8aBBQnoEQVzMn2Ra41K4YNR0vWp0sbn2ceioR9HWMp-S6ailc8WlDYV_5SlkKRRi4x61_NtGojz-16DsczGzc1vgMYPYHOgX0zGaLRmw7xdU9FFHcT3NgScJFhjKneubdSufe5xp0QePZ088IaBnQTe123BT5UlRmJOjL54xvRmLt9r3-JV_TT1khBvaTvNcBZa6twl6JMosE6kZbhdtz0CVSEWSfk5IcM0Xa3YcE75QiHsV3l1LbeoSSuyQCRmcsnrpLzDtsOYwi3Vvj6cu-GuOgiw2sGjm5LhhqVeL3MLihhyLHFoIUC5lIUAHXQCA3ISXRKENeGpLFJzWVuDJV_4k-tlJGJ9gSGUMQT-_FaRcWaGYSFn9UmWA5hVN2HRJFLSFJaxLX42HlNcZa2Sud6qGzHY1OWF6MIgv"," : {}"]
+Jul 11 2026 15:33:37 - debug: queue processing request: ["GET","/api/v1/items/100001/variables?q={%22varName%22:%22CP-DiagnosticsIgnoredDevices%22}&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29","...","{}",""]
+Jul 11 2026 15:33:37 - info: Start subscription  TlvdcGZssXtXkksCABBn
+Jul 11 2026 15:33:37 - info: updating w/ znode data
+Jul 11 2026 15:33:37 - debug: Checking to see if director sysman file time has changed
+Jul 11 2026 15:33:37 - info: incoming request:  [3026703,"192.168.1.143","GET","/api/v1/items/100001/variables?filter=variableId,value&q=%7B%22varName%22:%22CP-DiagnosticsIgnoredDevices%22%7D&SubscriptionClient=TlvdcGZssXtXkksCABBn&JWT=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJDb21tb25OYW1lIjoiY29udHJvbDRfY29yZTVfMDAwRkZGOUZDNDcwIiwiU2VydmljZXMiOiJkaXJlY3RvcixzeXNtYW4iLCJVc2VyTmFtZSI6IkNOPUNvbXBvc2VyX2RhdmlkQHByb3BlcnR5cmVuZXdhbC5sbGNfT1NCT1JORVBDLEw9RHJhcGVyLFNUPVV0YWgsQz1VUyIsIlBlcm1pc3Npb25zIjoiL3N5c21hbiwvZGlyZWN0b3IiLCJpYXQiOjE3ODM4MDE5NzUsImV4cCI6MTc4Mzg4ODM3NX0.qyHJ6JHX7tt4wM7v0mPR1Hv7Exy59k-K_6IYRzehUDbQ4Xj9Oc2quy1_IXq0nLB060Z55Es2aK1bqk3bxm6QQYKuJ0Ub8aBBQnoEQVzMn2Ra41K4YNR0vWp0sbn2ceioR9HWMp-S6ailc8WlDYV_5SlkKRRi4x61_NtGojz-16DsczGzc1vgMYPYHOgX0zGaLRmw7xdU9FFHcT3NgScJFhjKneubdSufe5xp0QePZ088IaBnQTe123BT5UlRmJOjL54xvRmLt9r3-JV_TT1khBvaTvNcBZa6twl6JMosE6kZbhdtz0CVSEWSfk5IcM0Xa3YcE75QiHsV3l1LbeoSSuyQCRmcsnrpLzDtsOYwi3Vvj6cu-GuOgiw2sGjm5LhhqVeL3MLihhyLHFoIUC5lIUAHXQCA3ISXRKENeGpLFJzWVuDJV_4k-tlJGJ9gSGUMQT-_FaRcWaGYSFn9UmWA5hVN2HRJFLSFJaxLX42HlNcZa2Sud6qGzHY1OWF6MIgv"," : {}"]
+Jul 11 2026 15:33:37 - debug: queue processing request: ["GET","/api/v1/items/100001/variables?filter=variableId,value&q=%7B%22varName%22:%22CP-DiagnosticsIgnoredDevices%22%7D&SubscriptionClient=TlvdcGZssXtXkksCABBn&JWT=eyJh","...","{}",""]
+Jul 11 2026 15:33:37 - info: Start subscription  TlvdcGZssXtXkksCABBn
+Jul 11 2026 15:33:37 - info: Start subscription  TlvdcGZssXtXkksCABBn
+Jul 11 2026 15:33:38 - info: incoming request:  [3026704,"192.168.1.192","GET","/api/v1/media_sessions"," : {}"]
+Jul 11 2026 15:33:38 - debug: queue processing request: ["GET","/api/v1/media_sessions","","{}",""]
+Jul 11 2026 15:33:38 - info: Sending Manager Command  <c4soap name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:38 - info: Sending c4soap request: <c4soap seq="d3d2f576aaaa282dae31389004ace641" name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:38 - info: Received c4soap response <c4soap name="SendToMediaSessionManager" result="1" seq="d3d2f576aaaa282dae31389004ace641"><mediasessions><mediasession><sessionid>1102</sessionid><deviceid>35<
+Jul 11 2026 15:33:38 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:40 - info: incoming request:  [3026705,"192.168.1.143","GET","/api/v1/sysman/snapshot?timeout=600&uuid=c4:control4_core5-core5-000FFF9FC470"," : {}"]
+Jul 11 2026 15:33:40 - debug: queue processing request: ["GET","/api/v1/sysman/snapshot?timeout=600&uuid=c4:control4_core5-core5-000FFF9FC470","","{}",""]
+Jul 11 2026 15:33:40 - info: Generating snapshot...
+Jul 11 2026 15:33:43 - info: incoming request:  [3026706,"192.168.1.71","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:43 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:43 - info: Sending c4soap request: <c4soap seq="585fe3d9e77df75fc3808e4fd418b120" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:43 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="585fe3d9e77df75fc3808e4fd418b120"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnVariableChanged","iddevice":408,"idvariable":4567,"type":2,"value":139823}
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnVariableChanged","iddevice":408,"idvariable":4569,"type":2,"value":524}
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnVariableChanged","iddevice":424,"idvariable":4567,"type":2,"value":17509}
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnVariableChanged","iddevice":424,"idvariable":4569,"type":2,"value":935}
+Jul 11 2026 15:33:43 - info: incoming request:  [3026707,"127.0.0.1","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:43 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:43 - info: Sending c4soap request: <c4soap seq="359b406e335f40e10aa3202a1984e57e" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:43 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="359b406e335f40e10aa3202a1984e57e"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:43 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:44 - info: incoming request:  [3026708,"192.168.1.47","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:44 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:44 - info: Sending c4soap request: <c4soap seq="a059873ede7b7239804143d395172369" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:44 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="a059873ede7b7239804143d395172369"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:44 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:46 - verbose: {"evtName":"OnVariableChanged","iddevice":65,"idvariable":4568,"type":2,"value":615139}
+Jul 11 2026 15:33:46 - verbose: {"evtName":"OnVariableChanged","iddevice":62,"idvariable":4568,"type":2,"value":494478}
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnNetworkBindingRemoved","iddevice":464,"idbinding":6001}
+Jul 11 2026 15:33:47 - info: Processing network binding event: {"evtName":"OnNetworkBindingRemoved","iddevice":464,"idbinding":6001}
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnNetworkBindingRemoved","iddevice":470,"idbinding":6001}
+Jul 11 2026 15:33:47 - info: Processing network binding event: {"evtName":"OnNetworkBindingRemoved","iddevice":470,"idbinding":6001}
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnNetworkBindingStatusChanged","iddevice":464,"idbinding":6001,"status":"online"}
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnNetworkBindingStatusChanged","iddevice":470,"idbinding":6001,"status":"online"}
+Jul 11 2026 15:33:47 - info: Processing network binding event: {"evtName":"OnNetworkBindingStatusChanged","iddevice":464,"idbinding":6001,"status":"online"}
+Jul 11 2026 15:33:47 - info: OnNetworkBindingStatusChanged for 464, binding 6001
+Jul 11 2026 15:33:47 - info: Processing network binding event: {"evtName":"OnNetworkBindingStatusChanged","iddevice":470,"idbinding":6001,"status":"online"}
+Jul 11 2026 15:33:47 - info: OnNetworkBindingStatusChanged for 470, binding 6001
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnConnectionAuthorized","name":"Composer_david@propertyrenewal.llc_AMIGA","ipaddress":"192.168.1.25","port":56353}
+Jul 11 2026 15:33:47 - verbose: {"evtName":"OnConnectionAuthorized","name":"Composer_david@propertyrenewal.llc_AMIGA","ipaddress":"192.168.1.25","port":56354}
+Jul 11 2026 15:33:48 - info: incoming request:  [3026709,"192.168.1.47","GET","/api/v1/version"," : {}"]
+Jul 11 2026 15:33:48 - debug: queue processing request: ["GET","/api/v1/version","","{}",""]
+Jul 11 2026 15:33:48 - info: Sending c4soap request: <c4soap seq="aebeda5630a1a69bea2eb43f860b8807" name="GetVersionInfo" async="false"/>
+Jul 11 2026 15:33:48 - info: Received c4soap response <c4soap name="GetVersionInfo" result="1" seq="aebeda5630a1a69bea2eb43f860b8807"><versions><version name="Navigator" version="4.1.0.743847-res" buildtype="" buil
+Jul 11 2026 15:33:48 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:48 - info: incoming request:  [3026710,"192.168.1.47","GET","/api/v1/director_info"," : {}"]
+Jul 11 2026 15:33:48 - debug: queue processing request: ["GET","/api/v1/director_info","","{}",""]
+Jul 11 2026 15:33:48 - info: incoming request:  [3026711,"192.168.1.192","GET","/api/v1/media_sessions"," : {}"]
+Jul 11 2026 15:33:48 - debug: queue processing request: ["GET","/api/v1/media_sessions","","{}",""]
+Jul 11 2026 15:33:48 - info: Sending Manager Command  <c4soap name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:48 - info: Sending c4soap request: <c4soap seq="c501cbcea197c469c4b2d45aed24b3b5" name="SendToMediaSessionManager" session="0" operation="RWX" category="composer"  async="false"><param name="data" type="string"><devicecommand owneridtype="" owneriditem="-1"><command>GET_SESSIONS</command><params></params></devicecommand></param></c4soap>
+Jul 11 2026 15:33:48 - info: Received c4soap response <c4soap name="SendToMediaSessionManager" result="1" seq="c501cbcea197c469c4b2d45aed24b3b5"><mediasessions><mediasession><sessionid>1102</sessionid><deviceid>35<
+Jul 11 2026 15:33:48 - verbose: {"evtName":"OnAlive"}
+Jul 11 2026 15:33:48 - info: itemChangedQueue.drain.  emit bProjectParsedByBroker.  tasks: []
+Jul 11 2026 15:33:48 - info: Project re-parsed.  Flushing items request cache.
+Jul 11 2026 15:33:48 - info: Room DataToUI listeners: 28

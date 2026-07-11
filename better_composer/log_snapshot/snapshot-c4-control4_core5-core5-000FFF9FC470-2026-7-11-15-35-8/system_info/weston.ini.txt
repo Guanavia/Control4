@@ -1,0 +1,16 @@
+#-------------------[ cat /etc/xdg/weston/weston.ini ] -----------------------#
+
+[core]
+gbm-format=argb8888
+idle-time=0
+backend=drm-backend.so
+
+[shell]
+panel-location=''
+panel-position=none
+background-image=/etc/xdg/weston/branded_wallpaper.png
+background-type=centered
+
+[output]
+name=HDMI-A-1
+mode=1920x1080@60

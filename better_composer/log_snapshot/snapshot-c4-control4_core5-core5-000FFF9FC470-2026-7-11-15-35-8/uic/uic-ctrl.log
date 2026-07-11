@@ -1,0 +1,22 @@
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 START command: set_country_code
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 parent: /control4/bin/uicmmd -d 
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 *** service pids:       ***
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uicmmd pid:             1804
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 zpc pid:                
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uic-upvl pid:           1852
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uic-nal pid:            1840
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uic-image-provider pid: 1820
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uic-gms pid:            1833
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 uic-mqtt pid:           1786
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 set country_code: US
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 set rf_region: US_LR
+2026-05-22 13:47:08 [1804.959969] core5-000FFF9FC470 restart zpc: restart daemon
+2026-05-22 13:47:11 [1804.959969] core5-000FFF9FC470 *** service pids:       ***
+2026-05-22 13:47:11 [1804.959969] core5-000FFF9FC470 uicmmd pid:             1804
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 zpc pid:                960148
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 uic-upvl pid:           1852
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 uic-nal pid:            1840
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 uic-image-provider pid: 1820
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 uic-gms pid:            1833
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 uic-mqtt pid:           1786
+2026-05-22 13:47:12 [1804.959969] core5-000FFF9FC470 END command: set_country_code

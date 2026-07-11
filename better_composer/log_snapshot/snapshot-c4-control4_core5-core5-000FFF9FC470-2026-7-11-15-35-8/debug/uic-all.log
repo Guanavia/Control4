@@ -1,0 +1,47 @@
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT read: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT write: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform 'misc.' MQTT activities: SL_STATUS_FAIL (Generic error.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT read: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT write: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform 'misc.' MQTT activities: SL_STATUS_FAIL (Generic error.)
+2026-02-11 13:50:06.172 -0600 core5-000FFF9FC470 [2022420] INFO: [uic_init] # Unify build: ver_1.3.2 (4.1.0-1.3.2-72-gcf4047d6-t20250704103839 - Jul  4 2025 10:40:54)
+2026-02-11 13:50:06.173 -0600 core5-000FFF9FC470 [2022420] ERR: [process.c] Process zwave_s2_process took 374 ms to execute event 129.
+2026-02-11 13:50:07.180 -0600 core5-000FFF9FC470 [2022519] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
+2026-02-11 13:50:08.184 -0600 core5-000FFF9FC470 [2022420] ERR: [process.c] Process Unify MQTT Client took 703 ms to execute event 6.
+2026-02-11 13:50:08.201 -0600 core5-000FFF9FC470 [2022501] ERR: [process.c] Process Unify MQTT Client took 1006 ms to execute event 6.
+2026-02-11 13:50:08.201 -0600 core5-000FFF9FC470 [2022493] ERR: [process.c] Process Unify MQTT Client took 1028 ms to execute event 6.
+2026-02-11 13:50:08.201 -0600 core5-000FFF9FC470 [2022519] ERR: [process.c] Process Unify MQTT Client took 889 ms to execute event 6.
+2026-02-11 13:50:10.228 -0600 core5-000FFF9FC470 [2022493] ERR: [process.c] Process Unify MQTT Client took 665 ms to execute event 136.
+2026-02-11 13:50:10.228 -0600 core5-000FFF9FC470 [2022501] ERR: [process.c] Process Unify MQTT Client took 674 ms to execute event 136.
+2026-02-11 13:50:10.230 -0600 core5-000FFF9FC470 [2022420] ERR: [process.c] Process Unify MQTT Client took 479 ms to execute event 136.
+2026-02-11 13:50:12.242 -0600 core5-000FFF9FC470 [2022519] ERR: [process.c] Process Unify MQTT Client took 494 ms to execute event 136.
+2026-02-11 13:51:17.095 -0600 core5-000FFF9FC470 [2031248] INFO: [uic_init] # Unify build: ver_1.3.2 (4.1.0-1.3.2-72-gcf4047d6-t20250704103839 - Jul  4 2025 10:40:54)
+2026-02-11 13:51:18.101 -0600 core5-000FFF9FC470 [2031248] ERR: [process.c] Process zwave_s2_process took 443 ms to execute event 129.
+2026-02-11 13:51:18.101 -0600 core5-000FFF9FC470 [2031352] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
+2026-02-11 13:51:19.103 -0600 core5-000FFF9FC470 [2031348] ERR: [process.c] Process Unify MQTT Client took 621 ms to execute event 6.
+2026-02-11 13:51:19.103 -0600 core5-000FFF9FC470 [2031322] ERR: [process.c] Process Unify MQTT Client took 1266 ms to execute event 6.
+2026-02-11 13:51:19.104 -0600 core5-000FFF9FC470 [2031352] ERR: [process.c] Process Unify MQTT Client took 1177 ms to execute event 6.
+2026-02-11 13:51:19.104 -0600 core5-000FFF9FC470 [2031248] ERR: [process.c] Process Unify MQTT Client took 1397 ms to execute event 6.
+2026-02-11 13:51:19.104 -0600 core5-000FFF9FC470 [2031340] ERR: [process.c] Process Unify MQTT Client took 1349 ms to execute event 6.
+2026-02-11 13:51:20.108 -0600 core5-000FFF9FC470 [2031322] ERR: [process.c] Process Unify MQTT Client took 362 ms to execute event 136.
+2026-02-11 13:51:21.114 -0600 core5-000FFF9FC470 [2031348] ERR: [process.c] Process Unify MQTT Client took 398 ms to execute event 136.
+2026-02-11 13:51:22.121 -0600 core5-000FFF9FC470 [2031248] ERR: [process.c] Process Unify MQTT Client took 363 ms to execute event 136.
+2026-02-11 13:51:22.124 -0600 core5-000FFF9FC470 [2031340] ERR: [process.c] Process Unify MQTT Client took 361 ms to execute event 136.
+2026-02-11 13:51:23.124 -0600 core5-000FFF9FC470 [2031352] ERR: [process.c] Process Unify MQTT Client took 359 ms to execute event 136.
+2026-02-17 09:36:49.959 -0600 core5-000FFF9FC470 [1852] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
+2026-02-17 09:36:51.648 -0600 core5-000FFF9FC470 [1852] ERR: [process.c] Process Unify MQTT Client took 1703 ms to execute event 6.
+2026-02-17 09:36:51.648 -0600 core5-000FFF9FC470 [1833] ERR: [process.c] Process Unify MQTT Client took 2137 ms to execute event 6.
+2026-02-17 09:36:51.239 -0600 core5-000FFF9FC470 [1840] ERR: [process.c] Process Unify MQTT Client took 2137 ms to execute event 6.
+2026-02-17 09:36:51.239 -0600 core5-000FFF9FC470 [1820] ERR: [process.c] Process Unify MQTT Client took 2442 ms to execute event 6.
+2026-02-17 09:36:56.588 -0600 core5-000FFF9FC470 [1852] ERR: [process.c] Process Unify MQTT Client took 572 ms to execute event 136.
+2026-02-17 09:36:56.588 -0600 core5-000FFF9FC470 [1840] ERR: [process.c] Process Unify MQTT Client took 635 ms to execute event 136.
+2026-02-17 09:36:56.844 -0600 core5-000FFF9FC470 [1820] ERR: [process.c] Process Unify MQTT Client took 667 ms to execute event 136.
+2026-02-17 09:36:56.844 -0600 core5-000FFF9FC470 [1833] ERR: [process.c] Process Unify MQTT Client took 1016 ms to execute event 136.
+2026-02-17 09:37:45.492 -0600 core5-000FFF9FC470 [3219] INFO: [uic_init] # Unify build: ver_1.3.2 (4.1.0-1.3.2-72-gcf4047d6-t20250704103839 - Jul  4 2025 10:40:54)
+2026-02-17 09:37:46.392 -0600 core5-000FFF9FC470 [3219] ERR: [process.c] Process zwave_s2_process took 423 ms to execute event 129.
+2026-02-17 09:37:47.392 -0600 core5-000FFF9FC470 [3219] ERR: [process.c] Process Unify MQTT Client took 504 ms to execute event 6.
+2026-02-17 09:37:49.134 -0600 core5-000FFF9FC470 [3219] ERR: [process.c] Process Unify MQTT Client took 550 ms to execute event 136.
+2026-05-22 13:47:09.087 -0500 core5-000FFF9FC470 [960148] INFO: [uic_init] # Unify build: ver_1.3.2 (4.1.0-1.3.2-72-gcf4047d6-t20250704103839 - Jul  4 2025 10:40:54)
+2026-05-22 13:47:10.142 -0500 core5-000FFF9FC470 [960148] ERR: [process.c] Process zwave_s2_process took 479 ms to execute event 129.
+2026-05-22 13:47:11.893 -0500 core5-000FFF9FC470 [960148] ERR: [process.c] Process Unify MQTT Client took 553 ms to execute event 6.
+2026-05-22 13:47:14.247 -0500 core5-000FFF9FC470 [960148] ERR: [process.c] Process Unify MQTT Client took 385 ms to execute event 136.

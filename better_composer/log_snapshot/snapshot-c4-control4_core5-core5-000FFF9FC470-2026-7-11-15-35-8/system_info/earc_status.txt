@@ -1,0 +1,2 @@
+#-------------------[ cat /sys/bus/i2c/drivers/sii9437/3-0030/link/earc_status ] -----------------------#
+

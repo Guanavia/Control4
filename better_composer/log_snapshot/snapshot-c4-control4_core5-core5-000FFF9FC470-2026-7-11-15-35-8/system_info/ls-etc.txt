@@ -1,0 +1,1957 @@
+#-------------------[ ls -lRL /etc ] -----------------------#
+
+/etc:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:44 ImageMagick-7
+drwxr-xr-x    3 root     root          4096 Mar  9  2018 OpenCL
+-rw-r--r--    1 root     root            44 Feb 17 09:36 adjtime
+drwxr-xr-x    7 root     root          4096 Feb 11 13:40 apt
+-rw-r--r--    1 root     root         15047 Feb 11 13:49 asound.conf
+-rw-r--r--    1 root     root          5766 Jul 11  2025 audio_sync.conf
+-rw-r-----    1 root     root          2177 May 22 13:47 audioclient_config.conf
+-rw-r-----    1 root     root           186 May 22 13:47 audioserver_config.conf
+-rw-r--r--    1 root     root           535 Aug  7  2022 bindresvport.blacklist
+-rw-r--r--    1 root     root          2904 May 18  2023 busybox.links.nosuid
+-rw-r--r--    1 root     root           128 May 18  2023 busybox.links.suid
+-rw-r--r--    1 root     root            17 Apr  5  2011 c4-version
+-rwxr-xr-x    1 root     root          1678 Sep 28  2022 c4board_info.sh
+drwxr-sr-x    2 director director     57344 Jun  6 12:33 c4i
+drwxr-xr-x    3 root     root          4096 Mar  9  2018 ca-certificates
+-rw-r--r--    1 root     root          5156 Mar  9  2018 ca-certificates.conf
+-rw-r--r--    1 root     root           565 Jul 11  2025 clock_sync.conf
+-rw-r--r--    1 root     root            28 Feb 17 09:36 commonname
+drwxr-xr-x    2 root     root          4096 Jun 26 02:11 control4-osd
+-rw-r--r--    1 root     root          1198 Apr  5  2011 core1-asound.conf
+-rw-r--r--    1 root     root          9855 Apr  5  2011 core3-asound.conf
+-rw-r--r--    1 root     root         15047 Apr  5  2011 core5-asound.conf
+-rw-r--r--    1 root     root           968 Apr  5  2011 corelite-asound.conf
+d---------    2 root     root          4096 Apr 27  2025 credstore
+d---------    2 root     root          4096 Apr 27  2025 credstore.encrypted
+drwxr-xr-x    2 root     root          4096 Feb 11 13:55 cron.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 cron.daily
+-rw-r--r--    1 root     root             0 Apr 25  2022 cron.deny
+drwxr-xr-x    2 root     root          4096 Apr 27  2025 cron.hourly
+drwxr-xr-x    2 root     root          4096 Apr 27  2025 cron.minutely
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 cron.monthly
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 cron.weekly
+-rw-------    1 root     root           713 Mar  9  2018 crontab
+drwxr-xr-x    3 root     root          4096 Feb 11 13:41 dbus-1
+drwxr-xr-x    3 root     root          4096 Feb 11 13:50 default
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 depmod.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:43 dhclient-exit-hooks.d
+drwxr-xr-x    2 root     root          4096 Feb 17 09:36 dhcp
+-rw-r--r--    1 root     root          6415 May 10  2022 dlt-system.conf
+-rw-r--r--    1 root     root          8767 May 10  2022 dlt.conf
+-rw-r--r--    1 root     root           995 May 10  2022 dlt_gateway.conf
+drwxr-xr-x    3 root     root          4096 Feb 11 13:40 dpkg
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 dtd
+-rw-r--r--    1 root     root            97 Sep  3  2021 environment
+-rw-r--r--    1 root     root          1853 Oct 18  2022 ethertypes
+-rwxr-xr-x    1 root     root          5635 Sep 28  2022 factory_restore.sh
+-rw-r--r--    1 root     root            90 Apr  5  2011 fancontrol
+drwxr-xr-x    2 root     root          4096 Nov 19  2021 features
+drwxr-xr-x    3 root     root          4096 Feb 11 13:41 fonts
+-rw-r--r--    1 root     root           504 Apr  5  2011 fstab
+-rwxr-xr-x    1 root     root           624 Apr  5  2011 gpuconfig
+-rw-r--r--    1 root     root          1146 Feb 11 13:43 group
+-rw-r--r--    1 root     root          1128 Feb 11 13:43 group-
+-r--------    1 root     root           964 Feb 11 13:43 gshadow
+-r--------    1 root     root           946 Feb 11 13:43 gshadow-
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 gtk-3.0
+-rw-r-----    1 root     root             8 Dec  2  2025 hdmi0.vol
+-rw-r--r--    1 root     root            26 Apr  5  2011 host.conf
+-rw-r--r--    1 root     root             5 Nov 19  2021 hostname
+-rw-r--r--    1 root     root           185 May 22 13:48 hosts
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 init.d
+-rw-r--r--    1 root     root          1476 Mar  9  2018 inittab
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 inittab.d
+-rw-r--r--    1 root     root          1633 Mar  9  2018 inputrc
+-rw-r--r--    1 root     root          1807 Sep 15  2025 ioserver_config.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:43 iproute2
+-rw-r--r--    1 root     root            41 Apr  5  2011 issue
+-rw-r--r--    1 root     root            38 Apr  5  2011 issue.net
+-rw-r--r--    1 root     root         37771 Feb 11 13:51 ld.so.cache
+-rw-r--r--    1 root     root            33 Oct  2  2023 ld.so.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:43 ld.so.conf.d
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 libinput
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 libnl
+-rw-r--r--    1 root     root          1754 Mar 28  2023 localtime
+drwxr-xr-x    2 root     root          4096 Jun 26 02:11 logging
+-rw-r--r--    1 root     root         13689 Nov  8  2022 login.defs
+-rw-r--r--    1 root     root           121 Apr  5  2011 logrotate-dmesg.conf
+-rwxr-xr-x    1 root     root          3047 Mar  9  2018 logrotate.conf
+drwxr-xr-x    2 root     root          4096 May 22 02:11 logrotate.d
+-rw-r--r--    1 root     root           330 Apr  5  2011 lumabr4-asound.conf
+-rw-r--r--    1 root     root            33 Nov 19  2021 machine-id
+-rwxr-xr-x    1 root     root          3421 Sep 28  2022 misc_functions.sh
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 modprobe.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 modules-load.d
+drwxrwxr-x    4 mosquitt mosquitt      4096 Feb 11 13:51 mosquitto
+-rw-r--r--    1 root     root           306 Apr  5  2011 motd
+-r--r--r--    1 root     root             0 Jul 11 15:33 mtab
+-rw-r--r--    1 root     root           767 Aug  7  2022 netconfig
+drwxr-xr-x    6 root     root          4096 Feb 11 13:44 network
+drwxr-xr-x    3 root     root          4096 Feb 11 13:49 nginx
+-rw-rw----    1 root     root           276 Nov 19  2024 nss_mdns.conf
+-rw-r--r--    1 root     root           482 Feb 11 13:51 nsswitch.conf
+-rw-r-----    1 ntp      support        154 Jun 23  2020 ntp.conf
+-rw-r-----    1 ntp      support         52 Jun 23  2020 ntp.conf.client
+-rw-r-----    1 ntp      support         91 Jun 23  2020 ntp.conf.local
+-rw-r-----    1 ntp      support        154 Jun 23  2020 ntp.conf.server
+drwxr-x---    2 ntp      ntp           4096 Jun 29 02:36 ntpd
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 openldap
+drwxr-xr-x    4 root     root          4096 Feb 11 13:50 openvpn
+-rw-r--r--    1 root     root           395 Apr  5  2011 os-release
+drwxr-xr-x    3 root     root          4096 Mar  9  2018 ostree
+-rw-r-----    1 root     root             8 Dec  2  2025 p0.vol
+-rw-r-----    1 root     root             8 Dec  2  2025 p1.vol
+-rw-r-----    1 root     root             8 Dec  2  2025 p2.vol
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 pal.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:46 pam.d
+-rw-r--r--    1 root     root          1861 May 22 13:47 passwd
+-rw-r-----    1 root     root             8 Dec  2  2025 pd0.vol
+-rw-r-----    1 root     root             8 Dec  2  2025 pd1.vol
+-rw-r-----    1 root     root             8 Dec  2  2025 pd2.vol
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 pkcs11
+drwxr-xr-x    3 root     root          4096 Mar  9  2018 pki
+-rw-r--r--    1 root     root          1996 Mar  9  2018 profile
+drwxr-xr-x    2 root     root          4096 Feb 11 13:46 profile.d
+-rw-r--r--    1 root     root          3144 Oct 18  2022 protocols
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 pulse
+-rw-r--r--    1 root     root          4119 Feb 20  2025 raproxyd.xml
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 rc.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc0.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc1.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc2.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc3.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc4.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc5.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 rc6.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:44 rcS.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 redis
+-rw-r--r--    1 systemd- systemd-       786 Feb 17 09:36 resolv-conf.systemd
+-rw-r--r--    1 root     root            41 Jul 11 06:11 resolv.conf
+-rw-r--r--    1 root     root           100 Jul 11 14:49 rmengine_locator_service_state.xml
+-rw-------    1 root     root       1747700 Jun 26 14:33 rmengine_state.xml
+-rw-r--r--    1 root     root           911 Oct 18  2022 rpc
+drwxr-xr-x    2 root     root          4096 Feb 17 09:36 samba
+-r--------    1 root     root          1854 Apr  5  2011 securetty
+drwxr-xr-x    4 root     root          4096 Feb 11 13:40 security
+-rw-r--r--    1 root     root           977 Apr  5  2011 sensord.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 sensors.d
+-rw-r--r--    1 root     root         10593 Oct 17  2019 sensors3.conf
+-rw-r--r--    1 root     root         12813 Oct 18  2022 services
+-rw-------    1 root     root          1339 May 22 13:47 shadow
+-rw-r--r--    1 root     root            56 Mar  9  2018 shells
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 skel
+-rw-------    1 root     root           101 Mar 29  2023 smbpasswd
+drwxr-x---    2 root     root          4096 Feb 11 13:49 ssh
+drwxr-xr-x    4 root     root          4096 Feb 11 13:49 ssl
+-rw-r--r--    1 root     root             0 Nov  8  2022 subgid
+-rw-r--r--    1 root     root             0 Nov  8  2022 subuid
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 sysconfig
+-rw-r--r--    1 root     root          2165 Feb 15  2023 sysctl.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 sysctl.d
+drwxr-xr-x    4 root     root          4096 Feb 11 13:55 syslog-ng
+drwxr-xr-x    2 root     root          4096 Jun 26 02:11 sysman.d
+drwxr-xr-x    5 root     root          4096 Feb 11 13:51 systemd
+drwxr-xr-x    9 root     root          4096 Mar  9  2018 terminfo
+-rw-r--r--    1 root     root            15 Mar  9  2018 timestamp
+-rw-r--r--    1 root     root            16 Apr 26  2025 timezone
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 tmpfiles.d
+drwxr-xr-x    4 root     root          4096 Feb 11 13:48 udev
+-rw-r--r--    1 root     root            91 Nov 19  2021 udhcpd.conf
+drwxr-x---    4 uic      uic           4096 May 22 13:47 uic
+-rw----r--    1 root     root          1137 Jul 11 07:45 um-state
+-rw----r--    1 root     root          1137 Jul 11 07:45 um-state.bak
+-rwxr-xr-x    1 root     root          1845 Apr  5  2011 usrmerge.sh
+-rw-r--r--    1 root     root            15 Mar  9  2018 version
+-rw-r--r--    1 root     root           140 Mar  9  2018 voice_amazon.cfg
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 wpa_supplicant
+-rw-------    1 root     root           113 Mar  9  2018 wpa_supplicant.conf
+drwxr-xr-x    5 root     root          4096 Apr 27  2025 xdg
+-rw-r--r--    1 root     root          1329 Sep 24  2025 zap.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:49 zg
+-rw-r--r--    1 root     root          2005 Sep 24  2025 zsvr.conf
+-rw-r--r--    1 root     root           150 Feb  4  2025 zsvr3.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:50 zwaved
+
+/etc/ImageMagick-7:
+-rw-r--r--    1 root     root          1383 Mar 26  2023 colors.xml
+-rw-r--r--    1 root     root         14297 Mar 26  2023 delegates.xml
+-rw-r--r--    1 root     root          1642 Mar 26  2023 log.xml
+-rw-r--r--    1 root     root        134622 Mar 26  2023 mime.xml
+-rw-r--r--    1 root     root          3821 Mar 26  2023 policy.xml
+-rw-r--r--    1 root     root          2369 Mar 26  2023 quantization-table.xml
+-rw-r--r--    1 root     root         11452 Mar 26  2023 thresholds.xml
+-rw-r--r--    1 root     root         29218 Mar 26  2023 type-apple.xml
+-rw-r--r--    1 root     root          8490 Mar 26  2023 type-dejavu.xml
+-rw-r--r--    1 root     root          7572 Mar 26  2023 type-ghostscript.xml
+-rw-r--r--    1 root     root          8162 Mar 26  2023 type-urw-base35.xml
+-rw-r--r--    1 root     root         13706 Mar 26  2023 type-windows.xml
+-rw-r--r--    1 root     root           572 Mar 26  2023 type.xml
+
+/etc/OpenCL:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:42 vendors
+
+/etc/OpenCL/vendors:
+-rw-r--r--    1 root     root            20 Sep 24  2024 Vivante.icd
+
+/etc/apt:
+-rw-r--r--    1 root     root            27 Apr  8  2022 apt.conf
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 apt.conf.d
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 auth.conf.d
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 preferences.d
+-rw-r--r--    1 root     root            88 Jul 10 11:13 sources.list
+drwxr-xr-x    2 root     root          4096 Jul 10 11:13 sources.list.d
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 trusted.gpg.d
+
+/etc/apt/apt.conf.d:
+-rw-r--r--    1 root     root            22 Mar  9  2018 80-retries
+
+/etc/apt/auth.conf.d:
+
+/etc/apt/preferences.d:
+
+/etc/apt/sources.list.d:
+
+/etc/apt/trusted.gpg.d:
+
+/etc/c4i:
+-rw-r--r--    1 director director      4157 Sep 24  2025 0_10v_dimmer.c4i
+-rw-r--r--    1 root     root         41153 Aug 14  2023 C4-MP1-E.c4i
+-rw-r--r--    1 root     root         42567 Aug 14  2023 C4-MP2-E.c4i
+-rw-r--r--    1 root     root         17822 Aug 14  2023 Card_Access_ZigBee_Extender_3.c4i
+-rw-r--r--    1 root     root         96845 Aug 14  2023 DriverWorks_BlackDecker_Lock.c4i
+-rw-r--r--    1 root     root         23857 Aug 14  2023 DriverWorks_inncom_thermostat.c4i
+-rw-r--r--    1 root     root         21104 Aug 14  2023 RoomJoin.c4i
+-rw-r--r--    1 root     root        276199 Aug 14  2023 SaflokHub.c4i
+-rw-r--r--    1 root     root         68017 Aug 14  2023 Telkonet_HA_Profile_Thermostat.c4i
+-rw-r--r--    1 root     root          2515 Sep 24  2025 Test_avswitch.c4i
+-rw-r--r--    1 director director      4189 May 22 13:45 adaptive_phase_dimmer.c4i
+-rw-------    1 root     director        32 May  5  2025 adaptive_phase_dimmer.c4i.md5
+-rw-r--r--    1 director director     14103 Sep 24  2025 amp16_ip_control4.c4i
+-rw-r--r--    1 director director     14108 Sep 24  2025 amp16_ip_control4_v2.c4i
+-rw-r--r--    1 director director      9937 Sep 24  2025 amp3_4Ch_control4.c4i
+-rw-r--r--    1 director director     14110 Sep 24  2025 amp3_ip_control4.c4i
+-rw-r--r--    1 director director      1869 May 22 13:45 amplifier.c4i
+-rw-------    1 root     director        32 Nov 22  2025 amplifier.c4i.md5
+-rw-r--r--    1 director director      1872 May 22 13:45 aswitch.c4i
+-rw-------    1 root     director        32 Nov 11  2025 aswitch.c4i.md5
+-rw-r-----    1 root     director      8779 Mar 21 12:20 aswitch_eKL_SV04.c4i
+-rw-------    1 root     director        32 Mar 21 12:20 aswitch_eKL_SV04.c4i.md5
+-rw-------    1 root     director      6828 May 22 13:45 aswitch_eKL_SV04_0_NUE.c4i
+-rw-------    1 root     director        32 Mar 21 12:27 aswitch_eKL_SV04_0_NUE.c4i.md5
+-rw-------    1 root     director      6487 Mar 18 09:33 aswitch_eKL_SV04_1_NUE.c4i
+-rw-------    1 root     director        32 Mar 18 09:33 aswitch_eKL_SV04_1_NUE.c4i.md5
+-rw-r--r--    1 director director      1870 May 22 13:45 avswitch.c4i
+-rw-------    1 root     director        32 Apr 25  2025 avswitch.c4i.md5
+-rw-r--r--    1 root     root          7704 Aug 14  2023 avswitch_232_altinex.c4i
+-rw-r--r--    1 director director     24368 Sep 24  2025 avswitch_ip_control4.c4i
+-rw-r--r--    1 director director     24367 Sep 24  2025 avswitch_ip_control4_v2.c4i
+-rw-r--r--    1 director director     24730 Sep 24  2025 avswitch_ip_control4_v3.c4i
+-rw-r--r--    1 director director      2936 Sep 24  2025 blind.c4i
+-rw-r--r--    1 director director      1145 Sep 24  2025 blindV2.c4i
+-rw-r--r--    1 root     root         20889 Aug 14  2023 blind_cardaccess_two_wire.c4i
+-rw-r--r--    1 director director      2551 Sep 24  2025 blind_double_relay.c4i
+-rw-r--r--    1 director director      2947 Sep 24  2025 blind_ir.c4i
+-rw-r--r--    1 director director      1480 Sep 24  2025 blind_mechoshade_single.c4i
+-rw-r--r--    1 director director      2154 Sep 24  2025 blind_single_relay.c4i
+-rw-r--r--    1 director director      1080 May 22 13:45 bus_power_supply.c4i
+-rw-------    1 root     director        32 Nov  8  2025 bus_power_supply.c4i.md5
+-rw-r--r--    1 root     root        157549 Aug 14  2023 c4_8x8_hdmivswitch_ip.c4i
+-rw-r--r--    1 root     root         35224 Aug 14  2023 c4_amp104.c4i
+-rw-r--r--    1 root     root         41061 Aug 14  2023 c4_amp108.c4i
+-rw-r--r--    1 director director     38419 May 22 13:45 c4_amp208.c4i
+-rw-------    1 root     director        32 Nov 22  2025 c4_amp208.c4i.md5
+-rw-r--r--    1 director director      6980 Sep 24  2025 cable.c4i
+-rw-r--r--    1 root     root         28580 Aug 14  2023 cable_Tangerine_Global.c4i
+-rw-r--r--    1 root     root         14343 Aug 14  2023 callerid_232_whozzcalling.c4i
+-rw-r--r--    1 director director      1068 May 22 13:45 camera.c4i
+-rw-------    1 root     director        32 Oct 19  2025 camera.c4i.md5
+-rw-r--r--    1 director director      1398 Sep 24  2025 camera_ip_http_URL.c4i
+-rw-r--r--    1 director director      2089 Sep 24  2025 camera_ip_http_axis_207W.c4i
+-rw-r--r--    1 director director      2089 Sep 24  2025 camera_ip_http_axis_2100.c4i
+-rw-r--r--    1 director director      5434 Sep 24  2025 camera_ip_http_axis_233D_ptz.c4i
+-rw-r--r--    1 director director      2141 Sep 24  2025 camera_ip_http_axis_241Q_Camera1.c4i
+-rw-r--r--    1 director director      2141 Sep 24  2025 camera_ip_http_axis_241Q_Camera2.c4i
+-rw-r--r--    1 director director      2141 Sep 24  2025 camera_ip_http_axis_241Q_Camera3.c4i
+-rw-r--r--    1 director director      2141 Sep 24  2025 camera_ip_http_axis_241Q_Camera4.c4i
+-rw-r--r--    1 director director      2117 Sep 24  2025 camera_ip_http_axis_M1031-W.c4i
+-rw-r--r--    1 director director      6221 Sep 24  2025 camera_ip_http_panasonic_BB-HCE481A.c4i
+-rw-r--r--    1 director director      5328 Sep 24  2025 camera_ip_http_panasonic_BB-HCM311A.c4i
+-rw-r--r--    1 director director      5328 Sep 24  2025 camera_ip_http_panasonic_BB-HCM331A.c4i
+-rw-r--r--    1 director director      6221 Sep 24  2025 camera_ip_http_panasonic_BB-HCM381A.c4i
+-rw-r--r--    1 director director      5325 Sep 24  2025 camera_ip_http_panasonic_BB-HCM511.c4i
+-rw-r--r--    1 director director      2677 Sep 24  2025 camera_ip_http_panasonic_BB-HCS301.c4i
+-rw-r--r--    1 director director      6804 Sep 24  2025 camera_ip_http_panasonic_BL-C10A.c4i
+-rw-r--r--    1 director director      2668 Sep 24  2025 camera_ip_http_panasonic_BL-C1A.c4i
+-rw-r--r--    1 director director      6804 Sep 24  2025 camera_ip_http_panasonic_BL-C30A.c4i
+-rw-r--r--    1 director director      5328 Sep 24  2025 camera_ip_http_panasonic_KX-HCM110A.c4i
+-rw-r--r--    1 director director      5328 Sep 24  2025 camera_ip_http_panasonic_KX-HCM250A.c4i
+-rw-r--r--    1 director director      6210 Sep 24  2025 camera_ip_http_panasonic_KX-HCM280A.c4i
+-rw-r--r--    1 director director      2703 Sep 24  2025 camera_ip_http_panasonic_NoPanNoTiltNoZoom.c4i
+-rw-r--r--    1 director director      6826 Sep 24  2025 camera_ip_http_panasonic_PanTiltNoZoom.c4i
+-rw-r--r--    1 director director      6225 Sep 24  2025 camera_ip_http_panasonic_PanTiltZoom.c4i
+-rw-r--r--    1 director director      3075 Sep 24  2025 cardaccess_whpc.c4i
+-rw-r--r--    1 director director      2731 Sep 24  2025 cardaccess_wirelessbutton.c4i
+-rw-r--r--    1 director director      2752 Sep 24  2025 cardaccess_wirelesscontact.c4i
+-rw-r--r--    1 director director      3229 Sep 24  2025 cardaccess_wirelesspir.c4i
+-rw-r--r--    1 director director      1876 Sep 24  2025 cardaccess_wirelessrelay.c4i
+-rw-r--r--    1 director director      4551 Sep 24  2025 cd.c4i
+-rw-r--r--    1 director director      5562 May 22 13:45 combo_dimmer.c4i
+-rw-------    1 root     director        32 Apr 25  2025 combo_dimmer.c4i.md5
+-rw-r--r--    1 director director      2825 Sep 24  2025 combo_dual_dimmer.c4i
+-rw-r--r--    1 director director      2823 Sep 24  2025 combo_dual_switch.c4i
+-rw-r--r--    1 director director      5142 Sep 24  2025 combo_switch.c4i
+-rw-r--r--    1 director director      3079 Sep 24  2025 configurable_keypad.c4i
+-rw-r--r--    1 director director      2518 Sep 24  2025 contactsingle_carbonmonoxidedetector_c4.c4i
+-rw-r--r--    1 director director      2345 May 22 13:45 contactsingle_contactswitch_c4.c4i
+-rw-------    1 root     director        32 Jan 19 07:59 contactsingle_contactswitch_c4.c4i.md5
+-rw-r--r--    1 director director      2316 Sep 24  2025 contactsingle_doorbell_c4.c4i
+-rw-r--r--    1 director director      2392 Sep 24  2025 contactsingle_doorcontactsensor_c4.c4i
+-rw-r--r--    1 director director      2420 Sep 24  2025 contactsingle_drivewaysensor_c4.c4i
+-rw-r--r--    1 director director      2392 Sep 24  2025 contactsingle_garagedoorsensor_c4.c4i
+-rw-r--r--    1 director director      2276 Sep 24  2025 contactsingle_gate_c4.c4i
+-rw-r--r--    1 director director      2474 Sep 24  2025 contactsingle_glassbreakdetector_c4.c4i
+-rw-r--r--    1 director director      2411 Sep 24  2025 contactsingle_heatdetector_c4.c4i
+-rw-r--r--    1 director director      2440 Sep 24  2025 contactsingle_humiditysensor_c4.c4i
+-rw-r--r--    1 director director      2301 May 22 13:45 contactsingle_irbeam_c4.c4i
+-rw-------    1 root     director        32 Nov 13  2025 contactsingle_irbeam_c4.c4i.md5
+-rw-r--r--    1 director director      2228 Sep 24  2025 contactsingle_motionsensor.c4i
+-rw-r--r--    1 director director      2390 May 22 13:45 contactsingle_motionsensor_c4.c4i
+-rw-------    1 root     director        32 Oct 19  2025 contactsingle_motionsensor_c4.c4i.md5
+-rw-r--r--    1 director director      2416 Sep 24  2025 contactsingle_pressuresensor_c4.c4i
+-rw-r--r--    1 director director      2394 Sep 24  2025 contactsingle_smokedetector_c4.c4i
+-rw-r--r--    1 director director      2374 Sep 24  2025 contactsingle_watersensor_c4.c4i
+-rw-r--r--    1 director director      2414 Sep 24  2025 contactsingle_windowcontactsensor_c4.c4i
+-rw-r--r--    1 director director      2559 May 22 13:45 control4_485_gateway.c4i
+-rw-------    1 root     director        32 Oct 30  2025 control4_485_gateway.c4i.md5
+-rw-r--r--    1 root     root         60573 Aug 14  2023 control4_Vestibule_DriverWorks.c4i
+-rw-r--r--    1 director director      7428 Sep 24  2025 control4_ca1.c4i
+-rw-------    1 root     director        32 Apr 25  2025 control4_ca1.c4i.md5
+-rw-r--r--    1 director director      6791 Sep 24  2025 control4_ca10.c4i
+-rw-r--r--    1 director director      4899 Sep 24  2025 control4_contactrelayextender.c4i
+-rw-r--r--    1 director director      2180 Sep 24  2025 control4_contactsingle.c4i
+-rw-r--r--    1 director director     27007 Sep 24  2025 control4_core1.c4i
+-rw-r--r--    1 director director     34244 Sep 24  2025 control4_core3.c4i
+-rw-r--r--    1 director director     56637 May 22 13:45 control4_core5.c4i
+-rw-------    1 root     director        32 Apr 25  2025 control4_core5.c4i.md5
+-rw-r--r--    1 director director     23282 May 22 13:45 control4_corelite.c4i
+-rw-------    1 root     director        32 Feb 11 13:52 control4_corelite.c4i.md5
+-rw-r--r--    1 director director      2192 May 22 13:45 control4_digitalaudio.c4i
+-rw-------    1 root     director        32 Apr 25  2025 control4_digitalaudio.c4i.md5
+-rw-r--r--    1 root     root         58170 Aug 14  2023 control4_dock_ipod.c4i
+-rw-r--r--    1 root     root         74073 Aug 14  2023 control4_doorstation_DriverWorks.c4i
+-rw-r--r--    1 director director      1898 Sep 24  2025 control4_dry_contact.c4i
+-rw-------    1 root     director        32 Jun  6 12:33 control4_dry_contact.c4i.md5
+-rw-r--r--    1 director director     13948 Sep 24  2025 control4_ea1.c4i
+-rw-r--r--    1 director director     20479 Sep 24  2025 control4_ea3.c4i
+-rw-r--r--    1 director director     28904 Sep 24  2025 control4_ea5.c4i
+-rw-r--r--    1 root     root         15758 Sep 24  2025 control4_eastrmamp1.c4i
+-rw-r--r--    1 root     root         15752 Sep 24  2025 control4_eastrmpre1.c4i
+-rw-r--r--    1 root     root         18110 Sep 24  2025 control4_eastrmpre4.c4i
+-rw-r--r--    1 root     root         46977 Sep 24  2025 control4_esstrmsndbr3ch.c4i
+-rw-r--r--    1 root     root          9691 Sep 24  2025 control4_esstrmspkr5.c4i
+-rw-r--r--    1 root     root         99587 Aug 14  2023 control4_imr10a-p_driverworks.c4i
+-rw-r--r--    1 root     root         79129 Aug 14  2023 control4_imr10a_driverworks.c4i
+-rw-r--r--    1 director director     15537 Sep 24  2025 control4_iox.c4i
+-rw-r--r--    1 director director      4044 Feb 21  2025 control4_keypad_kpz-11-w.c4i
+-rw-r--r--    1 director director      6596 Feb 21  2025 control4_keypad_kpz-31-w.c4i
+-rw-r--r--    1 director director      7816 Feb 21  2025 control4_keypad_kpz-61-w.c4i
+-rw-r--r--    1 director director      3839 Sep 24  2025 control4_lights_gen3_split_dimmable_light.c4i
+-rw-r--r--    1 director director      3787 Sep 24  2025 control4_lights_gen3_split_non_dimmable_light.c4i
+-rw-r--r--    1 director director     11081 Sep 24  2025 control4_lumabr4.c4i
+-rw-r--r--    1 director director       765 Sep 24  2025 control4_mechanical_switch.c4i
+-rw-r--r--    1 director director      3494 Sep 24  2025 control4_modulator.c4i
+-rw-r--r--    1 director director      2179 May 22 13:45 control4_network_mediastorage.c4i
+-rw-------    1 root     director        32 Apr 25  2025 control4_network_mediastorage.c4i.md5
+-rw-r--r--    1 director director      2533 Sep 24  2025 control4_relaysingle.c4i
+-rw-r--r--    1 director director     74562 Sep 24  2025 control4_sa1.c4i
+-rw-r--r--    1 root     root        104283 Aug 14  2023 control4_sps10_driverworks.c4i
+-rw-r--r--    1 director director      4133 Sep 24  2025 control4_sr150.c4i
+-rw-r--r--    1 director director      4621 Sep 24  2025 control4_sr250.c4i
+-rw-r--r--    1 director director      5017 May 22 13:45 control4_sr260.c4i
+-rw-------    1 root     director        32 May  3  2025 control4_sr260.c4i.md5
+-rw-r--r--    1 director director      4242 Sep 24  2025 control4_srh150.c4i
+-rw-r--r--    1 director director      4182 Sep 24  2025 control4_srhl150.c4i
+-rw-r--r--    1 director director      4314 Sep 24  2025 control4_thermostat.c4i
+-rw-r--r--    1 director director      3543 Sep 24  2025 control4_thermostat_hospitality_multifan.c4i
+-rw-r--r--    1 director director      3646 Sep 24  2025 control4_thermostat_multifan.c4i
+-rw-r--r--    1 director director      1172 Sep 24  2025 control4_thermostat_proxy.c4i
+-rw-r--r--    1 root     root        119645 Aug 14  2023 control4_thermostat_wt100_DriverWorks.c4i
+-rw-r--r--    1 director director     24542 Sep 24  2025 control4_tr1.c4i
+-rw-r--r--    1 director director      3133 Sep 24  2025 control4_whpc.c4i
+-rw-r--r--    1 director director      2658 Sep 24  2025 control4_wired_keypad.c4i
+-rw-r--r--    1 director director      2782 Sep 24  2025 control4_wirelesscontact.c4i
+-rw-r--r--    1 director director      3260 Sep 24  2025 control4_wirelesspir.c4i
+-rw-r--r--    1 director director      1935 Sep 24  2025 control4_wirelessrelay.c4i
+-rw-r--r--    1 root     root        135391 Aug 14  2023 control4_z2ir10a_driverworks.c4i
+-rw-r--r--    1 root     root         16807 Aug 14  2023 control4_zigbee_extender_3.c4i
+-rw-r--r--    1 director director       944 May 22 13:45 controller.c4i
+-rw-------    1 root     director        32 Apr 25  2025 controller.c4i.md5
+-rw-r--r--    1 director director      2962 Sep 24  2025 demo_dimmer.c4i
+-rw-r--r--    1 director director      2775 Sep 24  2025 demo_switch.c4i
+-rw-r--r--    1 root     root         11915 Aug 14  2023 dimmer_gateway_lutron_stanza.c4i
+-rw-r--r--    1 director director      1319 Sep 24  2025 din_rail_2_panel.c4i
+-rw-r--r--    1 director director      1319 May 22 13:45 din_rail_5_panel.c4i
+-rw-------    1 root     director        32 Nov  8  2025 din_rail_5_panel.c4i.md5
+-rw-r--r--    1 director director      3154 Sep 24  2025 din_rail_8_channel_0-10V_module.c4i
+-rw-r--r--    1 director director      3061 May 22 13:45 din_rail_8_channel_dimmer_module.c4i
+-rw-------    1 root     director        32 Oct 30  2025 din_rail_8_channel_dimmer_module.c4i.md5
+-rw-r--r--    1 director director      2933 Sep 24  2025 din_rail_8_channel_fpd_module.c4i
+-rw-r--r--    1 director director      3040 Sep 24  2025 din_rail_8_channel_relay_module.c4i
+-rw-r--r--    1 director director      1108 Sep 24  2025 din_rail_8_port_ethernet_switch.c4i
+-rw-r--r--    1 director director      5540 Sep 24  2025 discchanger.c4i
+-rw-r--r--    1 director director      4659 Sep 24  2025 discchanger_232_sony_cx777es.c4i
+-rw-r--r--    1 director director     27799 Sep 24  2025 discchanger_ir_sony_dvp-cx777es.c4i
+-rw-r--r--    1 root     root           996 May 22 13:45 doorstation.c4i
+-rw-------    1 root     director        32 Oct 19  2025 doorstation.c4i.md5
+-rw-r--r--    1 root     root         21163 Jul 11  2024 doorstation_protocol.c4i
+-rw-r--r--    1 root     root         39680 Aug 14  2023 driverworks_projector_serial_sanyo_plc-wxe45.c4i
+-rw-r-----    1 root     director     42681 Apr 25  2025 driverworks_tv_serial_sharp_lc-52le835.c4i
+-rw-------    1 root     director        32 Apr 25  2025 driverworks_tv_serial_sharp_lc-52le835.c4i.md5
+-rw-r-----    1 root     director     41915 Apr 25  2025 driverworks_tv_serial_sharp_lc-52le925un.c4i
+-rw-------    1 root     director        32 Apr 25  2025 driverworks_tv_serial_sharp_lc-52le925un.c4i.md5
+-rw-r--r--    1 director director      5099 Sep 24  2025 dvd.c4i
+-rw-------    1 root     director        32 Mar 26 17:29 dvd.c4i.md5
+-rw-r--r--    1 director director     18133 Sep 24  2025 dvd_Apple_TV_IR.c4i
+-rw-------    1 root     director        32 Mar 26 17:29 dvd_Apple_TV_IR.c4i.md5
+-rw-r--r--    1 director director     18124 Sep 24  2025 dvd_Mac_IR_Apple.c4i
+-rw-r--r--    1 director director     17210 Sep 24  2025 dvd_PS3_IR_Sony.c4i
+-rw-r--r--    1 director director      5180 Sep 24  2025 dvd_Wii_Nintendo.c4i
+-rw-r--r--    1 director director     38896 Sep 24  2025 dvd_XBox_360_IR_Microsoft.c4i
+-rw-r--r--    1 root     root         33726 Aug 14  2023 dvd_dn898_lg.c4i
+-rw-r--r--    1 director director      4661 Sep 24  2025 dvd_io_generic.c4i
+-rw-r--r--    1 director director     31709 Sep 24  2025 dvd_ir_samsung_dvd-hd841.c4i
+-rw-r--r--    1 director director     31709 Sep 24  2025 dvd_ir_samsung_dvd-hd931.c4i
+-rw-r--r--    1 director director      1918 Sep 24  2025 dvd_pc.c4i
+-rw-r--r--    1 director director     19938 Sep 24  2025 dvd_pc_Windows_IR_Microsoft.c4i
+-rw-r--r--    1 director director      6955 Sep 24  2025 dvr.c4i
+-rw-r--r--    1 root     root         29188 Aug 14  2023 enseo-HD2000A-PhilipsSB.c4i
+-rw-r--r--    1 root     root         16741 Aug 14  2023 enseo-guest_tek.c4i
+-rw-r--r--    1 root     root         33455 Aug 14  2023 enseo-mgm-panasonic.c4i
+-rw-r--r--    1 root     root         32526 Aug 14  2023 enseo-mgm.c4i
+-rw-r--r--    1 root     root         29419 Aug 14  2023 enseo-phwestgate-ip.c4i
+-rw-r--r--    1 root     root         27979 Aug 14  2023 enseo-soho.c4i
+-rw-r--r--    1 director director       921 May 22 13:45 fan.c4i
+-rw-------    1 root     director        32 Apr 30  2025 fan.c4i.md5
+-rw-r--r--    1 director director      5212 Sep 24  2025 fan_speed_controller.c4i
+-rw-------    1 root     director        32 Jun  2  2025 fan_speed_controller.c4i.md5
+-rw-r--r--    1 director director      2507 Sep 24  2025 fireplace.c4i
+-rw-r--r--    1 director director      4493 Feb 21  2025 fireplace_control4.c4i
+-rw-r--r--    1 director director      4078 Sep 24  2025 forward_phase_dimmer.c4i
+-rw-r--r--    1 root     root         20732 Aug 14  2023 gateway_232_inncom.c4i
+-rw-r--r--    1 root     root         25072 Aug 14  2023 gateway_usb_inncom.c4i
+-rw-r--r--    1 root     root         17801 Aug 14  2023 gateway_usb_lutron_stanza.c4i
+-rw-r--r--    1 director director      2882 Sep 24  2025 group_dimmer.c4i
+-rw-r--r--    1 director director      2695 Sep 24  2025 group_switch.c4i
+-rw-r--r--    1 root     root           951 May 22 13:45 intercomproxy.c4i
+-rw-------    1 root     director        32 Oct 19  2025 intercomproxy.c4i.md5
+-rw-r--r--    1 director director       967 Sep 24  2025 ipod.c4i
+-rw-r--r--    1 director director      3386 Sep 24  2025 iport_232.c4i
+-rw-r--r--    1 root     root         10070 Aug 14  2023 keypad_gateway_lutron_stanza.c4i
+-rw-r--r--    1 director director      4661 May 22 13:45 keypad_proxy.c4i
+-rw-------    1 root     director        32 Apr 25  2025 keypad_proxy.c4i.md5
+-rw-r--r--    1 director director      4356 Sep 24  2025 light.c4i
+-rw-r--r--    1 director director      3777 Feb 21  2025 light_ip_control4_ldz-101-w.c4i
+-rw-r--r--    1 director director      3777 Feb 21  2025 light_ip_control4_ldz-102-w.c4i
+-rw-r--r--    1 director director      3776 Feb 21  2025 light_ip_control4_ldz-5s1-w.c4i
+-rw-r--r--    1 director director      3755 Feb 21  2025 light_ip_control4_ldz-il51-b.c4i
+-rw-r--r--    1 director director      8392 May 22 13:45 light_v2.c4i
+-rw-------    1 root     director        32 Apr 27  2025 light_v2.c4i.md5
+-rw-r--r--    1 director director      1167 Sep 24  2025 load_controller.c4i
+-rw-r--r--    1 director director      1490 Sep 24  2025 lock.c4i
+-rw-r--r--    1 root     root         26488 Aug 14  2023 lutron_hw.c4i
+-rw-r--r--    1 root     root         22780 Aug 14  2023 lutron_hw_dimmer.c4i
+-rw-r--r--    1 root     root         18586 Aug 14  2023 lutron_hw_grafikeye.c4i
+-rw-r--r--    1 root     root         24354 Aug 14  2023 lutron_hw_keypad.c4i
+-rw-r--r--    1 root     root         15049 Aug 14  2023 lutron_hw_switch.c4i
+-rw-r--r--    1 director director      2560 Sep 24  2025 mechoshade_zigbeedualshade.c4i
+-rw-r--r--    1 director director      1180 Sep 24  2025 media.c4i
+-rw-r--r--    1 director director      6558 May 22 13:45 media_player.c4i
+-rw-------    1 root     director        32 Apr 25  2025 media_player.c4i.md5
+-rw-r--r--    1 director director      1009 May 22 13:45 media_service.c4i
+-rw-------    1 root     director        32 Apr 25  2025 media_service.c4i.md5
+-rw-r--r--    1 root     root         18198 Aug 14  2023 mediaplayer_ip_netgear_eva8000.c4i
+-rw-r--r--    1 director director      3303 Sep 24  2025 outlet_dimmable_light.c4i
+-rw-------    1 root     director        32 Oct 30  2025 outlet_dimmable_light.c4i.md5
+-rw-r--r--    1 director director      2051 Feb 21  2025 outlet_dimmer_module.c4i
+-rw-r--r--    1 director director      4128 Feb 21  2025 outlet_light.c4i
+-rw-r--r--    1 director director      3322 Sep 24  2025 outlet_nondimmable_light.c4i
+-rw-r--r--    1 director director      2052 Feb 21  2025 outlet_switch_module.c4i
+-rw-r--r--    1 director director      6460 Feb 21  2025 outlet_wireless.c4i
+-rw-r--r--    1 director director      4875 Feb 21  2025 outlet_wireless_dimmer.c4i
+-rw-r--r--    1 director director      4351 Sep 24  2025 panel_0-10V_light.c4i
+-rw-r--r--    1 director director      3903 May 22 13:45 panel_dimmable_light.c4i
+-rw-------    1 root     director        32 Oct 30  2025 panel_dimmable_light.c4i.md5
+-rw-r--r--    1 director director      3843 Sep 24  2025 panel_nondimmable_light.c4i
+-rw-r--r--    1 director director     12519 Sep 24  2025 plasma.c4i
+-rw-r--r--    1 director director      5488 Sep 24  2025 pool.c4i
+-rw-r--r--    1 director director      2550 Sep 24  2025 pool_232_jandy_aqualink.c4i
+-rw-r--r--    1 director director      2923 Sep 24  2025 pool_232_pentair_intellitouch.c4i
+-rw-r--r--    1 director director     12514 Sep 24  2025 projector.c4i
+-rw-r--r--    1 director director      4266 Sep 24  2025 puck_dimmer.c4i
+-rw-r--r--    1 director director      4351 Sep 24  2025 puck_dimmer_gen3.c4i
+-rw-r--r--    1 director director      1836 Sep 24  2025 puck_keypad.c4i
+-rw-r--r--    1 director director      4249 Sep 24  2025 puck_switch.c4i
+-rw-r--r--    1 director director      4094 Sep 24  2025 puck_switch_gen3.c4i
+-rw-r--r--    1 director director      2498 May 22 13:45 receiver.c4i
+-rw-------    1 root     director        32 Dec 18  2025 receiver.c4i.md5
+-rw-r--r--    1 root     root         54696 Aug 14  2023 receiver_321_series_III_bose.c4i
+-rw-r--r--    1 root     root         51283 Aug 14  2023 receiver_philips_sound_bar_hts8100.c4i
+-rw-r--r--    1 director director      2500 Sep 24  2025 relaycontact_electronicgate_c4.c4i
+-rw-r--r--    1 director director      3196 May 22 13:45 relaycontact_garagedoor_c4.c4i
+-rw-------    1 root     director        32 Nov 13  2025 relaycontact_garagedoor_c4.c4i.md5
+-rw-r--r--    1 director director      2635 Sep 24  2025 relaysingle_door_c4.c4i
+-rw-r--r--    1 director director      2678 May 22 13:45 relaysingle_doorlock_c4.c4i
+-rw-------    1 root     director        32 Nov 13  2025 relaysingle_doorlock_c4.c4i.md5
+-rw-r--r--    1 director director      1475 Sep 24  2025 relaysingle_drapes.c4i
+-rw-r--r--    1 director director      2645 Sep 24  2025 relaysingle_drapes_c4.c4i
+-rw-r--r--    1 director director      2767 Sep 24  2025 relaysingle_drivewayheater_c4.c4i
+-rw-r--r--    1 director director      2751 Sep 24  2025 relaysingle_electronicgate_c4.c4i
+-rw-r--r--    1 director director      2631 Sep 24  2025 relaysingle_fan_c4.c4i
+-rw-r--r--    1 director director      2690 Sep 24  2025 relaysingle_fountain_c4.c4i
+-rw-r--r--    1 director director      2714 Sep 24  2025 relaysingle_garagedoor_c4.c4i
+-rw-r--r--    1 director director      2742 Sep 24  2025 relaysingle_gasfireplace_c4.c4i
+-rw-r--r--    1 director director      3136 Feb 21  2025 relaysingle_gasfireplaceswitch_c4.c4i
+-rw-r--r--    1 director director      2745 Sep 24  2025 relaysingle_motorizedlift_c4.c4i
+-rw-r--r--    1 director director      2771 Sep 24  2025 relaysingle_motorizedscreen_c4.c4i
+-rw-r--r--    1 director director      2642 Sep 24  2025 relaysingle_pump_c4.c4i
+-rw-r--r--    1 director director      2746 Sep 24  2025 relaysingle_radiantfloor_c4.c4i
+-rw-r--r--    1 director director      2646 Sep 24  2025 relaysingle_relay_c4.c4i
+-rw-r--r--    1 director director      2738 Sep 24  2025 relaysingle_sprinklers_c4.c4i
+-rw-r--r--    1 director director      1494 Sep 24  2025 rf_am.c4i
+-rw-------    1 root     director        32 Dec 18  2025 rf_am.c4i.md5
+-rw-r--r--    1 director director      1506 Sep 24  2025 rf_am_fm.c4i
+-rw-r--r--    1 director director      1459 Sep 24  2025 rf_cable.c4i
+-rw-------    1 root     director        32 Apr 25  2025 rf_cable.c4i.md5
+-rw-r--r--    1 director director      1468 Sep 24  2025 rf_directv.c4i
+-rw-r--r--    1 director director      1474 Sep 24  2025 rf_dish.c4i
+-rw-r--r--    1 director director      1495 Sep 24  2025 rf_fm.c4i
+-rw-------    1 root     director        32 Dec 18  2025 rf_fm.c4i.md5
+-rw-r--r--    1 director director      1334 Sep 24  2025 rf_internet.c4i
+-rw-r--r--    1 director director      1473 Sep 24  2025 rf_sirius.c4i
+-rw-r--r--    1 director director      1465 Sep 24  2025 rf_sky.c4i
+-rw-r--r--    1 director director      1472 Sep 24  2025 rf_star.c4i
+-rw-r--r--    1 director director      1897 Sep 24  2025 rf_uhf_vhf.c4i
+-rw-------    1 root     director        32 Apr 25  2025 rf_uhf_vhf.c4i.md5
+-rw-r--r--    1 director director      1465 Sep 24  2025 rf_usdtv.c4i
+-rw-r--r--    1 director director      1471 Sep 24  2025 rf_voom.c4i
+-rw-r--r--    1 director director      1493 Sep 24  2025 rf_xm.c4i
+-rw-r--r--    1 root     root          4040 Sep 24  2025 roomdevice.c4i
+-rw-------    1 root     director        32 Apr 25  2025 roomdevice.c4i.md5
+-rw-r--r--    1 director director      6949 Sep 24  2025 satellite.c4i
+-rw-r--r--    1 director director      2459 Sep 24  2025 screen.c4i
+-rw-r--r--    1 director director       937 Sep 24  2025 security.c4i
+-rw-r--r--    1 director director       954 Sep 24  2025 securitypanel.c4i
+-rw-r--r--    1 director director      2685 Sep 24  2025 standalonesecurity.c4i
+-rw-r--r--    1 director director      3779 Sep 24  2025 standalonethermostat.c4i
+-rw-r--r--    1 director director      1100 Sep 24  2025 standalonethermostatV2.c4i
+-rw-r--r--    1 root     root         11076 Aug 14  2023 switch_gateway_lutron_stanza.c4i
+-rw-r--r--    1 director director      3901 May 22 13:45 switch_gen3.c4i
+-rw-------    1 root     director        32 May  5  2025 switch_gen3.c4i.md5
+-rw-r--r--    1 director director      1305 May 22 13:45 thermostatV2.c4i
+-rw-------    1 root     director        32 Apr 25  2025 thermostatV2.c4i.md5
+-rw-r--r--    1 root     root         11538 Aug 14  2023 thermostat_gateway_inncom.c4i
+-rw-r--r--    1 director director      4180 Sep 24  2025 thermostat_mdu.c4i
+-rw-r--r--    1 director director      5259 May 22 13:45 tuner.c4i
+-rw-------    1 root     director        32 Dec 18  2025 tuner.c4i.md5
+-rw-r--r--    1 director director      7168 Sep 24  2025 tuner2_ip_control4_C4-TUN2-E-B.c4i
+-rw-r--r--    1 director director      9146 Sep 24  2025 tuner2_ip_control4_C4-TUN2-E-B_with_C4-XMOD.c4i
+-rw-r--r--    1 director director      5267 Sep 24  2025 tunerXM.c4i
+-rw-r--r--    1 director director      6995 Sep 24  2025 tuner_ip_control4_AVM-TUN1-B.c4i
+-rw-r--r--    1 director director      8929 Sep 24  2025 tuner_ip_control4_AVM-TUN1X-B.c4i
+-rw-r--r--    1 director director     12495 May 22 13:45 tv.c4i
+-rw-------    1 root     director        32 Apr 25  2025 tv.c4i.md5
+-rw-r--r--    1 root     root         30185 Aug 14  2023 tv_42HFL5860D_serial_philips.c4i
+-rw-r--r--    1 root     root         27547 Aug 14  2023 tv_MLGateway_BandO.c4i
+-rw-r-----    1 root     director    106412 Apr 25  2025 tv_Sharp_LC-70LE650U.c4i
+-rw-------    1 root     director        32 Apr 25  2025 tv_Sharp_LC-70LE650U.c4i.md5
+-rw-r-----    1 root     director    106413 Dec 13  2025 tv_Sharp_LC-70LE755U.c4i
+-rw-------    1 root     director        32 Dec 13  2025 tv_Sharp_LC-70LE755U.c4i.md5
+-rw-r-----    1 root     director    106413 May 22 13:45 tv_Sharp_LC-70LE757U.c4i
+-rw-------    1 root     director        32 Dec 13  2025 tv_Sharp_LC-70LE757U.c4i.md5
+-rw-r--r--    1 director director     28212 Sep 24  2025 tv_ir_samsung_tx-p1430.c4i
+-rw-r-----    1 root     director     57659 Apr 26  2025 tv_ir_sharp_LC-52LE64OU [IR].c4i
+-rw-------    1 root     director        32 Apr 26  2025 tv_ir_sharp_LC-52LE64OU [IR].c4i.md5
+-rw-------    1 root     director     52592 May 22 13:45 tv_ir_sharp_LC-52LE64OU [IR]_0_NUE.c4i
+-rw-------    1 root     director        32 May 30  2025 tv_ir_sharp_LC-52LE64OU [IR]_0_NUE.c4i.md5
+-rw-r--r--    1 director director     56984 Sep 24  2025 tv_ir_sharp_lc-13s2us.c4i
+-rw-r--r--    1 root     root         46945 Aug 14  2023 tv_lg-lodgenet_hospitality_42lc5dc.c4i
+-rw-r-----    1 root     director    271766 May 22 13:45 tv_lg_43UH6100.c4i
+-rw-------    1 root     director        32 Jun 23  2025 tv_lg_43UH6100.c4i.md5
+-rw-r--r--    1 director director      1121 May 22 13:45 uibutton.c4i
+-rw-------    1 root     director        32 Apr 30  2025 uibutton.c4i.md5
+-rw-r--r--    1 director director       955 May 22 13:45 uidevice.c4i
+-rw-------    1 root     director        32 Apr 25  2025 uidevice.c4i.md5
+-rw-r--r--    1 director director      4427 Feb 21  2025 uidevice_glassedge10.c4i
+-rw-r--r--    1 director director      4429 Feb 21  2025 uidevice_glassedge10p.c4i
+-rw-r--r--    1 director director      4422 Feb 21  2025 uidevice_glassedge7.c4i
+-rw-r--r--    1 director director      4424 Feb 21  2025 uidevice_glassedge7p.c4i
+-rw-r--r--    1 director director      4926 Sep 24  2025 uidevice_ts_t4_inwall10.c4i
+-rw-r--r--    1 director director      4921 May 22 13:45 uidevice_ts_t4_inwall8.c4i
+-rw-------    1 root     director        32 Nov 16  2025 uidevice_ts_t4_inwall8.c4i.md5
+-rw-r--r--    1 director director      4931 Sep 24  2025 uidevice_ts_t4_tabletop10.c4i
+-rw-r--r--    1 director director      4926 Sep 24  2025 uidevice_ts_t4_tabletop8.c4i
+-rw-r--r--    1 root     root          4925 Sep 24  2025 uidevice_ts_t5_inwall11.c4i
+-rw-r--r--    1 root     root          4920 Sep 24  2025 uidevice_ts_t5_inwall8.c4i
+-rw-r--r--    1 root     root          4931 Sep 24  2025 uidevice_ts_t5_tabletop11.c4i
+-rw-r--r--    1 root     root          4926 Sep 24  2025 uidevice_ts_t5_tabletop8.c4i
+-rw-r--r--    1 root     root           960 Sep 24  2025 uimediainfo.c4i
+-rw-r--r--    1 root     root         20476 Aug 14  2023 vantage_dimmer.c4i
+-rw-r--r--    1 root     root         26684 Aug 14  2023 vantage_infusion.c4i
+-rw-r--r--    1 root     root         21089 Aug 14  2023 vantage_keypad.c4i
+-rw-r--r--    1 root     root         16413 Aug 14  2023 vantage_switch.c4i
+-rw-r--r--    1 root     root         10597 Aug 14  2023 vantage_task.c4i
+-rw-r--r--    1 director director      6950 Sep 24  2025 vcr.c4i
+-rw-r--r--    1 root     root          1022 May 22 13:45 voiceinput.c4i
+-rw-------    1 root     director        32 Apr 25  2025 voiceinput.c4i.md5
+-rw-r--r--    1 root     root         20971 Jul 11  2024 voiceinput_protocol.c4i
+-rw-r-----    1 root     director     73894 May 22 13:45 wattbox.c4i
+-rw-------    1 root     director        32 Apr 25  2025 wattbox.c4i.md5
+-rw-r--r--    1 director director      2919 Sep 24  2025 wireless_dimmable_light.c4i
+-rw-r--r--    1 director director      2863 Sep 24  2025 wireless_nondimmable_light.c4i
+-rw-r--r--    1 root     root         43176 Aug 14  2023 wow_switch_keypad_ip.c4i
+-rw-r--r--    1 director director      3599 Sep 24  2025 zwave_outlet_dimmable_light.c4i
+-rw-r--r--    1 director director      3491 Sep 24  2025 zwave_outlet_nondimmable_light.c4i
+
+/etc/ca-certificates:
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 update.d
+
+/etc/ca-certificates/update.d:
+
+/etc/control4-osd:
+-rw-r--r--    1 root     root           161 Apr 27  2025 osd-config.json
+-rw-r--r--    1 root     root           134 Apr 25  2025 osd-config.json.dpkg-old
+
+/etc/credstore:
+
+/etc/credstore.encrypted:
+
+/etc/cron.d:
+-rw-r-----    1 ntp      ntp             59 Jun 23  2020 hwclock
+-rw-r-----    1 root     root            58 Dec 13  2022 logrotate
+-rw-------    1 root     root            53 Apr 27  2025 patch-729334
+-rw-------    1 root     root            53 Apr 27  2025 patch-730000
+-rw-------    1 root     root            53 Apr 27  2025 patch-731828
+-rw-r-----    1 root     root            66 Dec 21  2022 syslog
+
+/etc/cron.daily:
+-rwxr-xr-x    1 root     root          3295 Apr  5  2011 check_client_pem
+-rwxr-xr-x    1 root     root           646 Mar 29  2023 check_gencache
+
+/etc/cron.hourly:
+
+/etc/cron.minutely:
+
+/etc/cron.monthly:
+
+/etc/cron.weekly:
+
+/etc/dbus-1:
+-rw-r--r--    1 root     root           838 Sep  1  2023 session.conf
+-rw-r--r--    1 root     root           833 Sep  1  2023 system.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:52 system.d
+
+/etc/dbus-1/system.d:
+-rw-r--r--    1 root     root           743 Jan 16  2022 dbus-wpa_supplicant.conf
+
+/etc/default:
+-rwxr-xr-x    1 root     root            93 Apr  5  2011 devpts
+-rw-r--r--    1 root     root            36 Aug  4  2022 mountall
+-rw-r--r--    1 root     root           497 Mar 24  2023 openvpn
+-rw-r--r--    1 root     root          1321 Apr 26  2022 rcS
+-rw-r--r--    1 root     root           428 Mar 29  2023 samba
+-rw-r-----    1 ntp      support         34 Jun 23  2020 sntp
+-rw-r--r--    1 root     root           200 Dec 21  2022 syslog-ng@default
+-rw-r--r--    1 root     root           115 Nov  8  2022 useradd
+drwxr-xr-x    2 root     root          4096 May 22 02:11 volatiles
+-rw-r--r--    1 root     root             0 Mar  9  2018 weston
+
+/etc/default/volatiles:
+-rw-r--r--    1 root     root          1687 Apr  5  2011 00_core
+-rw-r-----    1 root     root            36 Apr 26  2022 01_bootlogd
+-rw-r--r--    1 root     root           148 Apr  8  2022 03_apt
+-rw-r--r--    1 root     root           126 Mar 29  2023 03_samba
+-rw-r--r--    1 root     root           180 Dec 21  2022 03_syslog-ng
+-rw-r--r--    1 root     root           171 Aug 11  2025 04_ledsvc
+-rw-r--r--    1 root     root           222 May 12 10:39 04_upmand
+-rw-r--r--    1 root     root           113 Aug  5  2025 60_c4metricsd
+-rw-r-----    1 root     root            85 Aug 27  2025 60_uic-zwave
+-rw-r--r--    1 health-m health-m       221 Aug  5  2025 90_health-microservice
+-rw-r--r--    1 launchda launchda       217 Aug  5  2025 90_launchdarkly-microservice
+-rw-r-----    1 root     root           209 Jun 30  2025 90_video-security-ms
+-rw-r--r--    1 root     root            44 Sep  1  2023 99_dbus
+-rw-r--r--    1 root     root            35 Jan 24  2023 99_network
+-rw-r--r--    1 root     root            73 Apr 10  2023 99_nginx
+-rw-r--r--    1 root     root            36 Sep  3  2021 99_pam
+-rw-r-----    1 root     support         75 Mar 11  2024 99_sshd
+-rw-r--r--    1 root     root            46 Jan 16  2022 99_wpa_supplicant
+
+/etc/depmod.d:
+
+/etc/dhclient-exit-hooks.d:
+-rwxr-xr-x    1 root     root          3020 Jan 21  2020 c4stats
+
+/etc/dhcp:
+-rw-r--r--    1 root     root          1567 Feb 17 09:36 dhclient.conf
+-rw-r--r--    1 root     root          1567 Apr 27  2025 dhclient.conf.dpkg-old
+
+/etc/dpkg:
+-rw-rw-r--    1 root     root            66 Mar  9  2018 dpkg.cfg
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 dpkg.cfg.d
+
+/etc/dpkg/dpkg.cfg.d:
+
+/etc/dtd:
+-rw-r--r--    1 root     root           612 Sep 17  2025 c4sysconfig.dtd
+
+/etc/features:
+
+/etc/fonts:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:44 conf.d
+-rw-r--r--    1 root     root          2664 Jan 27  2023 fonts.conf
+
+/etc/fonts/conf.d:
+-rw-r--r--    1 root     root           620 Jan 27  2023 10-hinting-slight.conf
+-rw-r--r--    1 root     root          2068 Jan 27  2023 10-scale-bitmap-fonts.conf
+-rw-r--r--    1 root     root           647 Jan 27  2023 10-sub-pixel-none.conf
+-rw-r--r--    1 root     root           258 Jan 27  2023 10-yes-antialias.conf
+-rw-r--r--    1 root     root           695 Jan 27  2023 11-lcdfilter-default.conf
+-rw-r--r--    1 root     root          1377 Jan 27  2023 20-unhint-small-vera.conf
+-rw-r--r--    1 root     root           419 Sep 30  2021 30-liberation-aliases.conf
+-rw-r--r--    1 root     root         13234 Jan 27  2023 30-metric-aliases.conf
+-rw-r--r--    1 root     root          7775 Jan 27  2023 40-nonlatin.conf
+-rw-r--r--    1 root     root          3490 Jan 27  2023 45-generic.conf
+-rw-r--r--    1 root     root          7055 Jan 27  2023 45-latin.conf
+-rw-r--r--    1 root     root           441 Jan 27  2023 48-spacing.conf
+-rw-r--r--    1 root     root           639 Jan 27  2023 49-sansserif.conf
+-rw-r--r--    1 root     root           751 Jan 27  2023 50-user.conf
+-rw-r--r--    1 root     root           263 Jan 27  2023 51-local.conf
+-rw-r--r--    1 root     root          1911 Jan 27  2023 60-generic.conf
+-rw-r--r--    1 root     root          2136 Jan 27  2023 60-latin.conf
+-rw-r--r--    1 root     root         10132 Jan 27  2023 65-fonts-persian.conf
+-rw-r--r--    1 root     root          9291 Jan 27  2023 65-nonlatin.conf
+-rw-r--r--    1 root     root           687 Jan 27  2023 69-unifont.conf
+-rw-r--r--    1 root     root           437 Jan 27  2023 80-delicious.conf
+-rw-r--r--    1 root     root          1757 Jan 27  2023 90-synthetic.conf
+-rw-r--r--    1 root     root           979 Jan 27  2023 README
+
+/etc/gtk-3.0:
+-rw-r--r--    1 root     root           890 Dec 22  2022 im-multipress.conf
+
+/etc/init.d:
+-rw-r--r--    1 root     root          1151 Mar  3  2023 README
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 atftpd
+-rwxr-xr-x    1 root     root           537 Apr  5  2011 banner.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 bootlogd
+-rwxr-xr-x    1 root     root          2062 Apr  5  2011 bootmisc.sh
+-rwxr-xr-x    1 root     root            55 Apr  5  2011 check_client_pem.sh
+-rwxr-xr-x    1 root     root          3640 Apr  5  2011 checkroot.sh
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 crond
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 dbus-1
+-rwxr-xr-x    1 root     root           571 Apr  5  2011 devpts.sh
+-rwxr-xr-x    1 root     root           397 Apr  5  2011 dmesg.sh
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 fancontrol
+-rwxr-xr-x    1 root     root          1883 Sep 24  2025 fixup_driver_directories
+-rw-r--r--    1 root     root          2185 Apr  5  2011 functions
+-rwxr-xr-x    1 root     root          1893 Jan  4  2019 fuse
+-rwxr-xr-x    1 root     root           555 Apr  5  2011 halt
+-rwxr-xr-x    1 root     root           625 Apr  5  2011 hostname.sh
+-rwxr-xr-x    1 root     root          2541 May 18  2023 hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 mdns
+-rwxr-xr-x    1 root     root          1362 Apr  5  2011 modutils.sh
+-rwxr-xr-x    1 root     root          1218 Apr  5  2011 mountall.sh
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 networking
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 nginx
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 ntpd
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 openvpn
+-rwxr-xr-x    1 root     root          8151 Apr  5  2011 populate-volatile.sh
+-rwxr-xr-x    1 root     root           775 Oct 29  2021 psplash.sh
+-rwxr-xr-x    1 root     root          4407 Apr 26  2022 rc
+-rwxr-xr-x    1 root     root           525 Apr 26  2022 rcS
+-rwxr-xr-x    1 root     root          1317 Apr  5  2011 read-only-rootfs-hook.sh
+-rwxr-xr-x    1 root     root           334 Apr  5  2011 reboot
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 resetcheck
+-rwxr-xr-x    1 root     root           630 Apr  5  2011 rmnologin.sh
+-rwxr-xr-x    1 root     root            25 Apr  5  2011 run-postinsts
+-rwxr-xr-x    1 root     root           797 Mar 29  2023 samba
+-rwxr-xr-x    1 root     root           474 Apr  5  2011 save-rtc.sh
+-rwxr-xr-x    1 root     root           483 Apr  5  2011 sendsigs
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 sensord
+-rwxr-xr-x    1 root     root           623 Apr  5  2011 single
+-rwx------    1 root     root          2029 Mar 11  2024 sshd
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 stop-bootlogd
+-rwxr-xr-x    1 root     root          1091 Apr  5  2011 sysfs.sh
+-rwxr-xr-x    1 root     root          3191 Mar  3  2023 systemd-udevd
+-rwxr-xr-x    1 root     root           756 Apr  5  2011 umountnfs.sh
+-rwxr-xr-x    1 root     root          1518 Apr  5  2011 urandom
+-rwxr-xr-x    1 root     root          1210 Apr  5  2011 zram.sh
+
+/etc/inittab.d:
+
+/etc/iproute2:
+-rw-r--r--    1 root     root            85 Feb 20  2023 bpf_pinning
+-rw-r--r--    1 root     root            81 Feb 20  2023 ematch_map
+-rw-r--r--    1 root     root            31 Feb 20  2023 group
+-rw-r--r--    1 root     root           262 Feb 20  2023 nl_protos
+-rw-r--r--    1 root     root           331 Feb 20  2023 rt_dsfield
+-rw-r--r--    1 root     root           219 Feb 20  2023 rt_protos
+-rw-r--r--    1 root     root           112 Feb 20  2023 rt_realms
+-rw-r--r--    1 root     root            92 Feb 20  2023 rt_scopes
+-rw-r--r--    1 root     root            87 Feb 20  2023 rt_tables
+
+/etc/ld.so.conf.d:
+-rw-r--r--    1 root     root            56 Sep 28  2022 control4.conf
+
+/etc/libinput:
+
+/etc/libnl:
+-rw-r--r--    1 root     root          1130 Jul  6  2022 classid
+-rw-r--r--    1 root     root          1532 Jul  6  2022 pktloc
+
+/etc/logging:
+-rw-r--r--    1 root     root           324 Apr  4  2025 adau_dsp.conf
+-rw-r--r--    1 root     root           249 Mar  6  2024 appled.conf
+-rw-r--r--    1 root     root           543 Jul 11  2025 audio3client.conf
+-rw-r--r--    1 root     root           539 Jul 11  2025 audio3clock.conf
+-rw-r--r--    1 root     root           251 Dec 31  1969 audio3drm.conf
+-rw-r--r--    1 root     root           255 Jul 11  2025 audio3server.conf
+-rw-r--r--    1 root     root           548 Jul 11  2025 audio3streamer.conf
+-rw-r--r--    1 root     root           366 Feb 20  2025 c4lookup.conf
+-rw-r-----    1 c4metric c4metric       376 Mar  9  2018 c4metricsd.conf
+-rw-r--r--    1 root     root           105 Aug 19  2025 c4net.conf
+-rw-r--r--    1 root     root           368 Mar  9  2018 c4rmengined.conf
+-rw-r--r--    1 root     root           359 Mar  9  2018 c4server.conf
+-rw-r--r--    1 root     root           289 Jun  8 09:20 control4-osd.conf
+-rw-r--r--    1 root     root           364 Aug 20  2025 cvm-getter.conf
+-rw-r--r--    1 root     root           641 Jun  8 09:20 default-log4cplus-2.1.conf
+-rw-rw-r--    1 root     root           682 Jan 16  2016 default.conf
+-rw-rw----    1 root     director      6567 Aug 27  2025 director.conf
+-rw-rw----    1 root     director      1264 Mar  9  2018 dman.conf
+-rw-r-----    1 root     director       159 Mar  9  2018 drivers.conf
+-rw-r--r--    1 root     root           117 Mar  5  2025 filescanner.conf
+-rw-r--r--    1 health-m health-m       412 Aug  5  2025 health-microservice.conf
+-rw-r--r--    1 root     root          1060 Sep 24  2025 intercom.conf
+-rw-r--r--    1 root     root           359 Mar  9  2018 ioserver.conf
+-rw-r--r--    1 launchda launchda        84 Aug  5  2025 launchdarkly-microservice-cli.conf
+-rw-r--r--    1 launchda launchda       434 Aug  5  2025 launchdarkly-microservice.conf
+-rw-r--r--    1 root     root          1061 Sep 24  2025 lighting.conf
+-rw-r--r--    1 root     root           123 Jun  9  2025 list_navigator.conf
+-rw-r--r--    1 root     root           938 Jul  7  2025 lumabridge.conf
+-rw-r--r--    1 root     root           119 Sep 24  2025 mediamanager.conf
+-rw-r--r--    1 root     root           117 Aug 27  2025 message_bus.conf
+-rw-r--r--    1 root     root           371 Mar  9  2018 netusbserver.conf
+-rw-rw----    1 root     director       103 Mar  9  2018 path.conf
+-rw-r--r--    1 root     root           359 Mar  9  2018 raproxyd.conf
+-rw-r--r--    1 root     root           359 Aug 18  2025 registry.conf
+-rw-r--r--    1 root     root           398 Mar  9  2018 remote_access_manager.conf
+-rw-r--r--    1 root     root           365 Mar  9  2018 resetcheck.conf
+-rw-r--r--    1 root     root           891 Mar  9  2018 scheduler_agent.conf
+-rw-r--r--    1 root     root           250 Apr  7  2025 shaird.conf
+-rw-r--r--    1 root     root           260 Mar  9  2018 spotifyclient.conf
+-rw-r--r--    1 root     root           255 Mar  9  2018 spotifyd.conf
+-rw-r--r--    1 root     root           446 Mar  9  2018 sysman.conf
+-rw-r--r--    1 root     root           571 Oct 17  2024 sysmand.conf
+-rw-rw----    1 uic      uic            471 Mar  9  2018 uiccli.conf
+-rw-rw----    1 uic      uic            673 Mar  9  2018 uicmmd.conf
+-rw-r--r--    1 root     root          1727 Sep  9  2024 update_manager_agent.conf
+-rw-r--r--    1 root     root          1350 Mar  9  2018 upmand.conf
+-rw-r--r--    1 root     root           404 Jun 30  2025 video-security-ms.conf
+-rw-r--r--    1 root     root           253 Mar  9  2018 voice_amazon.conf
+-rw-r--r--    1 root     root           252 Mar  9  2018 voice_apple.conf
+-rw-r--r--    1 root     root           290 Mar  9  2018 voice_comcast.conf
+-rw-r--r--    1 root     root           289 Aug  6  2025 voice_joshai.conf
+-rw-r--r--    1 root     root           293 Aug  6  2025 voice_transcoder.conf
+-rw-r--r--    1 root     root           249 Mar  9  2018 voiced.conf
+-rw-r--r--    1 root     root           543 Feb 27  2025 zap.conf
+-rw-r--r--    1 root     root           542 Oct 15  2024 zap.conf.dpkg-old
+-rw-r--r--    1 root     root           109 Jun 30  2025 zclient2.conf
+-rw-r--r--    1 root     root           195 Feb 27  2025 zigbeemanager.conf
+-rw-r--r--    1 root     root           194 Oct 15  2024 zigbeemanager.conf.dpkg-old
+-rw-r--r--    1 root     root           545 Feb 27  2025 zman.conf
+-rw-r--r--    1 root     root           544 Oct 15  2024 zman.conf.dpkg-old
+-rw-r--r--    1 root     root           546 May  7  2025 zman3.conf
+-rw-r--r--    1 root     root           519 Feb 27  2025 zscan.conf
+-rw-r--r--    1 root     root           518 Oct 15  2024 zscan.conf.dpkg-old
+-rw-r--r--    1 root     root           555 Feb 27  2025 zserver2.conf
+-rw-r--r--    1 root     root           554 Oct 15  2024 zserver2.conf.dpkg-old
+-rw-r--r--    1 root     root          1115 May  7  2025 zserver3.conf
+
+/etc/logrotate.d:
+-rw-r--r--    1 root     root            81 Apr  8  2022 apt
+-rw-r--r--    1 root     root           279 Jul 11  2025 audioclient.conf
+-rw-r--r--    1 root     root           278 Jul 11  2025 audioclock.conf
+-rw-r--r--    1 root     root           281 Jul 11  2025 audiostreamer.conf
+-rw-r--r--    1 root     root           130 Dec 13  2022 btmp
+-rw-r--r--    1 root     root            67 May  6  2025 cerebellum.conf
+-rw-r--r--    1 root     root            58 Aug 20  2025 cvm-getter.conf
+-rw-r-----    1 root     director       281 Aug 27  2025 director
+-rw-r--r--    1 root     root            69 May  6  2025 imageservice.conf
+-rw-r--r--    1 root     root           125 Aug 11  2025 led_service.conf
+-rw-r--r--    1 root     login-au        89 Jul  3  2025 login-auditd
+-rw-r-----    1 root     mosquitt       275 Aug 16  2022 mosquitto
+-rw-r-----    1 root     mosquitt       131 Mar 17  2025 mosquitto-jwt-auth
+-rw-r--r--    1 root     root           113 Apr 10  2023 nginx
+-rw-r--r--    1 root     root           129 Apr  5  2011 reboot-journal.conf
+-rw-r-----    1 root     sddpd          124 Mar  9  2018 sddpd
+-rw-r-----    1 root     root            63 Jun  5  2025 set-permissions
+-rw-r-----    1 root     root           105 Mar  9  2018 snapshot
+-rw-r-----    1 root     root           276 Mar  9  2018 sysmand
+-rw-r--r--    1 root     root           121 Jul  4  2025 uic-all.conf
+-rw-r--r--    1 root     root           121 Jul  4  2025 uic-gms.conf
+-rw-r--r--    1 root     root           136 Jul  4  2025 uic-image-provider.conf
+-rw-r--r--    1 root     root           103 Jul  4  2025 uic-mqtt.conf
+-rw-r--r--    1 root     root           121 Jul  4  2025 uic-nal.conf
+-rw-r--r--    1 root     root           122 Jul  4  2025 uic-upvl.conf
+-rw-r--r--    1 root     root           121 Jul  4  2025 uic-zpc.conf
+-rw-r--r--    1 root     root           278 Mar  9  2018 upmand
+-rw-r--r--    1 root     root           130 Dec 13  2022 wtmp
+-rw-r--r--    1 root     root           229 Sep 24  2025 zap-ember.conf
+-rw-r--r--    1 root     root           116 Aug  7  2024 zg.conf
+
+/etc/modprobe.d:
+-rw-r--r--    1 root     root            88 Apr  5  2011 alsa.conf
+
+/etc/modules-load.d:
+-rw-r--r--    1 root     root             5 Jan  4  2019 fuse.conf
+-rw-r--r--    1 root     root            14 Jan 31  2025 imx_rpmsg_tty.conf
+-rw-r--r--    1 root     root             9 Apr  5  2011 snd-aloop.conf
+
+/etc/mosquitto:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:42 certs
+drw-------    2 mosquitt mosquitt      4096 Mar  9  2018 conf.d
+-rw-rw----    1 mosquitt mosquitt      1921 Mar 17  2025 mosquitto-jwt-auth.conf
+-rw-------    1 mosquitt mosquitt     39555 Aug 16  2022 mosquitto.conf
+
+/etc/mosquitto/certs:
+-rw-r-----    1 mosquitt mosquitt      1298 Jul  1  2025 broker.pem
+-rw-r-----    1 mosquitt mosquitt      1209 Jul  1  2025 broker.skb
+-rw-r-----    1 mosquitt certuser      2579 Jul  1  2025 ca-chain.pem
+-rw-r-----    1 mosquitt certuser      1298 Jul  1  2025 client.pem
+-rw-r-----    1 mosquitt certuser      1209 Jul  1  2025 client.skb
+
+/etc/mosquitto/conf.d:
+
+/etc/network:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 if-down.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:40 if-post-down.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:44 if-pre-up.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 if-up.d
+-rw-r--r--    1 root     root            86 Nov 19  2021 interfaces
+-rw-r--r--    1 root     root           200 Apr  5  2011 interfaces.default
+-rw-r--r--    1 root     root           863 Nov 19  2021 netconf.xml
+
+/etc/network/if-down.d:
+-rwxr-xr-x    1 root     root           168 Sep 17  2025 clear-ipaddr
+-rwxr-xr-x    1 root     root           141 Mar 24  2023 openvpn
+-rwxr-xr-x    1 root     root          3128 Jan 16  2022 wpasupplicant
+
+/etc/network/if-post-down.d:
+-rwxr-xr-x    1 root     root          1999 Jan 16  2022 wpa-supplicant
+-rwxr-xr-x    1 root     root          3128 Jan 16  2022 wpasupplicant
+
+/etc/network/if-pre-up.d:
+-rwxr-xr-x    1 root     root           809 Apr  5  2011 nfsroot
+-rwxr-xr-x    1 root     root          1999 Jan 16  2022 wpa-supplicant
+-rwxr-xr-x    1 root     root          3128 Jan 16  2022 wpasupplicant
+
+/etc/network/if-up.d:
+-rwxr-xr-x    1 root     root           142 Mar 24  2023 openvpn
+-rwxr-xr-x    1 root     root            72 Sep 11  2025 ssdp-announce
+-rwxr-xr-x    1 root     root          3128 Jan 16  2022 wpasupplicant
+
+/etc/nginx:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:49 conf.d
+-rw-r--r--    1 root     root          1077 Mar  9  2018 fastcgi.conf
+-rw-r--r--    1 root     root          1007 Mar  9  2018 fastcgi_params
+-rw-r--r--    1 root     root          2837 Mar  9  2018 koi-utf
+-rw-r--r--    1 root     root          2223 Mar  9  2018 koi-win
+-rw-r--r--    1 root     root          5349 Mar  9  2018 mime.types
+-rw-r--r--    1 root     root           529 Mar  9  2018 nginx.conf
+drwxr-xr-x    7 root     root           160 Feb 17 09:36 run
+-rw-r--r--    1 root     root           636 Mar  9  2018 scgi_params
+-rw-r--r--    1 root     root           664 Mar  9  2018 uwsgi_params
+-rw-r--r--    1 root     root          3610 Mar  9  2018 win-utf
+
+/etc/nginx/conf.d:
+-rw-r--r--    1 root     root          2289 Jul  7  2025 lumabridge.conf
+-rw-r--r--    1 root     root          2614 Apr 10  2023 system.conf
+-rw-r--r--    1 root     root          1710 May  6  2025 tr2-api.conf
+
+/etc/nginx/run:
+drwx------    2 root     root            40 Feb 17 09:36 client_body_temp
+drwx------    2 root     root            40 Feb 17 09:36 fastcgi_temp
+-rw-r-----    1 root     root             5 Feb 17 09:36 nginx.pid
+drwx------    3 root     root            60 May 16 15:42 proxy_temp
+drwx------    2 root     root            40 Feb 17 09:36 scgi_temp
+drwx------    2 root     root            40 Feb 17 09:36 uwsgi_temp
+
+/etc/nginx/run/client_body_temp:
+
+/etc/nginx/run/fastcgi_temp:
+
+/etc/nginx/run/proxy_temp:
+drwx------    3 root     root            60 May 16 15:42 1
+
+/etc/nginx/run/proxy_temp/1:
+drwx------    2 root     root            40 May 16 15:42 00
+
+/etc/nginx/run/proxy_temp/1/00:
+
+/etc/nginx/run/scgi_temp:
+
+/etc/nginx/run/uwsgi_temp:
+
+/etc/ntpd:
+-rw-r--r--    1 ntp      ntp              8 Jun 29 02:36 ntp.drift
+
+/etc/openldap:
+-rw-r--r--    1 root     root           247 Jul 31  2023 ldap.conf
+-rw-r--r--    1 root     root           247 Jul 31  2023 ldap.conf.default
+
+/etc/openvpn:
+-rw-r--r--    1 root     root          7815 Apr  5  2011 cacert.pem
+-rw-r--r--    1 root     root         11878 Mar  9  2018 cacert.pem.dpkg-old
+-rw-r--r--    1 root     root          7815 Apr 27  2025 cacert.pem.orig
+-rw-r--r--    1 root     root          7815 Feb 11 03:00 cacert.pem.valid
+-rw-r--r--    1 root     root       1607765 Apr  5  2011 certdata.txt
+drwxr-xr-x    2 root     root          4096 Mar 24  2023 client
+-rw-r--r--    1 root     root           272 Apr  5  2011 client.conf
+-rw-r-----    1 root     root         14218 Apr 27  2025 client.pem.orig
+-rw-r--r--    1 root     root          7308 Feb 11 03:00 client.pem.valid
+-rw-r--r--    1 root     root            22 Apr  5  2011 client.pwd
+-rw-r--r--    1 root     root          8740 Apr 27  2025 clientca-dev.pem
+-rw-r--r--    1 root     root         16526 Apr 27  2025 clientca-dev.pem.orig
+-rw-r--r--    1 root     root          8740 Feb 11 03:00 clientca-dev.pem.valid
+-rw-r--r--    1 root     root          5840 Apr 27  2025 clientca-prod.pem
+-rw-r--r--    1 root     root         11049 Apr 27  2025 clientca-prod.pem.orig
+-rw-r--r--    1 root     root          5840 Feb 11 03:00 clientca-prod.pem.valid
+-rw-r--r--    1 root     root          5840 Apr 27  2025 clientca.pem
+-rw-------    1 root     root           122 Jul 11 14:52 licData.dat
+-rw-r--r--    1 root     root         14980 Apr  5  2011 license.txt
+-rw-r--r--    1 root     root           990 Apr  5  2011 openvpn_down.sh
+-rw-r--r--    1 root     root           265 Apr  5  2011 openvpn_up.sh
+-rw-------    1 root     root            27 May 22 13:46 remote_access_account
+-rw-r--r--    1 root     root            63 Apr  5  2011 remote_access_url
+-rw-r--r--    1 root     root            67 Apr  5  2011 remote_access_url.beta
+-rw-r--r--    1 root     root            68 Apr  5  2011 remote_access_url.beta2
+-rw-r--r--    1 root     root            80 Apr  5  2011 remote_access_url.dev
+-rw-r--r--    1 root     root            69 Apr  5  2011 remote_access_url.devint
+-rw-r--r--    1 root     root            66 Apr  5  2011 remote_access_url.pqa
+-rw-r--r--    1 root     root            67 Apr  5  2011 remote_access_url.pqa2
+-rw-r--r--    1 root     root            63 Apr  5  2011 remote_access_url.release
+-rw-r--r--    1 root     root            58 Apr  5  2011 security_url
+-rw-r--r--    1 root     root            63 Apr  5  2011 security_url.beta
+-rw-r--r--    1 root     root            64 Apr  5  2011 security_url.beta2
+-rw-r--r--    1 root     root            63 Apr  5  2011 security_url.dev
+-rw-r--r--    1 root     root            66 Apr  5  2011 security_url.devint
+-rw-r--r--    1 root     root            63 Apr  5  2011 security_url.pqa
+-rw-r--r--    1 root     root            64 Apr  5  2011 security_url.pqa2
+-rw-r--r--    1 root     root            58 Apr  5  2011 security_url.release
+drwxr-xr-x    2 root     root          4096 Mar 24  2023 server
+
+/etc/openvpn/client:
+
+/etc/openvpn/server:
+
+/etc/ostree:
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 remotes.d
+
+/etc/ostree/remotes.d:
+
+/etc/pal.d:
+-rw-r--r--    1 root     root           416 Apr 23  2024 core1.conf
+-rw-r--r--    1 root     root           497 Apr 23  2024 core3.conf
+-rw-r--r--    1 root     root           494 Apr 23  2024 core5.conf
+-rw-r--r--    1 root     root           416 Apr 23  2024 corelite.conf
+-rw-r--r--    1 root     root           416 Apr 23  2024 lumabr4.conf
+-rw-r--r--    1 root     root           546 Apr 23  2024 sa1.conf
+-rw-r--r--    1 root     root           399 Apr 23  2024 test.conf
+
+/etc/pam.d:
+-rw-r--r--    1 root     root           427 Nov  8  2022 chfn
+-rw-r--r--    1 root     root           182 Nov  8  2022 chpasswd
+-rw-r--r--    1 root     root           625 Nov  8  2022 chsh
+-rw-r--r--    1 root     root          1208 Mar  9  2018 common-account
+-rw-r--r--    1 root     root           883 Mar  9  2018 common-auth
+-rw-r--r--    1 root     root          1007 Mar  9  2018 common-password
+-rw-r--r--    1 root     root           851 Mar  9  2018 common-session
+-rw-r--r--    1 root     root           818 Mar  9  2018 common-session-noninteractive
+-rw-r--r--    1 root     root           340 Apr 25  2022 crond
+-rw-r--r--    1 root     root           107 Nov  8  2022 groupmems
+-rw-r--r--    1 root     root          3202 Nov  8  2022 login
+-rw-r--r--    1 root     root           182 Nov  8  2022 newusers
+-rw-r--r--    1 root     root           816 Sep  3  2021 other
+-rw-r--r--    1 root     root           106 Nov  8  2022 passwd
+-rw-r--r--    1 root     root           129 Aug  4  2022 runuser
+-rw-r--r--    1 root     root            92 Aug  4  2022 runuser-l
+-rw-r--r--    1 root     root           297 Mar 11  2024 sshd
+-rw-r--r--    1 root     root          2140 Nov  8  2022 su
+-rw-r--r--    1 root     root          2140 Nov  8  2022 su-l
+-rw-r--r--    1 root     root            97 Jun 16  2022 vlock.kbd
+-rw-r--r--    1 root     root           336 Apr  5  2011 weston-autologin
+
+/etc/pkcs11:
+-rw-r--r--    1 root     root           390 Jan 17  2022 pkcs11.conf.example
+
+/etc/pki:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 nssdb
+
+/etc/pki/nssdb:
+-rw-r--r--    1 root     root         28672 Jan  6  2022 cert9.db
+-rw-r--r--    1 root     root         36864 Jan  6  2022 key4.db
+-rw-r--r--    1 root     root           425 Jan  6  2022 pkcs11.txt
+
+/etc/profile.d:
+-rw-r--r--    1 root     root           120 Apr  5  2011 c4-default.sh
+-rw-r--r--    1 root     root          1107 May  7  2023 gawk.csh
+-rw-r--r--    1 root     root           757 May  7  2023 gawk.sh
+-rwxr-xr-x    1 root     root            41 Mar 23  2023 qt5.sh
+-rw-r--r--    1 root     root           288 Mar  3  2023 systemd-pager.sh
+-rw-r--r--    1 root     root           428 Apr  5  2011 weston-socket.sh
+
+/etc/pulse:
+-rw-r--r--    1 root     root          1232 Mar  9  2018 client.conf
+
+/etc/rc.d:
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 05resetcheck
+-rwxr-xr-x    1 root     root            55 Apr  5  2011 50check_client_pem.sh
+-rwx------    1 root     root          7119 Sep 17  2025 50keygen
+
+/etc/rc0.d:
+-rwx------    1 root     root          2029 Mar 11  2024 K09sshd
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 K20dbus-1
+-rwxr-xr-x    1 root     root          1893 Jan  4  2019 K20fuse
+-rwxr-xr-x    1 root     root          2541 May 18  2023 K20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 K20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 K20mdns
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 K20nginx
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 K20ntpd
+-rwxr-xr-x    1 root     root           775 Oct 29  2021 K20psplash.sh
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 K20resetcheck
+-rwxr-xr-x    1 root     root           797 Mar 29  2023 K20samba
+-rwxr-xr-x    1 root     root           756 Apr  5  2011 K31umountnfs.sh
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 K60crond
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 K66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 K67sensord
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 K70openvpn
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 K80atftpd
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 K80networking
+-rwxr-xr-x    1 root     root           483 Apr  5  2011 S20sendsigs
+-rwxr-xr-x    1 root     root           474 Apr  5  2011 S25save-rtc.sh
+-rwxr-xr-x    1 root     root          1518 Apr  5  2011 S38urandom
+-rwxr-xr-x    1 root     root           555 Apr  5  2011 S90halt
+
+/etc/rc1.d:
+-rwx------    1 root     root          2029 Mar 11  2024 K09sshd
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 K20dbus-1
+-rwxr-xr-x    1 root     root          2541 May 18  2023 K20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 K20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 K20mdns
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 K20nginx
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 K20ntpd
+-rwxr-xr-x    1 root     root           775 Oct 29  2021 K20psplash.sh
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 K20resetcheck
+-rwxr-xr-x    1 root     root           797 Mar 29  2023 K20samba
+-rwxr-xr-x    1 root     root           756 Apr  5  2011 K31umountnfs.sh
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 K60crond
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 K66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 K67sensord
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 K70openvpn
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 K80atftpd
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 K80networking
+
+/etc/rc2.d:
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 S01networking
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 S02dbus-1
+-rwx------    1 root     root          2029 Mar 11  2024 S09sshd
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 S10openvpn
+-rwxr-xr-x    1 root     root          2541 May 18  2023 S20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 S20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 S20mdns
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 S20ntpd
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 S20resetcheck
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 S66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 S67sensord
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 S80atftpd
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 S90crond
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 S92nginx
+-rwxr-xr-x    1 root     root           630 Apr  5  2011 S99rmnologin.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 S99stop-bootlogd
+
+/etc/rc3.d:
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 S01networking
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 S02dbus-1
+-rwx------    1 root     root          2029 Mar 11  2024 S09sshd
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 S10openvpn
+-rwxr-xr-x    1 root     root          2541 May 18  2023 S20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 S20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 S20mdns
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 S20ntpd
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 S20resetcheck
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 S66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 S67sensord
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 S80atftpd
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 S90crond
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 S92nginx
+-rwxr-xr-x    1 root     root           630 Apr  5  2011 S99rmnologin.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 S99stop-bootlogd
+
+/etc/rc4.d:
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 S01networking
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 S02dbus-1
+-rwx------    1 root     root          2029 Mar 11  2024 S09sshd
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 S10openvpn
+-rwxr-xr-x    1 root     root          2541 May 18  2023 S20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 S20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 S20mdns
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 S20ntpd
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 S20resetcheck
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 S66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 S67sensord
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 S80atftpd
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 S90crond
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 S92nginx
+-rwxr-xr-x    1 root     root           630 Apr  5  2011 S99rmnologin.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 S99stop-bootlogd
+
+/etc/rc5.d:
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 S01networking
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 S02dbus-1
+-rwx------    1 root     root          2029 Mar 11  2024 S09sshd
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 S10openvpn
+-rwxr-xr-x    1 root     root          2541 May 18  2023 S20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 S20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 S20mdns
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 S20ntpd
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 S20resetcheck
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 S66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 S67sensord
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 S80atftpd
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 S90crond
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 S92nginx
+-rwxr-xr-x    1 root     root           630 Apr  5  2011 S99rmnologin.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 S99stop-bootlogd
+
+/etc/rc6.d:
+-rwx------    1 root     root          2029 Mar 11  2024 K09sshd
+-rwxr-xr-x    1 root     root          2893 Sep  1  2023 K20dbus-1
+-rwxr-xr-x    1 root     root          1893 Jan  4  2019 K20fuse
+-rwxr-xr-x    1 root     root          2541 May 18  2023 K20hwclock.sh
+-rwx------    1 root     root          7119 Sep 17  2025 K20keygen
+-rwxr-xr-x    1 root     root          2878 Nov 19  2024 K20mdns
+-rwxr-xr-x    1 root     root          1255 Apr 10  2023 K20nginx
+-rwxr-xr-x    1 root     root          1819 Jun 23  2020 K20ntpd
+-rwxr-xr-x    1 root     root           775 Oct 29  2021 K20psplash.sh
+-rwxr-xr-x    1 root     root           185 Apr 24  2025 K20resetcheck
+-rwxr-xr-x    1 root     root           797 Mar 29  2023 K20samba
+-rwxr-xr-x    1 root     root           756 Apr  5  2011 K31umountnfs.sh
+-rwxr-xr-x    1 root     root          1235 Apr 25  2022 K60crond
+-rwxr-xr-x    1 root     root          1046 Oct 17  2019 K66fancontrol
+-rwxr-xr-x    1 root     root          1058 Oct 17  2019 K67sensord
+-rwxr-xr-x    1 root     root          4184 Mar 24  2023 K70openvpn
+-rwxr-xr-x    1 root     root           774 Sep  7  2022 K80atftpd
+-rwxr-xr-x    1 root     root          2260 Apr  5  2011 K80networking
+-rwxr-xr-x    1 root     root           483 Apr  5  2011 S20sendsigs
+-rwxr-xr-x    1 root     root           474 Apr  5  2011 S25save-rtc.sh
+-rwxr-xr-x    1 root     root          1518 Apr  5  2011 S38urandom
+-rwxr-xr-x    1 root     root           334 Apr  5  2011 S90reboot
+
+/etc/rcS.d:
+-rwxr-xr-x    1 root     root           775 Oct 29  2021 S00psplash.sh
+-rwxr-xr-x    1 root     root           537 Apr  5  2011 S02banner.sh
+-rwxr-xr-x    1 root     root          1091 Apr  5  2011 S02sysfs.sh
+-rwxr-xr-x    1 root     root          1893 Jan  4  2019 S03fuse
+-rwxr-xr-x    1 root     root          1218 Apr  5  2011 S03mountall.sh
+-rwxr-xr-x    1 root     root          3191 Mar  3  2023 S03systemd-udevd
+-rwxr-xr-x    1 root     root          1210 Apr  5  2011 S03zram.sh
+-rwxr-xr-x    1 root     root          3640 Apr  5  2011 S05checkroot.sh
+-rwxr-xr-x    1 root     root           571 Apr  5  2011 S06devpts.sh
+-rwxr-xr-x    1 root     root          1362 Apr  5  2011 S06modutils.sh
+-rwxr-xr-x    1 root     root          1998 Apr 26  2022 S07bootlogd
+-rwxr-xr-x    1 root     root          1317 Apr  5  2011 S29read-only-rootfs-hook.sh
+-rwxr-xr-x    1 root     root          2062 Apr  5  2011 S36bootmisc.sh
+-rwxr-xr-x    1 root     root          8151 Apr  5  2011 S37populate-volatile.sh
+-rwxr-xr-x    1 root     root           397 Apr  5  2011 S38dmesg.sh
+-rwxr-xr-x    1 root     root          1518 Apr  5  2011 S38urandom
+-rwxr-xr-x    1 root     root           625 Apr  5  2011 S39hostname.sh
+
+/etc/redis:
+-rw-r--r--    1 root     root         58523 Sep  6  2023 redis.conf
+
+/etc/samba:
+-rw-r--r--    1 root     root            20 Mar 29  2023 lmhosts
+-rw-r--r--    1 root     root          1213 Feb 17 09:36 smb.conf
+
+/etc/security:
+-rw-r--r--    1 root     root          4564 Sep  3  2021 access.conf
+-rw-r--r--    1 root     root          2234 Sep  3  2021 faillock.conf
+-rw-r--r--    1 root     root          3635 Sep  3  2021 group.conf
+-rw-r--r--    1 root     root          2426 Mar  9  2018 limits.conf
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 limits.d
+-rw-r--r--    1 root     root          1637 Sep  3  2021 namespace.conf
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 namespace.d
+-rwxr-xr-x    1 root     root          1016 Sep  3  2021 namespace.init
+-rw-r--r--    1 root     root          2971 Sep  3  2021 pam_env.conf
+-rw-r--r--    1 root     root          2179 Sep  3  2021 time.conf
+
+/etc/security/limits.d:
+
+/etc/security/namespace.d:
+
+/etc/sensors.d:
+-rw-r--r--    1 root     root            87 Apr  5  2011 sensors.conf
+
+/etc/skel:
+
+/etc/ssh:
+-rw-r-----    1 root     root        620105 Mar 11  2024 moduli
+-rw-r--r--    1 root     root             0 May 15  2023 revoked-keys.krl
+-rw-r--r--    1 root     root            28 Feb 17 09:36 root_principals
+-rw-------    1 root     root           448 May 15  2023 ssh_c4_ca.pub
+-rw-r-----    1 root     root          1569 Mar 11  2024 ssh_config
+-rw-------    1 root     root           399 Apr 27  2025 ssh_host_ed25519_key
+-rw-r--r--    1 root     root            92 Apr 27  2025 ssh_host_ed25519_key.pub
+-rw-------    1 root     root          2590 Nov 19  2021 ssh_host_rsa_key
+-rw-r--r--    1 root     root           564 Nov 19  2021 ssh_host_rsa_key.pub
+-rw-r-----    1 root     root          3510 Feb 11 13:15 sshd_config
+-rw-r-----    1 root     root          3644 Mar 11  2024 sshd_config_readonly
+
+/etc/ssl:
+drwxr-xr-x    2 root     root         16384 Feb 11 13:49 certs
+-rw-r--r--    1 root     root           245 Oct 24  2023 dh1024.pem
+-rw-r--r--    1 root     root           424 Oct 24  2023 dh2048.pem
+-rw-r--r--    1 root     root           769 Oct 24  2023 dh4096.pem
+-rw-r--r--    1 root     root           156 Oct 24  2023 dh512.pem
+-rw-r-----    1 root     root          4972 Oct 19  2025 dtls-srtp.pem
+-rw-r--r--    1 root     root         12441 Oct 24  2023 openssl.cnf
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 private
+-rw-r--r--    1 root     root          1104 Feb 11 13:49 server-ecdsa.pem
+-rw-r--r--    1 root     root          4228 Apr 27  2025 server.pem
+-rw-r-----    1 root     root          4972 Oct 19  2025 tls.pem
+-rw-r-----    1 root     root          4972 Oct 19  2025 wss.pem
+
+/etc/ssl/certs:
+-rw-r--r--    1 root     root          1915 Oct 16  2021 002c0b4f.0
+-rw-r--r--    1 root     root          1533 Oct 16  2021 02265526.0
+-rw-r--r--    1 root     root          1948 Oct 16  2021 03179a64.0
+-rw-r--r--    1 root     root          1229 Oct 16  2021 062cdee6.0
+-rw-r--r--    1 root     root          1923 Oct 16  2021 064e0aa9.0
+-rw-r--r--    1 root     root          2114 Oct 16  2021 06dc52d5.0
+-rw-r--r--    1 root     root          1424 Oct 16  2021 09789157.0
+-rw-r--r--    1 root     root           769 Oct 16  2021 0a775a30.0
+-rw-r--r--    1 root     root          1984 Oct 16  2021 0b1b94ef.0
+-rw-r--r--    1 root     root           944 Oct 16  2021 0bf05006.0
+-rw-r--r--    1 root     root          1915 Oct 16  2021 0f5dc4f3.0
+-rw-r--r--    1 root     root          1980 Oct 16  2021 0f6fa695.0
+-rw-r--r--    1 root     root          1915 Oct 16  2021 1001acf7.0
+-rw-r--r--    1 root     root          1090 Oct 16  2021 106f3e4d.0
+-rw-r--r--    1 root     root           859 Oct 16  2021 14bc7599.0
+-rw-r--r--    1 root     root          1513 Oct 16  2021 1636090b.0
+-rw-r--r--    1 root     root          1249 Oct 16  2021 18856ac4.0
+-rw-r--r--    1 root     root           794 Oct 16  2021 1d3472b9.0
+-rw-r--r--    1 root     root          1931 Oct 16  2021 1e08bfd1.0
+-rw-r--r--    1 root     root          1367 Oct 16  2021 1e09d511.0
+-rw-r--r--    1 root     root          1367 Oct 16  2021 244b5494.0
+-rw-r--r--    1 root     root          1302 Oct 16  2021 2923b3f9.0
+-rw-r--r--    1 root     root          1935 Oct 16  2021 2ae6433e.0
+-rw-r--r--    1 root     root          1204 Oct 16  2021 2b349938.0
+-rw-r--r--    1 root     root          2155 Oct 16  2021 32888f65.0
+-rw-r--r--    1 root     root          1911 Oct 16  2021 349f2832.0
+-rw-r--r--    1 root     root          1338 Oct 16  2021 3513523f.0
+-rw-r--r--    1 root     root          2167 Oct 16  2021 3bde41ac.0
+-rw-r--r--    1 root     root          2204 Oct 16  2021 3e44d2f7.0
+-rw-r--r--    1 root     root          1168 Oct 16  2021 3e45d192.0
+-rw-r--r--    1 root     root          2013 Oct 16  2021 3fb36b73.0
+-rw-r--r--    1 root     root          2078 Oct 16  2021 40193066.0
+-rw-r--r--    1 root     root          1939 Oct 16  2021 4042bcee.0
+-rw-r--r--    1 root     root          1489 Oct 16  2021 40547a79.0
+-rw-r--r--    1 root     root          1257 Oct 16  2021 406c9bb1.0
+-rw-r--r--    1 root     root          1411 Oct 16  2021 4304c5e5.0
+-rw-r--r--    1 root     root          1354 Oct 16  2021 48bec511.0
+-rw-r--r--    1 root     root          1354 Oct 16  2021 4a6481c9.0
+-rw-r--r--    1 root     root           814 Oct 16  2021 4b718d9b.0
+-rw-r--r--    1 root     root          1399 Oct 16  2021 4bfab552.0
+-rw-r--r--    1 root     root          2045 Oct 16  2021 4f316efb.0
+-rw-r--r--    1 root     root          2244 Oct 16  2021 5273a94c.0
+-rw-r--r--    1 root     root          1367 Oct 16  2021 5443e9e3.0
+-rw-r--r--    1 root     root          1915 Oct 16  2021 54657681.0
+-rw-r--r--    1 root     root          2049 Oct 16  2021 57bcb2da.0
+-rw-r--r--    1 root     root          1261 Oct 16  2021 5ad8a5d6.0
+-rw-r--r--    1 root     root          1870 Oct 16  2021 5cd81ad7.0
+-rw-r--r--    1 root     root          1513 Oct 16  2021 5d3033c5.0
+-rw-r--r--    1 root     root          2244 Oct 16  2021 5e98733a.0
+-rw-r--r--    1 root     root          1883 Oct 16  2021 5f15c80c.0
+-rw-r--r--    1 root     root          1891 Oct 16  2021 5f618aec.0
+-rw-r--r--    1 root     root          1294 Oct 16  2021 607986c7.0
+-rw-r--r--    1 root     root          1915 Oct 16  2021 626dceaf.0
+-rw-r--r--    1 root     root          1261 Oct 16  2021 653b494a.0
+-rw-r--r--    1 root     root          2074 Oct 16  2021 68dd7389.0
+-rw-r--r--    1 root     root          1643 Oct 16  2021 6b99d060.0
+-rw-r--r--    1 root     root          1883 Oct 16  2021 6d41d539.0
+-rw-r--r--    1 root     root          2094 Oct 16  2021 6fa5da56.0
+-rw-r--r--    1 root     root          1513 Oct 16  2021 706f604c.0
+-rw-r--r--    1 root     root          1923 Oct 16  2021 749e9e03.0
+-rw-r--r--    1 root     root          1988 Oct 16  2021 75d1b2ed.0
+-rw-r--r--    1 root     root          1318 Oct 16  2021 76cb8f92.0
+-rw-r--r--    1 root     root          2354 Oct 16  2021 76faf6c0.0
+-rw-r--r--    1 root     root          1017 Oct 16  2021 7719f463.0
+-rw-r--r--    1 root     root           895 Oct 16  2021 773e07ad.0
+-rw-r--r--    1 root     root          1493 Oct 16  2021 7aaf71c0.0
+-rw-r--r--    1 root     root           851 Oct 16  2021 7f3d5d1d.0
+-rw-r--r--    1 root     root          1460 Oct 16  2021 8160b96c.0
+-rw-r--r--    1 root     root           656 Oct 16  2021 8cb5ee0f.0
+-rw-r--r--    1 root     root          1176 Oct 16  2021 8d86cdd1.0
+-rw-r--r--    1 root     root           875 Oct 16  2021 8d89cda1.0
+-rw-r--r--    1 root     root          2049 Oct 16  2021 930ac5d2.0
+-rw-r--r--    1 root     root          1204 Oct 16  2021 93bc0acc.0
+-rw-r--r--    1 root     root           891 Oct 16  2021 9482e63a.0
+-rw-r--r--    1 root     root          1476 Oct 16  2021 988a38cb.0
+-rw-r--r--    1 root     root           883 Oct 16  2021 9b5697b0.0
+-rw-r--r--    1 root     root           753 Oct 16  2021 9c8dfbd4.0
+-rw-r--r--    1 root     root          1306 Oct 16  2021 9d04f354.0
+-rw-r--r--    1 root     root          2772 Oct 16  2021 ACCVRAIZ1.pem
+-rw-r--r--    1 root     root          1972 Oct 16  2021 AC_RAIZ_FNMT-RCM.pem
+-rw-r--r--    1 root     root           904 Oct 16  2021 AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+-rw-r--r--    1 root     root          2118 Oct 16  2021 ANF_Secure_Server_Root_CA.pem
+-rw-r--r--    1 root     root          2049 Oct 16  2021 Actalis_Authentication_Root_CA.pem
+-rw-r--r--    1 root     root          1204 Oct 16  2021 AffirmTrust_Commercial.pem
+-rw-r--r--    1 root     root          1204 Oct 16  2021 AffirmTrust_Networking.pem
+-rw-r--r--    1 root     root          1891 Oct 16  2021 AffirmTrust_Premium.pem
+-rw-r--r--    1 root     root           753 Oct 16  2021 AffirmTrust_Premium_ECC.pem
+-rw-r--r--    1 root     root          1188 Oct 16  2021 Amazon_Root_CA_1.pem
+-rw-r--r--    1 root     root          1883 Oct 16  2021 Amazon_Root_CA_2.pem
+-rw-r--r--    1 root     root           656 Oct 16  2021 Amazon_Root_CA_3.pem
+-rw-r--r--    1 root     root           737 Oct 16  2021 Amazon_Root_CA_4.pem
+-rw-r--r--    1 root     root          1261 Oct 16  2021 Atos_TrustedRoot_2011.pem
+-rw-r--r--    1 root     root          2167 Oct 16  2021 Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+-rw-r--r--    1 root     root          1261 Oct 16  2021 Baltimore_CyberTrust_Root.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 Buypass_Class_2_Root_CA.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 Buypass_Class_3_Root_CA.pem
+-rw-r--r--    1 root     root          1935 Oct 16  2021 CA_Disig_Root_R2.pem
+-rw-r--r--    1 root     root          1984 Oct 16  2021 CFCA_EV_ROOT.pem
+-rw-r--r--    1 root     root          1489 Oct 16  2021 COMODO_Certification_Authority.pem
+-rw-r--r--    1 root     root           940 Oct 16  2021 COMODO_ECC_Certification_Authority.pem
+-rw-r--r--    1 root     root          2086 Oct 16  2021 COMODO_RSA_Certification_Authority.pem
+-rw-r--r--    1 root     root          1330 Oct 16  2021 Certigna.pem
+-rw-r--r--    1 root     root          2264 Oct 16  2021 Certigna_Root_CA.pem
+-rw-r--r--    1 root     root           891 Oct 16  2021 Certum_EC-384_CA.pem
+-rw-r--r--    1 root     root          1354 Oct 16  2021 Certum_Trusted_Network_CA.pem
+-rw-r--r--    1 root     root          2078 Oct 16  2021 Certum_Trusted_Network_CA_2.pem
+-rw-r--r--    1 root     root          2053 Oct 16  2021 Certum_Trusted_Root_CA.pem
+-rw-r--r--    1 root     root          1517 Oct 16  2021 Comodo_AAA_Services_root.pem
+-rw-r--r--    1 root     root          1318 Oct 16  2021 Cybertrust_Global_Root.pem
+-rw-r--r--    1 root     root          1517 Oct 16  2021 D-TRUST_Root_Class_3_CA_2_2009.pem
+-rw-r--r--    1 root     root          1537 Oct 16  2021 D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+-rw-r--r--    1 root     root          1350 Oct 16  2021 DigiCert_Assured_ID_Root_CA.pem
+-rw-r--r--    1 root     root          1306 Oct 16  2021 DigiCert_Assured_ID_Root_G2.pem
+-rw-r--r--    1 root     root           851 Oct 16  2021 DigiCert_Assured_ID_Root_G3.pem
+-rw-r--r--    1 root     root          1338 Oct 16  2021 DigiCert_Global_Root_CA.pem
+-rw-r--r--    1 root     root          1294 Oct 16  2021 DigiCert_Global_Root_G2.pem
+-rw-r--r--    1 root     root           839 Oct 16  2021 DigiCert_Global_Root_G3.pem
+-rw-r--r--    1 root     root          1367 Oct 16  2021 DigiCert_High_Assurance_EV_Root_CA.pem
+-rw-r--r--    1 root     root          1988 Oct 16  2021 DigiCert_Trusted_Root_G4.pem
+-rw-r--r--    1 root     root          2244 Oct 16  2021 E-Tugra_Certification_Authority.pem
+-rw-r--r--    1 root     root          1911 Oct 16  2021 EC-ACC.pem
+-rw-r--r--    1 root     root          1505 Oct 16  2021 Entrust.net_Premium_2048_Secure_Server_CA.pem
+-rw-r--r--    1 root     root          1643 Oct 16  2021 Entrust_Root_Certification_Authority.pem
+-rw-r--r--    1 root     root          1090 Oct 16  2021 Entrust_Root_Certification_Authority_-_EC1.pem
+-rw-r--r--    1 root     root          1533 Oct 16  2021 Entrust_Root_Certification_Authority_-_G2.pem
+-rw-r--r--    1 root     root          2244 Oct 16  2021 Entrust_Root_Certification_Authority_-_G4.pem
+-rw-r--r--    1 root     root          1980 Oct 16  2021 GDCA_TrustAUTH_R5_ROOT.pem
+-rw-r--r--    1 root     root          1972 Oct 16  2021 GLOBALTRUST_2020.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 GTS_Root_R1.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 GTS_Root_R2.pem
+-rw-r--r--    1 root     root           769 Oct 16  2021 GTS_Root_R3.pem
+-rw-r--r--    1 root     root           769 Oct 16  2021 GTS_Root_R4.pem
+-rw-r--r--    1 root     root           713 Oct 16  2021 GlobalSign_ECC_Root_CA_-_R4.pem
+-rw-r--r--    1 root     root           794 Oct 16  2021 GlobalSign_ECC_Root_CA_-_R5.pem
+-rw-r--r--    1 root     root          1261 Oct 16  2021 GlobalSign_Root_CA.pem
+-rw-r--r--    1 root     root          1354 Oct 16  2021 GlobalSign_Root_CA_-_R2.pem
+-rw-r--r--    1 root     root          1229 Oct 16  2021 GlobalSign_Root_CA_-_R3.pem
+-rw-r--r--    1 root     root          1972 Oct 16  2021 GlobalSign_Root_CA_-_R6.pem
+-rw-r--r--    1 root     root           769 Oct 16  2021 GlobalSign_Root_E46.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 GlobalSign_Root_R46.pem
+-rw-r--r--    1 root     root          1448 Oct 16  2021 Go_Daddy_Class_2_CA.pem
+-rw-r--r--    1 root     root          1367 Oct 16  2021 Go_Daddy_Root_Certificate_Authority_-_G2.pem
+-rw-r--r--    1 root     root          1017 Oct 16  2021 Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+-rw-r--r--    1 root     root          1513 Oct 16  2021 Hellenic_Academic_and_Research_Institutions_RootCA_2011.pem
+-rw-r--r--    1 root     root          2155 Oct 16  2021 Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+-rw-r--r--    1 root     root          1168 Oct 16  2021 Hongkong_Post_Root_CA_1.pem
+-rw-r--r--    1 root     root          2074 Oct 16  2021 Hongkong_Post_Root_CA_3.pem
+-rw-r--r--    1 root     root          1939 Oct 16  2021 ISRG_Root_X1.pem
+-rw-r--r--    1 root     root          1923 Oct 16  2021 IdenTrust_Commercial_Root_CA_1.pem
+-rw-r--r--    1 root     root          1931 Oct 16  2021 IdenTrust_Public_Sector_Root_CA_1.pem
+-rw-r--r--    1 root     root          2122 Oct 16  2021 Izenpe.com.pem
+-rw-r--r--    1 root     root          1460 Oct 16  2021 Microsec_e-Szigno_Root_CA_2009.pem
+-rw-r--r--    1 root     root           875 Oct 16  2021 Microsoft_ECC_Root_Certificate_Authority_2017.pem
+-rw-r--r--    1 root     root          2021 Oct 16  2021 Microsoft_RSA_Root_Certificate_Authority_2017.pem
+-rw-r--r--    1 root     root          2013 Oct 16  2021 NAVER_Global_Root_Certification_Authority.pem
+-rw-r--r--    1 root     root          1476 Oct 16  2021 NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+-rw-r--r--    1 root     root          1411 Oct 16  2021 Network_Solutions_Certificate_Authority.pem
+-rw-r--r--    1 root     root          1346 Oct 16  2021 OISTE_WISeKey_Global_Root_GB_CA.pem
+-rw-r--r--    1 root     root           895 Oct 16  2021 OISTE_WISeKey_Global_Root_GC_CA.pem
+-rw-r--r--    1 root     root          1923 Oct 16  2021 QuoVadis_Root_CA_1_G3.pem
+-rw-r--r--    1 root     root          2041 Oct 16  2021 QuoVadis_Root_CA_2.pem
+-rw-r--r--    1 root     root          1923 Oct 16  2021 QuoVadis_Root_CA_2_G3.pem
+-rw-r--r--    1 root     root          2354 Oct 16  2021 QuoVadis_Root_CA_3.pem
+-rw-r--r--    1 root     root          1923 Oct 16  2021 QuoVadis_Root_CA_3_G3.pem
+-rw-r--r--    1 root     root           956 Oct 16  2021 SSL.com_EV_Root_Certification_Authority_ECC.pem
+-rw-r--r--    1 root     root          2114 Oct 16  2021 SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+-rw-r--r--    1 root     root           944 Oct 16  2021 SSL.com_Root_Certification_Authority_ECC.pem
+-rw-r--r--    1 root     root          2094 Oct 16  2021 SSL.com_Root_Certification_Authority_RSA.pem
+-rw-r--r--    1 root     root          1257 Oct 16  2021 SZAFIR_ROOT_CA2.pem
+-rw-r--r--    1 root     root          1249 Oct 16  2021 SecureSign_RootCA11.pem
+-rw-r--r--    1 root     root          1350 Oct 16  2021 SecureTrust_CA.pem
+-rw-r--r--    1 root     root          1354 Oct 16  2021 Secure_Global_CA.pem
+-rw-r--r--    1 root     root          1261 Oct 16  2021 Security_Communication_RootCA2.pem
+-rw-r--r--    1 root     root          1224 Oct 16  2021 Security_Communication_Root_CA.pem
+-rw-r--r--    1 root     root          1948 Oct 16  2021 Staat_der_Nederlanden_EV_Root_CA.pem
+-rw-r--r--    1 root     root          1468 Oct 16  2021 Starfield_Class_2_CA.pem
+-rw-r--r--    1 root     root          1399 Oct 16  2021 Starfield_Root_Certificate_Authority_-_G2.pem
+-rw-r--r--    1 root     root          1424 Oct 16  2021 Starfield_Services_Root_Certificate_Authority_-_G2.pem
+-rw-r--r--    1 root     root          2045 Oct 16  2021 SwissSign_Gold_CA_-_G2.pem
+-rw-r--r--    1 root     root          2049 Oct 16  2021 SwissSign_Silver_CA_-_G2.pem
+-rw-r--r--    1 root     root          1367 Oct 16  2021 T-TeleSec_GlobalRoot_Class_2.pem
+-rw-r--r--    1 root     root          1367 Oct 16  2021 T-TeleSec_GlobalRoot_Class_3.pem
+-rw-r--r--    1 root     root          1582 Oct 16  2021 TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+-rw-r--r--    1 root     root          1883 Oct 16  2021 TWCA_Global_Root_CA.pem
+-rw-r--r--    1 root     root          1269 Oct 16  2021 TWCA_Root_Certification_Authority.pem
+-rw-r--r--    1 root     root          1870 Oct 16  2021 TeliaSonera_Root_CA_v1.pem
+-rw-r--r--    1 root     root          1493 Oct 16  2021 TrustCor_ECA-1.pem
+-rw-r--r--    1 root     root          1513 Oct 16  2021 TrustCor_RootCert_CA-1.pem
+-rw-r--r--    1 root     root          2204 Oct 16  2021 TrustCor_RootCert_CA-2.pem
+-rw-r--r--    1 root     root          2090 Oct 16  2021 Trustwave_Global_Certification_Authority.pem
+-rw-r--r--    1 root     root           883 Oct 16  2021 Trustwave_Global_ECC_P256_Certification_Authority.pem
+-rw-r--r--    1 root     root           969 Oct 16  2021 Trustwave_Global_ECC_P384_Certification_Authority.pem
+-rw-r--r--    1 root     root          1915 Oct 16  2021 UCA_Extended_Validation_Root.pem
+-rw-r--r--    1 root     root          1891 Oct 16  2021 UCA_Global_G2_Root.pem
+-rw-r--r--    1 root     root           948 Oct 16  2021 USERTrust_ECC_Certification_Authority.pem
+-rw-r--r--    1 root     root          2094 Oct 16  2021 USERTrust_RSA_Certification_Authority.pem
+-rw-r--r--    1 root     root          1513 Oct 16  2021 XRamp_Global_CA_Root.pem
+-rw-r--r--    1 root     root           769 Oct 16  2021 a3418fda.0
+-rw-r--r--    1 root     root          2772 Oct 16  2021 a94d09e5.0
+-rw-r--r--    1 root     root          1505 Oct 16  2021 aee5f10d.0
+-rw-r--r--    1 root     root           713 Oct 16  2021 b0e59380.0
+-rw-r--r--    1 root     root          1350 Oct 16  2021 b1159c4c.0
+-rw-r--r--    1 root     root          2118 Oct 16  2021 b433981b.0
+-rw-r--r--    1 root     root          1354 Oct 16  2021 b66938e9.0
+-rw-r--r--    1 root     root          1891 Oct 16  2021 b727005e.0
+-rw-r--r--    1 root     root          1269 Oct 16  2021 b7a5b843.0
+-rw-r--r--    1 root     root           904 Oct 16  2021 b81b93f0.0
+-rw-r--r--    1 root     root          2021 Oct 16  2021 bf53fb88.0
+-rw-r--r--    1 root     root          1891 Oct 16  2021 c01eb047.0
+-rw-r--r--    1 root     root          1517 Oct 16  2021 c28a8a30.0
+-rw-r--r--    1 root     root        236849 May  6  2025 ca-bundle.crt
+-rw-r--r--    1 root     root        195580 Feb 11 13:49 ca-certificates.crt
+-rw-r--r--    1 root     root          2033 Oct 16  2021 ca6e4ad9.0
+-rw-r--r--    1 root     root          1367 Oct 16  2021 cbf06781.0
+-rw-r--r--    1 root     root          2122 Oct 16  2021 cc450945.0
+-rw-r--r--    1 root     root          1261 Oct 16  2021 cd58d51e.0
+-rw-r--r--    1 root     root          1972 Oct 16  2021 cd8c0d63.0
+-rw-r--r--    1 root     root          1188 Oct 16  2021 ce5e74ef.0
+-rw-r--r--    1 root     root          1176 Oct 16  2021 certSIGN_ROOT_CA.pem
+-rw-r--r--    1 root     root          1891 Oct 16  2021 certSIGN_Root_CA_G2.pem
+-rw-r--r--    1 root     root          1537 Oct 16  2021 d4dae3dd.0
+-rw-r--r--    1 root     root          2086 Oct 16  2021 d6325660.0
+-rw-r--r--    1 root     root          2041 Oct 16  2021 d7e8dc79.0
+-rw-r--r--    1 root     root           969 Oct 16  2021 d887a5bb.0
+-rw-r--r--    1 root     root          1972 Oct 16  2021 dc4d6a89.0
+-rw-r--r--    1 root     root           839 Oct 16  2021 dd8e9d41.0
+-rw-r--r--    1 root     root           737 Oct 16  2021 de6d66f3.0
+-rw-r--r--    1 root     root           843 Oct 16  2021 e-Szigno_Root_CA_2017.pem
+-rw-r--r--    1 root     root          1330 Oct 16  2021 e113c810.0
+-rw-r--r--    1 root     root          1923 Oct 16  2021 e18bfb83.0
+-rw-r--r--    1 root     root          2053 Oct 16  2021 e35234b1.0
+-rw-r--r--    1 root     root          1261 Oct 16  2021 e36a6752.0
+-rw-r--r--    1 root     root          1346 Oct 16  2021 e73d606e.0
+-rw-r--r--    1 root     root           843 Oct 16  2021 e868b802.0
+-rw-r--r--    1 root     root          1915 Oct 16  2021 e8de2f56.0
+-rw-r--r--    1 root     root          2033 Oct 16  2021 ePKI_Root_Certification_Authority.pem
+-rw-r--r--    1 root     root          1517 Oct 16  2021 ee64a828.0
+-rw-r--r--    1 root     root           940 Oct 16  2021 eed8c118.0
+-rw-r--r--    1 root     root          1923 Oct 16  2021 ef954a4e.0
+-rw-r--r--    1 root     root           814 Oct 16  2021 emSign_ECC_Root_CA_-_C3.pem
+-rw-r--r--    1 root     root           859 Oct 16  2021 emSign_ECC_Root_CA_-_G3.pem
+-rw-r--r--    1 root     root          1257 Oct 16  2021 emSign_Root_CA_-_C1.pem
+-rw-r--r--    1 root     root          1302 Oct 16  2021 emSign_Root_CA_-_G1.pem
+-rw-r--r--    1 root     root          1448 Oct 16  2021 f081611a.0
+-rw-r--r--    1 root     root           956 Oct 16  2021 f0c70a8d.0
+-rw-r--r--    1 root     root          2090 Oct 16  2021 f249de83.0
+-rw-r--r--    1 root     root           948 Oct 16  2021 f30dd6ad.0
+-rw-r--r--    1 root     root          1224 Oct 16  2021 f3377b1b.0
+-rw-r--r--    1 root     root          1468 Oct 16  2021 f387163d.0
+-rw-r--r--    1 root     root          1350 Oct 16  2021 f39fc864.0
+-rw-r--r--    1 root     root          2264 Oct 16  2021 f51bb24c.0
+-rw-r--r--    1 root     root          1972 Oct 16  2021 fa5da96b.0
+-rw-r--r--    1 root     root          2094 Oct 16  2021 fc5a8f99.0
+-rw-r--r--    1 root     root          1257 Oct 16  2021 fe8a2cd8.0
+-rw-r--r--    1 root     root           769 Oct 16  2021 feffd413.0
+-rw-r--r--    1 root     root          1582 Oct 16  2021 ff34af3f.0
+
+/etc/ssl/private:
+
+/etc/sysconfig:
+-rw-r--r--    1 root     root           110 Apr 25  2022 crond
+-rw-r--r--    1 root     root           358 Apr  5  2011 sensord
+
+/etc/sysctl.d:
+-rw-r--r--    1 root     root          2165 Feb 15  2023 99-sysctl.conf
+
+/etc/syslog-ng:
+drwxr-xr-x    2 root     root          4096 May 22 02:11 conf.d
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 patterndb.d
+-rw-r--r--    1 root     root          1354 Dec 21  2022 scl.conf
+-r--r-----    1 root     root          7397 Dec 21  2022 syslog-ng.conf
+-r--r-----    1 root     root          7397 Feb 11 13:55 syslog-ng.conf.bak
+-r--r-----    1 root     root          7256 Apr 27  2025 syslog-ng.conf.dpkg-old
+
+/etc/syslog-ng/conf.d:
+-rw-r--r--    1 root     root           947 Aug 28  2024 freeswitch.conf
+-rw-r--r--    1 login-au login-au       349 Jul  3  2025 login-auditd-syslog-ng.conf
+-rw-r--r--    1 mosquitt mosquitt       262 Mar 17  2025 mosquitto-jwt-auth.conf
+-rw-r-----    1 mosquitt mosquitt       240 Aug 16  2022 mosquitto.conf
+-rw-r--r--    1 root     root          2027 Jul  4  2025 syslog-uic-all.conf
+-rw-r--r--    1 root     root           544 Jul  4  2025 syslog-uic-mqtt.conf
+-rw-r--r--    1 root     root           231 May 22 02:11 upmand.conf
+-rw-r--r--    1 root     root           378 Aug  7  2024 zg.conf
+
+/etc/syslog-ng/patterndb.d:
+
+/etc/sysman.d:
+-rw-r--r--    1 root     root           281 May 22 13:47 audio3client
+-rw-r--r--    1 root     root           281 May 22 13:47 audio3server
+-rw-r--r--    1 root     root           354 Feb 11 13:52 broker
+-rw-r--r--    1 root     root           303 Feb 11 13:52 c4lookup
+-rw-r--r--    1 root     c4metric       285 Feb 11 13:52 c4metricsd
+-rw-r--r--    1 root     root           345 Feb 11 13:52 c4rmengined
+-rw-r--r--    1 root     root           263 Feb 11 13:52 cerebellum
+-rw-r--r--    1 root     root           345 Jun 26 02:11 control4-osd
+-rw-rw-r--    1 root     director       461 Feb 11 13:52 director
+-rw-r--r--    1 root     root           233 Apr  5  2011 edid-capture
+-rw-r--r--    1 root     root           331 May 22 13:46 freeswitch
+-rw-r--r--    1 root     root           261 Feb 11 13:52 imageservice
+-rw-r--r--    1 launchda launchda       263 Aug  5  2025 launchdarkly-microservice
+-rw-r-----    1 login-au login-au       288 Jul  3  2025 login-auditd
+-rw-r--r--    1 root     root           270 Mar  9  2018 luma-bridge
+-rw-rw----    1 root     mosquitt       399 Aug 16  2022 mosquitto
+-rw-rw-r--    1 root     mosquitt       408 Mar 17  2025 mosquitto-jwt-auth
+-rw-r--r--    1 root     root           160 Apr 10  2023 nginx
+-rw-r--r--    1 root     root           255 Feb 11 13:52 nmbd
+-rw-r--r--    1 root     root           225 Mar 24  2023 openvpn
+-rw-r--r--    1 root     root           215 Aug 20  2025 ovrc-hub-fob
+-rw-r--r--    1 root     root           310 Feb 11 13:52 raproxyd
+-rw-r--r--    1 root     sddpd          364 Feb 11 13:52 sddpd
+-rw-r--r--    1 root     root           183 Feb 11 13:52 shaird
+-rw-r--r--    1 root     root           192 Apr 27  2025 shaird.dpkg-old
+-rw-r--r--    1 root     root           247 Feb 11 13:52 smbd
+-rw-r--r--    1 root     root           176 Feb 11 13:52 spotifyd
+-rw-r--r--    1 root     root           185 Apr 27  2025 spotifyd.dpkg-old
+-rwxr-xr-x    1 root     root           237 Nov 24  2018 stunserver
+-rw-r--r--    1 root     root           351 Jul  4  2025 uic-gms
+-rw-r--r--    1 root     root           377 Jul  4  2025 uic-image-provider
+-rw-r--r--    1 root     root           353 Jul  4  2025 uic-mqtt
+-rw-r--r--    1 root     root           355 Jul  4  2025 uic-nal
+-rw-r--r--    1 root     root           350 Jul  4  2025 uic-upvl
+-rw-rw----    1 uic      uic            248 Feb 11 13:52 uicmmd
+-rw-r--r--    1 root     video-se       186 Jun 30  2025 video-security-ms
+-rw-r--r--    1 root     root           206 Feb 11 13:52 voiced
+-rw-r--r--    1 root     root           338 Feb 11 13:52 zap
+-rw-r--r--    1 root     root           345 May 22 13:47 zpc
+-rw-r--r--    1 root     root           260 Feb 11 13:52 zserver2
+-rw-r--r--    1 root     root           240 Feb  4  2025 zserver3
+
+/etc/systemd:
+-rw-r--r--    1 root     root          1282 Mar  9  2018 journald.conf
+-rw-r--r--    1 root     root          1578 Mar  3  2023 logind.conf
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 network
+-rw-r--r--    1 root     root           883 Mar  3  2023 networkd.conf
+-rw-r--r--    1 root     root           670 Mar  9  2018 pstore.conf
+-rw-r--r--    1 root     root          1635 Mar  9  2018 resolved.conf
+-rw-r--r--    1 root     root           953 Mar  3  2023 sleep.conf
+drwxr-xr-x   23 root     root          4096 Feb 11 13:50 system
+-rw-r--r--    1 root     root          2122 Mar  3  2023 system.conf
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 user
+-rw-r--r--    1 root     root          1490 Mar  3  2023 user.conf
+
+/etc/systemd/network:
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 99-default.link
+
+/etc/systemd/system:
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 banner.service
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 basic.target.wants
+drwxr-xr-x    2 root     root          4096 Apr 25  2025 board-eastrmamp1.target.wants
+drwxr-xr-x    2 root     root          4096 Apr 25  2025 board-eastrmpre4.target.wants
+drwxr-xr-x    2 root     root          4096 Apr 25  2025 board-esstrmsndbr3ch.target.wants
+drwxr-xr-x    2 root     root          4096 Apr 25  2025 board-esstrmspkr5.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 bootmisc.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 checkfs.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 checkroot.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:47 class-@core.target.wants
+drwxr-xr-x    2 root     root          4096 Feb 11 13:48 class-@dsp.target.wants
+drwxr-xr-x    2 root     root          4096 Feb 11 13:50 class-@hdmi.target.wants
+-rw-r--r--    1 root     root           598 Mar  3  2023 ctrl-alt-del.target
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 dbus-1.service
+-rw-r--r--    1 root     root          2330 Mar  3  2023 dbus-org.freedesktop.network1.service
+-rw-r--r--    1 root     root          1819 Mar  3  2023 dbus-org.freedesktop.resolve1.service
+-rw-r--r--    1 root     root           540 Mar  3  2023 default.target
+drwxr-xr-x    2 root     root          4096 Apr 27  2025 default.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 devpts.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 dmesg.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 getty.target.wants
+drwxr-xr-x    2 root     root          4096 Feb 11 13:47 halt.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 hostname.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 hwclock.service
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 local-fs.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 modutils.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 mountall.service
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 mountnfs.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:51 multi-user.target.wants
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 network-online.target.wants
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 network.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 read-only-rootfs-hook.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:47 reboot.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 rmnologin.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:47 shutdown.target.wants
+drwxr-xr-x    2 root     root          4096 Feb 11 13:50 sockets.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 sysfs.service
+drwxr-xr-x    2 root     root          4096 Feb 11 13:47 sysinit.target.wants
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 systemd-random-seed.service.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 systemd-sysusers.service
+drwxr-xr-x    2 root     root          4096 Apr 27  2025 timers.target.wants
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 urandom.service
+
+/etc/systemd/system/basic.target.wants:
+-rw-r--r--    1 root     root           766 May 10  2022 dlt-system.service
+-rw-r--r--    1 root     root           655 May 10  2022 dlt.service
+-rw-r--r--    1 root     root           250 Oct 29  2021 psplash-basic.service
+
+/etc/systemd/system/board-eastrmamp1.target.wants:
+
+/etc/systemd/system/board-eastrmpre4.target.wants:
+
+/etc/systemd/system/board-esstrmsndbr3ch.target.wants:
+
+/etc/systemd/system/board-esstrmspkr5.target.wants:
+
+/etc/systemd/system/class-@core.target.wants:
+-rw-r--r--    1 root     root           272 Apr  5  2011 usb3-downgrade.service
+-rw-r--r--    1 root     root           276 Jun 19  2025 zgm130s.service
+
+/etc/systemd/system/class-@dsp.target.wants:
+-rw-r--r--    1 root     root           194 Apr  4  2025 load_dsp.service
+
+/etc/systemd/system/class-@hdmi.target.wants:
+-rw-r--r--    1 root     root          1979 Apr  5  2011 weston.service
+
+/etc/systemd/system/default.target.wants:
+-rw-r--r--    1 root     root           177 Sep 22  2025 appled.service
+-rw-r--r--    1 root     root           216 Sep 28  2022 c4gpio.service
+-rw-r--r--    1 root     root           233 Apr  5  2011 flatpak-change.path
+-rw-r--r--    1 root     root           327 Apr  5  2011 flatpak-change.service
+-rw-r--r--    1 root     root          1517 Oct  1  2024 netusbserver.service
+-rwxr-xr-x    1 root     root           298 Dec 31  2015 ntpclient-wrapper.service
+
+/etc/systemd/system/getty.target.wants:
+-rw-r--r--    1 root     root          2002 Mar  3  2023 getty@tty1.service
+-rw-r--r--    1 root     root          1331 Apr  5  2011 serial-getty@ttymxc0.service
+
+/etc/systemd/system/halt.target.wants:
+-rw-r--r--    1 root     root           253 Apr  5  2011 pre-shutdown.service
+
+/etc/systemd/system/local-fs.target.wants:
+-rw-r--r--    1 root     root          1481 Mar 22  2023 ostree-remount.service
+-rw-r--r--    1 root     root           459 Apr  5  2011 var-volatile-cache.service
+-rw-r--r--    1 root     root           503 Apr  5  2011 var-volatile-lib.service
+-rw-r--r--    1 root     root           459 Apr  5  2011 var-volatile-spool.service
+-rw-r--r--    1 root     root           423 Apr  5  2011 var-volatile-srv.service
+
+/etc/systemd/system/multi-user.target.wants:
+-rw-r--r--    1 root     root           220 Sep  7  2022 atftpd.service
+-rw-r--r--    1 root     root           144 Jul 11  2025 audio3drm-flatpak-change.path
+-rw-r--r--    1 root     root           169 Jul 11  2025 audio3drm-flatpak-change.service
+-rw-r--r--    1 root     root           264 Aug 11  2025 c4led.service
+-rw-r--r--    1 root     root           358 Sep 11  2025 c4server.service
+-r-xr-x---    1 root     root           244 Apr  5  2011 check_client_pem.service
+-rw-r--r--    1 root     root           226 Apr 25  2022 crond.service
+-rw-r--r--    1 root     root           188 Aug 27  2025 director-init-script.service
+-rw-r--r--    1 root     root           138 Apr  5  2011 gpuconfig.service
+-rw-r--r--    1 root     root           343 Aug  5  2025 health-microservice.service
+-rw-r--r--    1 root     root          2128 Sep 15  2025 ioserver.service
+-rw-r--r--    1 root     root           203 Sep 17  2025 keygen.service
+-rw-r--r--    1 root     root           348 Jul  3  2025 login-auditd.service
+-rw-r--r--    1 root     root           293 Nov 19  2024 mdns.service
+-rw-r--r--    1 root     root           813 Jan 24  2023 networking.service
+-rw-r--r--    1 root     root           485 Jun 23  2020 ntpd.service
+-rw-r--r--    1 root     root           205 Jun 23  2020 ntpdate.service
+-rw-r--r--    1 root     root           981 Mar 22  2023 ostree-finalize-staged.path
+-rw-r--r--    1 root     root           190 Apr  5  2011 post-startup.service
+-rw-r--r--    1 root     root           220 Oct 29  2021 psplash-quit.service
+-rw-r--r--    1 root     root           530 Mar  3  2023 remote-fs.target
+-rw-r--r--    1 root     root           162 Apr 24  2025 resetcheck.service
+-rw-r--r--    1 root     root           176 Aug  6  2025 sddpd_conf.service
+-rw-r--r--    1 root     root           296 Apr  5  2011 set-default-net-interface.service
+-rw-r--r--    1 root     root           172 Sep 28  2022 sethostname.service
+-rw-r--r--    1 root     root           449 Sep 17  2025 sysman.service
+-rw-r--r--    1 root     root          2330 Mar  3  2023 systemd-networkd.service
+-rw-r--r--    1 root     root          1819 Mar  3  2023 systemd-resolved.service
+-rw-r--r--    1 root     root           144 Aug  1  2024 upload-flatpak-list.path
+-rw-r--r--    1 root     root           336 May 12 10:39 upmand.service
+-rw-rw-r--    1 root     root           425 Aug  7  2024 zg.service
+-rw-r--r--    1 root     root           245 Apr  5  2011 zram.service
+
+/etc/systemd/system/network-online.target.wants:
+-rw-r--r--    1 root     root           813 Jan 24  2023 networking.service
+-rw-r--r--    1 root     root           785 Mar  3  2023 systemd-networkd-wait-online.service
+
+/etc/systemd/system/network.target.wants:
+-rw-r--r--    1 root     root           253 Oct 29  2021 psplash-network.service
+
+/etc/systemd/system/reboot.target.wants:
+-rw-r--r--    1 root     root           253 Apr  5  2011 pre-shutdown.service
+
+/etc/systemd/system/shutdown.target.wants:
+-rw-r--r--    1 root     root           253 Apr  5  2011 pre-shutdown.service
+
+/etc/systemd/system/sockets.target.wants:
+-rw-r--r--    1 root     root           202 Mar 11  2024 sshd.socket
+-rw-r--r--    1 root     root           682 Mar  3  2023 systemd-networkd.socket
+-rw-r--r--    1 root     root           691 Mar  3  2023 systemd-userdbd.socket
+-rw-r--r--    1 root     root           201 Apr  5  2011 weston.socket
+
+/etc/systemd/system/sysinit.target.wants:
+-rw-r--r--    1 root     root           570 Oct 29  2021 psplash-start.service
+-rw-r--r--    1 root     root           386 Oct 29  2021 psplash-systemd.service
+
+/etc/systemd/system/systemd-random-seed.service.wants:
+-rw-r--r--    1 root     root           503 Apr  5  2011 var-volatile-lib.service
+
+/etc/systemd/system/timers.target.wants:
+-rw-r--r--    1 root     root           192 Dec 13  2022 logrotate.timer
+-rw-r--r--    1 root     root           112 Aug  1  2024 upload-core-metrics.timer
+-rw-r--r--    1 root     root           105 Aug  1  2024 upload-flatpak-list.timer
+-rw-r--r--    1 root     root           105 Aug  1  2024 upload-kernel-logs.timer
+-rw-r--r--    1 root     root           103 Aug  1  2024 upload-mmc-health.timer
+-rw-r--r--    1 root     root           107 Aug  1  2024 upload-storage-usage.timer
+
+/etc/systemd/user:
+
+/etc/terminfo:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 a
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 l
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 r
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 s
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 v
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 x
+
+/etc/terminfo/a:
+-rw-r--r--    1 root     root          1481 Dec 31  2022 ansi
+
+/etc/terminfo/d:
+-rw-r--r--    1 root     root           308 Dec 31  2022 dumb
+
+/etc/terminfo/l:
+-rw-r--r--    1 root     root          1740 Dec 31  2022 linux
+
+/etc/terminfo/r:
+-rw-r--r--    1 root     root          2234 Dec 31  2022 rxvt
+
+/etc/terminfo/s:
+-rw-r--r--    1 root     root          1607 Dec 31  2022 screen
+-rw-r--r--    1 root     root          1715 Dec 31  2022 screen-256color
+-rw-r--r--    1 root     root          1004 Dec 31  2022 sun
+
+/etc/terminfo/v:
+-rw-r--r--    1 root     root          1282 Dec 31  2022 vt100
+-rw-r--r--    1 root     root          1276 Dec 31  2022 vt102
+-rw-r--r--    2 root     root          1391 Dec 31  2022 vt200
+-rw-r--r--    2 root     root          1391 Dec 31  2022 vt220
+-rw-r--r--    1 root     root           839 Dec 31  2022 vt52
+
+/etc/terminfo/x:
+-rw-r--r--    1 root     root          1551 Dec 31  2022 xterm
+-rw-r--r--    1 root     root          3882 Dec 31  2022 xterm-256color
+-rw-r--r--    1 root     root          1551 Dec 31  2022 xterm-color
+-rw-r--r--    1 root     root          2240 Dec 31  2022 xterm-xfree86
+
+/etc/tmpfiles.d:
+-rw-r--r--    1 root     root           250 Mar  3  2023 00-create-volatile.conf
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 etc.conf
+crw-rw-rw-    1 root     root        1,   3 Feb 17 09:36 home.conf
+-rw-r--r--    1 root     root            55 Apr 10  2023 nginx.conf
+-rw-r--r--    1 root     root            66 Mar 29  2023 samba.conf
+-rw-r--r--    1 root     root           244 Dec 21  2022 syslog-ng.conf
+-rw-r--r--    1 root     root           764 Apr  5  2011 tmp.conf
+
+/etc/udev:
+-r--r--r--    1 root     root      10091891 Feb 11 13:48 hwdb.bin
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 hwdb.d
+drwxr-xr-x    2 root     root          4096 Feb 11 13:45 rules.d
+-rw-r--r--    1 root     root           305 Mar  3  2023 udev.conf
+
+/etc/udev/hwdb.d:
+
+/etc/udev/rules.d:
+-rw-r--r--    1 root     root          1449 Apr  5  2011 10-imx.rules
+-rw-r--r--    1 root     root           222 Oct  1  2024 30-block-udev.rules
+-rw-r--r--    1 root     root        144815 Jul  2  2022 40-libgphoto2.rules
+-rw-r--r--    1 root     root           402 Apr  5  2011 70-persistent-net.rules
+-rw-r--r--    1 root     root            76 Sep 15  2025 72-ioserver.rules
+-rw-r--r--    1 root     root           814 Apr  5  2011 80-drivers.rules
+-rw-r--r--    1 root     root           768 May  2  2025 80-zwave.rules
+-rw-r--r--    1 root     root            28 Jan  4  2019 99-fuse.rules
+-rw-r--r--    1 root     root           324 Jul  4  2025 99-uic-leds.rules
+-rw-r--r--    1 root     root          1682 Oct  1  2024 check_root_dev
+-rwxr-xr-x    1 root     root          6873 Oct  1  2024 disk_automount.sh
+-rwxr-xr-x    1 root     root           364 Sep 15  2025 hdmi_events.sh
+-rwxr-xr-x    1 root     root           350 Apr  5  2011 netswitch-cfg.sh
+-rw-r--r--    1 root     root           994 Mar  3  2023 touchscreen.rules
+-rwxr-xr-x    1 root     root           586 Oct  1  2024 usb_auto.sh
+-rwxr-xr-x    1 root     root           163 May  2  2025 zwave_script.sh
+
+/etc/uic:
+drwx------    2 root     root          4096 Apr 25  2025 metric
+drwxr-xr-x    2 root     root          4096 Feb 11 13:51 uic-mqtt-conf.d
+-rw-r--r--    1 root     root         39591 Feb 17 09:36 uic-mqtt.conf
+-rw-r--r--    1 root     root           765 May 22 13:47 uic.cfg
+-rw-r-----    1 uic      uic           1001 May 22 13:47 zpc.cfg
+-rw-r--r--    1 root     root           206 Mar  9  2018 zpc.cfg.inc
+-rw-r--r--    1 root     root           206 Feb 11 13:43 zpc.cfg.inc.dpkg-old
+
+/etc/uic/metric:
+-rw-------    1 root     root            16 Jul 11 10:10 device-info
+
+/etc/uic/uic-mqtt-conf.d:
+-rw-r--r--    1 root     root            37 Mar  9  2018 custom.conf
+
+/etc/wpa_supplicant:
+-rwxr-xr-x    1 root     root         22709 Jan 16  2022 functions.sh
+-rwxr-xr-x    1 root     root          3128 Jan 16  2022 ifupdown.sh
+
+/etc/xdg:
+drwxr-xr-x    2 root     root          4096 Feb 11 13:41 autostart
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 systemd
+drwxr-xr-x    2 root     root          4096 Feb 11 13:50 weston
+
+/etc/xdg/autostart:
+-rw-r--r--    1 root     root           296 Sep 17  2022 at-spi-dbus-bus.desktop
+
+/etc/xdg/systemd:
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 user
+
+/etc/xdg/systemd/user:
+
+/etc/xdg/weston:
+-rw-r--r--    1 root     root         39545 Apr  5  2011 branded_wallpaper.png
+-rw-------    1 root     root           231 Jan  3  2026 weston.ini
+
+/etc/zg:
+-rw-rw-r--    1 root     root           380 Aug  7  2024 zg.cfg
+
+/etc/zwaved:
+-rw-r--r--    1 root     root         12035 May  2  2025 manufacturers
+-rw-r--r--    1 root     root           373 Mar  9  2018 zwave.conf
+-rw-r--r--    1 root     root           124 Mar  9  2018 zwaveclirc

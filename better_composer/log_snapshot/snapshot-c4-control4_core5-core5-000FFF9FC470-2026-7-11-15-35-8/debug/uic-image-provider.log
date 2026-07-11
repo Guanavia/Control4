@@ -1,0 +1,10 @@
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT read: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT write: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:48:22.416 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform 'misc.' MQTT activities: SL_STATUS_FAIL (Generic error.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT read: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform an MQTT write: SL_STATUS_NET_MQTT_NO_CONN (Not connected to a broker.)
+2026-02-11 13:49:22.885 -0600 core5-000FFF9FC470 [1835] ERR: [mqtt_client] Unable to perform 'misc.' MQTT activities: SL_STATUS_FAIL (Generic error.)
+2026-02-11 13:51:19.104 -0600 core5-000FFF9FC470 [2031340] ERR: [process.c] Process Unify MQTT Client took 1349 ms to execute event 6.
+2026-02-11 13:51:22.124 -0600 core5-000FFF9FC470 [2031340] ERR: [process.c] Process Unify MQTT Client took 361 ms to execute event 136.
+2026-02-17 09:36:51.239 -0600 core5-000FFF9FC470 [1820] ERR: [process.c] Process Unify MQTT Client took 2442 ms to execute event 6.
+2026-02-17 09:36:56.844 -0600 core5-000FFF9FC470 [1820] ERR: [process.c] Process Unify MQTT Client took 667 ms to execute event 136.

@@ -1,0 +1,114 @@
+
+Log started: 2026-02-11  13:52:28
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 32823 files and directories currently installed.)
+Removing avahi-daemon (0.8-r3.42) ...
+Removing avahi-locale-en-gb (0.8-r3.42) ...
+Removing libavahi-client3 (0.8-r3.42) ...
+Removing libavahi-core7 (0.8-r3.42) ...
+Removing libavahi-common3 (0.8-r3.42) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 32791 files and directories currently installed.)
+Purging configuration files for avahi-daemon (0.8-r3.42) ...
+Log ended: 2026-02-11  13:52:31
+
+Log started: 2026-02-11  14:10:49
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 32789 files and directories currently installed.)
+Preparing to unpack .../c4-node-mods_1%3a4.1.0-2026.01.12.18.48-r0_arm64.deb ...
+Unpacking c4-node-mods (1:4.1.0-2026.01.12.18.48-r0) over (1:4.1.0-2025.07.30.19.31-r2.1) ...
+Preparing to unpack .../c4-component-broker_4.1.0.100025-r0_all.deb ...
+Unpacking c4-component-broker (4.1.0.100025-r0) over (4.1.0.100000-r0.1001) ...
+Setting up c4-node-mods (1:4.1.0-2026.01.12.18.48-r0) ...
+/var/lib/dpkg/info/c4-node-mods.postinst: line 9: sysman: command not found
+Setting up c4-component-broker (4.1.0.100025-r0) ...
+Log ended: 2026-02-11  14:10:55
+
+Log started: 2026-03-06  02:11:06
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 32824 files and directories currently installed.)
+Preparing to unpack .../c4-node-mods_1%3a4.1.0-2026.02.24.22.30-r0_arm64.deb ...
+Unpacking c4-node-mods (1:4.1.0-2026.02.24.22.30-r0) over (1:4.1.0-2026.01.12.18.48-r0) ...
+Preparing to unpack .../c4-component-broker_4.1.0.100028-r0_all.deb ...
+Unpacking c4-component-broker (4.1.0.100028-r0) over (4.1.0.100025-r0) ...
+Setting up c4-node-mods (1:4.1.0-2026.02.24.22.30-r0) ...
+/var/lib/dpkg/info/c4-node-mods.postinst: line 9: sysman: command not found
+Setting up c4-component-broker (4.1.0.100028-r0) ...
+Log ended: 2026-03-06  02:11:11
+
+Log started: 2026-05-22  02:11:10
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29418 files and directories currently installed.)
+Preparing to unpack .../upmand_1%3a4.1.0-2026.05.12.15.36-r0_arm64.deb ...
+Unpacking upmand (1:4.1.0-2026.05.12.15.36-r0) over (1:4.1.0-2025.08.25.22.07-r0.2) ...
+Preparing to unpack .../c4-component-upmand_4.1.0.100014-r0_all.deb ...
+Unpacking c4-component-upmand (4.1.0.100014-r0) over (4.1.0.100012-r0.0) ...
+Setting up upmand (1:4.1.0-2026.05.12.15.36-r0) ...
+Setting up c4-component-upmand (4.1.0.100014-r0) ...
+Log ended: 2026-05-22  02:11:14
+
+Log started: 2026-06-19  02:11:29
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29419 files and directories currently installed.)
+Preparing to unpack .../control4-osd_2%3a4.1.0.26.21.1779716229-r0_arm64.deb ...
+Unpacking control4-osd (2:4.1.0.26.21.1779716229-r0) over (2:4.1.0.25.21.1748442880-r3.4) ...
+Preparing to unpack .../c4-component-control4-osd_4.1.0.26.21.1779716229-r0_arm64.deb ...
+Unpacking c4-component-control4-osd (4.1.0.26.21.1779716229-r0) over (3.3.0.100000-r3.1019) ...
+Setting up control4-osd (2:4.1.0.26.21.1779716229-r0) ...
+Disabled control4-osd
+OK
+Looking for matches?
+
+com.control4.control4-osd permissions:
+    network              fallback-x11      session-bus      system-bus
+    wayland              devices           dri              file access [1]
+    dbus access [2]
+
+    [1] /etc, /opt/control4, /run/wayland-0, /var/control4-osd
+    [2] org.freedesktop.login1, org.freedesktop.portal.Camera,
+        org.freedesktop.portal.Device
+
+
+[1m        ID                        Branch      Op Remote           Download[22m
+ 1.     com.control4.PlatformOSD  qt6.5.8-lts i  osd-local-remote < 667.8?MB
+ 2.     com.control4.control4-osd qt6.5.8-lts i  osd-local-remote  < 29.0?MB
+
+
+[?25l[6n[6n[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%[6nInstalling 1/2? [2m [22m                      0%[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6nInstalling 1/2? [2m [22m                      0%  0 bytes/s[6n[6n[6nInstalling 2/2? [2m [22m                      0%  0 bytes/s[6nInstalling 2/2? [2m [22m                      0%[6nInstalling 2/2? [2m [22m                      0%[6n[?25h[6n
+Enabled control4-osd
+OK
+Setting up c4-component-control4-osd (4.1.0.26.21.1779716229-r0) ...
+Log ended: 2026-06-19  02:12:43
+
+Log started: 2026-06-23  17:41:12
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29422 files and directories currently installed.)
+Preparing to unpack .../update-restrictions_4.1.0-2026.03.27.23.07-r0_arm64.deb ...
+Unpacking update-restrictions (4.1.0-2026.03.27.23.07-r0) over (4.1.0-2025.08.14.15.37-r0.3) ...
+Preparing to unpack .../c4-component-update-restrictions_4.1.0.100017-r0_all.deb ...
+Unpacking c4-component-update-restrictions (4.1.0.100017-r0) over (4.1.0.100016-r0.0) ...
+Setting up update-restrictions (4.1.0-2026.03.27.23.07-r0) ...
+Setting up c4-component-update-restrictions (4.1.0.100017-r0) ...
+Log ended: 2026-06-23  17:41:12
+
+Log started: 2026-06-26  02:11:26
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29423 files and directories currently installed.)
+Preparing to unpack .../control4-osd_2%3a4.1.0.26.23.1780929556-r0_arm64.deb ...
+Unpacking control4-osd (2:4.1.0.26.23.1780929556-r0) over (2:4.1.0.26.21.1779716229-r0) ...
+Preparing to unpack .../c4-component-control4-osd_4.1.0.26.23.1780929556-r0_arm64.deb ...
+Unpacking c4-component-control4-osd (4.1.0.26.23.1780929556-r0) over (4.1.0.26.21.1779716229-r0) ...
+Setting up control4-osd (2:4.1.0.26.23.1780929556-r0) ...
+Disabled control4-osd
+OK
+Looking for matches?
+
+
+[1m        ID                        Branch      Op Remote           Download[22m
+ 1.     com.control4.control4-osd qt6.5.8-lts u  osd-local-remote < 29.0?MB
+
+
+[?25l[6n[6n[6nUpdating? [2m [22m                      0%  0 bytes/s[6nUpdating? [2m [22m                      0%[6nUpdating? [2m [22m                      0%[6n[?25h[6n
+Enabled control4-osd
+OK
+Setting up c4-component-control4-osd (4.1.0.26.23.1780929556-r0) ...
+Log ended: 2026-06-26  02:11:59
+
+Log started: 2026-07-11  07:45:20
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29423 files and directories currently installed.)
+Preparing to unpack .../hid-middleware-l10n_1.80.1-2503200814-3.4.0-1.0_all.deb ...
+Unpacking hid-middleware-l10n (1.80.1-2503200814-3.4.0-1.0) over (1.80.1-2409101002-4.0.0-r0.1000) ...
+Setting up hid-middleware-l10n (1.80.1-2503200814-3.4.0-1.0) ...
+Log ended: 2026-07-11  07:45:21

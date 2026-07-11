@@ -1,0 +1,17 @@
+#-------------------[ /usr/bin/flatpak list --all --show-details ] -----------------------#
+
+Platform	Control4 Runtime	com.control4.Platform	v4.1.7	honister	aarch64	onehub	system	com.control4.Platform/aarch64/honister	fb21edfbe7e7	-	712.3 MB	system,runtime
+Gstreamer Widevine Support	A gstreamer plugin that supports widevine.	com.control4.Platform.GStreamer.widevine	v4.1.6	honister	aarch64	onehub	system	com.control4.Platform.GStreamer.widevine/aarch64/honister	14931fb75859	-	6.3 MB	system,runtime
+PlatformOSD		com.control4.PlatformOSD		qt6.5.8-lts	aarch64	osd-local-remote	system	com.control4.PlatformOSD/aarch64/qt6.5.8-lts	2f735a89ba40	?	1.5 GB	system,runtime
+audio3drm	Control4 Audio3 DRM Service	com.control4.audio3drm	v4.1.19	master	aarch64	onehub	system	com.control4.audio3drm/aarch64/master	858fc98bc25d	-	35.4 MB	system,current
+control4-osd		com.control4.control4-osd		qt6.5.8-lts	aarch64	osd-local-remote	system	com.control4.control4-osd/aarch64/qt6.5.8-lts	f1913b9d15f6	?	50.7 MB	system,current
+#-------------------[ /usr/bin/flatpak history ] -----------------------#
+
+
+#-------------------[ /usr/bin/flatpak remotes --show-details ] -----------------------#
+
+control4-runtime_origin	-	https://onehub.snapone.com/flatpak	-	-	-	1	system,no-gpg-verify	-	-	-	-
+onehub	-	https://onehub.snapone.com/flatpak/	-	-	-	1	system,no-gpg-verify	-	-	-	-
+#-------------------[ /usr/bin/flatpak permissions ] -----------------------#
+
+

@@ -1,0 +1,349 @@
+#-------------------[ systemctl --all -l ] -----------------------#
+
+  UNIT                                                                                                              LOAD      ACTIVE   SUB       DESCRIPTION
+  dev-disk-by\x2ddiskseq-10.device                                                                                  loaded    active   plugged   /dev/disk/by-diskseq/10
+  dev-disk-by\x2ddiskseq-10\x2dpart1.device                                                                         loaded    active   plugged   /dev/disk/by-diskseq/10-part1
+  dev-disk-by\x2ddiskseq-10\x2dpart2.device                                                                         loaded    active   plugged   /dev/disk/by-diskseq/10-part2
+  dev-disk-by\x2ddiskseq-10\x2dpart3.device                                                                         loaded    active   plugged   /dev/disk/by-diskseq/10-part3
+  dev-disk-by\x2ddiskseq-11.device                                                                                  loaded    active   plugged   /dev/disk/by-diskseq/11
+  dev-disk-by\x2ddiskseq-12.device                                                                                  loaded    active   plugged   /dev/disk/by-diskseq/12
+  dev-disk-by\x2did-mmc\x2dDA6032_0x58518935.device                                                                 loaded    active   plugged   /dev/disk/by-id/mmc-DA6032_0x58518935
+  dev-disk-by\x2did-mmc\x2dDA6032_0x58518935\x2dpart1.device                                                        loaded    active   plugged   /dev/disk/by-id/mmc-DA6032_0x58518935-part1
+  dev-disk-by\x2did-mmc\x2dDA6032_0x58518935\x2dpart2.device                                                        loaded    active   plugged   /dev/disk/by-id/mmc-DA6032_0x58518935-part2
+  dev-disk-by\x2did-mmc\x2dDA6032_0x58518935\x2dpart3.device                                                        loaded    active   plugged   /dev/disk/by-id/mmc-DA6032_0x58518935-part3
+  dev-disk-by\x2dlabel-boot.device                                                                                  loaded    active   plugged   /dev/disk/by-label/boot
+  dev-disk-by\x2dlabel-recovery.device                                                                              loaded    active   plugged   /dev/disk/by-label/recovery
+  dev-disk-by\x2dlabel-root.device                                                                                  loaded    active   plugged   /dev/disk/by-label/root
+  dev-disk-by\x2dpartuuid-fb051dc3\x2d01.device                                                                     loaded    active   plugged   /dev/disk/by-partuuid/fb051dc3-01
+  dev-disk-by\x2dpartuuid-fb051dc3\x2d02.device                                                                     loaded    active   plugged   /dev/disk/by-partuuid/fb051dc3-02
+  dev-disk-by\x2dpartuuid-fb051dc3\x2d03.device                                                                     loaded    active   plugged   /dev/disk/by-partuuid/fb051dc3-03
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc.device                                                               loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc\x2dboot0.device                                                      loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc-boot0
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc\x2dboot1.device                                                      loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc-boot1
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc\x2dpart1.device                                                      loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc-part1
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc\x2dpart2.device                                                      loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc-part2
+  dev-disk-by\x2dpath-platform\x2d30b40000.mmc\x2dpart3.device                                                      loaded    active   plugged   /dev/disk/by-path/platform-30b40000.mmc-part3
+  dev-disk-by\x2duuid-414af75f\x2da343\x2d4888\x2d9e83\x2d76f06ffff55f.device                                       loaded    active   plugged   /dev/disk/by-uuid/414af75f-a343-4888-9e83-76f06ffff55f
+  dev-disk-by\x2duuid-50e09de7\x2d6768\x2d474f\x2d942f\x2d20cfa62d1606.device                                       loaded    active   plugged   /dev/disk/by-uuid/50e09de7-6768-474f-942f-20cfa62d1606
+  dev-disk-by\x2duuid-E486\x2dB444.device                                                                           loaded    active   plugged   /dev/disk/by-uuid/E486-B444
+  dev-mmcblk0.device                                                                                                loaded    active   plugged   /dev/mmcblk0
+  dev-mmcblk0boot0.device                                                                                           loaded    active   plugged   /dev/mmcblk0boot0
+  dev-mmcblk0boot1.device                                                                                           loaded    active   plugged   /dev/mmcblk0boot1
+  dev-mmcblk0p1.device                                                                                              loaded    active   plugged   /dev/mmcblk0p1
+  dev-mmcblk0p2.device                                                                                              loaded    active   plugged   /dev/mmcblk0p2
+  dev-mmcblk0p3.device                                                                                              loaded    active   plugged   /dev/mmcblk0p3
+  dev-snd-by\x2dpath-platform\x2dsnd_aloop.0.device                                                                 loaded    active   plugged   /dev/snd/by-path/platform-snd_aloop.0
+  dev-snd-by\x2dpath-platform\x2dsound\x2dadau1466.device                                                           loaded    active   plugged   /dev/snd/by-path/platform-sound-adau1466
+  dev-snd-by\x2dpath-platform\x2dsound\x2dhdmi.device                                                               loaded    active   plugged   /dev/snd/by-path/platform-sound-hdmi
+  dev-snd-controlC0.device                                                                                          loaded    active   plugged   /dev/snd/controlC0
+  dev-snd-controlC1.device                                                                                          loaded    active   plugged   /dev/snd/controlC1
+  dev-snd-controlC6.device                                                                                          loaded    active   plugged   /dev/snd/controlC6
+  dev-ttymxc0.device                                                                                                loaded    active   plugged   /dev/ttymxc0
+  dev-ttymxc1.device                                                                                                loaded    active   plugged   /dev/ttymxc1
+  dev-ttymxc2.device                                                                                                loaded    active   plugged   /dev/ttymxc2
+  dev-ttymxc3.device                                                                                                loaded    active   plugged   /dev/ttymxc3
+  dev-ttyp0.device                                                                                                  loaded    active   plugged   /dev/ttyp0
+  dev-ttyp1.device                                                                                                  loaded    active   plugged   /dev/ttyp1
+  dev-ttyp2.device                                                                                                  loaded    active   plugged   /dev/ttyp2
+  dev-ttyp3.device                                                                                                  loaded    active   plugged   /dev/ttyp3
+  dev-ttyp4.device                                                                                                  loaded    active   plugged   /dev/ttyp4
+  dev-ttyp5.device                                                                                                  loaded    active   plugged   /dev/ttyp5
+  dev-ttyp6.device                                                                                                  loaded    active   plugged   /dev/ttyp6
+  dev-ttyp7.device                                                                                                  loaded    active   plugged   /dev/ttyp7
+  dev-ttyp8.device                                                                                                  loaded    active   plugged   /dev/ttyp8
+  dev-ttyp9.device                                                                                                  loaded    active   plugged   /dev/ttyp9
+  dev-ttypa.device                                                                                                  loaded    active   plugged   /dev/ttypa
+  dev-ttypb.device                                                                                                  loaded    active   plugged   /dev/ttypb
+  dev-ttypc.device                                                                                                  loaded    active   plugged   /dev/ttypc
+  dev-ttypd.device                                                                                                  loaded    active   plugged   /dev/ttypd
+  dev-ttype.device                                                                                                  loaded    active   plugged   /dev/ttype
+  dev-ttypf.device                                                                                                  loaded    active   plugged   /dev/ttypf
+  dev-ttyRPMSG30.device                                                                                             loaded    active   plugged   /dev/ttyRPMSG30
+  dev-ttyRPMSG40.device                                                                                             loaded    active   plugged   /dev/ttyRPMSG40
+  dev-ttyRPMSG80.device                                                                                             loaded    active   plugged   /dev/ttyRPMSG80
+  dev-ttyRPMSG90.device                                                                                             loaded    active   plugged   /dev/ttyRPMSG90
+  dev-ttySC0.device                                                                                                 loaded    active   plugged   /dev/ttySC0
+  dev-ttySC1.device                                                                                                 loaded    active   plugged   /dev/ttySC1
+  dev-zram0.device                                                                                                  loaded    active   plugged   /dev/zram0
+  sys-devices-platform-boardinfo.device                                                                             loaded    active   plugged   /sys/devices/platform/boardinfo
+  sys-devices-platform-snd_aloop.0-sound-card6-controlC6.device                                                     loaded    active   plugged   /sys/devices/platform/snd_aloop.0/sound/card6/controlC6
+  sys-devices-platform-soc\x400-30800000.bus-30830000.spi-spi_master-spi1-spi1.0-tty-ttySC0.device                  loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30830000.spi/spi_master/spi1/spi1.0/tty/ttySC0
+  sys-devices-platform-soc\x400-30800000.bus-30830000.spi-spi_master-spi1-spi1.0-tty-ttySC1.device                  loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30830000.spi/spi_master/spi1/spi1.0/tty/ttySC1
+  sys-devices-platform-soc\x400-30800000.bus-30860000.serial-tty-ttymxc0.device                                     loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30860000.serial/tty/ttymxc0
+  sys-devices-platform-soc\x400-30800000.bus-30880000.serial-tty-ttymxc2.device                                     loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30880000.serial/tty/ttymxc2
+  sys-devices-platform-soc\x400-30800000.bus-30890000.serial-tty-ttymxc1.device                                     loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30890000.serial/tty/ttymxc1
+  sys-devices-platform-soc\x400-30800000.bus-30a60000.serial-tty-ttymxc3.device                                     loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30a60000.serial/tty/ttymxc3
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0-mmcblk0boot0.device loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0boot0
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0-mmcblk0boot1.device loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0boot1
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0-mmcblk0p1.device    loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p1
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0-mmcblk0p2.device    loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p2
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0-mmcblk0p3.device    loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p3
+  sys-devices-platform-soc\x400-30800000.bus-30b40000.mmc-mmc_host-mmc0-mmc0:0001-block-mmcblk0.device              loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30b40000.mmc/mmc_host/mmc0/mmc0:0001/block/mmcblk0
+  sys-devices-platform-soc\x400-30800000.bus-30be0000.ethernet-net-eth0.device                                      loaded    active   plugged   /sys/devices/platform/soc@0/30800000.bus/30be0000.ethernet/net/eth0
+  sys-devices-platform-sound\x2dadau1466-sound-card1-controlC1.device                                               loaded    active   plugged   /sys/devices/platform/sound-adau1466/sound/card1/controlC1
+  sys-devices-platform-sound\x2dhdmi-sound-card0-controlC0.device                                                   loaded    active   plugged   /sys/devices/platform/sound-hdmi/sound/card0/controlC0
+  sys-devices-virtual-block-zram0.device                                                                            loaded    active   plugged   /sys/devices/virtual/block/zram0
+  sys-devices-virtual-misc-rfkill.device                                                                            loaded    inactive dead      /sys/devices/virtual/misc/rfkill
+  sys-devices-virtual-tty-ttyp0.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp0
+  sys-devices-virtual-tty-ttyp1.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp1
+  sys-devices-virtual-tty-ttyp2.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp2
+  sys-devices-virtual-tty-ttyp3.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp3
+  sys-devices-virtual-tty-ttyp4.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp4
+  sys-devices-virtual-tty-ttyp5.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp5
+  sys-devices-virtual-tty-ttyp6.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp6
+  sys-devices-virtual-tty-ttyp7.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp7
+  sys-devices-virtual-tty-ttyp8.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp8
+  sys-devices-virtual-tty-ttyp9.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttyp9
+  sys-devices-virtual-tty-ttypa.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttypa
+  sys-devices-virtual-tty-ttypb.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttypb
+  sys-devices-virtual-tty-ttypc.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttypc
+  sys-devices-virtual-tty-ttypd.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttypd
+  sys-devices-virtual-tty-ttype.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttype
+  sys-devices-virtual-tty-ttypf.device                                                                              loaded    active   plugged   /sys/devices/virtual/tty/ttypf
+  sys-devices-virtual-tty-ttyRPMSG30.device                                                                         loaded    active   plugged   /sys/devices/virtual/tty/ttyRPMSG30
+  sys-devices-virtual-tty-ttyRPMSG40.device                                                                         loaded    active   plugged   /sys/devices/virtual/tty/ttyRPMSG40
+  sys-devices-virtual-tty-ttyRPMSG80.device                                                                         loaded    active   plugged   /sys/devices/virtual/tty/ttyRPMSG80
+  sys-devices-virtual-tty-ttyRPMSG90.device                                                                         loaded    active   plugged   /sys/devices/virtual/tty/ttyRPMSG90
+  sys-module-configfs.device                                                                                        loaded    active   plugged   /sys/module/configfs
+  sys-subsystem-net-devices-eth0.device                                                                             loaded    active   plugged   /sys/subsystem/net/devices/eth0
+  -.mount                                                                                                           loaded    active   mounted   Root Mount
+  boot.mount                                                                                                        loaded    active   mounted   /boot
+  dev-hugepages.mount                                                                                               loaded    active   mounted   Huge Pages File System
+  dev-mqueue.mount                                                                                                  loaded    active   mounted   POSIX Message Queue File System
+● home.mount                                                                                                        not-found inactive dead      home.mount
+  media-net-000FFF9FB918\x2dcorelite_media.mount                                                                    loaded    active   mounted   /media/net/000FFF9FB918-corelite_media
+  run-credentials-systemd\x2dresolved.service.mount                                                                 loaded    active   mounted   /run/credentials/systemd-resolved.service
+  run-credentials-systemd\x2dsysctl.service.mount                                                                   loaded    active   mounted   /run/credentials/systemd-sysctl.service
+  run-credentials-systemd\x2dtmpfiles\x2dsetup.service.mount                                                        loaded    active   mounted   /run/credentials/systemd-tmpfiles-setup.service
+  run-credentials-systemd\x2dtmpfiles\x2dsetup\x2ddev.service.mount                                                 loaded    active   mounted   /run/credentials/systemd-tmpfiles-setup-dev.service
+  run-credentials-systemd\x2dvconsole\x2dsetup.service.mount                                                        loaded    active   mounted   /run/credentials/systemd-vconsole-setup.service
+  run-user-0.mount                                                                                                  loaded    active   mounted   /run/user/0
+  sys-fs-fuse-connections.mount                                                                                     loaded    inactive dead      FUSE Control File System
+  sys-kernel-config.mount                                                                                           loaded    active   mounted   Kernel Configuration File System
+  sys-kernel-debug.mount                                                                                            loaded    active   mounted   Kernel Debug File System
+  sys-kernel-tracing.mount                                                                                          loaded    inactive dead      Kernel Trace File System
+  tmp.mount                                                                                                         loaded    active   mounted   Temporary Directory /tmp
+  var-volatile.mount                                                                                                loaded    active   mounted   /var/volatile
+● var.mount                                                                                                         not-found inactive dead      var.mount
+  audio3drm-flatpak-change.path                                                                                     loaded    active   waiting   Watches for flatpak installation changes
+  flatpak-change.path                                                                                               loaded    active   waiting   Monitor flatpak for any change
+  ostree-finalize-staged.path                                                                                       loaded    active   waiting   OSTree Monitor Staged Deployment
+  systemd-ask-password-console.path                                                                                 loaded    active   waiting   Dispatch Password Requests to Console Directory Watch
+  systemd-ask-password-wall.path                                                                                    loaded    active   waiting   Forward Password Requests to Wall Directory Watch
+  upload-flatpak-list.path                                                                                          loaded    active   waiting   Watches for flatpak installation changes
+  init.scope                                                                                                        loaded    active   running   System and Service Manager
+  session-c1.scope                                                                                                  loaded    active   running   Session c1 of User root
+  session-c2.scope                                                                                                  loaded    active   running   Session c2 of User root
+  alsa-restore.service                                                                                              loaded    active   exited    Save/Restore Sound Card State
+  alsa-state.service                                                                                                loaded    inactive dead      Manage Sound Card State (restore and store)
+● apparmor.service                                                                                                  not-found inactive dead      apparmor.service
+  appled.service                                                                                                    loaded    active   running   Appled Homekit Bridge for Control4
+  atftpd.service                                                                                                    loaded    active   running   Advanced TFTP Server
+  audio3drm-flatpak-change.service                                                                                  loaded    inactive dead      watching changes to the audio3drm flatpak
+● auditd.service                                                                                                    not-found inactive dead      auditd.service
+  c4gpio.service                                                                                                    loaded    active   exited    Control4 GPIO Configuration
+  c4led.service                                                                                                     loaded    active   running   Control4 LED service
+● c4metricsd.service                                                                                                not-found inactive dead      c4metricsd.service
+  c4server.service                                                                                                  loaded    active   running   Control4 Button Server
+  check_client_pem.service                                                                                          loaded    inactive dead      Control4 Client Certificate Validation
+  crond.service                                                                                                     loaded    active   running   Periodic Command Scheduler
+  dbus.service                                                                                                      loaded    active   running   D-Bus System Message Bus
+  director-init-script.service                                                                                      loaded    inactive dead      Control4 Director Initialization Script
+● display-manager.service                                                                                           not-found inactive dead      display-manager.service
+  dlt-system.service                                                                                                loaded    active   running   GENIVI DLT system. Application to forward syslog messages to DLT, transfer system information, logs and files.
+  dlt.service                                                                                                       loaded    active   running   GENIVI DLT logging daemon
+  emergency.service                                                                                                 loaded    inactive dead      Emergency Shell
+  flatpak-change.service                                                                                            loaded    inactive dead      executes script when there is a flatpak change
+  getty@tty1.service                                                                                                loaded    active   running   Getty on tty1
+  gpuconfig.service                                                                                                 loaded    inactive dead      Configuration for i.MX GPU (Former rc_gpu.S)
+  health-microservice.service                                                                                       loaded    active   running   health-microservice
+  ifupdown-pre.service                                                                                              loaded    active   exited    Helper to synchronize boot up for ifupdown
+● init-volatile.service                                                                                             not-found inactive dead      init-volatile.service
+  initrd-cleanup.service                                                                                            loaded    inactive dead      Cleaning Up and Shutting Down Daemons
+  initrd-parse-etc.service                                                                                          loaded    inactive dead      Mountpoints Configured in the Real Root
+  initrd-switch-root.service                                                                                        loaded    inactive dead      Switch Root
+  initrd-udevadm-cleanup-db.service                                                                                 loaded    inactive dead      Cleanup udev Database
+  ioserver.service                                                                                                  loaded    active   running   Control4 I/O Management Server
+  keygen.service                                                                                                    loaded    inactive dead      Control4 Key Generation Script
+  kmod-static-nodes.service                                                                                         loaded    inactive dead      Create List of Static Device Nodes
+  ldconfig.service                                                                                                  loaded    inactive dead      Rebuild Dynamic Linker Cache
+  load_dsp.service                                                                                                  loaded    active   exited    Load DSP Firmware
+  login-auditd.service                                                                                              loaded    active   running   Log certificate login
+  logrotate.service                                                                                                 loaded    inactive dead      Rotate log files
+  mdns.service                                                                                                      loaded    active   running   Zero-configuration networking
+  modprobe@configfs.service                                                                                         loaded    inactive dead      Load Kernel Module configfs
+  modprobe@drm.service                                                                                              loaded    inactive dead      Load Kernel Module drm
+  modprobe@fuse.service                                                                                             loaded    inactive dead      Load Kernel Module fuse
+● mosquitto.service                                                                                                 not-found inactive dead      mosquitto.service
+  netusbserver.service                                                                                              loaded    active   running   Control4 Network/USB Mounting Server
+  networking.service                                                                                                loaded    active   exited    Raise network interfaces
+  notify-failure@c4server.service                                                                                   loaded    inactive dead      Report failure to health-microservice
+  notify-success@c4server.service                                                                                   loaded    inactive dead      Report green to health-microservice
+  ntpclient-wrapper.service                                                                                         loaded    inactive dead      NTP Client Initial Syncronization
+  ntpd.service                                                                                                      loaded    active   running   Network Time Service
+  ntpdate.service                                                                                                   loaded    active   exited    Network Time Service (one-shot ntpdate mode)
+  openvpn.service                                                                                                   loaded    active   exited    openvpn.service
+  ostree-finalize-staged-hold.service                                                                               loaded    inactive dead      Hold /boot Open for OSTree Finalize Staged Deployment
+  ostree-finalize-staged.service                                                                                    loaded    inactive dead      OSTree Finalize Staged Deployment
+  ostree-remount.service                                                                                            loaded    inactive dead      OSTree Remount OS/ Bind Mounts
+● plymouth-quit-wait.service                                                                                        not-found inactive dead      plymouth-quit-wait.service
+● plymouth-read-write.service                                                                                       not-found inactive dead      plymouth-read-write.service
+● plymouth-start.service                                                                                            not-found inactive dead      plymouth-start.service
+  post-startup.service                                                                                              loaded    inactive dead      Save reboot journal to persistent log
+  pre-shutdown.service                                                                                              loaded    inactive dead      Preserve shutdown journal
+  psplash-basic.service                                                                                             loaded    inactive dead      Updates psplash to basic
+  psplash-network.service                                                                                           loaded    inactive dead      Update psplash to network
+  psplash-quit.service                                                                                              loaded    inactive dead      Terminate Psplash Boot Screen
+  psplash-start.service                                                                                             loaded    inactive dead      Start Psplash Boot Screen
+  psplash-systemd.service                                                                                           loaded    inactive dead      Start psplash-systemd progress communication helper
+  rc-local.service                                                                                                  loaded    inactive dead      /etc/rc.local Compatibility
+  rescue.service                                                                                                    loaded    inactive dead      Rescue Shell
+  resetcheck.service                                                                                                loaded    inactive dead      Control4 Network Reset Check
+  sddpd_conf.service                                                                                                loaded    inactive dead      Control4 SDDPD Config Initialization Script
+  serial-getty@ttymxc0.service                                                                                      loaded    active   running   Serial Getty on ttymxc0
+  set-default-net-interface.service                                                                                 loaded    active   exited    Set Default Network Interfaces
+  sethostname.service                                                                                               loaded    inactive dead      Control4 Hostname Initialization
+  sshd.service                                                                                                      loaded    inactive dead      sshd.service
+  sshdgenkeys.service                                                                                               loaded    active   exited    OpenSSH Key Generation
+  stop-bootlogd.service                                                                                             loaded    active   exited    LSB: One of the first scripts to be executed. Starts or stops
+  syslog-ng@default.service                                                                                         loaded    active   running   System Logger Daemon "default" instance
+● syslog.service                                                                                                    not-found inactive dead      syslog.service
+  sysman.service                                                                                                    loaded    active   running   Control4 System Manager
+  systemd-ask-password-console.service                                                                              loaded    inactive dead      Dispatch Password Requests to Console
+  systemd-ask-password-wall.service                                                                                 loaded    inactive dead      Forward Password Requests to Wall
+  systemd-fsck-root.service                                                                                         loaded    inactive dead      File System Check on Root Device
+  systemd-halt.service                                                                                              loaded    inactive dead      System Halt
+  systemd-hwdb-update.service                                                                                       loaded    inactive dead      Rebuild Hardware Database
+  systemd-initctl.service                                                                                           loaded    inactive dead      initctl Compatibility Daemon
+  systemd-journal-catalog-update.service                                                                            loaded    inactive dead      Rebuild Journal Catalog
+  systemd-journal-flush.service                                                                                     loaded    active   exited    Flush Journal to Persistent Storage
+  systemd-journald.service                                                                                          loaded    active   running   Journal Service
+  systemd-logind.service                                                                                            loaded    active   running   User Login Management
+  systemd-machine-id-commit.service                                                                                 loaded    inactive dead      Commit a transient machine-id on disk
+  systemd-modules-load.service                                                                                      loaded    active   exited    Load Kernel Modules
+  systemd-networkd-wait-online.service                                                                              loaded    active   exited    Wait for Network to be Configured
+  systemd-networkd.service                                                                                          loaded    active   running   Network Configuration
+● systemd-pstore.service                                                                                            not-found inactive dead      systemd-pstore.service
+  systemd-random-seed.service                                                                                       loaded    active   exited    Load/Save OS Random Seed
+  systemd-reboot.service                                                                                            loaded    inactive dead      System Reboot
+  systemd-remount-fs.service                                                                                        loaded    active   exited    Remount Root and Kernel File Systems
+  systemd-resolved.service                                                                                          loaded    active   running   Network Name Resolution
+  systemd-rfkill.service                                                                                            loaded    inactive dead      Load/Save RF Kill Switch Status
+  systemd-sysctl.service                                                                                            loaded    active   exited    Apply Kernel Variables
+● systemd-sysusers.service                                                                                          masked    inactive dead      systemd-sysusers.service
+  systemd-tmpfiles-clean.service                                                                                    loaded    inactive dead      Cleanup of Temporary Directories
+  systemd-tmpfiles-setup-dev.service                                                                                loaded    active   exited    Create Static Device Nodes in /dev
+  systemd-tmpfiles-setup.service                                                                                    loaded    active   exited    Create Volatile Files and Directories
+  systemd-udev-settle.service                                                                                       loaded    inactive dead      Wait for udev To Complete Device Initialization
+  systemd-udev-trigger.service                                                                                      loaded    active   exited    Coldplug All udev Devices
+  systemd-udevd.service                                                                                             loaded    active   running   Rule-based Manager for Device Events and Files
+  systemd-update-done.service                                                                                       loaded    inactive dead      Update is Completed
+  systemd-update-utmp-runlevel.service                                                                              loaded    inactive dead      Record Runlevel Change in UTMP
+  systemd-update-utmp.service                                                                                       loaded    active   exited    Record System Boot/Shutdown in UTMP
+  systemd-user-sessions.service                                                                                     loaded    active   exited    Permit User Sessions
+  systemd-userdbd.service                                                                                           loaded    active   running   User Database Manager
+  systemd-vconsole-setup.service                                                                                    loaded    active   exited    Setup Virtual Console
+  upload-core-metrics.service                                                                                       loaded    inactive dead      Upload "Core Metrics" to the Data Lake
+  upload-flatpak-list.service                                                                                       loaded    inactive dead      Upload a flatpak list to the Data Lake
+  upload-kernel-logs.service                                                                                        loaded    inactive dead      Upload Kernel Logs to the Data Lake
+  upload-mmc-health.service                                                                                         loaded    inactive dead      Upload MMC Health to the Data Lake
+  upload-storage-usage.service                                                                                      loaded    inactive dead      Upload Storage Usage to the Data Lake
+  upmand.service                                                                                                    loaded    active   running   Control4 Update Manager
+  usb3-downgrade.service                                                                                            loaded    inactive dead      USB3 Downgrade
+  user-runtime-dir@0.service                                                                                        loaded    active   exited    User Runtime Directory /run/user/0
+  user@0.service                                                                                                    loaded    active   running   User Manager for UID 0
+  var-volatile-cache.service                                                                                        loaded    inactive dead      Bind mount volatile /var/cache
+  var-volatile-lib.service                                                                                          loaded    inactive dead      Bind mount volatile /var/lib
+  var-volatile-spool.service                                                                                        loaded    inactive dead      Bind mount volatile /var/spool
+  var-volatile-srv.service                                                                                          loaded    inactive dead      Bind mount volatile /srv
+  weston.service                                                                                                    loaded    active   running   Weston, a Wayland compositor, as a system service
+  zg.service                                                                                                        loaded    inactive dead      ZigBee Gateway
+  zgm130s.service                                                                                                   loaded    inactive dead      ZGM130S chip init
+  zram.service                                                                                                      loaded    active   exited    Swap with zram
+  -.slice                                                                                                           loaded    active   active    Root Slice
+  system-flatpak_change.slice                                                                                       loaded    active   active    systemd service Helper for Flatpak on Control4
+  system-getty.slice                                                                                                loaded    active   active    Slice /system/getty
+  system-modprobe.slice                                                                                             loaded    active   active    Slice /system/modprobe
+  system-notify\x2dfailure.slice                                                                                    loaded    inactive dead      Slice /system/notify-failure
+  system-notify\x2dsuccess.slice                                                                                    loaded    active   active    Slice /system/notify-success
+  system-serial\x2dgetty.slice                                                                                      loaded    active   active    Slice /system/serial-getty
+  system-syslog\x2dng.slice                                                                                         loaded    active   active    Slice /system/syslog-ng
+  system.slice                                                                                                      loaded    active   active    System Slice
+  user-0.slice                                                                                                      loaded    active   active    User Slice of UID 0
+  user.slice                                                                                                        loaded    active   active    User and Session Slice
+  dbus.socket                                                                                                       loaded    active   running   D-Bus System Message Bus Socket
+  sshd.socket                                                                                                       loaded    active   listening sshd.socket
+  syslog.socket                                                                                                     loaded    inactive dead      Syslog Socket
+  systemd-initctl.socket                                                                                            loaded    active   listening initctl Compatibility Named Pipe
+  systemd-journald-audit.socket                                                                                     loaded    inactive dead      Journal Audit Socket
+  systemd-journald-dev-log.socket                                                                                   loaded    active   running   Journal Socket (/dev/log)
+  systemd-journald.socket                                                                                           loaded    active   running   Journal Socket
+  systemd-networkd.socket                                                                                           loaded    active   running   Network Service Netlink Socket
+  systemd-rfkill.socket                                                                                             loaded    inactive dead      Load/Save RF Kill Switch Status /dev/rfkill Watch
+  systemd-udevd-control.socket                                                                                      loaded    active   running   udev Control Socket
+  systemd-udevd-kernel.socket                                                                                       loaded    active   running   udev Kernel Socket
+  systemd-userdbd.socket                                                                                            loaded    active   running   User Database Manager Socket
+  weston.socket                                                                                                     loaded    active   running   Weston socket
+  dev-zram0.swap                                                                                                    loaded    active   active    /dev/zram0
+  basic.target                                                                                                      loaded    active   active    Basic System
+  blockdev@dev-disk-by\x2dlabel-boot.target                                                                         loaded    inactive dead      Block Device Preparation for /dev/disk/by-label/boot
+  blockdev@dev-mmcblk0p1.target                                                                                     loaded    inactive dead      Block Device Preparation for /dev/mmcblk0p1
+  blockdev@dev-root.target                                                                                          loaded    inactive dead      Block Device Preparation for /dev/root
+  blockdev@dev-zram0.target                                                                                         loaded    inactive dead      Block Device Preparation for /dev/zram0
+  board-core5.target                                                                                                loaded    active   active    Core5 Board
+  class-@core.target                                                                                                loaded    active   active    core class
+  class-@dsp.target                                                                                                 loaded    active   active    dsp class
+  class-@hdmi.target                                                                                                loaded    active   active    hdmi class
+● cryptsetup.target                                                                                                 not-found inactive dead      cryptsetup.target
+  emergency.target                                                                                                  loaded    inactive dead      Emergency Mode
+  final.target                                                                                                      loaded    inactive dead      Late Shutdown Services
+  first-boot-complete.target                                                                                        loaded    inactive dead      First Boot Complete
+  getty-pre.target                                                                                                  loaded    inactive dead      Preparation for Logins
+  getty.target                                                                                                      loaded    active   active    Login Prompts
+  graphical.target                                                                                                  loaded    inactive dead      Graphical Interface
+  halt.target                                                                                                       loaded    inactive dead      System Halt
+  initrd-fs.target                                                                                                  loaded    inactive dead      Initrd File Systems
+  initrd-root-device.target                                                                                         loaded    inactive dead      Initrd Root Device
+  initrd-root-fs.target                                                                                             loaded    inactive dead      Initrd Root File System
+  initrd-switch-root.target                                                                                         loaded    inactive dead      Switch Root
+  initrd-usr-fs.target                                                                                              loaded    inactive dead      Initrd /usr File System
+  initrd.target                                                                                                     loaded    inactive dead      Initrd Default Target
+  local-fs-pre.target                                                                                               loaded    active   active    Preparation for Local File Systems
+  local-fs.target                                                                                                   loaded    active   active    Local File Systems
+  machine-@imx8mq.target                                                                                            loaded    active   active    imx8mq machine
+  multi-user.target                                                                                                 loaded    active   active    Multi-User System
+  network-online.target                                                                                             loaded    active   active    Network is Online
+  network-pre.target                                                                                                loaded    inactive dead      Preparation for Network
+  network.target                                                                                                    loaded    active   active    Network
+  nss-lookup.target                                                                                                 loaded    active   active    Host and Network Name Lookups
+  nss-user-lookup.target                                                                                            loaded    inactive dead      User and Group Name Lookups
+  paths.target                                                                                                      loaded    active   active    Path Units
+  reboot.target                                                                                                     loaded    inactive dead      System Reboot
+  remote-fs-pre.target                                                                                              loaded    inactive dead      Preparation for Remote File Systems
+  remote-fs.target                                                                                                  loaded    active   active    Remote File Systems
+  rescue.target                                                                                                     loaded    inactive dead      Rescue Mode
+  shutdown.target                                                                                                   loaded    inactive dead      System Shutdown
+  slices.target                                                                                                     loaded    active   active    Slice Units
+  sockets.target                                                                                                    loaded    active   active    Socket Units
+  sound.target                                                                                                      loaded    active   active    Sound Card
+  swap.target                                                                                                       loaded    active   active    Swaps
+  sysinit.target                                                                                                    loaded    active   active    System Initialization
+● syslog.target                                                                                                     not-found inactive dead      syslog.target
+● sysman.target                                                                                                     not-found inactive dead      sysman.target
+  time-set.target                                                                                                   loaded    inactive dead      System Time Set
+  time-sync.target                                                                                                  loaded    inactive dead      System Time Synchronized
+  timers.target                                                                                                     loaded    active   active    Timer Units
+  umount.target                                                                                                     loaded    inactive dead      Unmount All Filesystems
+  logrotate.timer                                                                                                   loaded    active   waiting   Daily rotation of log files
+  systemd-tmpfiles-clean.timer                                                                                      loaded    active   waiting   Daily Cleanup of Temporary Directories
+  upload-core-metrics.timer                                                                                         loaded    active   waiting   Upload "Core Metrics" Minutely
+  upload-flatpak-list.timer                                                                                         loaded    active   waiting   Upload Flatpak list Daily
+  upload-kernel-logs.timer                                                                                          loaded    active   waiting   Upload Kernel Logs Hourly
+  upload-mmc-health.timer                                                                                           loaded    active   waiting   Upload MMC Health Daily
+  upload-storage-usage.timer                                                                                        loaded    active   waiting   Upload Storage Usage Hourly
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+340 loaded units listed.
+To show all installed unit files use 'systemctl list-unit-files'.

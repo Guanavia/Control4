@@ -1,0 +1,55 @@
+#-------------------[ ls -lR /packages/ ] -----------------------#
+
+/packages/:
+drwx------    2 root     root          4096 Feb 11 13:53 core1
+drwx------    2 root     root          4096 Feb 11 13:53 core3
+drwx------    2 root     root          4096 Feb 11 13:53 core5
+drwx------    2 root     root          4096 Feb 11 13:53 corelite
+drwx------    2 root     root          4096 Feb 11 13:53 eastrmamp1
+drwx------    2 root     root          4096 Feb 11 13:53 eastrmpre1
+drwx------    2 root     root          4096 Feb 11 13:53 eastrmpre4
+drwx------    2 root     root          4096 Feb 11 13:53 esstrmsndbr3ch
+drwx------    2 root     root          4096 Feb 11 13:53 esstrmspkr5
+drwx------    2 root     root          4096 Feb 11 13:53 lumabr4
+drwx------    2 root     root          4096 Feb 11 13:53 sa1
+-rw-------    1 root     root     535341134 Feb 11 13:53 t4-ota-4.1.0.743847-res_payload.bin
+-rw-------    1 root     root           154 Feb 11 13:53 t4-ota-4.1.0.743847-res_payload_properties.txt
+drwx------    2 root     root          4096 Feb 11 13:53 ts-t4-inwall8
+
+/packages/core1:
+-rw-------    1 root     root        570829 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/core3:
+-rw-------    1 root     root        570829 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/core5:
+-rw-------    1 root     root        582021 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/corelite:
+-rw-------    1 root     root        582021 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/eastrmamp1:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/eastrmpre1:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/eastrmpre4:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/esstrmsndbr3ch:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/esstrmspkr5:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/lumabr4:
+-rw-------    1 root     root        570829 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/sa1:
+-rw-------    1 root     root        568955 Feb 11 13:53 update-info_4.1.0.743847-res
+
+/packages/ts-t4-inwall8:
+lrwxrwxrwx    1 root     root            45 Feb 11 13:53 t4-ota-4.1.0.743847-res_payload.bin -> /packages/t4-ota-4.1.0.743847-res_payload.bin
+lrwxrwxrwx    1 root     root            56 Feb 11 13:53 t4-ota-4.1.0.743847-res_payload_properties.txt -> /packages/t4-ota-4.1.0.743847-res_payload_properties.txt
+-rw-------    1 root     root           801 Feb 11 13:53 update-info_4.1.0.743847-res

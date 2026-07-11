@@ -1,0 +1,448 @@
+2026-07-11 11:17:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:17:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 11:17:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:18:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:18:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:19:40 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:22:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:22:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 11:22:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:22:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:22:22 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:23:04 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:25:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:25:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:26:29 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:26:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:26:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:26:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 11:26:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:29:09 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:29:11 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:29:53 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:31:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:31:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 11:31:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:32:33 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:32:35 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:33:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 11:35:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:36:00 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:36:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:36:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:39:26 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:39:28 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:40:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:40:10 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:42:50 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:42:52 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:43:34 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 11:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:46:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:46:16 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:46:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:49:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:49:39 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:49:41 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:50:23 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:53:03 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:53:05 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:53:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:53:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:53:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 11:53:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:53:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:56:27 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:56:29 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 11:57:11 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 11:58:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 11:58:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 11:58:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 11:59:52 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 11:59:54 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:00:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:02:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:02:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:02:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:02:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:03:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:03:22 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:04:04 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:06:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:06:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:07:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:07:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:07:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:07:30 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:08:57 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 12:08:58 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 12:10:10 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:10:12 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:10:54 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:11:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:11:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:11:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:13:34 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:13:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:14:18 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:16:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:16:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:17:00 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:17:42 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:20:23 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:20:25 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:21:07 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:23:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:23:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:24:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:26:42 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 12:26:43 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 12:27:11 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:27:13 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:27:55 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:30:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:30:38 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:31:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:34:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:34:03 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:34:05 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:34:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:36:43 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 12:36:44 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 12:37:28 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:37:30 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:38:12 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:38:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:40:53 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:40:55 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:41:37 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:43:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:44:17 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:44:19 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:45:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:46:44 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 12:46:45 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 12:47:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:47:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:47:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:47:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:47:41 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:47:43 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:48:25 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:51:05 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:51:07 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:51:50 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:52:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:52:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:52:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:52:16 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 12:52:16 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 12:54:30 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:54:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:55:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 12:56:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 12:57:54 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 12:57:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 12:58:38 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:01:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:01:18 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:01:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:02:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:04:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:04:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:05:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:05:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:06:44 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 13:06:44 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 13:08:12 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:08:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:08:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:10:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:11:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:11:38 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:12:21 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:14:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:14:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:14:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:14:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:15:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:15:03 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:15:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:17:03 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 13:17:04 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 13:18:25 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:18:27 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:19:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:19:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:19:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:19:09 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:21:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:21:51 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:22:33 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:23:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:25:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:25:16 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:25:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:28:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:28:38 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:28:40 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:29:22 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:32:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:32:04 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:32:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:32:46 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:35:30 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:36:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:37:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:38:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:38:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:39:40 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:41:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:41:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:41:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:41:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:42:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:42:22 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:43:04 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:45:44 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:45:46 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:46:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:46:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:46:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:46:28 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:49:09 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:49:11 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:49:53 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 13:50:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 13:52:33 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:52:35 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:53:17 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:55:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:55:57 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:55:59 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:56:41 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 13:59:22 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 13:59:24 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 13:59:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:59:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 13:59:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 13:59:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:00:06 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:02:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:02:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:03:34 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:04:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:04:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:04:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:06:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:06:16 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:06:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:08:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:09:40 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:09:42 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:10:24 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:13:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:13:04 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:13:06 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:13:48 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:16:29 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:16:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:17:13 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:17:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:17:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:17:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:17:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:19:53 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:19:55 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:20:37 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:22:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:22:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:22:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:23:17 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:23:19 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:24:01 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:26:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:26:42 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:26:44 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:27:26 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:30:06 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:30:08 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:30:50 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:31:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:33:33 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:33:35 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:34:17 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:35:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:36:57 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:36:59 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:37:43 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:40:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:40:23 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:40:25 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:41:07 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:43:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:43:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:44:31 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:44:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:44:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:44:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:44:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:47:12 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:47:14 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:47:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:49:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:49:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:49:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:50:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:50:38 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:51:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:53:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:53:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:53:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 14:53:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:54:00 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:54:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:54:44 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 14:57:25 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 14:57:27 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 14:58:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 14:58:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 14:58:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 14:58:09 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:00:49 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:00:51 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:01:33 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:02:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:02:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:02:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 15:02:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:04:18 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:04:20 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:05:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:07:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:07:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 15:07:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:07:43 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:07:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:08:27 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:11:08 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:11:10 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 15:11:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:11:52 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:11:52 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 15:11:53 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 15:14:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:14:34 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:15:16 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:16:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:17:23 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 15:17:23 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 15:17:56 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:17:58 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:18:40 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 15:20:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:21:21 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:21:23 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:22:05 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:22:56 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 15:22:57 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 15:24:45 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:24:47 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 15:25:02 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:25:29 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:28:09 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:28:11 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:28:27 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTERED to: REGISTER
+2026-07-11 15:28:27 -0500 core5-000FFF9FC470 [1284] INFO: status has changed from: REGISTER to: REGISTERED
+2026-07-11 15:28:53 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 0 for device(481)
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::onCmdDeviceReadyNotify called
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::sendPropertyToUI:  - Intercom property 'currentState' changed to 1 for device(481)
+2026-07-11 15:29:32 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::IpSendDataToUI - Sending message 'device_state' to UI for device(481)
+2026-07-11 15:31:34 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(370)
+2026-07-11 15:31:36 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(375)
+2026-07-11 15:32:18 -0500 core5-000FFF9FC470 [1284] INFO: intercomProxy::GetPersistState - Setting 'Persist State' for device(481)

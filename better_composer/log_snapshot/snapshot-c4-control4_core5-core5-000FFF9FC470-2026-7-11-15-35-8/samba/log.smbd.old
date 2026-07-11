@@ -1,0 +1,124 @@
+[2026/07/10 17:12:29.927592,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:20:08.942377,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:25:17.755666,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:25:33.053142,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:26:08.282416,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:26:44.624473,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:31:13.974915,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:31:47.566808,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:32:21.561343,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:32:57.828794,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:33:36.772743,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:34:15.143715,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:34:55.997725,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:35:34.808758,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:36:18.216246,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 17:52:40.109663,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:04:20.278426,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:08:04.851451,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:24:11.896593,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:37:53.901897,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:40:23.740961,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 18:57:01.979077,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 19:21:19.097396,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 19:29:56.342946,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 20:10:06.301088,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 20:24:19.306433,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 20:56:35.058142,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 21:06:58.524160,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 21:28:36.662872,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 21:41:08.902221,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 22:11:56.866230,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 22:28:14.052024,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 22:58:14.622610,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 23:09:45.536603,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 23:30:57.103790,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/10 23:42:06.744088,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 00:15:27.312354,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 00:29:19.279243,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 00:48:19.684086,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 01:11:24.300047,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 01:22:33.681191,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 01:56:02.992612,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 01:56:43.668701,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 02:32:51.707828,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 02:33:00.578385,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 03:05:38.584534,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 03:09:04.639953,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 03:41:13.493343,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 03:50:55.667650,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 04:13:55.545634,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 04:21:58.674562,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 04:48:26.845465,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 04:54:05.043636,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 05:19:39.870640,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 05:24:48.564927,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 05:50:16.203739,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 06:09:55.083124,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 06:48:47.258314,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 06:54:30.868288,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 07:20:14.975060,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 07:26:43.696934,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/11 07:56:50.075890,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII

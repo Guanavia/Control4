@@ -1,0 +1,400 @@
+#-------------------[ ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND ] -----------------------#
+
+UID          PID    PPID NLWP     LWP %CPU %MEM    VSZ   RSS TTY      STATE    START     TIME COMMAND
+root           1       0    1       1  0.0  0.2 166728 10824 ?        Ss      Feb 17 03:03:11 /sbin/init
+root           2       0    1       2  0.0  0.0      0     0 ?        S       Feb 17 00:00:19 [kthreadd]
+root           3       2    1       3  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [rcu_gp]
+root           4       2    1       4  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [rcu_par_gp]
+root           5       2    1       5  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [slub_flushwq]
+root           6       2    1       6  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [netns]
+root          10       2    1      10  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [mm_percpu_wq]
+root          11       2    1      11  0.0  0.0      0     0 ?        I       Feb 17 00:00:00 [rcu_tasks_kthread]
+root          12       2    1      12  0.0  0.0      0     0 ?        I       Feb 17 00:00:00 [rcu_tasks_trace_kthread]
+root          13       2    1      13  0.0  0.0      0     0 ?        S       Feb 17 00:53:07 [ksoftirqd/0]
+root          14       2    1      14  0.0  0.0      0     0 ?        I       Feb 17 02:38:09 [rcu_preempt]
+root          15       2    1      15  0.0  0.0      0     0 ?        S       Feb 17 00:00:05 [migration/0]
+root          16       2    1      16  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [cpuhp/0]
+root          17       2    1      17  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [cpuhp/1]
+root          18       2    1      18  0.0  0.0      0     0 ?        S       Feb 17 00:00:02 [migration/1]
+root          19       2    1      19  0.0  0.0      0     0 ?        S       Feb 17 00:51:55 [ksoftirqd/1]
+root          22       2    1      22  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [cpuhp/2]
+root          23       2    1      23  0.0  0.0      0     0 ?        S       Feb 17 00:00:02 [migration/2]
+root          24       2    1      24  0.0  0.0      0     0 ?        S       Feb 17 00:48:51 [ksoftirqd/2]
+root          27       2    1      27  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [cpuhp/3]
+root          28       2    1      28  0.0  0.0      0     0 ?        S       Feb 17 00:00:02 [migration/3]
+root          29       2    1      29  0.0  0.0      0     0 ?        S       Feb 17 00:46:38 [ksoftirqd/3]
+root          32       2    1      32  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [kdevtmpfs]
+root          33       2    1      33  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [inet_frag_wq]
+root          36       2    1      36  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [oom_reaper]
+root          37       2    1      37  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [writeback]
+root          38       2    1      38  0.0  0.0      0     0 ?        S       Feb 17 00:03:48 [kcompactd0]
+root          39       2    1      39  0.0  0.0      0     0 ?        SN      Feb 17 00:00:00 [ksmd]
+root          40       2    1      40  0.0  0.0      0     0 ?        SN      Feb 17 00:03:26 [khugepaged]
+root          41       2    1      41  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [kintegrityd]
+root          42       2    1      42  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [kblockd]
+root          43       2    1      43  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [blkcg_punt_bio]
+root          44       2    1      44  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [tpm_dev_wq]
+root          45       2    1      45  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [ata_sff]
+root          46       2    1      46  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [edac-poller]
+root          47       2    1      47  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [devfreq_wq]
+root          48       2    1      48  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [watchdogd]
+root          52       2    1      52  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [rpciod]
+root          53       2    1      53  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [xprtiod]
+root          54       2    1      54  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [cfg80211]
+root          55       2    1      55  0.0  0.0      0     0 ?        S       Feb 17 00:00:34 [kswapd0]
+root          56       2    1      56  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [nfsiod]
+root          57       2    1      57  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [cifsiod]
+root          58       2    1      58  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [smb3decryptd]
+root          59       2    1      59  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [cifsfileinfoput]
+root          60       2    1      60  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [cifsoplockd]
+root          61       2    1      61  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [deferredclose]
+root          67       2    1      67  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [vfio-irqfd-clea]
+root          68       2    1      68  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [kworker/u9:0]
+root          69       2    1      69  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [sdhci]
+root          70       2    1      70  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [irq/22-mmc0]
+root          72       2    1      72  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [30902000.jr-engine]
+root          73       2    1      73  0.0  0.0      0     0 ?        S       Feb 17 00:00:03 [hwrng]
+root          74       2    1      74  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [30903000.jr-engine]
+root          77       2    1      77  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [mld]
+root          79       2    1      79  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [ipv6_addrconf]
+root          80       2    1      80  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [dsa_ordered]
+root         203       2    1     203  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [irq/34-bd718xx-irq]
+root         204       2    1     204  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [mmc_complete]
+root         205       2    1     205  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [card0-crtc0]
+root         206       2    1     206  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [irq/209-32c00000.hdmi]
+root         207       2    1     207  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [irq/210-32c00000.hdmi]
+root         211       2    1     211  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [galcore workque]
+root         213       2    1     213  0.0  0.0      0     0 ?        S<      Feb 17 00:00:15 [galcore_deamon/0-0]
+root         220       2    1     220  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [usb_oc]
+root         223       2    1     223  0.0  0.0      0     0 ?        S       Feb 17 00:14:37 [jbd2/mmcblk0p3-8]
+root         224       2    1     224  0.0  0.0      0     0 ?        I<      Feb 17 00:00:00 [ext4-rsv-conver]
+root         252       1    1     252  0.0  0.2  39100 11524 ?        Ss      Feb 17 02:18:44 /usr/lib/systemd/systemd-journald
+root         274       1    1     274  0.0  0.1  22188  6640 ?        Ss      Feb 17 00:00:47 /usr/lib/systemd/systemd-udevd
+systemd+     283       1    1     283  0.0  0.1  15500  6964 ?        Ss      Feb 17 00:00:24 /usr/lib/systemd/systemd-networkd
+root         340       2    1     340  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [spi0]
+root         342       2    1     342  0.0  0.0      0     0 ?        S       Feb 17 00:00:00 [spi1]
+root         343       2    1     343  0.0  0.0      0     0 ?        S       Feb 17 00:00:02 [sc16is7xx]
+root         345       2    1     345  0.0  0.0      0     0 ?        S       Feb 17 00:00:02 [irq/187-spi1.0]
+systemd+     350       1    1     350  0.0  0.1  15936  7972 ?        Ss      Feb 17 02:03:24 /usr/lib/systemd/systemd-resolved
+root         359       1    1     359  0.1  0.0   5312  2376 ?        Ss      Feb 17 03:37:22 /control4/bin/led_service
+root         362       1    1     362  0.0  0.0   3412  1936 ?        Ss      Feb 17 00:05:56 /usr/sbin/crond -n
+message+     365       1    1     365  0.0  0.0   5804  3528 ?        Ss      Feb 17 00:55:37 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         370       1    3     370  0.0  0.0  21172  2172 ?        Ssl     Feb 17 00:25:40 /usr/bin/dlt-system
+root         370       1    3     377  0.0  0.0  21172  2172 ?        Ssl     Feb 17 00:08:46 /usr/bin/dlt-system
+root         370       1    3     378  0.0  0.0  21172  2172 ?        Ssl     Feb 17 00:00:00 /usr/bin/dlt-system
+root         371       1    1     371  0.0  0.0   3104  2380 ?        Ss      Feb 17 00:38:00 /usr/bin/dlt-daemon
+root         403       1    1     403  0.0  0.1  30956  6184 ?        Ss      Feb 17 00:04:48 /usr/lib/systemd/systemd-logind
+root         501       1    4     501  0.0  0.1 102480  5300 ?        Ssl     Feb 17 00:00:01 dhclient -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+root         501       1    4     502  0.0  0.1 102480  5300 ?        Ssl     Feb 17 00:00:00 dhclient -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+root         501       1    4     503  0.0  0.1 102480  5300 ?        Ssl     Feb 17 00:00:00 dhclient -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+root         501       1    4     504  0.0  0.1 102480  5300 ?        Ssl     Feb 17 00:00:00 dhclient -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+root         572       1    1     572  0.0  0.0   2520  1552 ?        Ss      Feb 17 00:00:00 /usr/sbin/atftpd --daemon --port 69 --user root root /control4/firmware/
+root         573       1    3     573  0.0  0.4 477332 18964 ?        Ssl     Feb 17 01:24:31 /usr/sbin/syslog-ng -F --enable-core --cfgfile /etc/syslog-ng/syslog-ng.conf --control /var/run/syslog-ng/syslog-ng.ctl --persist-file /var/lib/syslog-ng/syslog-ng.persist --pidfile /var/run/syslog-ng.pid
+root         573       1    3 2723360  0.0  0.4 477332 18964 ?        Ssl   15:12:27 00:00:00 /usr/sbin/syslog-ng -F --enable-core --cfgfile /etc/syslog-ng/syslog-ng.conf --control /var/run/syslog-ng/syslog-ng.ctl --persist-file /var/lib/syslog-ng/syslog-ng.persist --pidfile /var/run/syslog-ng.pid
+root         573       1    3 2728375  0.0  0.4 477332 18964 ?        Ssl   15:24:00 00:00:00 /usr/sbin/syslog-ng -F --enable-core --cfgfile /etc/syslog-ng/syslog-ng.conf --control /var/run/syslog-ng/syslog-ng.ctl --persist-file /var/lib/syslog-ng/syslog-ng.persist --pidfile /var/run/syslog-ng.pid
+root         578       1    1     578  0.0  0.0   5236   804 tty1     Ss+     Feb 17 00:00:00 /sbin/agetty -o -p -- \u --noclear - linux
+nobody       581       1    1     581  0.0  0.0   4324  3052 ?        Ss      Feb 17 00:36:41 /usr/sbin/mdnsd
+root         585       1    1     585  0.0  0.0   2392  1692 ttymxc0  Ss+     Feb 17 00:00:00 /sbin/agetty -8 -L ttymxc0 115200 linux
+root         586       1    3     586  0.0  0.7 465316 29896 tty7     Ssl+    Feb 17 00:06:24 /usr/bin/weston --log=/var/log/weston.log --modules=systemd-notify.so
+root         586       1    3     668  0.0  0.7 465316 29896 tty7     Ssl+    Feb 17 00:00:11 /usr/bin/weston --log=/var/log/weston.log --modules=systemd-notify.so
+root         586       1    3     669  0.0  0.7 465316 29896 tty7     Ssl+    Feb 17 00:00:00 /usr/bin/weston --log=/var/log/weston.log --modules=systemd-notify.so
+root         600       1    1     600  0.0  0.1  13880  4704 ?        Ss      Feb 17 00:02:01 /usr/lib/systemd/systemd-userdbd
+login-a+     610       1    2     610  0.0  0.0  71632  2556 ?        Ssl     Feb 17 00:01:04 /opt/control4/bin/login-auditd
+login-a+     610       1    2     612  0.0  0.0  71632  2556 ?        Ssl     Feb 17 00:00:24 /opt/control4/bin/login-auditd
+health-+     624       1    4     624  0.0  0.4 372980 19080 ?        SLl     Feb 17 00:14:47 /opt/control4/bin/health-microservice
+health-+     624       1    4     626  0.0  0.4 372980 19080 ?        SLl     Feb 17 00:00:00 /opt/control4/bin/health-microservice
+health-+     624       1    4     627  0.0  0.4 372980 19080 ?        SLl     Feb 17 00:00:24 /opt/control4/bin/health-microservice
+health-+     624       1    4     628  0.0  0.4 372980 19080 ?        SLl     Feb 17 00:00:24 /opt/control4/bin/health-microservice
+root         629       1    1     629  0.0  0.1  12712  5232 ?        Ss      Feb 17 00:28:50 /control4/bin/c4server --nodaemon
+root         634       1    1     634  0.0  0.2  16788  8244 ?        Ss      Feb 17 00:00:18 /usr/lib/systemd/systemd --user
+root         635     634    1     635  0.0  0.0  19796  2620 ?        S       Feb 17 00:00:00 (sd-pam)
+root         661     586    1     661  0.0  0.0  19528  2760 tty7     S+      Feb 17 00:00:00 (sd-pam)
+root         670     586    1     670  0.0  0.1  41004  7072 ?        Ss      Feb 17 00:00:00 /usr/libexec/weston-keyboard
+root         671     586    1     671  0.0  0.3  48484 14356 ?        Ss      Feb 17 00:00:04 /usr/libexec/weston-desktop-shell
+ntp          681       1    2     681  0.0  0.1  75672  4540 ?        Ssl     Feb 17 00:17:14 /usr/sbin/ntpd -u ntp:ntp -p /run/ntpd.pid -g
+ntp          681       1    2     685  0.0  0.1  75672  4540 ?        Ssl     Feb 17 00:00:00 /usr/sbin/ntpd -u ntp:ntp -p /run/ntpd.pid -g
+root         761       1    1     761  0.0  0.0   6928  2604 ?        Ss      Feb 17 00:00:00 /bin/sh /control4/bin/sysmand-wrapper
+root         762       1    1     762  0.0  0.1  14476  5216 ?        Ss      Feb 17 00:02:40 /usr/bin/appled -n
+root         771       1    2     771  0.1  0.1  24420  4388 ?        Sl      Feb 17 04:14:33 /control4/bin/netusbserver
+root         771       1    2     772  0.0  0.1  24420  4388 ?        Sl      Feb 17 00:04:58 /control4/bin/netusbserver
+root         774     761    1     774  0.0  0.0  19664  2732 ?        S       Feb 17 00:00:00 (sd-pam)
+root         779       1    2     779  0.0  0.3  35580 13828 ?        Sl      Feb 17 00:36:46 /control4/bin/ioserver
+root         779       1    2     782  0.0  0.3  35580 13828 ?        Sl      Feb 17 00:00:51 /control4/bin/ioserver
+root         781     761    6     781  0.4  0.5 116752 21800 ?        SLsl    Feb 17 14:30:41 /control4/bin/sysmand --from-init
+root         781     761    6     786  0.2  0.5 116752 21800 ?        SLsl    Feb 17 07:03:48 /control4/bin/sysmand --from-init
+root         781     761    6     787  0.2  0.5 116752 21800 ?        SLsl    Feb 17 07:03:48 /control4/bin/sysmand --from-init
+root         781     761    6     822  0.0  0.5 116752 21800 ?        SLsl    Feb 17 00:00:00 /control4/bin/sysmand --from-init
+root         781     761    6     829  0.0  0.5 116752 21800 ?        SLsl    Feb 17 00:22:05 /control4/bin/sysmand --from-init
+root         781     761    6     830  0.0  0.5 116752 21800 ?        SLsl    Feb 17 00:00:29 /control4/bin/sysmand --from-init
+root         923       1    1     923  0.0  0.0   6900  2576 ?        S       Feb 17 00:00:00 /bin/sh /control4/bin/broker
+c4metri+     949       1    3     949  0.0  0.7 338524 29960 ?        Sl      Feb 17 01:48:44 /opt/control4/bin/c4metricsd -n
+c4metri+     949       1    3    1034  0.0  0.7 338524 29960 ?        Sl      Feb 17 00:09:49 /opt/control4/bin/c4metricsd -n
+c4metri+     949       1    3    1035  0.0  0.7 338524 29960 ?        Sl      Feb 17 00:09:45 /opt/control4/bin/c4metricsd -n
+root         973     923   11     973  0.9  5.5 1074768 221048 ?      Sl      Feb 17 1-07:56:11 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1042  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:00:00 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1045  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:56:18 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1046  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:56:15 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1047  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:56:19 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1048  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:56:32 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    1149  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:00:00 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    2179  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:14:59 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    2180  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:14:58 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    2181  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:15:01 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         973     923   11    2182  0.0  5.5 1074768 221048 ?      Sl      Feb 17 00:14:59 /usr/bin/node --expose-gc /usr/lib/node_modules/broker/broker.js
+root         996       1    1     996  0.4  1.5 154228 61688 ?        S       Feb 17 15:43:54 /control4/bin/c4rmengined
+root        1031       1    4    1031  0.0  0.1 258120  5696 ?        SNsl    Feb 17 00:03:51 /control4/bin/c4lookup
+root        1031       1    4    1078  0.0  0.1 258120  5696 ?        SNsl    Feb 17 00:01:16 /control4/bin/c4lookup
+root        1031       1    4    1079  0.0  0.1 258120  5696 ?        SNsl    Feb 17 00:01:17 /control4/bin/c4lookup
+root        1031       1    4    1080  0.0  0.1 258120  5696 ?        SNsl    Feb 17 00:01:17 /control4/bin/c4lookup
+root        1044       1    1    1044  0.0  0.0   6900  2812 ?        S       Feb 17 01:42:50 /bin/bash /control4/bin/edid-capture
+root        1074       1    1    1074  0.0  0.0   6900  2632 ?        S       Feb 17 00:00:00 /bin/sh /control4/bin/imageservice
+root        1120    1074   11    1120  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:01:33 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1144  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1154  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1155  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1156  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1157  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1243  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1982  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1983  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1984  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+root        1120    1074   11    1985  0.0  1.0 5526896 43248 ?       Sl      Feb 17 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/imageservice/imageservice.js
+mosquit+    1130       1    1    1130  0.0  0.1  51144  6556 ?        Ss      Feb 17 01:29:16 /usr/sbin/mosquitto -d -c /etc/mosquitto/mosquitto.conf
+mosquit+    1168       1    1    1168  0.0  0.1 120804  4840 ?        Ss      Feb 17 01:45:35 /sbin/mosquitto-jwt-auth -d -c /etc/mosquitto/mosquitto-jwt-auth.conf
+root        1204       1    1    1204  0.0  0.0   6900  2632 ?        S       Feb 17 00:00:00 /bin/sh /control4/bin/ovrc-hub-fob
+root        1220    1204    1    1220  0.0  0.2  11772  8796 ?        S       Feb 17 00:00:04 /control4/bin/fob /opt/ovrc-fob/tmp /opt/ovrc-fob/data eth0 core5 1.0.1.0
+sddpd       1227       1    1    1227  0.0  0.0  10412  2548 ?        Ss      Feb 17 01:06:52 /opt/control4/bin/sddpd -n
+root        1263       1    7    1263  0.0  0.3 507952 15784 ?        Sl      Feb 17 02:02:55 /control4/bin/raproxyd
+root        1263       1    7    1446  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:06:44 /control4/bin/raproxyd
+root        1263       1    7    1447  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:06:40 /control4/bin/raproxyd
+root        1263       1    7    1449  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:08:02 /control4/bin/raproxyd
+root        1263       1    7    1450  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:06:52 /control4/bin/raproxyd
+root        1263       1    7    1452  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:00:00 /control4/bin/raproxyd
+root        1263       1    7    1453  0.0  0.3 507952 15784 ?        Sl      Feb 17 00:00:23 /control4/bin/raproxyd
+root        1268       1    1    1268  0.0  0.0  26056  3760 ?        Ss      Feb 17 00:03:59 /bin/shaird
+root        1284       1   11    1284 22.2 14.2 792780 571236 ?       SLl     Feb 17 32-03:09:36 /control4/bin/director cwd=/control4/bin
+root        1284       1   11    2177  0.0 14.2 792780 571236 ?       SLl     Feb 17 00:03:44 /control4/bin/director cwd=/control4/bin
+root        1284       1   11    2590  0.0 14.2 792780 571236 ?       SLl     Feb 17 00:00:56 /control4/bin/director cwd=/control4/bin
+root        1284       1   11    2629  0.0 14.2 792780 571236 ?       SLl     Feb 17 00:00:00 /control4/bin/director cwd=/control4/bin
+root        1284       1   11    2630  0.6 14.2 792780 571236 ?       SLl     Feb 17 23:44:02 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959098  0.0 14.2 792780 571236 ?       SLl     May 22 00:41:41 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959145  0.0 14.2 792780 571236 ?       SLl     May 22 00:00:00 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959148  0.0 14.2 792780 571236 ?       SLl     May 22 00:08:41 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959302  0.0 14.2 792780 571236 ?       SLl     May 22 00:24:03 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959361  0.0 14.2 792780 571236 ?       SLl     May 22 00:00:09 /control4/bin/director cwd=/control4/bin
+root        1284       1   11  959362  0.0 14.2 792780 571236 ?       SLl     May 22 00:08:53 /control4/bin/director cwd=/control4/bin
+root        1316       1    1    1316  0.0  0.0  11328  1820 ?        Ss      Feb 17 00:03:52 /bin/spotifyd
+root        1380       1    1    1380  0.0  0.0  37260  2476 ?        Ss      Feb 17 01:29:52 /usr/sbin/nmbd -D
+root        1548       1    1    1548  0.0  0.0  12616  2128 ?        Ss      Feb 17 00:04:13 /control4/bin/voiced
+root        1643       1    1    1643  0.0  0.0  52832  3184 ?        Ss      Feb 17 00:02:20 /usr/sbin/smbd -D
+root        1666    1643    1    1666  0.0  0.0  50416  2172 ?        S       Feb 17 00:00:11 /usr/sbin/smbd -D
+root        1667    1643    1    1667  0.0  0.0  50424  2100 ?        S       Feb 17 00:00:16 /usr/sbin/smbd -D
+root        1671       1    7    1671  0.1  0.4 595264 16472 ?        SLl     Feb 17 06:02:35 /control4/bin/zserver2 -d
+root        1671       1    7    1675  0.0  0.4 595264 16472 ?        SLl     Feb 17 00:00:00 /control4/bin/zserver2 -d
+root        1671       1    7    1676  0.0  0.4 595264 16472 ?        SLl     Feb 17 00:13:01 /control4/bin/zserver2 -d
+root        1671       1    7    1677  0.0  0.4 595264 16472 ?        SLl     Feb 17 00:00:00 /control4/bin/zserver2 -d
+root        1671       1    7    1678  0.0  0.4 595264 16472 ?        SLl     Feb 17 00:00:15 /control4/bin/zserver2 -d
+root        1671       1    7    2178  0.1  0.4 595264 16472 ?        SLl     Feb 17 05:36:52 /control4/bin/zserver2 -d
+root        1671       1    7  959467  0.0  0.4 595264 16472 ?        SLl     May 22 00:00:32 /control4/bin/zserver2 -d
+root        1726       1    1    1726  0.0  0.0  50948  1584 ?        Ss      Feb 17 00:00:00 nginx: master process /usr/sbin/nginx
+root        1727    1726    1    1727  0.5  0.2  55988  8956 ?        S       Feb 17 17:44:23 nginx: worker process
+uic         1786       1    1    1786  0.0  0.1  50548  5720 ?        Ss      Feb 17 02:24:46 /usr/sbin/uic-mqtt -d -c /etc/uic/uic-mqtt.conf
+root        1804       1    7    1804  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:51:38 /control4/bin/uicmmd -d
+root        1804       1    7    1861  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:03:55 /control4/bin/uicmmd -d
+root        1804       1    7    1862  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:00:00 /control4/bin/uicmmd -d
+root        1804       1    7    1863  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:15:48 /control4/bin/uicmmd -d
+root        1804       1    7    1870  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:20:16 /control4/bin/uicmmd -d
+root        1804       1    7    1871  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:00:00 /control4/bin/uicmmd -d
+root        1804       1    7    1872  0.0  0.2 523664 10236 ?        SLl     Feb 17 00:10:57 /control4/bin/uicmmd -d
+uic         1820       1    2    1820  0.0  0.1 154552  7208 ?        Sl      Feb 17 00:12:21 /usr/bin/uic-image-provider --conf /etc/uic/uic.cfg
+uic         1820       1    2    1850  0.0  0.1 154552  7208 ?        Sl      Feb 17 00:01:38 /usr/bin/uic-image-provider --conf /etc/uic/uic.cfg
+uic         1833       1    1    1833  0.0  0.1  86888  7180 ?        S       Feb 17 00:10:29 /usr/bin/uic-gms --conf /etc/uic/uic.cfg
+uic         1840       1    1    1840  0.0  0.2  87092  8036 ?        S       Feb 17 00:10:26 /usr/bin/uic-nal --conf /etc/uic/uic.cfg
+uic         1852       1    1    1852  0.0  0.1  87100  5300 ?        S       Feb 17 00:10:31 /usr/bin/uic-upvl --conf /etc/uic/uic.cfg
+root        2283       1    1    2283  0.0  0.0  39156  2812 ?        S       Feb 17 00:05:35 zap_watcher
+root        2285       1    2    2285  0.3  0.2 149932 10120 ?        SLl     Feb 17 12:09:58 /control4/bin/zap -d
+root        2285       1    2    2288  0.0  0.2 149932 10120 ?        SLl     Feb 17 00:12:49 /control4/bin/zap -d
+root        2773     634    1    2773  0.0  0.0   5636  3468 ?        Ss      Feb 17 00:00:18 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root        2775     634    3    2775  0.0  0.0 229996  3468 ?        Ssl     Feb 17 00:04:04 /usr/libexec/flatpak-session-helper
+root        2775     634    3    2776  0.0  0.0 229996  3468 ?        Ssl     Feb 17 00:04:02 /usr/libexec/flatpak-session-helper
+root        2775     634    3    2777  0.0  0.0 229996  3468 ?        Ssl     Feb 17 00:00:02 /usr/libexec/flatpak-session-helper
+root        2779     634    1    2779  0.0  0.0   3748   112 ?        Ss      Feb 17 00:00:00 server --sh -n /run/user/0/.flatpak-helper/pkcs11-flatpak-2775 --provider p11-kit-trust.so pkcs11:model=p11-kit-trust?write-protected=yes
+root        2781     634    3    2781  0.0  0.0 229868  3228 ?        Ssl     Feb 17 00:00:00 /usr/libexec/at-spi-bus-launcher
+root        2781     634    3    2782  0.0  0.0 229868  3228 ?        Ssl     Feb 17 00:00:00 /usr/libexec/at-spi-bus-launcher
+root        2781     634    3    2784  0.0  0.0 229868  3228 ?        Ssl     Feb 17 00:00:00 /usr/libexec/at-spi-bus-launcher
+root        2785    2781    1    2785  0.0  0.0   5536  2856 ?        S       Feb 17 00:00:00 /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 10 --address=unix:path=/run/user/0/at-spi/bus
+root       25337       1    4   25337  0.0  0.5 1255484 21688 ?       Sl      May 22 00:06:05 /control4/bin/upmand
+root       25337       1    4   25338  0.0  0.5 1255484 21688 ?       Sl      May 22 00:00:01 /control4/bin/upmand
+root       25337       1    4   25339  0.0  0.5 1255484 21688 ?       Sl      May 22 00:00:03 /control4/bin/upmand
+root       25337       1    4 1986511  0.0  0.5 1255484 21688 ?       Sl    07:45:26 00:00:00 /control4/bin/upmand
+root       56888       2    1   56888  0.0  0.0      0     0 ?        S       May 17 00:00:09 [cifsd]
+root      456381       1    1  456381  0.0  0.0   6900  2668 ?        S       Jul 10 00:00:00 /bin/sh /control4/bin/control4-osd --config-file /etc/control4-osd/osd-config.json --data-path /var/control4-osd/
+root      456387  456381    1  456387  0.0  0.0   2384   860 ?        S       Jul 10 00:00:00 /usr/libexec/flatpak-bwrap --args 32 /bin/sh -c cp -a /run/host/etc/ssl /etc/ && ln -sf /run/host/etc/services /etc/ && \         mkdir /etc/logging && \         ln -sf /run/host/etc/logging/default-log4cplus-2.1.conf /etc/logging/default.conf && \         ln -sf /run/host/etc/logging/control4-osd.conf /etc/logging/control4-osd.conf && \         ln -sf volatile/log /var/log && \         mkdir /etc/control4-osd && \         ln -sf /run/host/etc/control4-osd/osd-config.json /etc/control4-osd/ && \         cp /run/host/usr/share/zoneinfo/$(cat /run/host/etc/timezone) /etc/localtime && \         export TZ=:/etc/localtime && \         /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456427       1    1  456427  0.0  0.0   2384   864 ?        S       Jul 10 00:00:00 /usr/libexec/flatpak-bwrap --args 32 /usr/libexec/flatpak-dbus-proxy --args=34
+root      456429  456427    2  456429  0.0  0.0  82040  3984 ?        Sl      Jul 10 00:00:00 /usr/libexec/flatpak-dbus-proxy --args=34
+root      456429  456427    2  456436  0.0  0.0  82040  3984 ?        Sl      Jul 10 00:00:00 /usr/libexec/flatpak-dbus-proxy --args=34
+root      456440  456387    1  456440  0.0  0.0   2384  1172 ?        S       Jul 10 00:00:00 /usr/libexec/flatpak-bwrap --args 32 /bin/sh -c cp -a /run/host/etc/ssl /etc/ && ln -sf /run/host/etc/services /etc/ && \         mkdir /etc/logging && \         ln -sf /run/host/etc/logging/default-log4cplus-2.1.conf /etc/logging/default.conf && \         ln -sf /run/host/etc/logging/control4-osd.conf /etc/logging/control4-osd.conf && \         ln -sf volatile/log /var/log && \         mkdir /etc/control4-osd && \         ln -sf /run/host/etc/control4-osd/osd-config.json /etc/control4-osd/ && \         cp /run/host/usr/share/zoneinfo/$(cat /run/host/etc/timezone) /etc/localtime && \         export TZ=:/etc/localtime && \         /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456455  0.5  4.8 3098004 195656 ?      Sl      Jul 10 00:07:42 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456547  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456548  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456549  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456550  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456551  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456562  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456568  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456569  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456573  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456574  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456578  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456582  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:32 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456583  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456584  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456585  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456586  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456587  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456589  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456590  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456591  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456592  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:04 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456593  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456594  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456595  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456597  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456603  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456604  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456605  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456606  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456607  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456610  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456615  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456617  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456618  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:25 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456619  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:25 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456620  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:25 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  456830  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:02 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  463189  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:15 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483228  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:12 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483229  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483235  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:01 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483236  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483240  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483241  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:02 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483247  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      456455  456440   47  483252  0.0  4.8 3098004 195656 ?      Sl      Jul 10 00:00:00 /app/bin/control4-osd --config-file /etc/control4-osd/osd-config.json
+root      566978       1   25  566978  0.4  1.6 2142964 64100 ?       S<l     Jun 25 01:50:09 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566981  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:29 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566983  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:11 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566986  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566987  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:01:32 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566989  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:02:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566990  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:30 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566991  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:33 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566992  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:02:31 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566993  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:02:21 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566995  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:20:11 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  566997  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:53 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567004  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567005  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:37 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567006  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567012  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567013  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:20:52 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567014  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567015  0.0  1.6 2142964 64100 ?       S<l     Jun 25 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25  567033  0.1  1.6 2142964 64100 ?       S<l     Jun 25 00:33:54 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25 3126072  0.0  1.6 2142964 64100 ?       S<l     Jun 30 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25 1889381  0.0  1.6 2142964 64100 ?       S<l   06:35:19 00:00:00 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25 1889382  0.0  1.6 2142964 64100 ?       S<l   06:35:19 00:00:01 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25 1889383  0.0  1.6 2142964 64100 ?       S<l   06:35:19 00:00:01 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      566978       1   25 1889384  0.0  1.6 2142964 64100 ?       S<l   06:35:19 00:00:27 /usr/bin/freeswitch -nonat -nc -certs /etc/ssl/
+root      959332       1    1  959332  0.0  0.0   6900  2632 ?        S       May 22 00:00:00 /bin/sh /control4/bin/cerebellum
+root      959342  959332   11  959342  0.2  1.6 5139572 66968 ?       Sl      May 22 02:27:32 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959343  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959344  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:31 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959345  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:30 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959346  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:31 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959347  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:31 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959348  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959464  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959465  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959466  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959342  959332   11  959468  0.0  1.6 5139572 66968 ?       Sl      May 22 00:00:00 /usr/bin/node --max_old_space_size=92 /opt/control4/tr3/cerebellum/cerebellum.js
+root      959890       1    3  959890  0.0  0.2 215548 10308 ?        S<Lsl   May 22 00:03:50 /control4/bin/audio3server
+root      959890       1    3  959892  0.0  0.2 215548 10308 ?        S<Lsl   May 22 00:00:00 /control4/bin/audio3server
+root      959890       1    3 1548953  0.0  0.2 215548 10308 ?        S<Lsl   Jun 27 00:00:03 /control4/bin/audio3server
+root      959902  959890    5  959902  0.1  0.1 334752  7624 ?        S<l     May 22 01:23:25 audio3clock --port=6002
+root      959902  959890    5  959907  0.0  0.1 334752  7624 ?        S<l     May 22 00:00:04 audio3clock --port=6002
+root      959902  959890    5  959908  0.0  0.1 334752  7624 ?        S<l     May 22 00:00:00 audio3clock --port=6002
+root      959902  959890    5  959911  0.0  0.1 334752  7624 ?        S<l     May 22 00:33:31 audio3clock --port=6002
+root      959902  959890    5  959913  0.0  0.1 334752  7624 ?        S<l     May 22 00:45:00 audio3clock --port=6002
+root      959949       1    9  959949  0.1  0.9 2227756 39528 ?       S<Lsl   May 22 01:44:16 /control4/bin/audio3client
+root      959949       1    9  959950  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:00:04 /control4/bin/audio3client
+root      959949       1    9  959955  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:00:05 /control4/bin/audio3client
+root      959949       1    9  959956  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:00:00 /control4/bin/audio3client
+root      959949       1    9  959958  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:00:00 /control4/bin/audio3client
+root      959949       1    9  959965  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:05:49 /control4/bin/audio3client
+root      959949       1    9  960788  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:00:00 /control4/bin/audio3client
+root      959949       1    9  960789  0.0  0.9 2227756 39528 ?       S<Lsl   May 22 00:13:37 /control4/bin/audio3client
+root      959949       1    9 1206480  0.0  0.9 2227756 39528 ?       SLsl    May 22 01:05:38 /control4/bin/audio3client
+uic       960148       1    1  960148  0.0  0.2  94000 11112 ?        S       May 22 00:04:19 /usr/bin/zpc --conf /etc/uic/zpc.cfg
+launchd+  960651       1    2  960651  0.0  0.2 143056  9668 ?        SLl     May 22 00:01:08 /opt/control4/bin/launchdarkly-microservice
+launchd+  960651       1    2  960686  0.0  0.2 143056  9668 ?        SLl     May 22 00:00:00 /opt/control4/bin/launchdarkly-microservice
+root     1363070  959890    8 1363070  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:03:57 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363071  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:01 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363072  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:00 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363073  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:03:46 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363080  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:00 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363081  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:00 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363082  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:00 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1363070  959890    8 1363083  0.0  0.3 480672 13648 ?        S<l     Jun 27 00:00:00 audio3streamer --stream 0 --master 127.0.0.1 --rtcp 6005 --clock 6006
+root     1548449  959890    1 1548449  0.0  0.0   2384   800 ?        S<      Jun 27 00:00:00 /usr/libexec/flatpak-bwrap --args 31 audio3drm --id 135
+root     1548453       1    1 1548453  0.0  0.0   2384   804 ?        S<      Jun 27 00:00:00 /usr/libexec/flatpak-bwrap --args 31 /usr/libexec/flatpak-dbus-proxy --args=33
+root     1548454 1548453    2 1548454  0.0  0.0  82040  2340 ?        S<l     Jun 27 00:00:00 /usr/libexec/flatpak-dbus-proxy --args=33
+root     1548454 1548453    2 1548455  0.0  0.0  82040  2340 ?        S<l     Jun 27 00:00:00 /usr/libexec/flatpak-dbus-proxy --args=33
+root     1548456 1548449    1 1548456  0.0  0.0   2468  1200 ?        S<      Jun 27 00:00:00 /usr/libexec/flatpak-bwrap --args 31 audio3drm --id 135
+root     1548462 1548456    1 1548462  0.0  0.0  67032  3952 ?        S<      Jun 27 00:00:00 audio3drm --id 135
+root     1975302       2    1 1975302  0.0  0.0      0     0 ?        I<    07:19:44 00:00:01 [kworker/3:1H-kblockd]
+root     2064517       2    1 2064517  0.0  0.0      0     0 ?        I<    08:11:13 00:00:01 [kworker/1:0H-kblockd]
+root     2299378       2    1 2299378  0.0  0.0      0     0 ?        I     11:01:06 00:00:02 [kworker/u8:1-events_freezable_power_]
+root     2453936    1220    1 2453936  0.0  0.0   7160  3540 ?        S     12:35:52 00:00:00 /bin/sh /opt/ovrc-fob/tmp/ovrc.sh /opt/ovrc-fob/tmp /opt/ovrc-fob/data eth0
+root     2454068 2453936    1 2454068  0.0  0.1   5628  4840 ?        S     12:36:07 00:00:04 /opt/ovrc-fob/tmp/logd --debug
+root     2454069 2453936    1 2454069  0.0  0.0   2196   884 ?        S     12:36:07 00:00:00 /opt/ovrc-fob/tmp/logd --critical
+root     2454070 2453936    1 2454070  0.0  0.0   6900  3236 ?        S     12:36:07 00:00:00 /bin/sh /opt/ovrc-fob/tmp/watchdog.sh
+root     2454223 2453936    8 2454223  0.1  0.3 1609944 14748 ?       Sl    12:36:22 00:00:21 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454224  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:00 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454225  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:02 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454226  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:02 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454227  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:02 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454228  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:02 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454232  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:00 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2454223 2453936    8 2454238  0.0  0.3 1609944 14748 ?       Sl    12:36:22 00:00:00 /opt/ovrc-fob/tmp/runtime wss://cloud.ovrc.com:443 00:0F:FF:9F:C4:70
+root     2636854       2    1 2636854  0.0  0.0      0     0 ?        I     14:27:55 00:00:00 [kworker/u8:0-events_power_efficient]
+root     2637865       2    1 2637865  0.0  0.0      0     0 ?        I     14:30:17 00:00:00 [kworker/u8:2-events_power_efficient]
+root     2669830       2    1 2669830  0.0  0.0      0     0 ?        I     15:00:59 00:00:01 [kworker/2:1-events]
+root     2724427       2    1 2724427  0.0  0.0      0     0 ?        I     15:15:00 00:00:00 [kworker/3:2-rcu_gp]
+root     2724483       2    1 2724483  0.0  0.0      0     0 ?        I<    15:15:06 00:00:00 [kworker/0:0H-mmc_complete]
+root     2726291       2    1 2726291  0.0  0.0      0     0 ?        I     15:19:20 00:00:00 [kworker/1:1-mm_percpu_wq]
+root     2727005       2    1 2727005  0.0  0.0      0     0 ?        I     15:20:47 00:00:00 [kworker/3:1-events]
+root     2727189       2    1 2727189  0.0  0.0      0     0 ?        I     15:21:11 00:00:00 [kworker/0:1-events]
+root     2727770       2    1 2727770  0.0  0.0      0     0 ?        I<    15:22:35 00:00:00 [kworker/0:2H-mmc_complete]
+root     2728665       2    1 2728665  0.0  0.0      0     0 ?        I     15:24:43 00:00:00 [kworker/2:0-cgroup_destroy]
+root     2728962       2    1 2728962  0.0  0.0      0     0 ?        I     15:25:24 00:00:00 [kworker/1:2-cgroup_destroy]
+root     2729627       2    1 2729627  0.0  0.0      0     0 ?        I     15:26:59 00:00:00 [kworker/0:0-events]
+root     2729754       2    1 2729754  0.0  0.0      0     0 ?        I<    15:27:18 00:00:00 [kworker/1:1H]
+root     2729965       2    1 2729965  0.0  0.0      0     0 ?        I<    15:27:49 00:00:00 [kworker/2:2H]
+root     2729999       2    1 2729999  0.0  0.0      0     0 ?        I<    15:27:54 00:00:00 [kworker/3:0H]
+root     2730902       2    1 2730902  0.0  0.0      0     0 ?        I     15:29:59 00:00:00 [kworker/2:2-events]
+root     2731329       2    1 2731329  0.0  0.0      0     0 ?        I     15:30:59 00:00:00 [kworker/1:0-events]
+root     2731746       2    1 2731746  0.0  0.0      0     0 ?        I     15:31:59 00:00:00 [kworker/3:0]
+root     2732068       2    1 2732068  0.0  0.0      0     0 ?        I<    15:32:47 00:00:00 [kworker/1:2H]
+root     2732233 2454070    1 2732233  0.0  0.0   3364  1024 ?        S     15:33:08 00:00:00 sleep 60
+root     2732253     600    1 2732253  0.0  0.0  13888  3480 ?        S     15:33:11 00:00:00 systemd-userwork: waiting...
+root     2732267     600    1 2732267  0.0  0.0  13888  3484 ?        S     15:33:13 00:00:00 systemd-userwork: waiting...
+root     2732268     600    1 2732268  0.0  0.0  13888  3460 ?        S     15:33:13 00:00:00 systemd-userwork: waiting...
+root     2732300       2    1 2732300  0.0  0.0      0     0 ?        I<    15:33:18 00:00:00 [kworker/3:2H]
+root     2732425    1044    1 2732425  0.0  0.0   3364  1024 ?        S     15:33:35 00:00:00 sleep 5
+root     2732451     781    1 2732451 16.6  0.0   7296  3632 ?        S     15:33:39 00:00:00 /bin/sh /control4/bin/snapshot.sh /mnt/internal/snapshot/snapshot-control4_core5_000FFF9FC470-2026-07-11-15-33-40.zip
+root     2732479       1    1 2732479  0.0  0.0   3364   100 ?        Ss    15:33:39 00:00:00 timeout 5 uname -a
+root     2732491       1    1 2732491  0.0  0.0   3364   104 ?        Ss    15:33:39 00:00:00 timeout 5 uptime
+root     2732501 2732451    1 2732501  900  0.1   9868  4312 ?        R     15:33:39 00:00:00 ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND
+root     2732503       1    1 2732503  0.0  0.0   3364   104 ?        Ss    15:33:39 00:00:00 timeout 5 ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND
+root     3002787       2    1 3002787  0.0  0.0      0     0 ?        I<      Jul 09 00:00:06 [kworker/2:1H-kblockd]

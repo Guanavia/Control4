@@ -1,0 +1,37 @@
+2026-02-11T13:47:52.823-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839272: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:47:52.924-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839272: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:47:52.929-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839272: Error creating bridge: Protocol error.
+2026-02-11T13:48:23.883-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839303: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:48:23.988-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839303: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:48:23.989-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839303: Error creating bridge: Protocol error.
+2026-02-11T13:48:54.845-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839334: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:48:54.944-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839334: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:48:54.948-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839334: Error creating bridge: Protocol error.
+2026-02-11T13:49:25.803-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839365: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:49:25.908-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839365: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:49:25.908-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839365: Error creating bridge: Protocol error.
+2026-02-11T13:49:56.864-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839396: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:49:56.965-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839396: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:49:56.970-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839396: Error creating bridge: Protocol error.
+2026-02-11T13:50:23.867-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839423: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:50:23.967-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839423: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)
+2026-02-11T13:51:32.999-06:00 core5-000FFF9FC470 [1162] notice mosquitto 1770839492: Client local.jwt-auth-bridge closed its connection.
+2026-02-11T13:51:33.001-06:00 core5-000FFF9FC470 [1162] info mosquitto 1770839492: Reloading config.
+2026-02-11T13:51:33.002-06:00 core5-000FFF9FC470 [1162] err mosquitto 1770839492: Failed to set up the mosquitto JWT auth plugin!  Error: unable to open PEM file /etc/openvpn/api.pem!
+2026-02-11T13:51:33.002-06:00 core5-000FFF9FC470 [1162] info mosquitto 1770839492: mosquitto version 2.0.15 terminating
+2026-02-17T09:36:05.909-06:00 core5-000FFF9FC470 [962] notice mosquitto 1771342565: Client local.jwt-auth-bridge closed its connection.
+2026-02-17T09:36:05.918-06:00 core5-000FFF9FC470 [962] info mosquitto 1771342565: Reloading config.
+2026-02-17T09:36:06.033-06:00 core5-000FFF9FC470 [962] info mosquitto 1771342565: mosquitto version 2.0.15 terminating
+2026-02-17T09:36:44.926-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: mosquitto version 2.0.15 starting
+2026-02-17T09:36:44.927-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: Config loaded from /etc/mosquitto/mosquitto-jwt-auth.conf.
+2026-02-17T09:36:44.927-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: Loading plugin: /opt/control4/lib/libmosquitto_jwt_auth.so
+2026-02-17T09:36:44.970-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604:  ├── Username/password checking enabled.
+2026-02-17T09:36:44.970-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604:  ├── TLS-PSK checking enabled.
+2026-02-17T09:36:44.971-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604:  └── Extended authentication enabled.
+2026-02-17T09:36:44.976-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: The mosquitto JWT plugin is running and logging properly!
+2026-02-17T09:36:44.987-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: Opening ipv4 listen socket on port 8884.
+2026-02-17T09:36:44.987-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: Opening ipv6 listen socket on port 8884.
+2026-02-17T09:36:47.882-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: Opening websockets listen socket on port 8886.
+2026-02-17T09:36:47.931-06:00 core5-000FFF9FC470 [1168] notice mosquitto 1771342604: Connecting bridge (step 1) mosquitto-primary (127.0.0.1:8883)
+2026-02-17T09:36:47.946-06:00 core5-000FFF9FC470 [1168] info mosquitto 1771342604: mosquitto version 2.0.15 running
+2026-02-17T09:36:48.053-06:00 core5-000FFF9FC470 [1168] notice mosquitto 1771342608: Connecting bridge (step 2) mosquitto-primary (127.0.0.1:8883)

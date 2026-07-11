@@ -1,0 +1,460 @@
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-09 02:06:00
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-09 03:36:00
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-09 05:20:45
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-09 20:50:10
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-09 23:16:00
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-08 05:35:02 Sunset: 2026-Jul-08 21:00:35
+2026-07-08 23:39:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 5, System Update Daily Event
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-10 03:36:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-09 03:36:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-10 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-10 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): New next found: 2026-Jul-13 02:06:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-09 20:50:10
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-09 05:20:45
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-09 05:20:45
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-09 23:16:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-09 03:36:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-09 05:20:45
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-09 20:50:10
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-09 23:16:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-09 05:35:45 Sunset: 2026-Jul-09 21:00:10
+2026-07-09 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 2, Component Forced Auto Update Event
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-10 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): New next found: 2026-Jul-16 03:36:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-10 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-10 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-09 20:50:10
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-09 05:20:45
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-09 23:16:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-09 05:20:45
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-09 20:50:10
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-09 23:16:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-09 05:35:45 Sunset: 2026-Jul-09 21:00:10
+2026-07-09 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 8, Sunrise (15 min before)
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-10 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-10 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-10 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-09 20:50:10
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): New next found: 2026-Jul-10 05:21:29 instead of old next: 1400-Jan-01 00:00:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-10 05:21:29
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-10 05:21:29
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-09 23:16:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-09 20:50:10
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-09 23:16:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-10 05:21:29
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-09 05:35:45 Sunset: 2026-Jul-09 21:00:10
+2026-07-09 05:20:46 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 6, Sunset (10min Random)
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-10 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-10 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-10 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(6 - Sunset (10min Random)): New next found: 2026-Jul-10 20:50:42 instead of old next: 1400-Jan-01 00:00:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(6 - Sunset (10min Random)): Final new next being returned: 2026-Jul-10 20:50:42
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-10 20:50:42
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-10 05:21:29
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-10 05:21:29
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-09 23:16:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-09 23:16:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-10 05:21:29
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-10 20:50:42
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-09 05:35:45 Sunset: 2026-Jul-09 21:00:10
+2026-07-09 20:50:11 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 9, Late Night Lights Off - 23:30
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-10 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-10 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-10 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-10 20:50:42
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-10 05:21:29
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-10 05:21:29
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(9 - Late Night Lights Off - 23:30): New next found: 2026-Jul-10 23:24:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(9 - Late Night Lights Off - 23:30): Final new next being returned: 2026-Jul-10 23:24:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-10 23:24:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-10 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-10 05:21:29
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-10 20:50:42
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-10 23:24:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-09 05:35:45 Sunset: 2026-Jul-09 21:00:10
+2026-07-09 23:16:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 4, System Update Event
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-10 03:36:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): New next found: 2026-Jul-17 02:06:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-10 20:50:42
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-10 05:21:29
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-10 05:21:29
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-10 23:24:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-10 03:36:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-10 05:21:29
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-10 20:50:42
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-10 23:24:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-10 05:36:29 Sunset: 2026-Jul-10 20:59:42
+2026-07-10 02:06:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 1, Component Auto Update Event
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): New next found: 2026-Jul-11 03:36:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-11 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-11 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-10 20:50:42
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-10 05:21:29
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-10 23:24:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-10 05:21:29
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-10 20:50:42
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-10 23:24:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-11 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-10 05:36:29 Sunset: 2026-Jul-10 20:59:42
+2026-07-10 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 8, Sunrise (15 min before)
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-11 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-11 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-10 20:50:42
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): New next found: 2026-Jul-11 05:22:15 instead of old next: 1400-Jan-01 00:00:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-11 05:22:15
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-11 05:22:15
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-10 23:24:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-10 20:50:42
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-10 23:24:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-11 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-11 05:22:15
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-10 05:36:29 Sunset: 2026-Jul-10 20:59:42
+2026-07-10 05:21:30 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 6, Sunset (10min Random)
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-11 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-11 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(6 - Sunset (10min Random)): New next found: 2026-Jul-11 20:52:13 instead of old next: 1400-Jan-01 00:00:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(6 - Sunset (10min Random)): Final new next being returned: 2026-Jul-11 20:52:13
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-11 20:52:13
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-11 05:22:15
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-11 05:22:15
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-10 23:24:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-10 23:24:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-11 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-11 05:22:15
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-11 20:52:13
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-10 05:36:29 Sunset: 2026-Jul-10 20:59:42
+2026-07-10 20:50:43 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 9, Late Night Lights Off - 23:30
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-11 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-11 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-11 20:52:13
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-11 05:22:15
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-11 05:22:15
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(9 - Late Night Lights Off - 23:30): New next found: 2026-Jul-11 23:37:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(9 - Late Night Lights Off - 23:30): Final new next being returned: 2026-Jul-11 23:37:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-11 23:37:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-11 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-11 05:22:15
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-11 20:52:13
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-11 23:37:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-10 05:36:29 Sunset: 2026-Jul-10 20:59:42
+2026-07-10 23:24:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 1, Component Auto Update Event
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): New next found: 2026-Jul-12 03:36:00 instead of old next: 1400-Jan-01 00:00:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-12 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-12 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-11 20:52:13
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-11 05:22:15
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-11 23:37:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-11 05:22:15
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-11 20:52:13
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-11 23:37:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-12 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-11 05:37:15 Sunset: 2026-Jul-11 20:59:13
+2026-07-11 03:36:01 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Fired event 8, Sunrise (15 min before)
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(1 - Component Auto Update Event): Final new next being returned: 2026-Jul-12 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(1 - Component Auto Update Event): Adding occurrence is now: 2026-Jul-12 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(2 - Component Forced Auto Update Event): Final new next being returned: 2026-Jul-16 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(2 - Component Forced Auto Update Event): Adding occurrence is now: 2026-Jul-16 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(4 - System Update Event): Final new next being returned: 2026-Jul-17 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(4 - System Update Event): Adding occurrence is now: 2026-Jul-17 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(5 - System Update Daily Event): Final new next being returned: 2026-Jul-13 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(5 - System Update Daily Event): Adding occurrence is now: 2026-Jul-13 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(6 - Sunset (10min Random)): Adding occurrence is now: 2026-Jul-11 20:52:13
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): New next found: 2026-Jul-12 05:23:02 instead of old next: 1400-Jan-01 00:00:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) get_next_occurrence_ event id(8 - Sunrise (15 min before)): Final new next being returned: 2026-Jul-12 05:23:02
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(8 - Sunrise (15 min before)): Adding occurrence is now: 2026-Jul-12 05:23:02
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(9 - Late Night Lights Off - 23:30): Adding occurrence is now: 2026-Jul-11 23:37:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(10 - Holiday Lights - On (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) event id(11 - Holiday Lights - Off (2025)): Skipping event due to occurrence == min_date_time for now: , latitude: 44.9153, longitude: -93.311
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] WARN scheduler_agent_nl: (1284) calculate_events_to_fire_: No events found, not scheduling anything to fire.
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- Internal state dump initiated by: "timer expired"
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 1 (Component Auto Update Event) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 2 (Component Forced Auto Update Event) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 4 (System Update Event) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 5 (System Update Daily Event) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 6 (Sunset (10min Random)) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 8 (Sunrise (15 min before)) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 9 (Late Night Lights Off - 23:30) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 10 (Holiday Lights - On (2025)) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Entry: 11 (Holiday Lights - Off (2025)) enabled visible unlocked 
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 6 (Sunset (10min Random)) will fire at: 2026-Jul-11 20:52:13
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 9 (Late Night Lights Off - 23:30) will fire at: 2026-Jul-11 23:37:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 1 (Component Auto Update Event) will fire at: 2026-Jul-12 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 8 (Sunrise (15 min before)) will fire at: 2026-Jul-12 05:23:02
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 5 (System Update Daily Event) will fire at: 2026-Jul-13 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 2 (Component Forced Auto Update Event) will fire at: 2026-Jul-16 03:36:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Event: 4 (System Update Event) will fire at: 2026-Jul-17 02:06:00
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284) Sunrise: 2026-Jul-11 05:37:15 Sunset: 2026-Jul-11 20:59:13
+2026-07-11 05:22:16 -0500 core5-000FFF9FC470 [1284] DEBUG scheduler_agent_nl: (1284)  ------- 

@@ -1,0 +1,173 @@
+2025-04-27 14:01:30.760 core5-000FFF9FC470 DEBUG: main(): tmp_logs=/mnt/internal/snapshot/tmp_snapshot_2025-04-27_14-01-30-743
+2025-04-27 14:01:30.784 core5-000FFF9FC470 DEBUG: Running command: uname -a
+2025-04-27 14:01:30.815 core5-000FFF9FC470 DEBUG: Running command: uptime
+2025-04-27 14:01:30.845 core5-000FFF9FC470 DEBUG: Running command: ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND
+2025-04-27 14:01:30.941 core5-000FFF9FC470 DEBUG: Running command: top -b -n 1
+2025-04-27 14:01:31.155 core5-000FFF9FC470 DEBUG: Running command: free
+2025-04-27 14:01:31.189 core5-000FFF9FC470 DEBUG: Running command: dpkg -l
+2025-04-27 14:01:31.302 core5-000FFF9FC470 DEBUG: Running command: cat /proc/meminfo
+2025-04-27 14:01:31.335 core5-000FFF9FC470 DEBUG: Running command: ntpq -dp
+2025-04-27 14:01:31.382 core5-000FFF9FC470 DEBUG: Running command: sysman status
+2025-04-27 14:01:31.418 core5-000FFF9FC470 DEBUG: Running command: sysman sysinfo
+2025-04-27 14:01:31.738 core5-000FFF9FC470 DEBUG: Running command: sysman log
+2025-04-27 14:01:32.897 core5-000FFF9FC470 DEBUG: Running command: cat /proc/hostinfo
+2025-04-27 14:01:32.125 core5-000FFF9FC470 DEBUG: Running command: systemctl --all -l
+2025-04-27 14:01:32.187 core5-000FFF9FC470 DEBUG: Running command: systemctl list-unit-files
+2025-04-27 14:01:34.152 core5-000FFF9FC470 DEBUG: Running command: cat /proc/c4board/name
+2025-04-27 14:01:34.240 core5-000FFF9FC470 DEBUG: Running command: lsmod
+2025-04-27 14:01:34.270 core5-000FFF9FC470 DEBUG: Running command: lsusb
+2025-04-27 14:01:34.322 core5-000FFF9FC470 DEBUG: Running command: cat /etc/os-release
+2025-04-27 14:01:34.358 core5-000FFF9FC470 DEBUG: Running command: cat /sys/kernel/debug/gc/vidmem
+2025-04-27 14:01:34.391 core5-000FFF9FC470 DEBUG: Running command: cat /etc/xdg/weston/weston.ini
+2025-04-27 14:01:34.429 core5-000FFF9FC470 DEBUG: Running command: weston-info
+2025-04-27 14:01:34.461 core5-000FFF9FC470 DEBUG: Running command: cat /sys/class/thermal/thermal_zone0/temp
+2025-04-27 14:01:34.555 core5-000FFF9FC470 DEBUG: Running command: ifconfig -a
+2025-04-27 14:01:34.584 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 info
+2025-04-27 14:01:34.623 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 link
+2025-04-27 14:01:34.662 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 station dump
+2025-04-27 14:01:34.695 core5-000FFF9FC470 DEBUG: Running command: netstat -anp
+2025-04-27 14:01:34.748 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/tcp
+2025-04-27 14:01:34.782 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/udp
+2025-04-27 14:01:34.820 core5-000FFF9FC470 DEBUG: Getting network configuration
+2025-04-27 14:01:34.847 core5-000FFF9FC470 DEBUG: Running command: df
+2025-04-27 14:01:34.973 core5-000FFF9FC470 DEBUG: Running command: mount
+2025-04-27 14:01:34.741 core5-000FFF9FC470 DEBUG: Running command: ls -l /dev
+2025-04-27 14:01:35.418 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /etc
+2025-04-27 14:01:35.153 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /opt
+2025-04-27 14:01:35.436 core5-000FFF9FC470 DEBUG: Running command: ls -lR /packages/
+2025-04-27 14:01:35.467 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/www/
+2025-04-27 14:01:35.499 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /mnt/internal/www/
+2025-04-27 14:01:35.610 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/c4z
+2025-04-27 14:01:35.720 core5-000FFF9FC470 DEBUG: Gathering update related files
+2025-04-27 14:01:35.750 core5-000FFF9FC470 DEBUG: Running command: dman diag all
+2025-04-27 14:01:36.487 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/arc_status
+2025-04-27 14:01:36.520 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/earc_status
+2025-04-27 14:01:36.552 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl
+2025-04-27 14:01:36.587 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl --list-devices
+2025-04-27 14:01:36.619 core5-000FFF9FC470 DEBUG: Running command: edid-capture-client
+2025-04-27 14:01:36.669 core5-000FFF9FC470 DEBUG: Running command: lspci
+2025-04-27 14:01:38.828 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak list --all --show-details
+2025-04-27 14:01:38.905 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak history
+2025-04-27 14:01:38.981 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak remotes --show-details
+2025-04-27 14:01:39.506 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak permissions
+2025-04-27 14:01:39.253 core5-000FFF9FC470 DEBUG: Creating zip file
+2025-04-27 14:01:40.537 core5-000FFF9FC470 DEBUG: Done. Logs written to /mnt/internal/snapshot/snapshot-control4_core5_000FFF9FC470-2025-04-27-14-01-30.zip
+2026-02-11 13:39:32.206 core5-000FFF9FC470 DEBUG: main(): tmp_logs=/mnt/internal/snapshot/tmp_snapshot_2026-02-11_13-39-32-188
+2026-02-11 13:39:32.234 core5-000FFF9FC470 DEBUG: Running command: uname -a
+2026-02-11 13:39:32.268 core5-000FFF9FC470 DEBUG: Running command: uptime
+2026-02-11 13:39:32.308 core5-000FFF9FC470 DEBUG: Running command: ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND
+2026-02-11 13:39:32.400 core5-000FFF9FC470 DEBUG: Running command: top -b -n 1
+2026-02-11 13:39:32.629 core5-000FFF9FC470 DEBUG: Running command: free
+2026-02-11 13:39:32.678 core5-000FFF9FC470 DEBUG: Running command: dpkg -l
+2026-02-11 13:39:32.795 core5-000FFF9FC470 DEBUG: Running command: cat /proc/meminfo
+2026-02-11 13:39:32.831 core5-000FFF9FC470 DEBUG: Running command: ntpq -dp
+2026-02-11 13:39:32.890 core5-000FFF9FC470 DEBUG: Running command: sysman status
+2026-02-11 13:39:32.927 core5-000FFF9FC470 DEBUG: Running command: sysman sysinfo
+2026-02-11 13:39:33.293 core5-000FFF9FC470 DEBUG: Running command: sysman log
+2026-02-11 13:39:33.590 core5-000FFF9FC470 DEBUG: Running command: cat /proc/hostinfo
+2026-02-11 13:39:33.628 core5-000FFF9FC470 DEBUG: Running command: systemctl --all -l
+2026-02-11 13:39:33.692 core5-000FFF9FC470 DEBUG: Running command: systemctl list-unit-files
+2026-02-11 13:39:35.936 core5-000FFF9FC470 DEBUG: Running command: cat /proc/c4board/name
+2026-02-11 13:39:36.307 core5-000FFF9FC470 DEBUG: Running command: lsmod
+2026-02-11 13:39:36.682 core5-000FFF9FC470 DEBUG: Running command: lsusb
+2026-02-11 13:39:36.123 core5-000FFF9FC470 DEBUG: Running command: cat /etc/os-release
+2026-02-11 13:39:36.160 core5-000FFF9FC470 DEBUG: Running command: cat /sys/kernel/debug/gc/vidmem
+2026-02-11 13:39:36.201 core5-000FFF9FC470 DEBUG: Running command: cat /etc/xdg/weston/weston.ini
+2026-02-11 13:39:36.239 core5-000FFF9FC470 DEBUG: Running command: weston-info
+2026-02-11 13:39:36.269 core5-000FFF9FC470 DEBUG: Running command: cat /sys/class/thermal/thermal_zone0/temp
+2026-02-11 13:39:36.364 core5-000FFF9FC470 DEBUG: Running command: ifconfig -a
+2026-02-11 13:39:36.400 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 info
+2026-02-11 13:39:36.453 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 link
+2026-02-11 13:39:36.498 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 station dump
+2026-02-11 13:39:36.545 core5-000FFF9FC470 DEBUG: Running command: netstat -anp
+2026-02-11 13:39:36.603 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/tcp
+2026-02-11 13:39:36.640 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/udp
+2026-02-11 13:39:36.684 core5-000FFF9FC470 DEBUG: Getting network configuration
+2026-02-11 13:39:36.714 core5-000FFF9FC470 DEBUG: Running command: df
+2026-02-11 13:39:36.852 core5-000FFF9FC470 DEBUG: Running command: mount
+2026-02-11 13:39:36.887 core5-000FFF9FC470 DEBUG: Running command: ls -l /dev
+2026-02-11 13:39:36.924 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /etc
+2026-02-11 13:39:37.631 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /opt
+2026-02-11 13:39:37.333 core5-000FFF9FC470 DEBUG: Running command: ls -lR /packages/
+2026-02-11 13:39:37.370 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/www/
+2026-02-11 13:39:37.404 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /mnt/internal/www/
+2026-02-11 13:39:37.612 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/c4z
+2026-02-11 13:39:37.724 core5-000FFF9FC470 DEBUG: Gathering update related files
+2026-02-11 13:39:37.757 core5-000FFF9FC470 DEBUG: Running command: dman diag all
+2026-02-11 13:39:37.827 core5-000FFF9FC470 DEBUG: Gathering DSP loading file
+2026-02-11 13:39:38.583 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/arc_status
+2026-02-11 13:39:38.620 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/earc_status
+2026-02-11 13:39:38.660 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl
+2026-02-11 13:39:38.700 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl --list-devices
+2026-02-11 13:39:38.734 core5-000FFF9FC470 DEBUG: Running command: edid-capture-client
+2026-02-11 13:39:38.790 core5-000FFF9FC470 DEBUG: Running command: lspci
+2026-02-11 13:39:40.983 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak list --all --show-details
+2026-02-11 13:39:41.647 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak history
+2026-02-11 13:39:41.149 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak remotes --show-details
+2026-02-11 13:39:41.232 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak permissions
+2026-02-11 13:39:41.663 core5-000FFF9FC470 DEBUG: Creating zip file
+2026-02-11 13:39:43.998 core5-000FFF9FC470 DEBUG: Done. Logs written to /mnt/internal/snapshot/snapshot-control4_core5_000FFF9FC470-2026-02-11-13-39-32.zip
+2026-07-11 15:33:40.446 core5-000FFF9FC470 DEBUG: main(): tmp_logs=/mnt/internal/snapshot/tmp_snapshot_2026-07-11_15-33-40-427
+2026-07-11 15:33:40.475 core5-000FFF9FC470 DEBUG: Running command: uname -a
+2026-07-11 15:33:40.511 core5-000FFF9FC470 DEBUG: Running command: uptime
+2026-07-11 15:33:40.550 core5-000FFF9FC470 DEBUG: Running command: ps -eL -o euser=UID -o pid=PID -o ppid=PPID -o nlwp=NLWP -o lwp=LWP -o pcpu=%CPU -o pmem=%MEM -o vsz=VSZ -o rss=RSS -o tty=TTY -o stat=STATE -o start=START -o time=TIME -o command=COMMAND
+2026-07-11 15:33:40.700 core5-000FFF9FC470 DEBUG: Running command: top -b -n 1
+2026-07-11 15:33:40.938 core5-000FFF9FC470 DEBUG: Running command: free
+2026-07-11 15:33:40.980 core5-000FFF9FC470 DEBUG: Running command: dpkg -l
+2026-07-11 15:33:41.109 core5-000FFF9FC470 DEBUG: Running command: cat /proc/meminfo
+2026-07-11 15:33:41.148 core5-000FFF9FC470 DEBUG: Running command: ntpq -dp
+2026-07-11 15:33:41.302 core5-000FFF9FC470 DEBUG: Running command: sysman status
+2026-07-11 15:33:41.340 core5-000FFF9FC470 DEBUG: Running command: sysman sysinfo
+2026-07-11 15:33:41.738 core5-000FFF9FC470 DEBUG: Running command: sysman log
+2026-07-11 15:33:42.527 core5-000FFF9FC470 DEBUG: Running command: cat /proc/hostinfo
+2026-07-11 15:33:42.905 core5-000FFF9FC470 DEBUG: Running command: systemctl --all -l
+2026-07-11 15:33:42.161 core5-000FFF9FC470 DEBUG: Running command: systemctl list-unit-files
+2026-07-11 15:33:44.593 core5-000FFF9FC470 DEBUG: Running command: cat /proc/c4board/name
+2026-07-11 15:33:44.708 core5-000FFF9FC470 DEBUG: Running command: lsmod
+2026-07-11 15:33:44.747 core5-000FFF9FC470 DEBUG: Running command: lsusb
+2026-07-11 15:33:44.818 core5-000FFF9FC470 DEBUG: Running command: cat /etc/os-release
+2026-07-11 15:33:44.856 core5-000FFF9FC470 DEBUG: Running command: cat /sys/kernel/debug/gc/vidmem
+2026-07-11 15:33:44.895 core5-000FFF9FC470 DEBUG: Running command: cat /etc/xdg/weston/weston.ini
+2026-07-11 15:33:44.940 core5-000FFF9FC470 DEBUG: Running command: wayland-info
+2026-07-11 15:33:44.985 core5-000FFF9FC470 DEBUG: Running command: cat /sys/class/thermal/thermal_zone0/temp
+2026-07-11 15:33:45.803 core5-000FFF9FC470 DEBUG: Running command: ifconfig -a
+2026-07-11 15:33:45.116 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 info
+2026-07-11 15:33:45.167 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 link
+2026-07-11 15:33:45.214 core5-000FFF9FC470 DEBUG: Running command: iw dev wlan0 station dump
+2026-07-11 15:33:45.258 core5-000FFF9FC470 DEBUG: Running command: netstat -anp
+2026-07-11 15:33:45.340 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/tcp
+2026-07-11 15:33:45.381 core5-000FFF9FC470 DEBUG: Running command: cat /proc/net/udp
+2026-07-11 15:33:45.425 core5-000FFF9FC470 DEBUG: Getting network configuration
+2026-07-11 15:33:45.456 core5-000FFF9FC470 DEBUG: Running command: df
+2026-07-11 15:33:45.574 core5-000FFF9FC470 DEBUG: Running command: mount
+2026-07-11 15:33:45.609 core5-000FFF9FC470 DEBUG: Running command: ls -l /dev
+2026-07-11 15:33:45.651 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /etc
+2026-07-11 15:33:45.738 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /opt
+2026-07-11 15:33:45.982 core5-000FFF9FC470 DEBUG: Running command: ls -lR /packages/
+2026-07-11 15:33:46.186 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/www/
+2026-07-11 15:33:46.561 core5-000FFF9FC470 DEBUG: Running command: ls -lRL /mnt/internal/www/
+2026-07-11 15:33:46.258 core5-000FFF9FC470 DEBUG: Running command: ls -lR /mnt/internal/c4z
+2026-07-11 15:33:46.467 core5-000FFF9FC470 DEBUG: Gathering update related files
+2026-07-11 15:33:46.499 core5-000FFF9FC470 DEBUG: Running command: dman diag all
+2026-07-11 15:33:46.638 core5-000FFF9FC470 DEBUG: Gathering DSP loading file
+2026-07-11 15:33:46.687 core5-000FFF9FC470 DEBUG: Freeswitch is running, gathering its info
+2026-07-11 15:33:46.714 core5-000FFF9FC470 DEBUG: fs: fs_cli -x status
+2026-07-11 15:33:46.759 core5-000FFF9FC470 DEBUG: fs: fs_cli -x sofia status
+2026-07-11 15:33:46.795 core5-000FFF9FC470 DEBUG: fs: fs_cli -x sofia status profile internal reg
+2026-07-11 15:33:46.832 core5-000FFF9FC470 DEBUG: fs: fs_cli -x sofia status profile commserver reg
+2026-07-11 15:33:46.869 core5-000FFF9FC470 DEBUG: fs: fs_cli -x fsctl sps
+2026-07-11 15:33:46.904 core5-000FFF9FC470 DEBUG: fs: fs_cli -x fsctl last_sps
+2026-07-11 15:33:46.941 core5-000FFF9FC470 DEBUG: fs: fs_cli -x show detailed_calls
+2026-07-11 15:33:46.979 core5-000FFF9FC470 DEBUG: fs: fs_cli -x show detailed_bridged_calls
+2026-07-11 15:33:47.156 core5-000FFF9FC470 DEBUG: fs: fs_cli -x uptime
+2026-07-11 15:33:47.817 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/arc_status
+2026-07-11 15:33:47.859 core5-000FFF9FC470 DEBUG: Running command: cat /sys/bus/i2c/drivers/sii9437/3-0030/link/earc_status
+2026-07-11 15:33:47.898 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl
+2026-07-11 15:33:47.940 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl --list-devices
+2026-07-11 15:33:47.979 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/cec-ctl --show-topology
+2026-07-11 15:33:48.150 core5-000FFF9FC470 DEBUG: Running command: edid-capture-client
+2026-07-11 15:33:48.683 core5-000FFF9FC470 DEBUG: Running command: lspci
+2026-07-11 15:33:48.182 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak list --all --show-details
+2026-07-11 15:33:48.268 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak history
+2026-07-11 15:33:48.357 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak remotes --show-details
+2026-07-11 15:33:48.438 core5-000FFF9FC470 DEBUG: Running command: /usr/bin/flatpak permissions

@@ -1,0 +1,2 @@
+gpu0 mc clock: 800047397 HZ.
+gpu0 sh clock: 800012041 HZ.

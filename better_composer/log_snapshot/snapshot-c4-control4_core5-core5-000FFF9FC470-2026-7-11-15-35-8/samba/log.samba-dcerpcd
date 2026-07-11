@@ -1,0 +1,10 @@
+[2026/07/06 19:41:18,  0] /usr/src/debug/samba/4.18.1-r10/source3/rpc_server/rpc_host.c:2966(main)
+  samba-dcerpcd version 4.18.1 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2023
+[2026/07/06 19:41:19.093519,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII
+[2026/07/06 21:29:27,  0] /usr/src/debug/samba/4.18.1-r10/source3/rpc_server/rpc_host.c:2966(main)
+  samba-dcerpcd version 4.18.1 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2023
+[2026/07/06 21:29:28.212971,  0] /usr/src/debug/samba/4.18.1-r10/lib/util/charset/codepoints.c:16649(get_conv_handle)
+  dos charset 'CP850' unavailable - using ASCII

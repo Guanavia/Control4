@@ -1,0 +1,7 @@
+127.0.0.1     localhost core5-000FFF9FC470
+192.168.1.123 localbox
+192.168.1.192 ts-t4-inwall8-ST2528009B845F1F
+192.168.1.71  corelite-000FFF9FB918
+
+###UserDefined
+127.0.0.1     director

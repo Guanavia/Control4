@@ -1,0 +1,7 @@
+#-------------------[ cat /proc/hostinfo ] -----------------------#
+
+Hostname:            core5
+Board Name:          core5
+Board Type:          3
+Board Rev:           4
+Board Platform:      EAv3 iMX8

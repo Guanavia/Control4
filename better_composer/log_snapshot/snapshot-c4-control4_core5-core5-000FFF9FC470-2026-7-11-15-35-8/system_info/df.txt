@@ -1,0 +1,12 @@
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/root             27026352   4943900  20895116  19% /
+devtmpfs               1509324         0   1509324   0% /dev
+tmpfs                  2002220         0   2002220   0% /dev/shm
+devpts                       0         0         0   0% /dev/pts
+tmpfs                   262144     70088    192056  27% /run
+mqueue                       0         0         0   0% /dev/mqueue
+hugetlbfs                    0         0         0   0% /dev/hugepages
+tmpfs                  2002224       436   2001788   0% /tmp
+tmpfs                  2002220     30040   1972180   2% /var/volatile
+/dev/mmcblk0p1          130798     29398    101400  22% /boot
+tmpfs                   400444        56    400388   0% /run/user/0

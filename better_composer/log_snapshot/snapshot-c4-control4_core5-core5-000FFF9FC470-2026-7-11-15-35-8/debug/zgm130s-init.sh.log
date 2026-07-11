@@ -1,0 +1,37 @@
+2026-02-17 09:36:42 core5-000FFF9FC470 [1.785] [16.29] begin
+2026-02-17 09:36:42 core5-000FFF9FC470 [1.785] [16.32] BOARD_NAME:BOARD_REV core5:4  TTYZGM=ttymxc3
+2026-02-17 09:36:42 core5-000FFF9FC470 [1.785] [16.38] BOARD_NAME:BOARD_REV core5:4  TTYZGM=ttymxc3
+2026-02-17 09:36:42 core5-000FFF9FC470 [1.785] [16.39] Restart ZGM130S
+2026-02-17 09:36:42 core5-000FFF9FC470 [1.785] [17.15] zw_programmer -s /dev/ttymxc3 -t
+[34;1m2026-02-17T09:36:42.992628-0600 [   883][        0] Using serial device /dev/ttymxc3
+[0m[31;1m[34;1m2026-02-17T09:36:42.992871-0600 [   883][        0] Init Serial device...
+[0m[36;1m SerialAPI: [   883][      153] Got RESPONSE frame while sending....
+[0m[36;1m SerialAPI: [   883][     1513] Retransmission 1 of 0x07
+[0m[34;1m2026-02-17T09:36:44.709633-0600 [   883][     1717] Connected to Serial device: OK
+[0mSerial version: 10, Chip type: 7, Chip version: 0, SDK: 7.20.194, SDK Build no: 176 SDK git hash: c400000000072001
+----------------------------------------------------------------------------
+Note that for bridge7.16 and onward NVM migration is handled by the Z-Wave
+module automatically so zw_nvm_converter must not be used.
+----------------------------------------------------------------------------
+Chip library: 7, ZW protocol: 7.20, NVM: bridge7.17
+nvm_id: bridge7.17
+[34;1m2026-02-17T09:36:44.781706-0600 [   883][     1789] Closing Serial connection
+[0m[0m
+2026-02-17 09:36:48 core5-000FFF9FC470 [1.785] [22.30] Current Z-wave chip SerialAPI SDK version 7.20.194
+2026-02-17 09:36:54 core5-000FFF9FC470 [1.785] [28.20] zw_programmer -s /dev/ttymxc3 -t
+[34;1m2026-02-17T09:36:54.055219-0600 [  2011][        0] Using serial device /dev/ttymxc3
+[0m[31;1m[34;1m2026-02-17T09:36:54.055479-0600 [  2011][        0] Init Serial device...
+[0m[34;1m2026-02-17T09:36:54.141610-0600 [  2011][       86] Connected to Serial device: OK
+[0mSerial version: 10, Chip type: 7, Chip version: 0, SDK: 7.20.194, SDK Build no: 176 SDK git hash: c400000000072001
+----------------------------------------------------------------------------
+Note that for bridge7.16 and onward NVM migration is handled by the Z-Wave
+module automatically so zw_nvm_converter must not be used.
+----------------------------------------------------------------------------
+Chip library: 7, ZW protocol: 7.20, NVM: bridge7.17
+nvm_id: bridge7.17
+[34;1m2026-02-17T09:36:54.213684-0600 [  2011][      158] Closing Serial connection
+[0m[0m
+2026-02-17 09:36:59 core5-000FFF9FC470 [1.785] [33.29] Running SerialAPI version 7.20.194
+2026-02-17 09:36:59 core5-000FFF9FC470 [1.785] [33.31] Creating link from /dev/ttymxc3 to /var/run/uic/ttyZGM
+2026-02-17 09:36:59 core5-000FFF9FC470 [1.785] [33.33] unlock
+2026-02-17 09:36:59 core5-000FFF9FC470 [1.785] [33.35] exit

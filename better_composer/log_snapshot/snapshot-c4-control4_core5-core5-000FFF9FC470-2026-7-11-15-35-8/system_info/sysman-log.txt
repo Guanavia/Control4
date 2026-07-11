@@ -1,0 +1,118 @@
+#-------------------[ sysman log ] -----------------------#
+
+Logger                    Type     Level    Status    Appender        Destination
+adau_dsp                  program  error    defaulted rootAppender    /var/log/debug/adau_dsp.log
+adau_dsp_nl               named    error    defaulted
+alerts                    syslog   alert    set       file            /var/log/alerts.log
+appled                    program  error    defaulted rootAppender    /var/log/debug/appled.log
+apt_status_nl             named    debug    set       apt_status_nl   /var/log/upmanlogs/apt_status.log
+audio3client              syslog   debug    set       file            /var/log/debug/audioclient.log
+audio3client              program  error    defaulted rootAppender    localhost,audio3client,local2
+audio3client_nl           named    error    defaulted
+audio3clock               syslog   debug    set       file            /var/log/debug/audioclock.log
+audio3clock               program  error    defaulted rootAppender    localhost,audioclock,local2
+audio3clock_nl            named    error    defaulted
+audio3drm                 program  error    defaulted rootAppender    /var/log/debug/audiodrm.log
+audio3server              program  error    defaulted rootAppender    /var/log/debug/audio3server.log
+audio3streamer            syslog   debug    set       file            /var/log/debug/audiostreamer.log
+audio3streamer            program  error    defaulted rootAppender    localhost,audiostreamer,local2
+audio3streamer_nl         named    error    defaulted
+audioclient               syslog   debug    set       file            /var/log/debug/audioclient.log
+c4lookup                  program  error    defaulted rootAppender    /var/log/debug/c4lookup.log
+c4lookup_nl               named    error    defaulted
+c4metricsd                program  error    defaulted rootAppender    /var/log/debug/c4metricsd/c4metricsd.log
+c4metricsd_nl             named    error    defaulted
+c4net_nl                  named    error    defaulted
+c4rmengined               program  error    defaulted rootAppender    /var/log/debug/c4rmengined.log
+c4rmengined_nl            named    error    defaulted
+c4server                  program  error    defaulted rootAppender    /var/log/debug/c4server.log
+c4server_nl               named    error    defaulted
+control4-osd              program  debug    set       rootAppender    /var/log/debug/control4-osd.log
+cvm-getter                program  error    defaulted rootAppender    /var/log/log/cvm-getter.log
+daemon                    syslog   info     set       file            /var/log/debug/daemon.log
+default-log4cplus-2.1     program  error    set       rootAppender    
+dhcp                      syslog   error    set       file            /var/log/log/network.log
+director                  syslog   debug    set       file            /var/log/debug/director.log
+director                  program  error    defaulted rootAppender    localhost,director,uucp
+director_nl               named    error    defaulted
+dman                      program  error    defaulted rootAppender    /var/log/log/dman.log
+dman_nl                   named    error    defaulted
+driver_debug_nl           driver   error    set       driver_debug_nl /var/log/log/driver_debug.log
+driver_event_nl           driver   info     set       driver_event_nl /var/log/debug/driver_event.log
+driver_log_nl             driver   debug    set       driver_log_nl   /var/log/debug/driver_log.log
+driver_memory_nl          driver   debug    set       driver_memory_nl /var/log/log/driver_memory.log
+dumpsys_nl                named    info     set       dumpsys_nl      /var/log/debug/dumpsys.log
+filescanner_nl            named    error    defaulted
+flash_nl                  named    error    defaulted
+hdmi                      syslog   info     set       file            /var/log/hdmi.log
+health-microservice       program  error    defaulted rootAppender    /var/log/debug/health-microservice/health-microservice.log
+intercom_nl               named    info     set       intercom_nl     /var/log/debug/intercom.log
+ioserver                  program  error    defaulted rootAppender    /var/log/debug/ioserver.log
+ioserver_nl               named    error    defaulted
+launchdarkly-microservice program  debug    set       rootAppender    /var/log/debug/launchdarkly-microservice/launchdarkly-microservice.log
+launchdarkly-microservice-cli program  error    set       NULL            unknown
+lb_api_nl                 named    info     set      
+lb_detections_nl          named    info     set      
+lb_events_nl              named    info     set      
+lb_filters_nl             named    info     set      
+lb_flow_nl                named    info     set      
+lb_health_nl              named    info     set      
+lb_rules_nl               named    info     set      
+led_service_log           syslog   info     set      
+lighting_nl               named    error    set       lighting_nl     /var/log/debug/lighting.log
+list_navigator_nl         named    error    defaulted
+luabind_nl                named    error    defaulted
+lumabridge                program  info     set       rootAppender    /var/log/debug/lumabridge.log
+lumabridge                program  info     set       console         console
+mediamanager_nl           named    error    defaulted
+message_bus_nl            named    error    defaulted
+netusbserver              program  error    defaulted rootAppender    /var/log/debug/netusbserver.log
+netusbserver_nl           named    error    defaulted
+network                   syslog   info     set       file            /var/log/log/network.log
+path_nl                   named    error    defaulted
+programming_change_nl     named    info     set       programming_change_nl /var/log/log/programming_change.log
+project_change_nl         named    info     set       project_change_nl /var/log/log/project_change.log
+raproxyd                  program  error    defaulted rootAppender    /var/log/debug/raproxyd.log
+raproxyd_nl               named    error    defaulted
+registry                  program  error    defaulted rootAppender    /var/log/debug/registry.log
+registry_nl               named    error    defaulted
+remote_access_manager     program  error    defaulted rootAppender    /var/log/debug/remote_access_manager.log
+remote_access_manager_nl  named    error    defaulted
+resetcheck                program  error    defaulted rootAppender    /var/log/debug/resetcheck.log
+resetcheck_nl             named    error    defaulted
+scheduler_agent_nl        named    debug    set       scheduler_agent_nl /var/log/debug/scheduler_agent.log
+sddpd                     syslog   info     set      
+shaird                    program  error    defaulted rootAppender    /var/log/debug/shaird.log
+spotifyclient             program  error    defaulted rootAppender    /var/log/debug/spotifyclient.log    
+spotifyd                  program  error    defaulted rootAppender    /var/log/debug/spotifyd.log    
+sysman                    program  error    set       rootAppender    console
+sysmand                   syslog   debug    set       file            /var/log/log/sysmand.log
+sysmand                   program  info     set       rootAppender    localhost,sysmand,local1
+sysmand_nl                named    error    defaulted
+uiccli                    program  error    defaulted rootAppender    /var/log/uic/uiccli.log
+uicmmd                    program  error    defaulted rootAppender    /var/log/debug/uicmmd.log
+update_history_nl         named    debug    set       update_history_nl /var/log/upmanlogs/update_history.log
+update_manager_agent_nl   named    debug    set       update_manager_agent_nl /var/log/upmanlogs/UpdateManagerAgent.log
+upmand                    program  debug    set       rootAppender    localhost,upmand,local5
+upmand_nl                 named    error    defaulted
+video-security-ms         program  error    defaulted rootAppender    /var/log/debug/video-security-ms/video-security-ms.log
+voice_amazon              program  debug    set       rootAppender    /var/log/debug/voice_amazon.log
+voice_apple               program  debug    set       rootAppender    /var/log/debug/voice_apple.log
+voice_comcast             program  debug    set       rootAppender    /var/log/debug/voice_comcast.log
+voice_joshai              program  debug    set       rootAppender    /var/log/debug/voice_joshai.log
+voice_transcoder          program  debug    set       rootAppender    /var/log/debug/voice_transcoder.log
+voiced                    program  error    defaulted rootAppender    /var/log/debug/voiced.log
+watchdog                  syslog   debug    set       file            /var/log/debug/watchdog.log
+zap                       program  error    defaulted rootAppender    /var/log/debug/zap.log
+zap_nl                    named    error    defaulted
+zclient_nl                named    error    defaulted
+zg_pti                    named    debug    set       zg_pti          /var/log/debug/zg_pti.log
+zigbeemanager_nl          named    error    defaulted
+zman                      program  error    set       rootAppender    /var/log/debug/zman.log
+zman3                     program  error    set       rootAppender    /var/log/debug/zman3.log
+zscan                     program  error    set       rootAppender    console
+zserver2                  program  error    defaulted rootAppender    /var/log/debug/zserver.log
+zserver3                  program  error    defaulted rootAppender    /var/log/debug/zserver3.log
+zserver3_nl               named    error    defaulted
+zserver_nl                named    error    defaulted
+OK

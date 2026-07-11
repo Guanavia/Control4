@@ -1,0 +1,44 @@
+2026-02-17 09:37:39.908 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-02-17 09:37:39.908 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-02-17 09:37:39.908 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-02-17 09:37:40.431 -0600 core5-000FFF9FC470 [771] ERROR: Mount point '/media/net/000FFF9FB918-corelite_media' successful on share '//corelite-000FFF9FB918/media'
+2026-02-17 09:37:40.435 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-02-17 09:37:40.435 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-02-17 09:37:40.435 -0600 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-02-17 09:37:40.436 -0600 core5-000FFF9FC470 [771] ERROR: Found duplicate mount: '/media/net/000FFF9FB918-corelite_media'
+2026-03-30 14:02:02.977 -0500 core5-000FFF9FC470 [771] ERROR: Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 14:02:02.985 -0500 core5-000FFF9FC470 [771] ERROR: Hard Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 15:46:56.000 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-03-30 15:46:56.000 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-03-30 15:46:56.000 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-03-30 15:46:56.773 -0500 core5-000FFF9FC470 [771] ERROR: isShareAvailable: the share is not available and we have not enabled our three strike rule because the share has not previously been mounted or determined to be available.
+2026-03-30 15:46:56.773 -0500 core5-000FFF9FC470 [771] ERROR: Share not available  for mount location /media/net/000FFF9FB918-corelite_media, Success
+2026-03-30 15:46:56.773 -0500 core5-000FFF9FC470 [771] ERROR: Removing mount due to an error: 'Error "/media/net/000FFF9FB918-corelite_media"'
+2026-03-30 15:46:56.781 -0500 core5-000FFF9FC470 [771] ERROR: Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 15:46:56.789 -0500 core5-000FFF9FC470 [771] ERROR: Hard Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 15:46:56.797 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-03-30 15:46:56.797 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-03-30 15:46:56.797 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-03-30 15:46:57.571 -0500 core5-000FFF9FC470 [771] ERROR: isShareAvailable: the share is not available and we have not enabled our three strike rule because the share has not previously been mounted or determined to be available.
+2026-03-30 15:46:57.571 -0500 core5-000FFF9FC470 [771] ERROR: Share not available  for mount location /media/net/000FFF9FB918-corelite_media, Success
+2026-03-30 15:46:57.571 -0500 core5-000FFF9FC470 [771] ERROR: Removing mount due to an error: 'Error "/media/net/000FFF9FB918-corelite_media"'
+2026-03-30 15:46:57.579 -0500 core5-000FFF9FC470 [771] ERROR: Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 15:46:57.587 -0500 core5-000FFF9FC470 [771] ERROR: Hard Unmounting /media/net/000FFF9FB918-corelite_media returned error (Broken pipe)
+2026-03-30 15:47:01.240 -0500 core5-000FFF9FC470 [771] ERROR: Mount point '/media/net/000FFF9FB918-corelite_media' successful on share '//corelite-000FFF9FB918/media'
+2026-03-30 15:47:28.201 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-03-30 15:47:28.201 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-03-30 15:47:28.201 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-03-30 15:47:28.206 -0500 core5-000FFF9FC470 [771] ERROR: Found duplicate mount: '/media/net/000FFF9FB918-corelite_media'
+2026-05-17 21:23:43.455 -0500 core5-000FFF9FC470 [771] ERROR: Mount point '/media/net/000FFF9FB918-corelite_media' successful on share '//corelite-000FFF9FB918/media'
+2026-05-17 21:23:50.597 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-05-17 21:23:50.597 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-05-17 21:23:50.597 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-05-17 21:23:51.082 -0500 core5-000FFF9FC470 [771] ERROR: Mount point '/media/net/000FFF9FB918-corelite_media' successful on share '//corelite-000FFF9FB918/media'
+2026-05-22 13:46:44.749 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-05-22 13:46:44.749 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-05-22 13:46:44.749 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-05-22 13:46:44.754 -0500 core5-000FFF9FC470 [771] ERROR: Found duplicate mount: '/media/net/000FFF9FB918-corelite_media'
+2026-05-22 13:46:44.755 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no user name for login defined
+2026-05-22 13:46:44.755 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share password for login defined
+2026-05-22 13:46:44.755 -0500 core5-000FFF9FC470 [771] ERROR: Warning: no share workgroup for login defined
+2026-05-22 13:46:44.755 -0500 core5-000FFF9FC470 [771] ERROR: Found duplicate mount: '/media/net/000FFF9FB918-corelite_media'

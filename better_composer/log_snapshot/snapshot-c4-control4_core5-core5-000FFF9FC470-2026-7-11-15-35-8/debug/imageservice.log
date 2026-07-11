@@ -1,0 +1,7 @@
+Tue Feb 17 09:36:44 CST 2026
+PID 0 is not active. Restarting.
+Starting the TR3 Imageservice.
+Started TR3 Imageservice. New PID is: 1120 - this launcher script 1074
+2026-02-17T15:36:52.067Z bear:bootstrap BOOTSTRAP_START
+2026-02-17T15:36:52.096Z bear:server                         2026-02-17T15:36:52.096Z - INFO:	STARTUP_COMPLETE { durationMs: 3077 }
+2026-02-17T15:36:53.156Z bear:bootstrap preload local image list-nocover

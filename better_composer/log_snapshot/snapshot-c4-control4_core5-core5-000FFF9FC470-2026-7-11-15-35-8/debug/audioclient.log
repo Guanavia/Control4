@@ -1,0 +1,42 @@
+2026-02-17 09:38:08.660 -0600 core5-000FFF9FC470 [3017] ERROR: Output 6206 does not handle control: MaxVolume
+2026-05-22 13:46:43.387 -0500 core5-000FFF9FC470 [3017] ERROR: Output 6206 does not handle control: MaxVolume
+2026-05-22 13:47:39.830 -0500 core5-000FFF9FC470 [959949] ERROR: Output 6206 does not handle control: MaxVolume
+2026-07-10 13:44:34.502 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 13:44:34.545 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 13:44:34.546 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 13:45:02.536 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 13:45:02.578 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 13:45:02.585 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:02:31.122 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:02:31.166 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:02:31.' repeated 2 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:22.643 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:22.685 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:22.686 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:52:22.' repeated 1 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:29.585 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:29.629 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:29.630 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:52:29.' repeated 1 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:37.102 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:37.145 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:37.146 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:52:37.' repeated 1 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:44.472 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:44.514 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:52:44.' repeated 2 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:53.509 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:52:53.552 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:52:53.' repeated 1 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 14:52:53.553 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:54:45.326 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 14:54:45.376 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 14:54:45.' repeated 2 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 20:13:39.704 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 20:13:39.745 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 20:13:39.746 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+Last message '2026-07-10 20:13:39.' repeated 1 times, suppressed by syslog-ng on core5-000FFF9FC470
+2026-07-10 20:14:48.977 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 20:14:49.017 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 20:14:49.018 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.
+2026-07-10 20:14:49.019 -0500 core5-000FFF9FC470 [959949] ERROR: AA: cmdFinishAdvAnnouncement called when no advanced announcement exists.

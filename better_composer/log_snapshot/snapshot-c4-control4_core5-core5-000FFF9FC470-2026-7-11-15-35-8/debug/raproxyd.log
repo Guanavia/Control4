@@ -1,0 +1,65 @@
+2026-03-02 18:06:12.651 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:06:23.678 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:07:46.702 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:09:48.028 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-03-02 18:10:18.921 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-03-02 18:11:49.013 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-03-02 18:13:42.694 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-03-02 18:17:59.537 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-03-02 18:22:17.722 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:22:28.748 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:23:39.835 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:25:42.011 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:30:07.292 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:37:30.767 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 18:52:24.622 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 19:22:02.506 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 20:25:58.502 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-02 21:31:08.582 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-04 01:58:51.789 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-04 01:59:02.814 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-06 06:16:00.912 -0600 core5-000FFF9FC470 [1263] ERROR: Open TURN Control Connection: control-channel:ip:[0.0.0.0]:0 Failed: -1
+2026-03-06 06:16:12.948 -0600 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-06 06:17:54.252 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-03-06 06:18:01.231 -0600 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-03-06 06:19:16.934 -0600 core5-000FFF9FC470 [1263] ERROR: Set peer TURN permission: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-03-22 03:22:16.828 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Host not found (non-authoritative), try again later
+2026-03-22 03:22:26.838 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Host not found (non-authoritative), try again later
+2026-04-08 03:11:14.993 -0500 core5-000FFF9FC470 [1263] ERROR: getaddrinfo() failed with error code: -3
+2026-04-08 03:11:14.994 -0500 core5-000FFF9FC470 [1263] ERROR: [WatchdogResolveHostname] Resolving host name failed 1 times.
+2026-04-08 03:11:14.994 -0500 core5-000FFF9FC470 [1263] ERROR: Resolve relay address: relay.control4.com Failed.
+2026-04-08 03:11:22.129 -0500 core5-000FFF9FC470 [1263] ERROR: getaddrinfo() failed with error code: -3
+2026-04-08 03:11:22.129 -0500 core5-000FFF9FC470 [1263] ERROR: [WatchdogResolveHostname] Resolving host name failed 2 times.
+2026-04-08 03:11:22.129 -0500 core5-000FFF9FC470 [1263] ERROR: Resolve relay address: relay.control4.com Failed.
+2026-04-17 23:04:18.089 -0500 core5-000FFF9FC470 [1263] ERROR: Unable to get URL to TURN service. We will try again in 63 seconds. Error code: 12 Fault std::string: "no service with that name found: locate failed for servicename=TURN, commonna..."
+2026-04-20 12:48:19.520 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-20 12:48:30.551 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-20 12:49:43.647 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-20 12:52:05.873 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-04-20 12:52:13.020 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-04-20 12:53:33.881 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-04-20 12:56:09.130 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-04-20 13:00:26.387 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-04-20 13:09:33.991 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-04-30 05:10:48.875 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:10:59.906 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:12:13.005 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:34:54.274 -0500 core5-000FFF9FC470 [1263] ERROR: Set peer TURN permission: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:35:05.276 -0500 core5-000FFF9FC470 [1263] ERROR: Set peer TURN permission: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:36:19.017 -0500 core5-000FFF9FC470 [1263] ERROR: Set peer TURN permission: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:36:34.418 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-04-30 05:40:30.704 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-05-29 01:49:10.347 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-05-29 01:49:21.374 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-05-29 01:50:32.458 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-06-12 18:06:42.648 -0500 core5-000FFF9FC470 [1263] ERROR: Set peer TURN permission: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-06-25 11:19:07.328 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-06-25 11:19:18.351 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-06-25 11:20:31.448 -0500 core5-000FFF9FC470 [1263] ERROR: Allocate TURN address: control-channel:ip:[0.0.0.0]:0 Failed: Response timeout
+2026-06-25 11:22:47.631 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-06-25 11:22:56.309 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-06-25 11:24:32.581 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: Connection timed out
+2026-06-25 11:26:28.124 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-06-25 11:30:44.110 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-07-03 05:14:22.346 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
+2026-07-03 05:14:23.347 -0500 core5-000FFF9FC470 [1263] ERROR: RestClient: Webservice call failed [url: https://remote.control4.com/connection-manager/http-proxy/prealloc/v1/rest/registrations/current][HTTP status: 0: <unknown-status>]: end of stream
