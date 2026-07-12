@@ -1,3 +1,0 @@
-#-------------------[ uname -a ] -----------------------#
-
-Linux core5-000FFF9FC470 6.1.55 #1 SMP PREEMPT Mon Sep 15 17:57:44 UTC 2025 aarch64 GNU/Linux

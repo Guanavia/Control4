@@ -1,6 +1,0 @@
-2026-02-11 13:50:08.201 -0600 core5-000FFF9FC470 [2022493] ERR: [process.c] Process Unify MQTT Client took 1028 ms to execute event 6.
-2026-02-11 13:50:10.228 -0600 core5-000FFF9FC470 [2022493] ERR: [process.c] Process Unify MQTT Client took 665 ms to execute event 136.
-2026-02-11 13:51:19.103 -0600 core5-000FFF9FC470 [2031348] ERR: [process.c] Process Unify MQTT Client took 621 ms to execute event 6.
-2026-02-11 13:51:21.114 -0600 core5-000FFF9FC470 [2031348] ERR: [process.c] Process Unify MQTT Client took 398 ms to execute event 136.
-2026-02-17 09:36:51.239 -0600 core5-000FFF9FC470 [1840] ERR: [process.c] Process Unify MQTT Client took 2137 ms to execute event 6.
-2026-02-17 09:36:56.588 -0600 core5-000FFF9FC470 [1840] ERR: [process.c] Process Unify MQTT Client took 635 ms to execute event 136.

@@ -1,3 +1,0 @@
-2026-02-17 09:36:48.771 -0600 core5-000FFF9FC470 [1743] INFO root: (1743) uicmmd:main: Starting uicmmd version: 4.1.0.743847-res 2025-09-24T22:23:59Z
-2026-05-22 13:45:53.443 -0500 core5-000FFF9FC470 [1804] ERROR root: (1871) libzwuic/Socket.cpp Socket::close (1871): Failed to shutdown secure connection: Broken pipe
-2026-05-22 13:45:53.443 -0500 core5-000FFF9FC470 [1804] ERROR root: (1871) libzwuic/Socket.cpp Socket::close (1871): Failed to shutdown lowest layer connection: Transport endpoint is not connected

@@ -1,3 +1,0 @@
-#-------------------[ ls -lR /mnt/internal/c4z ] -----------------------#
-
-lrwxrwxrwx    1 root     root            29 Mar  9  2018 /mnt/internal/c4z -> /opt/control4/var/drivers/c4z

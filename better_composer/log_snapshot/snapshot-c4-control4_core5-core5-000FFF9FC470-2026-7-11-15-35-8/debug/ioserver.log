@@ -1,5 +1,0 @@
-2026-02-17 09:37:26.404 -0600 core5-000FFF9FC470 [779] ERROR: Failed to accept new socket
-2026-02-17 09:37:27.738 -0600 core5-000FFF9FC470 [779] ERROR: Failed to accept new socket
-2026-05-22 13:45:53.440 -0500 core5-000FFF9FC470 [779] ERROR: process call failed on connection -1. Cleaning Up.
-2026-05-22 13:46:32.849 -0500 core5-000FFF9FC470 [779] ERROR: Failed to accept new socket
-2026-05-22 13:46:33.862 -0500 core5-000FFF9FC470 [779] ERROR: Failed to accept new socket

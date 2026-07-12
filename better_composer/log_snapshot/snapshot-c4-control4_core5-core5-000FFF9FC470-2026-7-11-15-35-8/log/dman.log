@@ -1,8 +1,0 @@
-2025-04-27 14:01:35.796 -0500 core5-000FFF9FC470 [825863] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2025-04-27 14:01:35.797 -0500 core5-000FFF9FC470 [825863] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2025-04-27 14:01:35.797 -0500 core5-000FFF9FC470 [825863] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2025-04-27 14:01:35.797 -0500 core5-000FFF9FC470 [825863] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2026-02-11 13:39:37.809 -0600 core5-000FFF9FC470 [1965757] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2026-02-11 13:39:37.811 -0600 core5-000FFF9FC470 [1965757] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2026-02-11 13:39:37.811 -0600 core5-000FFF9FC470 [1965757] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running
-2026-02-11 13:39:37.812 -0600 core5-000FFF9FC470 [1965757] ERROR: send_request: failed to connect to Director [endpoint: /var/run/director.socket]: Director is not running

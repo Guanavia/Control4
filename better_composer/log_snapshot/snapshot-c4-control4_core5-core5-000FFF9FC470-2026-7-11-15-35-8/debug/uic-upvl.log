@@ -1,9 +1,0 @@
-2026-02-11 13:50:07.180 -0600 core5-000FFF9FC470 [2022519] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
-2026-02-11 13:50:08.201 -0600 core5-000FFF9FC470 [2022519] ERR: [process.c] Process Unify MQTT Client took 889 ms to execute event 6.
-2026-02-11 13:50:12.242 -0600 core5-000FFF9FC470 [2022519] ERR: [process.c] Process Unify MQTT Client took 494 ms to execute event 136.
-2026-02-11 13:51:18.101 -0600 core5-000FFF9FC470 [2031352] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
-2026-02-11 13:51:19.104 -0600 core5-000FFF9FC470 [2031352] ERR: [process.c] Process Unify MQTT Client took 1177 ms to execute event 6.
-2026-02-11 13:51:23.124 -0600 core5-000FFF9FC470 [2031352] ERR: [process.c] Process Unify MQTT Client took 359 ms to execute event 136.
-2026-02-17 09:36:49.959 -0600 core5-000FFF9FC470 [1852] INFO: [unify-upvl-main] args: ["/usr/bin/uic-upvl", "--conf", "/etc/uic/uic.cfg"]
-2026-02-17 09:36:51.648 -0600 core5-000FFF9FC470 [1852] ERR: [process.c] Process Unify MQTT Client took 1703 ms to execute event 6.
-2026-02-17 09:36:56.588 -0600 core5-000FFF9FC470 [1852] ERR: [process.c] Process Unify MQTT Client took 572 ms to execute event 136.

@@ -1,2 +1,0 @@
-/var/control4/led_control/led_state: director_link_on_idle	12390203186
-/var/control4/led_control/state: director_link_on	-1

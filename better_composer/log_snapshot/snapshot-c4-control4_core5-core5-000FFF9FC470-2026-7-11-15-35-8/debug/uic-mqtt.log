@@ -1,2 +1,0 @@
-2026-02-11 13:51:32.134 -0600 core5-000FFF9FC470 [2031151] ERR [uic-mqtt]: OpenSSL Error[0]: error:0A000126:SSL routines::unexpected eof while reading
-2026-02-11 13:51:32.134 -0600 core5-000FFF9FC470 [2031151] ERR [uic-mqtt]: OpenSSL Error[0]: error:0A000126:SSL routines::unexpected eof while reading

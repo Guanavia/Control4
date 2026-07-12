@@ -1,0 +1,7 @@
+# Large binary artifacts — keep local (and OneDrive-synced), don't commit to git.
+# Project archives (source data + generated test projects) are 40–130 MB each.
+*.c4p
+# Raw packet captures from the protocol recon.
+*.pcap
+# The controller log snapshot (hundreds of files, large).
+research/log_snapshot/
