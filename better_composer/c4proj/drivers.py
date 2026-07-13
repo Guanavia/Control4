@@ -129,10 +129,11 @@ def _parse_commands(root: ET.Element) -> List[Command]:
 
 def _parse_conditions(root: ET.Element) -> List[Condition]:
     out = []
-    c = root.find("conditions")
+    # drivers use <conditionals>/<conditional> (not <conditions>/<condition>)
+    c = root.find("conditionals")
     if c is None:
         return out
-    for cond in c.findall("condition"):
+    for cond in c.findall("conditional"):
         desc = (cond.findtext("description") or "").strip()
         out.append(Condition(
             id=(cond.findtext("id") or "").strip(),

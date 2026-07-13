@@ -39,6 +39,25 @@ Composer, and a history/dashboard layer for long-term trends, once Shelly hardwa
 license are in place.
 
 ### better_composer — OPEN, investigation (feasibility of a modern Composer Pro replacement)
+
+**ARCHITECTURE CLARIFICATION (don't get this wrong):** Composer is ALWAYS a live client of *a*
+Director — there is no Composer-only project representation that later gets "applied." Editing in
+Composer == editing that Director live (real controller = live changes to the home; "Virtual
+Director" = identical, just Director running on a VM instead of hardware). The only discrete "load"
+event is **Restore** (pushing a `.c4p` backup into a Director), which is when Director ingests +
+completes it (this is what regenerates skeletal state). Our tool lives entirely on the `.c4p`
+(backup/restore) side; it never talks to Director. Flow: Director → (backup) `.c4p` → our tool edits
+→ `.c4p` → (restore) Director. So "open in Composer" already means "live in Director, fully
+instantiated" — no load-then-program step.
+
+**NEXT-SESSION HANDOFF (workstation):** reopen on the Windows workstation (has VSCode+Claude Code +
+Composer Pro installed) to grab Director-internal driver defs NOT in the online catalog (confirmed 0
+hits) and NOT bundled in projects: `roomdevice.c4i`, all `control4_agent_*.c4i` (agent vocab), and
+proxy drivers `tv.c4i`/`light_v2.c4i`/`keypad_proxy.c4i`/`media_player.c4i`/`avswitch.c4i`/`fan.c4i`/
+`thermostatV2.c4i`/`controller.c4i`/`uidevice.c4i`. Look in Composer's built-in drivers folder
+(likely `C:\Program Files (x86)\Control4\Composer[ Pro]\Drivers\` or `%USERPROFILE%\Documents\
+Control4\Drivers\`). Copy the whole drivers folder into the repo → closes the agent/room vocab gap.
+
 Goal: determine whether a modern, streamlined replacement UI for Composer Pro is buildable.
 Composer is just a client of Director; the open question was whether Director exposes a
 project-*authoring* API (add device, bindings, programming) beyond the control/state surface
@@ -210,8 +229,106 @@ Key findings so far (2026-07-11):
     - *Connect button→scene (Connections screen)* = add provider binding **agent#22/3 (scene) →
       consumer keypad#17/312 (button) [BUTTON_LINK]** + minor keypad LED_BEHAVIOR/LOCK_COLORS edit.
   - `c4proj diff <a> <b> --detail` now shows `<state>` field deltas + added/removed bindings.
-- **NEXT (was): programming interface** — programming read/resolve done (`rules`); rule→XML **write
-  compiler** not built. Backend characterization now well underway via the capture-diff method.
+- **WRITE ENGINE STARTED — `c4proj/authoring.py` `clone_device()`.** Adds a device by cloning an
+  in-project template: deep-copies the parent+proxy-sub subtree, allocates fresh IDs (bumps
+  `properties/iditemcurrent`), remaps `<state>`/bindings, inserts under the room's `<subitems>`,
+  clones bindings remapped. Proven: from capture 05 (controller + Server Room + 1 dimmer), added a
+  2nd dimmer (ids 18/19/20) with correct LIGHT_V2 + KEYPAD bindings.
+- **ASSEMBLY LOAD TEST — TEST A PASSED (2026-07-12).** `test-A-full-clone.c4p` (2nd dimmer cloned
+  from a template, full state) **loaded in virtual director; the added dimmer is present.** Diffs:
+  (a) base capture 05 → test-A = ONLY the 3 dimmer items + 2 bindings added, nothing else touched
+  (tool is faithful); (b) test-A → Composer's post-import save = only item(1) project-root bumped,
+  our device kept intact (Director accepts a tool-ASSEMBLED project wholesale). So: **our tool can
+  add a device instance and Director loads it.** `test-C-on-full-project.c4p` = same add on the full
+  capture-19 project, whole project preserved (for user reassurance).
+  - NOTE: test-A/B were built on capture **05** (early, 18 devices) not final 19 (23) — so they
+    lack the later laundry/agent/scene; not data loss, just the chosen base. Always state the base.
+  - **TEST B PASSED — DECISIVE (2026-07-12): Director REGENERATES device state on load.** The
+    skeletal clone (empty `<state>`) loaded fine; diff of our input vs Director's post-import save
+    shows items 18/19/20 came back with the FULL default state (PRESET_LEVEL=100, BACKLIGHT/STATUS
+    LED settings, button layout, click rates…) — identical to a normally-added device. **⇒ NO
+    per-driver template library needed.** Our tool can add a device as a skeletal item (driver ref +
+    id + name + proxy-sub skeletons + bindings + room placement, empty state) and Director fills in
+    all driver-specific defaults on load. **Tier-3 resolved: from-scratch project creation is not
+    blocked.** User's intuition was correct.
+  - **"Add ANY device (incl. not-yet-in-project driver)" path now clear:** (1) fetch driver `.c4z`/
+    `.c4i` from the online DB → place in `drivers/`; (2) read its metadata (proxies/connections) to
+    build skeletal parent(type6)+proxy-sub(type7) items; (3) wire internal proxy bindings from the
+    driver's connection defs; (4) place in room; (5) Director completes state + validates on load.
+    Open micro-Q (non-blocking): can the skeleton omit the proxy subs (does Director create them)?
+  - Clone binding logic fixed: clones only the device's OWN provider bindings, not inbound external
+    connections.
+- **REPOSITORY ENGINE BUILT — `c4proj/repo.py`.** Control4 driver DB is a public Solr:
+  `https://drivers.control4.com/solr/drivers/browse?q=<solr>&wt=json&fl=...` returns driver docs
+  (fields: name, manufacturer, model, `proxy` [list], control, **`filename`**, `md5sum`, combo).
+  Download direct from `https://drivers.control4.com/<filename>`. `repo.search()` + `repo.download()`
+  (md5-verified). Parent driver's `<proxies proxybindingid=.. name=..>PROXYNAME</proxies>` declares
+  its proxy sub-items (combo_dimmer→light_v2+keypad_proxy; core5→controller+uidevice; tv→tv).
+- **ADD-DEVICE ENGINE (parent-only) — `c4proj/authoring.py`:** `add_device()` injects a PARENT-ONLY
+  skeletal item (driver ref + id + name, empty state, no subs, no bindings) in a room — relies on
+  Director to complete proxy subs/bindings/state on load (per the proven state-regeneration). Also
+  `add_room()` (clones a room template under a floor) and `change_driver()` (repoint+strip state,
+  used to swap controller type).
+- **PRESSURE TEST — `test projects/pressure-test-theater.c4p` (pending user load).** Built from
+  capture 03 base (Composer-made location scaffold + controller): swapped Core Lite→**Core5**,
+  renamed Room→**Server Room**, added **Theater** room, added **dimmer keypad** (parent-only) to
+  Server Room, downloaded a **Sony KDL-50WF660 TV** from the repo and added it (parent-only) to
+  Theater. Bundled proxy drivers light_v2/keypad_proxy for the dimmer; **`tv.c4i` proxy NOT bundled**
+  (potential TV break). Open Qs the load answers: (1) does Director complete a parent-only device
+  (subs/bindings/state)? (2) controller-type swap OK? (3) tool-created rooms OK? (4) repo TV OK
+  despite missing tv proxy? NOTE: `roomdevice.c4i` is referenced but never bundled (Director-
+  internal) — proxy drivers may likewise be Director-internal. Started from cap-03 base, NOT absolute
+  blank (synthesizing controller's compound location/media seeding from nothing still unproven).
+- **PRESSURE TEST v2 — PASSED (2026-07-12): `test projects/theater-from-blank.c4p` loaded in VD
+  exactly as expected (clean Core5, no Core-Lite artifacts, rooms/dimmer/TV correct). Built FROM
+  BLANK capture 01.**
+  Redo after user feedback (v1 wrongly started from cap-03 and left a "CORE LITE" name remnant from
+  swapping instead of building). This one starts from the genuine blank project and **reproduces the
+  "add controller" compound** — location scaffold Home>House>Main>Room + controller trio + media
+  services (Manage Music/Stations/Channels/Digital Media) — with a real **Core5** and correct names
+  throughout (0 "corelite"/"core lite" remnants incl. nav icons). Then Room→Server Room, add Theater,
+  add dimmer (parent-only) to Server Room, download+add Sony TV (parent-only) to Theater.
+  - v1 (`pressure-test-theater.c4p`) LOADED OK in VD: rooms/dimmer/TV correct; only issue was the
+    Core-Lite-swap remnant (now fixed in v2). So: tool-assembled controller project loads; repo
+    download + add-device engine work.
+  - HONEST CAVEAT: the add-controller compound's structure is reproduced from our characterization
+    template (the cap01→cap03 diff), Core5 substituted — i.e. replaying a decoded operation, not yet
+    a fully code-generated `add_controller()`. Generalizing that into code is a later step.
+- **DEVICE PROGRAMMING VOCAB IS METADATA-DERIVED (no capture needed for the per-device explosion).**
+  `drivers.py` extracts per device: **events (triggers), commands (actions), conditionals** — all
+  `id/name/description(+placeholder params)`. Russell House totals: **1507 events, 2891 commands,
+  1149 conditionals** across 186 devices. FIXED bug: conditions live in `<conditionals>/<conditional>`
+  (parser wrongly used `<conditions>`; now correct). GAP: **agents (type9, 12 in RH) + rooms**
+  vocab is Director-internal (not in bundled drivers) — source from a Composer/Director install or
+  capture programming against them.
+- **Composer programming MODEL (from guide + logs):** event-driven. Pick a device event (trigger) →
+  build a Script = ordered codeitems. Primitives: **Command, Conditional(if), Loop(While), Delay,
+  Stop, Break, And, Or, Else**, + variables (bool/number/string, room, custom-agent). Codeitem XML:
+  `event(deviceid,eventid)→codeitem(type=CIT_*, device, cmdcond=devicecommand|deviceconditional,
+  subitems=nesting)`. Two UI paradigms in Composer: drag-drop (Programming view) + Connections tab
+  (bindings — already decoded).
+- **WHAT PROGRAMMING CAPTURES MUST PIN DOWN (finite — the primitives, NOT device combos):** exact
+  codeitem XML for each of Command(static param), command w/ variable-ref & device-ref params,
+  Conditional(operator+value), If/Else, And/Or, Delay, Stop, Break, While, and a variable set +
+  compare. Then: (device vocab from metadata) + (primitive encodings from captures) + (value
+  encodings) = the rule→codeitem **compiler**, which drives all 3 modes (manual drag-drop UI,
+  connections, AI agent).
+- **PROGRAMMING GRAMMAR FULLY DECODED (prog01–14) → `better_composer/PROGRAMMING.md` (compiler spec).
+  COMPLETE — nothing more to capture.** Event-anchored: every script hangs off
+  `<event>(deviceid,eventid)` → root container codeitem → `<subitems>` script. Codeitem `<type>`:
+  1=command (incl. DELAY/BREAK/STOP on dev 100000), 2=if, 3=while, 4=else, 6=operator(AND/OR).
+  And/Or = an `<expression>` block inside the If holding operator node(type6, AND|OR in display) +
+  next condition. While(type3)=deviceconditional + body in subitems. Break=`command BREAK`,
+  Stop=`command RETURN` (both type1 on dev 100000). `owneridtype`: ""=device (owneriditem=-1),
+  "variable"=var op (owneriditem=variableid, name "="/"=="), "agent"=agent cmd. Device-cmd params
+  `<value type><static>`; var-op params inline `<param name="value" type="int">`. Pseudo-devices
+  100000=programming, 100001=Variables agent. DELAY time in ms. Nesting = parent's `<subitems>`.
+- **DESIGN DECISION — open-ended logic:** Director is fundamentally event-anchored (no event-free
+  if/while — confirmed by captures). USER WANTS declarative logic like "while var-test is true, keep
+  light at 75%". SOLUTION (doesn't change Director): the compiler SYNTHESIZES event hooks — a
+  declarative rule compiles to event handlers on the variable's change event + relevant device-state
+  events (or a timer). Reactive/edge-triggered, not a literal loop, but equivalent for most cases.
+  This declarative→event-hooks compilation is THE core value-add of our interface over Composer.
 
 ## Reference resources (better_composer)
 

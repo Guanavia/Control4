@@ -160,9 +160,11 @@ class C4Package:
                 item["md5"] = new_md5
             if "size" in item:
                 item["size"] = new_size
-        # write manifest back
-        with open(self.path("meta/manifest.json"), "w") as f:
-            json.dump(self.manifest, f, indent=3)
+        # write manifest back only if this archive has one (lightweight saves don't)
+        mpath = self.path("meta/manifest.json")
+        if self.manifest and os.path.exists(os.path.dirname(mpath)):
+            with open(mpath, "w") as f:
+                json.dump(self.manifest, f, indent=3)
         return changed
 
     def save(self, out_path: str) -> List[str]:
