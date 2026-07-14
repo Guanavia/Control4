@@ -1009,6 +1009,31 @@ none. This pass made NO code changes (nothing needed fixing). What remains is pu
 best driven by the UI itself: Media depth, binding class-compatibility helper, more agent-config
 recipes/vocab, optional name validation.
 
+## PRESSURE PASS on the UI-enabler code (2026-07-14) — 4 real bugs found + fixed
+
+The UI enablers below (delete-safety, connection_candidates, API server, decompiler) initially got
+only happy-path tests. A dedicated adversarial pass (same rigor as the core's 7 passes) found FOUR
+real bugs — all fixed + committed:
+1. **Variable-conditional operator drift (pre-existing).** `_conditional_cmdcond` hardcoded `name="=="`
+   for variable conditions, so `if var > 5` silently became `if var == 5` on any rebuild — a UI edit
+   would corrupt logic. Fixed (use the passed operator). All 39 real Russell House rules now
+   round-trip BYTE-IDENTICAL.
+2. **`clean_references` clobbered by a stale cached StateEditor.** If a cached editor existed for an
+   item whose `<state>` clean_references edits directly (UI viewed a room, then deleted a device that
+   room references), the stale cache flushed on save and re-introduced the dangling ref. Fixed:
+   `remove_item(clean_references=True)` flushes editors -> cleans -> drops caches. Verified 0 dangling
+   after reload.
+3. **API server unhandled 500s.** `Project.open` on a bad/nonexistent/non-zip path (FileNotFoundError/
+   BadZipFile) and `add_device_from_catalog` with a bad filename (urllib HTTP 404) crashed to 500.
+   Fixed: exception handlers map all client-caused errors -> 400 with a clean message; catch-all never
+   leaks a stack trace. Every edge case in the suite now returns 4xx.
+4. **`StateEditor.set` empty-path** silently set the state root's text — now rejects empty path.
+- **Validated clean:** `connection_candidates` sweep (408 devices, 0.4s, 0 crashes; unscoped can be
+  large on many-port devices — UI should scope by `connection_id`); decompiler FULL node-type coverage
+  (real rules + a synthetic all-types rule with variable operators / AND+OR chains / nested while+if
+  round-trip identical); API session lifecycle (double-open, new, op-after-close -> 409); broad
+  read/serialize sweep 0 crashes. **UI-enabler code now at core-level confidence.**
+
 ## UI ENABLERS BUILT (2026-07-14) — designer-ready
 
 Beyond the facade, built the glue + safety a beta UI needs (all tested + pushed):
