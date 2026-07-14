@@ -1,0 +1,29 @@
+{
+  "agent": "control4_agent_announcements",
+  "display_name": "Announcements",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium - tokens are real; the 3 non-noise commands are unambiguous from naming alone (no params/conditionals data available from static extraction, would need per-function tracing like control4_agent_scheduler.json got).",
+  "likely_commands": [
+    "SHOW_POPUP",
+    "HIDE_POPUP",
+    "PLAY_ANNOUNCEMENT"
+  ],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "excluded_as_shared_noise": [
+    "GET_LAST_ACTION", "GET_CAPABILITIES", "GET_COMMAND_INFO", "CAPABILITIES_CHANGED",
+    "GREATER_THAN", "GREATER_THAN_OR_EQUAL", "LESS_THAN", "LESS_THAN_OR_EQUAL", "NOT_EQUAL",
+    "AUDIO_MEDIA_STORAGE", "AUDIO_SELECTION", "AV_BINDINGS_CHANGED", "BT_AUDIO", "BT_BEGIN",
+    "BT_CONTROL", "BT_DEV_NETWORK", "BT_END", "BT_NETWORK", "BT_PROXY", "BT_ROOM_CONTROL",
+    "BT_VIDEO", "DIGITAL_5_1", "DIGITAL_7_1", "DIGITAL_AUDIO_CLIENT", "DIGITAL_AUDIO_SERVER",
+    "DIGITAL_COAX", "DIGITAL_MEDIA_STORAGE", "DIGITAL_OPTICAL", "ETHERNET_AUDIO", "MP3_AUDIO",
+    "MULTI_STEREO", "RF_DIGITAL", "RF_DIRECTV", "RF_DISH", "RF_INTERNET", "RF_SKY", "RF_STAR",
+    "S_VIDEO", "VIDEO_AUDIO_SELECTION", "VIDEO_SELECTION",
+    "C4_LOG_CONFIG", "SO_PATH", "EXPAND_ONLY", "EXTRACT_AND_EXPAND", "EXTRACT_ONLY",
+    "OPENSSL_CONF", "OPENSSL_CONF_INCLUDE", "OPENSSL_ENGINES", "OPENSSL_MODULES",
+    "OPENSSL_WIN32_UTF8", "PKEY_ASN1", "PKEY_CRYPTO", "PROXY_NAME", "DIR_ADD", "DIR_LOAD", "LIST_ADD"
+  ],
+  "notes": "Cleanest result of the batch so far -- only 3 non-noise tokens and all 3 are obviously real, meaningful commands (show/hide a popup notification, play an audio announcement). No params could be determined statically."
+}

@@ -1,0 +1,35 @@
+{
+  "agent": "control4_agent_scheduler",
+  "display_name": "Scheduler",
+  "architecture": "legacy (agent overrides ExecuteCommand/TestCondition itself with inline sequential string comparisons)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, full-function decompile + string-token extraction (research/agent_vocab/README.md)",
+  "confidence": "high - complete extraction, cross-checked against decompiled source",
+  "source_binary": "Shared/4.1.0/Director/Drivers/control4_agent_scheduler.c4w",
+  "commands": [
+    {"name": "ADD_ENTRY", "params": ["ENTRY_XML"]},
+    {"name": "MODIFY_ENTRY", "params": ["ENTRY_XML"]},
+    {"name": "DELETE_ENTRY", "params": ["EVENT_ID"]},
+    {"name": "DELETE_ENTRIES_BY_CREATOR", "params": ["CREATOR_ID"]},
+    {"name": "GET_ALL_ENTRIES", "params": []},
+    {"name": "GET_ENTRIES_BY_CREATOR", "params": ["CREATOR_ID"]},
+    {"name": "GET_ENTRY", "params": ["EVENT_ID"]},
+    {"name": "GET_ENTRY_OCCURRENCES", "params": ["EVENT_ID", "FROM_YEAR", "FROM_MONTH", "FROM_DAY", "TO_YEAR", "TO_MONTH", "TO_DAY"]},
+    {"name": "GET_SUNRISE_SUNSET", "params": ["month", "timezone"], "returns": ["sunrise", "sunset"]}
+  ],
+  "conditionals": [
+    {"name": "IF_TIME", "params": ["CONDITIONAL_XML"]},
+    {"name": "IF_TODAY", "params": ["CONDITIONAL_XML"], "comparators": ["day_between", "day_from", "day_to", "day_names", "day_current"]},
+    {"name": "IF_DATE", "params": ["CONDITIONAL_XML"], "comparators": ["date_between", "date_from", "date_to", "date_current"]},
+    {"name": "IF_MONTH", "params": ["CONDITIONAL_XML"], "comparators": ["month_between", "month_from", "month_to", "month_current", "month_names"]},
+    {"name": "IF_YEAR", "params": ["CONDITIONAL_XML"], "comparators": ["year_between", "year_from", "year_to", "year_current"]},
+    {"name": "IF_LEAP", "params": ["CONDITIONAL_XML"]}
+  ],
+  "entry_schema": [
+    "eventid", "description", "category", "enabled", "locked", "creatorid", "creatorstate",
+    "hidden", "user_hidden", "start", "offset", "offset_minutes", "start_date", "start_day",
+    "start_month", "start_year", "start_period", "start_weekday", "randomize",
+    "next_occurrence", "repeat", "frequency", "daymask", "end_date", "end_day", "end_month",
+    "end_year", "timezone"
+  ],
+  "notes": "Full programmable + configuration surface for this agent. No manual reverse engineering required beyond running the script."
+}

@@ -1,0 +1,12 @@
+{
+  "agent": "control4_agent_light_properties",
+  "display_name": "Light Properties",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "null result - honest",
+  "likely_commands": [],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "notes": "All 9 extracted tokens were shared base-API/noise -- ZERO agent-specific vocab surfaced. Same situation as Access/Notification. Would need the deeper GetCreationFunc-constructor-chain tracing done by hand to make further progress."
+}

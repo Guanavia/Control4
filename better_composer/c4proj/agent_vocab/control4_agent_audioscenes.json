@@ -1,0 +1,42 @@
+{
+  "agent": "control4_agent_audioscenes",
+  "display_name": "Audio Scenes",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium - tokens are real (confirmed present as registered command/param strings), but grouping into commands vs. params vs. conditionals below is a best-effort guess from naming convention, NOT verified by tracing each function's actual cmdcond/params structure the way control4_agent_scheduler.json was. Treat the flat token list as ground truth; treat the grouping as a hypothesis to verify.",
+  "likely_commands": [
+    "SET_ROOM_LINKS",
+    "SET_SCENE_DEFAULT_VOLUME_LEVEL"
+  ],
+  "likely_conditionals": [
+    "IS_ACTIVATED",
+    "IS_DEACTIVATED",
+    "IS_DISCRETE_VOLUME",
+    "ALWAYS_ACTIVE"
+  ],
+  "likely_events": [
+    "ACTIVATE_EVENT_OFFSET",
+    "CHANGE_EVENT_OFFSET",
+    "DEACTIVATE_EVENT_OFFSET"
+  ],
+  "likely_params_or_properties": [
+    "SCENE_ID", "SCENE_XML", "ROOM_ID", "START_ROOM",
+    "CURRENT_SCENE_VOLUME", "INITIAL_SCENE_VOLUME", "DISCRETE_VALUE",
+    "MUTE_LINKED", "VOLUME_LINKED", "SELECTIONS_LINKED", "ROOMOFF_LINKED",
+    "PROXY_NAME"
+  ],
+  "excluded_as_shared_noise": [
+    "GET_LAST_ACTION", "GET_CAPABILITIES", "GET_COMMAND_INFO", "CAPABILITIES_CHANGED",
+    "GREATER_THAN", "GREATER_THAN_OR_EQUAL", "LESS_THAN", "LESS_THAN_OR_EQUAL", "NOT_EQUAL",
+    "AUDIO_MEDIA_STORAGE", "AUDIO_SELECTION", "AV_BINDINGS_CHANGED", "BT_AUDIO", "BT_BEGIN",
+    "BT_CONTROL", "BT_DEV_NETWORK", "BT_END", "BT_NETWORK", "BT_PROXY", "BT_ROOM_CONTROL",
+    "BT_VIDEO", "DIGITAL_5_1", "DIGITAL_7_1", "DIGITAL_AUDIO_CLIENT", "DIGITAL_AUDIO_SERVER",
+    "DIGITAL_COAX", "DIGITAL_MEDIA_STORAGE", "DIGITAL_OPTICAL", "ETHERNET_AUDIO", "MP3_AUDIO",
+    "MULTI_STEREO", "RF_DIGITAL", "RF_DIRECTV", "RF_DISH", "RF_INTERNET", "RF_SKY", "RF_STAR",
+    "S_VIDEO", "VIDEO_AUDIO_SELECTION", "VIDEO_SELECTION",
+    "C4_LOG_CONFIG", "SO_PATH", "EXPAND_ONLY", "EXTRACT_AND_EXPAND", "EXTRACT_ONLY",
+    "OPENSSL_CONF", "OPENSSL_CONF_INCLUDE", "OPENSSL_ENGINES", "OPENSSL_MODULES",
+    "OPENSSL_WIN32_UTF8", "PKEY_ASN1", "PKEY_CRYPTO", "PROXY_NAME", "DIR_ADD", "DIR_LOAD", "LIST_ADD"
+  ],
+  "notes": "Media-type constants (RF_*, DIGITAL_*, BT_*, *_AUDIO), OpenSSL/logging noise, PROXY_NAME, and DIR_ADD/DIR_LOAD/LIST_ADD are CONFIRMED identical across access/announcements/audioscenes -- added to ExtractVocab.java's STOPLIST so future extractions skip them automatically. (Correction: an earlier version of this file wrongly claimed LIST_ADD was audioscenes-specific based on an incomplete manual read of the batch output -- it is not, it's generic.)"
+}

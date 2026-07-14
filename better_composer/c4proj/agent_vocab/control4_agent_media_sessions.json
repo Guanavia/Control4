@@ -1,0 +1,25 @@
+{
+  "agent": "control4_agent_media_sessions",
+  "display_name": "Media Sessions",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium-high - richest, cleanest extraction of the batch after Scheduler; verb-prefixed tokens grouped as commands vs noun-only tokens as params by naming convention, not verified by per-function tracing.",
+  "likely_commands": [
+    "ADD_GROUP_TO_SESSION", "ADD_ROOMS", "ADD_ROOMS_TO_GROUP", "ALL_SESSIONS_OFF", "ALL_ZONES_OFF",
+    "BEGIN_VOL_SLIDER", "CREATE_GROUP", "DELETE_GROUP", "DESELECT_AUDIO_PATH", "DESELECT_VIDEO_PATH",
+    "END_VOL_SLIDER", "GET_AGENT_INFO", "GET_GROUP", "GET_GROUPS", "GET_MUTE_STATE",
+    "GET_POSSIBLE_GROUP_ROOMS", "GET_POSSIBLE_SESSION_GROUPS", "GET_SESSION", "GET_SESSIONS",
+    "GET_SESSION_ROOMS", "GET_VOL_LEVEL", "GET_ZONES", "GROUP_OFF", "MODIFY_GROUP", "MUTE_OFF",
+    "MUTE_ON", "MUTE_TOGGLE", "PULSE_VOL_DOWN", "PULSE_VOL_SLIDER", "PULSE_VOL_UP",
+    "REMOVE_GROUP_FROM_SESSION", "REMOVE_ROOMS", "REMOVE_ROOMS_FROM_GROUP", "RENAME_GROUP",
+    "REPLACE_GROUP_ROOMS", "ROOM_OFF", "SESSION_OFF", "SET_MUTE_STATE",
+    "SET_UPPER_VOLUME_THRESHOLD", "SET_VOLUME_LEVEL", "SET_VOL_LEVEL", "TOGGLE_MUTE_STATE"
+  ],
+  "likely_conditionals": ["HAS_DISCRETE_MUTE", "HAS_DISCRETE_VOL"],
+  "likely_events": [],
+  "likely_params_or_properties": [
+    "JOIN_ID", "MEDIAZONE_ID", "MUTE_STATE", "NAV_ID", "ROOM_ID", "ROOM_IDS", "SESSION_ID",
+    "SOURCE_ID", "UPPER_VOLUME_THRESHOLD", "VOL_LEVEL"
+  ],
+  "notes": "Whole-house audio group/zone/volume management -- group creation, room membership, mute, and volume-slider commands. Comfortably the richest non-Scheduler result; a strong candidate for a full per-function trace (like Scheduler got) if this agent matters for real use, since the command list alone is already highly actionable."
+}

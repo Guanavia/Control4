@@ -1,0 +1,12 @@
+{
+  "agent": "control4_agent_navigation",
+  "display_name": "Navigation",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium - tokens are real; no param/conditional detail available from static extraction alone.",
+  "likely_commands": ["BUILD_HISTORY_URI", "JUMP_TO_DEVICE", "SEND_URI"],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "notes": "Navigation controls Composer/touchpanel UI navigation; these look like the full command set for programmatic navigation. Note: user's manual Composer triage found Navigation has NO programmable EVENTS -- not a contradiction, an agent can have commands (things you tell it to do) without events (nothing on it to trigger on)."
+}

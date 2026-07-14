@@ -857,6 +857,29 @@ API), so a clean, consistent library contract matters. Changes:
 
 **Backend is now a coherent application API ready for a UI to consume.**
 
+### Second review pass (2026-07-14) — UI-boundary hitches found + fixed
+A deeper pass specifically for "what will fight a UI" surfaced three real hitches, all fixed:
+- **Serialization boundary.** `EditableSurface`/`Item`/`Event`/`CodeItem` couldn't cross a JSON
+  boundary (ItemKind enum wasn't JSON-serializable; the live read models carry ET elements +
+  parent<->child cycles = infinite recursion). A web/design-tool UI must serialize. Added
+  `project.jsonable()` (recursive dataclass/enum/list -> JSON), `EditableSurface.to_dict()`, and
+  serializable snapshot methods `Project.tree_view()` / `rules_view()` (the live `tree()`/`rules()`
+  stay for in-process editing). Binding/Variable/Consumer/Command/etc. were already serializable.
+- **Agent programming vocab wasn't wired in.** `surface_of` on an agent returned 0 commands/events
+  even though vocab was extracted (Ghidra) for ~13 agents — a programming UI would show every agent
+  as un-programmable. Bundled the curated vocab as PACKAGE DATA (`c4proj/agent_vocab/*.json`, copied
+  from research/) + new `c4proj/agents.py` `AgentVocab` loader that presents it as the same
+  Command/Condition/Event types the driver resolver uses (handles BOTH curated schemas: legacy
+  `commands:[{name,params}]` and modern `likely_commands:[str]`). `Project.resolve()` now falls back
+  to agent vocab, so `surface_of` exposes agents uniformly. Verified: **9 of Russell House's agents
+  now show real programmable vocab** (Media Sessions 42 cmds, Scheduler 9+6, Media Scenes w/ events,
+  ...). Remaining agents = the known #5 data tail (no wiring change needed to add them later).
+- **No stable rule handle.** Composer `<event>`s have no unique id and two rules can share a trigger,
+  so a UI couldn't target one across a boundary. `rules_view()` now emits a session-stable `handle`
+  per rule; `remove_rule`/`replace_rule` accept an Event OR a handle string.
+- All committed/pushed. Serialization, agent-vocab coverage, and handle round-trip tested; existing
+  CLI + facade re-verified, no regressions. `__init__` exports `Project/jsonable/AgentVocab/...`.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

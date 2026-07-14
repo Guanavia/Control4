@@ -1,0 +1,12 @@
+{
+  "agent": "control4_agent_macros",
+  "display_name": "Macros",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium - tokens are real and unambiguous; no param/conditional detail available from static extraction alone.",
+  "likely_commands": ["ADD_MACRO", "DELETE_MACRO", "EXECUTE_MACRO", "GET_MACROS"],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "notes": "Clean, complete-looking command set for basic macro CRUD + execution."
+}
