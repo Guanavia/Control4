@@ -857,6 +857,27 @@ API), so a clean, consistent library contract matters. Changes:
 
 **Backend is now a coherent application API ready for a UI to consume.**
 
+### DEBUG LOGGING (2026-07-14) + DESIGN HANDOFF READY
+- **Togglable debug logging** built (`c4proj/_logging.py`): off by default (NullHandler), enable via
+  `c4proj.enable_debug_logging(path)` / API `POST /debug {enabled,path}` / env `C4PROJ_DEBUG=1
+  [C4PROJ_DEBUG_LOG=...]`. Logs facade ops (open/save/set_property/remove_item/install_driver/add_rule
+  w/ args) + API requests. Stdlib logging, no dep. Wire the UI "create debug logs" switch to it.
+- **DESIGN HANDOFF PACKAGE COMPLETE** — `better_composer/design_brief/`: `README.md` (index +
+  recommended process), `UI_BUILD_PROMPT.md` (the prompt), `API_REFERENCE.md` (contract+domain),
+  `sample_data.json` (real payloads), `openapi.json` (33-endpoint machine-readable spec). Ready to
+  hand to the design tool + the user's visual direction.
+- **DECISION (user, 2026-07-14): API-server concurrency left OPEN deliberately.** The server holds one
+  Project/session and the facade is NOT thread-safe; a UI must serialize its WRITE calls. Rather than
+  add a request lock, the user chose to leave it open as a free check of the UI's own behavior (a UI
+  firing parallel writes = a UI bug to catch). Debug logging helps distinguish "backend bug" from "UI
+  concurrency." Do NOT "fix" this as an oversight — it's intentional; revisit only if it causes real
+  pain during UI dev. Symptom to watch: intermittent corruption/errors only under rapid/parallel UI
+  actions.
+- **CONFIDENCE VERDICT (2026-07-14): READY for UI design.** Core (7 passes) + UI-enabler code (its own
+  pressure pass, 4 bugs found+fixed) both at high confidence. Remaining unknowns are ERGONOMIC (only
+  surface by building a UI against the API) — which is the reason to start now, not pressure-test
+  further in a vacuum.
+
 ### Second review pass (2026-07-14) — UI-boundary hitches found + fixed
 A deeper pass specifically for "what will fight a UI" surfaced three real hitches, all fixed:
 - **Serialization boundary.** `EditableSurface`/`Item`/`Event`/`CodeItem` couldn't cross a JSON
