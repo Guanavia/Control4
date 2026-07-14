@@ -823,6 +823,40 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
 
 **Still open after #2:** GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
 
+## API COHERENCE PASS — DONE (2026-07-14), pre-UI
+
+Before UI work, reviewed the c4proj surface and fixed the gaps that would fight a UI. The backend was
+a set of validated PRIMITIVES with no cohesion layer, inconsistent return types/error handling, and
+partial write coverage. Decision: UI is built last (with a design-focused tool consuming this as an
+API), so a clean, consistent library contract matters. Changes:
+- **`c4proj/project.py` — the `Project` facade** (the one object a UI binds to). Owns the
+  open->edit->save lifecycle (wraps C4Package + ProjectModel + DriverLibrary), exposes every area
+  (items/properties/bindings/variables/programming/agents) through consistent methods, tracks
+  `dirty`, hands out ONE cached `StateEditor` per item (flushed on save — fixes the lost-update
+  hazard), and raises one `ProjectError` on bad input. `Project.open(path)` / `with` / `save(out)`.
+- **`surface_of(item_id) -> EditableSurface`** — the unified "editable surface of a selection": config
+  properties (schema+values as `PropertyValue`, with `.is_valid()` validation), programmable API
+  (commands/events/conditions), bindable connection points, current outgoing bindings, and whether a
+  dedicated agent-config helper exists. One call replaces the UI hand-joining three resolution paths.
+- **Consistency:** `model.py` gained `ItemKind` enum (named type codes, no more magic "6"/"8"/"9")
+  + `Device.kind`; `Item` alias for `Device` (honest name); `Consumer`/`Variable` are now dataclasses
+  (were bare dicts). Uniform error model (facade raises `ProjectError`; primitives keep None/bool).
+- **Write coverage filled:** programming `remove_event_handler`/`replace_event_actions` (rules are now
+  editable/deletable, not append-only); `authoring.remove_item` (subtree + its bindings), variable
+  CRUD (`add_variable`/`set_variable_value`/`remove_variable`). `set_property` validates against the
+  driver schema before writing (LIST membership, RANGED_INTEGER bounds, readonly).
+- `__init__.py` now exports the facade as the primary API; CLI gained `c4proj surface <c4p> <id>`.
+- **Tested end-to-end:** facade drives every area on a copied capture (surface, agent scene add,
+  validated set_property incl. rejecting a bad LIST value, variable CRUD, rule add/replace/remove,
+  remove_item, dirty transitions) then save->reload CLEAN with edits persisted. All existing CLI
+  commands + earlier #3 controller-compound build re-verified against the changed model (no regress).
+- **Intentionally deferred (additive, as the UI surfaces them):** Media area API (add streaming
+  service/station — the one genuinely under-built functional area), move-item, undo/redo (likely a
+  UI-layer concern), more agent-config helpers. `_AGENT_CONFIG_HELPERS` in project.py is the registry
+  to extend as each agent's config sub-model is decoded.
+
+**Backend is now a coherent application API ready for a UI to consume.**
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

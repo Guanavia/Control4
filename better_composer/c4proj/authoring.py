@@ -384,3 +384,77 @@ def _next_system_id(model: ProjectModel) -> str:
     while str(n) in used:
         n += 1
     return str(n)
+
+
+def remove_item(model: ProjectModel, item_id: str) -> bool:
+    """Remove an item (and its whole subtree) from the project, plus every binding that references
+    any id in that subtree (as provider or consumer). Returns True if the item was found."""
+    root = model.root
+    it = _find_item(root, item_id)
+    if it is None:
+        return False
+    removed_ids = {x.findtext("id") for x in it.iter("item")}
+    parent = _subitems_parent(root, it)
+    if parent is not None:
+        parent.remove(it)
+    bindings = root.find("bindings")
+    if bindings is not None:
+        for bb in list(bindings.findall("boundbinding")):
+            if bb.findtext("deviceid") in removed_ids:
+                bindings.remove(bb)
+                continue
+            bc = bb.find("boundconsumers")
+            if bc is not None:
+                for bound in list(bc.findall("bound")):
+                    if bound.findtext("deviceid") in removed_ids:
+                        bc.remove(bound)
+                if not bc.findall("bound"):
+                    bindings.remove(bb)
+    return True
+
+
+def add_variable(model: ProjectModel, name: str, var_type: str = "3", *, value: str = "",
+                 owner_id: str = "100001", readonly: bool = False, hidden: bool = False,
+                 description: str = "") -> str:
+    """Add a project variable. var_type: "1"=string, "3"=number, "4"=bool (Composer's codes).
+    Owner defaults to the Variables agent (100001). Id allocated from the project id space. Returns
+    the new variable id."""
+    root = model.root
+    v = root.find("variables")
+    if v is None:
+        v = ET.SubElement(root, "variables")
+    vid = next_ids(model, 1)[0]
+    var = ET.SubElement(v, "variable")
+    var.set("deviceid", owner_id)
+    var.set("variableid", vid)
+    var.set("name", name)
+    var.set("type", var_type)
+    var.set("readonly", "1" if readonly else "0")
+    var.set("hidden", "1" if hidden else "0")
+    var.set("description", description)
+    var.text = str(value)
+    return vid
+
+
+def set_variable_value(model: ProjectModel, variable_id: str, value) -> bool:
+    """Set a variable's value. Returns True if the variable exists."""
+    v = model.root.find("variables")
+    if v is None:
+        return False
+    for var in v.findall("variable"):
+        if var.get("variableid") == variable_id:
+            var.text = str(value)
+            return True
+    return False
+
+
+def remove_variable(model: ProjectModel, variable_id: str) -> bool:
+    """Remove a variable. Returns True if it existed."""
+    v = model.root.find("variables")
+    if v is None:
+        return False
+    for var in list(v.findall("variable")):
+        if var.get("variableid") == variable_id:
+            v.remove(var)
+            return True
+    return False

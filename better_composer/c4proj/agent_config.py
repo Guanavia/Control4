@@ -32,9 +32,11 @@ _SCENE_DEFAULTS = {
 class AdvancedLighting:
     """Edits an Advanced Lighting agent's scene configuration. Make changes, then flush()."""
 
-    def __init__(self, model: ProjectModel, agent_id: str):
+    def __init__(self, model: ProjectModel, agent_id: str, editor=None):
         self.model = model
-        self.ed = edit_state(model, agent_id)
+        # Accept a shared StateEditor (so the Project facade can keep one editor per item and avoid
+        # lost updates); otherwise build our own.
+        self.ed = editor if editor is not None else edit_state(model, agent_id)
         self.root = self.ed.init_root("State")
         for tag in ("all_scenes", "all_off_toggle_scenes"):
             if self.root.find(tag) is None:

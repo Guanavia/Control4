@@ -8,6 +8,8 @@ CLI for c4proj.
   python -m c4proj drivers   <file.c4p>              driver files + command/event/proxy counts
   python -m c4proj device    <file.c4p> <deviceid>   a device's resolved events/commands/conditions
   python -m c4proj properties <file.c4p> <item_id>   dump an item's <state> config as path=value
+  python -m c4proj surface   <file.c4p> <item_id>   unified editable surface (facade): props +
+                                                    programmable API + connections
   python -m c4proj roundtrip <file.c4p>              unpack -> repack unchanged; verify integrity
   python -m c4proj identify  <file.c4p>              show the project-version confirmation card
   python -m c4proj diff      <a.c4p> <b.c4p> [--detail]  oracle: what changed A->B; --detail shows
@@ -111,10 +113,10 @@ def cmd_bindings(path: str) -> int:
         for b in pm.bindings():
             prov = names.get(b.provider_deviceid, "?")
             for c in b.consumers:
-                cons = names.get(c["deviceid"], c["name"])
-                cls = ",".join(x for x in c["classes"] if x)
+                cons = names.get(c.deviceid, c.name)
+                cls = ",".join(x for x in c.classes if x)
                 print(f"{prov} (#{b.provider_deviceid}/{b.provider_bindingid})"
-                      f"  ->  {cons} (#{c['deviceid']}/{c['bindingid']})  [{cls}]")
+                      f"  ->  {cons} (#{c.deviceid}/{c.bindingid})  [{cls}]")
     return 0
 
 
@@ -376,6 +378,29 @@ def cmd_set_property(path: str, item_id: str, statepath: str, value: str, out: s
     return 0
 
 
+def cmd_surface(path: str, item_id: str) -> int:
+    """Show the unified editable surface of one item via the Project facade: config properties
+    (schema + values), programmable API, connection points, current bindings, agent config."""
+    from .project import Project
+    with Project.open(path) as proj:
+        s = proj.surface_of(item_id)
+        print(f"({s.item_id}) {s.name}   kind={s.kind.name}   driver={s.driver or '(none)'}")
+        if s.agent_config_kind:
+            print(f"  agent config helper: {s.agent_config_kind}")
+        print(f"\n  CONFIG PROPERTIES ({len(s.properties)}):")
+        for pv in s.properties:
+            opts = f"  options={pv.options}" if pv.options else (
+                f"  range=[{pv.minimum}..{pv.maximum}]" if pv.minimum is not None else "")
+            ro = "  (readonly)" if pv.readonly else ""
+            val = pv.value if pv.value is not None else f"{pv.default} (default)"
+            print(f"    - {pv.name:28} [{pv.type}] = {val!r}{ro}{opts}")
+        print(f"\n  PROGRAMMABLE: {len(s.commands)} commands, {len(s.events)} events, "
+              f"{len(s.conditions)} conditions")
+        print(f"  CONNECTIONS: {len(s.connections)} declared endpoints, "
+              f"{len(s.bindings_out)} current outgoing bindings")
+    return 0
+
+
 def main(argv: list) -> int:
     if len(argv) < 2:
         print(__doc__)
@@ -403,6 +428,9 @@ def main(argv: list) -> int:
     if cmd == "properties":
         # properties <file> <item_id>
         return cmd_properties(path, argv[2])
+    if cmd == "surface":
+        # surface <file> <item_id>
+        return cmd_surface(path, argv[2])
     if cmd == "set-property":
         # set-property <file> <item_id> <state_path> <value> -o out.c4p [--yes]
         item_id, statepath, value = argv[2], argv[3], argv[4]

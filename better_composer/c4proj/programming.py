@@ -254,3 +254,27 @@ def add_event_handler(model: ProjectModel, trigger_device_id: str, trigger_event
     ET.SubElement(event_el, "eventid").text = trigger_event_id
     event_el.append(root_ci)
     return event_el
+
+
+def remove_event_handler(model: ProjectModel, event) -> bool:
+    """Remove a rule. `event` is a model.Event (wrapping the live <event> element). Returns True
+    if it was found and removed."""
+    em = model.root.find("event_mgr")
+    if em is None:
+        return False
+    target = getattr(event, "el", event)
+    for e in list(em.findall("event")):
+        if e is target:
+            em.remove(e)
+            return True
+    return False
+
+
+def replace_event_actions(model: ProjectModel, event, actions: List["_Item"]) -> ET.Element:
+    """Edit a rule by replacing its whole action script, keeping the same trigger. Returns the new
+    <event> element. (Composer rules are event-anchored; editing = rebuild the script under the
+    same trigger — the compiler reassigns codeitem ids.)"""
+    trigger_dev, trigger_evt = event.deviceid, event.eventid
+    if not remove_event_handler(model, event):
+        raise ValueError("event not found in this project's event_mgr")
+    return add_event_handler(model, trigger_dev, trigger_evt, actions)

@@ -18,6 +18,7 @@ untouched parts round-trip verbatim.
 
 from __future__ import annotations
 
+import enum
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
@@ -28,6 +29,31 @@ def _text(el: Optional[ET.Element], tag: str, default: str = "") -> str:
         return default
     child = el.find(tag)
     return child.text if (child is not None and child.text is not None) else default
+
+
+class ItemKind(enum.Enum):
+    """The <type> code of a systemitems <item>, named. Lets callers (and the UI) branch on a
+    meaningful name instead of a magic number."""
+    PROJECT = 1
+    SITE = 2
+    BUILDING = 3
+    FLOOR = 4
+    DEVICE = 6
+    PROXY = 7
+    ROOM = 8
+    AGENT = 9
+    UNKNOWN = -1
+
+    @classmethod
+    def from_code(cls, code: str) -> "ItemKind":
+        try:
+            return cls(int(code))
+        except (ValueError, TypeError):
+            return cls.UNKNOWN
+
+    @property
+    def is_location(self) -> bool:
+        return self in (ItemKind.SITE, ItemKind.BUILDING, ItemKind.FLOOR, ItemKind.ROOM)
 
 
 @dataclass
@@ -50,6 +76,11 @@ class Device:
         return _text(self.el, "type")
 
     @property
+    def kind(self) -> "ItemKind":
+        """The item's type as a named ItemKind (DEVICE/ROOM/AGENT/...)."""
+        return ItemKind.from_code(self.type)
+
+    @property
     def driver(self) -> str:
         """The referenced driver file (c4i). It is a direct child of <item>, sibling of
         <itemdata> — e.g. 'switch_gen3.c4i'. Empty for structural items (rooms, folders)."""
@@ -62,12 +93,39 @@ class Device:
         n.text = new_name
 
 
+# `Item` is the honest name — a systemitems node is a device, room, agent, or location.
+# `Device` is kept as an alias so existing callers keep working.
+Item = Device
+
+
+@dataclass
+class Consumer:
+    """One consumer bound to a provider binding."""
+    deviceid: str
+    bindingid: str
+    name: str = ""
+    classes: List[str] = field(default_factory=list)
+
+
 @dataclass
 class Binding:
     """A provider binding and the consumers bound to it."""
     provider_deviceid: str
     provider_bindingid: str
-    consumers: List[dict]  # {deviceid, bindingid, name, classes:[...]}
+    consumers: List["Consumer"]
+
+
+@dataclass
+class Variable:
+    """A project variable (bool/number/string), owned by a device or the Variables agent (100001)."""
+    id: str
+    name: str = ""
+    type: str = ""
+    value: str = ""
+    owner_id: str = ""
+    readonly: bool = False
+    hidden: bool = False
+    description: str = ""
 
 
 @dataclass
@@ -186,13 +244,13 @@ class ProjectModel:
             bc = bb.find("boundconsumers")
             if bc is not None:
                 for bound in bc.findall("bound"):
-                    classes = [c.text for c in bound.findall("boundclasses/boundclass")]
-                    consumers.append({
-                        "deviceid": _text(bound, "deviceid"),
-                        "bindingid": _text(bound, "bindingid"),
-                        "name": _text(bound, "name"),
-                        "classes": classes,
-                    })
+                    classes = [c.text for c in bound.findall("boundclasses/boundclass") if c.text]
+                    consumers.append(Consumer(
+                        deviceid=_text(bound, "deviceid"),
+                        bindingid=_text(bound, "bindingid"),
+                        name=_text(bound, "name"),
+                        classes=classes,
+                    ))
             out.append(Binding(
                 provider_deviceid=_text(bb, "deviceid"),
                 provider_bindingid=_text(bb, "bindingid"),
@@ -201,11 +259,24 @@ class ProjectModel:
         return out
 
     # ---- variables ----------------------------------------------------------
-    def variables(self) -> List[dict]:
+    def variables(self) -> List[Variable]:
         v = self.root.find("variables")
         if v is None:
             return []
-        return [dict(var.attrib, value=(var.text or "")) for var in v.findall("variable")]
+        out: List[Variable] = []
+        for var in v.findall("variable"):
+            a = var.attrib
+            out.append(Variable(
+                id=a.get("variableid", ""),
+                name=a.get("name", ""),
+                type=a.get("type", ""),
+                value=(var.text or ""),
+                owner_id=a.get("deviceid", ""),
+                readonly=a.get("readonly", "0") == "1",
+                hidden=a.get("hidden", "0") == "1",
+                description=a.get("description", ""),
+            ))
+        return out
 
     # ---- programming --------------------------------------------------------
     def events(self) -> List[Event]:

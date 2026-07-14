@@ -117,7 +117,7 @@ def _binding_tuples(pm: ProjectModel):
     for b in pm.bindings():
         for c in b.consumers:
             out.add((b.provider_deviceid, b.provider_bindingid,
-                     c["deviceid"], c["bindingid"], ",".join(c["classes"])))
+                     c.deviceid, c.bindingid, ",".join(c.classes)))
     return out
 
 
