@@ -1,0 +1,43 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2011 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>1/25/2011 10:30 AM</created>
+  <modified>1/25/2011 10:30 AM</modified>
+  <commands/>
+  <conditionals/>
+  <events/>
+  <name>Control4 Media</name>
+  <manufacturer>Control4</manufacturer>
+  <model>Control4 Media</model>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <small>devices_sm/control4_media_16.gif</small>
+  <large>devices_lg/control4_media_32.gif</large>
+  <control>media</control>
+  <proxy />
+  <driver name="media">18ceeb37-4bf0-4807-94e6-a87c5df5adab</driver>
+  <states>
+  </states>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Media</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>MEDIA</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+  </connections>
+  <config />
+</devicedata>
+

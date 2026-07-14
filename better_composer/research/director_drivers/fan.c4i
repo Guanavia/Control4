@@ -1,0 +1,38 @@
+<devicedata>
+	<version>1</version>
+	<copyright>Copyright 2013 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>01/18/2013</created>
+	<modified>01/18/2013</modified>
+	<commands/>
+	<conditionals/>
+	<events/>
+	<name>Fan</name>
+	<small>devices_sm/relaysingle_fan_open.gif</small>
+	<large>devices_lg/relaysingle_fan_open.gif</large>
+	<control>fan</control>
+	<composer_categories>
+		<category>HVAC</category>
+	</composer_categories>
+	<proxy />
+	<driver>20130118</driver>
+	<states />
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Fan</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+			<class>
+				<classname>FAN</classname>
+			</class>
+			</classes>
+		</connection>
+	</connections>
+	<config />
+</devicedata>

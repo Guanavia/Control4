@@ -1,0 +1,108 @@
+<devicedata>
+    <copyright>Copyright 2004-2006 Control4 Corporation.  All rights reserved.</copyright>
+    <manufacturer>iPort</manufacturer>
+    <version>2</version>
+    <creator>Control4</creator>
+    <created>2/09/2006 12:30 PM</created>
+    <modified>07/16/2008 12:30 PM</modified>
+    <model>iPort</model>
+    <composer_categories>
+        <category>Audio/Video</category>
+    </composer_categories>
+    <front/>
+    <back/>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+    <capabilities>
+        <can_poll_serial>True</can_poll_serial>
+        <serialsettings>19200 8 none 1 none</serialsettings>
+    </capabilities>
+    <properties/>
+    <config>
+        <power_management_method>AllwaysOn</power_management_method>
+    </config>
+    <conditionals>
+        <conditional>
+            <id>0</id>
+            <name>ONLINE</name>
+            <description>NAME is Online</description>
+        </conditional>
+        <conditional>
+            <id>1</id>
+            <name>CURRENT_STATUS</name>
+            <description>NAME current status is STRING</description>
+        </conditional>
+    </conditionals>
+    <name>iPort</name>
+    <small>devices_sm/receiver.gif</small>
+    <large>devices_lg/receiver.gif</large>
+    <control>iport_232</control>
+    <proxy>ipod</proxy>
+    <driver>100088</driver>
+    <states/>
+    <connections>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>ipod</connectionname>
+            <type>2</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <hidden>True</hidden>
+            <classes>
+                <class>
+                    <classname>IPOD</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>1</id>
+            <facing>6</facing>
+            <connectionname>Serial</connectionname>
+            <type>1</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>RS_232</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>4000</id>
+            <facing>6</facing>
+            <connectionname>Audio Output</connectionname>
+            <type>6</type>
+            <consumer>False</consumer>
+            <audiosource>True</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>STEREO</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>7000</id>
+            <facing>6</facing>
+            <connectionname>Room Selection</connectionname>
+            <type>7</type>
+            <consumer>False</consumer>
+            <audiosource>True</audiosource>
+            <videosource>True</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>AUDIO_SELECTION</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+</devicedata>

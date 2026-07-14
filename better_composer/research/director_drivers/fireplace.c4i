@@ -1,0 +1,93 @@
+<devicedata>
+  <version>3</version>
+  <c4id>17</c4id>
+  <manufacturer>Generic</manufacturer>
+  <creator>Control4</creator>
+  <model>Fireplace</model>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <created>1/20/2005 2:22:54 PM</created>
+  <modified>11/03/2005 12:30 PM</modified>
+  <capabilities>
+    <history_category>Comfort</history_category>
+    <history_subcategory>Fireplace</history_subcategory>
+  </capabilities>
+  <commands>
+    <command>
+      <id>0</id>
+      <description>Turn Off the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <description>Turn On the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <description>Toggle the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>NAME is on</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME turns off</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME turns on</description>
+    </event>
+  </events>
+  <name>Fireplace</name>
+  <small>devices_sm\fireplace_on.gif</small>
+  <large>devices_lg\fireplace_on.gif</large>
+  <control>control4_relaysingle</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Comfort</category>
+  </navigator_categories>
+  <proxy>fireplace</proxy>
+  <driver>100004</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states>
+    <state>
+      <id>1</id>
+      <small>devices_sm\fireplace_off.gif</small>
+      <large>devices_lg\fireplace_off.gif</large>
+      <label>Turn off the Fireplace</label>
+    </state>
+    <state>
+      <id>2</id>
+      <small>devices_sm\fireplace_on.gif</small>
+      <large>devices_lg\fireplace_on.gif</large>
+      <label>Turn on the Fireplace</label>
+    </state>
+  </states>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Relay</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

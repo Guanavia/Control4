@@ -1,0 +1,159 @@
+<devicedata>
+  <c4id>5163</c4id>
+  <manufacturer>Generic</manufacturer>
+  <model>DVD-Generic</model>
+  <search_type>c4:av_gen</search_type>
+  <creator>Control4</creator>
+  <name>DVD-Generic IO</name>
+  <small>devices_sm\dvd.gif</small>
+  <large>devices_lg\dvd.gif</large>
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+  <control>av_gen</control>
+  <controlmethod>ir</controlmethod>
+  <driver>100050</driver>
+  <copyright>Copyright 2004-2010 Control4 Corporation.  All rights reserved.</copyright>
+  <created>6/1/2010 12:00:00 PM</created>
+  <modified>6/10/2010 9:50:00 AM</modified>
+  <proxies qty="1">
+    <proxy name='IO' proxybindingid="5001">dvd</proxy>
+  </proxies>
+  <capabilities controlweight="0.5">
+    <surround_modes>
+    </surround_modes>
+    <media_type controlrating="0">5</media_type>
+    <has_direct_track_access controlrating="1">False</has_direct_track_access>
+    <video_provider_count controlrating="0">1</video_provider_count>
+    <video_consumer_count controlrating="0">1</video_consumer_count>
+    <audio_provider_count controlrating="0">1</audio_provider_count>
+    <audio_consumer_count controlrating="0">1</audio_consumer_count>
+    <media_count controlrating="0">1</media_count>
+	<navigator_display_option>
+  		<show_transport>False</show_transport>
+  		<display_icon>watch_btnico_tv.png</display_icon>
+  		<status_icon>md_btnstatico_tv.png</status_icon>	
+  	</navigator_display_option>
+  </capabilities>
+  <config controlweight="0.5">
+    <power_management_method controlrating="0.4">AlwaysOn</power_management_method>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>1</power_delay>
+    <power_command_needed>False</power_command_needed>
+    <rfs>
+    </rfs>
+    <irsection>
+    </irsection>
+  </config>
+  <connections>
+    <connection verified="True">
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>DVD</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>DVD</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPONENT</classname>
+        </class>
+        <class>
+          <classname>COMPOSITE</classname>
+        </class>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+        <class>
+          <classname>SVIDEO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1000</id>
+      <facing>6</facing>
+      <connectionname>INPUT</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPOSITE</classname>
+        </class>
+        <class>
+          <classname>COMPONENT</classname>
+        </class>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+        <class>
+          <classname>SVIDEO</classname>
+        </class>
+	   </classes>
+	</connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>INPUT</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+	   </classes>
+	</connection>
+  </connections>
+  <driverdocumentation>
+  </driverdocumentation>
+</devicedata>

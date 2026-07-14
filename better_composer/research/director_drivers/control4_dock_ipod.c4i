@@ -1,0 +1,2122 @@
+<devicedata>
+	<copyright>Copyright 2008-2011 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<version>32</version>
+	<creator>Control4</creator>
+	<created>7/22/2008 12:30 PM</created>
+	<modified>3/17/2011 3:30 PM</modified>
+	<model>Dock for iPod</model>
+	<composer_categories>
+		<category>Audio/Video</category>
+	</composer_categories>
+	<front/>
+	<back/>
+	<top/>
+	<bottom/>
+	<left/>
+	<right/>
+	<capabilities>
+		<has_onscreen>false</has_onscreen>
+	</capabilities>
+	<config>
+		<documentation>System requirements:
+The Control4® Dock for iPod requires system software 1.7.1 or later.
+
+Network connectivity:
+The Dock is controlled, and cover art is shared over a 10/100 BaseT Ethernet connection and can be configured with both DHCP and Static IP options.  ZigBee is NOT available.  A Static IP address can be set through System Manager.
+
+Reset network settings:
+The process to reset the Dock to DHCP is to depress the ID button while plugging the Dock into Power.  After the LED flashes white (1 to 2 seconds) the Dock will be configuration to DHCP.  Power cycle the Dock again so that it will reboot and request a DHCP address.
+
+Supported iPods:
+The Control4 Dock is designed to work with late generation iPods that support Apple’s iPod Accessory Protocol (iAP).  At the time of release the Dock and this driver have been tested to work with the following iPods and the latest Apple firmware release as listed below:
+
+iPod touch (1st and 2nd generation with Apple software Version 2.2.1)
+iPod nano (1st, 2nd, 3rd and 4th generation with Apple software Version 1.1.3)
+iPod classic (80GB, 120GB, 160GB with Apple software Version 2.0.1)
+iPod (5th generation (video) with Apple software Version 1.3)
+iPhone and iPhone 3G with Apple software Version 2.2.1
+
+iPod software:
+For best results we recommend that customers keep their iPod software updated to the latest version released from Apple.  For most iPods the software version can been viewed on the iPod under Settings\About\Version.  iPod software can be updated through iTunes which can be downloaded at http://www.apple.com/itunes/download/.
+
+LED:
+The Dock has a single multi-color LED on the front of the unit.  The LED status states are as follows and may be useful during troubleshooting:
+
+LED - Network status:
+When no iPod is present in the Dock the normal LED states are as follows:
+
+WHITE/off flashing – initial boot
+
+RED solid – Offline without IP address or retrieving IP address
+
+YELLOW solid – Online with IP address (but not connected to C4 controller)
+
+GREEN flashing (2 flashes) – identifying to controller (identify button has been pushed)
+
+GREEN solid – Ready (Dock has IP address, connected to controller, no iPod in the Dock)
+
+PURPLE flashing – updating firmware
+
+LED - iPod status:
+Without good network connectivity the iPod will not play in the Control4 environment, therefore, Network status takes precedence.  If the dock has booted properly, and has the proper connectivity to the network and controller then the following LED status applies.  Otherwise the LED status listed above should apply even if an iPod is docked.
+
+BLUE/YELLOW flashing - Connecting iPod
+
+BLUE solid - iPod Connected/Ready
+
+BLUEGREEN solid - media is streaming from the iPod (the iPod is playing music or video through the Dock).
+
+
+Driver Properties
+
+Cover Art:
+Music and Video cover art can be displayed on the iPod “Now Playing” page of Control4 Navigators.  While the iPod is sending the cover art to the Navigator screen the iPod’s transport controls (Play, Pause, FF, RW, etc) are not available.  Because of this we allow the installer to set when, or even if, cover art is sent to and displayed on the Navigators.  Under the Properties page you can select the following:
+Off:  No cover art will be displayed on the Navigators.  Transport controls for the iPod should be available most any time during music or video playback.
+Delay xx seconds:  Indicates how soon after the song begins cover art will be requested from the iPod.  While the iPod transfers the cover art transport controls will be unavailable.   The amount of time it takes for cover art to be transferred can vary from just a few seconds to up to ten seconds depending on the size of the cover art and the iPod. NOTE: Retrieving cover art may cause some iPods to lockup during playback.
+During the first song of a Playlist the Control4 system will request the cover art for the first song, wait several seconds and then request the cover art for the next song.  The default setting is to delay 10 seconds.
+Disable: Disable cover art support. This removes the ability for the user to turn off cover art or set a delay. The "Cover Art" button is removed from the UI.
+
+Now Playing Timer:
+This setting allows the dealer to adjust whether or not the Now Playing page displays the time stamp for the current playing song (how many minutes and seconds have elapsed and remain in the current song).  The dealer can also set how often this information is updated on the Now Playing page -- the default is every three seconds.
+
+Room Off:
+This setting allows the dealer to set the command that is sent to the iPod when a Room Off command is selected.  The default (recommended) command is Stop but the dealer can also chose Pause.
+
+Debug Mode:
+When enabled this setting allows the dealer to capture traces for the Dock.
+
+Firmware version:
+The firmware version of the Dock is listed on the Properties page.  The version information is updated when an iPod is docked.  As new Dock firmware is available it will be updated as part of the system software update process like other Control4 products.
+
+		</documentation>
+		<identify_text>Press the identify button located on the bottom of the Control4 Dock for iPod, or Type the network address below.</identify_text>
+		<properties>
+			<property>
+				<name>Cover Art</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Delay 0 Seconds</item>
+					<item>Delay 5 Seconds</item>
+					<item>Delay 10 Seconds</item>
+					<item>Delay 15 Seconds</item>
+					<item>Delay 30 Seconds</item>
+					<item>Disable</item>
+				</items>
+				<default>Disable</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Now Playing Timer</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+					<item>Every 2 Seconds</item>
+					<item>Every 3 Seconds</item>
+					<item>Every 5 Seconds</item>
+				</items>
+				<default>Every 3 Seconds</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Room Off</name>
+				<type>LIST</type>
+				<items>
+					<item>Stop iPod</item>
+					<item>Pause iPod</item>
+				</items>
+				<default>Stop</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Alpha Lookup</name>
+				<type>LIST</type>
+				<items>
+					<item>Enabled</item>
+					<item>Disabled</item>
+				</items>
+				<default>Disabled</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Firmware Version</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>true</readonly>
+			</property>
+		</properties>
+		<actions>
+			<action>
+				<name>Display Globals</name>
+				<command>DisplayGlobals</command>
+			</action>
+		</actions>
+		<commands>
+			<command>
+				<name>Set LED</name>
+				<description>Set NAME LED Mode to PARAM1</description>
+				<params>
+					<param>
+						<name>Setting</name>
+						<type>LIST</type>
+						<items>
+							<item>On</item>
+							<item>Off</item>
+						</items>
+					</param>
+				</params>
+			</command>
+		</commands>
+		<script>
+	<![CDATA[
+proxyBinding = 5001
+
+function forceDebugOn()
+	g_debugprint = true; g_debuglog = true; g_debugunittest = true;
+end
+
+----------------------------------------- property handling -----------------------------------------
+function OnPropertyChanged(strProperty)
+	if (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debugunittest = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		elseif (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debugunittest = false
+			g_debuglog = false
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	end
+
+	if (strProperty == "Alpha Lookup") then
+		if (Properties[strProperty] == "Disabled") then
+			gAlphaLookup = false
+		else
+			gAlphaLookup = true
+		end
+	end
+
+	if (strProperty == "Cover Art") then
+		g_SupportCoverArt = true
+		local numseconds = string.match(Properties[strProperty],  "Delay (%d+).+")
+		
+		if (Properties[strProperty] == "Off") then
+			g_ShowCoverArt = false
+		elseif (numseconds == "0") then
+			g_CoverArtDelay = 1
+			g_ShowCoverArt = true
+		elseif (numseconds == "5") then
+			g_CoverArtDelay = 5
+			g_ShowCoverArt = true
+		elseif (numseconds == "10") then
+			g_CoverArtDelay = 10
+			g_ShowCoverArt = true
+		elseif (numseconds == "15") then
+			g_CoverArtDelay = 15
+			g_ShowCoverArt = true
+		elseif (numseconds == "30") then
+			g_CoverArtDelay = 30
+			g_ShowCoverArt = true
+		elseif (Properties[strProperty] == "Disable") then
+			g_ShowCoverArt = false
+			g_SupportCoverArt = false
+		end
+
+		SendUISimpleToProxy("showcoverart", tostring(g_ShowCoverArt))
+		SendUISimpleToProxy("coverartsupport", tostring(g_SupportCoverArt))
+	end
+
+	if (strProperty == "Now Playing Timer") then
+		if (Properties[strProperty] == "Off") then
+			g_NowPlayingTimer = false
+		elseif (Properties[strProperty] == "On") then
+			g_NowPlayingDelay = 1
+			g_NowPlayingTimer = true
+		elseif (Properties[strProperty] == "Every 2 Seconds") then
+			g_NowPlayingDelay = 2
+			g_NowPlayingTimer = true
+		elseif (Properties[strProperty] == "Every 3 Seconds") then
+			g_NowPlayingDelay = 3
+			g_NowPlayingTimer = true
+		elseif (Properties[strProperty] == "Every 5 Seconds") then
+			g_NowPlayingDelay = 5
+			g_NowPlayingTimer = true
+		end
+		ClearElapsedTime()
+	end
+
+	if (strProperty == "Room Off") then
+		if (Properties[strProperty] == "Stop iPod") then
+			g_RoomOffCommand = "STOP_RAW"
+		elseif (Properties[strProperty] == "Pause iPod") then
+			g_RoomOffCommand = "PAUSE_RAW"
+		end
+	end
+
+	if (Properties[strProperty] == "Firmware Version") then
+		C4:UpdateProperty("Firmware Version", g_firmwareVersion)
+	end
+end
+
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(45, "MINUTES")
+end
+
+
+function dbg(strDebugText)
+	if (g_debugprint) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("c4iPodDock: " .. strDebugText) end
+end
+
+
+function dbgUnitTest(strDebugText)
+	if (g_debugunittest) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("c4iPodDock: " .. strDebugText) end
+end
+
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (g_debugprint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (g_debuglog  and debugFunction) then C4:ErrorLog("c4iPodDock: " .. strFunction) end
+end
+
+
+function dbgParams(tParams)
+	if ((g_debugprint or g_debuglog) and tParams ~=nil) then
+		if (type(tParams) == "string") then
+			dbg("   " .. tostring(tParams))
+		else
+			for k,v in pairs(tParams) do
+				dbg("   " .. tostring(k) .. ":  " .. tostring(v))
+			end
+		end
+	end
+end
+
+
+function dbgValue(name, value)
+	dbg(tostring(name) .. " = " .. tostring(value))
+end
+
+
+function EscapeXML(strEscaped)
+	local temp = C4:XmlEscapeString(strEscaped)
+	return temp
+end
+
+function startCoverArtTimer()
+	if (g_CoverArtTimer) then
+		g_CoverArtTimer = C4:KillTimer(g_CoverArtTimer)
+	end
+	if (g_ShowCoverArt == true) then
+		g_CoverArtTimer = C4:AddTimer(g_CoverArtDelay, "SECONDS")
+	end
+end
+
+function startSelectItemTimer()
+	if (g_SelectTimer) then
+		g_SelectTimer = C4:KillTimer(g_SelectTimer)
+	end
+	g_SelectTimer = C4:AddTimer(500, "MILLISECONDS")
+end
+
+function startDockedTimer()
+	if (g_DockedTimer) then
+		g_DockedTimer = C4:KillTimer(g_DockedTimer)
+	end
+	g_DockedTimer = C4:AddTimer(500, "MILLISECONDS")
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == g_DebugTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	elseif (idTimer == g_CoverArtTimer) then
+		dbg("CoverArtTimer expired")
+		GetCoverArt()
+	elseif (idTimer == g_SelectTimer) then
+		dbg("SelectItemTimer expired")
+		QueueDockCmd(CMD["SELECT_RAW"], 0, g_SelectItemId, 0, 0, "")
+	elseif (idTimer == g_DockedTimer) then
+		dbg("DockedTimer expired")
+		GetNext(1, 20)
+		CMD.GET_REPEAT()
+		CMD.GET_SHUFFLE()
+		CMD.GET_FIRMWARE_VERSION("")
+	end
+	C4:KillTimer(idTimer)
+end
+
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+	-- Kill open timers
+	if (g_DebugTimer ~= nil) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
+	if (g_CoverArtTimer ~= nil) then g_CoverArtTimer = C4:KillTimer(g_CoverArtTimer) end
+	if (g_SelectTimer ~= nil) then g_SelectTimer = C4:KillTimer(g_SelectTimer) end
+	if (g_DockedTimer ~= nil) then g_DockedTimer = C4:KillTimer(g_DockedTimer) end
+end
+
+--=-=-=-=-=-=-=-=-=-=-=-=-  iPod Dock-Specific Code -=-=-=-=-=-=-=-=-=-=-=
+
+CMD = {
+	GET_LIST_RAW 		= 0x01,
+	SELECT_RAW 			= 0x02,
+	PLAYITEM_RAW 		= 0x03,
+	BACK_RAW 			= 0x04,
+	ALPHA_RAW 			= 0x05,
+	GET_COVERART_RAW 	= 0x06,
+	RESET_DB_SELECTION = 0x07,
+	GET_IPORT_NAME 	= 0x08,
+	GET_SHUFFLE_MODE_RAW 	= 0x09,
+	GET_REPEAT_MODE_RAW = 0x0A,
+	GET_NOW_PLAYING_RAW 	= 0x0B,
+
+	PLAYPAUSE           = 0x21,
+	PLAY_RAW            = 0x22,
+	PAUSE_RAW           = 0x23,
+	STOP_RAW            = 0x24,
+	SKIP_REV_RAW        = 0x25,
+	SKIP_FWD_RAW        = 0x26,
+	START_SCAN_FWD_RAW  = 0x27,
+	STOP_SCAN_FWD_RAW   = 0x28,
+	START_SCAN_REV_RAW  = 0x29,
+	STOP_SCAN_REV_RAW   = 0x2A,
+	SET_SHUFFLE_RAW     = 0x2B,
+	SET_REPEAT_RAW      = 0x2C,
+	SET_VIDEO_OUTPUT_RAW = 0x2D,
+	GET_FW_VERSION_RAW  = 0x2E,
+	SET_LED_RAW         = 0x2F,
+}
+
+RESP = {
+	LIST 					= 0x81,
+	LIST_ITEM 			= 0x82,
+	ALPHA_LOOKUP 		= 0x85,
+	COVER_ART 			= 0x86,
+	SHUFFLE_MODE 		= 0x87,
+	REPEAT_MODE 		= 0x88,
+	FW_VERSION   		= 0xAE,
+}
+
+NOTIFY = {
+	IPOD_NAME 			= 0x91,
+	NOW_PLAYING 		= 0x92,
+	TIME 		 			= 0x93,
+	PLAYER_STATUS 		= 0x94,
+	DOCK_STATUS 		= 0x95,
+}
+
+----------- Additional Proxy Commands ---------------
+
+function CMD.SCAN_FWD(tParams)
+	SendSimpleDockCmd(CMD["START_SCAN_FWD_RAW"])
+	SendSimpleDockCmd(CMD["STOP_SCAN_FWD_RAW"])
+end
+
+
+function CMD.SCAN_REV(tParams)
+	SendSimpleDockCmd(CMD["START_SCAN_REV_RAW"])
+	SendSimpleDockCmd(CMD["STOP_SCAN_REV_RAW"])
+end
+
+
+function CMD.GET_ELAPSED_TIME(tParams)
+		if (g_NowPlayingTimer == true) then
+			SendElapsedTimeUI()
+		else
+			ClearElapsedTime()
+		end
+end
+
+
+function CMD.GET_PROGRESS(tParams)
+	SendToProxy("PROGRESS", {current = g_current, total = g_totalsongs})
+end
+
+
+function CMD.REQUEST_CURRENT_MEDIA_INFO(tParams)
+	NotifyRoomOfCurrentMedia()
+end
+
+
+function CMD.QUERY_CURRENT_SETTINGS(tParams)
+	if (g_online == true) then
+		SendUISimpleToProxy("online", "true")
+	else
+		SendUISimpleToProxy("online", "false")
+	end
+
+	NotifyRoomOfCurrentMedia()
+	if (g_NowPlayingTimer == true) then
+		SendElapsedTimeUI()
+	else
+		ClearElapsedTime()
+	end
+	SendProgressUI()
+
+	SendUISimpleToProxy("iportname", g_ipodname)
+	SendUISimpleToProxy("playstatus", g_playerstatus)
+	SendUISimpleToProxy("showcoverart", tostring(g_ShowCoverArt))
+	SendUISimpleToProxy("coverartsupport", tostring(g_SupportCoverArt))
+	SendUISimpleToProxy("alphalookup", tostring(gAlphaLookup))
+	CMD.GET_REPEAT()
+	CMD.GET_SHUFFLE()
+	if ((g_ListType == LISTTYPE.MUSIC) or (g_ListType == "0")) then
+		CMD.GET_LIST()
+	end
+	CMD.GET_FIRMWARE_VERSION("")
+
+	SendUISimpleToProxy("shufflemode", g_shuffle[g_shufflemode])
+	SendUISimpleToProxy("repeatmode", g_repeat[g_repeatmode])
+end
+
+function CMD.SELECT_TOP_MUSIC_ITEM(tParams)
+	if (g_ListType ~= LISTTYPE.MUSIC) then
+		g_ListType = LISTTYPE.MUSIC
+		SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+	end
+	ResetDock()
+	g_SelectItemId = tParams["ITEM_ID"]
+	startSelectItemTimer()
+end
+
+function CMD.SELECT_TOP_VIDEO_ITEM(tParams)
+	if (g_ListType ~= LISTTYPE.VIDEO) then
+		g_ListType = LISTTYPE.VIDEO
+		SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+	end
+	ResetDock()
+	g_SelectItemId = tParams["ITEM_ID"]
+	startSelectItemTimer()
+end
+
+function CMD.SELECT_TOP_INDEX(tParams)
+	if (tParams["RESET_DOCK"] == "1") then
+		ResetDock()
+		g_SelectItemId = tParams["ITEM_ID"]
+		startSelectItemTimer()
+	else
+		QueueDockCmd(CMD["SELECT_RAW"], 0, tParams["ITEM_ID"], 0, 0, "")
+	end
+end
+
+function CMD.GET_ALPHA_LOOKUP(tParams)
+	dbg ("CMD.GET_ALPHA_LOOKUP")
+	if (gAlphaLookup) then
+		dbgValue("LETTER", tParams["LETTER"])
+		QueueDockCmd(CMD["ALPHA_RAW"], string.byte(tParams["LETTER"]), 0, 0, 0, "")
+	else
+		dbg("ALPHA_LOOKUP disabled")
+	end
+end
+
+function CMD.GET_REPEAT(tParams)
+	QueueSimpleDockCmd(CMD["GET_REPEAT_MODE_RAW"])
+end
+
+function ToggleRepeat()
+	g_repeatmode = g_repeatmode + 1
+	if (g_repeatmode > 3) then
+		g_repeatmode = 1
+	end
+end
+
+function CMD.SET_REPEAT(tParams)
+	if (tParams == nil) then
+		ToggleRepeat()
+	else
+		local repeatMode = tParams["REPEAT_MODE"]
+		if (repeatMode == nil) then
+			ToggleRepeat()
+		else
+			g_repeatmode = tonumber(repeatMode) + 1
+		end
+	end
+	QueueDockCmd(CMD["SET_REPEAT_RAW"], g_repeatmode, 0, 0, 0, "")
+	SendUISimpleToProxy("repeatmode", g_repeat[g_repeatmode])
+end
+
+
+function CMD.TOGGLE_COVERART(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping TOGGLE_COVERART command")
+	elseif (g_SupportCoverArt == false) then
+		dbg ("Cover Art not supported on this device or is disabled.")
+	else
+		SetGettingCoverArt(false)
+		if (g_ShowCoverArt == true) then
+			dbg ("Turning off cover art")
+			g_imagequeue = {}
+			C4:UpdateProperty("Cover Art", "Off")
+		else
+			dbg ("Turning on cover art")
+			if (g_CoverArtDelay == 1) then
+				C4:UpdateProperty("Cover Art", "Delay 0 Seconds")
+			elseif (g_CoverArtDelay == 5) then
+				C4:UpdateProperty("Cover Art", "Delay 5 Seconds")
+			elseif (g_CoverArtDelay == 10) then
+				C4:UpdateProperty("Cover Art", "Delay 10 Seconds")
+			elseif (g_CoverArtDelay == 15) then
+				C4:UpdateProperty("Cover Art", "Delay 15 Seconds")
+			elseif (g_CoverArtDelay == 30) then
+				C4:UpdateProperty("Cover Art", "Delay 30 Seconds")
+			end
+			g_imagequeue = {}
+		end
+		OnPropertyChanged("Cover Art")
+		SendUISimpleToProxy("showcoverart", tostring(g_ShowCoverArt))
+
+		g_imageindex = g_current
+		GetCoverArt()
+	end
+end
+
+
+function CMD.GET_SHUFFLE(tParams)
+	QueueSimpleDockCmd(CMD["GET_SHUFFLE_MODE_RAW"])
+end
+
+function ToggleShuffle()
+	g_shufflemode = g_shufflemode + 1
+	if (g_shufflemode > 3) then
+		g_shufflemode = 1
+	end
+end
+
+function CMD.SET_SHUFFLE(tParams)
+	if (tParams == nil) then
+		ToggleShuffle()
+	else
+		local shuffleMode = tParams["SHUFFLE_MODE"]
+		if (shuffleMode == nil) then
+			ToggleShuffle()
+		else
+			g_shufflemode = tonumber(shuffleMode) + 1
+		end
+	end
+	g_imagequeue = {}
+	QueueDockCmd(CMD["SET_SHUFFLE_RAW"], g_shufflemode, 0, 0, 0, "")
+	SendUISimpleToProxy("shufflemode", g_shuffle[g_shufflemode])
+end
+
+
+function CMD.SET_VIDEO_OUT(tParams)
+	local videoType = tonumber(tParams["OUTPUT_TYPE"])
+	dbgFunction("CMD.SET_VIDEO_OUT(" .. VIDEOTYPE[videoType] .. ")")
+
+	if (g_videoType ~= videoType) then
+		QueueDockCmd(CMD["SET_VIDEO_OUTPUT_RAW"], videoType, 0, 0, 0, "")
+	end
+end
+
+function CMD.GET_FIRMWARE_VERSION(tParams)
+	QueueSimpleDockCmd(CMD["GET_FW_VERSION_RAW"])
+end
+
+function CMD.LIST_SELECT(tParams)
+	if (tParams == nil) then
+		return
+	end
+
+	for k,v in pairs(tParams) do dbg(k .. ":  " .. v) end
+
+	local item = tonumber(tParams["ITEM"])
+	local itemtype = tonumber(tParams["TYPE"])
+	local itemtitle = tParams["TITLE"]
+	if (itemtitle ~= nil) then
+		itemtitle = itemtitle .. tohex("0")
+	else
+		itemtitle = ""	-- Must have a title.
+	end
+
+	-- if item selected is music or video (starts playing music or video)
+	if ((itemtype == 1) or (itemtype == 2)) then
+		g_imagequeue = {}
+		SendUISimpleToProxy("page", "NowPlaying")
+	end
+
+	-- Navigator sends -501 on selecting a list item out of boundaries...
+	-- Don't allow invalid select, or selecting an item while inside a selection...
+	if (item == -501) then
+		return
+	end
+
+	-- NO SELECT = 32006
+	if (item == 32006) then
+		return
+	end
+
+	-- Toggle Cover Art = 32008
+	if (item == 32008) then
+		CMD.TOGGLE_COVERART()
+		g_selectedItem = 11
+		GetNext(1, 20)
+		return
+	end
+
+	-- Don't select invalid items
+	if (item < 0) then
+		return
+	end
+
+	-- START OVER = 32004
+	if (item == 32004) then
+		dbg("START OVER")
+		ResetDock()
+--    g_stack:cleartable()
+		return
+	end
+
+	-- Shuffle = 32002
+	if (item == 32002) then
+		CMD.SET_SHUFFLE()
+		g_selectedItem = 9
+		GetNext(1, 20)
+		return
+	end
+
+	-- Repeat = 32001
+	if (item == 32001) then
+		CMD.SET_REPEAT()
+		g_selectedItem = 10
+		GetNext(1, 20)
+		return
+	end
+
+	-- BACK = 32003
+	if (item == 32003) then
+		g_selectedItem = g_stack:pop()
+		QueueSimpleDockCmd(CMD["BACK_RAW"])
+		return
+	else
+		-- Regular Select...  item ID in param1...
+		if ((itemtype == nil) or (itemtype > 2)) then
+			g_stack:push(item)
+		end
+		if (g_hasAll == true) then
+			item = item - 1
+		end
+		QueueDockCmd(CMD["SELECT_RAW"], 0, item, 0, 0, itemtitle)
+	end
+end
+
+function CMD.RESET(tParams)
+	if (nil ~= tParams) then
+		for k,v in pairs(tParams) do dbg(k .. ":  " .. v) end
+		local listType = tParams["TYPE"]
+		if (g_ListType ~= listType) then
+			g_ListType = tParams["TYPE"]
+			SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+		end
+		if ((g_supportsVideo == false) and (listType == "1")) then
+			return
+		end
+	end
+	dbg("ResetDock: CMD.RESET")
+	ResetDock()
+end
+
+function CMD.ALPHA_LOOKUP(tParams)
+	dbg ("CMD.ALPHA_LOOKUP")
+	if (gAlphaLookup) then
+		for k,v in pairs(tParams) do dbg(k .. ":  " .. v) end
+		QueueDockCmd(CMD["ALPHA_RAW"], string.byte(tParams["LETTER"]), 0, 0, 0, "")
+	else
+		dbg("ALPHA_LOOKUP disabled")
+	end
+end
+
+function CMD.LIST_BACK(tParams)
+	g_selectedItem = g_stack:pop()
+	QueueSimpleDockCmd(CMD["BACK_RAW"])
+end
+
+function CMD.SELECT_PLAY(tParams)
+	local item = tParams["INDEX"]
+
+	-- Regular SelectPlay...  item ID in param1...
+	QueueDockCmd(CMD["PLAYITEM_RAW"], 0, item, 0, 0, "")
+end
+
+
+function CMD.PLAYPAUSE(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping PLAYPAUSE command")
+	else
+		if (g_playerstatus == "Playing") then
+			SendSimpleDockCmd(CMD["PAUSE_RAW"])
+			g_playerstatus = "Paused"
+		else
+			SendSimpleDockCmd(CMD["PLAY_RAW"])
+			SendToProxy("SELECT_DEVICE", {listtype = g_ListType, roomid = tParams["ROOM_ID"]})
+			g_playerstatus = "Playing"
+		end
+	end
+end
+
+
+function CMD.PLAY(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping PLAY command")
+	else
+			SendSimpleDockCmd(CMD["PLAY_RAW"])
+	end
+end
+
+
+function CMD.PAUSE(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping PAUSE command")
+	else
+			SendSimpleDockCmd(CMD["PAUSE_RAW"])
+	end
+end
+
+
+function CMD.STOP(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping STOP command")
+	else
+			SendSimpleDockCmd(CMD["STOP_RAW"])
+	end
+end
+
+
+function CMD.SKIP_FWD(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping SKIP_FWD command")
+	else
+			SendSimpleDockCmd(CMD["SKIP_FWD_RAW"])
+	end
+end
+
+
+function CMD.SKIP_REV(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping SKIP_REV command")
+	else
+			SendSimpleDockCmd(CMD["SKIP_REV_RAW"])
+	end
+end
+
+
+function CMD.START_SCAN_FWD(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping START_SCAN_FWD command")
+	else
+			SendSimpleDockCmd(CMD["START_SCAN_FWD_RAW"])
+	end
+end
+
+
+function CMD.STOP_SCAN_FWD(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping STOP_SCAN_FWD command")
+	else
+			SendSimpleDockCmd(CMD["STOP_SCAN_FWD_RAW"])
+	end
+end
+
+
+function CMD.START_SCAN_REV(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping START_SCAN_REV command")
+	else
+			SendSimpleDockCmd(CMD["START_SCAN_REV_RAW"])
+	end
+end
+
+
+function CMD.STOP_SCAN_REV(tParams)
+	if (g_gettingCoverArt == true) then
+		dbg ("Getting Cover Art: Skipping STOP_SCAN_REV command")
+	else
+			SendSimpleDockCmd(CMD["STOP_SCAN_REV_RAW"])
+	end
+end
+
+
+function CMD.GET_LIST(tParams)
+	if (g_online == false) then
+		SendOfflineUI()
+	else
+		GetNext(1, 20)
+	end
+end
+
+
+function CMD.GET_NEXT(tParams)
+	local nFirst = tParams["FIRST"]
+	local nNum = tParams["NUM"]
+
+	if ((g_hasAll == true) and (tonumber(nFirst) > 0)) then
+		nFirst = nFirst - 1
+	end
+
+	GetNext(nFirst, nNum)
+end
+
+
+function CMD.GET_COVERART()
+	GetCoverArt()
+end
+
+function CMD.SET_LIST_TYPE(tParams)
+	local listType = tParams["TYPE"]
+	if (g_ListType ~= listType) then
+		g_ListType = listType
+		SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+	end
+
+	-- this is a bug fix for when we send a string, should be able to be removed later -----
+	if (g_ListType == "VIDEO") then
+		g_ListType = 1
+		SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+		print ("***** SHOULD NO LONGER BE GETTING THIS *****")
+	elseif (g_ListType == "MUSIC") then
+		g_ListType = 0
+		SendToProxy("UPDATE_LIST_TYPE", {listtype = g_ListType})
+		print ("***** SHOULD NO LONGER BE GETTING THIS *****")
+	end
+	----------------------------------------------------------------------------------------
+end
+
+function CMD.OFF(tParams)
+	dbg ("CMD.OFF")
+	if (g_RoomOffCommand == nil) then
+		g_RoomOffCommand = "STOP_RAW"
+		C4:UpdateProperty("Room Off", "Stop iPod")
+	end
+	QueueSimpleDockCmd(CMD[g_RoomOffCommand])
+end
+
+function ResetDock()
+	dbgFunction("ResetDock(" .. g_ListType .. ")")
+	QueueDockCmd(CMD["RESET_DB_SELECTION"], g_ListType, 0, 0, 0, "")
+end
+
+function GetNext(nFirst, nNum)
+	if (tonumber(nFirst) < 0) then
+		nFirst = 0
+	end
+
+	QueueDockCmd(CMD["GET_LIST_RAW"], 0, nFirst, nNum, 0, "")
+end
+
+function NotifyRoomOfCurrentMedia()
+		SendUISimpleToProxy("artistname", g_artist)
+		SendUISimpleToProxy("albumname", g_album)
+		SendUISimpleToProxy("titlename", g_title)
+
+		SendToProxy("UPDATE_MEDIA_INFO", {ARTIST = g_artist, ALBUM = g_album, TITLE = g_title, IMAGE_AVAILABLE = g_haveImage})
+end
+
+function Docked()
+	g_online = true
+	ClearQueuedCommands()
+	SetGettingCoverArt(false)
+	SendUISimpleToProxy("online", "true")
+	SendUISimpleToProxy("docked", "true")
+
+	g_imagequeue = {}
+
+	ResetDock()
+	startDockedTimer()
+end
+
+function Undocked()
+	Properties["Firmware Version"] = ""
+
+	g_online = false
+	g_ipodname = "Offline"
+	ClearQueuedCommands()
+	SetGettingCoverArt(false)
+
+	SendUISimpleToProxy("busy", "false")
+	SendUISimpleToProxy("online", "false")
+	SendUISimpleToProxy("docked", "false")
+	SendUISimpleToProxy("iportname", g_ipodname)
+
+	g_imagequeue = {}
+
+	-- Update Play Status
+	g_playerstatus = "Stopped"
+	SendUISimpleToProxy("playstatusclear", g_playerstatus)
+
+	-- Update Artist / Title / Etc.
+	g_title = ""
+	g_artist = ""
+	g_album = ""
+	g_haveImage = false
+	NotifyRoomOfCurrentMedia()
+
+	-- Clear Elapsed Time / Remaining Time
+	g_elapsed = 0
+	g_remaining = 0
+	SendElapsedTimeUI()
+
+	-- Update # of Songs Progress
+	g_totalsongs = 0
+	SendProgressUI()
+
+	-- Update LIST to display nothing...
+	SendOfflineUI()
+--  Stopped()
+	SendUISimpleToProxy("playstatus", "Stopped")
+end
+
+function Stopped()
+	g_imagequeue = {}
+	ClearQueuedCommands()
+	SetGettingCoverArt(false)
+
+	-- Update Play Status
+	g_playerstatus = "Stopped"
+	SendUISimpleToProxy("playstatusclear", g_playerstatus)
+
+	-- Update Artist / Title / Etc.
+	g_title = ""
+	g_artist = ""
+	g_album = ""
+	g_haveImage = false
+	NotifyRoomOfCurrentMedia()
+
+	-- Clear Elapsed Time / Remaining Time
+	g_elapsed = 0
+	g_remaining = 0
+	SendElapsedTimeUI()
+
+	-- Update # of Songs Progress
+	g_totalsongs = 0
+	SendProgressUI()
+end
+
+function SendProgressUI()
+	local strProgress = ""
+	if ((g_totalsongs > 0) and (g_current > -1)) then
+		strProgress = XmlTag("progress", {current = g_current, total = g_totalsongs})
+	else
+		strProgress = XmlTag("progress", {current = "0", total = "0"})
+	end
+	SendToProxy("PROGRESS", strProgress)
+end
+
+function SendElapsedTimeUI()
+	local strTime = ""
+	if ((g_elapsed > 0) and (g_remaining > 0)) then
+		local elapsedTime = ConvertTime(g_elapsed)
+		local remainingTime = "-" .. ConvertTime(g_remaining)
+		strTime = XmlTag("time", {elapsed = elapsedTime, remaining = remainingTime})
+	else
+		strTime = "<time><elapsed></elapsed><remaining></remaining></time>"
+	end
+	SendToProxy("TIME", strTime)
+end
+
+function ClearElapsedTime()
+	local strTime = ""
+	strTime = "<time><elapsed></elapsed><remaining></remaining></time>"
+	SendToProxy("TIME", strTime)
+end
+
+function ConvertTime(time)
+	local strTime = ""
+	local minutes = ""
+	local seconds = ""
+	local hours = string.format("%d", time / 3600)
+	time = time - (hours * 3600)
+
+	if (hours ~= "0") then
+		strTime = hours .. ":"
+		minutes = string.format("%02d", time / 60)
+	else
+		minutes = string.format("%d", time / 60)
+	end
+
+	time = time - (minutes * 60)
+	seconds = string.format("%02d", time)
+	strTime = strTime .. minutes .. ":" .. seconds
+
+	return strTime
+end
+
+function SendOfflineUI()
+	strOffline = "<list><clear>true</clear><title>Offline</title><total_items>1</total_items><num_items>1</num_items><items><item><id>32004</id><text>Offline</text></item></items></list>"
+	SendToProxy("LIST", strOffline)
+end
+
+function XmlTag(strName, tParams)
+	local strXml = "<" .. strName .. ">"
+	for k,v in pairs(tParams) do
+		strXml = strXml .. "<" .. k .. ">" .. v .. "</" .. k .. ">"
+	end
+	strXml = strXml .. "</" .. strName .. ">"
+	-- dbg(strXml)
+	return strXml
+end
+
+function SendUISimpleToProxy(strName, strValue)
+	local tParams = {TAG = strName, DATA = strValue}
+	dbgFunction("SendUISimpleToProxy (" .. strName .. ", " .. strValue .. ")")
+	C4:SendToProxy(proxyBinding, "UI_SIMPLE", tParams)
+end
+
+function SendToProxy(strCommand, tParams, ...)
+	if (g_debugprint) then
+--		if (strCommand ~= "TIME") then
+			dbgFunction("SendToProxy (" .. strCommand .. ")")
+			dbgParams(tParams)
+--		end
+	end
+
+	if ... then
+		local callType = ...
+		C4:SendToProxy(proxyBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(proxyBinding, strCommand, tParams)
+	end
+end
+
+function GetCoverArt()
+	if (g_ShowCoverArt == true) then
+		QueueDockCmd(CMD["GET_COVERART_RAW"], 0, 1, g_imageindex-1, 0, "")
+	end
+end
+
+function SetGettingCoverArt(gettingCoverArt)
+	g_gettingCoverArt = gettingCoverArt
+
+	if (g_gettingCoverArt == true) then
+		SendUISimpleToProxy("busy", "true")
+	else
+		ExecuteQueuedCommands()
+		SendUISimpleToProxy("busy", "false")
+	end
+end
+
+function ResetCoverArt()
+	g_gettingCoverArt = false
+	ClearQueuedCommands()
+	SendUISimpleToProxy("busy", "false")
+end
+
+function ClearQueuedCommands()
+	g_commandindex = 0
+	g_commandqueue = {}
+end
+
+function ExecuteQueuedCommands()
+	for i=1, #g_commandqueue do
+		if (g_commandqueue[i].simple == true) then
+			dbg ("Executing queued SendSimpleDockCmd")
+			SendSimpleDockCmd(g_commandqueue[i].command)
+		else
+			dbg ("Executing queued SendDockCmd")
+			local command = g_commandqueue[i].command
+			local param0 = g_commandqueue[i].param0
+			local param1 = g_commandqueue[i].param1
+			local param2 = g_commandqueue[i].param2
+			local param3 = g_commandqueue[i].param3
+			local data = g_commandqueue[i].data
+			SendDockCmd(command, param0, param1, param2, param3, data)
+		end
+		g_commandqueue[i] = {}
+	end
+	g_commandindex = 0
+	g_commandqueue = {}
+end
+
+
+----------- -------------------------- -------------------------- ---------------
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	-- Handle all proxy sent commands... Transport Control and pass-through to device...
+	-- Use Pack to generate commands going out...
+-- =-=-=-=-=- DEBUG...  -=-=-=-=-=-=-
+	dbgFunction("ReceivedFromProxy(" .. idBinding .. ", " .. strCommand .. ")")
+	if (g_debugprint) then
+		if (nil ~= tParams) then
+			print ("tParams: ")
+			for j,k in pairs(tParams) do print (" \t" .. j .. ": " .. k) end
+		end
+	end
+-- =-=-=-=-=- DEBUG...  -=-=-=-=-=-=-
+	local cmd = CMD[strCommand]
+
+	if (cmd == nil) then
+		dbg("Unhandled Command: " .. strCommand)
+		return
+	end
+
+	local cmdType = type(cmd)
+
+	if (cmdType == "number") then
+		-- Handle simple Transport Control-type Commands
+		SendSimpleDockCmd(cmd)
+	else
+		if (cmdType == "function") then
+			-- Handle more complicated commands
+			cmd(tParams)
+		end
+	end
+end
+
+
+function SendSimpleDockCmd(strCmd)
+	SendDockCmd(strCmd, 0, 0, 0, 0, "")
+end
+
+
+function QueueSimpleDockCmd(strCmd)
+	if (g_gettingCoverArt == true) then
+		dbgFunction("QueueSimpleDockCmd (strCmd = " .. string.format("%02x", strCmd) .. " " .. GetCommandText(strCmd) .. ")")
+		g_commandindex = g_commandindex + 1
+		g_commandqueue[g_commandindex] = {}
+		g_commandqueue[g_commandindex].simple = true
+		g_commandqueue[g_commandindex].command = strCmd
+	else
+		SendSimpleDockCmd(strCmd)
+	end
+end
+
+
+function SendDockCmd(strCmd, param0, param1, param2, param3, data)
+
+	-- NOTE: All pack commands should work on little-endian values...
+	-- NOTE 2: data is not allowed to be nil, but blank ("") works fine.
+	-- Generate Command based on parameters passed...
+	if (data == nil) then data = ""	end	-- Fixes NOTE 2 above, Control Control did not work properly without this fix.
+	dataLen = string.len(data)
+
+	local cmd = tohex("FF AA 55 AA")  -- Magic Number
+	cmd = cmd .. string.pack("bb<H<l<l<l", strCmd, param0, dataLen, param1, param2, param3) .. data
+
+	-- Calculate packet length, add to front of outgoing msg...
+	local cmdhead = string.pack("<H", string.len(cmd)) .. cmd
+
+	dbgFunction("SendDockCmd (" ..
+							"strCmd = " .. string.format("%02x", strCmd) .. " " .. GetCommandText(strCmd) ..
+							"\tparam0 = " .. param0 .. " (" .. string.format("%02x", param0) .. ") " ..
+							"\tparam1 = " .. param1 .. " (" .. string.format("%02x", param1) .. ") " ..
+							"\tparam2 = " .. param2 .. " (" .. string.format("%02x", param2) .. ") " ..
+							"\tparam3 = " .. param3 .. " (" .. string.format("%02x", param3) .. ") )"
+							)
+
+	C4:SendToNetwork(6001, g_nPort, cmdhead)
+end
+
+function QueueDockCmd(strCmd, param0, param1, param2, param3, data)
+	if (g_gettingCoverArt == true) then
+		dbgFunction("QueueDockCmd (" ..
+								"strCmd = " .. string.format("%02x", strCmd) .. " " .. GetCommandText(strCmd) ..
+								"\tparam0 = " .. param0 .. " (" .. string.format("%02x", param0) .. ") " ..
+								"\tparam1 = " .. param1 .. " (" .. string.format("%02x", param1) .. ") " ..
+								"\tparam2 = " .. param2 .. " (" .. string.format("%02x", param2) .. ") " ..
+								"\tparam3 = " .. param3 .. " (" .. string.format("%02x", param3) .. ") )"
+								)
+
+		g_commandindex = g_commandindex + 1
+		g_commandqueue[g_commandindex] = {}
+		g_commandqueue[g_commandindex].simple = false
+		g_commandqueue[g_commandindex].command = strCmd
+		g_commandqueue[g_commandindex].param0 = param0
+		g_commandqueue[g_commandindex].param1 = param1
+		g_commandqueue[g_commandindex].param2 = param2
+		g_commandqueue[g_commandindex].param3 = param3
+		g_commandqueue[g_commandindex].data = data
+	else
+		SendDockCmd(strCmd, param0, param1, param2, param3, data)
+	end
+end
+
+function GetCommandText(strCmd)
+	local commandText = ""
+	if (g_debugprint) then
+		if (nil == g_Command[strCmd]) then
+			commandText = "Unknown"
+		else
+			commandText = g_Command[strCmd]
+		end
+	end
+	return commandText
+end
+
+function NotifyIpodName(pos, dataLen, param0)
+	g_videoType = param0
+	g_ipodname = string.sub(g_Receivebuffer, pos, (pos + dataLen - 2))
+	if (g_videoType == 0) then
+		g_supportsVideo = false
+	else
+		g_supportsVideo = true
+	end
+
+	-- Do not send Reset with Notify.
+
+	SendUISimpleToProxy("iportname", g_ipodname)
+	SendUISimpleToProxy("videotype", g_videoType)
+end
+
+function SendCoverArtToProxy(index)
+	SendToProxy("COVERART", {cover_art = C4:Base64Encode(g_imagequeue[index].image),
+														width = g_imagequeue[index].width,
+														height = g_imagequeue[index].height,
+														left = g_imagequeue[index].left,
+														top = g_imagequeue[index].top,
+														right = g_imagequeue[index].right,
+														bottom = g_imagequeue[index].bottom,
+														format = "RGB565"})
+
+	g_haveImage = true
+	NotifyRoomOfCurrentMedia()
+end
+
+function NotifyNowPLaying(pos, param1, param2)
+	pos, g_artist = string.unpack(g_Receivebuffer, "<P", pos)
+	pos, g_album = string.unpack(g_Receivebuffer, "<P", pos)
+	pos, g_title = string.unpack(g_Receivebuffer, "<P", pos)
+
+	g_current = param1
+	g_totalsongs = param2
+	g_haveImage = false
+	NotifyRoomOfCurrentMedia()
+	SendProgressUI()
+
+	if (g_imagequeue[g_current] ~= nil) then
+
+		if ((g_imagequeue[g_current].title == "") and (g_imagequeue[g_current].artist == "") and (g_imagequeue[g_current].album == "")) then
+			g_imagequeue[g_imageindex].title = g_title
+			g_imagequeue[g_imageindex].artist = g_artist
+			g_imagequeue[g_imageindex].album = g_album
+		end
+
+		if ((g_imagequeue[g_current].title == g_title) and (g_imagequeue[g_current].artist == g_artist) and (g_imagequeue[g_current].album == g_album)) then
+			SendCoverArtToProxy(g_current)
+			if (g_current < g_totalsongs) then
+				if (g_imagequeue[g_current+1] == nil) then
+					g_imageindex = g_current + 1
+					startCoverArtTimer()
+				end
+			end
+		else
+			dbg ("Image queue out of sync, clearing image queue")
+			g_imagequeue = {}
+			g_imageindex = g_current
+			startCoverArtTimer()
+		end
+	else
+		g_imageindex = g_current
+		startCoverArtTimer()
+	end
+end
+
+function NotifyTime(param1, param2)
+	g_elapsed = param1
+	g_remaining = param2 - param1
+
+	if (g_NowPlayingTimer == true) then
+		g_StatusCount = g_StatusCount + 1
+
+		-- Update the elapsed time on the Navigators every n seconds, to not overwhelm the network...
+		if ((g_StatusCount >= g_NowPlayingDelay) or (g_elapsed < 2) or (g_remaining < 3)) then
+			SendElapsedTimeUI()
+			g_StatusCount = 0
+		end
+	end
+end
+
+function NotifyPlayerStatus(param0)
+	local strTagData = ""
+
+	if (param0 == 1) then
+		strTagData = "Playing"
+	elseif (param0 == 2) then
+		SendUISimpleToProxy("busy", "false")
+		strTagData = "Stopped"
+		Stopped()
+	elseif (param0 == 3) then
+		strTagData = "Paused"
+	elseif (param0 == 4) then
+		dbg ("FFW")
+		strTagData = "Playing"
+	elseif (param0 == 5) then
+		dbg ("REW")
+		strTagData = "Playing"
+	end
+	g_playerstatus = strTagData
+	dbg ("Player Status = " .. g_playerstatus)
+	SendUISimpleToProxy("playstatus", strTagData)
+end
+
+function NotifyDockStatus(param0)
+	if (param0 == 1) then
+		-- offline
+		Undocked()
+	elseif (param0 == 2) then
+		-- online
+		Docked()
+	elseif (param0 == 3) then
+		-- busy
+		print ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ DOCK IS BUSY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+	elseif (param0 == 4) then
+		-- initializing
+		dbg ("DOCK INITIALIZING")
+--		CMD.GET_FIRMWARE_VERSION("")
+	elseif (param0 == 5) then
+		-- dock not supported
+		print ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ DOCK IS NOT SUPPORTED ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+	elseif (param0 == 6) then
+		-- dock upgrade required
+		print ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ DOCK UPGRADE REQUIRED ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+	end
+end
+
+
+function RspList(pos, dataLen, strList, numItems, curItem, param0, param1, param2, param3)
+	local totalItems = 0
+	local numItems = 0
+	local firstItem = 0
+	local clearList = true
+	strListTitle = string.sub(g_Receivebuffer, pos, (pos + dataLen - 2))
+
+	if (bit.band(param0, 0x01) == 0x01) then
+		clearList = true
+		strList = strList .. "<clear>true</clear>"
+	else
+		clearList = false
+		strList = strList .. "<clear>false</clear>"
+	end
+	if (bit.band(param0, 0x10) == 0x10) then
+		topItem = true
+		totalItems = param1 + 4
+		numItems = param2 + 4
+		strList = strList .. "<top>true</top>"
+	else
+		topItem = false
+		totalItems = param1
+		numItems = param2
+		strList = strList .. "<top>false</top>"
+	end
+	if (bit.band(param0, 0x80) == 0x80) then
+		strList = strList .. "<alpha>true</alpha>"
+	else
+		strList = strList .. "<alpha>false</alpha>"
+	end
+
+	if ((g_selectedItem ~= nil) and (g_selectedItem > 0)) then
+		strList = strList .. "<selected_item>" .. g_selectedItem .. "</selected_item>"
+		g_selectedItem = 0
+	end
+
+	firstItem = param3
+	if (clearList == true) then
+		if (firstItem == -1) then
+			g_hasAll = true
+		else
+			g_hasAll = false
+		end
+	end
+
+	if (g_hasAll == true) then
+		firstItem = firstItem + 1
+		totalItems = totalItems + 1
+	end
+
+	strList = strList .. "<title>" .. EscapeXML(strListTitle) .. "</title><total_items>" .. totalItems .. "</total_items><num_items>" .. numItems .. "</num_items><first>" .. firstItem .. "</first>"
+	if (param1 == 0) then
+		strList = strList .. "<items/></list>"
+		SendToProxy("LIST", strList)
+	else
+		strList = strList .. "<items>"
+	end
+	dbg("\tRspList:strList = " .. strList)
+	return strList
+end
+
+function RspListItem(pos, dataLen, strList, numItems, curItem, param0, param1)
+	strListItem = string.sub(g_Receivebuffer, pos, (pos + dataLen - 2))
+
+	curItem = curItem + 1
+
+	local itemId = param1
+	if (g_hasAll == true) then
+		itemId = itemId + 1
+	end
+
+	strList = strList .. "<item><id>" .. itemId .. "</id><type>" .. param0 .. "</type><text>" .. EscapeXML(strListItem) .. "</text></item>"
+	dbg("\tstrListItem = " .. EscapeXML(strListItem) .. "   curItem = " .. curItem .. "   numItems = " .. numItems)
+	-- hexdump(strListItem)
+	if (curItem >= numItems) then
+		if (topItem) then
+
+			if ((g_ListType == LISTTYPE.MUSIC) or (g_ListType == "0")) then
+				strList = strList .. "<item><id>32007</id><text>Listen</text></item>"
+			else
+				strList = strList .. "<item><id>32007</id><text>Watch</text></item>"
+			end
+			strList = strList .. "<item><id>32002</id><text>Shuffle: " .. g_shuffle[g_shufflemode]
+			strList = strList .. "</text></item><item><id>32001</id><text>Repeat: " .. g_repeat[g_repeatmode]
+			if (g_ShowCoverArt == true) then
+				strList = strList .. "</text></item><item><id>32008</id><text>Cover Art: On"
+			else
+				strList = strList .. "</text></item><item><id>32008</id><text>Cover Art: Off"
+			end
+			strList = strList .. "</text></item>"
+		end
+		strList = strList .. "</items></list>"
+		dbg("\tRspListItem:strList = " .. strList)
+		SendToProxy("LIST", strList)
+	end
+	return strList, curItem
+end
+
+function RspAlphaLookup(param0, param1)
+	local alphaIndex = param1
+	g_selectedItem = alphaIndex
+	if (g_hasAll == true) then
+		g_selectedItem = g_selectedItem + 1
+	end
+
+	GetNext(alphaIndex, 20)
+end
+
+function RspCoverArt(pos, dataLen, param0, param1, param2, param3)
+	if (param0 == 0) then
+		SetGettingCoverArt(true)
+		dbg("Cover Art Found (first).")
+		SendUISimpleToProxy("loadingcoverart", "true")
+		g_StartTime = os.clock()
+		coverArtTable = {}
+		table.insert(coverArtTable, string.sub(g_Receivebuffer, pos, (pos + dataLen - 1)))
+	elseif (param0 == 1) then
+		table.insert(coverArtTable, string.sub(g_Receivebuffer, pos, (pos + dataLen - 1)))
+	elseif (param0 == 2) then
+		dbg("Cover Art Found (last).")
+		SetGettingCoverArt(false)
+		if (g_NowPlayingTimer == true) then
+			SendElapsedTimeUI()
+		else
+			ClearElapsedTime()
+		end
+		SendUISimpleToProxy("loadingcoverart", "false")
+		dbg("RspCoverArt: " .. string.format("elapsed time: %.2f\n", os.clock() - g_StartTime))
+		table.insert(coverArtTable, string.sub(g_Receivebuffer, pos, (pos + dataLen - 1)))
+
+		g_imagequeue[g_imageindex] = {}
+		g_imagequeue[g_imageindex].width = bit.rshift(param1, 16)
+		g_imagequeue[g_imageindex].height = bit.band(param1, 0xFFFF)
+		g_imagequeue[g_imageindex].left = bit.rshift(param2, 16)
+		g_imagequeue[g_imageindex].top = bit.band(param2, 0xFFFF)
+		g_imagequeue[g_imageindex].right = bit.rshift(param3, 16)
+		g_imagequeue[g_imageindex].bottom = bit.band(param3, 0xFFFF)
+		g_imagequeue[g_imageindex].title = ""
+		g_imagequeue[g_imageindex].artist = ""
+		g_imagequeue[g_imageindex].album = ""
+		g_imagequeue[g_imageindex].image = table.concat(coverArtTable, "")
+
+		if (g_imageindex == g_current) then
+			SendCoverArtToProxy(g_imageindex)
+			g_imagequeue[g_imageindex].title = g_title
+			g_imagequeue[g_imageindex].artist = g_artist
+			g_imagequeue[g_imageindex].album = g_album
+
+			if (g_current < g_totalsongs) then
+				if (g_imagequeue[g_current+1] == nil) then
+					g_imageindex = g_current + 1
+					startCoverArtTimer()
+					return
+				end
+			end
+		end
+
+		if (g_imageindex > 5) then
+			g_imagequeue[g_imageindex-5] = nil
+		end
+
+	elseif (param0 == 0xff) then
+		dbg ("Song does not contain cover art")
+		if (g_imageindex == g_current) then
+			if (g_current < g_totalsongs) then
+				if (g_imagequeue[g_current+1] == nil) then
+					g_imageindex = g_current + 1
+					startCoverArtTimer()
+					return
+				end
+			end
+		end
+
+		if (g_imageindex > 5) then
+			g_imagequeue[g_imageindex-5] = nil
+		end
+	end
+end
+
+function RspShuffleMode(param0)
+	g_shufflemode = param0
+	SendUISimpleToProxy("shufflemode", g_shuffle[g_shufflemode])
+end
+
+function RspRepeatMode(param0)
+	g_repeatmode = param0
+	SendUISimpleToProxy("repeatmode", g_repeat[g_repeatmode])
+end
+
+function RspFirmwareVersion(pos, dataLen)
+	g_firmwareVersion = string.sub(g_Receivebuffer, pos, (pos + dataLen - 2))
+	C4:UpdateProperty("Firmware Version", g_firmwareVersion)
+end
+
+function GetFWVersion()
+	dbg ("Firmware Version = " .. g_firmwareVersion)
+end
+
+function DisplayGlobalVariables()
+	for k,v in pairs(_G) do	-- globals`
+		if (string.find(k, "^g_")  == 1) then
+			print(k .. ":  " .. tostring(v)) 
+		end
+	end
+end
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+	-- Save up things coming back on port, process it for valid message (full length found)
+	g_Receivebuffer = g_Receivebuffer .. strData
+	local receiveBufferLen = string.len(g_Receivebuffer)
+
+	-- loop through messages
+	local messagePos = 1
+	local remainingBufferLen = receiveBufferLen
+
+	while(remainingBufferLen > 0) do
+		-- dbg("messagePos = " .. messagePos .. "  remainingBufferLen = " .. remainingBufferLen)
+
+		-- 22 bytes, we have entire header.
+		if (remainingBufferLen < 22) then
+			dbgUnitTest("receive buffer does not contain full header")
+			g_Receivebuffer = string.sub(g_Receivebuffer, messagePos)
+			return
+		end
+
+		-- get header message
+		local pos, msgLen, strHeader, strCmd, param0, dataLen, param1, param2, param3 = string.unpack(g_Receivebuffer, "<H<Lbb<H<l<l<l", messagePos)
+		msgLen = msgLen + 2
+
+		-- check for valid header
+		if (strHeader ~= 2857741055) then
+			-- TODO: Consider searching for a valid header and go from there.
+			dbg ("^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*")
+			dbgUnitTest("Critical Error: Header does not match")
+			dbg ("strHeader = ".. strHeader .. "  (" .. string.format("%02x", strHeader) .. ")")
+			dbg ("msgLen = " .. msgLen)
+			dbg ("remainingBufferLen = " .. remainingBufferLen)
+			dbg ("")
+			dbg ("hexdump(strData)")
+			hexdump(strData)
+			dbg ("")
+			dbg ("hexdump(g_Receivebuffer)")
+			hexdump(g_Receivebuffer)
+			dbg ("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^")
+			g_Receivebuffer = ""
+			return
+--    else
+--      dbg ("strHeader = ".. strHeader .. "  (" .. string.format("%02x", strHeader) .. ")")
+--      dbg ("msgLen = " .. msgLen)
+--      dbg ("remainingBufferLen = " .. remainingBufferLen)
+--      dbg ("")
+--      dbg ("hexdump(g_Receivebuffer)")
+--      hexdump(g_Receivebuffer)
+		end
+
+		-- we have entire message
+		if (remainingBufferLen < msgLen) then
+			dbgUnitTest("receive buffer does not contain full message")
+			g_Receivebuffer = string.sub(g_Receivebuffer, messagePos)
+			return
+		end
+
+		if (g_debugprint) then
+--			if (strCmd ~= NOTIFY.TIME) then
+				dbg("ReceivedFromNetwork(" .. GetCommandText(strCmd) .. ")")
+				dbg("    strCmd = " .. string.format("%02x", strCmd) .. " " .. GetCommandText(strCmd) ..
+						"\tmsgLen = " .. msgLen .. " (" .. string.format("%02x", msgLen) .. ") " ..
+						"\tdataLen = " .. dataLen .. " (" .. string.format("%02x", dataLen) .. ") " ..
+						"\tparam0 = " .. param0 .. " (" .. string.format("%02x", param0) .. ") " ..
+						"\tparam1 = " .. param1 .. " (" .. string.format("%02x", param1) .. ") " ..
+						"\tparam2 = " .. param2 .. " (" .. string.format("%02x", param2) .. ") " ..
+						"\tparam3 = " .. param3 .. " (" .. string.format("%02x", param3) .. ") "
+				)
+	--		end
+		end
+
+		-- process messages
+		-- dbg("Processing Message")
+		if (strCmd == RESP.COVER_ART) then
+			RspCoverArt(pos, dataLen, param0, param1, param2, param3)
+		elseif (strCmd == NOTIFY.IPOD_NAME) then
+			NotifyIpodName(pos, dataLen, param0)
+		elseif (strCmd == NOTIFY.NOW_PLAYING) then
+			NotifyNowPLaying(pos, param1, param2)
+		elseif (strCmd == NOTIFY.TIME) then
+			NotifyTime(param1, param2)
+		elseif (strCmd == NOTIFY.PLAYER_STATUS) then
+			NotifyPlayerStatus(param0)
+		elseif (strCmd == NOTIFY.DOCK_STATUS) then
+			NotifyDockStatus(param0)
+
+		elseif (strCmd == RESP.LIST) then
+			strList = "<list>"
+			numItems = param2
+			curItem = 0
+			strList = RspList(pos, dataLen, strList, numItems, curItem, param0, param1, param2, param3)
+		elseif (strCmd == RESP.LIST_ITEM) then
+			strList, curItem = RspListItem(pos, dataLen, strList, numItems, curItem, param0, param1)
+		elseif (strCmd == RESP.ALPHA_LOOKUP) then
+			RspAlphaLookup(param0, param1)
+		elseif (strCmd == RESP.SHUFFLE_MODE) then
+			RspShuffleMode(param0)
+		elseif (strCmd == RESP.REPEAT_MODE) then
+			RspRepeatMode(param0)
+		elseif (strCmd == RESP.FW_VERSION) then
+			RspFirmwareVersion(pos, dataLen)
+		end
+
+		messagePos = messagePos + msgLen
+		remainingBufferLen = receiveBufferLen - messagePos + 1
+		-- dbg("new: messagePos = " .. messagePos .. "  msgLen = " .. msgLen .. "  remainingBufferLen = " .. remainingBufferLen .. "  receiveBufferLen = " .. receiveBufferLen)
+	end -- end while
+
+	g_Receivebuffer = ""
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+	g_NetworkBound = bIsBound
+	if (bIsBound) then
+		dbg("Network Binding Bound...")
+	else
+		dbg("Network Binding Unbound...")
+		Undocked()
+	end
+end
+
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	if (idBinding == 6001) then
+		if (strStatus == "ONLINE") then
+			dbg("Network Connection Online...")
+			CMD.GET_FIRMWARE_VERSION("")
+		else
+			dbg("Network Connection Offline...")
+			Undocked()
+		end
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	dbgFunction("ExecuteCommand(" .. strCommand .. ")")
+	if (strCommand == "LUA_ACTION") then
+		if tParams ~= nil then
+			for cmd,cmdv in pairs(tParams) do 
+				dbg (cmd,cmdv)
+				if cmd == "ACTION" then
+					if cmdv == "DisplayGlobals" then
+						DisplayGlobalVariables()
+					else
+						dbg("From ExecuteCommand Function - Undefined Action")
+						dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+					end
+				else
+					dbg("From ExecuteCommand Function - Undefined Command")
+					dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+				end
+			end
+		end
+	end
+
+	if (strCommand == "Set LED") then
+		if (tParams["Setting"] == "Off") then
+			QueueDockCmd(CMD["SET_LED_RAW"], 0, 0, 0, 0, "")
+		else
+			QueueDockCmd(CMD["SET_LED_RAW"], 1, 0, 0, 0, "")
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+function OnPoll(bindingId, port)
+	if (g_gettingCoverArt == true) then
+		if (g_skippedPolling >= 2) then
+			ResetCoverArt()
+		else
+			dbg ("Getting Cover Art: Skipping OnPoll command")
+			g_skippedPolling = g_skippedPolling + 1
+			return
+		end
+	end
+
+	g_skippedPolling = 0
+	dbgFunction("OnPoll id:" .. bindingId .. " port:" .. port)
+	SendSimpleDockCmd(CMD["GET_FW_VERSION_RAW"])
+end
+
+-- Stack Table
+-- Uses a table as stack, use <table>:push(value) and <table>:pop()
+-- Lua 5.1 compatible
+
+-- GLOBAL
+Stack = {}
+
+-- Create a Table with stack functions
+function Stack:Create()
+
+	-- stack table
+	local t = {}
+	-- entry table
+	t._et = {}
+
+	-- push a value on to the stack
+	function t:push(...)
+		if ... then
+			local targs = {...}
+			-- add values
+			for _,v in pairs(targs) do
+				table.insert(self._et, v)
+			end
+		end
+	end
+
+	-- pop a value from the stack
+	function t:pop(num)
+
+		-- get num values from stack
+		local num = num or 1
+
+		-- return table
+		local entries = {}
+
+		-- get values into entries
+		for i = 1, num do
+			-- get last entry
+			if #self._et ~= 0 then
+				table.insert(entries, self._et[#self._et])
+				-- remove last value
+				table.remove(self._et)
+			else
+				break
+			end
+		end
+		-- return unpacked entries
+		return unpack(entries)
+	end
+
+	-- clear table
+	function t:cleartable()
+		if (nil ~= t) then
+			t = {}
+			t._et = {}
+		end
+	end
+
+	-- get entries
+	function t:getn()
+		return #self._et
+	end
+
+	-- list values
+	function t:list()
+		for i,v in pairs(self._et) do
+			print (i, v)
+		end
+	end
+	return t
+end
+
+-----------------------------  INIT   -----------------------------
+-- TODO: Check that all variables that should be local are local...
+
+-- Setup Driver Variables
+
+-- TODO: Does this driver support any *Protocol Driver* variables???
+VarList = {
+					 "IPOD_NAME",
+					}
+for i = 1, #VarList do
+	C4:AddVariable(VarList[i], "", "STRING", true, false)
+end
+
+g_nPort = 8750
+g_DebugTimer = 0
+g_NetworkBound = false
+
+---------------  iPod dock unit test specific globals -------------------
+g_debugunittest = false
+
+---------------  iPod dock specific globals -------------------
+g_title = ""
+g_artist = ""
+g_album = ""
+g_playerstatus = "Stopped"
+g_ipodname = "Offline"
+g_online = false
+g_shufflemode = 1
+g_repeatmode = 1
+g_selectedItem = 0
+g_elapsed = 0
+g_remaining = 0
+g_current = 0
+g_totalsongs = 0
+g_CoverArtTimer = 0
+g_ShowCoverArt = true
+g_SupportCoverArt = true
+g_NowPlayingTimer = false
+gAlphaLookup = false
+g_SelectTimer = 0
+g_SelectItemId = 0
+g_DockedTimer = 0
+g_ListType = 0
+g_videoType = 1
+g_imagequeue = {}
+g_imageindex = -1
+g_commandqueue = {}
+g_commandindex = 0
+g_gettingCoverArt = false
+g_skippedPolling = 0
+g_CoverArtDelay = 10
+g_hasAll = false
+g_firmwareVersion = ""
+g_StatusCount = 0
+g_supportsVideo = true
+g_haveImage = false
+
+g_stack = Stack:Create()
+
+g_shuffle = {
+[1] = "Off",
+[2] = "Songs",
+[3] = "Albums",
+}
+
+g_repeat = {
+[1] = "Off",
+[2] = "One",
+[3] = "All",
+}
+
+LISTTYPE = {
+	MUSIC = 0,
+	VIDEO = 1,
+}
+
+UNDOCK_OPTION = {
+	NOTHING = 0,
+	ROOMOFF = 1,
+	ROOMOFF5 = 2,
+}
+
+VIDEOTYPE = {
+	[1] = "COMPOSITE",
+	[2] = "COMPONENT",
+}
+
+g_Command = {
+[0x01] = "GetList",
+[0x02] = "Select",
+[0x03] = "PlayItem",
+[0x04] = "Back",
+[0x05] = "AlphaLookup",
+[0x06] = "GetCoverArt",
+[0x07] = "Reset",
+[0x08] = "GetIpodName",
+[0x09] = "GetShuffleMode",
+[0x0A] = "GetRepeatMode",
+[0x0B] = "GetNowPlaying",
+
+[0x21] = "PlayPause",
+[0x22] = "Play",
+[0x23] = "Pause",
+[0x24] = "Stop",
+[0x25] = "Prev",
+[0x26] = "Next",
+[0x27] = "StartFF",
+[0x28] = "StopFF",
+[0x29] = "StartRW",
+[0x2A] = "StopRW",
+[0x2B] = "SetShuffleMode",
+[0x2C] = "SetRepeatMode",
+[0x2D] = "SetVideoOutput",
+[0x2E] = "GetFWVersion",
+
+[0x81] = "ListRsp",
+[0x82] = "ListItemRsp",
+[0x85] = "AlphaLookupRsp",
+[0x86] = "CoverArtRsp",
+[0x87] = "ShuffleModeRsp",
+[0x88] = "RepeatModeRsp",
+[0xAE] = "FWVersionRsp",
+
+[0x91] = "IpodNameNtf",
+[0x92] = "NowPlayingNtf",
+[0x93] = "TimeNtf",
+[0x94] = "PlayerStatusNtf",
+[0x95] = "DockStatusNtf",
+}
+
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+-- Test Commands to check byte packing...
+-- SendSimpleDockCmd(CMD["SKIP_FWD_RAW"])
+
+-----------------------------  INIT   -----------------------------
+	-- Clear Receive Buffer for incoming data
+g_Receivebuffer = ""
+
+]]>
+		</script>
+	</config>
+	<name>Dock for iPod</name>
+	<small>devices_sm/receiver.gif</small>
+	<large>devices_lg/receiver.gif</large>
+	<proxy>ipod</proxy>
+	<driver>DriverWorks</driver>
+	<control>lua_gen</control>
+	<search_type>c4:ipdktt-e-b</search_type>
+	<states/>
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>ipod</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>IPOD</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>Network Connection</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>TCP</classname>
+					<ports>
+						<port>
+							<number>8750</number>
+							<auto_connect>True</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_connection>True</keep_connection>
+							<keep_alive>True</keep_alive>
+						</port>
+					</ports>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>4000</id>
+			<facing>6</facing>
+			<connectionname>Audio Output</connectionname>
+			<type>6</type>
+			<consumer>False</consumer>
+			<audiosource>True</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>2000</id>
+			<facing>6</facing>
+			<connectionname>Video Output</connectionname>
+			<type>5</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>True</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>COMPONENT</classname>
+				</class>
+			</classes>
+		</connection>
+	<connection>
+		<id>2001</id>
+		<facing>6</facing>
+		<connectionname>Video Output</connectionname>
+		<type>5</type>
+		<consumer>False</consumer>
+		<audiosource>False</audiosource>
+		<videosource>True</videosource>
+		<linelevel>True</linelevel>
+		<classes>
+			<class>
+				<classname>COMPOSITE</classname>
+			</class>
+		</classes>
+	</connection>
+	<connection>
+			<id>7000</id>
+			<facing>6</facing>
+			<connectionname>Room Selection</connectionname>
+			<type>7</type>
+			<consumer>False</consumer>
+			<audiosource>True</audiosource>
+			<videosource>True</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_SELECTION</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

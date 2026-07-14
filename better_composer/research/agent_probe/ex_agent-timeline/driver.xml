@@ -1,0 +1,78 @@
+<devicedata>
+	<copyright>Copyright 2026 Snap One, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<name>Timeline</name>
+	<model>Timeline</model>
+	<creator>Control4</creator>
+	<created>08/28/2024 16:00</created>
+	<modified>02/25/2026 10:30</modified>
+	<version>32</version>
+	<control>lua_gen</control>
+	<controlmethod>other</controlmethod>
+	<driver>DriverWorks</driver>
+	<small>locations_sm\lab.gif</small>
+	<large>locations_lg\lab.gif</large>
+	<auto_update>true</auto_update>
+	<minimum_auto_update_version>1</minimum_auto_update_version>
+	<minimum_os_version>4.0.0</minimum_os_version>
+	<composer_categories>
+		<category>Controllers</category>
+	</composer_categories>
+	<config>
+		<script jit="1" encryption="2" file="lua/squished.lua"/>
+		<documentation file="www/documentation/index.html"/>
+		<properties>
+			<property>
+				<name>Agent Version</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>On</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+                <name>Maximum Age Of Events</name>
+                <type>RANGED_INTEGER</type>
+                <readonly>false</readonly>
+                <default>7</default>
+                <minimum>1</minimum>
+                <maximum>14</maximum>
+            </property>
+			<property>
+                <name>Maximum Number Of Events</name>
+                <type>RANGED_INTEGER</type>
+                <readonly>false</readonly>
+                <default>10</default>
+                <minimum>1</minimum>
+                <maximum>30</maximum>
+            </property>
+		</properties>
+		<commands/>
+		<actions>
+			<action>
+				<name>Print Future Events</name>
+				<command>PrintFutureEvents</command>
+			</action>
+			<action>
+				<name>Print Past Events</name>
+				<command>PrintPastEvents</command>
+			</action>
+		</actions>
+	</config>
+	<connections/>
+	<events/>
+	<combo>true</combo>
+	<agent>true</agent>
+	<keywords>Lua_Agent</keywords>
+	<proxies>
+		<proxy>agent-timeline</proxy>
+	</proxies>
+</devicedata>

@@ -1,0 +1,19 @@
+{
+  "agent": "control4_agent_uiconfiguration",
+  "extraction_method": "ExtractVocab.java v2 (dual-pattern + stoplist), raw/uncurated",
+  "note": "Unfiltered token list -- includes real per-agent vocab mixed with residual shared-library noise not yet in the stoplist. Needs manual curation into commands/conditionals/params like control4_agent_scheduler.json.",
+  "token_count": 11,
+  "tokens": [
+    "CAPABILITIES_CHANGED",
+    "GET_CAPABILITIES",
+    "GET_COMMAND_INFO",
+    "GET_LAST_ACTION",
+    "GET_MEDIA_WALLS",
+    "GET_PRESETS",
+    "GREATER_THAN",
+    "GREATER_THAN_OR_EQUAL",
+    "LESS_THAN",
+    "LESS_THAN_OR_EQUAL",
+    "NOT_EQUAL"
+  ]
+}

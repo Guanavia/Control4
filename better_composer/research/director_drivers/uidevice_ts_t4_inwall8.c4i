@@ -1,0 +1,151 @@
+<devicedata>
+  <copyright>Copyright 2021 Snap One, LLC. All Rights Reserved.</copyright>
+  <name>T4 8" In-Wall Touch Screen</name>
+  <version>3007</version>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <created>03/01/2018</created>
+  <modified>11/16/2021</modified>
+  <model>C4-T4IW8</model>
+  <small>devices_sm/control4_touchpad_16.gif</small>
+  <large>devices_lg/control4_touchpad_32.gif</large>
+  <control>uidevice_glassedge</control>
+  <composer_categories>
+    <category>User Interface</category>
+  </composer_categories>
+  <proxies>
+    <proxy name='T4 8" In-Wall Touch Screen'>uidevice</proxy>
+    <proxy>intercomproxy</proxy>
+    <proxy>voiceinput</proxy>
+  </proxies>
+  <search_type>c4:uidevice_touchscreen_t4_inwall8</search_type>
+  <driver>20180316</driver>
+  <states />
+  <config>
+    <name_on_update_web_service>ts-t4-inwall8</name_on_update_web_service>
+    <update_platform_type_name>android</update_platform_type_name>
+  </config>
+  <capabilities>
+    <driver_arch_type>1</driver_arch_type>
+    <has_side_buttons>false</has_side_buttons>
+    <has_manual_brightness>true</has_manual_brightness>
+    <has_adaptive_brightness>true</has_adaptive_brightness>
+    <has_suspend>true</has_suspend>
+    <num_physical_buttons>0</num_physical_buttons>
+    <has_virtual_buttons>false</has_virtual_buttons>
+    <has_navigator>true</has_navigator>
+    <has_camera>true</has_camera>
+    <has_intercom>true</has_intercom>
+    <has_video_intercom>true</has_video_intercom>
+    <has_display>true</has_display>
+    <has_buttons>false</has_buttons>
+    <use_ringer>true</use_ringer>
+    <use_speaker>true</use_speaker>
+    <use_microphone>false</use_microphone>
+    <has_high_definition>true</has_high_definition>
+    <has_dial_pad_ui>true</has_dial_pad_ui>
+    <has_early_media>true</has_early_media>
+    <has_play_door_chime>true</has_play_door_chime>
+    <has_do_not_disturb>true</has_do_not_disturb>
+    <has_auto_answer>true</has_auto_answer>
+    <has_monitor_mode>true</has_monitor_mode>
+    <has_echo_calibration>false</has_echo_calibration>
+    <home_layout_mode>circle</home_layout_mode>
+    <plays_announcements>true</plays_announcements>
+    <has_proximity_sensor>false</has_proximity_sensor>
+  </capabilities>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>UI Device</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>UI_DEVICE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5002</id>
+      <facing>6</facing>
+      <connectionname>Intercom</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>INTERCOM</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5003</id>
+      <facing>6</facing>
+      <connectionname>Voice Input</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>VOICEINPUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Touchscreen IP Connection</connectionname>
+      <type>4</type>
+      <hidden>False</hidden>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <number>5117</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

@@ -1,0 +1,99 @@
+<devicedata>
+  <copyright>Copyright 2009 Card Access, Inc.  All rights reserved.</copyright>
+  <config />
+  <name>Card Access Wireless Contact Sensor</name>
+  <small>devices_sm/contact.gif</small>
+  <large>devices_lg/contact.gif</large>
+  <control>cardaccess_wirelesscontact</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <proxy>cardaccess_wirelesscontact</proxy>
+  <driver>WirelessContact</driver>
+  <states />
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+    <can_poll_serial>True</can_poll_serial>
+  </capabilities>
+  <manufacturer>Card Access</manufacturer>
+  <version>2</version>
+  <creator>Card Access</creator>
+  <created>7/20/2006 12:30 PM</created>
+  <modified>2/10/2009 12:30 PM</modified>
+  <model>WCS10A</model>
+  <search_types>
+    <type>c4:cardaccess_inhome:WCS10A</type>
+    <type>c4:cardaccess_inhome:WCS10A-2</type>
+  </search_types>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <commands />
+  <conditionals />
+  <events />
+  <connections>
+    <connection>
+      <id>200</id>
+      <facing>6</facing>
+      <connectionname>Contact Input 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>201</id>
+      <facing>6</facing>
+      <connectionname>Contact Input 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>202</id>
+      <facing>6</facing>
+      <connectionname>Internal Magnetic Contact</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6002</id>
+      <facing>6</facing>
+      <connectionname>Zigbee Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

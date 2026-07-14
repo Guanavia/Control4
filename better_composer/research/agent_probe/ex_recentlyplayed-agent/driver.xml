@@ -1,0 +1,80 @@
+<devicedata>
+	<copyright>Copyright 2025 Snap One, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<name>Recently Played Manager</name>
+	<model>Recently Played Manager</model>
+	<creator>Control4</creator>
+	<created>03/21/2022 10:00</created>
+	<modified>02/17/2025 11:00</modified>
+	<version>17</version>
+	<control>lua_gen</control>
+	<controlmethod>other</controlmethod>
+	<driver>DriverWorks</driver>
+	<auto_update>true</auto_update>
+	<minimum_auto_update_version>1</minimum_auto_update_version>
+	<minimum_os_version>3.3.1</minimum_os_version>
+	<composer_categories>
+		<category>Audio/Video</category>
+	</composer_categories>
+	<config>
+		<script jit="1" encryption="2" file="lua/squished.lua"/>
+		<documentation file="www/documentation/index.html"/>
+		<properties>
+			<property>
+				<name>Agent Version</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>History Size</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Agent Enabled</name>
+				<type>LIST</type>
+				<items>
+					<item>On</item>
+					<item>Off</item>
+				</items>
+				<default>On</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<commands/>
+		<actions>
+			<action>
+				<name>Clear History</name>
+				<command>ClearHistory</command>
+			</action>
+			<action>
+				<name>Print History By Room</name>
+				<command>PrintHistoryByRoom</command>
+			</action>
+			<action>
+				<name>Print History By Driver</name>
+				<command>PrintHistoryByDriver</command>
+			</action>
+		</actions>
+	</config>
+	<connections/>
+	<events/>
+	<combo>true</combo>
+	<agent>true</agent>
+	<keywords>Lua_Agent</keywords>
+	<proxies>
+		<proxy>recentlyplayed-agent</proxy>
+	</proxies>
+</devicedata>

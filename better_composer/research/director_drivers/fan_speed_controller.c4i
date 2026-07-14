@@ -1,0 +1,209 @@
+<devicedata>
+	<version>6</version>
+	<created>6/7/2012</created>
+	<modified>2/12/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-4SF120</model>
+	<name>Fan Speed Controller</name>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<control>fan_speed_controller</control>
+	<proxies>
+		<proxy proxybindingid="5001">fan</proxy>
+		<proxy proxybindingid="5002">keypad_proxy</proxy>
+	</proxies>
+	<composer_categories>
+		<category>User Interface</category>
+		<category>HVAC</category>
+	</composer_categories>
+	<driver>e95a5c78-6e59-4234-b5cd-1228959df69d</driver>
+	<search_types>
+		<type>c4:control4_light:C4-4SF120</type>
+		<type>c4:control4_light:C4-4SF240</type>
+	</search_types>
+	<capabilities>
+		<advanced_scene_support>True</advanced_scene_support>
+		<has_leds>True</has_leds>
+		<leds_have_color>True</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>True</fully_customizable>
+		<engravable>True</engravable>
+		<custom_finishes>True</custom_finishes>
+		<button_behavior>True</button_behavior>
+		<led_behavior>True</led_behavior>
+		<max_power>2</max_power>
+		<min_power>2</min_power>
+
+		<fixed_button_set>True</fixed_button_set>
+		<discrete_levels>4</discrete_levels>
+		<speed_names>Low,Medium,Medium High,High</speed_names>
+		<can_set_preset>True</can_set_preset>
+		<can_reverse>False</can_reverse>
+	</capabilities>
+
+	<connections>
+		<connection>
+			<id>200</id>
+			<facing>6</facing>
+			<connectionname>Off Speed Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>201</id>
+			<facing>6</facing>
+			<connectionname>Low Speed Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>202</id>
+			<facing>6</facing>
+			<connectionname>Medium Speed Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>203</id>
+			<facing>6</facing>
+			<connectionname>Medium-High Speed Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>204</id>
+			<facing>6</facing>
+			<connectionname>High Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>205</id>
+			<facing>6</facing>
+			<connectionname>Toggle Preset Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>206</id>
+			<facing>6</facing>
+			<connectionname>Cycle Speed Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>400</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Source)</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>401</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Follower)</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Fan</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>FAN</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

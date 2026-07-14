@@ -1,0 +1,157 @@
+<devicedata>
+	<version>4</version>
+	<created>1/6/2011</created>
+	<modified>2/22/2019</modified>
+	<copyright>Copyright 2004-2019 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-SM201-Z</model>
+	<name>Puck Switch</name>
+	<small>devices_sm/dimmer.gif</small>
+	<large>devices_lg/dimmer.gif</large>
+	<control>puck_light</control>
+	<proxy>light</proxy>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>2ec53aea-19e1-11e0-af2c-0026b9e1941c</driver>
+	<search_type>c4:control4_light:C4-SM201-Z</search_type>
+	<capabilities>
+		<!-- light stuff -->
+		<on_off>True</on_off>
+		<set_level>False</set_level>
+		<ramp_level>False</ramp_level>
+		<has_single_led>False</has_single_led>
+		<has_double_led>False</has_double_led>
+		<has_press_events>True</has_press_events>
+		<has_release_events>True</has_release_events>
+		<single_button>False</single_button>
+		<double_button>True</double_button>
+		<do_push>True</do_push>
+		<do_release>True</do_release>
+		<double_tap_top>True</double_tap_top>
+		<double_tap_bottom>True</double_tap_bottom>
+		<triple_tap_top>True</triple_tap_top>
+		<triple_tap_bottom>True</triple_tap_bottom>
+		<supports_broadcast_scenes>True</supports_broadcast_scenes>
+		<supports_multichannel_scenes>False</supports_multichannel_scenes>
+		<hide_proxy_properties>True</hide_proxy_properties>
+		<hide_proxy_events>True</hide_proxy_events>
+		<reduced_als_support>True</reduced_als_support>
+
+		<!-- puck stuff -->
+		<button_count>14</button_count>
+		<contact_count>2</contact_count>
+		<load_present>True</load_present>
+	</capabilities>
+
+	<connections>
+		<!-- button links and contacts are added dynamically, would look like this though
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Contact Sensor 1</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>CONTACT_SENSOR</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Button 1 Link</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		-->
+		<connection>
+			<id>200</id>
+			<facing>6</facing>
+			<connectionname>Top Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>201</id>
+			<facing>6</facing>
+			<connectionname>Bottom Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>202</id>
+			<facing>6</facing>
+			<connectionname>Toggle Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>LIGHT</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

@@ -1,0 +1,579 @@
+<devicedata>
+  <copyright>Copyright 2008 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <name>Netgear EVA8000 [DriverWorks]</name>
+  <model>Netgear EVA8000</model>
+  <manufacturer>Netgear</manufacturer>
+  <driver>DriverWorks</driver>
+  <control>lua_gen</control>
+	<version>6</version>
+	<created>07/10/2008 12:58:43 AM</created>
+  <modified>08/27/2008 2:09:30 PM</modified>
+  <small>devices_sm/dvd.gif</small>
+  <large>devices_lg/dvd.gif</large>
+  <front>{Width=700, Height=336}\x158DVPX777-f.bmp</front>
+  <back>{Width=500, Height=250}\x158dvpx777-b.bmp</back>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>media_player</proxy>
+  <states/>
+  <config>
+    <documentation>The Netgear EVA8000 media player allows you to play media stored on a network drive or available via the Internet to a TV. \n\nThis driver allows the Control4 system to interface with the EVA8000 on screen interface using the System Remote Control.  This driver also supports the video playback functionality of the EVA8000 - allowing the Control4 Navigator interface to be used to select a video title (requires Control4 1.7 system software).\n\nTo configure the EVA8000 in a system: \n\n1. Add the NetGear EVA8000 driver to your project. \n\n2. Using Composer, Network, Identify, type in the IP address assigned to your EVA8000. Then use the Control/AV tab to define the correct video and audio bindings.\n\n3. To use Navigator to select video titles for playpback, add / configure a Network File Storage driver to your system for the network storage device which you use for video storage.  With the Control4 1.7 system software release, the Network File Storage driver supports both audio and video content.\n\n4. Use Composer, Media tab to scan the Network File Storage device for video content.  The Scan operation will identify video_ts format video files, add them to the media DB, and automatically associate the video meta data including cover art. \n\n5. For other video formats supported by the EVA8000 player, you can use Composer to manually add these items to the media DB, use the Search function to retrieve the appropriate meta data from the web service, and enter the correct network path to the video file. They can then also be selected for playback using the Navigator interface.\n\nWhen using the System Remote Control, the Cancel button is mapped to the EVA8000 Back button and the DVR button toggles between aspect ratios.</documentation>
+    <properties><property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions/>
+    <commands/>
+    <events/>
+      <script>
+  <![CDATA[
+        
+EVA_TCP_PORT = 49156
+KeypressCMDS = {
+  MUTE_TOGGLE =   "0",
+  PULSE_VOL_UP =  "1",
+  PULSE_VOL_DOWN ="2",
+  NUMBER_0 =      "3",
+  NUMBER_1 =      "4",
+  NUMBER_2 =      "5",
+  NUMBER_3 =      "6",
+  NUMBER_4 =      "7",
+  NUMBER_5 =      "8",
+  NUMBER_6 =      "9",
+  NUMBER_7 =      "10",
+  NUMBER_8 =      "11",
+  NUMBER_9 =      "12",
+  STAR     =      "13",
+  POUND    =      "14",
+  PAGE_UP =       "15",
+  PAGE_DOWN =     "16",
+  MENU =          "17", -- our menu = their remote's guide
+  INFO =          "18",
+  PLAY =          "24",
+  PAUSE =         "25",
+  STOP =          "26",
+  SCAN_FWD =      "27",
+  SCAN_REV =      "28",
+  SKIP_FWD =      "29",
+  SKIP_REV =      "30",
+  RECORD =        "31",
+  PVR =           "58", -- toggles aspect ration
+}
+
+HTTPCMDS = {
+  LEFT =          "19",
+  RIGHT =         "20",
+  UP =            "21",
+  DOWN =          "22",
+  ENTER =         "23",
+  ON =            "32",
+  OFF =           "33",
+  GUIDE =         "49",
+  CANCEL =        "55",
+  BACK =          "55",
+  RECALL =        "55",
+}
+
+-- Needed to allow   CMDS.FXN
+CMDS = {}
+g_location = ""
+g_powerOffTimer = 0
+g_playTimer = 0
+g_httpPackets = {}
+g_Receivebuffer = ""
+g_SendBuffer = ""
+g_powerOnDelayTimer = 0
+
+g_Headers = "";
+g_Headers = g_Headers .. "User-Agent: C4LuaGen/1.00\r\n"
+g_Headers = g_Headers .. "Accept: */*\r\n"
+g_Headers = g_Headers .. "Connection: Keep-Alive\r\n"
+g_Headers = g_Headers .. "\r\n"
+
+
+
+function OnPropertyChanged(strProperty)
+  if (strProperty == "Debug Mode") then
+    if (Properties[strProperty] == "Off") then
+      g_debugprint = false
+      g_debuglog = false
+      g_DebugTimer = 0
+    end
+    if (Properties[strProperty] == "Print") then
+      g_debugprint = true
+      g_debuglog = false
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Log") then
+      g_debugprint = false
+      g_debuglog = true
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Print and Log") then
+      g_debugprint = true
+      g_debuglog = true
+      startDebugTimer()
+    end
+  end
+end
+
+function startDebugTimer()
+  if (g_DebugTimer) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+function dbg(strDebugText)
+  if (g_debugprint) then print(strDebugText) end
+  if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+function PrintPacket(msg, packet)
+  if (g_debugprint) then
+    print("........Hex Packet: " .. msg)
+    hexdump(packet)
+  end
+end
+
+function CancelOffTimer()
+  if (g_powerOffTimer ~= 0) then
+    C4:KillTimer(g_powerOffTimer)
+  end
+  g_powerOffTimer = 0
+end
+
+
+function CancelPowerOnDelayTimer()
+  if (g_powerOnDelayTimer ~= 0) then
+    C4:KillTimer(g_powerOnDelayTimer)
+  end
+  g_powerOnDelayTimer = 0
+end
+
+function CancelPlayTimer()
+  if (g_playTimer ~= 0) then
+    g_playTimer = C4:KillTimer(g_playTimer)
+  end
+  g_playTimer = 0
+end
+
+function CMDS.PLAY_THIS_FILE(BindingID, Params)
+  CancelOffTimer()
+  location = Params["FILE"]
+  if (location ~= nil) then
+    -- uncomment this line (and end) if behavior is reselect of movie is ignored
+    -- if (g_location ~= location) then
+      g_location = location
+      -- Send a play event for programming
+      C4:SendToProxy(BindingID, "PLAY", {})
+      -- Stop any currently playing files
+      SendKeypress(KeypressCMDS["STOP"])
+      -- queue up command to send when stop completes
+      user = Params["USER"]
+      pass = Params["PASSWORD"]
+      QueueCreateSession(location, user, pass)
+    -- end
+  end
+end
+
+function CMDS.ON(BindingID, Params)
+  CancelOffTimer()
+  SendHttp(HTTPCMDS["ON"])
+  C4:SendToProxy(BindingID, "ON", {})
+  g_powerOnDelayTimer = C4:AddTimer(10,"SECONDS")
+end
+
+function CMDS.OFF(BindingID, Params)
+  CancelOffTimer()
+  -- Stop any currently playing files
+  SendKeypress(KeypressCMDS["STOP"])
+  g_powerOffTimer = C4:AddTimer(5,"SECONDS")
+  g_location = ""
+end
+
+function CMDS.PLAY(BindingID, Params)
+  SendKeypress(KeypressCMDS["PLAY"])
+  C4:SendToProxy(BindingID, "PLAY", {})
+end
+
+function CMDS.STOP(BindingID, Params)
+  SendKeypress(KeypressCMDS["STOP"])
+  C4:SendToProxy(BindingID, "STOP", {})
+  g_location = ""
+end
+
+function CMDS.PAUSE(BindingID, Params)
+  SendKeypress(KeypressCMDS["PAUSE"])
+  C4:SendToProxy(BindingID, "PAUSE", {})
+end
+
+function ReceivedFromProxy(BindingID, Command, Params)
+  if ((g_tcpConnected == nil) or (g_tcpConnected == false)) then
+     dbg("Received command from proxy with no connect to device.  Verify device's ip address")
+  end
+  dbg("ReceivedFromProxy called for EVA8000 with command: " .. Command)
+  if Params ~= nil then
+    for pName, pValue in pairs(Params) do
+      dbg("..Parameter: " .. pName .. " with value: " .. pValue)
+    end
+  end
+
+  -- Check for nav cmds that need a timer
+  if (Command == "START_DOWN") then 
+    g_downTimer = C4:AddTimer(50, "MILLISECONDS", true)
+  end
+  if (Command == "START_UP") then 
+    g_upTimer = C4:AddTimer(50, "MILLISECONDS", true)
+  end
+  if (Command == "START_LEFT") then 
+    g_leftTimer = C4:AddTimer(50, "MILLISECONDS", true)
+  end
+  if (Command == "START_RIGHT") then 
+    g_rightTimer = C4:AddTimer(50, "MILLISECONDS", true)
+  end
+
+  if (Command == "STOP_RIGHT") then C4:KillTimer(g_rightTimer) end
+  if (Command == "STOP_LEFT") then C4:KillTimer(g_leftTimer) end
+  if (Command == "STOP_UP") then C4:KillTimer(g_upTimer) end
+  if (Command == "STOP_DOWN") then C4:KillTimer(g_downTimer) end
+  
+      
+  -- First try our function LUT
+  cmd = CMDS[Command]   -- ON, OFF, PLAY, STOP, PAUSE
+  if (cmd ~= nil) then
+    cmd(BindingID, Params)
+    return
+  end
+
+  -- OK. Lets try the simple commands
+  cmd = KeypressCMDS[Command]  -- as defined in the KeypressCMDS table
+  if (cmd ~= nil) then
+    SendKeypress(cmd)
+  end
+
+  -- Check if http
+  cmd = HTTPCMDS[Command]
+  if (cmd ~= nil) then
+    SendHttp(cmd)
+  end
+
+end
+
+-- given a string request - create a packet with the appropriate header and payload, then return it
+function GeneratePacket(strRequest)
+  lenStr = C4:hton_l(string.len(strRequest) + 12)
+  lenHexStr = tohex(lenStr)
+  result = lenHexStr .. "SJam" .. "\028\001\000\000" .. strRequest
+  -- hexdump(result)
+  return result
+end
+
+function CreateSessionMsgSmb(fileLoc, user, pass)
+  if (user ~= nil) then
+  -- should look like: smb://username:password@servername/share/folder/filename.mpg
+    sessionMsg = [[CREATESESSION /TYPE=1 /TARGETDEV=TV /NAME=Videos /DEVICE="file:smb://]]
+    sessionMsg = sessionMsg .. user
+    sessionMsg = sessionMsg .. ":"
+    sessionMsg = sessionMsg .. pass
+    sessionMsg = sessionMsg .. "@"
+  else
+    sessionMsg = [[CREATESESSION /TYPE=1 /TARGETDEV=TV /NAME=Videos /DEVICE="file:smb://:@]]
+  end
+  sessionMsg = sessionMsg .. fileLoc
+  sessionMsg = sessionMsg .. "\" /flags=3"
+  sessionMsg = sessionMsg .. "\000"
+  packet = GeneratePacket(sessionMsg)
+  return(packet)
+end
+
+function CreateSessionMsgHttp(fileLoc, user, pass)
+  fileLoc = string.gsub(fileLoc, "/http:", "http:")
+  sessionMsg = [[CREATESESSION /TYPE=1 /TARGETDEV=TV /NAME=Videos /DEVICE="file:]]
+  sessionMsg = sessionMsg .. fileLoc
+  sessionMsg = sessionMsg .. "\" /flags=3"
+  sessionMsg = sessionMsg .. "\000"
+  packet = GeneratePacket(sessionMsg)
+  return(packet)
+end
+
+function QueueCreateSession(fileLoc, user, pass)
+  C4:DebugLog("QueueCreateSession called with file: " .. fileLoc)
+  if (string.find(fileLoc, "http://") ~= nil) then
+      g_SendBuffer = CreateSessionMsgHttp(fileLoc, user, pass)
+  else
+      g_SendBuffer = CreateSessionMsgSmb(fileLoc, user, pass)
+  end
+  CancelPlayTimer()
+  g_playTimer = C4:AddTimer(2,"SECONDS")
+end
+
+function SendKeypress(keyCode)
+  keyMsg = [[KEYPRESS /keycode=]]
+  keyMsg = keyMsg .. keyCode
+  keyMsg = keyMsg .. "\000"
+  packet = GeneratePacket(keyMsg)
+  PrintPacket("SendKeypress", packet)  
+  C4:SendToNetwork(6001, EVA_TCP_PORT, packet)
+end
+
+function SendHttp(keyCode)
+  httpPacket = ""
+  httpPacket = httpPacket .. "GET /IssueRCCommand.htm?key=" .. keyCode .. " HTTP/1.0\r\n"
+  httpPacket = httpPacket .. g_Headers
+
+  -- Clear Receive Buffer for incoming data
+  g_Receivebuffer = ""
+
+  if (g_httpConnected) then
+    C4:SendToNetwork(6001, 80, httpPacket)
+  else
+      -- Connect to EVA8000 HTTP server.  Once it's connected, the httpPacket will be sent.
+      dbg("Queueing httpPacket: " .. httpPacket)
+      table.insert(g_httpPackets, httpPacket)
+      C4:NetConnect(6001, 80)
+  end
+end
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+  PrintPacket("ReceivedFromNetwork - port " .. nPort, strData)
+  if (nport == EVA_TCP_PORT) then
+    strError = string.sub(13, 16)
+    if (strError ~= "\000\000\000\000") then
+      PrintPacket("Error response received from EVA8000", strData)
+    end
+  end
+end
+
+function OnTimerExpired(idTimer)
+  if (idTimer == g_playTimer) then
+    if (g_SendBuffer ~= nil) then
+      if ((g_tcpConnected) and (g_powerOnDelayTimer == 0)) then
+        PrintPacket("OnTimerExpired - playTimer sending ", g_SendBuffer)
+        C4:SendToNetwork(6001, EVA_TCP_PORT, g_SendBuffer)
+        g_SendBuffer = nil
+      else
+        -- we need to readd the play timer because the device is still offline 
+        CancelPlayTimer()
+        g_playTimer = C4:AddTimer(1,"SECONDS")
+      end
+    end
+  elseif (idTimer == g_DebugTimer) then
+    dbg("Turning Debug Mode back to Print [default] (timer expired)")
+    C4:UpdateProperty("Debug Mode", "Print")
+  elseif (idTimer == g_upTimer) then
+    SendHttp(HTTPCMDS["UP"])
+  elseif (idTimer == g_downTimer) then
+    SendHttp(HTTPCMDS["DOWN"])
+  elseif (idTimer == g_leftTimer) then
+    SendHttp(HTTPCMDS["LEFT"])
+  elseif (idTimer == g_rightTimer) then
+    SendHttp(HTTPCMDS["RIGHT"])
+    
+  elseif (idTimer == g_powerOnDelayTimer) then
+    g_powerOnDelayTimer = 0
+  else
+    if (idTimer == g_powerOffTimer) then
+        g_powerOffTimer = 0
+        dbg("OnTimerExpired - g_powerOffTimer sending off")
+        SendHttp(HTTPCMDS["OFF"])
+        C4:SendToProxy(5001, "OFF", {})
+    end
+  end
+  
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+  dbg("Lua EVA8000 OnConnectionStatusChanged nPort " .. nPort .. " status = " .. strStatus)
+	if (idBinding == 6001) then
+	  if (nPort == 80) then
+		  if (strStatus == "ONLINE") then
+			  g_httpConnected = true
+        -- send all our buffered http packets
+        httpPacket = table.remove(g_httpPackets, 1)
+        while(httpPacket ~= nil) do
+          dbg("OnConnectionStatusChanged - port 80 Online - sending buffered packet " .. httpPacket)
+				  C4:SendToNetwork(6001, 80, httpPacket)
+          httpPacket = table.remove(g_httpPackets, 1)
+        end
+			else
+			  g_httpConnected = false
+			end
+    else
+      -- tcp port
+		  if (strStatus == "ONLINE") then
+  	    g_tcpConnected = true
+      else
+    		-- tcp off line - not good
+		    g_tcpConnected = false
+    	end
+    end
+  end
+end
+
+function OnDriverDestroyed()
+  dbg("OnDriverDestroyed called")
+  CancelOffTimer()
+  CancelPowerOnDelayTimer()
+  g_Receivebuffer = ""
+  g_SendBuffer = ""
+  if (g_DebugTimer ~= 0) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  CancelPlayTimer()
+end
+
+-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+  OnPropertyChanged(k)
+end
+
+]]>
+      </script>
+    </config>
+    <connections>
+      <connection>
+        <id>5001</id>
+        <facing>6</facing>
+        <connectionname>MEDIA_PLAYER</connectionname>
+        <type>2</type>
+        <consumer>False</consumer>
+        <audiosource>False</audiosource>
+        <videosource>False</videosource>
+        <linelevel>False</linelevel>
+        <classes>
+          <class>
+            <classname>MEDIA_PLAYER</classname>
+          </class>
+        </classes>
+      </connection>
+      <connection>
+        <id>6001</id>
+        <facing>6</facing>
+        <connectionname>EVA8000 Connection</connectionname>
+        <type>4</type>
+        <consumer>True</consumer>
+        <audiosource>False</audiosource>
+        <videosource>False</videosource>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>TCP</classname>
+            <ports>
+              <port>
+                <number>49156</number>
+                <auto_connect>True</auto_connect>
+                <monitor_connection>False</monitor_connection>
+                <keep_connection>True</keep_connection>
+              </port>
+              <port>
+                <number>80</number>
+                <auto_connect>False</auto_connect>
+                <monitor_connection>False</monitor_connection>
+                <keep_connection>False</keep_connection>
+              </port>
+            </ports>
+          </class>
+        </classes>
+      </connection>
+      <connection>
+      <id>2001</id>
+      <facing>6</facing>
+      <force>True</force>
+      <connectionname>Digital Media Storage</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_MEDIA_STORAGE</classname>
+        </class>
+      </classes>
+    </connection>
+      <connection proxybindingid="5001" verified="False">
+        <id>4000</id>
+        <facing>6</facing>
+        <connectionname>TV1 OUTPUT</connectionname>
+        <type>6</type>
+        <consumer>False</consumer>
+        <audiosource>True</audiosource>
+        <videosource>False</videosource>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>STEREO</classname>
+          </class>
+          <class>
+            <classname>DIGITAL_OPTICAL</classname>
+          </class>
+          <class>
+            <classname>DIGITAL_COAX</classname>
+          </class>
+        </classes>
+      </connection>
+      <connection proxybindingid="5001" verified="False">
+        <id>2000</id>
+        <facing>6</facing>
+        <connectionname>TV1 OUTPUT</connectionname>
+        <type>5</type>
+        <consumer>False</consumer>
+        <audiosource>False</audiosource>
+        <videosource>True</videosource>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>COMPOSITE</classname>
+          </class>
+          <class>
+            <classname>SVIDEO</classname>
+          </class>
+          <class>
+            <classname>COMPONENT</classname>
+          </class>
+          <class>
+            <classname>HDMI</classname>
+          </class>
+        </classes>
+      </connection>
+      <connection proxybindingid="5001" verified="True">
+        <id>7000</id>
+        <facing>6</facing>
+        <connectionname>Room Selection - TV1 OUTPUT</connectionname>
+        <type>7</type>
+        <consumer>False</consumer>
+        <audiosource>True</audiosource>
+        <videosource>True</videosource>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>AUDIO_SELECTION</classname>
+          </class>
+          <class>
+            <classname>VIDEO_SELECTION</classname>
+          </class>
+        </classes>
+      </connection>
+  </connections>
+  <capabilities>
+    <has_http_playback>True</has_http_playback>
+  </capabilities>
+</devicedata>

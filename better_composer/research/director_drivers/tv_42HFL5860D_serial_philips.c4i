@@ -1,0 +1,1341 @@
+<devicedata>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Philips</manufacturer>
+	<model>42HFL5860D</model>
+	<creator>Control4</creator>
+	<created>07/01/2008 12:00 PM</created>
+	<modified>01/28/2016 10:25 AM</modified>
+	<version>1</version>
+	<name>Philips Hospitality 42HFL5860D</name>
+	<small>devices_sm/tv.gif</small>
+	<large>devices_lg/tv.gif</large>
+    	<control>lua_gen</control>
+		<proxies>
+			<proxy name="Television" proxybindingid="5001">tv</proxy>
+			<proxy name='Watch TV' proxybindingid='5002'>cable</proxy>
+		</proxies>
+    	<driver>DriverWorks</driver>
+    	<composer_categories>
+        	<category>User Interface</category>
+    	</composer_categories>
+    	<capabilities>
+			<serialsettings>9600 8 none 1 none</serialsettings>
+			<audio_consumer_count>3</audio_consumer_count>
+			<audio_provider_count>1</audio_provider_count>
+			<has_audio>True</has_audio>
+			<has_channel_up_down>True</has_channel_up_down>
+			<has_discrete_channel_select>True</has_discrete_channel_select>
+			<has_discrete_input_select>True</has_discrete_input_select>
+			<has_toggle_mute_control>True</has_toggle_mute_control>
+			<has_discrete_mute_control>False</has_discrete_mute_control>
+			<has_toggle_loudness_control>False</has_toggle_loudness_control>
+			<has_up_down_volume_control>True</has_up_down_volume_control>
+			<has_discrete_volume_control>True</has_discrete_volume_control>
+			<can_be_dvr>False</can_be_dvr>
+			<can_upclass>True</can_upclass>
+			<video_consumer_count>7</video_consumer_count>
+			<video_provider_count>1</video_provider_count>
+    	</capabilities>
+    	<connections>
+        	<connection>
+            	<id>1</id>
+            	<facing>6</facing>
+            	<connectionname>Serial RS-232</connectionname>
+            	<type>1</type>
+	    		<consumer>True</consumer>
+	    		<audiosource>False</audiosource>
+	    		<videosource>False</videosource>
+	    		<linelevel>False</linelevel>
+            	<classes>
+                	<class>
+                    	<classname>RS_232</classname>
+                	</class>
+            	</classes>
+        	</connection>
+			<connection>
+				<id>5001</id>
+				<type>2</type>
+				<connectionname>TV</connectionname>
+				<consumer>False</consumer>
+				<linelevel>False</linelevel>
+				<classes>
+					<class>
+						<classname>TV</classname>
+					</class>
+				</classes>
+			</connection>
+			<connection>
+				<id>5002</id>
+				<type>2</type>
+				<connectionname>WATCH TV</connectionname>
+				<consumer>False</consumer>
+				<linelevel>False</linelevel>
+				<classes>
+					<class>
+						<classname>SATELLITE</classname>
+					</class>
+				</classes>
+			</connection>
+    		<connection>
+      			<id>1000</id>
+      			<type>5</type>
+      			<connectionname>S-Video</connectionname>
+      			<consumer>True</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>SVIDEO</classname>
+        			</class>
+      			</classes>
+    		</connection>
+    		<connection>
+      			<id>1001</id>
+      			<type>5</type>
+      			<connectionname>HDMI1</connectionname>
+      			<consumer>True</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>HDMI</classname>
+        			</class>
+      			</classes>
+    		</connection>
+    		<connection>
+      			<id>1002</id>
+      			<type>5</type>
+      			<connectionname>HDMI2</connectionname>
+      			<consumer>True</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>HDMI</classname>
+        			</class>
+      			</classes>
+    		</connection>
+    		<connection>
+      			<id>1003</id>
+      			<type>5</type>
+      			<connectionname>Component</connectionname>
+      			<consumer>True</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>COMPONENT</classname>
+        			</class>
+      			</classes>
+    		</connection>
+			<connection proxybindingid='5001'>
+				<id>1004</id>
+				<type>5</type>
+				<connectionname>Cable Input</connectionname>
+				<consumer>True</consumer>
+				<linelevel>True</linelevel>
+				<classes>
+					<class>
+						<classname>RF_CABLE</classname>
+					</class>
+				</classes>
+			</connection>
+			<connection>
+      			<id>3003</id>
+      			<type>6</type>
+      			<connectionname>Audio</connectionname>
+      			<consumer>True</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>STEREO</classname>
+        			</class>
+      			</classes>
+    		</connection>
+			<connection>
+      			<id>4001</id>
+      			<type>6</type>
+      			<connectionname>Audio</connectionname>
+      			<consumer>False</consumer>
+      			<linelevel>True</linelevel>
+      			<classes>
+        			<class>
+          				<classname>DIGITAL_COAX</classname>
+        			</class>
+      			</classes>
+    		</connection>
+			<connection>
+				<id>7000</id>
+				<type>7</type>
+				<connectionname>Room Control</connectionname>
+				<consumer>False</consumer>
+				<linelevel>True</linelevel>
+				<classes>
+					<class>
+						<classname>AUDIO_SELECTION</classname>
+					</class>
+					<class>
+						<classname>VIDEO_SELECTION</classname>
+					</class>
+					<class>
+						<classname>AUDIO_VOLUME</classname>
+					</class>
+				</classes>
+			</connection>
+    	</connections>
+    	<states/>
+    	<config>
+	    <rfs>
+	      <rf>rf_cable</rf>
+	    </rfs>
+    	<documentation>Philips SerialXpress for BDS Driver</documentation>
+        <properties>
+        	<property>
+                <name>Debug Mode</name>
+                <type>LIST</type>
+                <items>
+                    <item>Off</item>
+                    <item>Print</item>
+                    <item>Log</item>
+                    <item>Print and Log</item>
+                </items>
+                <default>Off</default>
+                <readonly>false</readonly>
+            </property>
+			<property>
+				<name>Version</name>
+				<type>STRING</type>
+				<default>Unknown</default>
+				<readonly>true</readonly>
+			</property>
+            <property>
+                <name>Power State</name>
+                <type>LIST</type>
+                <items>
+                    <item>Standby</item>
+                    <item>On</item>
+                </items>
+                <default>Standby</default>
+                <readonly>false</readonly>
+            </property>
+			<property>
+                <name>Volume</name>
+				<type>STRING</type>
+				<default>0</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Balance</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+            <property>
+                <name>Mute</name>
+                <type>LIST</type>
+                <items>
+                    <item>Off</item>
+                    <item>On</item>
+                </items>
+                <default>Off</default>
+                <readonly>false</readonly>
+            </property>
+			<property>
+                <name>Brightness</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Color</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Contrast</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Sharpness</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Hue</name>
+				<type>STRING</type>
+				<default>50</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Tuner Channel</name>
+				<type>STRING</type>
+				<default>2</default>
+                <readonly>false</readonly>
+			</property>
+			<property>
+                <name>Select Source</name>
+                <type>LIST</type>
+                <items>
+                    <item>AV</item>
+					<item>S-Video</item>
+					<item>Component</item>
+					<item>VGA</item>
+					<item>HDMI1</item>
+					<item>HDMI2</item>
+                </items>
+                <default>AV</default>
+                <readonly>false</readonly>
+			</property>
+       </properties>
+
+	<actions>
+        <action>
+			<name>Toggle Mute</name>
+			<command>TOGGLE_MUTE</command>
+		</action>
+	</actions>
+
+   	<commands>
+
+	</commands>
+<script>
+        <![CDATA[
+
+function Version()
+	
+	local maj = 1
+	local min = 1
+	local rev = 171
+	
+	local ver = string.format("%d.%d.%d", maj, min, rev)
+	Debug(ver)
+
+	return ver
+end
+
+function Debug(strDebugText)
+
+  	if gDebugPrint then 
+
+		print(strDebugText) 
+	end
+  	if gDebugLog then 
+
+		C4:ErrorLog(strDebugText) 
+	end
+end
+
+function FirePropertyChanged()
+
+	-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+	for k,v in pairs(Properties) do
+
+ 		 OnPropertyChanged(k)
+	end
+end
+
+function OnPropertyChanged(strProperty)
+
+	-- Debug Mode
+  	if strProperty == "Debug Mode" then
+
+    	if Properties[strProperty] == "Off" then
+
+      		gDebugPrint = false
+      		gDebugLog = false
+    	end
+    	if Properties[strProperty] == "Print" then
+
+     		gDebugPrint = true
+      		gDebugLog = false
+    	end
+    	if Properties[strProperty] == "Log" then
+
+      		gDebugPrint = false
+      		gDebugLog = true
+    	end
+    	if Properties[strProperty] == "Print and Log" then
+
+      		gDebugPrint = true
+      		gDebugLog = true
+    	end
+	end
+
+	if strProperty == gPowerStateName then
+
+		if Properties[strProperty] == "On" then
+
+			Set_PowerState(1)
+		else
+
+			Set_PowerState(0)
+		end
+	end
+	if strProperty == gVolumeName then
+
+		Set_Volume(Properties[strProperty])
+	end
+	if strProperty == gBalanceName then
+
+		Set_Balance(Properties[strProperty])
+	end
+	if strProperty == gMuteName then
+
+		if Properties[strProperty] == "On" then
+
+			gMuteState = 1
+		else
+
+			gMuteState = 0
+		end
+        Set_Mute(gMuteState)
+	end
+	if strProperty == gBrightnessName then
+
+		Set_Brightness(Properties[strProperty])
+	end
+	if strProperty == gColorName then
+
+		Set_Color(Properties[strProperty])
+	end
+	if strProperty == gContrastName then
+
+		Set_Contrast(Properties[strProperty])
+	end
+	if strProperty == gSharpnessName then
+
+		Set_Sharpness(Properties[strProperty])
+	end
+	if strProperty == gHueName then
+
+		Set_Hue(Properties[strProperty])
+	end
+	if strProperty == gTunerChannelName then
+
+		Set_TunerChannel(Properties[strProperty])
+	end
+	if strProperty == gSourceName then
+
+		if Properties[strProperty] == "AV" then
+
+			Set_Source(4)
+		end
+		if Properties[strProperty] == "S-Video" then
+
+			Set_Source(5)
+			InputChanged(1000)
+		end
+		if Properties[strProperty] == "Component" then
+
+			Set_Source(6)
+			InputChanged(1003)
+		end
+		if Properties[strProperty] == "VGA" then
+
+			Set_Source(7)
+		end
+		if Properties[strProperty] == "HDMI1" then
+
+			Set_Source(14)
+			InputChanged(1001)
+		end
+		if Properties[strProperty] == "HDMI2" then
+
+			Set_Source(15)
+			InputChanged(1002)
+		end
+	end
+
+	Debug("OnPropertyChanged: Property = ".. strProperty .. "; Value = " .. Properties[strProperty])
+end
+
+function ExecuteCommand(strCommand, tParams)
+
+	if strCommand == "LUA_ACTION" then
+
+		if tParams ~= nil then
+
+			for cmd, cmdv in pairs(tParams) do 
+
+				if cmd == "ACTION" then
+
+					if cmdv == "TOGGLE_MUTE" then
+
+
+					end
+				end
+			end
+		end
+	end
+end
+
+function SendSerial(data)
+
+	C4:SendToSerial(1, data)
+end
+
+function ReceivedFromSerial(idBinding, data)
+
+	local buffer = nil
+	if data ~= nil then
+
+		buffer = BufferData(data)
+		if buffer ~= nil then
+
+			Debug("ReceivedFromSerial: Buffer = 0x" .. buffer)
+
+			ParseXPressCommand(tohex(buffer))
+		end
+	end
+
+	-- Debug("ReceivedFromSerial: Data = 0x" .. ParseToHex(data))
+end
+
+function OnBindingChanged(idBinding, strClass, bIsBound)
+
+	Debug("OnBindingChanged: Binding = " .. idBinding)
+
+	if bIsBound then
+
+		if gQueueTimer then
+
+			gQueueTimer = C4:KillTimer(gQueueTimer)
+		end
+		gQueueTimer = C4:AddTimer(500, "MILLISECONDS", true)
+
+		-- start the gets
+		Get_PowerState()
+		Get_Volume()
+		Get_Balance()
+		Get_Mute()
+		Get_Brightness()
+		Get_Color()
+		Get_Contrast()
+		Get_Sharpness()
+		Get_Hue()
+		Get_TunerChannel()
+
+		-- always set the RS232 control to enabled
+		Set_RS232Control(1, 1)
+	else
+
+		gQueueTimer = C4:KillTimer(gQueueTimer)
+	end
+end
+
+function OnTimerExpired(idTimer)
+
+	if table.getn(gQueue) > 0 then
+	
+		local data = table.remove(gQueue, 1)
+		SendSerial(data)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+
+	Debug("ReceivedFromProxy: Binding = " .. idBinding .. "; Command: " .. strCommand)
+
+    if strCommand == "MUTE_TOGGLE" then
+    
+        ToggleMute()
+    end
+    
+	if strCommand == "PULSE_VOL_UP" then
+
+		IncDecVolume(1)
+	elseif strCommand == "PULSE_VOL_DOWN" then
+
+		IncDecVolume(0)
+	elseif strCommand == "SET_VOLUME_LEVEL" then
+
+		Set_Volume(tParams["LEVEL"])
+	elseif strCommand == "SET_CHANNEL" then
+
+		Set_TunerChannel(tParams["CHANNEL"])
+	elseif strCommand == "ON" then
+
+		Set_PowerState(1)
+	elseif strCommand == "OFF" then
+
+		Set_PowerState(0)
+	elseif strCommand == "SET_INPUT" then
+
+		Debug("ReceivedFromProxy: SET_INPUT; INPUT = " .. tParams["INPUT"])
+		if tParams["INPUT"] == "1003" then
+
+			Set_Source(6)
+			InputChanged(1003)
+		elseif tParams["INPUT"] == "1000" then
+
+			Set_Source(5)
+			InputChanged(1000)
+		elseif tParams["INPUT"] == "1001" then
+
+			Set_Source(14)
+			InputChanged(1001)
+		elseif tParams["INPUT"] == "1002" then
+
+			Set_Source(15)
+			InputChanged(1002)
+		end
+	end
+ end
+
+function NotifyVolumeChanged(vals)
+
+	if gSetFlag then
+
+		Debug("NotifyVolumeChanged: VOLUME_LEVEL_CHANGED")
+		C4:SendToProxy(5001, "VOLUME_LEVEL_CHANGED", vals)
+ 		if (vals ~= nil) then
+  
+ 			for ParamName, ParamValue in pairs(vals) do 
+     	
+				Debug(ParamName .. " = " .. ParamValue)
+			end
+   		end
+	end
+end
+
+function NotifyChannelChanged(vals)
+
+	if gSetFlag then
+
+		Debug("NotifyChannelChanged: CHANNEL_CHANGED")
+		C4:SendToProxy(5001, "CHANNEL_CHANGED", vals)
+ 		if (vals ~= nil) then
+  
+ 			for ParamName, ParamValue in pairs(vals) do 
+     	
+				Debug(ParamName .. " = " .. ParamValue)
+			end
+		end
+		gSetFlag = false
+   	end
+end
+
+-- state = "ON or "OFF"
+function NotifyPowerStateChanged(state, vals)
+
+	if gSetFlag then
+
+		Debug("NotifyPowerStateChanged: " .. state)
+		C4:SendToProxy(5001, state, vals)
+ 		if (vals ~= nil) then
+  
+ 			for ParamName, ParamValue in pairs(vals) do 
+     	
+				Debug(ParamName .. " = " .. ParamValue)
+			end
+   		end
+		gSetFlag = false
+	end
+end
+
+function InputChanged(input)
+
+	Debug("Input Changed: " .. input)
+	C4:SendToProxy(5001, "INPUT_CHANGED", { INPUT = input })	
+end
+
+---------------------- Helper Functions ----------------
+
+function ParseToHex(data)
+
+	local i = 1
+	local b = string.byte(data, i)
+	local pkt = ""
+
+	while b do
+
+		pkt = pkt .. string.format("%02x", b)
+		i = i + 1
+		b = string.byte(data, i)
+	end
+
+	return pkt
+end
+
+ -- binary packet is parsed and returned as a table
+function ParseBinaryPacket(packet)
+
+	local i = 1
+	local b = string.byte(packet, i)
+
+	local tbl = {}
+	local pkt = "0x"
+
+	while b do
+
+		tbl[i] = b
+		pkt = pkt .. string.format("%02x", b)
+		i = i + 1
+		b = string.byte(packet, i)
+	end
+
+	--Debug("ParseBinaryPacket: Packet = " .. pkt)
+
+	return tbl	-- return the table
+end
+
+-- finds a bit and determines if it is set or not - the bit location is one based ie. bit one is the LSB
+function IsBitSet(bitLoc, byte)
+
+	local val = byte
+	local modVal = 0
+
+	for i = 1, bitLoc do
+
+		modVal = math.mod(val, 2) 
+
+		if modVal == 1 then
+
+			val = val - 1
+		end
+		-- Debug(string.format("Bit Pos = %d; Value = %d Modulus Value = %d", i, byte, modVal))
+		val = val / 2
+	end
+
+	return modVal
+end
+
+function XOR(byte1, byte2)
+
+	local xor = 0
+	local byteVal = 1
+
+	for i = 1, 8 do -- 8 bits per byte :)
+
+		if IsBitSet(i, byte1) ~= IsBitSet(i, byte2) then
+
+			xor = xor + byteVal
+		end
+		byteVal = byteVal * 2
+	end
+
+	return xor
+end
+
+function BufferData(data)
+
+	local i = 1
+	local b = string.byte(data, i)
+	local buffer = nil
+
+	while b do
+
+		gRecvBuffer = gRecvBuffer .. string.format("%02x", b)
+		if b == 165 then -- 0xA5
+
+			if not gTrailer then
+
+				gTrailer = true
+			else
+
+				gTrailer = false -- reset to false
+				buffer = gRecvBuffer
+				gRecvBuffer = ""
+			end
+		end
+		i = i + 1
+		b = string.byte(data, i)
+	end
+
+	return buffer
+end
+
+----------------- SerialXPress protocol support ------------
+
+function FormXPressCommandHeader(payloadSz)
+
+	local hdr = {}
+
+	hdr[1] = 14 -- 0x0E sync header
+	hdr[2] = payloadSz + 10 -- per protocol
+	hdr[3] = 0
+	hdr[4] = 0 
+	hdr[5] = 5
+	hdr[6] = payloadSz + 1 -- per protocol
+	hdr[7] = 0
+	hdr[8] = 12 -- 0x0C end of header
+
+	return hdr
+end
+
+-- params is a table of params (one byte each)
+function FormXPressCommandPayload(cmdType, cmdCode, params)
+
+	local payload = {}
+	payload[1] = cmdType
+	payload[2] = cmdCode
+	
+	local chkSum = XOR(cmdType, cmdCode)
+
+	local i = 3
+	
+	if params ~= nil then
+
+		for a, p in pairs(params) do
+
+			payload[i] = p
+			i = i + 1
+			chkSum = XOR(chkSum, p)		
+		end
+	end
+
+	-- finish with inserting the checksum at the end of the payload
+	payload[i] = chkSum
+
+	return payload
+end
+
+function FormXPressCommandTrailer()
+
+	local trlr = {}
+
+	trlr[1] = 165 -- 0xA5
+	trlr[2] = 165 -- 0xA5
+
+	return trlr	
+end
+
+function FormXPressCommand(cmdType, cmdCode, params)
+
+	local payloadSz = 3 -- 3 bytes cmdType, cmdCode and chkSum
+
+	if params ~= nil then
+
+		payloadSz = payloadSz + table.getn(params)
+	end
+
+	local pkt = ""
+	local byte = ""
+
+	local header = FormXPressCommandHeader(payloadSz)
+	
+	-- start with header
+	for a, h in pairs(header) do
+
+		byte = string.format("%02x",  h)
+		pkt = pkt .. byte
+	end
+
+	local payload = FormXPressCommandPayload(cmdType, cmdCode, params)
+
+	-- payload is next
+	for b, p in pairs(payload) do
+
+		byte = string.format("%02x",  p)
+		pkt = pkt .. byte
+	end
+
+	local trailer = FormXPressCommandTrailer()
+
+	-- finish with trailer
+	for c, t in pairs(trailer) do
+
+		byte = string.format("%02x",  t)
+		pkt = pkt .. byte
+	end
+
+	Debug("FormXPressCommand: Command = 0x" .. pkt)
+
+	return tohex(pkt) -- return the packet ready to be passed on
+end
+
+function SendXPressCommand(cmdType, cmdCode, params)
+
+	SendSerial(FormXPressCommand(cmdType, cmdCode, params))
+end
+
+function QueueXPressCommand(cmdType, cmdCode, params)
+
+	table.insert(gQueue, FormXPressCommand(cmdType, cmdCode, params))
+end
+
+function ParseXPressHeader(tbl)
+
+	local payloadSz = 0
+
+	if tbl[1] == 14 then -- first byte needs to be 0x0E
+
+		payloadSz = tbl[2] - 10 -- per protocol
+	end
+
+	Debug(string.format("ParseXPressHeader: Payload Size = %d", payloadSz))
+	-- returns payload size
+	return payloadSz
+end
+
+function ParseXPressPayload(tbl)
+
+	local cmdType = gReportEvt
+	local cmdCode = gNack
+	local params = {}
+
+	local txt = "ParseXPressPayload: "
+
+	if table.getn(tbl) > 11 then -- we have sufficient size for a valid command
+
+		-- get the command type
+		cmdType = tbl[9]	-- first byte of payload is always the cmdType
+		txt = txt .. string.format("Command Type = %d; ", cmdType)
+		cmdCode = tbl[10]	-- second byte of payload is always the cmdCode
+		txt = txt .. string.format("Command Code = %d; ", cmdCode)
+		local b = tbl[11]	-- first byte of params if any
+
+		local i = 1
+		local j = 11
+		while b ~= 165 do -- 0xA5 is the trailer
+
+			params[i] = b
+			
+			i = i + 1
+			j = j + 1
+			b = tbl[j]
+		end
+		if table.getn(params) > 0 then
+		
+			table.remove(params)	-- remove the checksum
+			txt = txt .. "Params ="
+			for a, p in pairs(params) do
+
+				txt = txt .. string.format(" %d", p)
+			end		
+		end
+	end
+	
+	Debug(txt) 
+	return cmdType, cmdCode, params
+end
+
+function HandleXPressGetResponse(cmdCode, params)
+
+	if cmdCode == gPowerState then -- Power State
+
+		if params[1] == 1 then
+		
+			NotifyPowerStateChanged("ON", { INITIALIZING = "False" })
+			C4:UpdateProperty(gPowerStateName, "On")
+		else
+
+			NotifyPowerStateChanged("OFF", { INITIALIZING = "False" })
+			C4:UpdateProperty(gPowerStateName, "Standby")
+		end
+	elseif cmdCode == gVolume then -- volume
+
+		NotifyVolumeChanged({ LEVEL = params[1] })
+		C4:UpdateProperty(gVolumeName, string.format("%d", params[1]))
+	elseif cmdCode == gBalance then
+
+		C4:UpdateProperty(gBalanceName, string.format("%d", params[1]))
+	elseif cmdCode == gMute then
+
+		if params[1] == 1 then
+		
+             gMuteState = 1
+			C4:UpdateProperty(gMuteName, "On")
+		else
+
+             gMuteState = 0
+			C4:UpdateProperty(gMuteName, "Off")
+		end
+	elseif cmdCode == gBrightness then
+
+		C4:UpdateProperty(gBrightnessName, string.format("%d", params[1]))
+	elseif cmdCode == gColor then
+
+		C4:UpdateProperty(gColorName, string.format("%d", params[1]))
+	elseif cmdCode == gContrast then
+
+		C4:UpdateProperty(gContrastName, string.format("%d", params[1]))
+	elseif cmdCode == gSharpness then
+
+		C4:UpdateProperty(gSharpnessName, string.format("%d", params[1]))
+	elseif cmdCode == gHue then
+ 
+		C4:UpdateProperty(gHueName, string.format("%d", params[1]))
+	elseif cmdCode == gTunerChannel then
+
+		local chnl = FormXPressTunerChannel(params)
+		NotifyChannelChanged({ CHANNEL = chnl, CHANNEL_STRING = chnl})
+		C4:UpdateProperty(gTunerChannelName, chnl)
+	end
+end
+
+function ParseXPressCommand(data)
+
+	local tbl = ParseBinaryPacket(data)
+	local payloadSz = ParseXPressHeader(tbl)
+	if payloadSz > 0 then
+
+		local cmdType
+		local cmdCode
+		local params
+
+		cmdType, cmdCode, params = ParseXPressPayload(tbl)
+		Debug(string.format("ParseXPressCommand: Command Type = %d", cmdType))
+		if cmdType == gReportEvt then
+
+			if cmdCode == gAck then
+
+				Debug("ParseXPressCommand: Ack received")
+			elseif cmdCode == gNack then
+
+				Debug("ParseXPressCommand: Nack received")
+			else
+
+				Debug("ParseXPressCommand: Nav received")
+			end
+		elseif cmdType == gGetResponse then
+
+			Debug("ParseXPressCommand: Get Response received")
+			HandleXPressGetResponse(cmdCode, params)
+		end
+	end
+end
+
+function ParseXPressChannelParams(chnl, leftChar, rightChar, leftIndex, rightIndex, params)
+
+	local pos = rightChar - 1
+
+	while pos >= leftChar - 2 do
+
+		if pos <= leftChar then
+
+			pos = leftChar
+		end
+
+		if rightIndex >= leftIndex then -- don't want to step past params[leftIndex], etc.
+
+			params[rightIndex] = string.sub(chnl, pos, rightChar)
+			rightChar = rightChar - 2
+			pos = rightChar - 2
+		end
+		rightIndex = rightIndex - 1
+	end
+end
+
+-- returns a table of params for the tuner channel
+function ParseXPressTunerChannel(chnl)
+
+	local txt = "ParseXPressTunerChannel: "
+	local params = {0, 0, 0, 0, 255, 255, 255 }
+	local len = string.len(chnl)
+	if len > 0 then
+
+		-- lets look for the decimal in the channel
+		local decPos = string.find(chnl, "%.")
+
+		local numChars = len
+
+		if decPos ~= nil then
+
+			numChars = decPos - 1
+		end
+
+		ParseXPressChannelParams(chnl, 1, numChars, 2, 4, params)
+	
+		if decPos ~= nil then -- we must be digital
+
+			params[1] = 1 -- this means we are a digital channel
+			params[5] = 0
+			params[6] = 0
+			params[7] = 0
+
+			numChars = len
+
+			ParseXPressChannelParams(chnl, decPos + 1, numChars, 5, 7, params)
+		end
+
+		txt = txt .. string.format("params = %02x %02x %02x %02x %02x %02x %02x", params[1], params[2], params[3], params[4], params[5], params[6], params[7])
+	end
+
+	Debug(txt)
+	return params
+end
+
+function FormXPressTunerChannel(params)
+
+	local chnl = ""
+
+	if params[1] == 0 then
+
+		chnl = string.format("%d%d%d", params[2], params[3], params[4])
+	else
+
+		chnl = string.format("%d%d%d.%d%d%d", params[2], params[3], params[4], params[5], params[6], params[7])
+	end
+
+	return chnl 
+end
+
+----------------- Commands ---------------------
+
+-- get the software label
+function Get_SoftwareLabel()
+
+	SendXPressCommand(gGetRequest, gSoftwareLabel, nil)
+end
+
+function Get_RS232Control()
+
+	SendXPressCommand(gGetRequest, gRS232Control, nil)
+end
+
+-- enable /disable these with a 1 / 0
+function Set_RS232Control(powerCtrl, userInput)
+
+	QueueXPressCommand(gSetCmd, gRS232Control, { powerCtrl, userInput })
+end
+
+-- get power state
+function Get_PowerState()
+
+	QueueXPressCommand(gGetRequest, gPowerState, nil)
+end
+
+-- pwrState 1 = on and 0 = standby
+function Set_PowerState(pwrState)
+
+	gSetFlag = true
+	QueueXPressCommand(gSetCmd, gPowerState, { pwrState })
+end
+
+-- format is a number from 0 - 7
+function Set_PicFormat(format)
+
+	SendXPressCommand(gSetCmd, gPicFormat, { format })
+end
+
+function Get_BDSMode()
+
+	SendXPressCommand(gGetRequest, gBDSMode, nil);
+end
+
+-- 0 = off, 1 = on
+function Set_BDSMode(mode)
+
+	SendXPressCommand(gSetCmd, gBDSMode, { mode })
+end
+
+-- audio volume
+function Get_Volume()
+
+	QueueXPressCommand(gGetRequest, gVolume, nil);
+end
+
+function Set_Volume(pct)
+
+	gSetFlag = true
+	SendXPressCommand(gSetCmd, gVolume, { pct });
+	Get_Volume()
+end
+
+function Get_Balance()
+
+	QueueXPressCommand(gGetRequest, gBalance, nil);
+end
+
+function Set_Balance(pct)
+
+	SendXPressCommand(gSetCmd, gBalance, { pct });
+end
+
+-- audio mute
+function Get_Mute()
+
+	QueueXPressCommand(gGetRequest, gMute, nil);
+end
+
+function Set_Mute(onOff)
+
+	SendXPressCommand(gSetCmd, gMute, { onOff });
+end
+
+function ToggleMute()
+
+    gMuteState = math.abs(gMuteState - 1)
+    if gMuteState == 1 then
+    
+        C4:UpdateProperty(gMuteName, "On")
+    else
+    
+        C4:UpdateProperty(gMuteName, "Off")
+    end
+    Set_Mute(gMuteState)
+end
+
+function Get_Brightness()
+
+	QueueXPressCommand(gGetRequest, gBrightness, nil);
+end
+
+function Set_Brightness(pct)
+
+	SendXPressCommand(gSetCmd, gBrightness, { pct });
+end
+
+function Get_Color()
+
+	QueueXPressCommand(gGetRequest, gColor, nil);
+end
+
+function Set_Color(pct)
+
+	SendXPressCommand(gSetCmd, gColor, { pct });
+end
+
+function Get_Contrast()
+
+	QueueXPressCommand(gGetRequest, gContrast, nil);
+end
+
+function Set_Contrast(pct)
+
+	SendXPressCommand(gSetCmd, gConstrast, { pct });
+end
+
+function Get_Sharpness()
+
+	QueueXPressCommand(gGetRequest, gSharpness, nil);
+end
+
+function Set_Sharpness(pct)
+
+	SendXPressCommand(gSetCmd, gSharpness, { pct });
+end
+
+function Get_Hue()
+
+	QueueXPressCommand(gGetRequest, gHue, nil);
+end
+
+function Set_Hue(pct)
+
+	SendXPressCommand(gSetCmd, gHue, { pct });
+end
+
+function Get_TunerChannel()
+
+	QueueXPressCommand(gGetRequest, gTunerChannel, nil)
+end
+
+function Set_TunerChannel(chnl)
+
+	gSetFlag = true
+	SendXPressCommand(gSetCmd, gTunerChannel, ParseXPressTunerChannel(chnl))
+	Get_TunerChannel()
+end
+
+function IncDecVolume(incDec)
+
+	gSetFlag = true
+	SendXPressCommand(gSetCmd, gIncDecVolume, { incDec })
+	Get_Volume()
+end
+
+function Get_Source()
+
+	QueueXPressCommand(gGetRequest, gSource, nil)
+end
+
+function Set_Source(src)
+
+	QueueXPressCommand(gSetCmd, gSource, { src })
+end
+
+function Set_UserInputControl(ctrl)
+
+	SendXPressCommand(gSetCmd, gUserInputControl, { ctrl })
+end
+
+function Set_UserInputData(lkc)
+
+	SendXPressCommand(gSetCmd, gUserInputData, { 255, 255, 255, lkc, 255 })
+	QueueXPressCommand(gSetCmd, gUserInputData, { 255, 255, 0, lkc, 255 })
+end
+
+----------------- Start Init -------------------
+
+	gDebugPrint = false
+    gDebugLog = false
+
+	gfalse = "false"
+	gtrue = "true"
+    
+    gOn = "On"
+    gOff = "Off"
+
+	gVersionName = "Version"
+
+	gQueueTimer = 1001
+	gQueue = {}
+
+	gRecvBuffer = ""
+	gTrailer = false
+	gSetFlag = false
+    gMuteState = 0
+
+	-- properties
+	gPowerStateName = "Power State"
+	gVolumeName = "Volume"
+	gBalanceName = "Balance"
+	gMuteName = "Mute"
+	gBrightnessName = "Brightness"
+	gColorName = "Color"
+	gContrastName = "Contrast"
+	gSharpnessName = "Sharpness"
+	gHueName = "Hue"
+	gPixelPlus = "Pixel Plus"
+	gClockTimeName = "Clock Time (hr:min:sec)"
+	gTunerChannelName = "Tuner Channel"
+	gSourceName = "Source"
+
+	-- command types
+	gReportEvt = 22			-- 0x16
+	gSetCmd = 32 			-- 0x20
+	gGetRequest = 33 		-- 0x21
+	gGetResponse = 34 		-- 0x22
+
+	-- report events
+	gAck = 0				-- 0x00
+	gNack = 1				-- 0x01
+	gNav = 2				-- 0x02
+
+	-- commands
+	gPowerState = 24		-- 0x18 power state 0 = standby, 1 = on 
+	gPicFormat = 58			-- 0x3A picture format values 0 - 7
+	gSoftwareLabel = 112	-- 0x70 software label read only 
+	gRS232Control = 163 	-- 0xA3 ability to setup control parameters 
+	gBDSMode = 223			-- 0xDF BDS Hotel Mode Setup menu
+	gVolume = 68			-- 0x44 audio volume
+	gIncDecVolume = 69		-- 0x45 audio inc/dec volume
+	gBalance = 76  			-- 0x4C audio balance
+	gMute = 70				-- 0x46 audio mute
+	gBrightness = 48		-- 0x30 brightness
+	gColor = 49				-- 0x31 color
+	gContrast = 50			-- 0x32 contrast
+	gSharpness = 51			-- 0x33 sharpness
+	gHue = 53				-- 0x35 hue
+	gPixelPlus = 62			-- 0x3E pixel plus on/off
+	gClockTime = 210		-- 0xD3 clock time
+	gTunerChannel = 171		-- 0xAB tuner channel 
+	gSource = 172			-- 0xAC source
+	gUserInputControl = 28	-- 0x1C user input control 
+	gUserInputData = 27		-- 0x1B user input data
+
+	C4:UpdateProperty(gVersionName, Version())
+
+	FirePropertyChanged()
+
+----------------- End Init --------------------
+
+        ]]>
+    </script>
+	</config>
+
+</devicedata>
+
+

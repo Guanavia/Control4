@@ -1,0 +1,291 @@
+<devicedata>
+  <version>13</version>
+  <copyright>Copyright 2023 SnapOne LLC.  All rights reserved.</copyright>
+  <config>
+    <name_on_update_web_service>lumabr4</name_on_update_web_service>
+    <update_platform_type_name>imx8mq-core</update_platform_type_name>
+    <actual_update_packages_directory>/mnt/internal/packages</actual_update_packages_directory>
+  </config>
+  <capabilities>
+    <!-- Controller Capabilities -->
+    <has_video_output>false</has_video_output>
+    <has_video_input>false</has_video_input>
+    <has_hdmi_passthrough>false</has_hdmi_passthrough>
+    <audio_sense_count>0</audio_sense_count>
+    <has_ui_device>false</has_ui_device>
+    <has_discrete_volume_control>false</has_discrete_volume_control>
+    <auto_bind_onscreen_selection proxybindingid="5001">false</auto_bind_onscreen_selection>
+    <supports_zwave>false</supports_zwave>
+    <throttled_vol_ms_rate>250</throttled_vol_ms_rate>
+    <!-- UIDevice Capabilities -->
+    <has_manual_brightness>false</has_manual_brightness>
+    <has_adaptive_brightness>false</has_adaptive_brightness>
+    <has_suspend>false</has_suspend>
+    <num_physical_buttons>0</num_physical_buttons>
+    <has_virtual_buttons>false</has_virtual_buttons>
+    <has_side_buttons>false</has_side_buttons>
+    <has_navigator>false</has_navigator>
+    <has_wifi>false</has_wifi>
+    <has_screensaver_legacy>false</has_screensaver_legacy>
+    <has_backlight>false</has_backlight>
+    <has_network>false</has_network>
+    <home_layout_mode>grid</home_layout_mode>
+    <!-- Other capabilities -->
+    <max_recommended_scan_space>1000</max_recommended_scan_space>
+    <!--<supports_distributed_audio>false</supports_distributed_audio> // inclusion yields a "true" for composer-->
+    <is_corecontroller>true</is_corecontroller>
+    <has_html_properties_page>true</has_html_properties_page>
+    <html_properties_path>/corex/index.html</html_properties_path>
+    <ovrc_ui>
+        <tabs>
+            <tab name="SYSTEM">
+                <sections>
+                    <section name="settings" title="System Settings"/>
+                    <section name="status" title="Controller Status"/>
+                    <section name="configuration" title="Device Configuration"/>
+                </sections>
+            </tab>
+        </tabs>
+
+        <settings>
+            <controls>
+                <control name="Disable Leds" title="Disable LEDs" type="toggle">
+                    <commands> 
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <setting type="disable leds" name="Disable LEDs">
+                <controls>
+                    <control name="Disable Leds"/>
+                </controls>
+            </setting>
+
+            <setting type="status" name="Controller Status"/>
+            <setting type="statusCard" name="CPU Usage" cpuCount="4"/>
+            <setting type="statusCard" name="Memory Usage"/>
+
+            <setting type="setting" name="Model"/>
+            <setting type="setting" name="MAC Address"/>
+            <setting type="setting" name="OS Version"/>
+            <setting type="setting" name="Service Tag"/>
+            <setting type="setting" name="IP Address"/>
+        </settings>
+    </ovrc_ui>
+  </capabilities>
+  <name>lumabr4</name>
+  <small>devices_sm/control4_core1_sm.png</small>
+  <large>devices_lg/control4_core1_lg.png</large>
+  <control>control4_lumabr4</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <search_type>c4:control4_lumabr4</search_type>
+  <proxies>
+    <proxy proxybindingid="5001" name="LUMABR4"  small_image="devices_sm/control4_core1_sm.png" large_image="devices_lg/control4_core1_lg.png">controller</proxy>
+  </proxies>
+  <dependencies>
+    <dependency alwaysAdd="true">
+      <name>luma_insights.c4z</name>
+      <auto_bindings>
+        <auto_binding>
+          <id>1</id>
+          <isconsumer>false</isconsumer>
+          <classes>
+            <class>
+              <classname>LUMAINSIGHTS</classname>
+            </class>
+          </classes>
+          <dep_binding_id>1</dep_binding_id>
+        </auto_binding>
+      </auto_bindings>
+    </dependency>
+  </dependencies>
+  <audioPlayLoadFactor>15</audioPlayLoadFactor>
+  <audio_dev_type>core1</audio_dev_type>
+  <driver>100063</driver>
+  <states/>
+  <connections>
+    <connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Luma Insights</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>LUMAINSIGHTS</classname>
+				</class>
+			</classes>
+			<hidden>True</hidden>
+		</connection>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Controller</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTROLLER</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>LUMABR4 IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>c4server</name>
+              <number>5116</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>c4uidevice</name>
+              <number>5117</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>netusbserver</name>
+              <number>5110</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Navigator</name>
+              <number>5115</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>SysmanDA</name>
+              <number>5811</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>IOServer</name>
+              <number>5100</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+             <port>
+              <name>IOServer USB</name>
+              <number>20000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5101</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5102</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>UDP</classname>
+          <ports/>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <model>LUM-BRIDGE-4CH</model>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+</devicedata>

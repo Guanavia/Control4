@@ -1,0 +1,15 @@
+{
+  "description": "Commands/conditionals shared by EVERY agent, inherited from C4BaseAgentDriver / C4BaseDriver / CmdDispatcher / CondDispatcher base classes. Confirmed by tracing control4_agent_notification.c4w's GetCreationFunc -> constructor chain; the base-class constructor registers these regardless of the specific agent.",
+  "base_commands": [
+    {"name": "GET_LAST_ACTION", "notes": "diagnostic: last action taken by the agent"},
+    {"name": "GET_CAPABILITIES", "notes": "enumerates what this agent instance supports"},
+    {"name": "GET_COMMAND_INFO", "notes": "introspection: describe a command"}
+  ],
+  "base_events": [
+    {"name": "CAPABILITIES_CHANGED"}
+  ],
+  "shared_comparator_operators": [
+    "GREATER_THAN", "GREATER_THAN_OR_EQUAL", "LESS_THAN", "LESS_THAN_OR_EQUAL", "NOT_EQUAL"
+  ],
+  "significance": "Every one of the ~39 agents gets these for free without needing per-agent extraction. If GET_CAPABILITIES/GET_COMMAND_INFO are themselves queryable at runtime against a live agent instance, they may be a MUCH better vocab-discovery mechanism than static disassembly -- worth testing against a virtual director in a future session (send GET_CAPABILITIES / GET_COMMAND_INFO to an agent and see what comes back)."
+}

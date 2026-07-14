@@ -1,0 +1,261 @@
+<devicedata>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Altinex</manufacturer>
+	<creator>Control4</creator>
+	<created>07/15/2008 2:22 PM</created>
+	<modified>01/29/2016 10:00 AM</modified>
+    <name>Altinex</name>
+	<model>Custom</model>
+    <version>1</version>
+	<small>devices_sm/avswitch.gif</small>
+	<large>devices_lg/avswitch.gif</large>
+	<control>lua_gen</control>
+	<proxy>avswitch_232_altinex</proxy>
+	<driver>DriverWorks</driver>
+	<combo>true</combo>
+	<capabilities>
+		<serialsettings>9600 8 none 1 none</serialsettings>
+	</capabilities>
+	<events>
+		<event>
+			<id>1</id>
+			<name>Composite Video On</name>
+			<description>Composite Video Source Selected</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>S Video On</name>
+			<description>S-Video Selected </description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>HDMI On</name>
+			<description>HDMI Source Selected</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Computer Source On</name>
+			<description>Computer Source Selected</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>All Off</name>
+			<description>All Inputs Unselected</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Cover Opened</name>
+			<description>Altinex Interconnect Box Opened</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Cover Closed</name>
+			<description>Altinex Interconnect Box Closed</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Audio Plugged In</name>
+			<description>A device was plugged into the Audio jack</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Audio Unplugged</name>
+			<description>The device plugged into the Audio jack was unplugged</description>
+		</event>
+	</events>
+	<powermanagementmethod>AlwaysOn</powermanagementmethod>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Serial RS-232</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>RS_232</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+	<config>
+		<documentation>This is a driver that communicates with the serial controlled Altinex interconnect box </documentation>
+		<properties>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<commands>
+    </commands>
+		<script>
+<![CDATA[
+
+-- TODO: Need to also have other initializers.  Don't think the default is what I want for all of them...
+-- Maybe make these Actions???  Who knows?
+
+-- Global Variables
+
+gLogType = ""
+gLogSummary = ""
+idLogMsgTimer = 0
+
+gCompositeVariableName = "Composite Video Source"
+gSVideoVariableName ="S-Video Source"
+gHDMIVideoVariableName = "HDMI Source"
+gComputerSourceVariableName = "Computer Source"
+gCoverOpenVariableName = "Cover Open"
+gAudioPluggedInVariableName= "Audio Plugged In"
+gfalse = "false"
+gtrue = "true"
+
+C4:AddVariable(gCompositeVariableName, "", "BOOL")   -- Used for Comparisons in Programming
+C4:AddVariable(gSVideoVariableName, "", "BOOL")
+C4:AddVariable(gHDMIVideoVariableName, "", "BOOL")  -- Used on Touchpanels
+C4:AddVariable(gComputerSourceVariableName, "", "BOOL")   -- Used on Log (only filled in on 'End-of-call')
+C4:AddVariable(gCoverOpenVariableName, "", "BOOL")
+C4:AddVariable(gAudioPluggedInVariableName, "", "BOOL")
+
+   
+function OnPropertyChanged(strProperty)
+  if (strProperty == "Debug Mode") then
+    if (Properties[strProperty] == "Off") then
+      g_debugprint = false;
+      g_debuglog = false;
+      g_DebugTimer = 0
+    end
+    if (Properties[strProperty] == "Print") then
+      g_debugprint = true;
+      g_debuglog = false;
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Log") then
+      g_debugprint = false;
+      g_debuglog = true;
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Print and Log") then
+      g_debugprint = true;
+      g_debuglog = true;
+      startDebugTimer()
+    end
+  end
+
+end
+
+
+function startDebugTimer()
+  if (g_DebugTimer) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+
+function OnTimerExpired(idTimer)
+  if (idTimer == g_DebugTimer) then
+    dbg("Turning Debug Mode Off (timer expired)")
+    C4:UpdateProperty("Debug Mode", "Off")
+  end
+  C4:KillTimer(idTimer)
+end
+
+
+function dbg(strDebugText)
+  if (g_debugprint) then print(strDebugText) end
+  if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+function ProcessEvent(data)
+	dbg("Event:"..data)
+   	if (data =="1") then
+	    C4:SetVariable(gComputerSourceVariableName, gfalse)
+	    C4:SetVariable(gSVideoVariableName, gfalse)
+	    C4:SetVariable(gHDMIVideoVariableName, gfalse)	
+	    C4:SetVariable(gCompositeVariableName, gtrue)
+		C4:FireEvent("Composite Video On")
+	elseif(data == "2") then
+	    C4:SetVariable(gCompositeVariableName, gfalse)
+		C4:FireEvent("All Off")
+	elseif(data == "3") then
+	    C4:SetVariable(gComputerSourceVariableName, gfalse)
+	    C4:SetVariable(gCompositeVariableName, gfalse)
+	    C4:SetVariable(gHDMIVideoVariableName, gfalse)	
+	    C4:SetVariable(gSVideoVariableName, gtrue)
+		C4:FireEvent("S Video On")
+	elseif(data == "4") then
+	    C4:SetVariable(gSVideoVariableName, gfalse)
+		C4:FireEvent("All Off")
+	elseif(data == "5") then
+	    C4:SetVariable(gComputerSourceVariableName, gfalse)
+	    C4:SetVariable(gSVideoVariableName, gfalse)
+	    C4:SetVariable(gCompositeVariableName, gfalse)
+	    C4:SetVariable(gHDMIVideoVariableName, gtrue)	
+		C4:FireEvent("HDMI On")
+	elseif(data == "6") then
+	    C4:SetVariable(gHDMIVideoVariableName, gfalse)	
+		C4:FireEvent("All Off")
+	elseif(data == "7") then
+	    C4:SetVariable(gSVideoVariableName, gfalse)
+	    C4:SetVariable(gHDMIVideoVariableName, gfalse)	
+	    C4:SetVariable(gCompositeVariableName, gfalse)
+	    C4:SetVariable(gComputerSourceVariableName, gtrue)	
+		C4:FireEvent("Computer Source On")
+	elseif(data == "8") then
+	    C4:SetVariable(gComputerSourceVariableName, gfalse)
+		C4:FireEvent("All Off")
+	elseif(data == "9") then
+	    C4:SetVariable(gCoverOpenVariableName, gtrue)
+		C4:FireEvent("Cover Opened")
+	elseif(data == "0") then
+	    C4:SetVariable(gCoverOpenVariableName, gfalse)
+		C4:FireEvent("Cover Closed")
+	elseif(data == "A") then
+	    C4:SetVariable(gAudioPluggedInVariableName, gtrue)
+		C4:FireEvent("Audio Plugged In")
+	elseif(data == "B") then
+	    C4:SetVariable(gAudioPluggedInVariableName, gfalse)
+		C4:FireEvent("Audio Unplugged")
+	end
+	
+end
+
+function ReceivedFromSerial(idBinding, strData)
+
+   dbg("SerialData:" .. strData)
+   for i = 1,string.len(strData) do
+	ProcessEvent(string.sub(strData,i,i))
+	end
+end
+
+function OnTimerExpired(idTimer)
+  C4:KillTimer(idTimer)
+  gLogSummary = gLogSummary .. "</table>"
+  C4:SetVariable("Log Summary", gLogSummary)
+  C4:FireEvent("Log Summary Output")
+  dbg(gLogSummary)
+end
+-- -=-=-=-=-=-=-=-=-=-=-=-=-=- INIT SECTION -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+g_DebugTimer = 0
+
+-- Fire On Property Changed to set the initial Property values
+PropertyList = {"Debug Mode"}
+for i = 1, #PropertyList do
+  OnPropertyChanged(PropertyList[i], Properties[PropertyList[i]])
+end
+
+      ]]>
+    </script>
+	</config>
+</devicedata>

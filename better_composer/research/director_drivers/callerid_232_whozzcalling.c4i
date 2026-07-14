@@ -1,0 +1,471 @@
+<devicedata>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>CallerID.com</manufacturer>
+  <creator>Darin Hess</creator>
+  <created>1/02/2008 2:22:54 PM</created>
+  <modified>1/11/2008 12:30 PM</modified>
+  <name>Whozz Calling</name>
+  <model>1-060118-001</model>
+  <version>3</version>
+  <small>devices_sm/contactsingle_doorbell_open.gif</small>
+  <large>devices_lg/contactsingle_doorbell_open.gif</large>
+  <control>lua_gen</control>
+  <combo>True</combo>
+  <proxy>callerid_232_whozzcalling</proxy>
+  <driver>DriverWorks</driver>
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+  </capabilities>
+  <events>
+    <event>
+      <id>1</id>
+      <name>Incoming Call Start (Line 1)</name>
+      <description>Received a Call (Line 1)</description>
+    </event>
+    <event>
+      <id>2</id>
+      <name>Outgoing Call Start (Line 1)</name>
+      <description>Outgoing Call Finished (Line 1)</description>
+    </event>
+    <event>
+      <id>3</id>
+      <name>Incoming Call End (Line 1)</name>
+      <description>Received a Call (Line 1)</description>
+    </event>
+    <event>
+      <id>4</id>
+      <name>Outgoing Call End (Line 1)</name>
+      <description>Outgoing Call Finished (Line 1)</description>
+    </event>
+    <event>
+      <id>5</id>
+      <name>Ring (Line 1)</name>
+      <description>Phone Rang (Line 1)</description>
+    </event>
+    <event>
+      <id>6</id>
+      <name>Off Hook (Line 1)</name>
+      <description>Phone Picked Up (Line 1)</description>
+    </event>
+    <event>
+      <id>7</id>
+      <name>On Hook (Line 1)</name>
+      <description>Phone Hung Up (Line 1)</description>
+    </event>
+    <event>
+      <id>8</id>
+      <name>Incoming Call Start (Line 2)</name>
+      <description>Received a Call (Line 2)</description>
+    </event>
+    <event>
+      <id>9</id>
+      <name>Outgoing Call Start (Line 2)</name>
+      <description>Outgoing Call Finished (Line 2)</description>
+    </event>
+    <event>
+      <id>10</id>
+      <name>Incoming Call End (Line 2)</name>
+      <description>Received a Call (Line 2)</description>
+    </event>
+    <event>
+      <id>11</id>
+      <name>Outgoing Call End (Line 2)</name>
+      <description>Outgoing Call Finished (Line 2)</description>
+    </event>
+    <event>
+      <id>12</id>
+      <name>Ring (Line 2)</name>
+      <description>Phone Rang (Line 2)</description>
+    </event>
+    <event>
+      <id>13</id>
+      <name>Off Hook (Line 2)</name>
+      <description>Phone Picked Up (Line 2)</description>
+    </event>
+    <event>
+      <id>14</id>
+      <name>On Hook (Line 2)</name>
+      <description>Phone Hung Up (Line 2)</description>
+    </event>
+    <event>
+      <id>15</id>
+      <name>Log Summary Output</name>
+      <description>Log Summary Variable is Ready</description>
+    </event>
+  </events>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Serial RS-232</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <documentation>This is a driver that communicates with the Serially-controlled WhozzCalling 2 2-line CallerID box.  (http://www.callerid.com/)</documentation>
+    <properties>
+      <property>
+        <name>Non-Print Areacodes (Comma Separated)</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+		  <item>Off</item>
+		  <item>Print</item>
+		  <item>Log</item>
+		  <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+
+    <commands>
+      <command>
+        <name>Get Incoming Call Log</name>
+        <description>Get Incoming Call Log from NAME</description>
+      </command>
+      <command>
+        <name>Get Outgoing Call Log</name>
+        <description>Get Outgoing Call Log from NAME</description>
+      </command>
+      <command>
+        <name>Clear Call Log</name>
+        <description>Clear the Call Log (Incoming and Outgoing) on NAME</description>
+      </command>
+    </commands>
+
+    <script>
+<![CDATA[
+      
+-- Initialize Caller ID info field by setting upper case "C" toggle
+-- TODO: Need to also have other initializers.  Don't think the default is what I want for all of them...
+-- Maybe make these Actions???  Who knows?
+C4:SendToSerial(1, "C")
+
+
+-- Notify Types must match Event Names as declared above, including the space before the LineNo.
+tNotifyTypes = { R = "Ring ", N = "On Hook ", F = "Off Hook " }
+tLineText = { ["01"] = "(Line 1)", ["02"] = "(Line 2)"}
+
+-- Global Variables
+serialData = ""
+gLogType = ""
+gLogSummary = ""
+idLogMsgTimer = 0
+
+C4:AddVariable("Number (Line 1)", "", "STRING")   -- Used for Comparisons in Programming
+C4:AddVariable("Name (Line 1)", "", "STRING")
+C4:AddVariable("Summary (Line 1)", "", "STRING")  -- Used on Touchpanels
+C4:AddVariable("Length (Line 1)", "", "STRING")   -- Used on Log (only filled in on 'End-of-call')
+C4:AddVariable("Rings (Line 1)", "", "STRING")
+C4:AddVariable("Date (Line 1)", "", "STRING")
+C4:AddVariable("Time (Line 1)", "", "STRING")
+
+C4:AddVariable("Number (Line 2)", "", "STRING")   -- Same as Line 1, but for Line #2...  :)
+C4:AddVariable("Name (Line 2)", "", "STRING")
+C4:AddVariable("Summary (Line 2)", "", "STRING")
+C4:AddVariable("Length (Line 2)", "", "STRING")
+C4:AddVariable("Rings (Line 2)", "", "STRING")
+C4:AddVariable("Date (Line 2)", "", "STRING")
+C4:AddVariable("Time (Line 2)", "", "STRING")
+
+C4:AddVariable("Log Summary", "", "STRING")
+   
+function OnPropertyChanged(strProperty)
+  if (strProperty == "Debug Mode") then
+    if (Properties[strProperty] == "Off") then
+      g_debugprint = false;
+      g_debuglog = false;
+      g_DebugTimer = 0
+    end
+    if (Properties[strProperty] == "Print") then
+      g_debugprint = true;
+      g_debuglog = false;
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Log") then
+      g_debugprint = false;
+      g_debuglog = true;
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == "Print and Log") then
+      g_debugprint = true;
+      g_debuglog = true;
+      startDebugTimer()
+    end
+  end
+  if (strProperty == "Non-Print Areacodes (Comma Separated)") then
+    g_AreaCodes = string.split(Properties[strProperty], ",")
+
+    -- Ensure that the Area Codes are stripped of whitespace
+    for i = 1, table.maxn(g_AreaCodes) do
+      g_AreaCodes[i] = string.gsub(g_AreaCodes[i], "%s","")
+    end
+  end
+
+end
+
+
+function startDebugTimer()
+  if (g_DebugTimer) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+
+function OnTimerExpired(idTimer)
+  if (idTimer == g_DebugTimer) then
+    dbg("Turning Debug Mode Off (timer expired)")
+    C4:UpdateProperty("Debug Mode", "Off")
+  end
+  C4:KillTimer(idTimer)
+end
+
+
+function dbg(strDebugText)
+  if (g_debugprint) then print(strDebugText) end
+  if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+         
+-- Split function from http://lua-users.org/wiki/SplitJoin
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
+end
+
+
+function ReceivedFromSerial(idBinding, strData)
+
+  local erasepos = string.find(strData, "Erase?")
+  if (erasepos ~= nil) then
+    -- Confirm Erase...
+    print("Erase found... Sending Confirm 'Y'")
+    C4:SendToSerial(1, "Y")
+    return
+  end
+
+  serialData = serialData .. strData
+
+  -- We always receive a 0D0A (\r\n) at the end of a message.
+  local endpos = string.find(serialData, "\r\n");
+
+  while (endpos ~= nil) do
+    -- Get complete message
+    local msg = string.sub(serialData, 1, endpos - 1)
+    dbg("Serial Message: " .. msg)
+
+    local tParts = string.split(msg, " ")
+
+    -- Determine message type...
+    if (string.len(tParts[1]) == 2) then
+      handleLiveMessage(tParts)
+    elseif (string.len(tParts[1]) == 4) then
+      handleLogMessage(tParts)
+    end
+
+    -- Keep any incomplete message
+    serialData = string.sub(serialData, endpos + 2)
+    endpos = string.find(serialData, "\r\n");
+  end
+end
+
+
+function handleLiveMessage(tParts)
+
+  -- 'Live' Caller Message or Notify (Ring / On/Off Hook)
+
+  local LineNo = tParts[1]
+  if ((LineNo == "01") or (LineNo == "02")) then	-- Valid Line Number
+    local MsgType = tParts[2]
+    local StartEnd = tParts[3]
+
+    local Notify = tNotifyTypes[MsgType]
+
+    if (Notify ~= nil) then
+      dbg(Notify .. tLineText[LineNo])
+      C4:FireEvent(Notify .. tLineText[LineNo])
+
+    elseif (MsgType == "I") then 			-- Incoming Call
+
+      C4:SetVariable("Length " .. tLineText[LineNo], tParts[4])
+      C4:SetVariable("Rings " .. tLineText[LineNo], tParts[6])
+      C4:SetVariable("Date " .. tLineText[LineNo], tParts[7])
+      C4:SetVariable("Time " .. tLineText[LineNo], tParts[8] .. " " .. tParts[9])
+      C4:SetVariable("Number " .. tLineText[LineNo], tParts[10])
+      local strName = ""
+      local len = table.maxn(tParts)
+      for i = 11, len do
+        if (tParts[i] ~= "") then
+          if (strName == "") then
+            strName = tParts[i]
+          else
+            strName = strName .. " " .. tParts[i]
+          end
+        end
+      end
+
+      C4:SetVariable("Name " .. tLineText[LineNo], strName)
+      C4:SetVariable("Summary " .. tLineText[LineNo], "<br /><br />" .. tParts[10] .. "<br /><br />" .. strName)
+
+      dbg("Live Message Incoming " .. tLineText[LineNo] .. ": Length: " .. tParts[4] .. " Rings: " .. tParts[6] .. " Date: " .. tParts[7] .. " Time: " .. tParts[8] .. " Number: " .. tParts[10] .. " Name: " .. strName)
+
+      if (StartEnd == "S") then 
+        C4:FireEvent("Incoming Call Start " .. tLineText[LineNo])
+      else
+        C4:FireEvent("Incoming Call End " .. tLineText[LineNo])
+      end
+
+    elseif (MsgType == "O") then			-- Outgoing Call 
+
+      C4:SetVariable("Length " .. tLineText[LineNo], tParts[4])
+      C4:SetVariable("Rings " .. tLineText[LineNo], "")
+      C4:SetVariable("Date " .. tLineText[LineNo], tParts[7])
+      C4:SetVariable("Time " .. tLineText[LineNo], tParts[8] .. " " .. tParts[9])
+      C4:SetVariable("Number " .. tLineText[LineNo], tParts[10])
+      C4:SetVariable("Name " .. tLineText[LineNo], "")
+      C4:SetVariable("Summary " .. tLineText[LineNo], "<br /><br />" .. tParts[10])
+
+      dbg("Live Message Outgoing " .. tLineText[LineNo] .. ": Length: " .. tParts[4] .. " Date: " .. tParts[7] .. " Time: " .. tParts[8] .. " Number: " .. tParts[10])
+
+      if (StartEnd == "S") then 
+        C4:FireEvent("Outgoing Call Start " .. tLineText[LineNo])
+      else
+        C4:FireEvent("Outgoing Call End " .. tLineText[LineNo])
+      end
+    end
+  end
+end
+
+
+function handleLogMessage(tParts)
+
+  if (tParts[5] == gLogType) then
+
+    local strName = ""
+    local len = table.maxn(tParts)
+    for i = 11, len do
+      if (tParts[i] ~= "") then
+        if (strName == "") then
+          strName = tParts[i]
+        else
+          strName = strName .. " " .. tParts[i]
+        end
+      end
+    end
+
+    if (gLogType == "O") then
+      strName = ""	-- Clear name if outgoing, don't want to see extra dialed digits...
+    end
+
+    if (gLastDate ~= tParts[3]) then
+      gLastDate = tParts[3]
+      gLogSummary = gLogSummary .. "<tr><td colspan=\"3\"><center>" .. gLastDate .. "</center></td></tr>"
+    end
+
+    local phonenum = tParts[10]
+    if (string.len(phonenum) == 10) then
+
+      local found = false
+      for i = 1, table.maxn(g_AreaCodes) do
+        if (g_AreaCodes[i] == string.sub(phonenum, 1, 3)) then
+          found = true
+          break
+        end
+      end
+
+      -- Don't print Area Code, if found in Global Area Code List...
+      if (found) then
+        phonenum = string.sub(phonenum, 4, 6) .. "-" .. string.sub(phonenum, 7)
+      else
+        phonenum = string.sub(phonenum, 1, 3) .. "-" .. string.sub(phonenum, 4, 6) .. "-" .. string.sub(phonenum, 7)
+      end
+
+    elseif ((string.len(phonenum) == 7) and (phonenum ~= "PRIVATE")) then
+      phonenum = string.sub(phonenum, 1, 3) .. "-" .. string.sub(phonenum, 4)
+    end
+
+    gLogSummary = gLogSummary .. "<tr><td>" .. tParts[4] .. "</td><td>" .. phonenum .. "</td><td>" .. strName .. "</td></tr>"
+
+  end
+
+  -- Reset Log message Timer ... When it expires, we're done.
+  if (idLogMsgTimer) then
+    idLogMsgTimert = C4:KillTimer(idLogMsgTimer)
+  end  
+  idLogMsgTimer = C4:AddTimer(1, "TM_SECONDS")
+
+end
+
+
+function OnTimerExpired(idTimer)
+  C4:KillTimer(idTimer)
+  gLogSummary = gLogSummary .. "</table>"
+  C4:SetVariable("Log Summary", gLogSummary)
+  C4:FireEvent("Log Summary Output")
+  dbg(gLogSummary)
+end
+
+
+function ExecuteCommand(strCommand, tParams)
+  if (strCommand == "Get Incoming Call Log") then
+    gLogType = "I"
+    gLogSummary = "<center>Incoming Call Log</center><table>"
+    gLastDate = ""
+    C4:SendToSerial(1, "F")
+    dbg("Retrieving Incoming Call Log")
+    return
+  end
+  if (strCommand == "Get Outgoing Call Log") then
+    gLogType = "O"
+    gLogSummary = "<center>Outgoing Call Log</center><table>"
+    gLastDate = ""
+    C4:SendToSerial(1, "F")
+    dbg("Retrieving Outgoing Call Log")
+    return
+  end
+  if (strCommand == "Clear Call Log") then
+    C4:SendToSerial(1, "Y")
+    return
+  end
+end
+
+-- -=-=-=-=-=-=-=-=-=-=-=-=-=- INIT SECTION -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+g_DebugTimer = 0
+
+-- Fire On Property Changed to set the initial Property values
+PropertyList = {"Debug Mode", "Non-Print Areacodes (Comma Separated)"}
+for i = 1, #PropertyList do
+  OnPropertyChanged(PropertyList[i], Properties[PropertyList[i]])
+end
+
+      ]]>
+    </script>
+  </config>
+</devicedata>

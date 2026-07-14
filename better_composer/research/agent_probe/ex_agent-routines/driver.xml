@@ -1,0 +1,100 @@
+<devicedata>
+	<copyright>Copyright 2026 Snap One, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<name>Routines</name>
+	<model>Routines</model>
+	<creator>Control4</creator>
+	<created>02/07/2024 10:00</created>
+	<modified>05/20/2026 14:00</modified>
+	<version>35</version>
+	<control>lua_gen</control>
+	<controlmethod>other</controlmethod>
+	<driver>DriverWorks</driver>
+	<small>locations_sm\lab.gif</small>
+	<large>locations_lg\lab.gif</large>
+	<auto_update>true</auto_update>
+	<minimum_auto_update_version>1</minimum_auto_update_version>
+	<minimum_os_version>4.0.0</minimum_os_version>
+	<composer_categories>
+		<category>Controllers</category>
+	</composer_categories>
+	<config>
+		<script jit="1" encryption="2" file="lua/squished.lua"/>
+		<documentation file="www/documentation/index.html"/>
+		<properties>
+			<property>
+				<name>Agent Version</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Add Routines To Room</name>
+				<type>DEVICE_SELECTOR</type>
+				<items>
+					<item>roomdevice.c4i</item>
+				</items>
+				<multiselect>false</multiselect>
+			</property>
+			<property>
+				<name>Connect Subscription</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Connect Required for Routines</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Override Connect Subscription</name>
+				<type>LIST</type>
+				<items>
+					<item>Do Not Override</item>
+					<item>Override - Subscribed</item>
+					<item>Override - Not Subscribed</item>
+				</items>
+				<default>Do Not Override</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Override Connect Requirement</name>
+				<type>LIST</type>
+				<items>
+					<item>Do Not Override</item>
+					<item>Override - Required</item>
+					<item>Override - Not Required</item>
+				</items>
+				<default>Do Not Override</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<commands/>
+        <actions>
+            <action>
+                <name>Update Routines</name>
+                <command>UpdateRoutines</command>
+            </action>
+        </actions>
+	</config>
+	<connections/>
+	<events/>
+	<combo>true</combo>
+	<agent>true</agent>
+	<keywords>Lua_Agent</keywords>
+	<proxies>
+		<proxy>agent-routines</proxy>
+	</proxies>
+</devicedata>

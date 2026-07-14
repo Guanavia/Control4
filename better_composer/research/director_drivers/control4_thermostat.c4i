@@ -1,0 +1,122 @@
+<devicedata>
+  <copyright>Copyright 2004-2011 Control4 Corporation.  All rights reserved.</copyright>
+  <config>
+  </config>
+  <name>Residential Thermostat</name>
+  <version>12</version>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <created>8/23/2005 12:30 PM</created>
+  <modified>10/25/2011 11:55 AM</modified>
+  <model>CCZ-T1-W</model>
+  <small>devices_sm/control4_thermostat_16.gif</small>
+  <large>devices_lg/control4_thermostat_32.gif</large>
+  <control>thermostat_gen</control>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+  <proxy>control4_thermostat_proxy</proxy>
+  <search_type>c4:thermostat:ccz-t1-w</search_type>
+  <!-- This GUID is for the thermostat_gen driver -->
+  <driver>E5DED3E9-B5CB-42ee-A45B-6FE6AF80D388</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>ZIGBEE</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE</classname>
+        </class>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE_CONTROL</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <can_heat>True</can_heat>
+    <can_cool>True</can_cool>
+    <can_do_auto>True</can_do_auto>
+    <temp_heat_min>38</temp_heat_min>
+    <temp_heat_max>88</temp_heat_max>
+    <temp_cool_min>41</temp_cool_min>
+    <temp_cool_max>90</temp_cool_max>
+    <setpoint_heat_min>33</setpoint_heat_min>
+    <setpoint_heat_max>311</setpoint_heat_max>
+    <setpoint_cool_min>50</setpoint_cool_min>
+    <setpoint_cool_max>322</setpoint_cool_max>
+    <scheduling>True</scheduling>
+    <schedule_default>
+      <schedule_day_info Entries="6" DefaultHeat="200" DefaultCool="278">
+        <schedule_entry Name="Wake" Time="360" Enabled="True" Heat="211" Cool="255" />
+        <schedule_entry Name="Leave" Time="480" Enabled="True" Heat="166" Cool="294"/>
+        <schedule_entry Name="Return" Time="1080" Enabled="True" Heat="211" Cool="255"/>
+        <schedule_entry Name="Sleep" Time="1320" Enabled="True" Heat="166" Cool="283"/>
+        <schedule_entry Name="Custom 1" Time="1380" Enabled="False" Heat="150" Cool="233"/>
+        <schedule_entry Name="Custom 2" Time="1380" Enabled="False" Heat="155" Cool="238"/>
+      </schedule_day_info>
+    </schedule_default>
+    <hvac_modes>Off,Heat,Cool,Auto,Emergency Heat</hvac_modes>
+    <fan_modes>Auto,On</fan_modes>
+    <hold_modes>Off,2 Hours,Until Next,Permanent</hold_modes>
+    <hvac_states>Off,Heat,Cool</hvac_states>
+    <fan_states>Off,On</fan_states>
+    <can_lock_buttons>True</can_lock_buttons>
+    <can_set_backlight>True</can_set_backlight>
+    <has_time_settings>True</has_time_settings>
+    <can_change_fan_count>False</can_change_fan_count>
+    <has_emergency_heat>True</has_emergency_heat>
+    <can_change_hvac_modes>False</can_change_hvac_modes>
+    <has_vacation_mode>True</has_vacation_mode>
+    <has_remote_sensor>True</has_remote_sensor>
+    <has_drlc>False</has_drlc>
+    <can_change_virtual_switches>False</can_change_virtual_switches>
+    <has_connection_status>True</has_connection_status>
+  </capabilities>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+</devicedata>

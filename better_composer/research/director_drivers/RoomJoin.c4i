@@ -1,0 +1,755 @@
+<devicedata>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<created>06/28/2010 5:30 PM</created>
+	<modified>01/28/2016 3:25 PM</modified>
+	<version>1</version>
+	<name>Room Join</name>
+	<model>Room Join</model>
+	<small>locations_sm/room.gif</small>
+	<large>locations_lg/room.gif</large>
+	<proxy>RoomJoin</proxy>
+	<combo>true</combo>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	
+	<events>
+		<event>
+			<id>1001</id>
+			<name>Room Joins</name>
+			<description>When this room joins to another room</description>
+		</event>
+		<event>
+			<id>1002</id>
+			<name>Room Disjoins</name>
+			<description>When this room disjoins from another room</description>
+		</event>
+		<event>
+			<id>1</id>
+			<name>Event 1</name>
+			<description>When NAME Event 1 occurs</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>Event 2</name>
+			<description>When NAME Event 2 occurs</description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>Event 3</name>
+			<description>When NAME Event 3 occurs</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Event 4</name>
+			<description>When NAME Event 4 occurs</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>Event 5</name>
+			<description>When NAME Event 5 occurs</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Event 6</name>
+			<description>When NAME Event 6 occurs</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Event 7</name>
+			<description>When NAME Event 7 occurs</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Event 8</name>
+			<description>When NAME Event 8 occurs</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Event 9</name>
+			<description>When NAME Event 9 occurs</description>
+		</event>
+		<event>
+			<id>10</id>
+			<name>Event 10</name>
+			<description>When NAME Event 10 occurs</description>
+		</event>
+		<event>
+			<id>11</id>
+			<name>Event 11</name>
+			<description>When NAME Event 11 occurs</description>
+		</event>
+		<event>
+			<id>12</id>
+			<name>Event 12</name>
+			<description>When NAME Event 12 occurs</description>
+		</event>
+		<event>
+			<id>13</id>
+			<name>Event 13</name>
+			<description>When NAME Event 13 occurs</description>
+		</event>
+		<event>
+			<id>14</id>
+			<name>Event 14</name>
+			<description>When NAME Event 14 occurs</description>
+		</event>
+		<event>
+			<id>15</id>
+			<name>Event 15</name>
+			<description>When NAME Event 15 occurs</description>
+		</event>
+		<event>
+			<id>16</id>
+			<name>Event 16</name>
+			<description>When NAME Event 16 occurs</description>
+		</event>
+		<event>
+			<id>17</id>
+			<name>Event 17</name>
+			<description>When NAME Event 17 occurs</description>
+		</event>
+		<event>
+			<id>18</id>
+			<name>Event 18</name>
+			<description>When NAME Event 18 occurs</description>
+		</event>
+		<event>
+			<id>19</id>
+			<name>Event 19</name>
+			<description>When NAME Event 19 occurs</description>
+		</event>
+		<event>
+			<id>20</id>
+			<name>Event 20</name>
+			<description>When NAME Event 20 occurs</description>
+		</event>
+	</events>
+
+	<capabilities>
+	</capabilities>
+
+	<config>
+
+		<!--serialsettings>9600 8 none 1 off</serialsettings-->
+
+		<SINGLETON_ID>RoomJoin</SINGLETON_ID>
+
+		<documentation>The Room Join driver is intended for use by Hospitality systems. It allows events to occur across multiple hotel rooms. Because the hotel rooms are controlled by separate instances of Director, this functionality is not normally possible.
+
+The rooms are not joined in the sense that they can see and control items from all rooms in Navigator. Rather, they are "joined" only in that an event can be triggered in one room and then propogated to other rooms. For example, a keypad button press in one room can signal that the lights be turned off in all rooms.
+
+The driver has a set of 20 commands. Executing one of these commands causes one of 20 corresponding events to be dispatched in all the joined rooms, and the associated programming to be executed. The event will also be dispatched in the originating room if the parameter of the command is set to the value called "Dispatch event in: joined rooms and locally".
+
+The Hospitality server joins rooms when a check-in event occurs that signals that the rooms should be joined. A hotel guest can't cause the rooms to be joined. You may join rooms for testing purposes by executing code in the Lua Command window as long as care is taken to disjoin the rooms afterward. Join the rooms using a comma-delimited list of IP addresses (or host names) as the ROOMS parameter of the JOIN_ROOMS command, like this:
+
+ExecuteCommand("JOIN_ROOMS", {["ROOMS"]="192.168.1.100,192.168.1.103"})
+
+Disjoin the rooms by executing the UNJOIN command:
+
+ExecuteCommand("UNJOIN")
+
+Don't join a room to itself.</documentation>
+
+		<properties>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Version</name>
+				<type>STRING</type>
+				<default>1</default>
+				<readonly>true</readonly>
+			</property>
+		</properties>
+
+		<actions>
+		</actions>
+
+		<commands>
+			<command>
+				<name>Event 1</name>
+				<description>Dispatch Event 1 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 2</name>
+				<description>Dispatch Event 2 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 3</name>
+				<description>Dispatch Event 3 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 4</name>
+				<description>Dispatch Event 4 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 5</name>
+				<description>Dispatch Event 5 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 6</name>
+				<description>Dispatch Event 6 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 7</name>
+				<description>Dispatch Event 7 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 8</name>
+				<description>Dispatch Event 8 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 9</name>
+				<description>Dispatch Event 9 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 10</name>
+				<description>Dispatch Event 10 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 11</name>
+				<description>Dispatch Event 11 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 12</name>
+				<description>Dispatch Event 12 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 13</name>
+				<description>Dispatch Event 13 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 14</name>
+				<description>Dispatch Event 14 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 15</name>
+				<description>Dispatch Event 15 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 16</name>
+				<description>Dispatch Event 16 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 17</name>
+				<description>Dispatch Event 17 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 18</name>
+				<description>Dispatch Event 18 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 19</name>
+				<description>Dispatch Event 19 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Event 20</name>
+				<description>Dispatch Event 20 in PARAM1</description>
+				<params>
+					<param>
+						<name>Dispatch event in:</name>
+						<type>LIST</type>
+						<items>
+							<item>joined rooms and locally</item>
+							<item>joined rooms only</item>
+						</items>
+					</param>
+				</params>
+			</command>
+		</commands>
+
+		<script>
+			<![CDATA[
+
+-- Global Variables
+gnDebugTimer = 0
+g_dbgprint = false
+g_dbglog = false
+
+g_CommandHandlers = {}
+g_JoinedRooms = {}
+
+--======================================== Persist State ========================================--
+function SaveState(strRooms)
+	PersistData["ROOMS"] = strRooms
+	C4:InvalidateState()
+end
+
+function RestoreState()
+	if PersistData ~= nil then
+		local strRooms = PersistData["ROOMS"]
+		if strRooms ~= nil and strRooms ~= "" then
+			JoinRooms(strRooms)
+		end
+	end
+end
+
+--========================================== Wrappers ===========================================--
+
+function ExecuteCommand(strCommand, tParams)
+	DebugPrintLog("ExecuteCommand(" .. strCommand .. ")")
+
+	if( tParams ~= nil ) then
+
+		for cmd,cmdv in pairs(tParams) do
+			DebugPrintLog("tParams[\"" .. cmd .. "\"]: " .. cmdv)
+		end
+
+	end
+
+	if #strCommand == 7 or #strCommand == 8 then
+		local first, last, EventNum = string.find(strCommand, "Event (%d%d?)")
+		if(EventNum ~= nil) then
+			local fDispatchLocal = tParams["Dispatch event in:"] == "joined rooms and locally"
+			if fDispatchLocal then
+				strWhichRooms = "all"
+			else
+				strWhichRooms = "joined"
+			end
+			DebugPrintLog("Sending Event " .. EventNum .. " to " .. strWhichRooms .. " rooms.")
+			SendCommandToAllRooms("DISPATCH_EVENT", {["EVENT_ID"] = EventNum}, fDispatchLocal)
+			return
+		end
+	end
+
+	CommandHandler = g_CommandHandlers[strCommand];
+	if(CommandHandler ~= nil) then
+		if(tParams == nil) then
+			CommandHandler()
+		else
+			CommandHandler(tParams)
+		end
+	else
+		DebugPrintLog("Unknown command " .. strCommand)
+		C4:ErrorLog("Unknown command " .. strCommand)
+	end
+end
+
+function OnDriverInit()
+    DebugPrintLog("OnDriverInit called")
+end
+
+function OnPropertyChanged(strPropertyName)
+	local strNewValue = Properties[strPropertyName]
+
+	if(strPropertyName == "Debug Mode") then
+
+		if gnDebugTimer ~= 0 then
+			C4:KillTimer(gnDebugTimer)
+			gnDebugTimer = 0
+		end
+
+		g_dbgprint = (Properties["Debug Mode"]:find("Print") ~= nil)
+		g_dbglog = (Properties["Debug Mode"]:find("Log") ~= nil)
+
+		if (Properties["Debug Mode"] == "Off") then
+			return
+		end
+
+		gnDebugTimer = C4:AddTimer(45, "MINUTES")
+		DebugPrintLog("Enabling logging for 45 minutes...")
+	end
+
+	DebugPrintLog("OnPropertyChanged - strPropertyName: " .. strPropertyName .. " strNewValue: " .. strNewValue)
+end
+
+function OnTimerExpired(pnTimerId)
+	if pnTimerId == gnDebugTimer then
+		DebugPrintLog("Timer expired for debug logging")
+		C4:UpdateProperty("Debug Mode", "Off")
+		OnPropertyChanged("Debug Mode")
+	end
+end
+
+function OnDriverDestroyed()
+	if gnDebugTimer ~= 0 then
+		gnDebugTimer = C4:KillTimer(gnDebugTimer)
+	end
+end
+
+function StopTimer(timer, timerName)
+	DebugPrintLog("Stopping "..timerName.." timer...")
+	C4:KillTimer(timer)
+end
+
+--================================== TCP COMMUNICATION ================================================
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+
+	DebugPrintLog("Received OnConnectionStatusChanged call with [" .. idBinding .. "] [" .. nPort .. "] [" .. strStatus .. "]")
+
+	index = idBinding - 6000
+	if(strStatus == "ONLINE") then
+		g_JoinedRooms[index].Connected = true
+	else
+		g_JoinedRooms[index].Connected = false
+	end
+
+end
+
+function DeleteAllConnections()
+	local JoinedRoom = {}
+	for _,JoinedRoom in pairs(g_JoinedRooms) do
+		DebugPrintLog("Calling NetDisconnect(" .. JoinedRoom.BindingID .. ")")
+		C4:NetDisconnect(JoinedRoom.BindingID, JoinedRoom.Port);
+		-- TODO: I've disconnected. Do I also need to delete the connection? How do I do that?
+	end
+	g_JoinedRooms = {}
+
+	C4:SetVariable("IS_JOINED", "0")
+	C4:FireEvent("Room Disjoins")
+end
+
+function AddConnection(IPAddress)
+	local JoinedRoom = {}
+	index = #g_JoinedRooms + 1
+	JoinedRoom.BindingID = 6000 + index;
+	JoinedRoom.IPAddress = IPAddress;
+	JoinedRoom.Connected = false
+	JoinedRoom.Port = 5020
+	g_JoinedRooms[index] = JoinedRoom
+	DebugPrintLog("Calling CreateNetworkConnection(" .. JoinedRoom.BindingID .. ", " .. JoinedRoom.IPAddress .. ")")
+	-- Create the connection:
+	C4:CreateNetworkConnection(JoinedRoom.BindingID, JoinedRoom.IPAddress)
+	-- Connect: (If we created the network connection, it will not auto-connect.)
+	C4:NetConnect(JoinedRoom.BindingID, JoinedRoom.Port)
+end
+
+function SendCommandToAllRooms(strCommand, tParams, fDispatchLocal)
+	local tJoinedRoom = {}
+	for _, tJoinedRoom in pairs(g_JoinedRooms) do
+		SendCommandToRoom(tJoinedRoom, strCommand, tParams)
+	end
+	if fDispatchLocal then
+		-- Also execute the command myself:
+		ExecuteCommand(strCommand, tParams)
+	end
+end
+
+function SendCommandToRoom(tJoinedRoom, strCommand, tParams)
+	local strParams = ""
+--	if(tParams ~= nil) do
+	for ParamName, ParamValue in pairs(tParams) do
+		strParams = strParams .. '<param><name>' .. ParamName .. '</name><value type="STRING"><static>' .. ParamValue .. '</static></value></param>'
+	end
+	local message = '<c4soap name="SendToDeviceUsingC4iAsync" async="True"><param name="c4i_name" type="STRING">RoomJoin.c4i</param><param type="string" name="data"><devicecommand><command>' .. strCommand .. '</command><params>' .. strParams .. '</params></devicecommand></param></c4soap>'
+	DebugPrintLog("Calling SendToNetwork(" .. tJoinedRoom.BindingID .. ", " .. tJoinedRoom.Port .. ", \"" .. message .. "\")")
+	C4:SendToNetwork(tJoinedRoom.BindingID, tJoinedRoom.Port, message .. "\0");
+end
+
+--=============================== Data received commands =============================================
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+	DebugPrintLog ("ReceivedFromNetwork - idBinding: " .. idBinding .. " \"" .. strData .. "\"");
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	ExecuteCommand(strCommand, tParams)
+end
+
+--============================== Command Handlers ============================================
+
+function g_CommandHandlers.GET_PROPERTIES()
+	DebugPrintLog ("Getting Properties")
+	for k,v in pairs(Properties) do
+	  OnPropertyChanged(k)
+	end
+end
+
+function g_CommandHandlers.JOIN_ROOMS(tParams)
+--[[
+The JOIN_ROOMS command should include a parameter called ROOMS, with a string
+value that is a comma-separated list of ip addresses (or host names). Each
+address should point to the primary controller (the one running Director) in
+the other room(s).
+
+Note: Do not include yourself in the list.
+]]--
+
+
+	local strRooms = tParams["ROOMS"]
+	if(strRooms == nil) then
+		error("The ROOMS parameter is required for the JOIN_ROOMS command.")
+	else
+		DeleteAllConnections()
+		JoinRooms(strRooms)
+		SaveState(strRooms)
+	end
+end
+
+function JoinRooms(strRooms)
+	-- Parse the comma-delimited list:
+	while #strRooms > 0 do
+		-- Take everything up to the first comma:
+		_, iEnd, strAddress = string.find(strRooms, "(.-),")
+		if strAddress == nil then
+			-- If there isn't a comma, take the whole string:
+			strAddress = strRooms
+			iEnd = #strRooms
+		end
+		if #strAddress > 0 then
+			AddConnection(strAddress)
+		end
+		strRooms = string.sub(strRooms, iEnd + 1)
+	end
+
+	if #g_JoinedRooms >= 1 then
+		C4:SetVariable("IS_JOINED", "1")
+		C4:FireEvent("Room Joins")
+	end
+end
+
+function g_CommandHandlers.UNJOIN()
+	DeleteAllConnections()
+	DebugPrintLog("Unjoined from all rooms.")
+	SaveState("")
+end
+
+function g_CommandHandlers.DISPATCH_EVENT(tParams)
+	local EventID = tParams["EVENT_ID"]
+	local EventName = "Event " .. EventID
+	DebugPrintLog("Dispatching \"" .. EventName .. "\"...")
+	C4:FireEvent(EventName)
+end
+
+---------------------------------------------------------------------------------------------------
+----------------------------- UTIL ----------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+
+--function GetTableCount(ptTable)
+--	local lnCount = 0
+--	for _,_ in pairs(ptTable) do
+--		lnCount=lnCount+1
+--	end
+--	return lnCount
+--end
+
+function round(num)
+	return math.floor(num+.5)
+end
+
+function DebugPrintLog(strData)
+	if g_dbgprint then
+		print(strData)
+	end
+
+	if g_dbglog then
+		C4:DebugLog(strData .. "\n")
+	end
+end
+
+--======================================== Startup Code =========================================--
+
+C4:AddVariable("IS_JOINED", "0", "BOOL", true)
+RestoreState()
+
+
+			]]>
+		</script>
+	</config>
+
+	<connections>
+	</connections>
+
+</devicedata>

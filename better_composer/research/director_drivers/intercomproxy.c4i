@@ -1,0 +1,38 @@
+<devicedata>
+	<version>1</version>
+	<copyright>Copyright 2013 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>06/05/2013</created>
+	<modified>06/05/2013</modified>
+	<commands/>
+	<conditionals/>
+	<events/>
+	<name>Intercom</name>
+	<small>devices_sm/control4_touchpad_16.gif</small>
+	<large>devices_lg/control4_touchpad_32.gif</large>
+	<control>intercom</control>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<proxy />
+	<driver>20130605</driver>
+	<states />
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Intercom</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+			<class>
+				<classname>INTERCOM</classname>
+			</class>
+			</classes>
+		</connection>
+	</connections>
+	<config />
+</devicedata>

@@ -1,0 +1,101 @@
+<devicedata>
+    <version>10</version>
+    <combo/>
+    <copyright>Copyright 2020 Wirepath Home Systems, LLC.  All rights reserved.</copyright>
+    <name>System Remote Control SR-H150</name>
+    <small>devices_sm/SR250.gif</small>
+    <large>devices_lg/SR250.gif</large>
+    <control>control4_remote_gen</control>
+    <search_type>c4:control4_srh150:C4-SRH150</search_type>
+    <composer_categories>
+        <category>User Interface</category>
+    </composer_categories>
+    <proxy>control4_srh150</proxy>
+    <driver name="remote_gen">18F9571B-25EE-44d6-95E7-575257488307</driver>
+    <states/>
+    <connections>
+        <connection>
+            <id>6001</id>
+            <facing>6</facing>
+            <connectionname>Remote Control</connectionname>
+            <type>4</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>ZIGBEE</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <capabilities>
+        <has_display>False</has_display>
+        <can_be_found>False</can_be_found>
+        <can_adjust_wake_on_motion>True</can_adjust_wake_on_motion>
+		<can_adjust_recharge_station_enable>True</can_adjust_recharge_station_enable>
+        <has_button_behavior_option>False</has_button_behavior_option>
+        <button_behavior>SelectMRU</button_behavior>
+    	<can_display_volume_bar>False</can_display_volume_bar>
+    </capabilities>
+    <manufacturer>Control4</manufacturer>
+    <creator>Control4</creator>
+    <created>6/23/2008 12:30 PM</created>
+    <modified>4/6/2020 3:55 PM</modified>
+    <model>SR-H150</model>
+    <front/>
+    <back/>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+    <commands/>
+    <conditionals/>
+    <events/>
+    <config>
+        <identify_image>C4-SR150H-Z-B-Identify.gif</identify_image>
+        <identify_text>Press the "HOME SCREEN" button on the System Remote four times, or type the network address below.</identify_text>
+        <remote_gen>
+            <buttons>
+                <button keycode="1" name="ROOM_OFF"/>
+                <button keycode="9" name="CONTROL4"/>
+                <button keycode="0" name="TV_OFF"/>
+                <button keycode="15" name="GUIDE"/>
+                <button keycode="20" name="RECALL"/>
+                <button keycode="4" name="MENU"/>
+                <button keycode="10" name="CANCEL"/>
+                <button keycode="13" name="VOLUME_UP"/>
+                <button keycode="12" name="VOLUME_DOWN"/>
+                <button keycode="16" name="UP"/>
+                <button keycode="17" name="DOWN"/>
+                <button keycode="18" name="LEFT"/>
+                <button keycode="19" name="RIGHT"/>
+                <button keycode="42" name="ENTER"/>
+                <button keycode="14" name="CHANNEL_UP"/>
+                <button keycode="41" name="CHANNEL_DOWN"/>
+                <button keycode="21" name="MUTE_TOGGLE"/>
+                <button keycode="22" name="CLOSED_CAPTIONED"/>
+                <button keycode="30" name="PLAY"/>
+                <button keycode="43" name="SKIP_REV"/>
+                <button keycode="25" name="SKIP_FWD"/>
+                <button keycode="27" name="PAUSE"/>
+                <button keycode="26" name="SCAN_REV"/>
+                <button keycode="28" name="SCAN_FWD"/>
+                <button keycode="24" name="STOP"/>
+                <button keycode="31" name="NUMBER_1"/>
+                <button keycode="32" name="NUMBER_2"/>
+                <button keycode="33" name="NUMBER_3"/>
+                <button keycode="34" name="NUMBER_4"/>
+                <button keycode="45" name="NUMBER_5"/>
+                <button keycode="35" name="NUMBER_6"/>
+                <button keycode="36" name="NUMBER_7"/>
+                <button keycode="37" name="NUMBER_8"/>
+                <button keycode="38" name="NUMBER_9"/>
+                <button keycode="46" name="NUMBER_0"/>
+                <button keycode="39" name="PROGRAM_B"/>
+                <button keycode="40" name="PROGRAM_C"/>
+            </buttons>
+        </remote_gen>
+    </config>
+</devicedata>

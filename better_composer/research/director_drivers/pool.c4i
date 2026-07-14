@@ -1,0 +1,157 @@
+<devicedata>
+    <version>2</version>
+    <copyright>Copyright 2004-2014 Control4 Corporation.  All rights reserved.</copyright>
+    <creator>Control4</creator>
+    <created>7/27/2006</created>
+    <modified>5/27/2014</modified>
+    <manufacturer>Control4</manufacturer>
+    <model>Pool Controller Proxy</model>
+    <composer_categories>
+        <category>Pool</category>
+    </composer_categories>
+    <navigator_categories>
+        <category>Home</category>
+    </navigator_categories>
+    <name>Pool Controller</name>
+    <small>devices_sm/pool16.gif</small>
+    <large>devices_lg/pool32.gif</large>
+    <commands>
+        <command>
+            <name>SET_SPA_PUMPMODE</name>
+            <description>Set the Spa Pump Mode of NAME to 'STRING'</description>
+        </command>
+        <command>
+            <name>SET_POOL_PUMPMODE</name>
+            <description>Set the Pump Mode of NAME to 'STRING'</description>
+        </command>
+        <command>
+            <name>SET_POOL_SETPOINT</name>
+            <description>Set the Pool Temperature of NAME to 'INTEGER'</description>
+        </command>
+        <command>
+            <name>SET_SPA_SETPOINT</name>
+            <description>Set the Spa Temperature of NAME to 'INTEGER'</description>
+        </command>
+        <command>
+            <name>SET_POOL_HEATMODE</name>
+            <description>Set the NAME Pool ANAME Mode to 'STRING'</description>
+        </command>
+        <command>
+            <name>SET_SPA_HEATMODE</name>
+            <description>Set the NAME Spa ANAME Mode to 'STRING'</description>
+        </command>
+        <command>
+            <name>SET_AUX_MODE</name>
+            <description>Set the NAME Auxiliary Mode [ANAME] to 'MODE'</description>
+        </command>
+    </commands>
+    <conditionals>
+        <conditional>
+            <id>1</id>
+            <name>IF_SPAMODE</name>
+            <description>the NAME SPA Pump Mode is STRING</description>
+        </conditional>
+        <conditional>
+            <id>2</id>
+            <name>IF_PUMPMODE</name>
+            <description>the NAME Pool Pump Mode is STRING</description>
+        </conditional>
+        <conditional>
+            <id>3</id>
+            <name>IF_POOL_SETPOINT</name>
+            <description>the NAME Pool Set Point is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>4</id>
+            <name>IF_SPA_SETPOINT</name>
+            <description>the NAME Spa Set Point is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>5</id>
+            <name>IF_POOL_TEMPERATURE</name>
+            <description>the NAME Pool Temperature is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>6</id>
+            <name>IF_SPA_TEMPERATURE</name>
+            <description>the NAME Spa Temperature is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>7</id>
+            <name>IF_AIR_TEMPERATURE</name>
+            <description>the NAME Air Temperature is LOGIC INTEGER</description>
+        </conditional>
+    </conditionals>
+    <events>
+        <event>
+            <id>1</id>
+            <name>SPAMODE_CHANGED</name>
+            <description>When NAME Spa Mode has changed</description>
+        </event>
+        <event>
+            <id>2</id>
+            <name>PUMPMODE_CHANGED</name>
+            <description>When NAME Pump Mode has changed</description>
+        </event>
+        <event>
+            <id>3</id>
+            <name>POOL_SETPOINT_CHANGED</name>
+            <description>When NAME Pool Set Point has changed</description>
+        </event>
+        <event>
+            <id>4</id>
+            <name>SPA_SETPOINT_CHANGED</name>
+            <description>When NAME Spa Set Point has changed</description>
+        </event>
+        <event>
+            <id>5</id>
+            <name>POOL_TEMP_CHANGED</name>
+            <description>When NAME Pool Temperature has changed</description>
+        </event>
+        <event>
+            <id>6</id>
+            <name>SPA_TEMP_CHANGED</name>
+            <description>When NAME Spa Temperature has changed</description>
+        </event>
+        <event>
+            <id>8</id>
+            <name>AIR_TEMP_CHANGED</name>
+            <description>When NAME Air Temperature has changed</description>
+        </event>
+        <event>
+            <id>9</id>
+            <name>AUX_MODE_CHANGED</name>
+            <description>When NAME BUTTONNAME has changed</description>
+        </event>
+        <event>
+            <id>10</id>
+            <name>POOL_HEAT_MODE_CHANGED</name>
+            <description>When NAME Heat Mode has changed</description>
+        </event>
+        <event>
+            <id>11</id>
+            <name>SPA_HEAT_MODE_CHANGED</name>
+            <description>When NAME Heat Mode has changed</description>
+        </event>
+    </events>
+    <control>pool</control>
+    <proxy/>
+    <driver>30</driver>
+    <connections>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>Pool Control</connectionname>
+            <type>2</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>POOL</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+</devicedata>

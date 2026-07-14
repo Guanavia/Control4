@@ -1,0 +1,418 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Lutron Stanza Keypad</name>
+  <small>devices_sm/ThreeButtonKeypad.GIF</small>
+  <large>devices_lg/ThreeButtonKeypad.GIF</large>
+  <control>lua_gen</control>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxy>keypad_gateway_lutron_stanza</proxy>
+  <driver>DriverWorks</driver>
+  <creator>Control4</creator>
+  <manufacturer>Lutron</manufacturer>
+  <created>05/01/2013 4:40 PM</created>
+  <modified>01/29/2016 10:25 AM</modified>
+  <version>1</version>
+  <combo>true</combo>
+  <model>Stanza Keypad</model>
+  <states />
+  <connections>
+  </connections>
+  <capabilities>
+  </capabilities>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <config>
+    <documentation></documentation>
+    <properties>
+      <property>
+	<name>Version</name>
+	<type>STRING</type>
+	<default>0.0.0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+	   <item>Off</item>
+	   <item>Print</item>
+           <item>Log</item>
+   	   <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+	<name>Lutron Device Type</name>
+	<type>STRING</type>
+	<default>LUTRON_KEYPAD</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Device ID</name>
+        <type>STRING</type>
+	<default>0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Gateway</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Integration ID</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Bottom Button</name>
+        <command>BOTTOM_BUTTON</command>
+      </action>
+      <action>
+        <name>Bottom Middle Button</name>
+        <command>BOTTOM_MIDDLE_BUTTON</command>
+      </action>
+      <action>
+        <name>Middle Button</name>
+        <command>MIDDLE_BUTTON</command>
+      </action>
+      <action>
+        <name>Top Middle Button</name>
+        <command>TOP_MIDDLE_BUTTON</command>
+      </action>
+      <action>
+        <name>Top Button</name>
+        <command>TOP_BUTTON</command>
+      </action>
+      <action>
+        <name>Add Gateway Registrar</name>
+        <command>ADD_REGISTRAR</command>
+      </action>
+      <action>
+        <name>Remove Gateway Registrar</name>
+        <command>REMOVE_REGISTRAR</command>
+      </action>
+      <action>
+        <name>Get Device ID</name>
+        <command>DEVICE_ID</command>
+      </action>
+    </actions>
+    <commands>
+      <command>
+        <name>Press</name>
+        <description>Press button: PARAM1 on NAME</description>
+        <params>
+          <param>
+            <name>Button Number</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>4</minimum>
+            <maximum>30</maximum>
+          </param>
+        </params>
+      </command>
+    </commands>
+    <script>
+      <![CDATA[
+
+--<lutron_constants>
+-- lutron_constants inserted : Mon May 13 10:42:48 2013
+
+lutron_set_operator = "#"
+lutron_get_operator = "?"
+lutron_response_operator = "~"
+
+lutron_command = { MON = "MONITORING", DEV = "DEVICE", OUT = "OUTPUT" }
+
+lutron_button_monitoring = "3"
+lutron_led_monitoring = "4"
+lutron_zone_level_monitoring = "5"
+lutron_usb_traffic_monitoring = "17"
+lutron_rf_traffic_monitoring = "18"
+
+lutron_monitoring_enable = "1"
+lutron_monitoring_disable = "2"
+
+lutron_button_press = "3"
+lutron_button_release = "4"
+
+lutron_led_off = "0"
+lutron_led_on = "1"
+
+lutron_output_level = "1"
+lutron_output_start_raising = "2"
+lutron_output_start_lowering = "3"
+lutron_output_stop = "4"
+
+--</lutron_constants>
+
+-- Global Variables
+
+debug_timer_ = 0
+debug_print_ = false
+debug_log_ = false
+
+function Version()
+	
+   local maj = 0
+   local min = 1
+   local rev = 1
+   local ver = string.format("%d.%d.%d", maj, min, rev)
+
+   return ver
+end
+
+function get_persisted_data()
+
+   if PersistData ~= nil then
+ 
+      if PersistData["GATEWAY"] ~= nil then
+
+         C4:UpdateProperty("Gateway", PersistData["GATEWAY"])
+      else
+
+         C4:UpdateProperty("Gateway", 0)
+      end
+      if PersistData["INTEGRATION_ID"] ~= nil then
+
+         C4:UpdateProperty("Integration ID", PersistData["INTEGRATION_ID"])
+      else
+
+         C4:UpdateProperty("Integration ID", 0)
+      end
+   else
+
+      PersistData = {}
+   end
+end
+
+function send_to_gateway(strCommand, t_params)
+
+   local gateway_id = Properties["Gateway"]
+   C4:SendToDevice(gateway_id, strCommand, t_params)
+end
+
+function set_lutron_device(component, action, value)
+  
+  local id = get_device_id() -- the Control4 ID
+  send_to_gateway("SET_DEVICE", {ID=id, COMPONENT=component, ACTION=action, VALUE=value})
+end
+
+function get_device_id()
+
+  return C4:GetProxyDevices()
+end
+
+function add_gateway_registrar()
+
+   local device_id = tonumber(Properties["Device ID"])
+   local device_type = Properties["Lutron Device Type"]
+   local integration_id = tonumber(Properties["Integration ID"])
+   send_to_gateway("ADD_REGISTRAR", {ID = device_id, DEVICE_TYPE = device_type, INTEGRATION_ID = integration_id})
+end
+
+function remove_gateway_registrar()
+
+   local device_id = tonumber(Properties["Device ID"])
+   send_to_gateway("REMOVE_REGISTRAR", {ID = device_id})
+end
+
+function OnDriverInit()
+
+   -- get persisted data and add registrars
+   get_persisted_data()
+   C4:UpdateProperty("Device ID", get_device_id())
+end
+
+function OnDriverDestroyed()
+
+   debug("OnDriverDestroyed called")
+		
+   -- Kill all timers
+   if debug_timer_ then
+  
+      debug("Stopping debug timer")
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   
+   -- remove driver from gateway registration
+   remove_gateway_registrar()
+end
+
+function OnPropertyChanged(strProperty)
+
+  debug("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+
+  if strProperty == "Gateway" then
+
+     PersistData["GATEWAY"] = Properties[strProperty]
+  elseif strProperty == "Integration ID" then
+
+     PersistData["INTEGRATION_ID"] = Properties[strProperty]
+  end
+  if strProperty == "Debug Mode" then
+
+     if Properties[strProperty] == "Off" then
+
+        debug_print_ = false
+        debug_log_ = false
+        debug_timer_ = 0
+     elseif Properties[strProperty] == "Print" then
+
+        debug_print_ = true
+       	debug_log_ = false
+       	start_debug_timer()
+     elseif Properties[strProperty] == "Log" then
+
+        debug_print_ = false
+        debug_log_ = true
+        start_debug_timer()
+     elseif Properties[strProperty] == "Print and Log" then
+
+        debug_print_ = true
+       	debug_log_ = true
+       	start_debug_timer()
+     end
+  end
+end
+
+function start_debug_timer()
+
+   if debug_timer_ then
+  
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   debug_timer_ = C4:AddTimer(15, "MINUTES")
+end
+
+function OnTimerExpired(idTimer)
+
+   if idTimer == debug_timer_ then
+  
+      debug("Turning Debug Mode Off (timer expired)")
+      C4:UpdateProperty("Debug Mode", "Off")
+      debug_timer_ = C4:KillTimer(idTimer)
+   end
+end
+
+function debug(text)
+
+   if debug_print_ then 
+
+      print(text) 
+   end
+   if debug_log_ then 
+
+      C4:ErrorLog(text) 
+   end
+end
+
+function ExecuteCommand(strCommand, t_params)
+
+  debug("ExecuteCommand function called with : " .. strCommand)
+  if t_params ~= nil then
+
+     for ParamName, ParamValue in pairs(t_params) do 
+
+	debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+     end 
+  end
+  if strCommand == "LUA_ACTION" then
+
+     if t_params ~= nil then
+
+	for ParamName, ParamValue in pairs(t_params) do
+ 
+           if ParamName == "ACTION" then
+						
+	      if ParamValue == "ADD_REGISTRAR" then
+
+	        add_gateway_registrar()	
+	      elseif ParamValue == "REMOVE_REGISTRAR" then
+
+	      	remove_gateway_registrar()
+	      elseif ParamValue == "DEVICE_ID" then
+
+	        C4:UpdateProperty("Device ID", get_device_id())
+	      elseif ParamValue == "TOP_BUTTON" then
+
+	         set_lutron_device("4", lutron_button_press, "")
+	      elseif ParamValue == "TOP_MIDDLE_BUTTON" then
+
+	         set_lutron_device("5", lutron_button_press, "")
+	      elseif ParamValue == "MIDDLE_BUTTON" then 
+
+	         set_lutron_device("6", lutron_button_press, "")
+	      elseif ParamValue == "BOTTOM_MIDDLE_BUTTON" then 
+
+	         set_lutron_device("7", lutron_button_press, "")
+	      elseif ParamValue == "BOTTOM_BUTTON" then 
+
+	         set_lutron_device("8", lutron_button_press, "")
+              end
+	   else
+					
+              debug("From ExecuteCommand Function - Undefined Command")
+	      debug("ParamName: " .. ParamName .. "  ParamValue: " .. ParamValue)
+	   end
+        end
+     end
+  elseif strCommand == "Press" then
+
+     local button = t_params["Button Number"]
+     set_lutron_device(button, lutron_button_press, "")
+  elseif strCommand == "DEVICE_UPDATE" then
+
+
+
+  end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, t_params)
+
+   if strCommand ~= nil then
+
+      debug("ReceivedFromProxy: Binding = " .. idBinding .. "; Command = " .. strCommand)
+      if t_params ~= nil then
+
+     	 for ParamName, ParamValue in pairs(t_params) do 
+
+	     debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+	 end
+
+         undefined_function(strCommand, t_params)
+      end
+   end
+end
+
+function undefined_function(strCommand, t_params)
+
+  if (t_params ~= nil) then
+
+    for ParamName, ParamValue in pairs(t_params) do 
+
+      debug("Undefined function: " .. strCommand .. "; - parameter name: " .. ParamName .. "; with value: " .. ParamValue)
+    end 
+  end
+end
+	
+C4:UpdateProperty("Version", Version())
+
+      ]]>
+    </script>
+  </config>
+
+</devicedata>

@@ -1,0 +1,914 @@
+<devicedata>
+  <version>40</version>
+  <copyright>Copyright 2025 Snap One, LLC.  All rights reserved.</copyright>
+  <config>
+    <name_on_update_web_service>ea5</name_on_update_web_service>
+    <update_platform_type_name>ce5300</update_platform_type_name>
+    <actual_update_packages_directory>/mnt/internal/packages</actual_update_packages_directory>
+  </config>
+  <capabilities>
+    <!-- Controller Capabilities -->
+    <has_video_output>false</has_video_output>
+    <has_video_input>false</has_video_input>
+    <has_hdmi_passthrough>false</has_hdmi_passthrough>
+    <audio_sense_count>4</audio_sense_count>
+    <audio_sense_names>Analog Audio 1, Analog Audio 2, Digital Audio 1, Digital Audio 2</audio_sense_names>
+    <has_ui_device>false</has_ui_device>
+    <has_discrete_volume_control>true</has_discrete_volume_control>
+    <auto_bind_onscreen_selection proxybindingid="5001">true</auto_bind_onscreen_selection>
+    <supports_zwave>true</supports_zwave>
+    <throttled_vol_ms_rate>25</throttled_vol_ms_rate>
+    <!-- UIDevice Capabilities -->
+    <has_manual_brightness>false</has_manual_brightness>
+    <has_adaptive_brightness>false</has_adaptive_brightness>
+    <has_suspend>false</has_suspend>
+    <num_physical_buttons>0</num_physical_buttons>
+    <has_virtual_buttons>false</has_virtual_buttons>
+    <has_side_buttons>false</has_side_buttons>
+    <has_navigator>false</has_navigator>
+    <has_wifi>false</has_wifi>
+    <has_screensaver_legacy>false</has_screensaver_legacy>
+    <has_backlight>false</has_backlight>
+    <has_network>false</has_network>
+    <home_layout_mode>grid</home_layout_mode>
+    <!-- Other capabilities -->
+    <max_recommended_scan_space>1000</max_recommended_scan_space>
+    <supports_distributed_audio>true</supports_distributed_audio>
+  </capabilities>
+  <name>Control4 EA-5</name>
+  <small>devices_sm/control4_ea5_sm.png</small>
+  <large>devices_lg/control4_ea5_lg.png</large>
+  <control>control4_ea5</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <search_type>c4:control4_ea5</search_type>
+  <proxies>
+    <proxy proxybindingid="5001" name="EA-5" small_image="devices_sm/control4_ea5_sm.png" large_image="devices_lg/control4_ea5_lg.png">controller</proxy>
+  </proxies>
+  <dependencies>
+    <dependency>control4_digitalaudio</dependency>
+    <dependency>AddMusic.c4z</dependency>
+    <dependency>Stations.c4z</dependency>
+  </dependencies>
+  <audioPlayLoadFactor>110</audioPlayLoadFactor>
+  <audio_dev_type>ea5</audio_dev_type>
+  <driver>20150601</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Controller</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTROLLER</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>13</id>
+      <facing>6</facing>
+      <connectionname>SERIAL 1 (DB-9)</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>14</id>
+      <facing>6</facing>
+      <connectionname>SERIAL 2 (DB-9)</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>15</id>
+      <facing>6</facing>
+      <connectionname>SERIAL 3</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial3X">
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>16</id>
+      <facing>6</facing>
+      <connectionname>SERIAL 4</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial4X">
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>100</id>
+      <facing>6</facing>
+      <connectionname>CONTACT 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>101</id>
+      <facing>6</facing>
+      <connectionname>CONTACT 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>102</id>
+      <facing>6</facing>
+      <connectionname>CONTACT 3</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>103</id>
+      <facing>6</facing>
+      <connectionname>CONTACT 4</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>200</id>
+      <facing>6</facing>
+      <connectionname>RELAY 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>201</id>
+      <facing>6</facing>
+      <connectionname>RELAY 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>202</id>
+      <facing>6</facing>
+      <connectionname>RELAY 3</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>203</id>
+      <facing>6</facing>
+      <connectionname>RELAY 4</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>400</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial3X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>401</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial4X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>402</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 3</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>403</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 4</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>404</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 5</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>4</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>405</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 6</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>5</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>406</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 7</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>6</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>407</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 8</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>7</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>408</id>
+      <facing>6</facing>
+      <connectionname>IR Blaster</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>8</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>EA5 IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>c4server</name>
+              <number>5116</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>netusbserver</name>
+              <number>5110</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioserver</name>
+              <number>6000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioclient</name>
+              <number>6100</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>IOServer</name>
+              <number>5100</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>IOServer USB</name>
+              <number>20000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5101</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5102</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5103</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5104</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>UDP</classname>
+          <ports/>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>AUDIO IN 1</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>AUDIO IN 2</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO IN 1</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3003</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO IN 2</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3004</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio Client</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_CLIENT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 1</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4001</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 2</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4002</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 1</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4003</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 2</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4070</id>
+      <facing>6</facing>
+      <connectionname>HDMI (Audio/Video)</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>4</ExtraInfo>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4100</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_SERVER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7100</id>
+      <facing>6</facing>
+      <connectionname>VIDEO End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 1 End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7300</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 1 Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7001</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 2 End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7301</id>
+      <facing>6</facing>
+      <connectionname>AUDIO OUT 2 Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7002</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 1 End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7302</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 1 Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7003</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 2 End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7303</id>
+      <facing>6</facing>
+      <connectionname>DIGITAL AUDIO OUT 2 Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>3</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7072</id>
+      <facing>6</facing>
+      <connectionname>HDMI AUDIO OUT End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>4</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>Internet Input</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>RF_INTERNET</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <model>C4-EA5</model>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+</devicedata>

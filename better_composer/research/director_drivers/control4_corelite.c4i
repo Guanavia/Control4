@@ -1,0 +1,602 @@
+<devicedata>
+  <version>12</version>
+  <copyright>Copyright 2022 SnapOne LLC.  All rights reserved.</copyright>
+  <config>
+    <name_on_update_web_service>corelite</name_on_update_web_service>
+    <update_platform_type_name>imx8mq-core</update_platform_type_name>
+    <actual_update_packages_directory>/mnt/internal/packages</actual_update_packages_directory>
+  </config>
+  <capabilities>
+    <!-- Controller Capabilities -->
+    <has_video_output>true</has_video_output>
+    <has_video_input>false</has_video_input>
+    <has_hdmi_passthrough>false</has_hdmi_passthrough>
+    <has_edid_capture>true</has_edid_capture>
+    <audio_sense_count>0</audio_sense_count>
+    <has_ui_device>true</has_ui_device>
+    <has_discrete_volume_control>true</has_discrete_volume_control>
+    <auto_bind_onscreen_selection proxybindingid="5001">true</auto_bind_onscreen_selection>
+    <supports_zwave>false</supports_zwave>
+    <throttled_vol_ms_rate>25</throttled_vol_ms_rate>
+    <!-- UIDevice Capabilities -->
+    <has_manual_brightness>false</has_manual_brightness>
+    <has_adaptive_brightness>false</has_adaptive_brightness>
+    <has_suspend>false</has_suspend>
+    <num_physical_buttons>0</num_physical_buttons>
+    <has_virtual_buttons>false</has_virtual_buttons>
+    <has_side_buttons>false</has_side_buttons>
+    <has_navigator>true</has_navigator>
+    <has_wifi>false</has_wifi>
+    <has_screensaver_legacy>true</has_screensaver_legacy>
+    <has_backlight>false</has_backlight>
+    <has_network>false</has_network>
+    <home_layout_mode>grid</home_layout_mode>
+    <!-- Other capabilities -->
+    <max_recommended_scan_space>1000</max_recommended_scan_space>
+    <supports_distributed_audio>true</supports_distributed_audio>
+     <is_corecontroller>true</is_corecontroller>
+    <has_html_properties_page>true</has_html_properties_page>
+    <html_properties_path>/corex/index.html</html_properties_path>
+    <ovrc_ui>
+        <tabs>
+            <tab name="SYSTEM">
+                <sections>
+                    <section name="settings" title="System Settings"/>
+                    <section name="status" title="Controller Status"/>
+                </sections>
+            </tab>
+            <tab name="INPUTS / OUTPUTS">
+                <sections>
+                    <section name="inputs" title="INPUTS"/>
+                    <section name="outputs" title="OUTPUTS"/>
+                </sections>
+            </tab>
+        </tabs>
+
+        <settings>
+            <controls>
+                <control name="Disable Leds" title="Disable LEDs" type="toggle">
+                    <commands> 
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="NullModem" title="Null Modem Enabled" type="toggle">
+                    <commands> 
+                        <command name="SET_SERIAL_CROSS_OVER" when="true">
+                            <params>
+                                <param name="PORT_ONE_INDEXED" type="integer"/>
+                                <param name="MODE" type="string" value="null_modem"/>
+                            </params>
+                        </command>
+                        <command name="SET_SERIAL_CROSS_OVER" when="false">
+                            <params>
+                                <param name="PORT_ONE_INDEXED" type="integer"/>
+                                <param name="MODE" type="string" value="straight"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <setting type="disable leds" name="Disable LEDs">
+                <controls>
+                    <control name="Disable Leds"/>
+                </controls>
+            </setting>
+
+            <setting number="1" type="null modem" name="Serial 1">
+                <controls>
+                    <control name="NullModem"/>
+                </controls>
+            </setting>
+
+
+            <setting type="status" name="Controller Status"/>
+            <setting type="status" name="Zigbee Server"/>
+            <setting type="status" name="Zap Configuration"/>
+            <setting type="status" name="Zap Status"/>
+            <setting type="statusCard" name="CPU Usage" cpuCount="2"/>
+            <setting type="statusCard" name="Memory Usage"/>
+
+            <setting type="setting" name="Model"/>
+            <setting type="setting" name="MAC Address"/>
+            <setting type="setting" name="OS Version"/>
+            <setting type="setting" name="Service Tag"/>
+            <setting type="setting" name="IP Address"/>
+            <setting type="setting" name="I/O Firmware Version"/>
+        </settings>
+
+
+        <outputs>
+            <controls>
+                <control name="Output Volume" title="OUTPUT VOLUME (0-100)" type="slider" min="0" max="100" step="1" valueParamName="LEVEL">
+                    <commands> 
+                        <command name="SET_VOLUME_LEVEL">
+                            <params>
+                                <param name="LEVEL" type="integer"/>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Output Delay" title="Output Delay (-80-80 ms)" type="slider" min="-80" max="80" step="1" unit="ms" valueParamName="delay">
+                    <commands> 
+                        <command name="SET_AUDIO_DELAY">
+                            <params>
+                                <param name="delay" type="integer"/>
+                                <param name="output" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Disable HDMI Audio" title="Disable HDMI Audio" type="toggle">
+                    <commands> 
+                        <command name="SET_HDMI_AUDIO_DISABLED_STATE" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_HDMI_AUDIO_DISABLED_STATE" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Video Resolution" title="Video Resolution" type="list" valueParamName="MODE">
+                    <options>
+                        <option name="1080i@50" value="1080i@50"/>
+                        <option name="1080i@60" value="1080i@60"/>
+                        <option name="1080p@24" value="1080p@24"/>
+                        <option name="1080p@25" value="1080p@25"/>
+                        <option name="1080p@30" value="1080p@30"/>
+                        <option name="1080p@50" value="1080p@50"/>
+                        <option name="1080p@60" value="1080p@60"/>
+                        <option name="1080p@48" value="1080p@48"/>
+                        <option name="720p@24" value="720p@24"/>
+                        <option name="720p@25" value="720p@25"/>
+                        <option name="720p@30" value="720p@30"/>
+                        <option name="720p@48" value="720p@48"/>
+                        <option name="720p@50" value="720p@50"/>
+                        <option name="720p@60" value="720p@60"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_VIDEO_MODE">
+                            <params>
+                                <param name="OUTPUT" type="string" value="hdmi"/>
+                                <param name="MODE" type="string"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Capture EDID" title="Capture EDID" type="toggle">
+                    <tooltip>When enabled, the controller will cache an EDID once and save it for future use. This behavior is typically sufficient for most installs but should be disabled if this device is installed in an environment that requires the controller to negotiate with several displays or HDMI matrices that cannot receive the same display formats.</tooltip>
+                    <commands> 
+                        <command name="HDMI_EDID_CAPTURE_ENABLED" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="HDMI_EDID_CAPTURE_ENABLED" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Reset EDID" title="Reset" type="button" showDialogBox="true">
+                    <dialogText>Resetting the EDID cache clears the stored EDID and allows the controller to renegotiate with HDMI sink devices</dialogText>
+                    <commands> 
+                        <command name="HDMI_EDID_RESET"/>
+                    </commands>
+                </control>
+            </controls>
+
+            <output number="0" type="hdmi" name="HDMI Out">
+                <controls>
+                    <control name="Disable HDMI Audio"/>
+                    <control name="Output Delay"/>
+                    <control name="Video Resolution"/>
+                    <control name="Capture EDID"/>
+                    <control name="Reset EDID"/>
+                </controls>
+            </output>
+        </outputs>
+    </ovrc_ui>
+  </capabilities>
+  <name>Control4 CORE LITE</name>
+  <small>devices_sm/control4_corelite_sm.png</small>
+  <large>devices_lg/control4_corelite_lg.png</large>
+  <control>control4_corelite</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <search_type>c4:control4_corelite</search_type>
+  <proxies>
+    <proxy proxybindingid="5001" name="CORE LITE"  small_image="devices_sm/control4_corelite_sm.png" large_image="devices_lg/control4_corelite_lg.png">controller</proxy>
+    <proxy proxybindingid="5002">uidevice</proxy>
+  </proxies>
+  <dependencies>
+    <dependency>control4_digitalaudio</dependency>
+    <dependency>AddMusic.c4z</dependency>
+    <dependency>Stations.c4z</dependency>
+    <dependency>Channels.c4z</dependency>
+  </dependencies>
+  <audioPlayLoadFactor>150</audioPlayLoadFactor>
+  <audio_dev_type>corelite</audio_dev_type>
+  <driver>100063</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Controller</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTROLLER</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>5002</id>
+      <facing>6</facing>
+      <connectionname>UI Device</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>UI_DEVICE</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>13</id>
+      <facing>6</facing>
+      <connectionname>SERIAL 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial1X">
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>400</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial1X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>401</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial2X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>402</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 3</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>CORE 1 IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>c4server</name>
+              <number>5116</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>c4uidevice</name>
+              <number>5117</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>netusbserver</name>
+              <number>5110</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioserver</name>
+              <number>6000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioclient</name>
+              <number>6100</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>SysmanDA</name>
+              <number>5811</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>IOServer</name>
+              <number>5100</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+             <port>
+              <name>IOServer USB</name>
+              <number>20000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5101</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Navigator</name>
+              <number>5115</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>UDP</classname>
+          <ports/>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio Client</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_CLIENT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4070</id>
+      <facing>6</facing>
+      <connectionname>HDMI (Audio/Video)</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4100</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_SERVER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>HDMI AUDIO OUT End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7100</id>
+      <facing>6</facing>
+      <connectionname>VIDEO End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7500</id>
+      <facing>6</facing>
+      <connectionname>Onscreen Navigator</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>ONSCREEN_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>Internet Input</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>RF_INTERNET</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <model>C4 CORE LITE</model>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+</devicedata>

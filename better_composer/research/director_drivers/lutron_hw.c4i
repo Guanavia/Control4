@@ -1,0 +1,768 @@
+<devicedata>
+  <copyright>Copyright 2017 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Lutron</manufacturer>
+  <version>8</version>
+  <combo>True</combo>
+  <creator>Control4</creator>
+  <created>2/25/2009 3:00 PM</created>
+  <modified>5/18/2017 2:38 PM</modified>
+  <model>HomeWorks P5 Processor</model>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <config>
+    <SINGLETON_ID>lutron_hw_network_protocol_driver</SINGLETON_ID>
+    <documentation>
+Lutron HomeWorks Network driver
+ 
+When installing drivers to connect to a Lutron HomeWorks system, it is recommended that you add the HomeWorks Network driver (this driver) first. Homeworks Network is a singleton driver and can be added only once in a project. If this driver exists prior to adding any of the other drivers, then the other drivers will be automatically connected to the HomeWorks Network driver. If this driver is not added first, then those connections will need to be made manually.
+ 
+Configure the Lutron HomeWorks network driver for serial or TCP/IP connection to the Lutron HomeWorks system.
+ * If you are using a TCP/IP connection, configure the Network Username and Password using the HomeWorks Network driver properties page.
+ * If you are using a serial connection, configure the serial port binding [Connections, Control/AV].
+ * If you are using a serial port connection to HomeWorks, you need to create a serial port configuration "driver" on the HomeWorks system with the following parameters: 19200 baud, 8 data bits, parity: none, 1 stop bit, and flow control: none.
+  
+Add/configure the specific dimmer, switch, keypad, and GRAFIK Eye drivers as needed based on the Lutron HomeWorks system you are connected to [System Design, Search, Local or Online Database, ...]
+ * Dimmer [Light, Lutron HomeWorks Dimmer]
+ * Switch [Light, Lutron HomeWorks Switch]
+ * Keypad [--others--, Lutron HomeWorks Keypad]
+ * GRAFIK Eye [--others--, Lutron GRAFIK Eye]
+ 
+If desired, further integrate the Lutron system with the Control4 system using one or more of the following capabilities:
+ * Binding [Connections, Control/AV, Button Link]
+ * Lighting Scenes [Agents, Lighting Scenes]
+ * Programming (events, conditionals, actions) [Programming]
+ 
+		</documentation>
+    <identify_text>Please enter the IP address of the Lutron HomeWorks system.</identify_text>
+    <properties>
+      <property>
+        <name>Network User Name</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Network Password</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Display Lutron Devices</name>
+        <command>DisplayLutronDevice</command>
+      </action>
+    </actions>
+    <commands/>
+    <script><![CDATA[
+networkBinding = 6001
+serialBinding = 1
+lutronHWDimmer = 2
+lutronHWSwitch = 3
+lutronHWKeypad = 4
+lutronHWGrafikEye = 5
+pollCount = 0
+
+function OnPropertyChanged(strProperty)
+	if (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debugunittest = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		elseif (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debugunittest = false
+			g_debuglog = false
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	elseif (strProperty == "Network User Name") then
+		g_UserName = Properties[strProperty]
+	elseif (strProperty == "Network Password") then
+		g_Password = Properties[strProperty]
+--[[
+		dbg("length g_Password(1) = " .. string.len(g_Password))
+		local modValue = string.len(g_Password) % 4
+		dbg("modValue = " .. modValue)
+		if (modValue ~= 0) then
+			-- pad string
+			local numAdd = 4 - modValue
+			for i = 1, numAdd do
+				g_Password = g_Password .. "\000"
+			end
+		end
+		dbg("length g_Password(2) = " .. string.len(g_Password))
+		dbg("g_Password  = " .. g_Password)
+		local EncryptedPassword = C4:TEAEncrypt(g_Password, "abcdef12345678901234567890123456")
+		dbg("g_Passworda = " .. g_Password)
+		dbg("EncryptedPassword = " .. EncryptedPassword)
+
+		local DecryptedPassword = C4:TEADecrypt(EncryptedPassword, "abcdef12345678901234567890123456")
+		dbg("DecryptedPassword = " .. DecryptedPassword)
+		dbg("length DecryptedPassword = " .. string.len(DecryptedPassword))
+--]]
+	end
+end
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function startInitLutronTimer()
+	if (g_InitLutronTimer) then
+		g_InitLutronTimer = C4:KillTimer(g_InitLutronTimer)
+	end
+	g_InitLutronTimer = C4:AddTimer(1, "SECONDS")
+end
+
+function startResetDeviceListTimer()
+	if (g_ResetDeviceTimer) then
+		g_ResetDeviceTimer = C4:KillTimer(g_ResetDeviceTimer)
+	end
+	g_ResetDeviceTimer = C4:AddTimer(1, "SECONDS")
+end
+
+function dbg(strDebugText)
+	if (g_debugprint) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (g_debugunittest) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (g_debugprint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (g_debuglog  and debugFunction) then C4:ErrorLog("lutron_hw: " .. strFunction) end
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == g_DebugTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	elseif (idTimer == g_InitLutronTimer) then
+		dbg("Initializing Lutron (timer expired)")
+		SendLutronCmd("DLMON")
+		SendLutronCmd("KBMON")
+		SendLutronCmd("KLMON")
+		SendLutronCmd("GSMON")
+		SendLutronCmd("PROMPTOFF")
+		g_DeviceList = {}
+		SendToProxyAll("GET_PROPERTIES", {})
+	elseif (idTimer == g_ResetDeviceTimer) then
+		dbg("Lutron Binding Timer expired)")
+		g_DeviceList = {}
+		SendToProxyAll("GET_PROPERTIES", {})
+	end
+	C4:KillTimer(idTimer)
+end
+
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+	-- Kill open timers
+	if (g_DebugTimer ~= nil) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
+end
+
+function OnBindingChanged(idBinding, class, bIsBound)
+	dbg("OnBindingChanged(), idBinding = " .. tostring(idBinding) .. ", class = " .. class .. ", bIsBound = " .. tostring(bIsBound))
+	if (class == "RS_232") then
+		g_SerialBound = bIsBound
+		if (bIsBound) then
+			startInitLutronTimer()
+		end
+	elseif (class == "LUTRON_HW") then
+		startResetDeviceListTimer()
+	end
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+	dbg("OnNetworkBindingChanged(), idBinding = " .. tostring(idBinding) .. ", bIsBound = " .. tostring(bIsBound))
+	g_NetworkBound = bIsBound
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	dbg("OnConnectionStatusChanged(), idBinding = " .. tostring(idBinding) .. ", nPort = " .. tostring(nPort) .. ", strStatus = " .. strStatus)
+	if (idBinding == networkBinding) then
+		if (strStatus == "ONLINE") then
+			dbg("Network Connection Online...")
+		else
+			dbg("Network Connection Offline...")
+		end
+	end
+end
+
+function SendToProxyAll(strCommand, tParams, ...)
+	SendToProxy(lutronHWDimmer, strCommand, tParams, ...)
+	SendToProxy(lutronHWSwitch, strCommand, tParams, ...)
+	SendToProxy(lutronHWKeypad, strCommand, tParams, ...)
+	SendToProxy(lutronHWGrafikEye, strCommand, tParams, ...)
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function DisplayLutronDevice()
+		for i,v in pairs(g_DeviceList) do
+			print (i, v)
+		end
+end
+
+function SendLutronCmd(strCommand)
+	if (g_NetworkBound) then
+		SendToNetwork(strCommand)
+	end
+	if (g_SerialBound) then
+		SendToSerial(strCommand)
+	end
+end
+
+function SendToSerial(strCommand)
+	dbgFunction("SendToSerial(" .. serialBinding .. ", " .. strCommand .. ")")
+	C4:SendToSerial(serialBinding, strCommand .. "\n\r")
+end
+
+function SendToNetwork(strCommand)
+	dbgFunction("SendToNetwork(" .. networkBinding .. ", " .. strCommand .. ")")
+	C4:SendToNetwork(networkBinding, 23, strCommand .. "\n\r")
+end
+
+function SendToDevice(deviceAddress, strCommand, tParams)
+	for ID, Address in pairs(g_DeviceList) do 
+		if (deviceAddress == Address) then
+			dbg("SendToDevice(".. ID .. ", " .. strCommand .. ")")
+			C4:SendToDevice(ID, strCommand, tParams)
+		end
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	dbgFunction("ExecuteCommand(" .. strCommand .. ")")
+	if (strCommand == "LUA_ACTION") then
+		if tParams ~= nil then
+			for cmd,cmdv in pairs(tParams) do 
+				dbg (cmd,cmdv)
+				if cmd == "ACTION" then
+					if cmdv == "DisplayLutronDevice" then
+						DisplayLutronDevice()
+					else
+						dbg("From ExecuteCommand Function - Undefined Action")
+						dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+					end
+				else
+					dbg("From ExecuteCommand Function - Undefined Command")
+					dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+				end
+			end
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+	dbg("ReceivedFromNetwork(), idBinding = " .. tostring(idBinding) .. ", nPort = " .. tostring(nPort) .. ", strData = " .. strData)
+	--  hexdump(strData)
+
+	if (strData == "LOGIN: " or strData == "login: ") then
+		SendToNetwork(g_UserName .. ", " .. g_Password)
+		startInitLutronTimer()
+		return
+	end
+
+	g_Receivebuffer = g_Receivebuffer .. strData
+	local receiveBufferLen = string.len(g_Receivebuffer)
+
+	-- loop through messages
+	local messagePos = 1
+	local remainingBufferLen = receiveBufferLen
+	local strMatch = ""
+	local pos = 0
+
+	while(remainingBufferLen > 0) do
+		strMatch, pos = string.match(g_Receivebuffer, "[\r\n]*%p-(%C+)\r\n()", messagePos)
+		dbg("strMatch= " .. tostring(strMatch))
+		-- dbg("pos = " .. tostring(pos))
+
+		if (strMatch == nil) then
+			if ((string.find(g_Receivebuffer, "\r\n", messagePos + 1)) == nil) then
+				dbgUnitTest("receive buffer does not contain full message")
+				g_Receivebuffer = string.sub(g_Receivebuffer, messagePos)
+				return
+			else
+				dbg ("^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*")
+				dbgUnitTest("Error: Invalid Network Command")
+				dbg ("remainingBufferLen = " .. remainingBufferLen)
+				dbg ("strData = " .. strData)
+				dbg ("")
+				dbg ("hexdump(strData)")
+				hexdump(strData)
+				dbg ("")
+				dbg ("g_Receivebuffer = " .. g_Receivebuffer)
+				dbg ("")
+				dbg ("hexdump(g_Receivebuffer)")
+				hexdump(g_Receivebuffer)
+				dbg ("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^")
+				g_Receivebuffer = ""
+				return
+			end
+		end
+
+		HandleCommand(strMatch)
+
+		messagePos = pos
+		remainingBufferLen = receiveBufferLen - messagePos + 1
+		-- dbg("new: messagePos = " .. messagePos .. "  remainingBufferLen = " .. remainingBufferLen .. "  receiveBufferLen = " .. receiveBufferLen)
+	end -- end while
+
+	g_Receivebuffer = ""
+end
+
+function ReceivedFromSerial(idBinding, strData)
+	dbg("ReceivedFromSerial(), idBinding = " .. tostring(idBinding) .. ", strData = " .. strData)
+
+	-- hexdump (strData)
+
+	g_Receivebuffer = g_Receivebuffer .. strData
+	local receiveBufferLen = string.len(g_Receivebuffer)
+
+	-- loop through messages
+	local messagePos = 1
+	local remainingBufferLen = receiveBufferLen
+	local strMatch = ""
+	local pos = 0
+
+	while(remainingBufferLen > 0) do
+		strMatch, pos = string.match(g_Receivebuffer, "\r%p-(%C+)\r()", messagePos)
+		dbg("strMatch= " .. tostring(strMatch))
+		-- dbg("pos = " .. tostring(pos))
+
+		if (strMatch == nil) then
+			if ((string.find(g_Receivebuffer, "\r", messagePos + 1)) == nil) then
+				dbgUnitTest("receive buffer does not contain full message")
+				g_Receivebuffer = string.sub(g_Receivebuffer, messagePos)
+				return
+			else
+				dbg ("^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*")
+				dbgUnitTest("Error: Invalid Serial Command")
+				dbg ("remainingBufferLen = " .. remainingBufferLen)
+				dbg ("strData = " .. strData)
+				dbg ("")
+				dbg ("hexdump(strData)")
+				hexdump(strData)
+				dbg ("")
+				dbg ("g_Receivebuffer = " .. g_Receivebuffer)
+				dbg ("")
+				dbg ("hexdump(g_Receivebuffer)")
+				hexdump(g_Receivebuffer)
+				dbg ("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^")
+				g_Receivebuffer = ""
+				return
+			end
+		end
+
+		HandleCommand(strMatch)
+
+		messagePos = pos
+		remainingBufferLen = receiveBufferLen - messagePos + 1
+		-- dbg("new: messagePos = " .. messagePos .. "  remainingBufferLen = " .. remainingBufferLen .. "  receiveBufferLen = " .. receiveBufferLen)
+	end -- end while
+
+	g_Receivebuffer = ""
+end
+
+function HandleCommand(strCommand)
+	-- get the command
+	local strCmd, pos = string.match(strCommand, "(%P+)()")
+--  dbg("strCmd = " .. strCmd)
+
+	-- process commmands
+	if (strCmd == "DBP") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		if (buttonNumber == "1") then
+			SendToDevice(deviceAddress, "TOP_BUTTON_PUSH", {})
+		end
+	elseif (strCmd == "DL") then
+		local deviceAddress, lightLevel = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "LIGHT_LEVEL_CHANGED", {LEVEL = lightLevel})
+	elseif (strCmd == "DBR") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		if (buttonNumber == "1") then
+			SendToDevice(deviceAddress, "TOP_BUTTON_RELEASE", {})
+		end
+	elseif (strCmd == "DBDT") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		if (buttonNumber == "1") then
+			SendToDevice(deviceAddress, "CLICK_COUNT", {BUTTON = 0, COUNT = 2})
+		end
+	elseif (strCmd == "DBH") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		if (buttonNumber == "1") then
+			SendToDevice(deviceAddress, "TOP_BUTTON_HOLD", {})
+		end
+	elseif (strCmd == "GSS") then
+		local deviceAddress, sceneNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "SCENE_SELECTED", {SCENE = sceneNumber})
+	elseif (strCmd == "KBP") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "KP_BUTTON_PUSH", {BUTTON = buttonNumber})
+	elseif (strCmd == "KBR") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "KP_BUTTON_RELEASE", {BUTTON = buttonNumber})
+	elseif (strCmd == "KBH") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "KP_BUTTON_HOLD", {BUTTON = buttonNumber})
+	elseif (strCmd == "KBDT") then
+		local deviceAddress, buttonNumber = string.match(strCommand, "(%b[])%D+(%d+)", pos)
+		SendToDevice(deviceAddress, "KP_BUTTON_DOUBLE_TAP", {BUTTON = buttonNumber})
+	elseif (strCmd == "Processor Time") then
+		-- dbg("Resetting the poll count to zero after receiving a response")
+		pollCount = 0
+	else
+		dbgUnitTest ("UNKNOWN COMMAND: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)    -- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+
+		if (strCommand == "ADD_DRIVER") then
+			local deviceId = tParams["DEVICE_ID"]
+			local driverAddress = tParams["ADDRESS"]
+			g_DeviceList[deviceId] = driverAddress
+		elseif (strCommand == "ON") then
+			tParams["LEVEL"] = 100
+			SET_LEVEL(tParams)
+		elseif (strCommand == "OFF") then
+			tParams["LEVEL"] = 0
+			SET_LEVEL(tParams)
+		elseif (strCommand == "SET_LEVEL") then
+			SET_LEVEL(tParams)
+		elseif (strCommand == "RAMP_TO_LEVEL") then
+			SET_LEVEL(tParams)
+		elseif (strCommand == "FADE_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local intensity = tParams["Intensity"]
+			local fadeHours = tParams["Fade Hours"]
+			local fadeMinutes = tParams["Fade Minutes"]
+			local fadeSeconds = tParams["Fade Seconds"]
+			local delayHours = tParams["Delay Hours"]
+			local delayMinutes = tParams["Delay Minutes"]
+			local delaySeconds = tParams["Delay Seconds"]
+			local cmd = string.format("FADEDIM, %d, %02d:%02d:%02d, %02d:%02d:%02d, %s", intensity, fadeHours, fadeMinutes, fadeSeconds, delayHours, delayMinutes, delaySeconds, deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "START_RAISE_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("RAISEDIM, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "START_LOWER_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("LOWERDIM, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "STOP_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("STOPDIM, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "FLASH_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local intensity = tParams["Intensity"] or 100
+			local hours = tParams["Hours"]
+			local minutes = tParams["Minutes"]
+			local seconds = tParams["Seconds"]
+			local cmd = string.format("FLASHDIM, %d, %02d:%02d:%02d, %s", intensity, hours, minutes, seconds, deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "STOP_FLASH_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("STOPFLASH, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "SINGLE_TAP") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("DBP, %s, 0", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "DOUBLE_TAP") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("DBDT, %s, 0", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "REQUEST_DIMMER_LEVEL") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("RDL, %s", deviceAddress)
+			SendLutronCmd(cmd)
+
+		-- Grafik Eye Commands
+		elseif (strCommand == "SELECT_SCENE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local sceneNumber = tParams["Scene"]
+			local cmd = string.format("GSS, %s, %d", deviceAddress, sceneNumber)
+			SendLutronCmd(cmd)
+
+		-- Keypad Commands
+		elseif (strCommand == "KEYPAD_BUTTON_PRESS") then
+			local deviceAddress = tParams["ADDRESS"]
+			local buttonNumber = tParams["Button Number"]
+			local cmd = string.format("KBP, %s, %d", deviceAddress, buttonNumber)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_RELEASE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local buttonNumber = tParams["Button Number"]
+			local cmd = string.format("KBR, %s, %d", deviceAddress, buttonNumber)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_HOLD") then
+			local deviceAddress = tParams["ADDRESS"]
+			local buttonNumber = tParams["Button Number"]
+			local cmd = string.format("KBH, %s, %d", deviceAddress, buttonNumber)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_DOUBLE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local buttonNumber = tParams["Button Number"]
+			local cmd = string.format("KBDT, %s, %d", deviceAddress, buttonNumber)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_ENABLE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("KE, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_DISABLE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("KD, %s", deviceAddress)
+			SendLutronCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_STATE") then
+			local deviceAddress = tParams["ADDRESS"]
+			local ledNumber = tParams["LED Number"]
+			local ledState = 0
+			local ledStateStr = tParams["State"]
+			if (ledStateStr == "Off") then
+				ledState = 0
+			elseif (ledStateStr == "On") then
+				ledState = 1
+			elseif (ledStateStr == "Flash 1") then
+				ledState = 2
+			elseif (ledStateStr == "Flash 2") then
+				ledState = 3
+			end
+			local cmd = string.format("SETLED, %s, %d, %d", deviceAddress, ledNumber, ledState)
+			SendLutronCmd(cmd)
+		else
+			UndefinedFunction(strCommand, tParams)
+		end
+	end
+end
+
+function SET_LEVEL(tParams)
+	if (tParams ~= nil) then
+		if ((tParams["LEVEL"] ~= nil) and (tParams["ADDRESS"] ~= nil)) then
+			local lightLevel = tParams["LEVEL"]
+			local deviceAddress = tParams["ADDRESS"]
+			local rate = 0 
+			if (tParams["TIME"] ~= nil) then
+				rate = (tonumber(tParams["TIME"]))/1000   -- convert to seconds
+			end
+			local cmd = string.format("FADEDIM, %d, %02d:%02d:%02d, 0, %s", lightLevel, rate/3600, (rate/60)%60, rate%60, deviceAddress)
+			SendLutronCmd(cmd)
+			SendToDevice(deviceAddress, "LIGHT_LEVEL_CHANGED", {LEVEL = lightLevel})
+		end 
+	end
+end
+
+function UndefinedFunction(strCommand, tParams)
+	if (tParams ~= nil) then
+		for ParamName, ParamValue in pairs(tParams) do 
+			dbg("Undefined function: " .. strCommand .. "; - parameter name: " .. ParamName .. "; with value: " .. ParamValue) 
+		end 
+	end
+end
+
+function OnPoll(bindingId, port)
+	if ((bindingId == networkBinding) and (port == 23)) then
+		if (pollCount > 4) then
+			dbg("OnPoll(): Assuming the connection is invalid after " .. pollCount .. " failed poll attempts")
+			C4:NetReconnect(bindingId, port)
+			pollCount = 0
+		else
+			SendLutronCmd("RST")
+			pollCount = pollCount + 1
+			-- dbg("OnPoll(): bindingId: " .. bindingId .. "; port: " .. port .. "; poll count: " .. pollCount)
+		end
+	end
+end
+
+-----------------------------  INIT   -----------------------------
+-- globals
+g_Receivebuffer = ""
+g_InitLutronTimer = 0
+g_DeviceList = {}
+g_NetworkBound = false
+g_SerialBound = false
+g_UserName = ""
+g_Password = ""
+
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]></script>
+  </config>
+  <name>Lutron HomeWorks Network</name>
+  <small>devices_sm/LutronNetwork.gif</small>
+  <large>devices_lg/LutronNetwork.gif</large>
+  <proxy>lutron_hw</proxy>
+  <driver>DriverWorks</driver>
+  <control>lua_gen</control>
+  <states/>
+  <connections>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Network Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <number>23</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Serial 232</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>6</facing>
+      <connectionname>Lutron HomeWorks Dimmer</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>LUTRON_HW_DIMMER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3</id>
+      <facing>6</facing>
+      <connectionname>Lutron HomeWorks Switch</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>LUTRON_HW_SWITCH</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4</id>
+      <facing>6</facing>
+      <connectionname>Lutron HomeWorks Keypad</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>LUTRON_HW_KEYPAD</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5</id>
+      <facing>6</facing>
+      <connectionname>Lutron HomeWorks GRAFIK Eye</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>LUTRON_HW_GRAFIKEYE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <can_poll_serial>False</can_poll_serial>
+    <serialsettings>19200 8 none 1 none</serialsettings>
+  </capabilities>
+</devicedata>

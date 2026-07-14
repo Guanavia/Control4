@@ -1,0 +1,450 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Inncom Thermostat</name>
+  <small>devices_sm/control4_thermostat_16.gif</small>
+  <large>devices_lg/control4_thermostat_32.gif</large>
+  <control>lua_gen</control>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+   <proxies>
+      <proxy name='Inncom Thermostat' proxybindingid='5001'>thermostatV2</proxy>
+   </proxies>
+  <driver>DriverWorks</driver>
+  <creator>Control4</creator>
+  <manufacturer>Inncom</manufacturer>
+  <created>09/26/2012 10:50 AM</created>
+  <modified>01/29/2016 10:25 AM</modified>
+  <version>1</version>
+  <model>Gateway Thermostat</model>
+  <states />
+  <config>
+    <documentation></documentation>
+    <properties>
+      <property>
+	<name>Version</name>
+	<type>STRING</type>
+	<default>0.0.0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+	   <item>Off</item>
+	   <item>Print</item>
+           <item>Log</item>
+   	   <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device ID</name>
+        <type>STRING</type>
+	<default>0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Gateway</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Room ID</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device Address</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Add Gateway Registrar</name>
+        <command>ADD_REGISTRAR</command>
+      </action>
+      <action>
+        <name>Remove Gateway Registrar</name>
+        <command>REMOVE_REGISTRAR</command>
+      </action>
+      <action>
+        <name>Get Device ID</name>
+        <command>DEVICE_ID</command>
+      </action>
+    </actions>
+    <commands/>
+    <script>
+      <![CDATA[
+
+-- Global Variables
+
+scale = "F"
+
+debug_timer_ = 0
+debug_print_ = false
+debug_log_ = false
+
+function Version()
+	
+   local maj = 1
+   local min = 0
+   local rev = 12
+   local ver = string.format("%d.%d.%d", maj, min, rev)
+
+   return ver
+end
+
+function get_persisted_data()
+
+   if PersistData ~= nil then
+ 
+      if PersistData["GATEWAY"] ~= nil then
+
+         C4:UpdateProperty("Gateway", PersistData["GATEWAY"])
+      else
+
+         C4:UpdateProperty("Gateway", 0)
+      end
+      if PersistData["ROOM_ID"] ~= nil then
+
+         C4:UpdateProperty("Room ID", PersistData["ROOM_ID"])
+      else
+
+         C4:UpdateProperty("Room ID", 0)
+      end
+      if PersistData["DEVICE_ADDR"] ~= nil then
+
+         C4:UpdateProperty("Device Address", PersistData["DEVICE_ADDR"])
+      else
+
+         C4:UpdateProperty("Device Address", 0)
+      end
+   else
+
+      PersistData = {}
+   end
+end
+
+function send_to_gateway(strCommand, tParams)
+
+   local gateway_id = Properties["Gateway"]
+   C4:SendToDevice(gateway_id, strCommand, tParams)
+end
+
+function get_device_id()
+
+  return C4:GetProxyDevices()
+end
+
+function add_gateway_registrar()
+
+   local device_id = tonumber(Properties["Device ID"])
+   local room_id = Properties["Room ID"]
+   local device_address = Properties["Device Address"]
+   send_to_gateway("ADD_REGISTRAR", {ID = device_id, ROOM_ID = room_id, DEVICE_ADDR = device_address})
+end
+
+function remove_gateway_registrar()
+
+   local device_id = tonumber(Properties["Device ID"])
+   send_to_gateway("REMOVE_REGISTRAR", {ID = device_id})
+end
+
+function OnDriverInit()
+
+   -- get persisted data and add registrars
+   get_persisted_data()
+   C4:UpdateProperty("Device ID", get_device_id())
+end
+
+function OnDriverDestroyed()
+
+   debug("OnDriverDestroyed called")
+		
+   -- Kill all timers
+   if debug_timer_ then
+  
+      debug("Stopping debug timer")
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   
+   -- remove driver from gateway registration
+   remove_gateway_registrar()
+end
+
+function OnPropertyChanged(strProperty)
+
+  debug("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+
+  if strProperty == "Gateway" then
+
+     PersistData["GATEWAY"] = Properties[strProperty]
+  elseif strProperty == "Room ID" then
+
+     PersistData["ROOM_ID"] = Properties[strProperty]
+  elseif strProperty == "Device Address" then
+
+     PersistData["DEVICE_ADDR"] = Properties[strProperty]
+  end
+  if strProperty == "Debug Mode" then
+
+     if Properties[strProperty] == "Off" then
+
+        debug_print_ = false
+        debug_log_ = false
+        debug_timer_ = 0
+     elseif Properties[strProperty] == "Print" then
+
+        debug_print_ = true
+       	debug_log_ = false
+       	start_debug_timer()
+     elseif Properties[strProperty] == "Log" then
+
+        debug_print_ = false
+        debug_log_ = true
+        start_debug_timer()
+     elseif Properties[strProperty] == "Print and Log" then
+
+        debug_print_ = true
+       	debug_log_ = true
+       	start_debug_timer()
+     end
+  end
+end
+
+function start_debug_timer()
+
+   if debug_timer_ then
+  
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   debug_timer_ = C4:AddTimer(15, "MINUTES")
+end
+
+function OnTimerExpired(idTimer)
+
+   if idTimer == debug_timer_ then
+  
+      debug("Turning Debug Mode Off (timer expired)")
+      C4:UpdateProperty("Debug Mode", "Off")
+      debug_timer_ = C4:KillTimer(idTimer)
+   end
+end
+
+function debug(text)
+
+   if debug_print_ then 
+
+      print(text) 
+   end
+   if debug_log_ then 
+
+      C4:ErrorLog(text) 
+   end
+end
+
+function ExecuteCommand(strCommand, tParams)
+
+  debug("ExecuteCommand function called with : " .. strCommand)
+  if tParams ~= nil then
+
+     for ParamName, ParamValue in pairs(tParams) do 
+
+	debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+     end 
+  end
+
+  if strCommand == "LUA_ACTION" then
+
+     if tParams ~= nil then
+
+	for ParamName, ParamValue in pairs(tParams) do
+ 
+           if ParamName == "ACTION" then
+						
+	      if ParamValue == "ADD_REGISTRAR" then
+
+	        add_gateway_registrar()	
+	      elseif ParamValue == "REMOVE_REGISTRAR" then
+
+	      	remove_gateway_registrar()
+	      elseif ParamValue == "DEVICE_ID" then
+
+	        C4:UpdateProperty("Device ID", get_device_id())
+              end
+	   else
+					
+              debug("From ExecuteCommand Function - Undefined Command")
+	      debug("ParamName: " .. ParamName .. "  ParamValue: " .. ParamValue)
+	   end
+        end
+     end
+  end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+
+  if strCommand ~= nil then
+
+     debug("ReceivedFromProxy: Binding = " .. idBinding .. "; Command = " .. strCommand)
+     if tParams ~= nil then
+
+     	for ParamName, ParamValue in pairs(tParams) do 
+
+	    debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+	end 
+    end
+    if strCommand == "SET_SETPOINT_COOL" then
+
+       set_setpoint(tParams["SETPOINT"])
+    elseif strCommand == "SET_SETPOINT_HEAT" then
+
+       set_setpoint(tParams["SETPOINT"])
+    elseif strCommand == "SET_MODE_HVAC" then
+
+       set_mode_hvac(tParams["MODE"])
+    elseif strCommand == "SET_MODE_FAN" then
+
+       set_mode_fan(tParams["MODE"])
+    elseif strCommand ==  "TEMPERATURE_UPDATE" then
+
+       local temp = tParams["TEMPERATURE"]
+       C4:SendToProxy(5001, "TEMPERATURE_CHANGED", {TEMPERATURE = temp, SCALE = scale})
+    elseif strCommand == "SETPOINT_UPDATE" then
+
+       local setpoint = tParams["SETPOINT"]
+       C4:SendToProxy(5001, "COOL_SETPOINT_CHANGED", {SETPOINT = setpoint, SCALE = scale})
+       --C4:SendToProxy(5001, "HEAT_SETPOINT_CHANGED", {SETPOINT = setpoint, SCALE = scale})
+    elseif strCommand == "AC_MODE_UPDATE" then
+
+       local mode = tParams["AC_MODE"]
+       C4:SendToProxy(5001, "HVAC_MODE_CHANGED", {MODE = mode})
+    elseif strCommand == "FAN_MODE_UPDATE" then
+
+       local mode = tParams["FAN_MODE"]
+       C4:SendToProxy(5001, "FAN_MODE_CHANGED", {MODE = mode})
+    else
+
+      undefined_function(strCommand, tParams)
+    end
+  end
+end
+
+function set_setpoint(setpoint)
+
+  local device_id = tonumber(Properties["Device ID"])
+  send_to_gateway("SETPOINT_CHANGED", {ID = device_id, SETPOINT = setpoint})
+  C4:SendToProxy(5001, "COOL_SETPOINT_CHANGED", {SETPOINT = setpoint, SCALE = scale})
+  --C4:SendToProxy(5001, "HEAT_SETPOINT_CHANGED", {SETPOINT = setpoint, SCALE = scale})
+end
+
+function set_mode_hvac(mode)
+
+  local device_id = tonumber(Properties["Device ID"])
+  send_to_gateway("HVAC_MODE_CHANGED", {ID = device_id, MODE = mode})
+  --C4:SendToProxy(5001, "HVAC_MODE_CHANGED", {MODE = mode})
+end
+
+function set_mode_fan(mode)
+
+  local device_id = tonumber(Properties["Device ID"])
+  send_to_gateway("FAN_MODE_CHANGED", {ID = device_id, MODE = mode})
+  --C4:SendToProxy(5001, "FAN_MODE_CHANGED", {MODE = mode})
+end
+
+function undefined_function(strCommand, tParams)
+
+  if (tParams ~= nil) then
+
+    for ParamName, ParamValue in pairs(tParams) do 
+
+      debug("Undefined function: " .. strCommand .. "; - parameter name: " .. ParamName .. "; with value: " .. ParamValue)
+    end 
+  end
+end
+	
+C4:UpdateProperty("Version", Version())
+
+      ]]>
+    </script>
+  </config>
+
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE</classname>
+        </class>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE_CONTROL</classname>
+        </class>
+      </classes>
+     </connection>	
+    </connections>
+  <capabilities>
+    <can_heat>False</can_heat>
+    <can_cool>True</can_cool>
+    <can_do_auto>True</can_do_auto>
+    <scheduling>False</scheduling>
+    <hvac_modes>Off,Auto</hvac_modes>
+    <fan_modes>Low,Medium,High</fan_modes>
+<!--    <hold_modes></hold_modes> -->
+    <hvac_states>Off,Auto</hvac_states>
+    <fan_states>Off,On</fan_states>
+    <can_lock_buttons>False</can_lock_buttons>
+    <can_set_backlight>False</can_set_backlight>
+    <has_time_settings>True</has_time_settings>
+    <can_change_fan_count>False</can_change_fan_count>
+    <has_emergency_heat>False</has_emergency_heat>
+    <can_change_hvac_modes>True</can_change_hvac_modes>
+    <has_vacation_mode>False</has_vacation_mode>
+    <has_remote_sensor>False</has_remote_sensor>
+    <has_drlc>False</has_drlc>
+  </capabilities>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+</devicedata>
+
+

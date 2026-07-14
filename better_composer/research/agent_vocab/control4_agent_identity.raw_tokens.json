@@ -1,0 +1,27 @@
+{
+  "agent": "control4_agent_identity",
+  "extraction_method": "ExtractVocab.java v2 (dual-pattern + stoplist), raw/uncurated",
+  "note": "Unfiltered token list -- includes real per-agent vocab mixed with residual shared-library noise not yet in the stoplist. Needs manual curation into commands/conditionals/params like control4_agent_scheduler.json.",
+  "token_count": 19,
+  "tokens": [
+    "CAPABILITIES_CHANGED",
+    "CLIENT_EARLY_TRAFFIC_SECRET",
+    "CLIENT_HANDSHAKE_TRAFFIC_SECRET",
+    "CLIENT_TRAFFIC_SECRET_0",
+    "CLIENT_TRAFFIC_SECRET_N",
+    "EARLY_EXPORTER_SECRET",
+    "EXPORTER_SECRET",
+    "GET_CAPABILITIES",
+    "GET_COMMAND_INFO",
+    "GET_LAST_ACTION",
+    "GREATER_THAN",
+    "GREATER_THAN_OR_EQUAL",
+    "LEGACY_GOST_PKCS12",
+    "LESS_THAN",
+    "LESS_THAN_OR_EQUAL",
+    "NOT_EQUAL",
+    "SERVER_HANDSHAKE_TRAFFIC_SECRET",
+    "SERVER_TRAFFIC_SECRET_0",
+    "SERVER_TRAFFIC_SECRET_N"
+  ]
+}

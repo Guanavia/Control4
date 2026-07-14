@@ -1,0 +1,72 @@
+<devicedata>
+	<version>1</version>
+	<created>12/8/2010</created>
+	<modified>1/7/2011</modified>
+	<copyright>Copyright 2004-2011 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-KM201-Z</model>
+	<name>Puck Keypad</name>
+	<small>devices_sm/foo.gif</small>
+	<large>devices_lg/foo.gif</large>
+	<control>puck_keypad</control>
+	<proxy>puck_keypad</proxy>
+	<combo/>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>9e95a490-03c5-11e0-9ab4-0026b9e1941c</driver>
+
+	<capabilities>
+		<button_count>14</button_count>
+		<contact_count>2</contact_count>
+		<load_present>False</load_present>
+	</capabilities>
+
+	<connections>
+		<!-- button links and contacts are added dynamically, would look like this though
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Contact Sensor 1</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>CONTACT_SENSOR</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Button 1 Link</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		-->
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

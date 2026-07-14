@@ -1,0 +1,480 @@
+<devicedata>
+    <copyright>Copyright 2013 Control4 Corporation.  All rights reserved.</copyright>
+    <creator>Card Access</creator>
+    <manufacturer>Card Access</manufacturer>
+    <name>Card Access Range Extender 3</name>
+    <model>Extender ZXT30</model>
+    <created>12/14/2013 12:30 PM</created>
+    <modified>03/11/2014 12:42 PM</modified>
+    <version>3</version>
+    <small>devices_sm\control4_usb_mediastorage.gif</small>
+    <large>devices_lg\control4_usb_mediastorage.gif</large>
+    <control>lua_gen</control>
+    <controlmethod>zigbee</controlmethod>
+    <driver>DriverWorks</driver>
+    <search_type>c4:RangeExtender:C4-RE</search_type>
+    <states />
+    <combo>True</combo>
+    <OnlineCategory>others</OnlineCategory>
+    <proxies qty="1">
+        <proxy>Card_Access_ZigBee_Extender_3</proxy>
+    </proxies>
+    <connections>
+        <connection>
+            <id>6001</id>
+            <facing>6</facing>
+            <connectionname>ZIGBEE</connectionname>
+            <type>4</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>ZIGBEE</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <config>
+        <power_management_method>AlwaysOn</power_management_method>
+        <power_command_delay>0</power_command_delay>
+        <power_delay>0</power_delay>
+        <power_command_needed>False</power_command_needed>
+        <documentation>Card Access ZigBee Extender 3\n\nCard Access ZigBee Extender 3 Installation\n====================================\n1 Place the ZigBee Extender 3 in a location which ensures:\n\n  - Easy access to a power outlet\n\n  - Close proximity to the device(s) where the ZigBee mesh is weak.\n\n  NOTE: Make sure the Card Access Extender Version 3 is installed using\n  the following guidelines: \n           - Ensure the device is placed within 300 feet of another ZigBee parent device.\n           - Ensure the device is not installed by other electrical equipment which may cause \n             interference with the ZigBee signal. (This may include some cordless telephones \n             or other devices that operate on the 2.4 GHz frequency).\n\n  - Avoid installing the Extender 3 where extreme environmental conditions may exist. \n    This may include extreme heat and/or cold.\n\n2 Download the ZigBee Extender 3 DriverWorks Driver using Composer's\n  Online Driver Database or from the Card Access web site:\n  www.cardaccess-inc.com/automation/drivers.\n  (Copy the Driver to the "Control4 / Drivers" folder on your PC. The Control4\n   / Drivers folder should be located under "My Documents" on your PC.)\n\n3 Launch Composer. If Composer is already running, shut it down and restart.\n\n4 Using Composer, make a connection to Director. Select the System Design Tab \n  to add the ZigBee Extender 3  Driver. The Driver can be found by selecting the \n  Search Tab and then the Local Database. The device type is "other" and the \n  manufacturer is Card Access. \n\n  NOTE: The Driver can be added to any room in the project.\n\n5 Power up the ZigBee Extender 3 using the supplied 5V Power Supply. \n  In Composer, choose Connections and click the Network Tab. Next click\n  on the unidentified " Card Access ZigBee Extender 3" device. Identify the \n  ZigBee Extender 3 in Composer by pressing the clear identification button on the \n  top of the Module four (4) times. The LED should start flashing yellow. Once the \n  ZigBee Extender 3 has been identified in the system, the LED will turn solid blue. If \n  identification fails the LED will blink green several times and go back to solid green.\n\n  - Once the ZigBee Extender 3 's MAC ID address appears in the Identify dialog box, \n    click "Close" to close the dialog box.\n\n  - After a few seconds, the ZigBee Extender 3's LED should change to a solid BLUE\n    color, indicating it has been successfully identified in the Control4 project.\n  \nTroubleshooting\n===============\nButton Press Guide\n 4 button presses to identify and join ZigBee network.\n 7 button presses to display the radio channel.\n 9 button presses to reset to factory defaults.\n13 button presses to remove it from the network.\n15 button presses to reboot.\n\nLED Color Codes. Button will be:\n PURPLE when rebooting.\n GREEN when unprovisioned.\n YELLOW when scanning for a network.\n RED when it cannot find a network.\n BLUE when it joins the network.\n\n\nCard Access Product Support\n===========================\nFor help on the installation or operation of this product, email or call\nCard Access Product Support. Please provide the exact model number and the\nMAC ID/Serial Number for the device. You may contact Product Support by \nphone (801-748-4900 x 1), by e-mail (dealersupport@cardaccess-inc.com) or\non the Internet at http://www.cardaccess-inc.com/automation/support.\n</documentation>
+        <script><![CDATA[
+
+-- led brightness thresholds/settings
+local LedBrightnessHigh = 100
+local LedBrightnessMedium = 50
+local LedBrightnessLow = 10
+local LedBrightnessOff = 0
+
+-- mib builder helper bits
+gC4MIBGet = "0g"
+gC4MIBInvoke = "0i"
+gC4MIBSet = "0s"
+gC4MIBResponse = "0r"
+gC4MIBBinary = "0b"
+gC4MIBTrap = "0t"
+gSequenceNumber = 0x1234
+
+gFirmwwareVersion = "c4.sy.fwv"
+gBootloaderVersion = "c4.sy.blv"
+gRangeExtenderLed = "c4.zre.led"
+
+gMibTypes = { 
+	gC4MIBGet,
+	gC4MIBInvoke,
+	gC4MIBSet,
+	gC4MIBResponse,
+	gC4MIBBinary,
+	gC4MIBTrap,
+}
+
+gMibs = {
+	gFirmwwareVersion, 
+	gBootloaderVersion, 
+	gRangeExtenderLed, 
+}
+
+----------- MIB Responses -------------
+RSP = {
+}
+
+----------- Functions -------------------
+
+-- Driver Version
+function DriverVersion()
+  local maj = 1
+  local min = 1
+  local rev = 2
+  local ver = string.format("%d.%d.%d", maj, min, rev)
+  dbg("Driver Version = " .. ver)
+  return ver
+end
+
+
+function RSP.c4syfwv(tParams)
+    C4:UpdateProperty("Firmware Version", tParams[1])  
+end
+
+function RSP.c4syblv(tParams)
+	
+	C4:UpdateProperty("Bootloader Version", tParams[1])  
+end
+
+
+function RSP.c4zreled(tParams)
+	dbg("RSP.c4zrled")
+	if(tParams ~= nil) then
+	 if(tParams[1] ~= nil) then
+		brightness = tonumber(tParams[1],16)
+		if(brightness > LedBrightnessMedium) then
+		  dbg("brightness = High")
+		  C4:UpdateProperty("LED Brightness", "High")
+		elseif(brightness > LedBrightnessLow) then
+		  dbg("brightness = Medium")
+		  C4:UpdateProperty("LED Brightness", "Medium")
+		elseif(brightness > LedBrightnessOff) then
+		  dbg("brightness = Low")
+		  C4:UpdateProperty("LED Brightness", "Low")
+		else 
+		  dbg("brightness = Off")
+		  C4:UpdateProperty("LED Brightness", "Off")
+		end  
+	 else
+		dbg("no tParmas[1] rx for c4zreled")
+	 end
+	else
+	debug("tParams = nil")
+	end
+end
+
+ 
+function WriteDevice(mibDomain, data)
+                              local packet = FormMibPacket(gC4MIBSet, mibDomain, data)
+                              SendData(packet)
+end
+function ReadDevice(mibDomain )
+                              local packet = FormMibPacket(gC4MIBGet, mibDomain, nil)
+                              SendData(packet)
+end 
+function SendData(packet)
+               local nProfileID = 49756
+               local nClusterID = 1
+               local nGroupID = 0
+               local nSourceEndPoint = 197
+               local nDestinationEndPoint = 197
+               dbg( "Sending packet to device: " .. tostring(packet) )
+               C4:SendZigbeePacket(packet, nProfileID, nClusterID, nGroupID, nSourceEndPoint, nDestinationEndPoint)
+end
+ 
+ 
+
+----------- MIB Functions --------------
+ function ParseMibPacket(strPacket)
+               dbg("ParseMibPacket: strPacket: " .. strPacket)
+               local i = 0
+               local j = 0
+ 
+               -- what type of mib are we?
+               for m, mibType in ipairs(gMibTypes) do
+ 
+                              i = string.find(strPacket, mibType)
+                              if i ~= nil then
+                                             for n, mib in ipairs(gMibs) do
+                                                         i, j = string.find(strPacket, mib)
+                                                            if i ~= nil then
+                                                                           DecodeMibPacket(mibType, mib, string.sub(strPacket, j + 2, -1))
+                                                                           return
+                                                            end
+                                             end
+                              end
+               end
+end
+ 
+ 
+ 
+function DecodeMibPacket(mibType, mib, params)
+        local tParams = {}
+        local MIBSquished = string.gsub(mib, "%.", "")
+	   dbg("DecodeMibPacket " .. " " .. mib .. " " .. params)
+	   dbg("MIBSquished = " .. MIBSquished)
+        for curParam in string.gmatch(params, "[%w%p]+") do
+                tParams[#tParams + 1] = curParam
+        end
+        dbg("DecodeMibPacket: mibType: " .. mibType)  
+		for i,v in ipairs(tParams) do
+            dbg(i,v)
+        end
+ 
+        if mibType == gC4MIBResponse then
+                -- Responses
+                if RSP[MIBSquished] ~= nil then
+                        dbg("DecodeMibPacket: Handled Response Mib: " .. mib .. ", MIBSquished: " .. MIBSquished)
+                        RSP[MIBSquished](tParams)
+                        gHaveRecievedResponse = true
+                else
+                        dbg("DecodeMibPacket: Unhandled Response Mib: " .. mib .. ", MIBSquished: " .. MIBSquished)
+                end
+        elseif mibType == gC4MIBTrap then
+                -- Traps
+                if TRP[MIBSquished] ~= nil then
+                     dbg:Debug("DecodeMibPacket: Handled Trap Mib: " .. mib .. ", MIBSquished: " .. MIBSquished)
+                     PrintTable(tParams, " ")
+                     
+                     TRP[MIBSquished](tParams)
+                else
+                     dbg("DecodeMibPacket: Unhandled Trap Mib: " .. mib .. ", MIBSquished: " .. MIBSquished)
+                end
+        else
+                dbg:Warn("Invalid mibType")
+        end
+end
+ 
+function FormMibPacketFromID(id, mibType, mib, params)
+               local strPacket = mibType .. string.format("%04x", id) .. " " .. mib
+			if(params ~= nil) then
+				strPacket = strPacket .. " " .. params
+			end
+               return strPacket
+end
+
+
+
+function FormMibPacket(mibType, mib, params)
+               gSequenceNumber = gSequenceNumber + 1
+               local strPacket = FormMibPacketFromID(gSequenceNumber, mibType, mib, params)
+               return strPacket
+end
+ 
+function OnZigbeePacketIn(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+        --dbg("OnZigbeepacketIn received packet: " .. packet)
+        if packet ~= nil then
+                -- parse/decode here
+                ParseMibPacket(packet)
+        end
+end
+ 
+function OnZigbeePacketSuccess(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+       --dbg("OnZigbeePacketSuccess: Packet = " .. packet)
+end
+ 
+function OnZigbeePacketFailed(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+        --dbg("OnZigbeePacketFailed: Packet = " .. packet)
+end
+ 
+
+
+
+function dbgStatus(strStatus)
+    dbg("-----> Status: " .. strStatus)
+    C4:UpdateProperty("Last Status", strStatus)
+end
+
+
+function SyncRangeExtenderProperties()
+	ReadDevice("c4.sy.fwv", nil)
+	ReadDevice("c4.sy.blv", nil)
+	ReadDevice("c4.zre.led", nil)
+end
+
+function OnZigbeeOnlineStatusChanged(strStatus, strVersion, strSKU)
+    --dbg("OnZigbeeOnlineStatusChanged: Status = " .. strStatus .. " Version = " .. strVersion .. " SKU = " .. strSKU)
+    gZigbeeOnline = (strStatus == "ONLINE")
+    if(gZigbeeOnline == true) then
+        dbg("device is ONLINE")
+        C4:UpdateProperty("Online Status", "ONLINE")  
+		SyncRangeExtenderProperties()
+    else
+        dbg("device is not ONLINE, status = " .. strStatus)
+        C4:UpdateProperty("Firmware Version", "OFFLINE")  
+        C4:UpdateProperty("Bootloader Version", "OFFLINE")  
+        C4:UpdateProperty("Online Status", "OFFLINE")  
+		C4:UpdateProperty("Led Brightness", "Off")  
+    end
+	
+end
+
+
+function OnDriverDestroyed()
+    if (gdbgTimer) then gdbgTimer = C4:KillTimer(gdbgTimer) end
+end
+
+
+function OnPropertyChanged(strProperty)
+    local prop = Properties[strProperty]
+    Debug("OnPropertyChanged: Property = " .. strProperty)
+   
+
+    if (strProperty == "Debug Mode") then
+        if (gdbgTimer > 0) then gdbgTimer = C4:KillTimer(gdbgTimer) end
+        gdbgPrint, gdbgLog = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil)
+        if (prop == "Off") then
+            return
+        end
+        gdbgTimer = C4:AddTimer(45, "MINUTES")
+        return
+    end
+
+	if (strProperty == "LED Brightness") then
+	 if (prop == "High") then
+		 WriteDevice(gRangeExtenderLed, "64") -- 100%
+		 return
+	 end
+	 if (prop == "Medium") then
+		 WriteDevice(gRangeExtenderLed, "32") -- 50%
+		 return
+	 end
+	 if (prop == "Low") then
+		 WriteDevice(gRangeExtenderLed, "0a") -- 10%
+		 return
+	 end
+	 if (prop == "Off") then
+		 WriteDevice(gRangeExtenderLed, "00") -- 0%
+		 return
+	 end
+	end
+
+    local PropSquished = string.gsub(strProperty, " ", "")	-- take the spaces out
+    if PROP[PropSquished] ~= nil then
+        PROP[PropSquished]()
+    else
+        Debug("Unknown Property: " .. strProperty)
+    end
+end
+
+
+function dbg(strDebugText)
+    if (gdbgPrint) then print(strDebugText) end
+    if (gdbgLog) then C4:ErrorLog(strDebugText) end
+end
+
+function OnTimerExpired(idTimer)
+   
+
+    if (idTimer == gdbgTimer) then
+        dbg("Turning Debug Mode Off (timer expired)")
+        C4:UpdateProperty("Debug Mode", "Off")
+        OnPropertyChanged("Debug Mode")
+        gdbgTimer = C4:KillTimer(gdbgTimer)
+    end
+    C4:KillTimer(idTimer)
+end
+
+
+function ExecuteCommand(strCommand, tParams)
+    dbg("ExecuteCommand: " .. strCommand)
+    if (nil ~= tParams) then for k,v in pairs(tParams) do dbg(k .. ": " .. v) end end
+end
+
+
+function Debug(strDebugText)
+    if gDebugPrint then
+        print(strDebugText)
+    end
+
+    if gDebugLog then
+        C4:ErrorLog(strDebugText)
+    end
+end
+
+
+function FirePropertyChanged(property, value)
+    Properties[property] = value
+    C4:UpdateProperty(property, value)
+    OnPropertyChanged(property)
+end
+
+
+PROP = {}
+
+
+function PROP.DebugMode()
+    -- Debug Mode
+    local DebugProp = Properties["Debug Mode"]
+    if DebugProp == "Off" then
+        gDebugPrint = false
+        gDebugLog = false
+    elseif DebugProp == "Print" then
+        gDebugPrint = true
+        gDebugLog = false
+    elseif DebugProp == "Log" then
+        gDebugPrint = false
+        gDebugLog = true
+    elseif DebugProp == "Print and Log" then
+        gDebugPrint = true
+        gDebugLog = true
+    end
+end
+
+
+
+
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+    dbg("ReceivedFromProxy[" .. idBinding .. "]: " .. strCommand)
+    if (nil ~= tParams) then for k,v in pairs(tParams) do dbg(k .. ": " .. v) end end
+end
+
+
+
+----------------------- INIT START -------------------------
+
+
+
+PersistData = PersistData or {}
+
+gdbgTimer = 0
+
+gdbgPrint, gdbgLog = true, true
+
+-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+OnPropertyChanged("Debug Mode")
+OnPropertyChanged("LED Brightness")
+
+----------------------- Variable Declarations ---------------------------
+----------------------- INIT END ---------------------------
+
+
+-- Update the Version property - this runs everytime the driver loads, so if there is a bug in the script, 
+-- the driver version will stay at the default 0.0.0.0
+C4:UpdateProperty("Driver Version", DriverVersion())
+
+]]></script>
+        <properties>
+         <property>
+				<name>Online Status</name>
+				<type>STRING</type>
+				<default>0</default>
+				<readonly>true</readonly>
+		  </property>
+         <property>
+				<name>Driver Version</name>
+				<type>STRING</type>
+				<default>0.0.0</default>
+				<readonly>true</readonly>
+		  </property>
+         <property>
+				<name>Firmware Version</name>
+				<type>STRING</type>
+				<default>0</default>
+				<readonly>true</readonly>
+		  </property>
+         <property>
+				<name>Bootloader Version</name>
+				<type>STRING</type>
+				<default>0</default>
+				<readonly>true</readonly>
+		  </property>
+          <property>
+	            <name>LED Brightness</name>
+	            <type>LIST</type>
+	            <readonly>false</readonly>
+	            <default>Medium</default>
+	            <items>
+		            <item>High</item>
+		            <item>Medium</item>
+		            <item>Low</item>
+		            <item>Off</item>
+	                </items>
+                </property>
+            <property>
+                <name>Debug Mode</name>
+                <type>LIST</type>
+                <readonly>false</readonly>
+                <default>Print</default>
+                <items>
+                    <item>Off</item>
+                    <item>Print</item>
+                    <item>Log</item>
+                    <item>Print and Log</item>
+                </items>
+            </property>
+        </properties>
+    </config>
+    <composer_categories>
+        <category>Others</category>
+    </composer_categories>
+</devicedata>

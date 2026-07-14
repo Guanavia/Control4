@@ -1,0 +1,81 @@
+<devicedata>
+  <version>2</version>
+  <c4id>491</c4id>
+  <manufacturer>Generic</manufacturer>
+  <creator>Control4</creator>
+  <copyright>Copyright 2012 Control4 Corporation.  All rights reserved.</copyright>
+  <created>2/14/2012 11:11:11 AM</created>
+  <modified>2/14/2012 11:11:11 AM</modified>
+  <model>Electronic Gate (Sensor)</model>
+  <capabilities>
+    <history_category>Security</history_category>
+    <history_subcategory>Gate (Relay)</history_subcategory>
+  </capabilities>
+  <commands/>
+  <conditionals/>
+  <events/>
+  <name>Electronic Gate (Sensor)</name>
+  <small>devices_sm/relaysingle_electronicgate_close.gif</small>
+  <large>devices_lg/relaysingle_electronicgate_close.gif</large>
+  <control>control4_relaysingle</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Home</category>
+  </navigator_categories>
+  <proxy>relaycontact_electronicgate_c4</proxy>
+  <driver>100004</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states>
+    <state>
+      <id>1</id>
+      <small>devices_sm\relaysingle_electronicgate_open.gif</small>
+      <large>devices_lg\relaysingle_electronicgate_open.gif</large>
+      <label>Open the Electronic Gate</label>
+    </state>
+    <state>
+      <id>2</id>
+      <small>devices_sm\relaysingle_electronicgate_close.gif</small>
+      <large>devices_lg\relaysingle_electronicgate_close.gif</large>
+      <label>Close the Electronic Gate</label>
+    </state>
+  </states>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Relay</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>6</facing>
+      <connectionname>Contact Sensor</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+	<pulse_type>1</pulse_type>
+	<pulse_length>500</pulse_length>
+  <use_contact_feedback>True</use_contact_feedback>
+  </config>
+</devicedata>

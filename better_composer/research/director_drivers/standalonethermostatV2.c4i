@@ -1,0 +1,37 @@
+<devicedata>
+  <version>2</version>
+  <copyright>Copyright 2012 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>1/31/2012</created>
+  <modified>1/31/2012</modified>
+  <manufacturer>Control4</manufacturer>
+  <model>HVAC System Zone</model>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+  <name>HVAC System Zone</name>
+  <small>devices_sm/HVAC_16.gif</small>
+  <large>devices_lg/HVAC_32.gif</large>
+  <control>thermostat</control>
+  <proxy>standalonethermostatV2</proxy>
+  <driver>20091123</driver>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+          <autobind>False</autobind>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+  </connections>
+</devicedata>

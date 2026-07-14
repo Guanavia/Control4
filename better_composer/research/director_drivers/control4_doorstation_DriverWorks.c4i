@@ -1,0 +1,3033 @@
+<devicedata>
+<!--
+	===================================================================================
+	(Make sure to change the Program Version: see 'Function Version')
+	===================================================================================
+
+	Program Change Log:
+
+	2009-11-01	C4	Born
+	2009-12-??	BF	Bootloading routines added
+	2010-07-31	IW	Formatting + NAME references added + removed version tag.
+				Added OnVariableChanged event
+	2010-08-27	IW	Added Doorbell Ring and Doorbell Silence logic
+	2010-08-30	IW	Added logic to handle Board replacements. Changes applied to:
+				Event: OnNetworkBindingChanged
+				Event: OnTimerExpired
+	2010-09-02	IW	DND + HK Toggle logic added
+	2010-09-03	CP	Removed doorbell on/off programming events
+	2010-10-14	IW	Added BoardID nil check in SendSetDoorbellState and SendRingDoorbell
+				Control4 reboot invokes property initialization.
+	2010-10-14	IW	Fix to doorbell property update (incorrect name)  
+				Event: OnExecuteCommand
+	2010-10-19	IW	Ability to Change Port
+	===================================================================================
+-->
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Axxess</manufacturer>
+	<name>Door Station</name>
+	<model>Door Station</model>
+	<creator>Axxess Industries</creator>
+	<created>11/1/2009 1:22 PM</created>
+	<modified>01/29/2016 10:00 AM</modified>
+	<version>13</version>
+	<combo>true</combo>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+<!--	proxy is not used  -->
+	<proxy>control4_doorstation_DriverWorks</proxy>
+	<completeness>100%</completeness>
+	<controllability>100%</controllability>
+	<search_type>axxess:ready_maid:GRM-ZB-C4-4-x</search_type>
+
+	<config>
+	<documentation>
+Axxess Door Station
+
+Three Button Door Station
+
+Features:
+	Button 1:	Do Not Disturb
+	Button 2:	Housekeeping
+	Button 3:	Master Lights
+
+-----------------
+Properties
+-----------------
+
+Debug Mode:
+	Used for debugging the driver. Output is displayed on the Lua tab.
+	Options:
+		Off
+		Print
+		Log
+		Print and Log
+
+-----------------
+Events
+-----------------
+	C4 Keypad Proxy Events (Button 1 2 3):
+	* Button Press
+	* Button Release
+	* Button Single Tap
+	* Button Double Tap
+	* Button Triple Tap
+
+	Device Specific Events:
+	* Do Not Disturb On
+	* Do Not Disturb Off
+	* Housekeeping On
+	* Housekeeping Off
+	* Master Control
+	* Doorbell Ring
+	* Master On
+	* Master Off
+	* Do Not Disturb Toggled
+	* Housekeeping Toggled
+
+-----------------
+Commands
+-----------------
+	Device Specific Commands:
+	* Do Not Disturb
+	  - On/Off
+	* Housekeeping
+	  - On/Off
+	* Master
+	  - On/Off
+	* Doorbell
+	  - On/Off
+	* Doorbell Ring
+	* DND LED On Color
+	  - Color
+	* DND LED Off Color
+	  - Color
+	* HK LED On Color
+	  - Color
+	* HK LED Off Color
+	  - Color
+	* MC LED Pressed Color
+	  - Color
+	* MC LED Released Color
+	  - Color
+
+-----------------
+Connections
+-----------------
+	The following connections are available:
+	* ZIGBEE
+
+----------------- End Documentation --------------------
+	</documentation>
+	<properties>
+		<property>
+			<name>Debug Mode</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>Print</item>
+				<item>Log</item>
+				<item>Print and Log</item>
+			</items>
+			<default>Off</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Axxess Server Address</name>
+			<type>STRING</type>
+			<default>10.171.244.6</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Axxess Server Port</name>
+			<type>STRING</type>
+			<default>10001</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Axxess Server Connection</name>
+			<type>STRING</type>
+			<default>Disconnected</default>
+			<readonly>true</readonly>
+		</property>
+		<property>
+			<name>Axxess Server Synchronized</name>
+			<type>STRING</type>
+			<default>False</default>
+			<readonly>true</readonly>
+		</property>
+		<property>
+			<name>Boot Loader Status</name>
+			<type>STRING</type>
+			<default>Not Running</default>
+			<readonly>true</readonly>
+		</property>
+		<property>
+			<name>Do Not Disturb</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>On</item>
+			</items>
+			<default>Off</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Housekeeping</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>On</item>
+			</items>
+			<default>Off</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Master</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>On</item>
+			</items>
+			<default>Off</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Door Station Doorbell</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>On</item>
+			</items>
+			<default>On</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>DND LED On Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Red</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>DND LED Off Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Black</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>HK LED On Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Green</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>HK LED Off Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Black</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>MC LED Pressed Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Blue</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>MC LED Released Color</name>
+			<type>LIST</type>
+			<items>
+				<item>Black</item>
+				<item>Red</item>
+				<item>Green</item>
+				<item>Blue</item>
+				<item>Purple</item>
+				<item>Yellow</item>
+				<item>Cyan</item>
+				<item>Amber</item>
+			</items>
+			<default>Black</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Version</name>
+			<type>STRING</type>
+			<default>Unknown</default>
+			<readonly>true</readonly>
+		</property>
+	</properties>
+	<actions>
+		<action>
+			<name>Refresh Properties</name>
+			<command>REFRESH_PROPERTIES</command>
+		</action>
+		<action>
+			<name>Set Server Address</name>
+			<command>SET_SERVER_ADDRESS</command>
+		</action>
+		<action>
+			<name>Set Server Port</name>
+			<command>SET_SERVER_PORT</command>
+		</action>
+	</actions>
+	<commands>
+		<command>
+			<name>Do Not Disturb</name>
+			<description>Set NAME Do Not Disturb to PARAM1</description>
+			<params>
+				<param>
+					<name>On/Off</name>
+					<type>LIST</type>
+					<items>
+						<item>On</item>
+						<item>Off</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>Housekeeping</name>
+			<description>Set NAME Housekeeping to PARAM1</description>
+			<params>
+				<param>
+					<name>On/Off</name>
+					<type>LIST</type>
+					<items>
+						<item>On</item>
+						<item>Off</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>Master</name>
+			<description>Set NAME Master Lights to PARAM1</description>
+			<params>
+				<param>
+					<name>On/Off</name>
+					<type>LIST</type>
+					<items>
+						<item>On</item>
+						<item>Off</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>Doorbell</name>
+			<description>Set NAME Doorbell PARAM1</description>
+			<params>
+				<param>
+					<name>On/Off</name>
+					<type>LIST</type>
+					<items>
+						<item>On</item>
+						<item>Off</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>Doorbell Ring</name>
+			<description>Ring NAME Doorbell</description>
+		</command>
+		<command>
+			<name>DND LED On Color</name>
+			<description>Set NAME DND LED On Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>DND LED Off Color</name>
+			<description>Set NAME DND LED Off Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>HK LED On Color</name>
+			<description>Set NAME HK LED On Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>HK LED Off Color</name>
+			<description>Set NAME HK LED Off Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>MC LED Pressed Color</name>
+			<description>Set NAME MC LED Pressed Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+		<command>
+			<name>MC LED Released Color</name>
+			<description>Set NAME MC LED Released Color to PARAM1</description>
+			<params>
+				<param>
+					<name>Color</name>
+					<type>LIST</type>
+					<items>
+						<item>Black</item>
+						<item>Red</item>
+						<item>Green</item>
+						<item>Blue</item>
+						<item>Purple</item>
+						<item>Yellow</item>
+						<item>Cyan</item>
+						<item>Amber</item>
+					</items>
+				</param>
+			</params>
+		</command>
+	</commands>
+	<script><![CDATA[
+
+--	==================================
+--	Utilities
+--	==================================
+function Version()
+	
+	local maj = 2
+	local min = 0
+	local rev = 9
+	
+	local ver = string.format("%d%d%d", maj, min, rev)
+	dbg(ver)
+
+	return ver
+end
+
+function dbg(strDebugText)
+
+  	if gDebugPrint then
+
+		print(strDebugText)
+	end
+  	if gDebugLog then
+
+		C4:ErrorLog(strDebugText)
+	end
+end
+
+--	==================================
+--	Server functions
+--	==================================
+function CreateAxxessServer()
+	dbg("+++++++ function CreateAxxessServer +++++++")
+
+	if not gIsAxxessServerConnected then
+		dbg("+++++++ Connect")	
+		local port = Properties[gAxxessServerPortName]
+		local address = Properties[gAxxessServerAddressName]
+		C4:CreateNetworkConnection(gServerBinding, address, port)
+		gAxxessServerPortChange = Properties[gAxxessServerPortName]
+	end
+end
+
+function ConnectAxxessServer()
+	dbg("+++++++ function ConnectAxxessServer +++++++")
+
+	if not gIsAxxessServerConnected then
+		dbg("+++++++ Connect")
+		local port = Properties[gAxxessServerPortName]
+		C4:NetConnect(gServerBinding, port, "UDP")
+	end
+end
+
+function DisconnectAxxessServer()
+	dbg("+++++++ function DisconnectAxxessServer +++++++")
+
+	if gIsAxxessServerConnected then
+		dbg("+++++++ Disconnect")
+		local port = gAxxessServerPortChange
+		C4:NetDisconnect(gServerBinding, port)
+	end
+end
+function FirePropertyChanged()
+	dbg("+++++++ function FirePropertyChanged +++++++")
+	-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+	for k,v in pairs(Properties) do
+
+ 		 OnPropertyChanged(k)
+	end
+end
+
+--	==================================
+--	C4 events
+--	==================================
+function OnPropertyChanged(strProperty)
+
+	dbg("OnPropertyChanged: Property = ".. strProperty .. "; Value = " .. Properties[strProperty])
+
+	-- Debug Mode
+  	if strProperty == "Debug Mode" then
+
+    		if Properties[strProperty] == "Off" then
+      		gDebugPrint = false
+      		gDebugLog = false
+	    	end
+    		if Properties[strProperty] == "Print" then
+     			gDebugPrint = true
+      		gDebugLog = false
+	    	end
+    		if Properties[strProperty] == "Log" then
+      		gDebugPrint = false
+      		gDebugLog = true
+	    	end
+    		if Properties[strProperty] == "Print a Log" then
+      		gDebugPrint = true
+      		gDebugLog = true
+    		end
+ 	end
+
+	-- Do Not Disturb
+	if strProperty == gDoNotDisturbName then
+		if Properties[strProperty] == "Off" then
+			C4:FireEvent("Do Not Disturb Off")
+			C4:FireEvent("Do Not Disturb Toggled")
+			SetButtonState(gDoNotDisturbName, gfalse)
+		end
+		if Properties[strProperty] == "On" then
+			C4:FireEvent("Do Not Disturb On")
+			C4:FireEvent("Do Not Disturb Toggled")
+			SetButtonState(gDoNotDisturbName, gtrue)
+		end
+	end
+
+	-- Housekeeping
+	if strProperty == gHousekeepingName then
+		if Properties[strProperty] == "Off" then
+			C4:FireEvent("Housekeeping Off")
+			C4:FireEvent("Housekeeping Toggled")
+			SetButtonState(gHousekeepingName, gfalse)
+		end
+		if Properties[strProperty] == "On" then
+			C4:FireEvent("Housekeeping On")
+			C4:FireEvent("Housekeeping Toggled")
+			SetButtonState(gHousekeepingName, gtrue)
+		end
+	end
+
+	-- Master
+	if strProperty == gMasterName then
+		if Properties[strProperty] == "Off" then
+			C4:FireEvent("Master Off")
+			SetButtonState(gMasterName, gfalse)
+		end
+		if Properties[strProperty] == "On" then
+			C4:FireEvent("Master On")
+			SetButtonState(gMasterName, gtrue)
+		end
+	end
+
+	-- Doorbell Silence mode
+	if strProperty == gDoorbellPropName then
+		if Properties[strProperty] == "Off" then
+			SendSetDoorbellState(gfalse)
+		end
+		if Properties[strProperty] == "On" then
+			SendSetDoorbellState(gtrue)
+		end
+	end
+
+	-- LED's
+	if strProperty == gDNDLEDOnColor then
+
+		SendSetLEDColor(3, RGBColor(Properties[strProperty]))
+	end
+	if strProperty == gDNDLEDOffColor then
+
+		SendSetLEDColor(4, RGBColor(Properties[strProperty]))
+	end
+	if strProperty == gHKLEDOnColor then
+
+		SendSetLEDColor(5, RGBColor(Properties[strProperty]))
+	end
+	if strProperty == gHKLEDOffColor then
+
+		SendSetLEDColor(6, RGBColor(Properties[strProperty]))
+	end
+	if strProperty == gMCLEDOnColor then
+
+		SendSetLEDColor(7, RGBColor(Properties[strProperty]))
+	end
+	if strProperty == gMCLEDOffColor then
+
+		SendSetLEDColor(8, RGBColor(Properties[strProperty]))
+	end
+
+	if strProperty == gAxxessServerAddressName then
+
+		DisconnectAxxessServer()
+		CreateAxxessServer()
+		ConnectAxxessServer()
+
+		C4:UpdateProperty(gAxxessServerSynchronized, "False")
+		gAxxessServerSync = false
+		if (tmrAxxessServerSync ~= nil) then
+			C4:KillTimer(tmrAxxessServerSync)
+			tmrAxxessServerSync = C4:AddTimer(1,"MINUTES",true)
+		end
+	end
+
+	if strProperty == gAxxessServerPortName then
+
+		DisconnectAxxessServer()
+		CreateAxxessServer()
+		ConnectAxxessServer()
+
+		C4:UpdateProperty(gAxxessServerSynchronized, "False")
+		gAxxessServerSync = false
+		if (tmrAxxessServerSync ~= nil) then
+			C4:KillTimer(tmrAxxessServerSync)
+			tmrAxxessServerSync = C4:AddTimer(1,"MINUTES",true)
+		end
+	end
+
+	-- axxess server
+	if strProperty == gAxxessServerConnectionName then
+
+		if Properties[strProperty] == "Connected" then
+
+			gIsAxxessServerConnected = true
+		else
+
+			gIsAxxessServerConnected = false
+		end
+	end
+
+	dbg("OnPropertyChanged: Property = ".. strProperty .. "; Value = " .. Properties[strProperty])
+end
+
+-- Function called by Director when one of this drivers variable values is changed.
+-- NOT called on a driver when it changes its own variable value.
+
+function OnVariableChanged(strName)
+	dbg("OnVariableChanged: Variable = " .. strName)
+
+	-- Do Not Disturb
+	if strName == gDoNotDisturbName then
+		if Variables[strName] == "1" then
+			SetButtonState(gDoNotDisturbName, gtrue)
+			UpdateDoorStationProperty(gDoNotDisturbName, "On")
+
+		elseif Variables[strName] == "0" then
+			SetButtonState(gDoNotDisturbName, gfalse)
+			UpdateDoorStationProperty(gDoNotDisturbName, "Off")
+		end
+
+	-- Housekeeping
+	elseif strName == gHousekeepingName then
+		if Variables[strName] == "1" then
+			SetButtonState(gHousekeepingName, gtrue)
+			UpdateDoorStationProperty(gHousekeepingName, "On")
+
+		elseif Variables[strName] == "0" then
+			SetButtonState(gHousekeepingName, gfalse)
+			UpdateDoorStationProperty(gHousekeepingName, "Off")
+		end
+
+	--  Master
+	elseif strName == gMasterName then
+		if Variables[strName] == "1" then
+			SetButtonState(gMasterName, gtrue)
+			UpdateDoorStationProperty(gMasterName, "On")
+
+		elseif Variables[strName] == "0" then
+			SetButtonState(gMasterName, gfalse)
+			UpdateDoorStationProperty(gMasterName, "Off")
+		end
+
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	dbg("ExecuteCommand: Command = " .. strCommand)
+
+	-- Do Not Disturb
+	if strCommand == gDoNotDisturbName then
+
+		if tParams["On/Off"] == "Off" then
+			SetButtonState(gDoNotDisturbName, gfalse)
+		end
+		if tParams["On/Off"] == "On" then
+			SetButtonState(gDoNotDisturbName, gtrue)
+		end
+		UpdateDoorStationProperty(strCommand, tParams["On/Off"])
+	end
+
+	-- Housekeeping
+	if strCommand == gHousekeepingName then
+
+		if tParams["On/Off"] == "Off" then
+			SetButtonState(gHousekeepingName, gfalse)
+		end
+		if tParams["On/Off"] == "On" then
+			SetButtonState(gHousekeepingName, gtrue)
+		end
+		UpdateDoorStationProperty(strCommand, tParams["On/Off"])
+	end
+
+	--  Master
+	if strCommand == gMasterName then
+
+		if tParams["On/Off"] == "Off" then
+			SetButtonState(gMasterName, gfalse)
+		end
+		if tParams["On/Off"] == "On" then
+			SetButtonState(gMasterName, gtrue)
+		end
+		UpdateDoorStationProperty(strCommand, tParams["On/Off"])
+	end
+
+
+	-- Doorbell Silence Mode
+	if strCommand == gDoorbellName then
+
+		if tParams["On/Off"] == "Off" then
+			SendSetDoorbellState(gfalse)
+		end
+		if tParams["On/Off"] == "On" then
+			SendSetDoorbellState(gtrue)
+		end
+		UpdateDoorStationProperty(gDoorbellPropName, tParams["On/Off"])
+	end
+
+	-- Ring Doorbell 
+	if strCommand == gDoorbellRingName then
+		SendRingDoorbell()
+	end
+
+	-- LED's
+	if strCommand == gDNDLEDOnColor then
+
+		UpdateLEDColorProperty(gDNDLEDOnColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(3, RGBColor(tParams["Color"]))
+	end
+	if strCommand == gDNDLEDOffColor then
+
+		UpdateLEDColorProperty(gDNDLEDOffColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(4, RGBColor(tParams["Color"]))
+	end
+	if strCommand == gHKLEDOnColor then
+
+		UpdateLEDColorProperty(gHKLEDOnColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(5, RGBColor(tParams["Color"]))
+	end
+	if strCommand == gHKLEDOffColor then
+
+		UpdateLEDColorProperty(gHKLEDOffColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(6, RGBColor(tParams["Color"]))
+	end
+	if strCommand == gMCLEDOnColor then
+
+		UpdateLEDColorProperty(gMCLEDOnColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(7, RGBColor(tParams["Color"]))
+	end
+	if strCommand == gMCLEDOffColor then
+
+		UpdateLEDColorProperty(gMCLEDOffColor, RGBColor(tParams["Color"]))
+		SendSetLEDColor(8, RGBColor(tParams["Color"]))
+	end
+
+	if strCommand == "SET_SERVER_ADDRESS" then
+		C4:UpdateProperty(gAxxessServerAddressName, tParams["SERVER_ADDRESS"])
+		OnPropertyChanged(gAxxessServerAddressName)
+	end
+
+	if strCommand == "SET_SERVER_PORT" then
+		C4:UpdateProperty(gAxxessServerPortName, tParams["SERVER_PORT"])
+		OnPropertyChanged(gAxxessServerPortName)
+	end
+
+	-- refresh properties
+	if strCommand == "LUA_ACTION" then
+
+		if tParams ~= nil then
+
+			for cmd, cmdv in pairs(tParams) do
+				if cmd == "ACTION" then
+
+					if cmdv == "REFRESH_PROPERTIES" then
+
+						SendGetButtonState()
+						SendGetLEDState()
+					end
+
+					strCommand = strCommand .. "; Action = " .. cmdv
+				end
+			end
+		end
+	end
+
+
+end
+
+function UpdateDoorStationProperty(strProperty, isOnOff)
+
+	if isOnOff ~= Properties[strProperty] then
+		
+		C4:UpdateProperty(strProperty, isOnOff)
+		C4:FireEvent(strProperty .. " " .. isOnOff)
+
+		if strProperty == gDoNotDisturbName then
+			C4:FireEvent("Do Not Disturb Toggled")
+	
+		elseif strProperty == gHousekeepingName then
+			C4:FireEvent("Housekeeping Toggled")
+		end
+	end
+end
+
+function UpdateLEDColorProperty(strProperty, rgb)
+
+	local txt = "UpdateLEDColorProperty: Property = " .. strProperty
+	local clr = string.format("; Color = %d, %d, %d", rgb[1], rgb[2], rgb[3])
+	txt = txt .. clr
+	dbg(txt)
+
+	local color = ColorName(rgb)
+
+	if color ~= Properties[strProperty] then
+
+		C4:UpdateProperty(strProperty, color)
+		--C4:FireEvent(strProperty .. " " .. color)
+	end
+end
+
+function SetButtonState(btnName, onOff)
+
+	if onOff == "true" then
+		C4:SetVariable(btnName, "1")
+	else
+		C4:SetVariable(btnName, "0")
+	end
+
+	local butNum = 0
+
+	if btnName == gDoNotDisturbName then
+		butNum = 0
+	elseif btnName == gHousekeepingName then
+		butNum = 1
+	elseif btnName == gMasterName then
+		butNum = 2
+	end
+
+	local val = 0
+
+	if onOff == gtrue then
+
+		val = 1
+	end
+
+	local txt = string.format("SetButtonState: Button Number = %d; Value = %d", butNum, val)
+	dbg(txt)
+
+	SendSetButton(butNum, val)
+end
+
+-- Set Doorbell Silence State
+function SendSetDoorbellState(onOff)
+	if gBoardID[1] ~= nil then
+		local pkt
+	
+		-- Start Byte 0xA5	
+		pkt = string.format("%02x", 165)
+
+		-- Address or Board ID 3 bytes
+		pkt = pkt .. string.format("%02x", gBoardID[1])
+		pkt = pkt .. string.format("%02x", gBoardID[2])
+		pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+		-- From/to  hex F1 dec 241
+		pkt = pkt .. string.format("%02x", 241)
+
+		-- command status change request
+		pkt = pkt .. string.format("%02x", 2)
+
+		-- acknowledge
+		pkt = pkt .. string.format("%02x", 0)
+
+		-- status
+		if onOff == "true" then
+			pkt = pkt .. string.format("%02x", 0)
+		else
+			pkt = pkt .. string.format("%02x", 32)
+		end
+
+		-- write bit
+		pkt = pkt .. string.format("%02x", 32)
+
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+
+		-- check sum
+		pkt = pkt .. PacketCheckSum(pkt)
+
+		dbg("SendSetDoorbellState: Packet = ".. pkt)
+
+		SendZigbeePacket(pkt)
+	else
+		dbg("SendSetDoorbellState: null BoardID")
+	end
+end
+
+-- Ring Doorbell
+function SendRingDoorbell()
+	if gBoardID[1] ~= nil then
+		local pkt
+	
+		-- Start Byte 0xA5	
+		pkt = string.format("%02x", 165)
+
+		-- Address or Board ID 3 bytes
+		pkt = pkt .. string.format("%02x", gBoardID[1])
+		pkt = pkt .. string.format("%02x", gBoardID[2])
+		pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+		-- From/to  hex F1 dec 241
+		pkt = pkt .. string.format("%02x", 241)
+
+		-- command status change request
+		pkt = pkt .. string.format("%02x", 3)
+
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)
+		pkt = pkt .. string.format("%02x", 0)	
+
+		-- check sum
+		pkt = pkt .. PacketCheckSum(pkt)
+
+		dbg("SendRingDoorbell: Packet = ".. pkt)
+
+		SendZigbeePacket(pkt)
+	else
+		dbg("SendRingDoorbell: null BoardID")
+	end
+end
+
+ -- binary packet is parsed and returned as a table
+function ParseBinaryPacket(packet)
+
+	local i = 1
+	local b = string.byte(packet, i)
+
+	local tbl = {}
+
+	while b do
+		tbl[i] = b
+		i = i + 1
+		b = string.byte(packet, i)
+	end
+
+	return tbl	-- return the table
+end
+
+-- table of bytes is formed into a binary packet
+function FormBinaryPacket(tbl)
+
+	local pkt = ""
+	local packet = "0x"
+
+	for i, v in pairs(tbl) do
+
+		local b = string.format("%02x",  v)
+		pkt = pkt .. b
+		--local hx = string.format("Byte Number = %2d  Byte = %02x",  i, v)
+		--dbg(hx)
+		packet = packet .. string.format("%02x",  v)
+	end
+	--dbg("FormBinaryPacket: packet = " .. packet)
+	return tohex(pkt) -- return the packet ready to be passed on
+end
+
+-- finds a bit and determines if it is set or not - the bit location is one based ie. bit one is the LSB
+function IsBitSet(bitLoc, byte)
+
+	local val = byte
+	local modVal = 0
+
+	-- dbg("IsBitSet:")
+	for i = 1, bitLoc do
+
+		modVal = math.mod(val, 2)
+
+		if modVal == 1 then
+
+			val = val - 1
+		end
+		-- dbg(string.format("Bit Pos = %d; Value = %d Modulus Value = %d", i, byte, modVal))
+		val = val / 2
+	end
+
+	return modVal
+end
+
+--------------- XML mini parser ---------------------
+
+function InnerXml(tagName, msg)
+
+	local innerTxt = ""
+	local startTag = "<" .. tagName
+	local endTag = "</" .. tagName .. ">"
+
+	local innerStart
+	local innerEnd
+
+	innerStart, innerEnd = string.find(msg, startTag, 1)
+
+	if innerStart ~= nil then
+
+		-- search for the end angle bracket
+		if innerEnd ~= nil then
+
+			innerStart = innerEnd + 1
+			innerEnd = string.find(msg, ">", innerStart) -- this skips over attributes
+
+			if innerEnd ~= nil then
+
+				innerStart = innerEnd + 1
+				innerEnd = string.find(msg, endTag, innerStart)
+				if innerEnd ~= nil then
+
+					innerEnd = innerEnd - 1
+					innerTxt = string.sub(msg, innerStart, innerEnd)
+				end
+			end
+		end
+	end
+
+	return innerTxt
+end
+
+--------------- Network support ---------------------
+
+function ParseAxxessMessage(msg)
+
+	local innerTxt = InnerXml("axxess", msg)
+	dbg("ParseAxxessMessage: InnerXml = " .. innerTxt)
+	return innerTxt
+end
+
+function FormAxxessMessage(roomID, deviceID, hdrSz, packet) -- packet is the legacy message in bytes
+
+	local i = hdrSz + 1 -- correct offset into payload
+	local b = string.byte(packet, i)
+	local pkt = ""
+
+	while b do
+
+		pkt = pkt .. string.format("%02x", b)
+		i = i + 1
+		b = string.byte(packet, i)
+	end
+
+	local msg = '<axxess roomID="' .. roomID .. '" deviceID="' .. deviceID .. '">' .. pkt .. '</axxess>'
+
+	return msg
+end
+
+function SendZigbeePacket(packet)
+	dbg("SendZigbeePacket: Packet = " .. packet)
+
+	local ctrlframe = string.format("%02x", FormZCLControlFrame(true))
+	local seq = string.format("%02x", GenSequenceID())
+	local cmd = string.format("%02x", 128) -- axxess legacy message in hex
+	local zclMsg = tohex(ctrlframe) .. tohex(seq) .. tohex(cmd) .. tohex(packet)
+
+	ParseBinaryPacket(zclMsg)	-- for debugging only so we can spit out the packet in the lua window
+
+	-- now send it via zigbee
+	if gZigbeeOnline then
+		dbg("SendZigbeePacket: SendData: sequence = " .. seq)
+		SendData(zclMsg)
+	else
+		dbg("SendZigbeePacket: gZigbeeOnline = false")
+	end
+end
+
+-- Receive Message from Host
+function ReceivedFromNetwork(idBinding, nPort, strData)
+
+	if idBinding == gServerBinding then
+
+		dbg("ReceivedFromNetwork: Binding = " .. idBinding .. "; Port = " .. nPort .. "; Data = " .. strData)
+
+		local pkt = ParseAxxessMessage(strData)
+            
+            -- don't allow re-entry into program by Axxess Server
+		if gProgramMode ~= 2 and gProgramMode == 0 or gProgramMode == 1 then
+			if pkt == "537461727450726F6772616D4D6F6465" then
+
+				-- start fail safe timer
+				-- this will take us out of file transfer mode if all else fails
+				tmrWatchDog = C4:AddTimer(1,"MINUTES",true)
+
+				gProgramPacketCount = 0
+
+				-- file transfer state
+				gProgramMode = 1
+				-- display boot loader progress
+				C4:UpdateProperty(gBootLoaderStatus, "Transfering Packet:")
+
+			-- we have started program mode
+			elseif gProgramMode == 1 and string.len(pkt) == 402 then
+
+				local RcvPacketCount = tonumber(string.sub(pkt,401), 16);
+
+				gProgramPacketCount = gProgramPacketCount + 1
+
+				-- re-synce if a packet was droped
+				if RcvPacketCount ~= gProgramPacketCount then
+					gProgramPacketCount = RcvPacketCount
+				end
+
+				-- defragment the program packet
+				gProgramPackets[gProgramPacketCount] = string.sub(pkt,1,400)
+
+				-- display boot loader progress
+
+				C4:UpdateProperty(gBootLoaderStatus, "Transfering Packet: " .. gProgramPacketCount .. " of 90")
+
+				-- Send AxxessHMHost Packet Transfer Acknowlegdement
+				SendPacketTransferAcknowledgement()
+
+				-- have we reached the last packet?
+				if gProgramPacketCount == 90 then
+
+					C4:UpdateProperty(gBootLoaderStatus, "Parsing Packets, Please Wait...")
+
+					-- start watchdog timer
+					-- this will take us out of program mode if there is a fatal error
+					tmrWatchDog = C4:AddTimer(6,"MINUTES",true)
+
+					local i = 1
+					local buffer = ""
+
+					while i < 91 do
+					    buffer = buffer .. gProgramPackets[i]
+					    i = i + 1
+					end
+
+					buffer = tohex(buffer)
+					gProgramTable = ParseBinaryPacket(buffer)
+					
+					gProgramMode = 2
+					InitProgramMode()
+				end
+			end
+		end
+
+		-- normal packet processing here
+		if gProgramMode == 0 then 
+			-- we have a response from the Axxess Server
+			gAxxessServerSync = true	
+			C4:UpdateProperty(gAxxessServerSynchronized, "True")
+			SendZigbeePacket(pkt)
+		end
+	end
+end
+
+function SendToServer(message)
+
+	if gIsAxxessServerConnected then
+		local port = Properties[gAxxessServerPortName]
+		if message ~= nil then
+
+			dbg("SendToServer: Binding = " .. gServerBinding .. "; Port = " .. port .. "; data = " .. message)
+			C4:SendToNetwork(gServerBinding, port, message)
+		else
+
+			dbg("SendToServer: Binding = " .. gServerBinding .. "; Port = " .. port .. "; data  = nil")
+		end
+	end
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+
+	dbg("OnConnectionStatusChanged: Binding = " .. idBinding .. "; Status = " .. strStatus)
+
+	if idBinding == gServerBinding then
+
+		if strStatus == "ONLINE" then
+
+			C4:UpdateProperty(gAxxessServerConnectionName, "Connected")
+		else
+
+			C4:UpdateProperty(gAxxessServerConnectionName, "Disconnected")
+		end
+		OnPropertyChanged(gAxxessServerConnectionName)
+	end
+end
+
+--------------- Program Mode Support ---------------------
+
+function InitProgramMode()
+
+	-- 0x9FD odd byte
+	if gProgramTable[5116] == 1 then
+		dbg("File Type: Main Board")
+
+	elseif gProgramTable[5116] == 2 then
+		dbg("File Type: Outside Sign Board")
+
+	elseif gProgramTable[5116] == 4 then
+		dbg("File Type: Keyboard")
+
+	elseif gProgramTable[5116] < 14 then
+		
+		-- cancel programming mode
+		gError[1] = 67 
+		gError[2] = 65 
+		gError[3] = 78 
+
+		SendProgramModeComplete()
+
+		dbg("File Type: Board " .. gProgramTable[5116])
+		C4:UpdateProperty(gBootLoaderStatus, "File Type: Board " .. gProgramTable[5116])
+		gProgramMode = 0
+		SendStatusRequest()
+		return
+	else
+		-- cancel programming mode
+		gError[1] = 67 
+		gError[2] = 65 
+		gError[3] = 78 
+
+		SendProgramModeComplete()
+
+		C4:UpdateProperty(gBootLoaderStatus, "File Not Usable")
+		dbg("File Type: Not Useable")
+		gProgramMode = 0
+		SendStatusRequest()
+		return
+	end
+
+	-- 0x9FD even byte
+	if bit.band(gProgramTable[5115],224) == 128 then
+		dbg("Hardware Type: Atmega48")
+
+	elseif bit.band(gProgramTable[5115],224) == 64 then
+		dbg("Hardware Type: Atmega88")
+
+	elseif bit.band(gProgramTable[5115],224) == 32 then
+		dbg("Hardware Type: Atmega68")
+
+	else
+		dbg("Hardware Type: Unknown")
+	end
+
+	-- hex of Code and Boot Version
+	gBootVersion = gProgramTable[5118]
+	dbg("Code Version: " .. string.format("%02x", gProgramTable[5117]))
+	dbg("Boot Load Version: " ..  string.format("%02x", gProgramTable[5118]))
+
+	-- 0x9FD odd byte
+	gLocalAddress = bit.bor(240, gProgramTable[5116])	
+	dbg("Local Address: " .. gLocalAddress)
+
+	StartProgramModeTimer()
+
+end
+
+-- start program mode timer
+function StartProgramModeTimer()
+
+	-- pad gVersion
+	gVersion = {}
+	gVersion[1] = 0
+	gVersion[2] = 0
+	gVersion[3] = 0
+	gVersion[4] = 0
+	gVersion[5] = 0
+	gVersion[6] = 0
+	
+	-- pad gError
+	gError = {}
+	gError[1] = 0
+	gError[2] = 0
+	gError[3] = 0
+
+	gResponses = 0
+	gAttempts = 0
+	gFailures = 0
+	gTime = 0
+	gBlock = 0
+	gStateTime = 5
+
+	-- starting state
+	gState = SendStartCode
+
+	-- program mode timer
+	tmrProgramMode = C4:AddTimer(1,"SECONDS",true)
+
+end
+
+-- unbind from Axxess Server if driver is deleted
+-- Kill any timers that may be running
+function OnDriverDestroyed()
+	dbg("+++++++ function OnDriverDestroyed +++++++")
+	local port = Properties[gAxxessServerPortName]
+	C4:NetDisconnect(gServerBinding, port)
+
+	if (tmrAxxessServerSync ~= nil) then
+		C4:KillTimer(tmrAxxessServerSync)
+	end
+
+	if (tmrProgramMode ~= nil) then
+		C4:KillTimer(tmrProgramMode)
+	end
+
+	if (tmrWatchDog ~= nil) then
+		C4:KillTimer(tmrWatchDog)
+	end
+
+	if (tmrReplaceUnit ~= nil) then
+		C4:KillTimer(tmrReplaceUnit)
+	end
+	
+	if (tmrReplaceUnit2 ~= nil) then
+		C4:KillTimer(tmrReplaceUnit2)
+	end
+end
+
+-- timer expire event
+function OnTimerExpired(idTimer)
+	dbg("+++++++ function OnTimerExpired -- " .. idTimer)
+	-- sync with Axxess Server
+	if idTimer == tmrAxxessServerSync then
+		if gAxxessServerSync == false then
+			-- Sync with Axxess Server
+			-- Make sure we have our board id
+			if gBoardID[1] ~= nil then
+				SyncAxxessServer()
+			else
+				if gZigbeeOnline then
+					OnPropertyChanged(gDoNotDisturbName)
+				end
+			end
+			C4:UpdateProperty(gAxxessServerSynchronized, "False")
+		else
+			C4:KillTimer(tmrAxxessServerSync)
+		end
+	-- program mode timer for state machine
+	elseif idTimer == tmrProgramMode then
+		gTime = gTime + 1
+		if gTime == gStateTime then
+			RunProgramMode()
+			gTime = 0
+		end
+
+	-- watchdog timer
+	elseif idTimer == tmrWatchDog then
+		C4:UpdateProperty(gBootLoaderStatus, "WatchDog Timer, Timed Out")
+		gProgramMode = 0 
+
+	-- onNetworkBinding event timer used for board replacements
+	elseif idTimer == tmrReplaceUnit then
+		dbg("OnTimerExpired: Timer = tmrReplaceUnit Get BoardID")
+		OnPropertyChanged(gDoNotDisturbName)
+		tmrReplaceUnit2 = C4:AddTimer(10,"SECONDS")
+		
+	elseif idTimer == tmrReplaceUnit2 then
+		if gBoardID[1] ~= nil then
+	    		gSequenceNumber = 1
+			SendGetButtonState()
+		--	SendGetLEDState()
+		-- LED's
+			SendSetLEDColor(3, RGBColor(Properties[gDNDLEDOnColor]))
+			SendSetLEDColor(4, RGBColor(Properties[gDNDLEDOffColor]))
+			SendSetLEDColor(5, RGBColor(Properties[gHKLEDOnColor]))
+			SendSetLEDColor(6, RGBColor(Properties[gHKLEDOffColor]))
+			SendSetLEDColor(7, RGBColor(Properties[gMCLEDOnColor]))
+			SendSetLEDColor(8, RGBColor(Properties[gMCLEDOffColor]))
+			OnPropertyChanged(gDoorbellPropName)
+		else
+			dbg("OnTimerExpired: Timer = tmrReplaceUnit2 BoardID missing")
+		end
+
+	end
+
+end
+
+-- Sync with Axxess Server
+function SyncAxxessServer()
+
+	local pkt
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- From/to
+	pkt = pkt .. string.format("%02x", 31)
+
+	pkt = pkt .. string.format("%02x", 2)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 255)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	local msg = '<axxess roomID="' .. GetRoom() .. '" deviceID="' .. C4:GetDeviceID() .. '">' .. pkt ..'</axxess>'
+	SendToServer(msg)
+
+end
+
+-- run program mode state machine
+function RunProgramMode()
+
+	-- need to pull these from gProgramTable
+      local EndVector = {9,255}
+	
+	-- convert EndVector array to number
+	local ev = EndVector[1] 
+     	ev = bit.lshift(ev, 8)
+     	ev = ev + EndVector[2]
+
+	dbg("State: " .. gState)
+
+	if gState == SendProgramData then
+		-- display boot loader progress
+		C4:UpdateProperty(gBootLoaderStatus, gState .. " Block: " .. gBlock .. " of 2560")
+
+	else 
+		-- display boot loader progress
+		C4:UpdateProperty(gBootLoaderStatus, gState)
+	end
+
+	-- verify board reponding to program mode requests
+	gResponses = gResponses + 1
+
+	if gState == SendStartCode then
+
+		-- 0x44
+		ProgramModeControl(68)
+		gAttempts = gAttempts + 1
+
+	elseif gState == SendCheckSum then
+
+		-- Send Program Checksum
+		SendProgramCheckSum(ev)
+		gAttempts = gAttempts + 1
+
+	elseif gState == SendProgramData then
+
+		if gBlock < ev then
+
+			SendProgramMemory()
+			-- reset timer here, effectively disables the timer
+			-- by not allow the timer expired event to fire
+			gTime = 0
+			gAttempts = gAttempts + 1
+		else
+
+			gAttempts = 0
+			gState = SendTransferCode
+		end
+
+	elseif gState == SendTransferCode then
+
+		-- 0x99 send transfer code
+		ProgramModeControl(153)
+		gStateTime = 20
+		gAttempts = gAttempts + 1
+
+	elseif gState == SendStopCode then
+			
+		-- 0x55 send stop program mode
+		ProgramModeControl(85)
+		gStateTime = 5
+		gAttempts = gAttempts + 1
+
+	elseif gState == SendGetProgramVersion then
+			
+		-- Get Program Version
+		GetProgramVersion()
+		gAttempts = gAttempts + 1
+
+	end
+
+	if gResponses > 9 or gAttempts > 9 or gFailures > 9 or gState == ProgramModeComplete then
+
+		if gState ~= ProgramModeComplete then
+			dbg("Attempts: " .. gAttempts)
+			dbg("Failures: " .. gFailures)
+			dbg("Reponses: " .. gResponses)
+			
+			-- 43414E CAN in hex
+			gError[1] = 67 
+			gError[2] = 65 
+			gError[3] = 78 
+
+			-- display boot loader failed
+			C4:UpdateProperty(gBootLoaderStatus, "Failer: Attempts=" .. gAttempts .. " Failures=" .. gFailures .. " Responses=" .. gResponses)
+
+			-- send notification to Axxess Server we are done
+			SendProgramModeComplete()
+			dbg("Program Mode Failed")
+	
+			C4:KillTimer(tmrProgramMode)
+			C4:KillTimer(tmrWatchDog)
+
+			gProgramMode = 0
+			SendStatusRequest()
+		else
+
+			-- send notification to Axxess Server we are done
+			SendProgramModeComplete()
+			dbg("Program Mode Complete")
+
+			C4:KillTimer(tmrProgramMode)
+			C4:KillTimer(tmrWatchDog)
+
+			-- Boot Loader Not Running
+			C4:UpdateProperty(gBootLoaderStatus, "Not Running")
+
+			gProgramMode = 0
+			SendStatusRequest()
+
+		end
+	end
+
+end
+
+-- Handles Program Mode Response
+function HandleALMessage(zclPayload)
+
+	-- reset response
+	gResponses = 0
+	
+	local alcCmd = zclPayload[6]
+      dbg("Handle Axxess Legacy Command: ", alcCmd)
+      
+	if alcCmd == 2 then
+
+		SendAcknowledgement(zclPayload)
+
+	-- 0x04 Program Version Response
+	elseif alcCmd == 4 then
+
+		gVersion[1] = zclPayload[8] 
+		gVersion[2] = zclPayload[9]
+		gVersion[3] = zclPayload[10]
+		gVersion[4] = zclPayload[11]
+		gVersion[5] = zclPayload[12]
+		gVersion[6] = zclPayload[13]
+
+		gState = ProgramModeComplete 
+
+	-- 0xA1 Response
+	elseif alcCmd == 161 then
+
+		SendAcknowledgement(zclPayload)
+
+		if gState == SendStartCode then
+
+			-- verify bootloader version, fail if not equal
+			if gBootVersion ~= zclPayload[13] then
+
+				dbg("Bad Boot Version")
+				-- 424144 BAD hex
+				gError[1] = 66 
+				gError[2] = 65 
+				gError[3] = 68 
+				gState = ProgramModeComplete
+
+			else
+				gAttempts = 0
+				gState = SendCheckSum
+			end
+
+		elseif gState == SendTransferCode then
+			gAttempts = 0
+
+			-- response contains bootloader errors
+			gError[1] = zclPayload[7] 
+			gError[2] = zclPayload[8]
+			-- pad the last byte
+			gError[3] = 0
+
+			gState = SendStopCode
+
+		elseif gState == SendStopCode then
+
+			gAttempts = 0
+			
+			-- response contains bootloader errors
+			gError[1] = zclPayload[7] 
+			gError[2] = zclPayload[8]
+			-- pad the last byte
+			gError[3] = 0
+
+			gState = SendGetProgramVersion 
+
+		else
+			ProgramModeStatus()
+		end
+
+	-- 0xA6 checksum response
+	elseif alcCmd == 166 then
+		gAttempts = 0
+		gState = SendProgramData
+
+	-- 0xA3 send data mode response
+	elseif alcCmd == 163 then
+
+		-- we are going to have multiple attempts durring program mode
+		gAttempts = 0
+
+		-- verify returned address	
+		local ReadBlock = zclPayload[7] 
+     		ReadBlock = bit.lshift(ReadBlock, 8)
+     		ReadBlock = ReadBlock + zclPayload[8]
+
+		-- debug out
+		dbg("ReadBlock: " .. ReadBlock)
+		dbg("Block: " .. gBlock)
+
+		local Failed = false
+
+		if ReadBlock ~= gBlock then
+			Failed = true
+		end
+		
+		-- verify returned data
+		if gProgramTable[(gBlock * 2) + 1] ~= zclPayload[9] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 2] ~= zclPayload[10] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 3] ~= zclPayload[11] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 4] ~= zclPayload[12] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 5] ~= zclPayload[13] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 6] ~= zclPayload[14] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 7] ~= zclPayload[15] then 
+			Failed = true 
+		end
+		if gProgramTable[(gBlock * 2) + 8] ~= zclPayload[16] then 
+			Failed = true 
+		end
+
+		if Failed == true then
+			gFailures = gFailures + 1
+		end
+
+		gBlock = ReadBlock + 4
+
+		if gState == SendProgramData then
+			RunProgramMode()
+		end
+	end
+end
+
+-- program mode complete
+function SendProgramModeComplete()
+
+	local pkt
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- and with 0x0F
+	local from = bit.band(gLocalAddress,15)
+	from = bit.lshift(from, 4)
+
+	-- and with 0xF0
+	local to = bit.band(gLocalAddress,240)
+	to = bit.rshift(to, 4)
+
+	-- Flip From/to
+	pkt = pkt .. string.format("%02x", to + from )
+
+	-- command program mode complete
+	pkt = pkt .. string.format("%02x", 6)
+
+	-- response
+	pkt = pkt .. string.format("%02x", 1)
+
+	-- version
+	pkt = pkt .. string.format("%02x", gVersion[1]) 
+	pkt = pkt .. string.format("%02x", gVersion[2]) 
+	pkt = pkt .. string.format("%02x", gVersion[3]) 
+	pkt = pkt .. string.format("%02x", gVersion[4]) 
+	pkt = pkt .. string.format("%02x", gVersion[5]) 
+	pkt = pkt .. string.format("%02x", gVersion[6]) 
+
+	-- errors
+	pkt = pkt .. string.format("%02x", gError[1]) 
+	pkt = pkt .. string.format("%02x", gError[2]) 
+	pkt = pkt .. string.format("%02x", gError[3]) 
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	local msg = '<axxess roomID="' .. GetRoom() .. '" deviceID="' .. C4:GetDeviceID() .. '">' .. pkt ..'</axxess>'
+	SendToServer(msg)
+
+end
+
+-- program mode packet transfer
+function SendPacketTransferAcknowledgement()
+
+	local pkt
+	
+	gLocalAddress = 241
+
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- and with 0x0F
+	local from = bit.band(gLocalAddress,15)
+	from = bit.lshift(from, 4)
+
+	-- and with 0xF0
+	local to = bit.band(gLocalAddress,240)
+	to = bit.rshift(to, 4)
+
+	-- Flip From/to
+	pkt = pkt .. string.format("%02x", to + from )
+
+	-- command packet transfer
+	pkt = pkt .. string.format("%02x", 7)
+
+	-- response
+	pkt = pkt .. string.format("%02x", 1)
+
+	pkt = pkt .. string.format("%02x", gProgramPacketCount) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+	pkt = pkt .. string.format("%02x", 0) 
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	local msg = '<axxess roomID="' .. GetRoom() .. '" deviceID="' .. C4:GetDeviceID() .. '">' .. pkt ..'</axxess>'
+	SendToServer(msg)
+
+end
+
+-- program mode acknowledgement
+function SendAcknowledgement(zclPayload)
+
+	local pkt
+
+	pkt = string.format("%02x", zclPayload[1])
+	pkt = pkt .. string.format("%02x", zclPayload[2])
+	pkt = pkt .. string.format("%02x", zclPayload[3])
+	pkt = pkt .. string.format("%02x", zclPayload[4])
+
+	-- and with 0x0F
+	local from = bit.band(zclPayload[5],15)
+	from = bit.lshift(from, 4)
+
+	-- and with 0xF0
+	local to = bit.band(zclPayload[5],240)
+	to = bit.rshift(to, 4)
+
+	-- Flip From/to
+	pkt = pkt .. string.format("%02x", to + from )
+
+	pkt = pkt .. string.format("%02x", zclPayload[6])
+	pkt = pkt .. string.format("%02x", zclPayload[7])
+	pkt = pkt .. string.format("%02x", zclPayload[8])
+	pkt = pkt .. string.format("%02x", zclPayload[9])
+	pkt = pkt .. string.format("%02x", zclPayload[10])
+	pkt = pkt .. string.format("%02x", zclPayload[11])
+	pkt = pkt .. string.format("%02x", zclPayload[12])
+	pkt = pkt .. string.format("%02x", zclPayload[13])
+	pkt = pkt .. string.format("%02x", zclPayload[14])
+	pkt = pkt .. string.format("%02x", zclPayload[15])
+	pkt = pkt .. string.format("%02x", zclPayload[16])
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+
+end
+
+-- program mode control
+function ProgramModeControl(ProgramCode)
+
+	local pkt
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- From/to Local Address
+	pkt = pkt .. string.format("%02x", gLocalAddress)
+
+	-- command start program mode 0xA2
+	pkt = pkt .. string.format("%02x", 162)
+
+	-- program code type 
+	pkt = pkt .. string.format("%02x", ProgramCode)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- Start Vector High
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- Start Vector Low
+	pkt = pkt .. string.format("%02x", 0)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+end
+
+-- program mode status
+function ProgramModeStatus()
+
+	local pkt
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- From/to
+	pkt = pkt .. string.format("%02x", gLocalAddress)
+
+	-- command program mode status 0xF1
+	pkt = pkt .. string.format("%02x", 161)
+
+	pkt = pkt .. string.format("%02x", 1)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+end
+
+-- send status request
+-- we sync with Axxess Server
+function SendStatusRequest()
+
+	local pkt
+
+	gLocalAddress = 241
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- and with 0x0F
+	local from = bit.band(gLocalAddress,15)
+	from = bit.lshift(from, 4)
+
+	-- and with 0xF0
+	local to = bit.band(gLocalAddress,240)
+	to = bit.rshift(to, 4)
+
+	-- Flip From/to
+	pkt = pkt .. string.format("%02x", to + from )
+
+	-- command status request
+	pkt = pkt .. string.format("%02x", 2)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	local msg = '<axxess roomID="' .. GetRoom() .. '" deviceID="' .. C4:GetDeviceID() .. '">' .. pkt ..'</axxess>'
+	SendToServer(msg)
+
+end
+
+-- get program version
+function GetProgramVersion()
+
+	local pkt
+	
+	-- Start Byte 0xA5	
+	pkt = string.format("%02x", 165)
+
+	-- Address or Board ID 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3]) 
+
+	-- From/to
+	pkt = pkt .. string.format("%02x", gLocalAddress)
+
+	-- command program version request
+	pkt = pkt .. string.format("%02x", 4)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+	pkt = pkt .. string.format("%02x", 0)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+end
+
+-- program mode send program data checkusms
+function SendProgramCheckSum(EndVector)
+
+	local pkt
+
+	-- Start Byte 0xA5
+	pkt = string.format("%02x", 165)
+
+	-- board id 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3])
+
+	-- from/to Local Address 
+	pkt = pkt .. string.format("%02x", gLocalAddress)
+
+	-- command program mode check sum 0xA6
+	pkt = pkt .. string.format("%02x", 166)
+
+	-- convert EndVector number to array
+	local blow = bit.band(EndVector, 255)
+	local bhigh = bit.band(EndVector, 65280)
+      bhigh = bit.rshift(bhigh, 8)
+
+	-- End Vector
+	pkt = pkt .. string.format("%02x", bhigh)
+	pkt = pkt .. string.format("%02x", blow)
+
+	-- 8 byte check sums
+	pkt = pkt .. CreateCheckSums(EndVector)
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+
+end
+
+-- program mode send data
+function SendProgramMemory()
+
+	local pkt
+	local i = 1
+
+	-- Start Byte 0xA5
+	pkt = string.format("%02x", 165)
+
+	-- Board id 3 bytes
+	pkt = pkt .. string.format("%02x", gBoardID[1])
+	pkt = pkt .. string.format("%02x", gBoardID[2])
+	pkt = pkt .. string.format("%02x", gBoardID[3])
+
+	-- from/to Local Address
+	pkt = pkt .. string.format("%02x", gLocalAddress)
+
+	-- command program mode send data 0xA3
+	pkt = pkt .. string.format("%02x", 163)
+
+	-- convert gBlock number to array
+	local blow = bit.band(gBlock, 255)
+	local bhigh = bit.band(gBlock, 65280)
+      bhigh = bit.rshift(bhigh, 8)
+
+	-- block pointer
+	pkt = pkt .. string.format("%02x", bhigh)
+	pkt = pkt .. string.format("%02x", blow)
+
+	-- data 8 bytes
+	while i < 9 do
+	    pkt = pkt .. string.format("%02x", gProgramTable[(gBlock * 2) + i])
+          i = i + 1
+	end
+
+	-- check sum
+	pkt = pkt .. PacketCheckSum(pkt)
+
+	SendZigbeePacket(pkt)
+
+end
+
+-- program mode create checksum for program data
+function CreateCheckSums(EndVector)
+
+      local checkmult = {1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127}
+
+      local holding = 0
+      local cs1 = 0
+      local cs2 = 0
+      local i = 1
+      local m = 0
+
+      while i <= (EndVector * 2) + 1 do
+
+          -- even byte
+          holding = gProgramTable[i] * checkmult[(bit.band(((m * 2) + 1), 31) + 1)]
+          cs1 = cs1 + holding
+
+          holding = gProgramTable[i] * checkmult[(bit.band(((m * 2) + 17), 31) + 1)]
+          cs2 = cs2 + holding
+
+          i = i + 1
+
+          -- odd byte
+          holding = gProgramTable[i] * checkmult[bit.band(((m * 2) + 1), 31)]
+          cs1 = cs1 + holding
+
+          holding = gProgramTable[i] * checkmult[(bit.band(((m * 2) + 16), 31) + 1)]
+          cs2 = cs2 + holding
+
+          i = i + 1
+          m = m + 1
+
+      end
+
+      cs1 = string.format("%08x", cs1) .. string.format("%08x", cs2)
+
+      return cs1
+
+end
+
+-- program mode packet checksum
+function PacketCheckSum(packet)
+
+      packet = tohex(packet)
+
+	cs = 0
+      checksum = 0
+	local i = 1
+	local b = string.byte(packet, i)
+
+	while b do
+          cs = cs + b
+          if cs >= 256 then
+              cs = cs - 255
+          end
+          i = i + 1
+          b = string.byte(packet, i)
+	end
+
+	checksum = (255 - cs)
+	checksum = string.format("%02x", checksum)
+
+	return checksum
+end
+
+--------------- Zigbee support ----------------------
+function SendData(strPacket)
+
+	local nProfileID = 260	-- as provided by axxess in the cluster definition doc
+	local nClusterID = 154 	-- as provided by axxess in the cluster definition doc
+	local nGroupID = 0
+	local nSourceEndPoint = 2
+	local nDestinationEndPoint = 2
+
+	C4:SendZigbeePacket(strPacket, nProfileID, nClusterID, nGroupID, nSourceEndPoint, nDestinationEndPoint)
+end
+
+function OnZigbeePacketIn(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+
+	dbg("OnZigbeePacketIn: Profile = " .. idProfileID .. "; ClusterID = " .. idClusterID .. "; GroupID = " .. idGroupID .. "; SourceEndpoint = " .. sourceEndpoint .. "; DestinationEndpoint = " .. destinationEndpoint)
+	local binaryTbl = ParseBinaryPacket(packet)
+
+	local zclHdrTbl
+	local zclHdrSz
+	local zclPayload
+
+	zclHdrTbl, zclHdrSz, zclPayload = DecodeZCLMessage(binaryTbl)
+
+	if zclHdrTbl["Command"] == 128 then	-- Axxess Legacy Message
+		-- override durring program mode
+		if gProgramMode == 0 then
+			local msg = FormAxxessMessage(GetRoom(), C4:GetDeviceID(), zclHdrSz, packet)
+			SendToServer(msg)
+		end
+	end
+end
+
+function OnZigbeePacketSuccess(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+
+	dbg("OnZigbeePacketSuccess: Profile = " .. idProfileID .. "; ClusterID = " .. idClusterID .. "; GroupID = " .. idGroupID .. "; SourceEndpoint = " .. sourceEndpoint .. "; DestinationEndpoint = " .. destinationEndpoint)
+end
+
+function OnZigbeePacketFailed(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+
+	dbg("OnZigbeePacketFailed: Profile = " .. idProfileID .. "; ClusterID = " .. idClusterID .. "; GroupID = " .. idGroupID .. "; SourceEndpoint = " .. sourceEndpoint .. "; DestinationEndpoint = " .. destinationEndpoint)
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+
+	if idBinding == gZigbeeBinding then
+
+		gZigbeeOnline = bIsBound
+		if gZigbeeOnline then
+			tmrReplaceUnit = C4:AddTimer(10,"SECONDS")
+		end
+
+  	elseif idBinding == gServerBinding then
+
+  	end
+
+	local isbound = "true"
+	if bIsBound then
+		isbound = "true"
+	else
+		isbound = "false"
+	end
+
+      dbg("OnNetworkBindingChanged: Binding = " .. idBinding .. "; Bound = " .. isbound)
+end
+
+function OnZigbeeOnlineStatusChanged(strStatus, strVersion, strSkew)
+
+	dbg("OnZigbeeOnlineStatusChanged: Status = " .. strStatus .. " Version = " .. strVersion .. " Skew = " .. strSkew)
+	SendGetButtonState()
+	SendGetLEDState()
+end
+
+-- Decode FrameControl takes a byte - should be the Control frame byte and returns a table with true/false values
+function DecodeFrameControl(fc)
+
+	local fcTable =
+	{
+		["Cluster"] = IsBitSet(1, fc),		-- Profile / Cluster bit - false is entire profile message, true is cluster specific
+		["Manufacturer"] = IsBitSet(3, fc),       -- Manufacturer Code bit - true means manufacturer code is part of message
+		["Direction"] = IsBitSet(4, fc),	      -- Direction bit - true means message is sent from server side otherwise client side
+		["Response"] = IsBitSet(5, fc),		-- Response bit - if false, the default response will be returned, if true it will not
+		["Reserved1"] = IsBitSet(6, fc),
+		["Reserved2"] = IsBitSet(7, fc),
+		["Reserved3"] = IsBitSet(8, fc)
+	}
+
+	for fcKey, fcVal in pairs(fcTable) do
+
+		local txt = "fcTable: "
+		if fcVal == 1 then
+
+			txt = txt .. fcKey .. " = true"
+		else
+
+			txt = txt .. fcKey .. " = false"
+		end
+		dbg(txt)
+	end
+
+	return fcTable
+end
+
+-- Decode ZCLHeader(DecodeZCLMessage(zclMsg) and returns in a table and size of header
+-- zclMsg is a table generated from ParseBinaryPacket
+function DecodeZCLHeader(zclMsg)
+
+	local zclHdrTbl =
+	{
+		["FrameType"] = DecodeFrameControl(zclMsg[1]),	-- decode FrameControl
+		["ManufactureCode"] = nil,
+		["SequenceNumber"] = nil,
+		["Command"]	= nil
+	}
+
+	local index = 2
+	local fcTable =  zclHdrTbl["FrameType"]
+	if fcTable["Manufacturer"] == 1 then
+
+		zclHdrTbl["ManufactureCode"] = zclMsg[2] * 256 + zclMsg[3] -- bit shift 8 then add lower byte
+		index = 4
+	end
+
+	zclHdrTbl["SequenceNumber"] = zclMsg[index]
+	index = index + 1
+	zclHdrTbl["Command"] = zclMsg[index]
+
+	for zclKey, zclVal in pairs(zclHdrTbl) do
+
+		if zclKey ~= "FrameType" then
+
+			local txt = "zclHdrTable: " .. zclKey .. " = "
+			local txtVal = string.format("%02x", zclVal)
+			txt = txt .. txtVal
+			dbg(txt)
+		end
+	end
+
+	return zclHdrTbl, index
+end
+
+-- Parse the payload based on the starting point - zclHdrSz
+function ParseZCLPayload(zclHdrSz, zclMsg)
+
+	local zclPayload = {}
+	local j = 0
+
+	for i, val in pairs(zclMsg) do
+
+		if i > zclHdrSz then
+
+			j = j + 1
+			zclPayload[j] = val
+			local txt = string.format("zclPayload: Byte %d = %02x", j, val)
+			dbg(txt)
+		end
+	end
+
+	return zclPayload, j
+end
+
+-- Decode ZCL message - returns ZCL header table and payload table
+function DecodeZCLMessage(zclMsg)
+
+	local zclHdrTbl
+	local zclHdrSz
+
+	zclHdrTbl, zclHdrSz = DecodeZCLHeader(zclMsg)
+
+	fcTable = zclHdrTbl["FrameType"]
+
+	local txt = string.format("DecodeZCLMessage: ZCL Header Size = %d", zclHdrSz)
+	dbg(txt)
+
+	local zclPayload
+	local zclPayloadSz
+
+	zclPayload, zclPayloadSz = ParseZCLPayload(zclHdrSz, zclMsg)
+
+	if fcTable["Cluster"] == 1 then
+
+		HandleDoorStationTrap(zclHdrTbl["Command"], zclPayload, zclPayloadSz)
+	else
+
+		HandleResponse(zclHdrTbl["Command"], zclPayload, zclPayloadSz)
+	end
+
+	return zclHdrTbl, zclHdrSz, zclPayload
+end
+
+-- this for now returns 0 as the control frame
+function FormZCLControlFrame(clusterSpecific)
+
+	local fcByte = 0
+	if clusterSpecific then
+
+		fcByte = 1
+	end
+	return fcByte
+end
+
+-- GenSequenceID - returns a new sequence number
+function GenSequenceID()
+
+	if gSequenceNumber == 255 then
+
+		gSequenceNumber = 1
+	else
+
+		gSequenceNumber = gSequenceNumber + 1
+	end
+
+	dbg(string.format("GenSequenceID: ID = %d", gSequenceNumber))
+	return gSequenceNumber
+end
+
+-- Form a ZCL message - returns a string of bytes that constitute a message
+function FormZCLMessage(ctrlframe, seq, zclCmd, zclPayload)
+
+	local tbl = {}
+
+	tbl[1] = ctrlframe
+	tbl[2] = seq
+	tbl[3] = zclCmd
+
+	local j = 4
+
+	for i, val in pairs(zclPayload) do
+
+		tbl[j] = val
+		j = j + 1
+	end
+
+	return FormBinaryPacket(tbl)
+end
+
+-- Send ZCL message
+function SendZCLMessage(zclCmd, zclPayload)
+
+	local ctrlframe = FormZCLControlFrame(false)
+	local seq = GenSequenceID()
+
+	if gZigbeeOnline then
+
+		dbg("SendZCLMessage: SendData: sequence = " .. seq)
+		SendData(FormZCLMessage(ctrlframe, seq, zclCmd, zclPayload))
+	end
+end
+
+------------- End Zigbee -----------------------
+
+-- Handles an incoming Door Station ZCL trap / event generated by the device
+-- zclCmd = cmd, zclPayload = table of payload, and zclPayloadSz = size of payload
+function HandleDoorStationTrap(zclCmd, zclPayload, zclPayloadSz)
+
+	local execGet = false
+	local butNum = zclPayload[1]	-- always the first byte of payload for legitimate commands
+
+	local txt = "HandleDoorStationTrap: Command = "
+
+	if zclCmd == 0 then			-- Button Hold Press
+
+		txt = txt .. "Button Hold Press"
+	elseif zclCmd == 1 then 	-- Button Hold Release
+
+		txt = txt .. "Button Hold Release"
+		execGet = true
+	elseif zclCmd == 2 then 	-- Button Click Event
+
+		txt = txt .."Button Click Event"
+	elseif zclCmd == 3 then		-- Button Click Count
+
+		txt = txt .. "Button Click Count"
+		execGet = true
+	elseif zclCmd == 128 then	-- Axxess Legacy Message
+
+		txt = txt .. "Axxess Legacy Message"
+             -- we need the board id for program mode
+
+		gBoardID[1] = zclPayload[2]
+		gBoardID[2] = zclPayload[3]
+		gBoardID[3] = zclPayload[4]
+
+		if gProgramMode == 2 then
+			HandleALMessage(zclPayload)
+		end
+		butNum = nil
+
+	elseif zclCmd == 129 then	-- Axxess Specific Event
+
+		txt = txt .. " Axxess Specific Event " .. butNum .. " mode " .. gProgramMode
+
+		if gProgramMode == 0 and butNum == 2 then
+			SendGetButtonState()
+		
+		elseif zclPayload[1] == 1 then
+			txt = txt .. "Doorbell Ring"
+			C4:FireEvent("Doorbell Ring")
+		end
+
+		butNum = nil
+	end
+
+	if butNum then
+		txt = txt .. string.format("; Button Number = %d", butNum)
+	end
+
+	dbg(txt)
+
+	if execGet then
+		if butNum == 0 then
+			C4:FireEvent("Do Not Disturb Toggled")
+			SendGetButtonState()
+	
+		elseif butNum == 1 then
+			C4:FireEvent("Housekeeping Toggled")
+			SendGetButtonState()
+	
+		elseif butNum == 2 then
+			C4:FireEvent("Master Control")
+
+		else
+			SendGetButtonState()			
+		end
+	end
+end
+
+-- Handles Door Station ZCL responses
+-- zclCmd = cmd, zclPayload = table of payload, and zclPayloadSz = size of payload
+function HandleResponse(zclCmd, zclPayload, zclPayloadSz)
+
+	local attr = zclPayload[1]	-- always the first byte of payload for legitimate commands
+	local txt = "HandleResponse: Command = "
+
+	if zclCmd == 1 then -- Read Response
+
+		local val = zclPayload[5]
+		local bVal = "Off"
+		if val == 1 then
+			bVal = "On"
+		end
+
+		if (attr >= 0) and (attr <= 2) then
+
+			if attr == 0 then
+				if bVal == "On" then
+					C4:SetVariable(gDoNotDisturbName, "1")
+				else
+					C4:SetVariable(gDoNotDisturbName, "0")
+				end
+				UpdateDoorStationProperty(gDoNotDisturbName, bVal)
+
+			elseif attr == 1 then
+				if bVal == "On" then
+					C4:SetVariable(gHousekeepingName, "1")
+				else
+					C4:SetVariable(gHousekeepingName, "0")
+				end
+				UpdateDoorStationProperty(gHousekeepingName, bVal)
+
+			elseif attr == 2 then
+				if bVal == "On" then
+					C4:SetVariable(gMasterName, "1")
+				else
+					C4:SetVariable(gMasterName, "0")
+				end
+				UpdateDoorStationProperty(gMasterName, bVal)
+
+			end
+			
+			txt = txt .. string.format("Read Response; Attribute = %d; Button = %d", attr, val)
+
+		elseif (attr >= 3) and (attr < 9) then
+
+			local rgb = { zclPayload[7], zclPayload[6], zclPayload[5] }
+			if attr == 3 then
+
+				UpdateLEDColorProperty(gDNDLEDOnColor, rgb)
+			elseif attr == 4 then
+
+				UpdateLEDColorProperty(gDNDLEDOffColor, rgb)
+			elseif attr == 5 then
+
+				UpdateLEDColorProperty(gHKLEDOnColor, rgb)
+			elseif attr == 6 then
+
+				UpdateLEDColorProperty(gHKLEDOffColor, rgb)
+			elseif attr == 7 then
+
+				UpdateLEDColorProperty(gMCLEDOnColor, rgb)
+			elseif attr == 8 then
+
+				UpdateLEDColorProperty(gMCLEDOffColor, rgb)
+			end
+		end 
+
+	elseif zclCmd == 4 then 	-- Write response
+
+		if (attr >= 0) and (attr <= 2) then
+
+			-- Returns all the buttons 
+			SendGetButtonState()
+		elseif (attr >= 3) and (attr < 9) then
+
+			SendGetLEDColor(attr)
+		end
+
+		txt = txt .. string.format("Write Response; Attribute = %d", attr)
+	end
+
+	dbg(txt)
+end
+
+function SendGetButtonState()
+	SendGetButton(0)
+	SendGetButton(1)
+	SendGetButton(2)
+end
+
+function SendGetButton(butNum)
+
+	local zclCmd = 0	-- CmdID for a read
+	local zclPayload =
+	{
+		butNum, 0
+	}
+
+	SendZCLMessage(zclCmd, zclPayload)
+end
+
+function SendSetButton(butNum, val)
+
+	local zclCmd = 2	-- CmdID for a write
+	local zclPayload =
+	{
+		butNum, 0, gBool_Attribute, val
+	}
+
+	SendZCLMessage(zclCmd, zclPayload)
+end
+
+function SendGetLEDColor(led)
+
+	local zclCmd = 0	-- CmdID for a read
+	local zclPayload =
+	{
+		led, 0
+	}
+
+	SendZCLMessage(zclCmd, zclPayload)
+end
+
+function SendSetLEDColor(led, rgb)
+
+	local zclCmd = 2	-- CmdID for a write
+	local zclPayload =
+	{
+		led, 0, gRGB_Attribute, rgb[3], rgb[2], rgb[1]	-- rgb values are passed in reverse order (ie. blu, grn, red)
+	}
+
+	SendZCLMessage(zclCmd, zclPayload)
+end
+
+function SendGetLEDState()
+
+	SendGetLEDColor(gDND_RGB_ON)
+	SendGetLEDColor(gDND_RGB_OFF)
+	SendGetLEDColor(gHK_RGB_ON)
+	SendGetLEDColor(gHK_RGB_OFF)
+	SendGetLEDColor(gMC_RGB_ON)
+	SendGetLEDColor(gMC_RGB_OFF)
+end
+
+function IsEqualRGB(rgbOne, rgbTwo)
+
+	local ret = false
+	if (rgbOne[1] == rgbTwo[1]) and (rgbOne[2] == rgbTwo[2]) and (rgbOne[3] == rgbTwo[3]) then
+		ret = true
+	end
+	return ret
+end
+
+function IsBlack(rgbOne)
+
+	--dbg("IsBlack: ")
+	return IsEqualRGB(rgbOne, gBlk)
+end
+
+function IsRed(rgbOne)
+
+	--dbg("IsRed: ")
+	return IsEqualRGB(rgbOne, gRed)
+end
+
+function IsGreen(rgbOne)
+
+	--dbg("IsGreen: ")
+	return IsEqualRGB(rgbOne, gGrn)
+end
+
+function IsBlue(rgbOne)
+
+	--dbg("IsBlue: ")
+	return IsEqualRGB(rgbOne, gBlu)
+end
+
+function IsPurple(rgbOne)
+
+	--dbg("IsPurple: ")
+	return IsEqualRGB(rgbOne, gPrp)
+end
+
+function IsYellow(rgbOne)
+
+	--dbg("IsYellow: ")
+	return IsEqualRGB(rgbOne, gYlw)
+end
+
+function IsCyan(rgbOne)
+
+	--dbg("IsCyan: ")
+	return IsEqualRGB(rgbOne, gCyn)
+end
+
+function IsAmber(rgbOne)
+
+	--dbg("IsAmber: ")
+	return IsEqualRGB(rgbOne, gAmb)
+end
+
+function ColorName(rgb)
+
+	local txt = "ColorName: "
+	color = "Black"
+
+	if IsRed(rgb) then
+
+		color = "Red"
+	elseif IsGreen(rgb) then
+
+		color = "Green"
+	elseif IsBlue(rgb) then
+
+		color = "Blue"
+	elseif IsPurple(rgb) then
+
+		color = "Purple"
+	elseif IsYellow(rgb) then
+
+		color = "Yellow"
+	elseif IsCyan(rgb) then
+
+		color = "Cyan"
+	elseif IsAmber(rgb) then
+
+		color = "Amber"
+	end
+
+	txt = txt .. "Color = " .. color
+	--dbg(txt)
+	return color
+end
+
+function RGBColor(clrName)
+
+	local clr = { nil, nil, nil }
+	clr = gBlk
+
+	if clrName == "Red" then
+
+		clr = gRed
+	elseif clrName == "Green" then
+
+		clr = gGrn
+ 	elseif clrName == "Blue" then
+
+		clr = gBlu
+	elseif clrName == "Purple" then
+
+		clr = gPrp
+	elseif clrName == "Yellow" then
+
+		clr = gYlw
+	elseif clrName == "Cyan" then
+
+		clr = gCyn
+	elseif clrName == "Amber" then
+
+		clr = gAmb
+	end
+	return clr
+end
+
+function GetRoomState()
+
+	local roomState =  C4:SendToDevice(100121, "GET_ROOM_STATE", {})
+	
+	if roomState ~= nil then
+		dbg("GetRoomState: roomState = " .. roomState)
+	else
+		dbg("GetRoomState: roomState = nil")
+	end
+
+	return roomState
+end
+
+function GetRoom()
+
+	local room = ""
+	local roomState = GetRoomState()
+
+	if roomState ~= nil then
+
+		room = InnerXml("room_state", roomState)
+		room = InnerXml("room", room)
+		dbg("GetRoom: Room = " .. room)
+	end
+
+	return room
+end
+
+----------------- Start Init -------------------
+
+	-- program mode 
+	gBoardID = {}
+	gProgramMode = 0
+	gProgramPacketCount = 0
+	gProgramPackets = {}
+	gProgramTable = {}
+	gBlock = 0
+
+	-- program mode state machine
+	gState = ""
+	SendStartCode = "Sending Start Code"
+	SendCheckSum = "Sending Check Sum"
+	SendProgramData = "Sending Program Data"
+	SendTransferCode = "Sending Transfer Code"
+	SendStopCode = "Sending Stop Code"
+	SendGetProgramVersion = "Sending Get Program Version"
+	ProgramModeComplete = "Completing Program Mode"
+
+	-- debug	
+	gDebugPrint = false
+	gDebugLog = false
+
+	gZigbeeBinding = 6001
+	gZigbeeOnline = false
+
+	-- set gSequenceNumber (Zigbee Packet Sequence) to 1 after a reconnect and on startup...
+	gSequenceNumber = 1
+	gDoNotDisturbName = "Do Not Disturb"
+	gHousekeepingName = "Housekeeping"
+	gMasterName= "Master"
+	gDoorbellName = "Doorbell"
+	gDoorbellPropName = "Door Station Doorbell"
+	gDoorbellRingName = "Doorbell Ring"
+
+	gDNDLEDOnColor = "DND LED On Color"
+	gDNDLEDOffColor = "DND LED Off Color"
+	gHKLEDOnColor = "HK LED On Color"
+	gHKLEDOffColor = "HK LED Off Color"
+	gMCLEDOnColor = "MC LED Pressed Color"
+	gMCLEDOffColor = "MC LED Released Color"
+
+	gfalse = "false"
+	gtrue = "true"
+	gBool_Attribute = 16
+	gRGB_Attribute = 34	-- three bytes
+
+	gDND_RGB_ON	= 3
+	gDND_RGB_OFF = 4
+	gHK_RGB_ON = 5
+	gHK_RGB_OFF = 6
+	gMC_RGB_ON = 7
+	gMC_RGB_OFF = 8
+
+	gBlk = {0, 0, 0}
+	gRed = {111, 0, 0}
+	gGrn = {0, 111, 0}
+	gBlu = {0, 0, 111}
+	gPrp = {111, 0, 111}
+	gYlw = {111, 111, 0}
+	gCyn = {0, 111, 111}
+	gAmb = {111, 50, 0}
+
+	-- Axxess server support
+
+	gBootLoaderStatus = "Boot Loader Status"
+	gAxxessServerSynchronized = "Axxess Server Synchronized"
+
+	gServerBinding = 6060
+	gIsAxxessServerConnected = false
+	gAxxessServerConnectionName = "Axxess Server Connection"
+	gAxxessServerAddressName = "Axxess Server Address"
+	gAxxessServerPortName = "Axxess Server Port"
+	gAxxessServerPortChange = 10001
+
+	C4:AddVariable(gDoNotDisturbName, "", "BOOL")
+	C4:AddVariable(gHousekeepingName, "", "BOOL")
+	C4:AddVariable(gMasterName, "", "BOOL")
+	
+	gVersionName = "Version"
+	C4:UpdateProperty(gVersionName, Version())
+	FirePropertyChanged()
+
+	if gIsAxxessServerConnected then
+		dbg("+++++++ Create Network Connection +++++++")	
+		local port = Properties[gAxxessServerPortName]
+		local address = Properties[gAxxessServerAddressName]
+		C4:CreateNetworkConnection(gServerBinding, address, port)
+		C4:NetConnect(gServerBinding, port, "UDP")
+	end
+
+	--CreateAxxessServer()
+	--ConnectAxxessServer()
+
+	gAxxessServerSync = false
+	tmrAxxessServerSync = C4:AddTimer(1,"MINUTES",true)
+
+----------------- End Init --------------------
+
+        ]]></script>
+	</config>
+	<events>
+		<event>
+			<id>1</id>
+			<name>Do Not Disturb On</name>
+			<description>When NAME Do Not Disturb is turned on</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>Do Not Disturb Off</name>
+			<description>When NAME Do Not Disturb is turned off</description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>Housekeeping On</name>
+			<description>When NAME Housekeeping is turned on</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Housekeeping Off</name>
+			<description>When NAME Housekeeping is turned off</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>Master Control</name>
+			<description>When NAME Master Lights is pressed</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Doorbell Ring</name>
+			<description>When NAME Doorbell is pressed</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Master On</name>
+			<description>When NAME Master Lights is turned on</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Master Off</name>
+			<description>When NAME Master Lights is turned off</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Do Not Disturb Toggled</name>
+			<description>When NAME Do Not Disturb is toggled</description>
+		</event>
+		<event>
+			<id>10</id>
+			<name>Housekeeping Toggled</name>
+			<description>When NAME Housekeeping is toggled</description>
+		</event>
+	</events>
+	<connections>
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+	<capabilities>
+		<button_count>3</button_count>
+		<can_zigbee>True</can_zigbee>
+		<does_management>True</does_management>
+	</capabilities>
+</devicedata>

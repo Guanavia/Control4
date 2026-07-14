@@ -1,0 +1,1927 @@
+<devicedata>
+    <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+    <name>Telkonet Thermostat Driver</name>
+    <small>devices_sm/c4.gif</small>
+    <large>devices_lg/c4.gif</large>
+    <control>lua_gen</control>
+    <driver>DriverWorks</driver>
+    <composer_categories>
+        <category>Comfort</category>
+    </composer_categories>
+    <proxies>
+		<proxy name='Telkonet Thermostat' proxybindingid='5001'>thermostatV2</proxy>
+    </proxies>
+    <search_types>
+        <type>Telkonet:EcoInsight:1-0</type>
+    </search_types>
+    <manufacturer>Telkonet</manufacturer>
+    <version>3</version>
+    <creator>Telkonet</creator>
+    <created>10/12/2012 12:30 PM</created>
+    <modified>01/29/2016 10:25 AM</modified>
+    <model>EcoInsight</model>
+    <config>
+        <documentation>Telkonet EcoInsight, EcoSource Driver.
+----------------------------------------------
+Version 1.4    May 1, 2013
+----------------------------------------------
+
+This driver controls a Zigbee Home Automation Profile Standard Thermostat device.
+
+EcoInsight Joining Procedure
+----------------------------------------------
+The network status is indicated by 4 bars on the LCD (located just over the wording 'Room Temp').
+	No bars - the thermostat is joined to a network
+	Two bars - the thermostat is searching for a network to join
+	Four bars - the thermostat is not joined to any network.
+
+Press the Cool button 4 times.
+If the thermostat is not joined (4 bars on display), the thermostat will search for a network to join for 60 seconds.
+If the thermostat is already joined (no bars), it will send an Identify message.
+
+Leaving the network
+----------------------------------------------
+	1. Hold down the fan button for 10 seconds.
+	2. Release the fan button and press the on/off button. This will display the Maintenance menu.
+ 	3. Press the up arrow (Warm) button and the display will show 'Adv. Prog'. Press On/Off to select.
+	4. Press the down arrow (Cool) button and 21 should display beside 'Adv Prog'.
+	5. Press On/Off to selct option 21. The thermostat will then leave the network and reboot.
+
+EcoSource Joining Procedure
+----------------------------------------------
+The EcoSource has a single push button which serves multiple purposes.
+The red/green status LED is normally used to indicate connectivity status of the RUI/WOS devices,
+and only provides feedback on the ZigBee network during the join process.
+	2 red flashes, 1 green flash repeated every 2 seconds - searching for a network to join
+	Fast green flashing for 5 seconds - the thermostat has joined a network.
+	Red on solid for 5 seconds - the thermostat failed to join a network.
+
+Press the button 5 times.
+If the thermostat is not joined, the thermostat will search for a network to join for 60 seconds.
+If the thermostat is already joined, it will send an Identify message.
+
+
+Thermostat Cluster Attributes
+----------------------------------------------
+	Local Temperature
+	Occupied heating setpoint
+	Occupied cooling setpoint
+	System mode
+	Control sequence of operation
+	Minimum heat setpoint
+	Maximum heat setpoint
+	Minimum cool setpoint
+	Maximum cool setpoint
+
+Fan Cluster Attributes
+----------------------------------------------
+	Fan mode
+	Fan mode sequence of operation
+
+User Interface Cluster Attributes
+----------------------------------------------
+	Display mode
+	</documentation>
+        <properties>
+            <property>
+                <name>Debug Mode</name>
+                <type>LIST</type>
+                <items>
+                    <item>Off</item>
+                    <item>Print</item>
+                    <item>Log</item>
+                    <item>Print and Log</item>
+                </items>
+                <default>Off</default>
+                <readonly>false</readonly>
+            </property>
+            <property>
+                <name>Basic Cluster Endpoint</name>
+                <type>RANGED_INTEGER</type>
+                <minimum>1</minimum>
+                <maximum>255</maximum>
+                <default>1</default>
+                <readonly>true</readonly>
+            </property>
+            <property>
+                <name>Identify Cluster Endpoint</name>
+                <type>RANGED_INTEGER</type>
+                <minimum>1</minimum>
+                <maximum>255</maximum>
+                <default>1</default>
+                <readonly>true</readonly>
+            </property>
+            <property>
+                <name>Thermostat Cluster Endpoint</name>
+                <type>RANGED_INTEGER</type>
+                <minimum>1</minimum>
+                <maximum>255</maximum>
+                <default>1</default>
+                <readonly>true</readonly>
+            </property>
+            <property>
+                <name>FanControl Cluster Endpoint</name>
+                <type>RANGED_INTEGER</type>
+                <minimum>1</minimum>
+                <maximum>255</maximum>
+                <default>1</default>
+                <readonly>true</readonly>
+            </property>
+            <property>
+                <name>Keepalive Poll</name>
+                <type>LIST</type>
+                <items>
+                    <item>Polling Off</item>
+                    <item>30 Seconds</item>
+                    <item>1 Minute</item>
+                    <item>5 Minutes</item>
+                    <item>15 Minutes</item>
+                    <item>30 Minutes</item>
+                </items>
+                <default>Off</default>
+                <readonly>false</readonly>
+            </property>
+            <property>
+                <name>Telkonet Server</name>
+                <type>STRING</type>
+                <default></default>
+                <readonly>false</readonly>
+            </property>
+            <property>
+                <name>Telkonet Server Port</name>
+                <type>RANGED_INTEGER</type>
+                <minimum>1</minimum>
+                <maximum>65535</maximum>
+                <default>8000</default>
+                <readonly>false</readonly>
+            </property>
+            <property>
+                <name>Telkonet Server Status</name>
+                <type>LIST</type>
+                <items>
+                    <item>Offline</item>
+                    <item>Online</item>
+                </items>
+                <default>Offline</default>
+                <readonly>true</readonly>
+            </property>
+        </properties>
+    <actions>
+      <action>
+        <name>Set Room Sold Profile</name>
+        <command>ACT_SET_PROFILE_SOLD</command>
+      </action>
+      <action>
+        <name>Set Room Unsold Profile</name>
+        <command>ACT_SET_PROFILE_UNSOLD</command>
+      </action>
+      <action>
+        <name>Report Door Event</name>
+        <command>ACT_REPORT_DOOR_EVENT</command>
+      </action>
+      <action>
+        <name>Read Room Occupancy State</name>
+        <command>ACT_READ_OCCUPANCY</command>
+      </action>
+    </actions>
+    <commands>
+      <command>
+        <name>Set Room Sold Profile</name>
+        <description>Program room for sold state</description>
+      </command>
+      <command>
+        <name>Set Room Unsold Profile</name>
+        <description>Prograam room for unsold state</description>
+      </command>
+      <command>
+        <name>Report Door Event</name>
+        <description>Report door state change event</description>
+      </command>
+    </commands>
+         <script><![CDATA[
+
+TKN_SERVER_BINDING = 6000
+TKN_PORT = 8000
+
+---------------------------------------------------------------------------------
+-----------------------------------  SZL Start  -----------------------------------
+---------------------------------------------------------------------------------
+-- Control4 SZL - Simple Zigbee Library...
+--    Methods:
+
+-- SZL.ReadAttributes(nClusterID, ...)
+-- SZL.WriteAttributes(nClusterID, ...)
+-- SZL.SendClusterCommand(nClusterID, idCmd, strData)  -- Sends Cluster Specific Command
+-- SZL.SendCommand(nClusterID, idCmd, strData)             -- Doesn't set cluster specific header byte
+
+-- SZL.Initialize(nProfileID, tValidClusterIDs, nGroupID, nSourceEndpoint, nDestEndpoint)
+-- SZL.SetSendMode(bQueue, nWaitTime, nRetryTimes)
+-- SZL.SetAttributeHandler(AttrHandler)
+-- SZL.SetCmdHandler(CmdHandler)
+-- SZL.SetDbgHandler(DbgHandler)
+
+-- You also must call the following functions.
+-- SZL.ProcessZigbee(strRawZigbee, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)  --   Should be called within the driver's OnZigbeePacketIn function
+-- SZL.ResetSequenceNumber()		-- Should be called within the driver's OnZigbeeOnlineStatusChanged function
+-- SZL.OnTimerExpired(idTimer)		-- Should be called within the driver's OnTimerExpired function
+-- SZL.OnDriverDestroyed()				-- Should be called within the driver's OnDriverDestroyed function
+
+
+SZL = {}  		-- Initialize library container
+
+-- Set this to true if we need to act as an IDENTIFY server (for certification.  Otherwise, not used).
+SZL.IDENTIFY_SERVER = false
+
+function SZL.SetAttributeHandler(AttrHandler)
+  SZL.AttrHandler = AttrHandler
+end
+
+function SZL.SetCommandHandler(CmdHandler)
+  SZL.CmdHandler = CmdHandler
+end
+
+function SZL.SetDbgHandler(DbgHandler)
+  SZL.DbgHandler = DbgHandler
+end
+
+function SZL.dbg(strDbg)
+  if (SZL.DbgHandler ~= nil) then
+    SZL.DbgHandler("SZL: " .. strDbg)
+  end
+end
+
+-- From ZCL Spec Table 2.14, "Data Types"...
+SZL.attrtype_to_name = {}
+SZL.attrtype_to_name[0x00] = "Null"
+SZL.attrtype_to_name[0x08] = "8-Bit Data"
+SZL.attrtype_to_name[0x09] = "16-Bit Data"
+SZL.attrtype_to_name[0x0a] = "24-Bit Data (*)" -- Not Supported (not implemented in lpack)
+SZL.attrtype_to_name[0x0b] = "32-Bit Data"
+SZL.attrtype_to_name[0x10] = "Boolean"
+SZL.attrtype_to_name[0x18] = "8-Bit Bitmap"
+SZL.attrtype_to_name[0x19] = "16-Bit Bitmap"
+SZL.attrtype_to_name[0x1a] = "24-Bit Bitmap (*)" -- Not Supported (not implemented in lpack)
+SZL.attrtype_to_name[0x1b] = "32-Bit Bitmap"
+SZL.attrtype_to_name[0x20] = "Unsigned 8-Bit Integer"
+SZL.attrtype_to_name[0x21] = "Unsigned 16-Bit Integer"
+SZL.attrtype_to_name[0x22] = "Unsigned 24-Bit Integer (*)" -- Not Supported (not in lpack)
+SZL.attrtype_to_name[0x23] = "Unsigned 32-Bit Integer"
+SZL.attrtype_to_name[0x28] = "Signed 8-Bit Integer"
+SZL.attrtype_to_name[0x29] = "Signed 16-Bit Integer"
+SZL.attrtype_to_name[0x2a] = "Signed 24-Bit Integer (*)" -- Not Supported (not in lpack)
+SZL.attrtype_to_name[0x2b] = "Signed 32-Bit Integer"
+SZL.attrtype_to_name[0x30] = "8-Bit Enumeration"
+SZL.attrtype_to_name[0x31] = "16-Bit Enumeration"
+SZL.attrtype_to_name[0x38] = "Semi-Precision FP (*)"    -- Not Supported (not in lpack)
+SZL.attrtype_to_name[0x39] = "Single-Precision FP"
+SZL.attrtype_to_name[0x3a] = "Double-Precision FP"
+SZL.attrtype_to_name[0x41] = "Octet String"
+SZL.attrtype_to_name[0x42] = "Character String"
+SZL.attrtype_to_name[0xe0] = "Time of Day"
+SZL.attrtype_to_name[0xe1] = "Date"
+SZL.attrtype_to_name[0xf0] = "IEEE Adr"
+
+SZL.name_to_attrtype = {}
+for k,v in pairs(SZL.attrtype_to_name) do
+  SZL.name_to_attrtype[v] = k
+end
+
+-- From ZCL Spec Table 2.8, "ZCL Command Frames"...
+SZL.cmd_to_name = {}
+SZL.cmd_to_name[0x00] = "Read attributes"
+SZL.cmd_to_name[0x01] = "Read attributes response"
+SZL.cmd_to_name[0x02] = "Write attributes"
+SZL.cmd_to_name[0x03] = "Write attributes undivided"
+SZL.cmd_to_name[0x04] = "Write attributes response"
+SZL.cmd_to_name[0x05] = "Write attributes no response"
+SZL.cmd_to_name[0x06] = "Configure reporting"
+SZL.cmd_to_name[0x07] = "Configure reporting response"
+SZL.cmd_to_name[0x08] = "Read reporting configuration"
+SZL.cmd_to_name[0x09] = "Read reporting configuration response"
+SZL.cmd_to_name[0x0a] = "Report attributes"
+SZL.cmd_to_name[0x0b] = "Default response"
+SZL.cmd_to_name[0x0c] = "Discover attributes"
+SZL.cmd_to_name[0x0d] = "Discover attributes response"
+
+-- From ZCL Spec Table 2.14, "Data Types"...
+SZL.unpackstr = {}
+SZL.unpackstr[0x08] = "b"
+SZL.unpackstr[0x09] = "<H"
+SZL.unpackstr[0x0b] = "<L"
+SZL.unpackstr[0x10] = "b"
+SZL.unpackstr[0x18] = "b"
+SZL.unpackstr[0x19] = "<H"
+SZL.unpackstr[0x1b] = "<L"
+SZL.unpackstr[0x20] = "b"
+SZL.unpackstr[0x21] = "<H"
+SZL.unpackstr[0x23] = "<L"
+SZL.unpackstr[0x28] = "b"
+SZL.unpackstr[0x29] = "<h"
+SZL.unpackstr[0x2b] = "<l"
+SZL.unpackstr[0x30] = "b"
+SZL.unpackstr[0x31] = "<H"
+SZL.unpackstr[0x39] = "f"
+SZL.unpackstr[0x3a] = "d"
+SZL.unpackstr[0x41] = "p"
+SZL.unpackstr[0x42] = "p"
+SZL.unpackstr[0xf0] = "b8"
+
+-- Table of Analog values, used by Configure Reporting, which sends different params for analog types...
+-- From ZCL Spec Table 2.14, "Data Types"...
+SZL.IsAnalogType = {}
+SZL.IsAnalogType[0x20] = true
+SZL.IsAnalogType[0x21] = true
+SZL.IsAnalogType[0x22] = true
+SZL.IsAnalogType[0x23] = true
+SZL.IsAnalogType[0x28] = true
+SZL.IsAnalogType[0x29] = true
+SZL.IsAnalogType[0x2a] = true
+SZL.IsAnalogType[0x2b] = true
+SZL.IsAnalogType[0x38] = true
+SZL.IsAnalogType[0x39] = true
+SZL.IsAnalogType[0x3a] = true
+SZL.IsAnalogType[0xe0] = true
+SZL.IsAnalogType[0xe1] = true
+
+
+-- Frame Control bits to set
+-- From ZCL Spec Figure 2.3, "Format of the Frame Control Field"...
+-- bits 0-1
+SZL.FrameTypeProfileWide      = 0x00
+SZL.FrameTypeClusterSpecific = 0x01
+-- bit 2
+SZL.ManufacturerSpecific        = 0x04
+-- bit 3
+SZL.DirectionToServer             = 0x00
+SZL.DirectionToClient             = 0x08
+
+
+-- From ZCL Spec Table 2.2, "Clusters Specified by the General Functional Domain"...
+SZL.Cluster = {}
+SZL.Cluster[0x0000] = "Basic"
+SZL.Cluster[0x0001] = "PowerConfig"
+SZL.Cluster[0x0002] = "DeviceTemperatureConfiguration"
+SZL.Cluster[0x0003] = "Identify"
+SZL.Cluster[0x0004] = "Groups"
+SZL.Cluster[0x0005] = "Scenes"
+SZL.Cluster[0x0006] = "OnOff"
+SZL.Cluster[0x0007] = "OnOffSwitchConfiguration"
+SZL.Cluster[0x0008] = "LevelControl"
+SZL.Cluster[0x0009] = "Alarms"
+SZL.Cluster[0x000a] = "Time"
+SZL.Cluster[0x000b] = "RSSILocation"
+
+-- From ZCL Spec Tables 2.3-2.7, (Domain Specific Clusters)...
+
+-- Closures
+SZL.Cluster[0x0100] = "ShadeConfiguration"
+
+-- HVAC
+SZL.Cluster[0x0200] = "PumpConfigAndControl"
+SZL.Cluster[0x0201] = "Thermostat"
+SZL.Cluster[0x0202] = "FanControl"
+SZL.Cluster[0x0203] = "DehumidifcationControl"
+SZL.Cluster[0x0204] = "ThermostatUIConfiguration"
+
+-- Lighting
+SZL.Cluster[0x0300] = "ColorControl"
+SZL.Cluster[0x0301] = "BallastConfiguration"
+
+-- Measurement and Sensing
+SZL.Cluster[0x0400] = "IlluminanceMeasurement"
+SZL.Cluster[0x0401] = "IlluminanceLevelSensing"
+SZL.Cluster[0x0402] = "TemperatureMeasurement"
+SZL.Cluster[0x0403] = "PressureMeasurement"
+SZL.Cluster[0x0404] = "FlowMeasurement"
+SZL.Cluster[0x0405] = "RelativeHumidityMeasurement"
+SZL.Cluster[0x0406] = "OccupancySensing"
+
+-- Security and Safety
+SZL.Cluster[0x0500] = "IASZone"
+SZL.Cluster[0x0500] = "IASACE"
+SZL.Cluster[0x0500] = "IASWD"
+
+SZL.ClusterID = {}
+for k,v in pairs(SZL.Cluster) do
+  SZL.ClusterID[v] = k
+end
+
+
+-- From ZCL Spec Table 2.15, "Enumerated Status Values Used in the ZCL"...
+SZL.AttrResponseStatus = {}
+SZL.AttrResponseStatus[0x00] = "SUCCESS"
+SZL.AttrResponseStatus[0x01] = "FAILURE"
+SZL.AttrResponseStatus[0x80] = "MALFORMED_COMMAND"
+SZL.AttrResponseStatus[0x81] = "UNSUP_CLUSTER_COMMAND"
+SZL.AttrResponseStatus[0x82] = "UNSUP_GENERAL_COMMAND"
+SZL.AttrResponseStatus[0x83] = "UNSUP_MANUF_CLUSTER_COMMAND"
+SZL.AttrResponseStatus[0x84] = "UNSUP_MANUF_GENERAL_COMMAND"
+SZL.AttrResponseStatus[0x85] = "INVALID_FIELD"
+SZL.AttrResponseStatus[0x86] = "UNSUPPORTED_ATTRIBUTE"
+SZL.AttrResponseStatus[0x87] = "INVALID_VALUE"
+SZL.AttrResponseStatus[0x88] = "READ_ONLY"
+SZL.AttrResponseStatus[0x89] = "INSUFFICIENT_SPACE"
+SZL.AttrResponseStatus[0x8A] = "DUPLICATE_EXISTS"
+SZL.AttrResponseStatus[0x8B] = "NOT_FOUND"
+SZL.AttrResponseStatus[0x8C] = "UNREPORTABLE_ATTRIBUTE"
+SZL.AttrResponseStatus[0x8D] = "INVALID_DATA_TYPE"
+SZL.AttrResponseStatus[0xC0] = "HARDWARE_FAILURE"
+
+
+
+function SZL.ResetSequenceNumber()
+  SZL.gSequence = 0x01
+end
+
+
+function SZL.Initialize(nProfileID, tValidClusterIDs, nGroupID, nSourceEndpoint, nDestEndpoint)
+
+  SZL.ResetSequenceNumber()
+
+  -- Fill in for your device...
+  SZL.gMyProfileID = nProfileID
+
+  SZL.gMyValidClusterIDs = {}
+  for k,v in pairs(tValidClusterIDs) do
+    SZL.gMyValidClusterIDs[v] = k
+  end
+
+  SZL.gMyGroupID   = nGroupID
+
+  SZL.Endpoints = {}
+  SZL.TKN_ServerName = Properties["Telkonet Server"]
+  SZL.TKN_ServerPort = Properties["Telkonet Server Port"]
+  SZL.TKN_ServerStatus = "OFFLINE"
+
+  -- Endpoints are usually by cluster, but these are the default if not set...
+  SZL.gMySE        = nSourceEndpoint
+  SZL.gMyDE       = nDestEndpoint
+
+  -- Telkonet Server
+  if (SZL.TKN_ServerName  ~= "" and SZL.TKN_ServerName  ~= nil) then
+    C4:CreateNetworkConnection(TKN_SERVER_BINDING, SZL.TKN_ServerName, "NULL")
+    C4:NetConnect(TKN_SERVER_BINDING, SZL.TKN_ServerPort)
+  end
+
+  -- Clear Receive Buffer for incoming data
+  g_ReceiveBuffer = ""
+  g_TransmitBuffer = ""
+
+end
+
+-- If server is not online, re-establish connection
+function SZL.CheckServerConnection()
+  if (SZL.TKN_ServerName  ~= "") then
+    if (SZL.TKN_ServerStatus ~= "ONLINE") then
+      C4:CreateNetworkConnection(TKN_SERVER_BINDING, SZL.TKN_ServerName, "NULL")
+      C4:NetConnect(TKN_SERVER_BINDING, SZL.TKN_ServerPort)
+    end
+    return true
+  end
+  return false
+end
+
+-- Send command line interface (cli) to thermostat
+function SZL.Cli(cmd)
+  C4:SendZigbeePacket(cmd .. "\r", TSE_PROFILE, TKN_CLI_CLUSTER_ID, 0, 1, 0x64)
+end
+
+----------------------------------------------------------------------------------
+-- ParseAttributes
+--
+-- Given the Zigbee Attributes received from a Read Attributes Response or
+--  a Report Attributes command from the node, will return a table with
+--  the type, value, and status for every attribute received:
+--    table[1].type == attribute type
+--    table[1].value == value
+--    table[1].status == status (for READ ATTRIBUTES RESPONSE only)
+--
+-- NOTE: 24-bit data values and semi-precision FP are not parsed, just skipped.
+----------------------------------------------------------------------------------
+function SZL.ParseAttributes(strAttrs, attrsize, zclCmd)
+
+  local attrs = {}
+  local pos = 1
+  local status, id, type, val
+
+  while (pos < attrsize) do
+
+    status = 0x00  -- Success by default, for Report Attributes, which has no status...
+
+    -- If strAttrs length < 3, it's invalid, as it requires an ID (2 octets, and a status, 1 octet)...
+
+    if (zclCmd == 0x01) then
+      pos, id, status = string.unpack(strAttrs, "<Hb", pos)
+    else
+      pos, id = string.unpack(strAttrs, "<H", pos)
+    end
+
+    if (status == 0x00) then
+      -- Status == SUCCESS... Get Type...
+      pos, type = string.unpack(strAttrs, "b", pos)
+
+      attrs[id] = {}
+      attrs[id].status = status
+      attrs[id].type = type
+
+      local ut = SZL.unpackstr[type]
+
+      if (ut ~= nil) then
+        pos_was = pos
+        pos, val = string.unpack(strAttrs, ut, pos)
+        attrs[id].value = val
+
+        -- if attrs[id].type == "IEEE Adr" then
+	--if attrs[id].type == "b8" then
+	if ut == "b8" then
+	  --Copy IEEE Adr
+	  IEEE_Adr = string.sub(strAttrs,pos_was,pos_was+8)
+	  SZL.dbg("IEEE Adr:")
+	  hexdump(IEEE_Adr, SZL.dbg)
+        end
+
+        if attrs[id].type == "Boolean" then
+          if (attrs[id].value == 0x01) then
+            attrs[id].value = false
+          else
+            attrs[id].value = true
+          end
+        end
+
+         -- SZL.dbg("ParseAttr -- pos: " .. pos .. " id: " .. id .. " type: " .. string.format("%02x", type) .. " unpack type: \"" .. ut .. "\"  val: " .. attrs[id].value)
+      else
+        if SZL.attrtype_to_name[attrs[id].type] == "Time of Day" then
+          local hh, mm, ss, hs
+          pos, hh, mm, ss, hs = string.unpack(strAttrs, "bbbb", pos)
+          attrs[id].value = {}
+          attrs[id].value["Hours"] = hh
+          attrs[id].value["Minutes"] = mm
+          attrs[id].value["Seconds"] = ss
+          attrs[id].value["Hundredths"] = hs
+        end
+        if SZL.attrtype_to_name[attrs[id].type] == "Date" then
+          local yy, mm, dd, dow
+          pos, yy, mm, dd, dow = string.unpack(strAttrs, "bbbb", pos)
+          attrs[id].value = {}
+          attrs[id].value["Year"] = yy + 1990
+          attrs[id].value["Month"] = mm
+          attrs[id].value["Day"] = dd
+          attrs[id].value["DOW"] = dow
+        end
+
+        -- Skip values we don't currently implement...
+        if (id == 0x0a) or (id == 0x1a) or (id == 0x22) or (id == 0x2a) then
+          -- 24-bit data values, skip the data (3 bytes)...
+          pos = pos + 3
+        end
+        if (id == 0x38) then
+          -- Semi-Precision FP, skip the data (2 bytes)...
+          pos = pos + 2
+        end
+      end
+    else
+      -- Status ~= 0x00 (SUCCESS)... Print out failure...
+      SZL.dbg("Not Successful Status: " .. SZL.AttrResponseStatus[status] .. " (" .. status .. ")".. " for ID: " .. id)
+   end
+  end
+
+  return attrs
+end
+
+
+-- Parameters: Command ID, Cluster Specific, Manufacturer Specific, Manufacturer ID
+function SZL.BuildZHeader(CmdID, bCS, bMS, ManufID, Direction)
+  local fc = 0x00 -- Frame Control
+  local hdr
+
+  if (bCS) then fc = bit.bor(fc, SZL.FrameTypeClusterSpecific) end
+  if (bMS) then fc = bit.bor(fc, SZL.ManufacturerSpecific) end
+
+  Direction = Direction or "ToServer"
+  if (Direction == "ToServer") then
+    fc = bit.bor(fc, SZL.DirectionToServer)
+  else
+    fc = bit.bor(fc, SZL.DirectionToClient)
+  end
+
+  SZL.gSequence = SZL.gSequence + 1
+  if (SZL.gSequence > 255) then SZL.gSequence = 0 end
+
+  if (bMS == true) then
+    hdr = string.pack("b<Hbb", fc, ManufID, SZL.gSequence, CmdID)
+  else
+    hdr = string.pack("bbb", fc, SZL.gSequence, CmdID)
+  end
+
+  return hdr
+end
+
+
+-- Send a ReadAttributes command to the node, using the IDs passed in
+-- Example: SZL.ReadAttributes(nClusterID, 1, 2, 4, 5)
+function SZL.ReadAttributes(nClusterID, ...)
+  local pkt = SZL.BuildZHeader(0x00, false)   -- 0x00 is Read Attributes Command, not Cluster Specific...
+  for i,v in ipairs(arg) do
+    pkt = pkt .. string.pack("<H", v)  -- 2-Octet ID
+  end
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+
+-- Send a Configure Report Attributes command to the node, using the IDs passed in
+-- Example: SZL.ConfigureReporting(nClusterID, {[1] = 0x41, [2] = 0x09})  -- Attribute ID, Type pairs...
+function SZL.ConfigureReporting(nClusterID, tAttrs, nMinInterval, nMaxInterval, nTimeout, nReportableChange)
+  -- Default Values if not passed in...
+  nMinInterval = nMinInterval or 0x0000
+  nMaxInterval = nMaxInterval or 0xF000
+  nTimeout = nTimeout or 0x3C
+  nReportableChange = nReportableChange or 0x01
+
+  local pkt = SZL.BuildZHeader(0x06, false)   -- 0x06 is Configure Reporting Command, not Cluster Specific...
+  for k,v in pairs(tAttrs) do
+    SZL.dbg("Configure Reporting attribute: " .. k .. " (" .. string.format("0x%04x", k) .. ") Type: " .. v .. " (" .. string.format("0x%02x", v) .. ")")
+    if (SZL.IsAnalogType[v] ~= nil) then
+      pkt = pkt .. string.pack("b<Hb<H<H" .. SZL.unpackstr[v] .. " ", 0, k, v, nMinInterval, nMaxInterval, nReportableChange)
+    else
+      pkt = pkt .. string.pack("b<Hb<H<H", 0, k, v, nMinInterval, nMaxInterval)
+    end
+  end
+  SZL.dbg("ConfigureReporting Packet: ")
+  hexdump(pkt, SZL.dbg)
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+
+-- Send a WriteAttributes Command to the node, attribute IDs, types, and values in the table
+-- Example: WriteAttributes(nClusterID, {[ID] = {[type] = value}}, {[ID] = {[type] = value}}, etc...)
+-- Example: SZL.WriteAttributes(nClusterID, {[1] = {[0x20] = 55}}) -- Write Attr 1, Type 0x20, Value 55...
+--  Also, Type may be a type name as declared above...
+
+function SZL.WriteAttributes(nClusterID, ...)
+  local pkt = SZL.BuildZHeader(0x02, false)  -- 0x02 is Write Attributes Command, not Cluster Specific...
+  for i,v in pairs(arg) do
+    if (i ~= "n") then
+      local id, t_v = next(v)
+      local typ, val = next(t_v)
+
+      typ = SZL.name_to_attrtype[typ] or typ
+      local packtype = SZL.unpackstr[typ]
+
+      if (packtype ~= nil) then
+        pkt = pkt .. string.pack("<H", id)   -- 2-Octet ID
+        pkt = pkt .. string.pack("b", typ)   -- 1-Octet Data Type
+        pkt = pkt .. string.pack(packtype, val)   -- Variable-Length Data, depending on type...
+      end
+    end
+  end
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+-- Send a ReportAttributes Command to the node, attribute IDs, types, and values in the table
+-- Example: ReportAttributes(nClusterID, {[ID] = {[type] = value}}, {[ID] = {[type] = value}}, etc...)
+-- Example: SZL.ReportAttributes(nClusterID, {[1] = {[0x20] = 55}}) -- Write Attr 1, Type 0x20, Value 55...
+
+function SZL.ReportAttributes(nClusterID, ...)
+  local pkt = SZL.BuildZHeader(0x0a, false)  -- 0x02 is Write Attributes Command, not Cluster Specific...
+  for i,v in pairs(arg) do
+    if (i ~= "n") then
+      local id, t_v = next(v)
+      local typ, val = next(t_v)
+
+      typ = SZL.name_to_attrtype[typ] or typ
+      local packtype = SZL.unpackstr[typ]
+
+      if (packtype ~= nil) then
+        pkt = pkt .. string.pack("<H", id)   -- 2-Octet ID
+        pkt = pkt .. string.pack("b", typ)   -- 1-Octet Data Type
+        pkt = pkt .. string.pack(packtype, val)   -- Variable-Length Data, depending on type...
+      end
+    end
+  end
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+
+SZL.ATTRS = {}
+SZL.ATTRS.Basic = {}
+SZL.ATTRS.Basic[0] = tohex("00 20 01")
+SZL.ATTRS.Basic[7] = tohex("00 30 01")
+-- Everything else should be 0x86 status, not 0x00
+
+
+-- Parses Zigbee Header...
+-- Returns: command, it's data, sequence #, frame type
+function SZL.ParseZHeader(strRawZigbee)
+
+  -- Parse it...
+  local pos, fc = string.unpack(strRawZigbee, "b")
+
+  -- Manufacturer-Specific?  If so, decode w/ manufacturer... If not, just rest...
+  local ms = (bit.band(fc, 0x04) > 0)
+  local ft = bit.band(fc, 0x03)
+  if (ft == 0x01) then
+    ft = 'Cluster Specific'
+  else
+    ft = 'acts Across Profile'
+  end
+
+  SZL.dbg("APS Frame Control: " .. string.format("%02x", fc) .. " Frame type: " .. ft)
+
+  local mfg, seq, cmd = 0, 0, 0
+  if (ms) then
+    pos, mfg, seq, cmd = string.unpack(strRawZigbee, "<Hbb", pos)
+  else
+    pos, seq, cmd = string.unpack(strRawZigbee, "bb", pos)
+  end
+
+  data = string.sub(strRawZigbee, pos)
+
+  -- If it's Cluster Specific, then it could be command response for Cluster Command, not Basic readattributes, etc...
+
+  local cmdname = SZL.cmd_to_name[cmd] or ""
+
+  if (ft == 'Cluster Specific') then
+    cmdname = "Cluster Specific Cmd"
+  end
+
+  SZL.dbg("ParseZHeader -- Cmd: " .. cmd .. " (" .. cmdname .. ") Seq: " .. seq)
+  hexdump(data, function(d) SZL.dbg("Data: " .. d) end)
+  return cmd, data, seq, ft, ms, mfg
+end
+
+
+
+function SZL.ProcessZigbee(strRawZigbee, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+
+  local clustername = SZL.Cluster[idClusterID] or "Unknown Cluster"
+  if (idProfileID ~= SZL.gMyProfileID) or (SZL.gMyValidClusterIDs[idClusterID] == nil) then
+    if (idProfileID == 0xc25d) then
+     SZL.dbg("C4 Profile")
+    else
+     if (idProfileID == TSE_PROFILE) then
+	if (idClusterID == TKN_CLI_CLUSTER_ID) then
+	  -- router cli response
+	  dbg(strRawZigbee)
+	else
+	  SZL.dbg("TSE ProfileID: " .. idProfileID .. " Cluster: " .. idClusterID .. " (" .. clustername .. ")")
+	  if (SZL.CheckServerConnection()) then
+	    C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, strRawZigbee)
+	  else g_TransmitBuffer = strRawZigBee
+	  end
+	end
+     end
+     return
+    end
+  end
+
+
+  SZL.dbg("---------------------------------------------------")
+
+
+
+  hexdump(strRawZigbee, function(strdump) SZL.dbg("SZL.ProcessZigbee -- Profile: " .. string.format("0x%x", idProfileID) .. " Cluster: " .. string.format("0x%x", idClusterID) .. " Data: " .. strdump) end)
+  local cmd, data, seq, ft, ms, mfg = SZL.ParseZHeader(strRawZigbee)
+
+  if (ft == 'Cluster Specific') then
+    -- Basic Cluster doesn't support any commands...
+
+    if (ms == true) then
+      SZL.SendCommand(idClusterID, 0x0b, tohex(string.format("%02x", cmd) .. "83"), "ToClient")  -- Don't support manufacturer specific cluster command...
+      return
+    end
+
+    if (idClusterID == 0x00) then
+      -- Send Default response of 0x81 -- Unsupported Cluster Command.
+      SZL.SendCommand(idClusterID, 0x0b, tohex(string.format("%02x", cmd) .. "81"), "ToClient")
+      return
+    end
+
+    if ((idClusterID == SZL.ClusterID.Identify) and (SZL.IDENTIFY_SERVER)) then
+      -- Start Identify command...
+      if (cmd == 0x00) then
+        -- Start identify timer...
+        if (SZL.IdentifyTimer ~= nil) then SZL.IdentifyTimer = C4:KillTimer(SZL.IdentifyTimer) end
+        _, SZL.IdentifyTime = string.unpack(data, "<H")
+        SZL.IdentifyTimer = C4:AddTimer(1, "SECONDS", true)  -- one-second timer...
+        print(SZL.IdentifyTime .. " second IDENTIFY STARTING...")
+      end
+
+      -- Identify Query command...
+      if (cmd == 0x01) then
+        SZL.IdentifyTime = SZL.IdentifyTime or 0
+        if (SZL.IdentifyTime > 0) then
+          SZL.SendClusterCommand(SZL.ClusterID.Identify, 0x00, string.pack("<H", SZL.IdentifyTime), "ToClient")
+        end
+      end
+
+      return
+    end
+    SZL.dbg("Cluster Specific Command .. Sending to Handler...")
+    if (SZL.CmdHandler ~= nil) then
+      SZL.CmdHandler(idClusterID, cmd, data)
+    end
+    return
+  end
+
+  if (data ~= nil) then
+    -- if ((idProfileID == HA_PROFILE) and (idClusterID == SZL.ClusterID.Thermostat)) then
+       -- SZL.CheckServerConnection()
+       -- if (IEEE_Adr ~= nil) then
+       --	  C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, IEEE_Adr .. strRawZigbee)
+       -- else
+       --	C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, strRawZigbee)
+       ---end
+   -- end
+
+    -- Report Attributes (0x0a) or Read Attributes Response (0x01)
+    if ((cmd == 0x0a) or (cmd == 0x01)) then
+      local attrs = SZL.ParseAttributes(data, string.len(data), cmd)
+
+      -- Debug Print the found attributes...
+      for i,v in pairs(attrs) do
+        local status = attrs[i].status or ""
+        local val = attrs[i].value or ""
+        local valhex = ""
+        if (type(val) == "number") then
+          valhex = string.format(" (0x%02x)", val)
+        end
+        if (type(val) ~= "table") then
+          SZL.dbg("Response Attrs: attr[" .. i .. " (" .. string.format("0x%04x", i) .. ")] Type: " .. attrs[i].type .. " Value: " .. val .. valhex .. " Status: " .. status)
+        else
+          SZL.dbg("Response Attrs: attr[" .. i .. " (" .. string.format("0x%04x", i) .. ")] Type: " .. attrs[i].type .. " Status: " .. status)
+          for k,v in pairs(val) do
+            SZL.dbg(k .. ": " .. v)
+          end
+        end
+      end
+
+      if (SZL.AttrHandler ~= nil) then
+        SZL.AttrHandler(idClusterID, attrs)
+      end
+    end
+    -- ReadAttributes...
+    if (cmd == 0x00) then
+      local pos = 1
+      resp_attr_data = ""
+      -- Handle ReadAttributes command... Get each attribute, handle it separately...
+      if (idClusterID == 0) then
+        -- Get each attribute from data, return it, or an unsupported attributes (0x86) value...
+        while (pos < #data) do
+          pos, ID = string.unpack(data, "<H", pos)
+          dbg("Found ID: " .. ID)
+          if (SZL.ATTRS.Basic[ID] ~= nil) then
+            resp_attr_data =  resp_attr_data .. string.pack("<H", ID)  .. SZL.ATTRS.Basic[ID]
+          else
+            resp_attr_data =  resp_attr_data .. string.pack("<H", ID) .. tohex("86")
+          end
+        end
+      end
+      if (idClusterID == SZL.ClusterID.Identify) then
+        -- Get each attribute from data, return it, or an unsupported attributes (0x86) value...
+        while (pos < #data) do
+          pos, ID = string.unpack(data, "<H", pos)
+          dbg("Found ID: " .. ID)
+          if (ID == 0) then
+            resp_attr_data =  resp_attr_data .. string.pack("<H", ID)  .. string.pack("<H", SZL.IdentifyTime)
+          else
+            resp_attr_data =  resp_attr_data .. string.pack("<H", ID) .. tohex("86")
+          end
+        end
+      end
+      if (resp_attr_data ~= "") then
+        SZL.SendCommand(idClusterID, 0x01, resp_attr_data, "ToClient")
+      end
+    end
+
+    -- WriteAttributes...
+    if (cmd == 0x02) then
+      if (ms == true) then
+        SZL.SendCommand(idClusterID, 0x0b, tohex(string.format("%02x", cmd) .. "84"), "ToClient")
+        return
+      end
+      local pos = 1
+      resp_attr_data = ""
+      -- Handle WriteAttributes command... Get each attribute, handle it separately...
+      if (idClusterID == 0) then
+        -- Get each attribute from data, return it, or an unsupported attributes (0x86) value...
+        local attrs = SZL.ParseAttributes(data, string.len(data), 0x00)
+        for k,v in pairs(attrs) do
+          if (SZL.ATTRS.Basic[k] ~= nil) then
+            resp_attr_data =  resp_attr_data .. tohex("88") .. string.pack("<H", k)
+          else
+            resp_attr_data =  resp_attr_data .. tohex("86") .. string.pack("<H", k)
+          end
+        end
+      end
+      if (idClusterID == SZL.ClusterID.Identify) then
+        -- Get each attribute from data, return it, or an unsupported attributes (0x86) value...
+        local attrs = SZL.ParseAttributes(data, string.len(data), 0x00)
+        for k,v in pairs(attrs) do
+          if (k == 0) then
+            -- Start Timer, send success response.
+            SZL.IdentifyTime = attrs[0].value
+            SZL.IdentifyTimer = C4:AddTimer(1)  -- one-second timer...
+            print(SZL.IdentifyTime .. " second IDENTIFY STARTING...")
+            resp_attr_data =  resp_attr_data .. tohex("00") .. string.pack("<H", k)
+          else
+            resp_attr_data =  resp_attr_data .. tohex("86") .. string.pack("<H", k)
+          end
+        end
+      end
+      if (resp_attr_data ~= "") then
+        SZL.SendCommand(idClusterID, 0x04, resp_attr_data, "ToClient")
+      end
+    end
+  end
+
+  -- Send the next item in the queue...
+  SZL.SendTop()
+
+end
+
+
+function SZL.SendClusterCommand(nClusterID, idCmd, strData, Direction)
+  local pkt = SZL.BuildZHeader(idCmd, true, nil, nil, Direction)   -- Build Cluster-Specific Command
+  pkt = pkt .. strData
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+
+function SZL.SendCommand(nClusterID, idCmd, strData, Direction)
+  local pkt = SZL.BuildZHeader(idCmd, false, nil, nil, Direction)   -- Build Cluster-Specific Command
+  pkt = pkt .. strData
+  SZL.SendZigbee(pkt, nClusterID)
+end
+
+
+-- bQueue == Use a Send Queue... If false, all Zigbee commands are sent immediately
+-- nWaitTime == How long to wait for a response from a node.  If none comes, it will retry nRetryTimes Times, then drop it.
+function SZL.SetSendMode(bQueue, nWaitTime, nRetryTimes)
+  SZL.gUseQueue = bQueue
+  SZL.gQueueWaitTime = nWaitTime
+  SZL.gQueueRetryTimes = nRetryTimes
+end
+
+
+-- If QueueCmds == true, then only send a single Zigbee Command, wait for the reply, and set the retry timer, etc.
+function SZL.SendZigbee(pkt, nClusterID)
+
+  local SE = SZL.Endpoints[nClusterID] or SZL.gMySE
+  local DE = SZL.Endpoints[nClusterID] or SZL.gMyDE
+
+  if (gZigbeeBound == false) then
+    hexdump(pkt, function(strdump) SZL.dbg("Packet not sent, Zigbee device not bound: " .. strdump) end)
+    return
+  end
+
+  if (SZL.gUseQueue) then
+    SZL.gSendQueue = SZL.gSendQueue or {}
+    SZL.QueueTimer = SZL.QueueTimer or 0
+    local PacketData = {}
+    PacketData.data = pkt
+    PacketData.clusterid = nClusterID
+
+    table.insert(SZL.gSendQueue, PacketData)
+    local addone = 0
+    if (SZL.QueueTimer > 0) then
+      addone = 1
+    end
+    hexdump(pkt, function(strdump) SZL.dbg("Queueing Packet..." .. "(" .. #SZL.gSendQueue + addone .. " in Queue): " .. strdump) end)
+    if (SZL.QueueTimer == 0) then
+      SZL.SendTop()
+    end
+  else
+    hexdump(pkt, function(strdump) SZL.dbg("Sending Zigbee... Profile: " .. string.format("0x%x", SZL.gMyProfileID) .. " Cluster: " .. string.format("0x%x", nClusterID) .. " - " .. "SE/DE: " .. SE .. "/" .. DE .. " -- " .. strdump) end)
+    C4:SendZigbeePacket(pkt, SZL.gMyProfileID, nClusterID, SZL.gMyGroupID, SE, DE)
+  end
+end
+
+
+function SZL.SendTop()
+  SZL.gSendQueue = SZL.gSendQueue or {}
+  SZL.QueueTimer = SZL.QueueTimer or 0
+  if (SZL.QueueTimer ~= 0) then
+    SZL.QueueTimer = C4:KillTimer(SZL.QueueTimer)
+  end
+
+  -- If packets in queue, send top...
+  if (#SZL.gSendQueue >= 1) then
+    SZL.gCurPkt = table.remove(SZL.gSendQueue, 1)
+
+    hexdump(SZL.gCurPkt.data, function(strdump) SZL.dbg("Sending Queued Packet...(" .. #SZL.gSendQueue + 1 .. " left): " .. strdump) end)
+    SZL.gQueueRetryCount = 0
+
+    local SE = SZL.Endpoints[SZL.gCurPkt.clusterid] or SZL.gMySE
+    local DE = SZL.Endpoints[SZL.gCurPkt.clusterid] or SZL.gMyDE
+
+    C4:SendZigbeePacket(SZL.gCurPkt.data, SZL.gMyProfileID, SZL.gCurPkt.clusterid, SZL.gMyGroupID, SE, DE)
+    SZL.QueueTimer = C4:AddTimer(SZL.gQueueWaitTime, "SECONDS")
+  end
+end
+
+
+function SZL.OnTimerExpired(idTimer)
+  -- SZL's own OnTimerExpired.  This should be called in the driver's OnTimerExpired, so SZL can handle it's own timers.
+  -- Returns true if it handled the timer, so the calling code can return.
+
+  if (idTimer == SZL.IdentifyTimer) then
+    SZL.IdentifyTime = SZL.IdentifyTime - 1
+    print("IDENTIFY... " .. SZL.IdentifyTime)
+    if (SZL.IdentifyTime < 1) then
+      SZL.IdentifyTime = 0
+      print("IDENTIFY ENDING...")
+      SZL.IdentifyTimer = C4:KillTimer(SZL.IdentifyTimer)
+    end
+    return true
+  end
+
+  if (idTimer == SZL.QueueTimer) then
+    SZL.QueueTimer = C4:KillTimer(SZL.QueueTimer)
+
+    -- Must've not worked... failed send, so resend until max send count.
+    SZL.gQueueRetryCount = SZL.gQueueRetryCount + 1
+    if (SZL.gQueueRetryCount <= SZL.gQueueRetryTimes) then
+      hexdump(SZL.gCurPkt.data, function(strdump) SZL.dbg("Retry Queued Packet...(" .. #SZL.gSendQueue + 1 .. " left): " .. strdump) end)
+
+      local SE = SZL.Endpoints[SZL.gCurPkt.clusterid] or SZL.gMySE
+      local DE = SZL.Endpoints[SZL.gCurPkt.clusterid] or SZL.gMyDE
+
+      C4:SendZigbeePacket(SZL.gCurPkt.data, SZL.gMyProfileID, SZL.gCurPkt.clusterid, SZL.gMyGroupID, SE, DE)
+      SZL.QueueTimer = C4:AddTimer(SZL.gQueueWaitTime, "SECONDS")
+    else
+      SZL.SendTop()
+    end
+    return true
+  end
+  return false
+end
+
+
+function SZL.OnDriverDestroyed()
+  if (SZL.QueueTimer) then SZL.QueueTimer = C4:KillTimer(SZL.QueueTimer) end
+end
+
+
+SZL.gUseQueue = false
+SZL.gQueueWaitTime = 1
+SZL.gQueueRetryTimes = 0
+
+---------------------------------------------------------------------------------
+-------------------------------  GENERIC CLUSTERS  --------------------------------
+---------------------------------------------------------------------------------
+----------------------------------  Basic Cluster  ----------------------------------
+SZL.Basic = {}
+function SZL.Basic.GetMandatoryAttributes()
+  -- Reads the Attributes that correspond to the 'defined' Basic Cluster attributes (Mandatory only)...
+  SZL.ReadAttributes(SZL.ClusterID.Basic, 0x00, 0x07, 0x12)
+end
+
+function SZL.Basic.ResetToFactoryDefaults()
+  SZL.SendClusterCommand(SZL.ClusterID.Basic, 0x00, "")
+end
+
+---------------------------------  Identify Cluster  ---------------------------------
+SZL.Identify = {}
+function SZL.Identify.GetIdentifyTime()
+  SZL.ReadAttributes(SZL.ClusterID.Identify, 0x00)
+end
+
+function SZL.Identify.SetIdentifyTime(nTime)
+  local ntime = tonumber(nTime)
+  SZL.WriteAttributes(SZL.ClusterID.Identify, {[0x00] = {[SZL.name_to_attrtype["Unsigned 16-Bit Integer"]] = ntime}})
+end
+
+function SZL.Identify.DoIdentify(nTime)
+  local ntime = tonumber(nTime)
+  SZL.SendClusterCommand(SZL.ClusterID.Identify, 0x00, string.pack("<H", ntime))
+end
+
+function SZL.Identify.DoIdentifyQuery()
+  SZL.SendClusterCommand(SZL.ClusterID.Identify, 0x01, "")
+end
+
+
+---------------------------------  Groups Cluster  ---------------------------------
+SZL.Groups = {}
+function SZL.Groups.AddGroup(groupID, groupName)
+  groupName = groupName or ""
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x00, string.pack("<Hp", groupID, groupName))
+end
+
+function SZL.Groups.ViewGroup(groupID)
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x01, string.pack("<H", groupID))
+end
+
+function SZL.Groups.GetGroupMembership(tGroupList)
+  local data = string.pack("b", #tGroupList)
+  for k,v in pairs(tGroupList) do
+    data = data .. string.pack("<H", v)
+  end
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x02, data)
+end
+
+function SZL.Groups.RemoveGroup(groupID)
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x03, string.pack("<H", groupID))
+end
+
+function SZL.Groups.RemoveAllGroups()
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x04, "")
+end
+
+function SZL.Groups.AddGroupIfIdentifying(groupID, groupName)
+  groupName = groupName or ""
+  SZL.SendClusterCommand(SZL.ClusterID.Groups, 0x05, string.pack("<Hp", groupID, groupName))
+end
+
+-- TODO: Implement Commands Generated (returned from dimmer) section...
+ -- Add group response
+ -- View group response
+ -- Get group membership response
+ -- Remove group response
+
+---------------------------------  Scenes Cluster  ---------------------------------
+SZL.Scenes = {}
+function SZL.Scenes.AddScene(sceneid, groupid, tt, name, data)
+  SZL.SendClusterCommand(SZL.ClusterID.Scenes, 0x00, string.pack("<Hb<Hp", groupid, sceneid, tt, name) .. data)
+end
+
+function SZL.Scenes.RemoveScene(sceneid, groupid)
+  SZL.SendClusterCommand(SZL.ClusterID.Scenes, 0x02, string.pack("<Hb", groupid, sceneid))
+end
+
+---------------------------------  OnOff Cluster  ----------------------------------
+SZL.OnOff = {}
+function SZL.OnOff.Off()
+  SZL.SendClusterCommand(SZL.ClusterID.OnOff, 0x00, "")
+end
+
+function SZL.OnOff.On()
+  SZL.SendClusterCommand(SZL.ClusterID.OnOff, 0x01, "")
+end
+
+function SZL.OnOff.Toggle()
+  SZL.SendClusterCommand(SZL.ClusterID.OnOff, 0x02, "")
+end
+
+
+-------------------------------  LevelControl Cluster  --------------------------------
+SZL.LevelControl = {}
+function SZL.LevelControl.MoveToLevel(Level, TTime, cmd)
+  cmd = cmd or 0x00
+  SZL.SendClusterCommand(SZL.ClusterID.LevelControl, cmd, string.pack("b<H", Level, TTime))
+end
+
+
+function SZL.LevelControl.Move(strMode, Rate, cmd)
+  cmd = cmd or 0x01
+  strMode = string.upper(strMode)
+  local md
+
+  if (strMode == "UP") then
+    md = 0x00
+  else if (strMode == "DOWN") then
+          md = 0x01
+        end
+  end
+  if (md == nil) then
+    SZL.dbg(strMode .. " is not a valid Mode.")
+    return
+  end
+  SZL.SendClusterCommand(SZL.ClusterID.LevelControl, cmd, string.pack("bb", md, Rate))
+end
+
+
+function SZL.LevelControl.Step(strMode, StepSize, TTime, cmd)
+  cmd = cmd or 0x02
+  strMode = string.upper(strMode)
+  local md
+
+  if (strMode == "UP") then
+    md = 0x00
+  else if (strMode == "DOWN") then
+          md = 0x01
+        end
+  end
+  if (md == nil) then
+    SZL.dbg(strMode .. " is not a valid Mode.")
+    return
+  end
+  SZL.SendClusterCommand(SZL.ClusterID.LevelControl, cmd, string.pack("bb<H", md, StepSize, TTime))
+end
+
+
+function SZL.LevelControl.Stop(cmd)
+  cmd = cmd or 0x03
+  SZL.SendClusterCommand(SZL.ClusterID.LevelControl, cmd, "")
+end
+
+
+function SZL.LevelControl.MoveToLevelWithOnOff(Level, TTime)
+  SZL.LevelControl.MoveToLevel(Level, TTime, 0x04)
+end
+
+
+function SZL.LevelControl.MoveWithOnOff(strMode, Rate)
+  SZL.LevelControl.Move(strMode, Rate, 0x05)
+end
+
+
+function SZL.LevelControl.StepWithOnOff(strMode, StepSize, TTime)
+  SZL.LevelControl.Step(strMode, StepSize, TTime, 0x06)
+end
+
+
+function SZL.LevelControl.StopWithOnOff()
+  SZL.LevelControl.Stop(0x07)
+end
+
+-------------------------------  Thermostat Cluster  --------------------------------
+SZL.Thermostat = {}
+function SZL.Thermostat.GetMandatoryAttributes()
+  -- Reads the Attributes that correspond to the 'defined' Thermostat Cluster attributes (Mandatory only)...
+  SZL.ReadAttributes(SZL.ClusterID.Thermostat, 0x0000, 0x0011, 0x0012, 0x001b, 0x001c, 0xf01c)
+end
+
+function SZL.Thermostat.ConfigureReportingOn()
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x00] = SZL.name_to_attrtype["Signed 16-Bit Integer"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x11] = SZL.name_to_attrtype["Signed 16-Bit Integer"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x12] = SZL.name_to_attrtype["Signed 16-Bit Integer"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x1b] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x1c] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0x02] = SZL.name_to_attrtype["8-Bit Bitmap"]})
+  SZL.ConfigureReporting(SZL.ClusterID.Thermostat, {[0xf01c] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+end
+
+
+function SZL.Thermostat.SetpointRaiseLower(strMode, nVal)
+  -- Handle negative values, turn them into two's compliment values (byte)...
+  if (nVal > 127) then
+    nVal = 127
+  end
+  if (nVal < 0) then
+    nVal = (0x100 + nVal)
+  end
+  if (strMode == "Heat") then
+    SZL.SendClusterCommand(SZL.ClusterID.Thermostat, 0x00, string.pack("bb", 0, nVal))
+  end
+  if (strMode == "Cool") then
+    SZL.SendClusterCommand(SZL.ClusterID.Thermostat, 0x00, string.pack("bb", 1, nVal))
+  end
+  if (strMode == "Both") then
+    SZL.SendClusterCommand(SZL.ClusterID.Thermostat, 0x00, string.pack("bb", 2, nVal))
+  end
+end
+
+
+-------------------------------  Fan Control  --------------------------------
+SZL.FanControl = {}
+function SZL.FanControl.GetMandatoryAttributes()
+  -- Reads the Attributes that correspond to the 'defined' Thermostat Cluster attributes (Mandatory only)...
+  SZL.ReadAttributes(SZL.ClusterID.FanControl, 0x0000, 0x0001, 0xf000)
+end
+
+
+function SZL.FanControl.ConfigureReportingOn()
+  SZL.ConfigureReporting(SZL.ClusterID.FanControl, {[0x00] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+  SZL.ConfigureReporting(SZL.ClusterID.FanControl, {[0x01] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+  SZL.ConfigureReporting(SZL.ClusterID.FanControl, {[0xf000] = SZL.name_to_attrtype["8-Bit Enumeration"]})
+end
+
+
+
+---------------------------------  Other Clusters  ----------------------------------
+
+---------------------------------------------------------------------------------
+-----------------------------------  SZL End  -------------------------------------
+---------------------------------------------------------------------------------
+
+HVAC_STATE_TO_NAME = {"Cool","Cool","Cool", "Heat", "Heat", "Heat", "Cool", "Heat", "Off",}
+HVAC_STATE_TO_NAME[0] = "Off"
+FAN_STATE_TO_NAME = {"Low", "Medium", "High", "On", "Auto", "Smart"}
+FAN_STATE_TO_NAME[0] = "Off"
+
+HVAC_MODE_TO_NAME = {"Auto", "", "Cool", "Heat", "Emerg", "Precool", "Fan Only"}
+HVAC_MODE_TO_NAME[0] = "Off"
+
+HVAC_NAME_TO_MODE = {}
+for k,v in pairs(HVAC_MODE_TO_NAME) do
+  HVAC_NAME_TO_MODE[v] = k
+end
+
+FAN_MODE_TO_NAME = {"Low", "Medium", "High", "On", "Auto", "Smart"}
+FAN_MODE_TO_NAME[0] = "Off"
+
+FAN_NAME_TO_MODE = {}
+for k,v in pairs(FAN_MODE_TO_NAME) do
+  FAN_NAME_TO_MODE[v] = k
+end
+
+
+
+function dbgStatus(strStatus)
+  dbg("-----> Status: " .. strStatus)
+  C4:UpdateProperty("Last Status", strStatus)
+end
+
+
+function OnZigbeePacketIn(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+    SZL.ProcessZigbee(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+end
+
+
+function OnZigbeePacketSuccess(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+  dbg("OnZigbeePacketSuccess.. Profile: " .. string.format("0x%04x", idProfileID) .. " Cluster: " .. string.format("0x%04x", idClusterID) .. " SE: " .. sourceEndpoint .. " DE: " .. destinationEndpoint)
+  if (idProfileID == TSE_PROFILE and idClusterID ~= TKN_CLI_CLUSTER_ID) then
+    dbg("Sending ACK response to server...")
+    replyPkt = string.pack("b", 0x06)
+    C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, replyPkt)
+  end
+end
+
+
+function OnZigbeePacketFailed(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+  dbg("OnZigbeePacketFailed.. Profile: " .. idProfileID .. " Cluster: " .. idClusterID .. " SE: " .. sourceEndpoint .. " DE: " .. destinationEndpoint)
+  if (idProfileID == TSE_PROFILE and idClusterID ~= TKN_CLI_CLUSTER_ID) then
+    dbg("Sending NACK response to server...")
+    replyPkt = string.pack("b", 0x15)
+    replyPkt = replyPkt .. packet
+    hexdump(replyPkt)
+    C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, replyPkt)
+  end
+end
+
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+
+	local isbound = "false"
+	if (bIsBound) then
+		isbound = "true"
+	end
+
+  dbg("OnNetworkBindingChanged: Binding = " .. idBinding .. "; Bound = " .. isbound)
+
+  if (idBinding == 6001) then
+    gZigbeeBound = bIsBound
+    dbg("ZigBee binding 6001")
+    if (bIsBound) then
+      if (gConfigureReportingTimer) then gConfigureReportingTimer = C4:KillTimer(gConfigureReportingTimer) end
+      gConfigureReportingTimer = C4:AddTimer(45, "SECONDS")
+    end
+  end
+end
+
+
+function OnZigbeeOnlineStatusChanged(strStatus, strVersion, strSKU)
+	dbg("OnZigbeeOnlineStatusChanged: Status = " .. strStatus .. " Version = " .. strVersion .. " SKU = " .. strSKU)
+	gZigbeeOnline = (strStatus == "ONLINE")
+        if (strStatus == "ONLINE") then
+          --Thermostat is back on line, read the properties
+          GetProperties()
+        end
+     SZL.ResetSequenceNumber()
+end
+
+
+function OnDriverDestroyed()
+  SZL.OnDriverDestroyed()
+  if (gDbgTimer) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+  if (gConfigureReportingTimer) then gConfigureReportingTimer = C4:KillTimer(gConfigureReportingTimer) end
+  if (gPollTimer) then gPollTimer = C4:KillTimer(gPollTimer) end
+end
+
+SCALEVAL = {}
+SCALEVAL["CELSIUS"] = "C"
+SCALEVAL["FAHRENHEIT"] = "F"
+
+
+TIMERLOOKUP = {}
+TIMERLOOKUP ["30 Seconds"] = 30
+TIMERLOOKUP ["1 Minute"] = 60
+TIMERLOOKUP ["5 Minutes"] = 60 * 5
+TIMERLOOKUP ["15 Minutes"] = 60 * 15
+TIMERLOOKUP ["30 Minutes"] = 60 * 30
+
+
+function OnPropertyChanged(strProperty)
+  local prop = Properties[strProperty]
+  dbg("OnPropertyChanged: " .. strProperty .. " Prop: " .. prop)
+
+  if (strProperty == "Debug Mode") then
+    if (gDbgTimer > 0) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+    gDbgPrint, gDbgLog = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil)
+    if (prop == "Off") then
+      return
+    end
+    gDbgTimer = C4:AddTimer(240, "MINUTES")
+    return
+  end
+
+  if (strProperty == "Basic Cluster Endpoint") then
+    SZL.Endpoints = SZL.Endpoints or {}
+    SZL.Endpoints[SZL.ClusterID.Basic] = tonumber(prop)
+  end
+  if (strProperty == "Identify Cluster Endpoint") then
+    SZL.Endpoints = SZL.Endpoints or {}
+    SZL.Endpoints[SZL.ClusterID.Identify] = tonumber(prop)
+  end
+  if (strProperty == "Thermostat Cluster Endpoint") then
+    SZL.Endpoints = SZL.Endpoints or {}
+    SZL.Endpoints[SZL.ClusterID.Thermostat] = tonumber(prop)
+  end
+  if (strProperty == "FanControl Cluster Endpoint") then
+    SZL.Endpoints = SZL.Endpoints or {}
+    SZL.Endpoints[SZL.ClusterID.FanControl] = tonumber(prop)
+  end
+
+  if (strProperty == "Keepalive Poll") then
+    gPollTimer = gPollTimer or 0
+    if (gPollTimer > 0) then
+      gPollTimer = C4:KillTimer(gPollTimer)
+    end
+    if (prop ~= "Polling Off") then
+      gPollTimer = C4:AddTimer(TIMERLOOKUP[prop], "SECONDS", true)
+    end
+  end
+
+  if (strProperty == "Telkonet Server") then
+  	SZL.TKN_ServerName = Properties["Telkonet Server"]
+  end
+
+  if (strProperty == "Telkonet Server Port") then
+  	SZL.TKN_ServerPort = Properties["Telkonet Server Port"]
+  end
+
+  if (strProperty == "Telkonet Server Status") then
+  dbg("-----Telkonet Server Status")
+  end
+
+  -- Save Properties that have changed...
+  C4:InvalidateState()
+end
+
+
+function dbg(strDebugText)
+  if (gDbgPrint) then print(strDebugText) end
+  if (gDbgLog) then C4:ErrorLog(strDebugText) end
+end
+
+
+function OnTimerExpired(idTimer)
+  if (SZL.OnTimerExpired(idTimer)) then
+    return
+  end
+
+  if (idTimer == gConfigureReportingTimer) then
+    gConfigureReportingTimer = C4:KillTimer(gConfigureReportingTimer)
+    SZL.Thermostat.ConfigureReportingOn()
+    SZL.FanControl.ConfigureReportingOn()
+  end
+
+  if (idTimer == gPollTimer) then
+    dbg("Polling...")
+    SZL.ReadAttributes(SZL.ClusterID.Thermostat, 0x0000)
+    return
+  end
+
+  if (idTimer == gDbgTimer) then
+    dbg("Turning Debug Mode Off (timer expired)")
+    C4:UpdateProperty("Debug Mode", "Off")
+    OnPropertyChanged("Debug Mode")
+    gDbgTimer = C4:KillTimer(gDbgTimer)
+  end
+if (idTimer == startup_timer) then
+    GetProperties()
+end
+
+  C4:KillTimer(idTimer)
+end
+
+-- Telkonet Thermostat attribute IDs
+PROFILE_ATT_ID = 0xf0
+DOOR_EVENT_ATT_ID = 0xf1
+
+--------------- Actions ----------------------------
+ACTION = {}
+
+function ACTION.ACT_SET_PROFILE_UNSOLD()
+  dbg("Write attr, set profile 3 (unsold)");
+  SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[PROFILE_ATT_ID] = {[0x20] = 3}})
+end
+
+function ACTION.ACT_SET_PROFILE_SOLD()
+  dbg("Write attr, set profile 1 (sold)");
+  SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[PROFILE_ATT_ID] = {[0x20] = 1}})
+end
+
+function ACTION.ACT_REPORT_DOOR_EVENT()
+  SZL.ReportAttributes(SZL.ClusterID.Thermostat, {[DOOR_EVENT_ATT_ID] = {[0x20] = 1}})
+end
+
+function ACTION.ACT_READ_OCCUPANCY()
+  SZL.ReadAttributes(SZL.ClusterID.Thermostat, 0x02)
+end
+
+function ACTION.GET_PROPERTIES()
+  GetProperties()
+end
+
+function ExecuteCommand(strCommand, tParams)
+  if (strCommand == "LUA_ACTION") then
+    if tParams ~= nil then
+      for cmd,cmdv in pairs(tParams) do
+  	print (cmd,cmdv)
+  	if cmd == "ACTION" then
+  	  if ACTION[cmdv] ~= nil then
+  	  	ACTION[cmdv]()
+  	  else
+  	  	Debug("From ExecuteCommand Function - Undefined Action")
+  	  	Debug("Key: " .. cmd .. "  Value: " .. cmdv)
+  	  end
+  	else
+  	  Debug("From ExecuteCommand Function - Undefined Command")
+  	  Debug("Key: " .. cmd .. "  Value: " .. cmdv)
+  	end
+      end
+    end
+  else
+    --Command is from Programmed event
+    dbg("__ExecuteCommand: " .. strCommand)
+    if (nil ~= tParams) then for k,v in pairs(tParams) do dbg(k .. ": " .. v) end end
+    if (strCommand == "Set Room Sold Profile") then
+      ACTION.ACT_SET_PROFILE_SOLD()
+      return
+    end
+
+    if (strCommand == "Set Room Unsold Profile") then
+      ACTION.ACT_SET_PROFILE_UNSOLD()
+      return
+    end
+
+    if (strCommand == "Report Door Event") then
+      ACTION.ACT_REPORT_DOOR_EVENT()
+      return
+    end
+
+  end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+  dbg("ReceivedFromProxy[" .. idBinding .. "]: " .. strCommand)
+  if (nil ~= tParams) then for k,v in pairs(tParams) do dbg(k .. ": " .. v) end end
+
+  if (PersistData.Scale == nil) then
+    PersistData.Scale = "F"
+  end
+
+  if (strCommand == "CURRENT_SETTINGS") then
+    GetProperties()
+  end
+
+  if (strCommand == "QUERY_CURRENT_SETTINGS") then
+    GetProperties()
+  end
+
+  if (strCommand == "QUERY_THERMOSTAT_INFO") then
+    GetProperties()
+  end
+
+  if (strCommand == "GET_CONNECTED_STATE") then
+    C4:SendToProxy(5001, "ONLINE_CHANGED", "True")
+  end
+
+  -- Zigbee Cluster-specific attribute 1 == HVAC MODE...
+  if (strCommand == "SET_MODE_HVAC") then
+    -- Send Attribute for proper mode...
+    local mode = tParams["MODE"]
+    SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[0x1c] = {[0x30] = HVAC_NAME_TO_MODE[mode]}})
+    dbg("MODE CHANGE")
+  end
+
+  -- Zigbee Cluster-specific attribute 2 == Heat Setpoint...
+  if (strCommand == "SET_SETPOINT_HEAT") then
+    local setpoint = tParams["SETPOINT"]
+    if (PersistData.Scale == "F") then
+      SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[0x12] = {[0x29] = round(FtoC(setpoint) * 100)}})
+    else
+      SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[0x12] = {[0x29] = round(setpoint * 100)}})
+    end
+  end
+
+  if (strCommand == "SET_SETPOINT_COOL") then
+    local setpoint = tParams["SETPOINT"]
+    if (PersistData.Scale == "F") then
+	dbg("Setpoint F " .. setpoint )
+      SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[0x11] = {[0x29] = round(FtoC(setpoint) * 100)}})
+    else
+      SZL.WriteAttributes(SZL.ClusterID.Thermostat, {[0x11] = {[0x29] = round(setpoint * 100)}})
+	dbg("Setpoint C " .. setpoint )
+    end
+  end
+
+  if (strCommand == "SET_SCALE") then
+    PersistData.Scale = tParams["SCALE"] or ""
+     if (PersistData.Scale == "") then return end
+     PersistData.Scale = SCALEVAL[PersistData.Scale] or "F"
+    if (PersistData.Scale == "F") then
+    	SZL.WriteAttributes(SZL.ClusterID.ThermostatUIConfiguration, {[0x0] = {[0x30] = 1}})
+    	dbg("fSet_Scale " .. tParams["SCALE"] )
+    else
+    	SZL.WriteAttributes(SZL.ClusterID.ThermostatUIConfiguration, {[0x0] = {[0x30] = 0}})
+	dbg("cSet_Scale " .. tParams["SCALE"] )
+    end
+    C4:InvalidateState()
+    C4:SendToProxy(5001, "SCALE_CHANGED", {SCALE = tParams["SCALE"]})
+    GetProperties()
+  end
+
+  if (strCommand == "SET_MODE_FAN") then
+    -- Send Attribute for proper mode...
+    local mode = tParams["MODE"]
+    SZL.WriteAttributes(SZL.ClusterID.FanControl, {[0x00] = {[0x30] = FAN_NAME_TO_MODE[mode]}})
+  end
+end
+
+
+function HandleAttributes(ClusterID, att)
+  local clustername = SZL.Cluster[ClusterID] or "Unknown Cluster"
+  dbg("HandleAttributes... ClusterID: " .. clustername)
+
+  -- Handle temperature and setpoint change from ZNIC...
+  if (clustername == "Thermostat") then
+    if (att[0] ~= nil) then  -- Temperature
+      -- Set to C/F, send to Proxy...
+      local tempC = att[0].value / 100
+      C4:SendToProxy(5001, "TEMPERATURE_CHANGED", {TEMPERATURE = round(CtoF(tempC)), SCALE = "F"})
+    end
+
+    if (att[0x12] ~= nil) then  -- Heat Setpoint (Occupied)
+      -- Set to C/F, send to Proxy...
+      local SP = att[0x12].value / 100
+      C4:SendToProxy(5001, "HEAT_SETPOINT_CHANGED", {SETPOINT = round(CtoF(SP)), SCALE = "F"})
+    end
+
+    if (att[0x11] ~= nil) then  -- Cool Setpoint (Occupied)
+      -- Set to C/F, send to Proxy...
+      local SP = att[0x11].value / 100
+      --if (PersistData.Scale == "C") then
+	C4:SendToProxy(5001, "COOL_SETPOINT_CHANGED", {SETPOINT = round(CtoF(SP)), SCALE = "F"})
+	dbg("Send to Proxy -C");
+      --else
+      --	C4:SendToProxy(5001, "COOL_SETPOINT_CHANGED", {SETPOINT 77}, {SCALE F})
+      --	dbg("Send to Proxy -F Setpoint " .. round(CtoF(SP)));
+      -- end
+    end
+
+    --OFF / AUTO / COOL / HEAT / EMERG / PRECOOL / FAN ONLY  (0-3)
+    -- TODOs:  Things I could to do improve this driver:
+    -- Set the possible dropdowns on Navigator programmatically according to the ControlSequenceOfOperation Values?
+        -- How: send notify: SYSTEMMODES_CHANGED (MODES = "Off,Heat,Cool,Auto")
+    -- Set the possible dropdowns for Fan on Navigator
+        -- How: send notify: FANMODES_CHANGED (COUNT = 0-3 (0 == "Auto", 1 = "Auto,On", 2 = "Auto,Low,High", 3 = "Auto,Low,Medium,High")
+    -- Send OUTDOOR_TEMPERATURE_CHANGED (TEMPERATURE) notify when outdoor temp changes
+
+    if (att[0x1c] ~= nil) then  -- System Mode
+      C4:SendToProxy(5001, "HVAC_MODE_CHANGED", {MODE = HVAC_MODE_TO_NAME[att[0x1c].value]})
+    end
+    if (att[0xf01c] ~= nil) then  -- System State
+     dbg("HVAC state change: " ..  att[0xf01c].value)
+     C4:SendToProxy(5001, "HVAC_STATE_CHANGED", {STATE = HVAC_STATE_TO_NAME[att[0xf01c].value]})
+    end
+    if (att[0x02] ~= nil) then  -- Occupancy
+      if (att[0x02].value == 0) then
+	dbg(os.date("%D %H:%M:%S") .. " Room Unoccupied")
+	C4:FireEvent("Room Unoccupied")
+      else
+        dbg(os.date("%D %H:%M:%S") .. " Room Occupied")
+	C4:FireEvent("Room Occupied")
+      end
+    end
+  end
+
+
+  if (clustername == "FanControl") then
+    if (att[0x00] ~= nil) then  -- Fan Mode
+      C4:SendToProxy(5001, "FAN_MODE_CHANGED", {MODE = FAN_MODE_TO_NAME[att[0x00].value]})
+    end
+    if (att[0xf000] ~= nil) then  -- Fan Mode
+      dbg("Fan state change: " ..  att[0xf000].value)
+      C4:SendToProxy(5001, "FAN_STATE_CHANGED", {STATE = FAN_STATE_TO_NAME[att[0xf000].value]})
+    end
+  end
+end
+SZL.SetAttributeHandler(HandleAttributes)
+
+
+function HandleCommands(ClusterID, cmd, data)
+  dbg("Handlecommands: " .. cmd)
+  hexdump(data, dbg)
+
+end
+SZL.SetCommandHandler(HandleCommands)
+
+
+function FtoC(nF)
+  return (nF - 32) * 5 / 9
+end
+
+
+function CtoF(nC)
+  return (nC * 9 / 5) + 32
+end
+
+
+function round(num)
+  return math.floor(num + 0.5)
+end
+
+
+function GetProperties()
+  SZL.Thermostat.GetMandatoryAttributes()
+  SZL.FanControl.GetMandatoryAttributes()
+end
+
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+  -- Save up things coming back on HTTP port, process when done sending to us...
+  g_ReceiveBuffer = g_ReceiveBuffer .. strData
+
+  dbg("ReceivedFromNetwork: " .. strData)
+  hexdump(strData);
+   _, C4_Header = string.unpack(strData, "b", 1)
+  if (C4_Header == 0xC4) then
+     _, DestEndpoint = string.unpack(strData, "b", 2)
+     _, ClusterID = string.unpack(strData, "<H", 3)
+     _, Profile = string.unpack(strData, "<H", 5)
+     _, SrcEndpoint = string.unpack(strData, "b", 7)
+     _, GroupID = string.unpack(strData, "<H", 8)
+    dbg("Profile: " .. Profile .. " ClusterID: " .. ClusterID .. " DE: " .. DestEndpoint .. " SE: " .. SrcEndpoint .. " Group: " .. GroupID)
+    -- strip off the 9 byte header
+    s2 = string.sub(strData,10,-1)
+    hexdump(s2);
+    C4:SendZigbeePacket(s2, Profile, ClusterID, GroupID, SrcEndpoint, DestEndpoint)
+  else dbg("Ignoring packet from server - header is not 0xC4")
+  end
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	dbg("OnConnectionStatusChanged")
+  if (idBinding == TKN_SERVER_BINDING) then
+    SZL.TKN_ServerStatus = strStatus
+
+    if (strStatus == "ONLINE") then
+
+      -- Connect was successful.
+      dbg("TKN Server Online...")
+      C4:UpdateProperty("Telkonet Server Status", "Online")
+
+      -- If g_TransmitBuffer is not empty, send it now
+      if ((g_TransmitBuffer == nil) or (g_TransmitBuffer == "")) then
+        return
+      end
+      C4:SendToNetwork(TKN_SERVER_BINDING, SZL.TKN_ServerPort, g_TransmitBuffer)
+      g_TransmitBuffer = ""
+    else
+
+      -- OFFLINE... This means the receive buffer is full and ready to process...
+      dbg("Disconnected from TKN Server ...")
+      dbg("Received: " .. g_ReceiveBuffer)
+
+      C4:UpdateProperty("Telkonet Server Status", "Offline")
+
+      -- Check for error in receiving data...
+      if (nil == g_ReceiveBuffer) or (nil ~= g_ReceiveBuffer:find("Access Denied"))
+                                              or (nil ~= g_ReceiveBuffer:find("Invalid Hostname")) then
+        ErrorOut("Error Accessing Data.")
+        ErrorOut(g_ReceiveBuffer)
+        return
+      end
+
+      g_Receivebuffer = ""
+    end
+  end
+end
+
+
+----------------------- INIT START -------------------------
+PersistData = PersistData or {}
+startup_timer = C4:AddTimer(20, "SECONDS")
+SZL.ResetSequenceNumber()
+
+HA_PROFILE = 0x104
+TSE_PROFILE = 0x0f04
+TKN_CLI_CLUSTER_ID = 0x00a0
+
+SZL.Initialize(HA_PROFILE, {
+                               SZL.ClusterID.Basic,
+                               SZL.ClusterID.Identify,
+                               SZL.ClusterID.Thermostat,
+                               SZL.ClusterID.FanControl,
+			       SZL.ClusterID.ThermostatUIConfiguration
+                                }, 1, 1, 1)
+
+SZL.SetAttributeHandler(HandleAttributes)
+SZL.SetCommandHandler(HandleCommands)
+SZL.SetDbgHandler(dbg)
+SZL.SetSendMode(false, 15, 1)  -- Don't use Queue, wait for 15 seconds, 1 retry
+
+gZigbeeBound = false
+gDbgTimer = 0
+
+gDbgPrint, gDbgLog = false, false
+
+-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+OnPropertyChanged("Debug Mode")
+OnPropertyChanged("Basic Cluster Endpoint")
+OnPropertyChanged("Identify Cluster Endpoint")
+OnPropertyChanged("Thermostat Cluster Endpoint")
+OnPropertyChanged("FanControl Cluster Endpoint")
+OnPropertyChanged("Keepalive Poll")
+
+-- PersistData.Scale = PersistData.Scale or "F"
+PersistData.Scale = "F"
+
+----------------------- Variable Declarations ---------------------------
+----------------------- INIT END ---------------------------
+
+]]></script>
+    </config>
+    <states/>
+    <connections>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>Thermostat</connectionname>
+            <type>2</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>THERMOSTAT</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>6001</id>
+            <facing>6</facing>
+            <connectionname>ZIGBEE</connectionname>
+            <type>4</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>ZIGBEE</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>7000</id>
+            <facing>6</facing>
+            <connectionname>Room Selection</connectionname>
+            <type>7</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>TEMPERATURE</classname>
+                </class>
+                <class>
+                    <classname>TEMPERATURE_CONTROL</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <capabilities>
+       <can_heat>True</can_heat>
+       <can_cool>True</can_cool>
+       <can_do_auto>True</can_do_auto>
+       <hvac_modes>Off,Heat,Cool,Auto</hvac_modes>
+       <fan_modes>Low,Medium,High,Auto</fan_modes>
+       <fan_states>Off,Low,Medium,High,Auto</fan_states>
+       <hvac_states>Off,Heat,Cool</hvac_states>
+<can_change_hvac_modes>True</can_change_hvac_modes>
+    </capabilities>
+    <events>
+        <event>
+            <id>1</id>
+            <name>Room Occupied</name>
+            <description>Received Room Occupied Status from Thermostat</description>
+        </event>
+        <event>
+            <id>2</id>
+            <name>Room Unoccupied</name>
+            <description>Received Room Unoccupied Status from Thermostat</description>
+        </event>
+    </events>
+    <front/>
+    <back/>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+</devicedata>

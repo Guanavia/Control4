@@ -1,0 +1,1772 @@
+<devicedata>
+  <version>45</version>
+  <copyright>Copyright (c) 2025 Snap One, LLC. All rights reserved.</copyright>
+  <config>
+    <name_on_update_web_service>sa1</name_on_update_web_service>
+    <update_platform_type_name>imx8mm-sa</update_platform_type_name>
+    <actual_update_packages_directory>/mnt/internal/packages</actual_update_packages_directory>
+  </config>
+  <capabilities>
+    <!-- Controller Capabilities -->
+    <has_video_output>true</has_video_output>
+    <has_video_input>false</has_video_input>
+    <has_amp>true</has_amp>
+    <has_hdmi_passthrough>false</has_hdmi_passthrough>
+    <has_edid_capture>true</has_edid_capture>
+    <audio_sense_count>2</audio_sense_count>
+    <audio_sense_names>Analog Audio 1, Digital Audio</audio_sense_names>
+    <has_ui_device>false</has_ui_device>
+    <has_ui_mediainfo>true</has_ui_mediainfo>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <has_discrete_volume_control>true</has_discrete_volume_control>
+    <auto_bind_onscreen_selection proxybindingid="5001">true</auto_bind_onscreen_selection>
+    <throttled_vol_ms_rate>25</throttled_vol_ms_rate>
+    <dsp_node>sa_dsp</dsp_node>
+    <!-- Other capabilities -->
+    <max_recommended_scan_space>1000</max_recommended_scan_space>
+    <supports_distributed_audio>true</supports_distributed_audio>
+    <is_corecontroller>true</is_corecontroller>
+    <has_html_properties_page>true</has_html_properties_page>
+    <html_properties_path>/corex/index.html</html_properties_path>
+    <!-- Property command parameter ranges - for validation -->
+    <param_ranges>
+        <package>
+    
+        <settings>
+            <commands>
+                <command name="SET_FRONT_LED_DISABLED_STATE">
+                    <params>
+                        <param name="state">
+                            <type>boolean</type>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_KNOB_PRESSACTION_FLAGS">
+                    <params>
+                        <param name="Mode">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>2</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </settings>
+    
+        <inputs>
+            <commands>
+                <command name="SET_AUDIO_IN_SOURCE_LEVEL">
+                    <params>
+                        <param name="audioInput">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>3</maximum>
+                            </constraints>
+                        </param>
+                        <param name="val">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>-12</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>12</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+        
+                <command name="SET_INPUT_DELAY">
+                    <params>
+                        <param name="DEVICE">
+                            <type>string</type>
+                            <constraints>
+                                <allowedValues>
+                                    <value name="analog">analog</value>
+                                    <value name="coax">coax</value>
+                                    <value name="optical">optical</value>
+                                    <value name="hdmi">hdmi</value>
+                                </allowedValues> 
+                            </constraints>
+                        </param>
+                        <param name="DELAY">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>80</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+        
+                <command name="SET_AUDIO_IN_SOURCE_MODE">
+                    <params>
+                        <param name="audioInput">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>3</maximum>
+                            </constraints>
+                        </param>
+                        <param name="mode">
+                            <type>string</type>
+                            <constraints>
+                                <allowedValues>
+                                    <value name="auto">3</value>
+                                    <value name="stream">1</value>
+                                    <value name="direct + stream">2</value>
+                                </allowedValues> 
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+        
+                <command name="SET_ARC_BINDING_FLAGS">
+                    <params>
+                        <param name="Mode">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>2</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </inputs>
+    
+        <outputs>
+            <commands>
+                <command name="MUTE_ON">
+                    <params>
+                        <!-- Output is BindingId -->
+                        <!-- 4000/4001 from SA1 driver -->
+                        <!-- 7300/7301 from Room driver not used by OvrC -->
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>4000</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>7301</maximum>
+                            </constraints>
+                            </param>
+                    </params>
+                </command>
+    
+                <command name="MUTE_OFF">
+                    <params>
+                        <param name="OUTPUT">
+                        <!-- Output is BindingId -->
+                        <!-- 4000/4001 from SA1 driver -->
+                        <!-- 7300/7301 from Room driver not used by OvrC -->
+                        <type>integer</type>
+                            <constraints>
+                                <minimum>4000</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>7301</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_VOLUME_LEVEL">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="LEVEL">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>100</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_MAX_VOLUME">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="LEVEL">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>100</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="ENABLE_TEST_TONE_TIMED">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="SECONDS">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>1</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>600</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="DISABLE_TEST_TONE_TIMED">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_TEST_TONE_GAIN">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="LEVEL">
+                            <type>double</type>
+                            <constraints>
+                                <minimum>-50</minimum>
+                                <multipleOf>0.5</multipleOf>
+                                <maximum>0</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_AUDIO_DELAY">
+                    <params>
+                        <!-- Output is PortId -->
+                        <param name="output">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>6200</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>6201</maximum>
+                            </constraints>
+                        </param>
+                        <param name="delay">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>-80</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>80</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="MONOSUM_TOGGLE">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_HDMI_AUDIO_DISABLED_STATE">
+                    <params>
+                        <param name="state">
+                            <type>boolean</type>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_VIDEO_MODE">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>string</type>
+                            <constraints>
+                                <allowedValues>
+                                    <value name="HDMI">hdmi</value>
+                                </allowedValues> 
+                            </constraints>
+                        </param>
+                        <param name="MODE">
+                            <type>string</type>
+                            <constraints>
+                                <allowedValues>
+                                    <value name="1080p@30">1080p@30</value>
+                                    <value name="1080p@25">1080p@25</value>
+                                    <value name="1080p@24">1080p@24</value>
+                                </allowedValues> 
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="HDMI_EDID_CAPTURE_ENABLED">
+                    <params>
+                        <param name="state">
+                            <type>boolean</type>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </outputs>
+    
+        <equalizer>
+            <commands>
+                <command name="SET_AUDIO_OUT_EQ_FREQ">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="BAND">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>5</maximum>
+                            </constraints>
+                        </param>
+                        <param name="VALUE">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>20</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>20000</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_AUDIO_OUT_EQ_Q">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="BAND">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>5</maximum>
+                            </constraints>
+                        </param>
+                        <param name="VALUE">
+                            <type>double</type>
+                            <constraints>
+                                <minimum>0.5</minimum>
+                                <multipleOf>0.1</multipleOf>
+                                <maximum>3.0</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_AUDIO_OUT_EQ_GAIN">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="BAND">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>5</maximum>
+                            </constraints>
+                        </param>
+                        <param name="VALUE">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>-12</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>12</maximum>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_AUDIO_OUT_EQ_ENABLED">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="BAND">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>5</maximum>
+                            </constraints>
+                        </param>
+                        <param name="VALUE">
+                            <type>boolean</type>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </equalizer>
+    
+        <tone_control>
+            <commands>
+                <command name="SET_AUDIO_OUT_TONECONTROL">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="JSON">
+                            <type>string</type>
+                            <constraints>
+                                <jsonSchema>
+                                    <items>
+                                        <item name="loudness">
+                                            <type>boolean</type>
+                                        </item>
+                                        <item name="highshelf">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                                <property name="gain"> <type>integer</type> <minimum>-12</minimum> <maximum>12</maximum> <step>1</step> </property>
+                                                <property name="freq"> <type>integer</type> <minimum>20</minimum> <maximum>20000</maximum> <step>1</step> </property>
+                                            </properties>
+                                        </item>
+                                        <item name="lowshelf">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                                <property name="gain"> <type>integer</type> <minimum>-12</minimum> <maximum>12</maximum> <step>1</step> </property>
+                                                <property name="freq"> <type>integer</type> <minimum>20</minimum> <maximum>20000</maximum> <step>1</step> </property>
+                                            </properties>
+                                        </item>
+                                    </items>
+                                </jsonSchema>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </tone_control>
+    
+        <sub_equalizer>
+            <commands>
+                <command name="SET_AUDIO_OUT_SUBEQ">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="JSON">
+                            <type>string</type>
+                            <constraints>
+                                <jsonSchema>
+                                    <items>
+                                        <item name="values/bands[]">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                                <property name="index"> <type>integer</type> <minimum>0</minimum> <maximum>2</maximum> <step>1</step> </property>
+                                                <property name="gain"> <type>integer</type> <minimum>-12</minimum> <maximum>12</maximum> <step>1</step> </property>
+                                                <property name="freq"> <type>integer</type> <minimum>20</minimum> <maximum>20000</maximum> <step>1</step> </property>
+                                                <property name="q"> <type>double</type> <minimum>0.5</minimum> <maximum>3.0</maximum> <step>0.1</step> </property>
+                                            </properties>
+                                        </item>
+                                    </items>
+                                </jsonSchema>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+    
+                <command name="SET_AUDIO_OUT_SUBCROSSOVER">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="JSON">
+                            <type>string</type>
+                            <constraints>
+                                <jsonSchema>
+                                    <items>
+                                        <item name="crossover">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                                <property name="freq"> <type>integer</type> <minimum>20</minimum> <maximum>300</maximum> <step>1</step> </property>
+                                                <property name="gain"> <type>integer</type> <minimum>-12</minimum> <maximum>12</maximum> <step>1</step> </property>
+                                                <property name="type"> 
+                                                    <type>string</type> 
+                                                    <allowedValues>
+                                                        <value name="Passthrough">PassThrough</value>
+                                                        <value name="Butterworth 12dB">Butterworth</value>
+                                                        <value name="Linkwitz-Riley 24dB">LinkwitzRiley</value>
+                                                    </allowedValues> 
+                                                </property>
+                                            </properties>
+                                        </item>
+                                    </items>
+                                </jsonSchema>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </sub_equalizer>
+    
+        <speaker_equalizer>
+            <commands>
+                <command name="SET_AUDIO_OUT_SPEAKEREQ">
+                    <params>
+                        <param name="OUTPUT">
+                            <type>integer</type>
+                            <constraints>
+                                <minimum>0</minimum>
+                                <multipleOf>1</multipleOf>
+                                <maximum>1</maximum>
+                            </constraints>
+                        </param>
+                        <param name="JSON">
+                            <type>string</type>
+                            <constraints>
+                                <jsonSchema>
+                                    <items>
+                                        <item name="values">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                            </properties>
+                                        </item>
+                                        <item name="values/bands[]">
+                                            <type>object</type>
+                                            <properties>
+                                                <property name="enabled"> <type>boolean</type> </property>
+                                                <property name="gain"> <type>double</type> <minimum>-12.0</minimum> <maximum>12.0</maximum> <step>0.1</step> </property>
+                                                <property name="freq"> <type>integer</type> <minimum>20</minimum> <maximum>20000</maximum> <step>1</step> </property>
+                                                <property name="q"> <type>double</type> <minimum>0.5</minimum> <maximum>3.0</maximum> <step>0.1</step> </property>
+                                            </properties>
+                                        </item>
+                                    </items>
+                                </jsonSchema>
+                            </constraints>
+                        </param>
+                    </params>
+                </command>
+            </commands>
+        </speaker_equalizer>
+    
+        </package>
+    </param_ranges>
+    <!-- Property control parameter descriptions - for user interfaces -->
+    <ovrc_ui>
+
+        <tabs>
+            <tab name="SYSTEM">
+                <sections>
+                    <section name="settings" title="System Settings"/>
+                    <section name="status" title="Controller Status"/>
+                    <section name="configuration" title="Device Configuration"/>
+                </sections>
+            </tab>
+            <tab name="INPUTS / OUTPUTS">
+                <sections>
+                    <section name="inputs" title="INPUTS"/>
+                    <section name="outputs" title="OUTPUTS"/>
+                </sections>
+            </tab>
+            <tab name="DSP SETTINGS">
+                <sections>
+                    <section name="selectOutput" title="Select Output"/>
+                    <section name="toneControl" title="Tone Control"/>
+                    <section name="equalizer" title="Equalizer"/>
+                    <section name="importExport" title="Import/Export EQ Settings"/>
+                    <section name="copyEq" title="Copy EQ Settings"/> 
+                </sections>
+            </tab>
+        </tabs>
+
+        <settings>
+            <controls>
+                <control name="Disable Leds" title="Disable LEDs" type="toggle">
+                    <commands> 
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_FRONT_LED_DISABLED_STATE" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Knob Press Action" title="Knob Press Action" type="list" valueParamName="Mode">
+                    <options>
+                        <option name="None" value="0"/>
+                        <option name="Mute Toggle" value="1"/>
+                        <option name="Room Off" value="2"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_KNOB_PRESSACTION_FLAGS">
+                            <params>
+                                <param name="Mode" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <setting type="disable leds" name="Disable LEDs">
+                <controls>
+                    <control name="Disable Leds"/>
+                </controls>
+            </setting>
+
+            <setting type="knob press action" name="Knob Press Action">
+                <controls>
+                    <control name="Knob Press Action"/>
+                </controls>
+            </setting>
+
+            <setting type="status" name="Device Status"/>
+            <setting type="status" name="Amp Status"/>
+            <setting type="statusCard" name="CPU Usage" cpuCount="2"/>
+            <setting type="statusCard" name="Memory Usage"/>
+            <setting type="statusCard" name="Audio Format"/>
+            <setting type="statusCard" name="Bitrate"/>
+
+            <setting type="setting" name="Model"/>
+            <setting type="setting" name="MAC Address"/>
+            <setting type="setting" name="OS Version"/>
+            <setting type="setting" name="Service Tag"/>
+            <setting type="setting" name="IP Address"/>
+            <setting type="setting" name="I/O Firmware Version"/>
+        </settings>
+
+        <inputs> 
+            <controls>
+                <control name="Input Gain" title="INPUT GAIN (+/- 12 dB)" type="slider" min="-12" max="12" step="1" unit="dB" valueParamName="val">
+                    <commands> 
+                        <command name="SET_AUDIO_IN_SOURCE_LEVEL">
+                            <params>
+                                <param name="audioInput" type="integer"/>
+                                <param name="val" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Input Delay" title="INPUT DELAY (0-80 ms)" type="slider" min="0" max="80" step="1" unit="ms" valueParamName="DELAY">
+                    <commands> 
+                        <command name="SET_INPUT_DELAY">
+                            <params>
+                                <param name="DEVICE" type="string"/>
+                                <param name="DELAY" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+                
+                <control name="Direct Mode" title="DIRECT MODE" type="list" valueParamName="mode">
+                    <options>
+                        <option name="Auto" value="3"/>
+                        <option name="Stream" value="1"/>
+                        <option name="Direct + Stream" value="2"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_AUDIO_IN_SOURCE_MODE">
+                            <params>
+                                <param name="audioInput" type="string"/>
+                                <param name="mode" type="string"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Arc" title="Arc/eARC Configuration" type="list" valueParamName="Mode">
+                    <options>
+                        <option name="eARC Preferred" value="1"/>
+                        <option name="ARC Only" value="2"/>
+                        <option name="Off" value="0"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_ARC_BINDING_FLAGS">
+                            <params>
+                                <param name="Mode" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+
+            <input number="0" type="analog" name="Analog In">
+                <controls>
+                    <control name="Input Gain"/>
+                    <control name="Input Delay"/>
+                    <control name="Direct Mode"/>
+                </controls>
+            </input>
+
+            <input number="1" type="digital" name="Digital Coax In">
+                <controls>
+                    <control name="Input Gain"/>
+                    <control name="Input Delay"/>
+                    <control name="Direct Mode"/>
+                </controls>
+            </input>
+
+            <input number="2" type="digital" name="Digital Optical In">
+                <controls>
+                    <control name="Input Gain"/>
+                    <control name="Input Delay"/>
+                    <control name="Direct Mode"/>
+                </controls>
+            </input>
+
+            <input number="3" type="hdmi" name="HDMI ARC/eARC In">
+                <controls>
+                    <control name="Arc"/>
+                    <control name="Input Gain"/>
+                    <control name="Input Delay"/>
+                    <control name="Direct Mode"/>
+                </controls>
+            </input>
+        </inputs>
+
+        <outputs>
+            <controls>
+                <control name="Mute" title="Mute" type="toggle">
+                    <commands> 
+                        <command name="MUTE_ON" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                        <command name="MUTE_OFF" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Output Volume" title="OUTPUT VOLUME (0-100)" type="slider" min="0" max="100" step="1" valueParamName="LEVEL">
+                    <commands> 
+                        <command name="SET_VOLUME_LEVEL">
+                            <params>
+                                <param name="LEVEL" type="integer"/>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Max Volume" title="MAX VOLUME (0-100)" type="slider" min="0" max="100" step="1" valueParamName="LEVEL">
+                    <commands> 
+                        <command name="SET_MAX_VOLUME">
+                            <params>
+                                <param name="LEVEL" type="integer"/>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Test Signal" title="Test Signal" type="toggle" timer="true">
+                    <commands> 
+                        <command name="ENABLE_TEST_TONE_TIMED" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="SECONDS" type="integer" value="3"/>
+                            </params>
+                        </command>
+                        <command name="DISABLE_TEST_TONE_TIMED" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Test Signal Volume" title="TEST SIGNAL VOLUME (-50-0dB)" type="slider" min="-50" max="0" step="0.5" unit="dB" valueParamName="LEVEL">
+                    <commands> 
+                        <command name="SET_TEST_TONE_GAIN">
+                            <params>
+                                <param name="LEVEL" type="integer"/>
+                                <param name="OUTPUT" type="double"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Output Delay" title="Output Delay (-80-80 ms)" type="slider" min="-80" max="80" step="1" unit="ms" valueParamName="delay">
+                    <commands> 
+                        <command name="SET_AUDIO_DELAY">
+                            <params>
+                                <param name="delay" type="integer"/>
+                                <param name="output" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Mono Sum" title="Mono Sum" type="toggle">
+                    <commands> 
+                        <command name="MONOSUM_TOGGLE">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Disable HDMI Audio" title="Disable HDMI Audio" type="toggle">
+                    <commands> 
+                        <command name="SET_HDMI_AUDIO_DISABLED_STATE" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_HDMI_AUDIO_DISABLED_STATE" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Video Resolution" title="Video Resolution" type="list" valueParamName="MODE">
+                    <options>
+                        <option name="1080p@30" value="1080p@30"/>
+                        <option name="1080p@25" value="1080p@25"/>
+                        <option name="1080p@24" value="1080p@24"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_VIDEO_MODE">
+                            <params>
+                                <param name="OUTPUT" type="string" value="hdmi"/>
+                                <param name="MODE" type="string"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Capture EDID" title="Capture EDID" type="toggle">
+                    <tooltip>When enabled, the controller will cache an EDID once and save it for future use. This behavior is typically sufficient for most installs but should be disabled if this device is installed in an environment that requires the controller to negotiate with several displays or HDMI matrices that cannot receive the same display formats.</tooltip>
+                    <commands> 
+                        <command name="HDMI_EDID_CAPTURE_ENABLED" when="true">
+                            <params>
+                                <param name="state" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="HDMI_EDID_CAPTURE_ENABLED" when="false">
+                            <params>
+                                <param name="state" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Reset EDID" title="Reset" type="button" showDialogBox="true">
+                    <dialogText>Resetting the EDID cache clears the stored EDID and allows the controller to renegotiate with HDMI sink devices</dialogText>
+                    <commands> 
+                        <command name="HDMI_EDID_RESET"/>
+                    </commands>
+                </control>
+            </controls>
+
+            <output number="0" type="analog" name="Analog Out 1">
+                <controls>
+                    <control name="Mute"/>
+                    <control name="Output Volume"/>
+                    <control name="Max Volume"/>
+                    <control name="Test Signal"/>
+                    <control name="Test Signal Volume"/>
+                    <control name="Output Delay"/>
+                    <control name="Mono Sum"/>  
+                </controls>
+                
+                <dspModes>
+                  <dspMode name="Equalizer" mode="2"/>
+                  <dspMode name="Bypass" mode="4"/>
+                </dspModes>
+            </output>
+
+            <output number="1" type="hdmi" name="HDMI Out">
+                <controls>
+                    <control name="Video Resolution"/>
+                    <control name="Capture EDID"/>
+                    <control name="Reset EDID"/>
+                </controls>
+            </output>
+        </outputs>
+
+        <equalizer>
+            <controls>
+                <control name="Freq" title="FREQ (20-20000 Hz)" type="textbox" min="20" max="20000" unit="Hz" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_EQ_FREQ">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+                
+                <control name="Q-Ratio" title="Q-RATIO (0.5-3.0)" type="slider" min="0.5" max="3.0" step="0.1" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_EQ_Q">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Gain" title="GAIN (+/- 12 dB)" type="slider" min="-12" max="12" step="1" unit="dB" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_EQ_GAIN">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Enable" type="toggle">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_EQ_ENABLED" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_AUDIO_OUT_EQ_ENABLED" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <eq band="0" name="EQ 1">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="1" name="EQ 2">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="2" name="EQ 3">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="3" name="EQ 4">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="4" name="EQ 5">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="5"  name="EQ 6">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+        </equalizer>
+
+        <tone_control>
+            <controls>
+                <control name="Freq" title="FREQ (20-20000 Hz)" type="textbox" min="20" max="20000" unit="Hz" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_TONECONTROL-freq">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Gain" title="GAIN (+/- 12 dB)" type="slider" min="-12" max="12" step="1" unit="dB" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_TONECONTROL-gain">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Enable" type="toggle">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_TONECONTROL-enable" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_AUDIO_OUT_TONECONTROL-enable" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Loudness" title="Loudness" type="toggle">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_TONECONTROL-loudness-enable" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_AUDIO_OUT_TONECONTROL-loudness-disable" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="string"/>
+                                <param name="VALUE" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <shelf band="low" name="Low Shelf (Bass)">
+                <controls>
+                    <control name="Enable"/>
+                    <control name="Freq"/>
+                    <control name="Gain"/>
+                </controls>
+            </shelf>
+
+            <shelf band="high" name="High Shelf (Treble)">
+                <controls>
+                    <control name="Enable"/>
+                    <control name="Freq"/>
+                    <control name="Gain"/>
+                </controls>
+            </shelf>
+
+            <loudness name="Loudness">
+                <controls>
+                    <control name="Loudness"/>
+                </controls>
+            </loudness>
+        </tone_control>
+
+        <sub_equalizer>
+            <controls>
+                <control name="Freq" title="FREQ (20-20000 Hz)" type="textbox" min="20" max="20000" unit="Hz" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBEQ-freq">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+                
+                <control name="Q-Ratio" title="Q-RATIO (0.5-3.0)" type="slider" min="0.5" max="3.0" step="0.1" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBEQ-q">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Gain" title="GAIN (+/- 12 dB)" type="slider" min="-12" max="12" step="1" unit="dB" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBEQ-gain">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Enable" type="toggle">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBEQ-enabled" when="true">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="string" value="True"/>
+                            </params>
+                        </command>
+                        <command name="SET_AUDIO_OUT_SUBEQ-enabled" when="false">
+                            <params>
+                                <param name="OUTPUT" type="integer"/>
+                                <param name="BAND" type="integer"/>
+                                <param name="VALUE" type="string" value="False"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Volume Offset" title="SUB VOLUME OFFSET (+/-12dB)" type="slider" min="-12" max="12" step="1" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBCROSSOVER-gain">
+                            <params>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Crossover Type" title="CROSSOVER TYPE" type="list" valueParamName="VALUE">
+                    <options>
+                        <option name="Passthrough" value="PassThrough"/>
+                        <option name="Butterworth 12dB" value="Butterworth"/>
+                        <option name="Linkwitz-Riley 24dB" value="LinkwitzRiley"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBCROSSOVER-type">
+                            <params>
+                                <param name="VALUE" type="string"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+
+                <control name="Crossover Frequency" title="CROSSOVER FREQUENCY (20-300 Hz)" type="slider" min="20" max="300" step="1" valueParamName="VALUE">
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SUBCROSSOVER-freq">
+                            <params>
+                                <param name="VALUE" type="integer"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            
+            </controls>
+
+            <setting>
+                <controls>
+                    <control name="Volume Offset"/>
+                </controls>
+            </setting>
+
+            <setting>
+                <controls>
+                    <control name="Crossover Type"/>
+                </controls>
+            </setting>
+
+            <setting>
+                <controls>
+                    <control name="Crossover Frequency"/>
+                </controls>
+            </setting>
+
+            <eq band="1" name="EQ 1">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="2" name="EQ 2">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+
+            <eq band="3" name="EQ 3">
+                <controls>
+                    <control name="Freq"/>
+                    <control name="Q-Ratio"/>
+                    <control name="Gain"/>
+                </controls>
+            </eq>
+        </sub_equalizer>
+
+        <speaker_equalizer>
+            <controls>
+                <control name="Preset" title="Select Speaker Preset" type="list" valueParamName="value">
+                    <options>
+                        <option name="none" value="none"/>
+                        <option name="preset1" value="preset1"/>
+                        <option name="preset2" value="preset2"/>
+                        <option name="preset3" value="preset3"/>
+                    </options>
+                    <commands> 
+                        <command name="SET_AUDIO_OUT_SPEAKEREQ">
+                            <params>
+                                <param name="value" type="string"/>
+                            </params>
+                        </command>
+                    </commands>
+                </control>
+            </controls>
+
+            <speaker_presets>
+              <controls>
+                <control name="Preset"/>
+              </controls>
+            </speaker_presets>
+
+        </speaker_equalizer>
+
+    </ovrc_ui>
+  </capabilities>
+  <name>Triad SA1</name>
+  <manufacturer>Triad</manufacturer>
+  <creator>Triad</creator>
+  <model>TS-SA1-200</model>
+  <small>devices_sm/control4_sa1_sm.png</small>
+  <large>devices_lg/control4_sa1_lg.png</large>
+  <control>control4_sa1</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <search_type>c4:control4_sa1</search_type>
+  <proxies>
+    <proxy proxybindingid="5001" name="Triad SA1"  small_image="devices_sm/control4_sa1_sm.png" large_image="devices_lg/control4_sa1_lg.png">controller</proxy>
+    <proxy proxybindingid="5002">uimediainfo</proxy>
+  </proxies>
+  <dependencies>
+    <dependency>control4_digitalaudio</dependency>
+    <dependency alwaysAdd="true">
+      <name>nowplaying-hdmiout.c4z</name>
+      <auto_bindings>
+        <auto_binding>
+          <id>1</id>
+          <isconsumer>false</isconsumer>
+          <classes>
+            <class>
+              <classname>NOWPLAYING</classname>
+            </class>
+          </classes>
+          <dep_binding_id>1</dep_binding_id>
+        </auto_binding>
+      </auto_bindings>
+    </dependency>
+    <dependency alwaysAdd="true">
+      <name>driver-airplay2.c4z</name>
+    </dependency>
+  </dependencies>
+  <audioPlayLoadFactor>80</audioPlayLoadFactor>
+  <audio_dev_type>sa1</audio_dev_type>
+  <driver>100063</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Now Playing</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>NOWPLAYING</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Controller</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTROLLER</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>5002</id>
+      <facing>6</facing>
+      <connectionname>UI MediaInfo</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>UI_MEDIAINFO</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>400</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial1X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>401</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial2X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>SA1 IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>c4server</name>
+              <number>5116</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>c4uidevice</name>
+              <number>5117</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>netusbserver</name>
+              <number>5110</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioserver</name>
+              <number>6000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Navigator</name>
+              <number>5115</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioclient</name>
+              <number>6100</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>SysmanDA</name>
+              <number>5811</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>IOServer</name>
+              <number>5100</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+             <port>
+              <name>IOServer USB</name>
+              <number>20000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5101</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+            <port>
+              <name>Serialport</name>
+              <number>5102</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>UDP</classname>
+          <ports/>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>Stereo Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>Digital Coax Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="DigitalIn">
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>Digital Optical Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class ExcludeID="DigitalIn">
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3003</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio Client</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_CLIENT</classname>
+        </class>
+      </classes>
+    </connection>
+  <connection proxybindingid="5001">
+      <id>3004</id>
+      <type>6</type>
+      <connectionname>AirPlay Audio</connectionname>
+      <consumer>True</consumer>
+      <ExtraInfo>3</ExtraInfo>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RF_SA1_AIRPLAY2</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Stereo Out</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4072</id>
+      <facing>6</facing>
+      <connectionname>HDMI (Audio/Video)</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4100</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_SERVER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Audio Output</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7300</id>
+      <facing>6</facing>
+      <connectionname>Audio Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+</devicedata>

@@ -1,0 +1,1081 @@
+# 
+# Translators:
+# Lukáš Polívka <lukas.polivka@yatun.cz>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Czech (https://app.transifex.com/control4/teams/15374/cs/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: cs\n"
+"Name: \n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName} Zdroj"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "Zpoždění akce (sekundy)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "Akce"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "Spořič vzduchu"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "Rutina spořiče vzduchu"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "Poplach zastaven"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "Monitor alarmů"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "Rutina monitorování alarmů"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "Alarm spuštěn"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"Upozornění po stanoveném čase, pokud jsou určité dveře nebo okna otevřená a "
+"určené termostaty aktivně topí nebo chladí."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr ""
+"Upozorní vás, pokud dojde k vypnutí senzoru na delší dobu, než je stanovená "
+"doba."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "Audio/Video"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "Automaticky"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "Automatizujte vypínání světel při každém jejich rozsvícení."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr ""
+"Automaticky blikají vybraná světla při zazvonění vybrané dveřní stanice"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr "Automaticky vypnout podsvícení dotykové obrazovky mezi určenými časy"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"Automaticky zapnout vybraná světla na zvolený čas, když vybrané kamery "
+"detekují pohyb"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"Automaticky zapne/vypne ventilátor určený čas po zapnutí/vypnutí vybrané "
+"kontrolky"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "Automatizace"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "Motýl"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "Knoflík"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "Tlačítko stisknuto"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "Stisknuto tlačítko volání 2"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "Stisknuto tlačítko volání 3"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "Stisknuto tlačítko volání 4"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "Tlačítko volání 5 Stisknuto"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "Stisknuto tlačítko volání 6"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "Stisknuté tlačítko volání"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "Zrušit tuto událost"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "Zaškrtávací políčko"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "Kontrolní světla"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "Ovládání světel nebo výběr scény"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr "Ovládejte zapínání a vypínání světel kolem západu a východu slunce."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "Řízené ventilátory"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "Řízená světla"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "Ovládané zámky"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "Řízené termostaty"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "Chladit"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "Temná komora"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "Rutina v temné komoře"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "Datum"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "Datum a čas"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "Demonstrace možností uživatelského rozhraní rutin"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "Nevybírat předvolbu"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "Nevybírat scénu"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "Indikátor dveří"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "Rutina dveřního indikátoru"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "Kachna"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "Předvolba EBMS"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "Rutina EBMS"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "Vyvolán stav tísně"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "Prázdný"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "Koncový čas"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "Čeština: Kontrola proměnných: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "Chyba: Není k dispozici žádný obsah, nejprve si něco přehrajte"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "Chyba: Není vybrán žádný obsah"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "Událost"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "Akce {index} - ukončena"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "Událost {index} - dokončeno (bylo upraveno)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "Příklad události {index}"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "Příklad rutiny"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "Ukázková sekce (úplný seznam)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "Příklad/demonstrační rutina"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "Časovač ventilátoru"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "Rutina časovače ventilátoru"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "Vypnuté ventilátory"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "Ventilátory zapnuty"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "Ventilátory se vypnou"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "Ventilátory se zapnou"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "pátek"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "Vygenerujte 5 událostí"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "Generování událostí"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "Geofence (geografické ohraničení)"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "Rutina geografického ohraničení"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "Topit"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "Ikona"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "Zdroj obrázku ikony"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "Rejstřík pro událost"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "Ledňáček"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "Automatické vypnutí světla"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "Rutina automatického vypínání světla"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "Svetla"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "Světelná scéna"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "Světla"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "Akce vstupu světel"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "Akce ukončení světel"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "Světla k ovládání"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "Světla k zapnutí"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "Světla blikají - {deviceName} stisknuté tlačítko"
+
+#: driver.lua:75
+msgid "List"
+msgstr "Seznam"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "Předvolba MDM"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "Maximální jas"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "Maximální jas byl snížen"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "Byl obnoven maximální jas"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "Maximální jas bude obnoven"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "Maximální jas se sníží"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "Upravit událost"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "Upravit událost na časové ose"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "Upravit {index} události - úspěch: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "pondělí"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "Monitorované kamery"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "Monitorované dveřní stanice"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "Monitorované dveře a okna"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "Monitorované světlo"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "Monitorované bezpečnostní senzory"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "Monitorované bezpečnostní oddíly"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "Monitorované senzory"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "Monitorované termostaty"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "Pohyb"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "Detekce pohybu"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "Pohybová světla"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "Rutina pohybových světel"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "Nikdy"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "Noční světlo"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "Noční režim"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "Žádná akce"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "Žádná změna"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "Zpoždění oznámení (minuty)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "Zpoždění oznámení (v sekundách)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "Text oznámení"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "Číslo"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "Vypnuto"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "Zapnuto"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr ""
+"Proveďte doporučená bezpečnostní opatření, pokud se spustí alarm tepla, "
+"kouře nebo oxidu uhelnatého."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "Push notifikace odeslána"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "Snižte výchozí jas světel v nočních hodinách."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "Odstranit událost"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "Odebrání události na časové ose"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "Odebrat událost {index} - úspěch: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "Výběr místnosti"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "Spustit akce hned teď"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "Spustit čas ukončení nyní"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "Spustit nyní"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "Spustit čas spuštění nyní"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "Spustit tuto akci nyní"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "Spustit Vypnout nyní"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "Spustit Zapnout nyní"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "Bezpečnostní alarm"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "Rutina bezpečnostního alarmu"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "sobota"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "Program"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "Plánované audio"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "Naplánovaná zvuková rutina"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "Naplánovaná událost proběhla"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "Naplánovaná událost bude spuštěna"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "Vyberte zdroje zvuku v libovolné místnosti (místnostech) podle plánu"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"Vyberte zdroje zvuku v libovolné místnosti (místnostech) a volitelně vyberte"
+" světelnou scénu, předvolbu EBMS a/nebo předvolbu MDM"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "Vybrat scénu"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "Vybraná scéna"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "Vybraná světla se vypnou"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "Vybraná světla se zapnou"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "Vybraná scéna se vypne"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "Vybraná scéna se zapne"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr ""
+"Odešlete nabízené oznámení, pokud vás upozorní bezpečnostní oddíl nebo "
+"bezpečnostní senzor."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "Monitor senzoru"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "Rutina monitoru senzoru"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "Nastavit událost"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "Nastavit událost na časové ose"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "Nastavit čas"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "Nastavit událost {index} - úspěch: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "Nastavit minulé události {index} - úspěch: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "Sestava"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "Zobrazit jako neúplné"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "Zobrazit sekci překladů"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "Zobrazit/skrýt prvky"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "Běhoun"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "Počáteční čas"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "neděle"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "Východ slunce"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "Západ slunce"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "Vypínač"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "Systém"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "Test: Událost tlačítka pro volání"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "Test: Vstoupila událost geografického ohraničení"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "Test: Ukončená událost geografické zóny"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "Test: Událost detekce pohybu"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "Test: Spuštění bezpečnostních akcí"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "Test: Oznámení o odeslání bezpečnostního senzoru"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "Test: Odeslání notifikace bezpečnostního systému"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "Test: Odeslat oznámení"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "Test: Přepnout vybraná světla"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "Text"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "Textové pole Alpha"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "Textové pole – alfanumerické"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "Textové pole Normální"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "Číslo textového pole"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "Textové pole číselné"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "Heslo do textového pole"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "Akce vstupu termostatu"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "Akce výstupu termostatu"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "Termostaty k ovládání"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "čtvrtek"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "Délka"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "Časovaná světla"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "Rutina časovaných světel"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "Informace o časové ose"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "Interakce s časovou osou"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "Časovač (minuty)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "Přepnout"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "Přepnout zpět za 5 sekund"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "Zaškrtněte políčko"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "Dotykové obrazovky"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "Dotykové obrazovky rozjasněné"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "Ztmavené dotykové obrazovky"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "Dotykové obrazovky se rozjasní"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "Dotykové obrazovky ztmavnou"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "Překlady"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "Přepínač překladů"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "úterý"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "Vypnout při"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "Vypnout v čase"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "Zpoždění vypnutí světel (minuty)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "Vypnout několik minut po východu slunce"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "Vypnout časovač doběhu (minuty)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "Vypnout místnost"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "Vypnout při východu slunce"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "Zapnout v"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "Zapnout v čase"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "Zapnout časovač zpoždění (minuty)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "Zapnout minuty po západu slunce"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "Zapnout při západu slunce"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "Adresa URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "Neznámá kamera"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "Neznámá dveřní stanice"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "Neznámá předvolba EBMS"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "Neznámý fanoušek"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "Neznámé světlo"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "Neznámý zámek"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "Neznámá předvolba MDM"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "Neznámý bezpečnostní senzor"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "Neznámá scéna"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "Neznámý bezpečnostní oddíl"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "Neznámý senzor"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "Neznámý termostat"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "Neznámá dotyková obrazovka"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "Adresa URL ikony"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"Používá agenta geografického ohraničení ke spuštění rutiny při vstupu nebo "
+"opuštění geografického ohraničení."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "středa"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "Popisek události"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "Vypnuto"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "zapnutý"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} spuštěno - spustí se bezpečnostní akce"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} spuštěno - spustí se bezpečnostní akce"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} detekovaný pohyb se světla po vypršení časového limitu vrátila "
+"do předchozího stavu"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} detekovaný pohyb, rozsvícená světla"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} detekovaný pohyb se světla po vypršení časového limitu vrátí do"
+" předchozího stavu"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} vstoupil do geografické zóny {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} opuštěné geografické {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} spuštěné Push notifikace"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} vypnuto"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} spustí Push notifikace"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} vypne"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} běžel"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} poběží"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} jsou otevřená a {hvacZonesOnCount} zapnutá - tím se "
+"spustí Push notifikace"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} obsah"

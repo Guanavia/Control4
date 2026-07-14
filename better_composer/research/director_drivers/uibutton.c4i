@@ -1,0 +1,41 @@
+<devicedata>
+  <version>3</version>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>2/12/2016 8:30 PM</created>
+  <modified>4/4/2016 8:30 PM</modified>
+  <name>Experience Button</name>
+  <small>devices_sm/ico_16_mediaservices.png</small>
+  <large>devices_lg/ico_32_mediaservices.png</large>
+  <control>uibutton</control>
+  <composer_categories>
+    <category>User Interface</category>
+  </composer_categories>
+  <proxy />
+  <driver>2016212</driver>
+  <states />
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME is selected</description>
+    </event>
+  </events>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>UIBUTTON</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>UIBUTTON</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

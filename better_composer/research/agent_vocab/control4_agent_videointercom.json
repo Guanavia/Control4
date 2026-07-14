@@ -1,0 +1,19 @@
+{
+  "agent": "control4_agent_videointercom",
+  "display_name": "Video Intercom",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "medium - tokens are real, but most look like internal call-state-machine enum values rather than user-facing commands/events; likely_commands here is genuinely sparse, not under-curated.",
+  "likely_commands": ["RING_ALL"],
+  "likely_events": ["GATEWAY_REGISTERED", "FAIL_WAIT"],
+  "call_control_states": [
+    "CCS_ACTIVE", "CCS_DIALING", "CCS_DOWN", "CCS_EARLY", "CCS_HANGUP", "CCS_HELD",
+    "CCS_RINGING", "CCS_RING_WAIT", "CCS_UNHELD"
+  ],
+  "internal_call_session_states": [
+    "CS_CONSUME_MEDIA", "CS_DESTROY", "CS_EXCHANGE_MEDIA", "CS_EXECUTE", "CS_HANGUP",
+    "CS_HIBERNATE", "CS_INIT", "CS_NEW", "CS_NONE", "CS_PARK", "CS_REPORTING", "CS_RESET",
+    "CS_ROUTING", "CS_SOFT_EXECUTE"
+  ],
+  "notes": "CCS_* = call control state machine (likely the values an 'on call state changed'-style event reports), CS_* = a lower-level internal session state machine, probably not directly exposed to programming. Useful for understanding intercom call lifecycle even though it's not a typical command/event list."
+}

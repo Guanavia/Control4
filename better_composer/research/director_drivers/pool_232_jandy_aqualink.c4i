@@ -1,0 +1,93 @@
+<devicedata>
+  <c4id>473</c4id>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <config/>
+  <name>Jandy AquaLink RS</name>
+  <small>devices_sm/jandy16.gif</small>
+  <large>devices_lg/jandy32.gif</large>
+  <control>pool_232_jandy_aqualink</control>
+  <composer_categories>
+    <category>Pool and Spa</category>
+  </composer_categories>
+  <proxy>pool</proxy>
+  <driver>id_pool_232_jandy_aqualink</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Pool</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>POOL</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Serial RS-232</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <pool_pumpmodes>Off,On</pool_pumpmodes>
+    <spa_pumpmodes>Off,On</spa_pumpmodes>
+    <temp_min>40</temp_min>
+    <temp_max>106</temp_max>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+    <can_poll_serial>False</can_poll_serial>
+    <power_control>False</power_control>
+    <power_delay>0</power_delay>
+    <power_macro>False</power_macro>
+    <pool_heat_modes type="xml">
+      <mode>
+        <id>1</id>
+        <text>Heater</text>
+      </mode>
+      <mode>
+        <id>2</id>
+        <text>Solar Heater</text>
+      </mode>
+    </pool_heat_modes>
+    <spa_heat_modes type="xml">
+      <mode>
+        <id>1</id>
+        <text>Heater</text>
+      </mode>
+    </spa_heat_modes>
+    <aux_types type="xml">
+      <aux_type>
+        <type>TOGGLE</type>
+        <name>Toggle</name>
+      </aux_type>
+    </aux_types>
+  </capabilities>
+  <manufacturer>Jandy</manufacturer>
+  <creator>Control4</creator>
+  <created>8/15/06 12:23 PM</created>
+  <modified>7/18/2014 4:40 PM</modified>
+  <version>5</version>
+  <model>AquaLink RS</model>
+  <front>{Width=700, Height=336}\x158DVPX777-f.bmp</front>
+  <back>{Width=500, Height=250}\x158dvpx777-b.bmp</back>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+</devicedata>

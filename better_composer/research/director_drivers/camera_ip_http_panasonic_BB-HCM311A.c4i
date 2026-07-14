@@ -1,0 +1,186 @@
+<devicedata>
+  <copyright>Copyright 2004-2007 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Panasonic BB-HCM311A</name>
+  <small>devices_sm/HVAC_16.gif</small>
+  <large>devices_lg/HVAC_32.gif</large>
+  <control>camera_ip_http</control>
+  <proxy>camera_ip_http_panasonic_BB-HCM311A</proxy>
+  <driver>HTTP_IP_CAMERA</driver>
+  <composer_categories>
+	<category>Cameras</category>
+  </composer_categories>
+  <states />
+  <connections />
+  <config>
+    <commands>
+      <command>
+        <name>GET_IMAGE</name>
+        <URL>/SnapshotJPEG?Resolution=[Resolution]&amp;Quality=[Quality]</URL>
+        <params>
+          <param>
+            <name>Resolution</name>
+            <values>
+              <value>320x240</value>
+              <value>640x480</value>
+            </values>
+            <default>320x240</default>
+          </param>
+          <param>
+            <name>Quality</name>
+            <values>
+              <value>Clarity</value>
+              <value>Motion</value>
+              <value>Blur</value>
+            </values>
+            <default>Clarity</default>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>CLICK_POSITION</name>
+        <URL>/nphControlCamera?Width=[Width]&amp;Height=[Height]&amp;Direction=Direct&amp;NewPosition.x=[X]&amp;NewPosition.y=[Y]</URL>
+        <params>
+          <param>
+            <name>X</name>
+          </param>
+          <param>
+            <name>Y</name>
+          </param>
+          <param>
+            <name>Width</name>
+          </param>
+          <param>
+            <name>Height</name>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>GET_MJPEG</name>
+        <URL>/nphMotionJpeg?Mode=0&amp;Resolution=[Resolution]&amp;Quality=[Quality]</URL>
+        <params>
+          <param>
+            <name>Resolution</name>
+            <values>
+              <value>320x240</value>
+              <value>640x480</value>
+            </values>
+            <default>320x240</default>
+          </param>
+          <param>
+            <name>Quality</name>
+            <values>
+              <value>Clarity</value>
+              <value>Motion</value>
+              <value>Blur</value>
+            </values>
+            <default>Clarity</default>
+          </param>
+        </params>
+      </command>
+
+      <command>
+        <name>PAN_LEFT</name>
+        <URL>/nphControlCamera?Direction=PanLeft</URL>
+      </command>
+      <command>
+        <name>PAN_RIGHT</name>
+        <URL>/nphControlCamera?Direction=PanRight</URL>
+      </command>
+      <command>
+        <name>PAN_SCAN</name>
+        <URL>/nphControlCamera?Direction=PanScan</URL>
+      </command>
+
+      <command>
+        <name>TILT_UP</name>
+        <URL>/nphControlCamera?Direction=TiltUp</URL>
+      </command>
+      <command>
+        <name>TILT_DOWN</name>
+        <URL>/nphControlCamera?Direction=TiltDown</URL>
+      </command>
+      <command>
+        <name>TILT_SCAN</name>
+        <URL>/nphControlCamera?Direction=TiltScan</URL>
+      </command>
+
+      <command>
+        <name>HOME_POSITION</name>
+        <URL>/nphControlCamera?Direction=HomePosition</URL>
+      </command>
+      <command>
+        <name>PRESET</name>
+        <URL>/nphControlCamera?Direction=Preset&amp;PresetOperation=Move&amp;Data=[Preset]</URL>
+        <params>
+          <param>
+            <name>Preset</name>
+            <values>
+              <value>1</value>
+              <value>2</value>
+              <value>3</value>
+              <value>4</value>
+              <value>5</value>
+              <value>6</value>
+              <value>7</value>
+              <value>8</value>
+              <value>9</value>
+              <value>10</value>
+              <value>11</value>
+              <value>12</value>
+              <value>13</value>
+              <value>14</value>
+              <value>15</value>
+              <value>16</value>
+              <value>17</value>
+              <value>18</value>
+              <value>19</value>
+              <value>20</value>
+            </values>
+          </param>
+        </params>
+      </command>
+
+      <command>
+        <name>DARKER</name>
+        <URL>/nphControlCamera?Direction=Darker</URL>
+      </command>
+      <command>
+        <name>BRIGHTER</name>
+        <URL>/nphControlCamera?Direction=Brighter</URL>
+      </command>
+      <command>
+        <name>DEFAULT_BRIGHTNESS</name>
+        <URL>/nphControlCamera?Direction=DefaultBrightness</URL>
+      </command>
+
+    </commands>
+  </config>
+  <manufacturer>Panasonic</manufacturer>
+  <version>1</version>
+  <creator>Control4</creator>
+  <created>11/16/2006 12:30 PM</created>
+  <modified>11/16/2006 12:30 PM</modified>
+  <model>Panasonic BB-HCM311A</model>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <capabilities>
+  <is_camera>True</is_camera>
+  <can_pan>True</can_pan>
+  <can_pan_scan>True</can_pan_scan>
+  <can_tilt>True</can_tilt>
+  <can_tilt_scan>True</can_tilt_scan>
+  <can_home>True</can_home>
+  <can_zoom>False</can_zoom>
+  <can_focus>False</can_focus>
+  <can_brightness>True</can_brightness>
+  <can_click_position>True</can_click_position>
+  <presets>8</presets>
+  <num_image_list>5</num_image_list>
+  <update_seconds_not>5</update_seconds_not>
+  <update_milliseconds>500</update_milliseconds>
+  </capabilities>
+</devicedata>

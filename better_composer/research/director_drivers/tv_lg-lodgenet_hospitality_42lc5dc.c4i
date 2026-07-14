@@ -1,0 +1,1239 @@
+<devicedata>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<name>LG-LodgeNet Hospitality 42LC5DC</name>
+	<small>devices_sm/tv.gif</small>
+	<large>devices_lg/tv.gif</large>
+	<control>lua_gen</control>
+	<proxies>
+		<proxy name="Television" proxybindingid="5001">tv</proxy>
+		<proxy name="LodgeNet" proxybindingid="5002">cable</proxy>
+		<proxy name="Watch Movies On Demand" proxybindingid="5003">cable</proxy>
+	</proxies>
+	<driver>DriverWorks</driver>
+	<manufacturer>LG-LodgeNet</manufacturer>
+	<created>08/28/2008 2:24 PM</created>
+	<modified>01/29/2016 10:00 AM</modified>
+	<creator>Control4</creator>
+	<model>Hospitality 42LC5DC</model>
+    <version>1</version>
+	<capabilities>
+		<!-- 2400 baud, 8 bit, no parity, 1 stop bit, no flow control -->
+		<serialsettings>2400 8 none 1 none</serialsettings>
+		<audio_consumer_count>3</audio_consumer_count>
+		<audio_provider_count>1</audio_provider_count>
+		<has_audio>True</has_audio>
+		<has_channel_up_down>True</has_channel_up_down>
+		<has_discrete_channel_select>True</has_discrete_channel_select>
+		<has_discrete_input_select>True</has_discrete_input_select>
+		<has_toggle_mute_control>True</has_toggle_mute_control>
+		<has_discrete_mute_control>False</has_discrete_mute_control>
+		<has_toggle_loudness_control>False</has_toggle_loudness_control>
+		<has_up_down_volume_control>True</has_up_down_volume_control>
+		<can_be_dvr>False</can_be_dvr>
+		<can_upclass>True</can_upclass>
+		<video_consumer_count>7</video_consumer_count>
+		<video_provider_count>1</video_provider_count>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>1</id>
+			<type>1</type>
+			<connectionname>IR Sensor</connectionname>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>IR_OUT</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>2</id>
+			<type>1</type>
+			<connectionname>Serial RS-232</connectionname>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>RS_232</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>7000</id>
+			<type>7</type>
+			<connectionname>Room Control</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_SELECTION</classname>
+				</class>
+				<class>
+					<classname>VIDEO_SELECTION</classname>
+				</class>
+				<class>
+					<classname>AUDIO_VOLUME</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3006</id>
+			<type>6</type>
+			<connectionname>RGB Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3004</id>
+			<type>6</type>
+			<connectionname>AV Input 1</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3003</id>
+			<type>6</type>
+			<connectionname>Component Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3002</id>
+			<type>6</type>
+			<connectionname>LodgeNet</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>1</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>DIGITAL_OPTICAL</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3007</id>
+			<type>6</type>
+			<connectionname>OnDemand</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>4</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>DIGITAL_OPTICAL</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>2001</id>
+			<type>5</type>
+			<connectionname>LodgeNet Proxy Output To TV [REQUIRED]</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>2</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>COMPOSITE</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>COMPONENT</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>SVIDEO</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5003">
+			<id>2002</id>
+			<type>5</type>
+			<connectionname>OnDemand Proxy Output To TV [REQUIRED]</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>3</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>COMPOSITE</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>COMPONENT</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>SVIDEO</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5002</id>
+			<type>2</type>
+			<connectionname>Cable</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5003</id>
+			<type>2</type>
+			<connectionname>Cable</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5001</id>
+			<type>2</type>
+			<connectionname>TV</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>TV</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1006</id>
+			<type>5</type>
+			<connectionname>RGB Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VGA</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>1005</id>
+			<type>5</type>
+			<connectionname>Cable Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>RF_CABLE</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1004</id>
+			<type>5</type>
+			<connectionname>AV Input 1</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>COMPOSITE</classname>
+				</class>
+				<class>
+					<classname>SVIDEO</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1003</id>
+			<type>5</type>
+			<connectionname>Component Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>COMPONENT</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1002</id>
+			<type>5</type>
+			<connectionname>LodgeNet</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>2</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>COMPOSITE</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>COMPONENT</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>SVIDEO</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1007</id>
+			<type>5</type>
+			<connectionname>OnDemand</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>3</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>COMPOSITE</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>COMPONENT</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>SVIDEO</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1001</id>
+			<type>5</type>
+			<connectionname>HDMI Input 2</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>1000</id>
+			<type>5</type>
+			<connectionname>HDMI Input 1</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>4001</id>
+			<type>6</type>
+			<connectionname>LodgeNet Proxy Output To TV [REQUIRED]</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>1</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>DIGITAL_OPTICAL</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5003">
+			<id>4002</id>
+			<type>6</type>
+			<connectionname>OnDemand Proxy Output To TV [REQUIRED]</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>4</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+					<autobind>True</autobind>
+				</class>
+				<class>
+					<classname>DIGITAL_OPTICAL</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>4003</id>
+			<facing>6</facing>
+			<connectionname>Digital Audio Output</connectionname>
+			<type>6</type>
+			<consumer>False</consumer>
+			<audiosource>True</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>DIGITAL_OPTICAL</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+	<commands/>
+	<conditionals/>
+	<config>
+		<irsettings>direct</irsettings>
+		<power_command_delay>0</power_command_delay>
+		<power_delay>0</power_delay>
+		<power_management_method>DiscreteCodes</power_management_method>
+		<rfs>
+			<rf>rf_cable</rf>
+		</rfs>
+		<irsection>
+			<ircodes>
+				<ircode>
+					<id>1</id>
+					<name>PLAY</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0017 0014 0017 0014 0017 0014 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0040 0017 0015 0016 0040 0016 0015 0017 0014 0017 0014 0017 0014 0017 0040 0016 0015 0016 0040 0017 0015 0016 0040 0016 0040 0017 0040 0016 0040 0017 0015 0016 0040 0016 0015 0017 060a 015c 0056 0017 0e7a 015c 0056 0017 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>3</id>
+					<name>PAUSE</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0017 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0040 0016 0015 0017 0014 0017 0014 0017 0015 0016 0015 0016 0040 0016 0040 0017 0015 0016 060a 015c 0057 0016 0e7a 015d 0056 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>4</id>
+					<name>SKIP_FWD</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ad 0016 0041 0016 0015 0016 0040 0017 0014 0017 0014 0017 0014 0017 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0017 0040 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0040 0016 0015 0017 060a 015c 0057 0016 0e7a 015c 0057 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>5</id>
+					<name>SKIP_REV</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ae 0016 0040 0017 0014 0016 0041 0016 0015 0015 0016 0015 0016 0015 0016 0016 0041 0016 0015 0015 0016 0015 0041 0017 0040 0015 0041 0016 0041 0015 0041 0016 0015 0016 0015 0016 0041 0015 0041 0016 0041 0015 0041 0016 0015 0016 0015 0016 0041 0016 0041 0016 0015 0015 0016 0015 0016 0015 0016 0015 0041 0016 0041 0016 0015 0015 060c 015c 0056 0017 0e7a 015b 0057 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>10</id>
+					<name>NUMBER_0</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0040 0017 0040 0016 0040 0017 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0016 0015 0017 0040 0016 0040 0016 0015 0016 0016 0016 0015 0016 0040 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0017 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>11</id>
+					<name>NUMBER_1</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0040 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>12</id>
+					<name>NUMBER_2</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0017 0014 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0040 0017 0014 0017 0014 0017 0015 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 0040 0017 0040 0016 0040 0016 0041 0016 0040 0016 0015 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>13</id>
+					<name>NUMBER_3</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0017 0014 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0040 0017 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0016 0016 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 060b 015c 0056 0017 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>14</id>
+					<name>NUMBER_4</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015b 00ae 0016 0040 0017 0014 0017 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0017 0040 0016 0040 0016 0041 0016 0040 0017 0014 0017 0040 0016 0041 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0041 0016 0040 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>15</id>
+					<name>NUMBER_5</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0015 0016 0015 0017 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>16</id>
+					<name>NUMBER_6</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015b 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0041 0016 0015 0016 0040 0016 0015 0017 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 060b 015b 0057 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>17</id>
+					<name>NUMBER_7</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0017 0014 0017 0014 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0017 0040 0016 0040 0016 0041 0016 0015 0016 0040 0017 0040 0016 0015 0016 0040 0016 0015 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0017 0040 0016 0015 0016 0040 0016 0041 0016 0040 0017 0014 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>18</id>
+					<name>NUMBER_8</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0017 0040 0016 0015 0016 0040 0017 0015 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 0040 0016 0015 0016 0041 0016 0040 0016 0041 0016 0015 0016 060b 015c 0056 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>19</id>
+					<name>NUMBER_9</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0016 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0040 0017 0014 0017 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0040 0016 0041 0016 0015 0016 0040 0017 0040 0016 0040 0016 0015 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>101</id>
+					<name>POWER_ON</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 0067 0022 0002 0156 00AB 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 003F 0016 0016 0016 003F 0016 003F 0016 0016 0016 003F 0016 0016 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 0016 0016 003F 0016 0016 0016 0593 0160 0058 0016 0DC0</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>102</id>
+					<name>POWER_OFF</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 0067 0022 0002 0156 00AB 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 0016 0016 0016 0016 003F 0016 003F 0016 0016 0016 003F 0016 0016 0016 003F 0016 003F 0016 003F 0016 0016 0016 0016 0016 003F 0016 0016 0016 003F 0016 0016 0016 0593 0160 0058 0016 0DC0</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>103</id>
+					<name>POWER_TOGGLE</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015b 00ae 0016 0040 0016 0015 0017 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0017 0040 0016 0040 0016 0041 0016 0040 0016 0015 0017 0014 0017 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0017 0e7a 015c 0056 0017 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>104</id>
+					<name>CHANNEL_UP</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0017 0040 0016 0015 0016 0040 0016 0016 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0017 0040 0016 0040 0017 0040 0016 0040 0016 0041 0016 0015 0016 0040 0017 0014 0017 0040 0016 0040 0017 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0017 0040 0016 0040 0017 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>105</id>
+					<name>CHANNEL_DOWN</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015b 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0017 0040 0016 0040 0016 0015 0017 0040 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0040 0017 0040 0016 0015 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>106</id>
+					<name>VOLUME_UP</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ac 0017 0041 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0017 0040 0016 0015 0016 0015 0016 0040 0017 0040 0016 0040 0017 0040 0016 0040 0017 0015 0016 0040 0016 0040 0017 0040 0016 0040 0017 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0017 0015 0016 0015 0016 0040 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0017 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>107</id>
+					<name>VOLUME_DOWN</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0040 0017 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0041 0016 0040 0016 0040 0017 0040 0016 0040 0017 0015 0016 0040 0016 0040 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0017 0040 0016 0015 0016 0040 0017 0040 0016 0015 0016 060b 015c 0056 0017 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>108</id>
+					<name>MENU</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0041 0016 0040 0016 0015 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>120</id>
+					<name>INFO</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 0067 0022 0002 0156 00AB 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 0016 0016 003F 0016 003F 0016 003F 0016 0016 0016 003F 0016 003F 0016 0016 0016 003F 0016 0016 0016 0593 0160 0058 0016 0DC0</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>111</id>
+					<name>ENTER</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0040 0017 0015 0016 0040 0016 0015 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0017 0040 0016 0015 0016 0040 0017 0015 0016 0040 0016 0015 0016 0041 0016 0040 0016 0015 0016 060b 015c 0057 0016 0e7a 015c 0057 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>113</id>
+					<name>UP</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ad 0016 0041 0016 0015 0016 0040 0016 0015 0016 0015 0016 0016 0016 0015 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0015 0016 060b 015c 0057 0016 0e7a 015c 0057 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>114</id>
+					<name>DOWN</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ad 0017 0040 0016 0015 0016 0040 0016 0016 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0017 0014 0017 0040 0016 0040 0016 0041 0016 0040 0017 0040 0016 0015 0016 0040 0017 0015 0016 0015 0016 0040 0016 0040 0017 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0040 0016 0015 0016 0015 0017 0040 0016 0040 0017 0015 0016 060a 015c 0057 0016 0e7a 015c 0057 0016 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>115</id>
+					<name>LEFT</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0017 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0041 0016 0040 0016 0015 0016 0041 0016 0040 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 060a 015c 0057 0016 0e7b 015c 0056 0016 0e7b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>116</id>
+					<name>RIGHT</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0026 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0017 0040 0016 0015 0016 0041 0016 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 060b 015c 0056 0017 0e7a 015c 0057 0015 0e7a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>122</id>
+					<name>RECALL</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0017 0040 0016 0015 0016 0040 0017 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0017 0014 0017 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0015 0016 0015 0016 0040 0017 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 0015 0016 0040 0017 0014 0017 0040 0016 0040 0017 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>124</id>
+					<name>GUIDE</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0017 0040 0016 0015 0016 0040 0017 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0016 0016 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0041 0016 0040 0017 0014 0017 0040 0016 0040 0016 0041 0016 0015 0016 0040 0017 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1000</id>
+					<name>ORDER</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ae 0016 0040 0016 0015 0017 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0017 0014 0017 0040 0016 0040 0017 0014 0017 0014 0017 0015 0016 0040 0016 0040 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0040 0017 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1001</id>
+					<name>HELP</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0017 0040 0016 0015 0016 0040 0017 0014 0017 0014 0017 0015 0016 0015 0016 0040 0017 0014 0017 0014 0017 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0015 0016 0040 0017 0040 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0040 0017 0014 0017 0014 0017 0040 0016 0040 0017 0040 0016 0015 0016 0040 0017 0014 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1002</id>
+					<name>CC_TOGGLE</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0016 0040 0017 0014 0017 0040 0016 0015 0016 0015 0016 0015 0016 0015 0017 0040 0016 0015 0016 0015 0016 0040 0017 0040 0016 0040 0017 0040 0016 0040 0017 0014 0017 0014 0017 0040 0016 0040 0017 0015 0016 0015 0016 0040 0016 0015 0017 0040 0016 0040 0016 0015 0016 0015 0017 0040 0016 0040 0017 0014 0017 0040 0016 0015 0016 060b 015c 0056 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1003</id>
+					<name>FUNCTION</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ad 0017 0040 0016 0015 0016 0040 0017 0014 0017 0015 0016 0015 0016 0015 0016 0040 0017 0014 0017 0014 0017 0040 0016 0040 0017 0040 0016 0040 0017 0040 0016 0015 0016 0015 0016 0040 0017 0015 0016 0015 0016 0040 0016 0015 0016 0015 0017 0040 0016 0040 0017 0014 0017 0040 0016 0040 0017 0014 0017 0040 0016 0040 0017 0014 0017 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1004</id>
+					<name>EXIT</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ae 0016 0040 0016 0015 0016 0041 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0016 0041 0016 0040 0016 0015 0016 0015 0017 0015 0016 0040 0016 0040 0017 0040 0016 0015 0016 0015 0016 0041 0016 0040 0016 0041 0016 0015 0016 0015 0016 0015 0016 0040 0016 0041 0016 0015 0016 060b 015b 0057 0016 060b</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1005</id>
+					<name>BACK</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 0067 0022 0002 0156 00AB 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 003F 0016 0016 0016 003F 0016 003F 0016 003F 0016 0016 0016 0016 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 003F 0016 003F 0016 0016 0016 0593 0160 0058 0016 0DC0</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>1006</id>
+					<name>RETURN_TO_PURCHASES</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 0067 0022 0002 0156 00AB 0016 003F 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 0016 0016 0016 0016 0016 0016 003F 0016 0016 0016 0016 0016 0016 0016 003F 0016 003F 0016 003F 0016 003F 0016 0016 0016 003F 0016 003F 0016 003F 0016 0016 0016 0593 0160 0058 0016 0DC0</pattern>
+					<altpattern/>
+				</ircode>
+				<ircode>
+					<id>139</id>
+					<name>MUTE_TOGGLE</name>
+					<transmit>PULSE</transmit>
+					<repeatcount>1</repeatcount>
+					<delayafter>0</delayafter>
+					<pattern>0000 006b 0000 0024 015c 00ae 0016 0040 0016 0015 0017 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0040 0016 0041 0016 0040 0017 0040 0016 0040 0016 0015 0017 0040 0016 0040 0016 0041 0016 0015 0016 0040 0017 0014 0017 0014 0017 0040 0016 0015 0016 0015 0016 0015 0016 0041 0016 0015 0016 0040 0016 0041 0016 0015 0016 060a 015c 0057 0016 060a</pattern>
+					<altpattern/>
+				</ircode>
+			</ircodes>
+			<ircodemacros/>
+		</irsection>
+		<documentation></documentation>
+		<properties>
+			<property>
+				<name>HDMI 2 Channel</name>
+				<type>STRING</type>
+				<default>99</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Power On Delay</name>
+				<type>RANGED_INTEGER</type>
+				<default>5</default>
+				<minimum>1</minimum>
+				<maximum>100</maximum>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Power Off Delay</name>
+				<type>RANGED_INTEGER</type>
+				<default>10</default>
+				<minimum>1</minimum>
+				<maximum>100</maximum>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Version</name>
+				<type>STRING</type>
+				<default>Unknown</default>
+				<readonly>true</readonly>
+			</property>
+		</properties>
+		<script>
+			<![CDATA[
+
+-- Global Variables
+g_version = "11.11.2008"
+g_debugTimer = 0
+g_channelTimer = 0
+g_debugPrint = false
+g_debugLog = false
+g_inputRequestCommand = nil
+g_channel = nil
+g_powerOn = false
+g_poweringOff = false
+g_poweringOffTimer = 0
+g_poweringOn = false
+g_poweringOnTimer = 0
+
+-- Command To IR Code Mapping
+IRCodes = 
+{
+	PLAY = 1,
+	PAUSE = 3,
+	SKIP_FWD = 4,
+	SKIP_REV = 5,
+	SCAN_FWD = 4,
+	SCAN_REV = 5,
+	ON = 101,
+	OFF = 102,
+	CANCEL = 1005,
+	NUMBER_9 = 19,
+	NUMBER_8 = 18,
+	NUMBER_7 = 17,
+	NUMBER_6 = 16,
+	NUMBER_5 = 15,
+	NUMBER_4 = 14,
+	NUMBER_3 = 13,
+	NUMBER_2 = 12,
+	NUMBER_1 = 11,
+	NUMBER_0 = 10,
+	UP = 113,
+	DOWN = 114,
+	LEFT = 115,
+	RIGHT = 116,
+	ENTER = 111,
+	MENU = 108,
+	INFO = 120,
+	RECALL = 122,
+	PULSE_CH_UP = 104,
+	PULSE_CH_DOWN = 105,
+	MUTE_TOGGLE = 139,
+	PULSE_VOL_DOWN = 107,
+	PULSE_VOL_UP = 106,
+	GUIDE = 124,
+	EXIT = 1004,
+	ORDER = 1000,
+	CLOSED_CAPTIONED = 1002,
+	FUNCTION = 1003,
+	RETURN_TO_PURCHASES = 1006,
+}
+
+SerialCommands = 
+{
+	GccReadVersion = tohex("02 01 01 00 04"),
+	GccStatusPoll = tohex("02 01 01 01 05"),
+	LedIndicationOff = tohex("02 01 02 02 00 07"),
+	LedIndicationTV = tohex("02 01 02 02 01 08"),
+	LedIndicationComposite = tohex("02 01 02 02 02 09"),
+	LedIndicationSVideo = tohex("02 01 02 02 03 10"),
+	LedIndicationVGA = tohex("02 01 02 02 04 0B"),
+	LedIndicationHDMI = tohex("02 01 02 02 05 0C"),
+	LedIndicationComponent = tohex("02 01 02 02 06 0D"),
+}
+
+SerialResponses = 
+{
+	Ack = tohex("06"),
+
+	-- Input Request Commands, Send in response to Status Poll messages
+	-- Format is 02, 02, 01, Input, Checksum
+	RequestOff = tohex("02 02 01 00 05"),
+	RequestTV = tohex("02 02 01 01 06"),
+	RequestComposite = tohex("02 02 01 02 07"),
+	RequestSVideo = tohex("02 02 01 03 08"),
+	RequestVGA = tohex("02 02 01 04 09"),
+	RequestHDMI = tohex("02 02 01 05 0A"),
+	RequestComponent = tohex("02 02 01 06 0B"),
+}
+
+------------------------------- Overrides/Events ----------------------------------------
+	 
+function OnPropertyChanged(strProperty)
+	if(strProperty == "Debug Mode") then
+		if(Properties[strProperty] == "Off") then
+			g_debugPrint = false
+			g_debugLog = false
+			g_debugTimer = 0
+		elseif(Properties[strProperty] == "Print") then
+			g_debugPrint = true
+			g_debugLog = false
+			StartDebugTimer()
+		elseif(Properties[strProperty] == "Log") then
+			g_debugPrint = false
+			g_debugLog = true
+			StartDebugTimer()
+		elseif(Properties[strProperty] == "Print and Log") then
+			g_debugPrint = true
+			g_debugLog = true
+			StartDebugTimer()
+		end
+	end
+end
+
+function OnTimerExpired(idTimer)
+	if(idTimer == g_debugTimer) then
+		Debug("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	elseif(idTimer == g_channelTimer) then
+		
+		if g_poweringOn ~= true then
+			
+			SendNextDigit()
+		else
+			
+			C4:KillTimer(idTimer)
+			g_channelTimer = C4:AddTimer(1000, "MILLISECONDS")
+			Debug("Powering on is true: no channel set- returning.")
+			return
+		end
+	elseif(idTimer == g_poweringOffTimer) then
+		g_poweringOff = false;
+	elseif(idTimer == g_poweringOnTimer) then
+		g_poweringOn = false;
+	end
+	C4:KillTimer(idTimer)
+end
+
+function ReceivedFromSerial(idBinding, strData)
+
+	if(strData == SerialCommands["GccReadVersion"]) then
+		Debug("GccReadVersion")
+		SendSerial("Ack")
+	elseif(strData == SerialCommands["GccStatusPoll"]) then
+		--Debug("GccStatusPoll")
+		if(g_inputRequestCommand ~= nil and g_poweringOn ~= true) then
+			-- If we are supposed to change inputs send the input request as the response
+			SendSerial(g_inputRequestCommand)
+			g_inputRequestCommand = nil
+		else
+			SendSerial("Ack")
+		end
+	elseif(strData == SerialCommands["LedIndicationOff"]) then
+		Debug("LedIndicationOff")
+		SendSerial("Ack")
+		NotifyPowerChanged(false)
+	elseif(strData == SerialCommands["LedIndicationTV"]) then
+		Debug("LedIndicationTV")
+		InputChanged(3002)
+		SendSerial("Ack")
+		NotifyPowerChanged(true)
+	elseif(strData == SerialCommands["LedIndicationComposite"]) then
+		Debug("LedIndicationComposite")
+		InputChanged(3004)
+		SendSerial("Ack")
+	elseif(strData == SerialCommands["LedIndicationSVideo"]) then
+		Debug("LedIndicationSVideo")
+		InputChanged(3004)
+		SendSerial("Ack")
+	elseif(strData == SerialCommands["LedIndicationVGA"]) then
+		Debug("LedIndicationVGA")
+		InputChanged(3006)
+		SendSerial("Ack")
+	elseif(strData == SerialCommands["LedIndicationHDMI"]) then
+		Debug("LedIndicationHDMI")
+		InputChanged(1000)
+		SendSerial("Ack")
+	elseif(strData == SerialCommands["LedIndicationComponent"]) then
+		Debug("LedIndicationComponent")
+		InputChanged(3003)
+		SendSerial("Ack")
+	else
+		DebugSerial(strData)
+		Debug("Invalid Serial Command")
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	DebugCommand("ExecuteCommand", strCommand, tParams)
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	DebugCommand("ReceivedFromProxy", strCommand, tParams)
+  
+	if(strCommand == "SET_INPUT") then
+		SetInput(tParams["INPUT"])
+	elseif(strCommand == "SET_CHANNEL") then
+		SetChannel(tParams["CHANNEL"])
+		NotifyChannelChanged(tParams["CHANNEL"])
+	elseif(strCommand == "START_VOL_UP") then
+		SendIRStart("PULSE_VOL_UP")
+	elseif(strCommand == "STOP_VOL_UP") then
+		SendIRStop("PULSE_VOL_UP")
+	elseif(strCommand == "START_VOL_DOWN") then
+		SendIRStart("PULSE_VOL_DOWN")
+	elseif(strCommand == "STOP_VOL_DOWN") then
+		SendIRStop("PULSE_VOL_DOWN")
+	elseif(strCommand == "CANCEL") then
+		SendIR("CANCEL")
+		SendIR("RECALL")
+	elseif(strCommand == "OFF") then
+		g_poweringOff = true;
+		g_poweringOffTimer = C4:AddTimer(Properties["Power Off Delay"], "SECONDS")
+		SendIR(strCommand)
+	elseif(strCommand == "ON") then
+		if(g_poweringOff ~= true) then
+			if(g_powerOn == false) then
+				g_poweringOnTimer = C4:AddTimer(Properties["Power On Delay"], "SECONDS")
+				g_poweringOn = true
+			end
+			SendIR(strCommand)
+		end
+	else
+		-- See if the command maps to an IR code and send it
+		SendIR(strCommand)
+	end
+end
+
+------------------------------- Commands Handlers ------------------------------
+
+function SetChannel(channel)
+	g_channel = channel
+
+	-- if the channel has only one digit preface it with 0
+	if(#g_channel == 1) then
+		g_channel = "0" .. g_channel
+	end
+
+	-- preface the channel with exit
+	g_channel = "E" .. g_channel
+
+	g_channelTimer = C4:AddTimer(1000, "MILLISECONDS")
+end
+
+function SendNextDigit()
+	if(#g_channel > 0) then
+		digit = string.sub(g_channel, 1, 1)
+		if(digit == "E") then
+			SendIR("EXIT")
+		else
+			SendIR("NUMBER_" .. digit)
+		end
+	end
+
+	if(#g_channel > 1) then
+		g_channel = string.sub(g_channel, 2)
+		g_channelTimer = C4:AddTimer(500, "MILLISECONDS")
+	end
+end
+
+function SetInput(input)
+	-- LodgeNet polls on the serial connection every 200-500 to see if an input should be changed
+	-- Here we set the response that should be returned from the next poll message received
+	-- The exception is HDMI 2 which is actually mapped to a channel number and configured as a Property
+
+	if(input == "1002" or input == "3002") then
+		g_inputRequestCommand = "RequestTV"
+	elseif(input == "1007" or input == "3007") then
+		-- Movies on Demand is mapped to the "Return to Purchases" IR code in the LodgeNet system
+		SendIR("RETURN_TO_PURCHASES")
+	elseif(input == "1003" or input == "3003") then
+		g_inputRequestCommand = "RequestComponent"
+	elseif(input == "1004" or input == "3004") then
+		g_inputRequestCommand = "RequestComposite"
+	elseif(input == "1000") then
+		g_inputRequestCommand = "RequestHDMI"
+	elseif(input == "1006" or input == "3006") then
+		g_inputRequestCommand = "RequestVGA"
+	elseif(input == "1001") then
+		-- HDMI 2 is mapped to a channel to emit the channel
+		SetChannel(Properties["HDMI 2 Channel"])	
+		InputChanged(1001)	
+	elseif(input == "1008") then
+		-- HDMI 3 is mapped to a channel to emit the channel
+		SetChannel(Properties["HDMI 3 Channel"])	
+		InputChanged(1008)	
+	elseif(input == "1009" or input == "3009") then
+		-- AV Input 2 is mapped to a channel to emit the channel
+		SetChannel(Properties["AV 2 Channel"])	
+		InputChanged(3009)
+	end
+end
+
+------------------------------- Notifications ----------------------------------
+
+function OnBindingChanged(idBinding, strClass, bIsBound)
+	-- Set initial state of the proxies when they get bound
+
+	if(idBinding == 5001 and bIsBound) then
+		if(g_powerOn) then
+			C4:SendToProxy(5001, "ON", { INITIALIZING = "True" })
+		else
+			C4:SendToProxy(5001, "OFF", { INITIALIZING = "True" })
+		end
+	elseif(idBinding == 5002 and bIsBound) then
+		if(g_powerOn) then
+			C4:SendToProxy(5002, "ON", { INITIALIZING = "True" })
+		else
+			C4:SendToProxy(5002, "OFF", { INITIALIZING = "True" })
+		end
+	end
+end
+
+function NotifyPowerChanged(powerOn)
+	if(g_powerOn ~= powerOn) then
+		g_powerOn = powerOn
+
+		if(g_powerOn) then
+			Debug("Power On")
+
+			C4:SendToProxy(5001, "ON", { INITIALIZING = "False" })
+			C4:SendToProxy(5002, "ON", { INITIALIZING = "False" })
+		else
+			Debug("Power Off")
+
+			C4:SendToProxy(5001, "OFF", { INITIALIZING = "False" })
+			C4:SendToProxy(5002, "OFF", { INITIALIZING = "False" })
+		end
+	end
+end
+
+function NotifyChannelChanged(channel)
+	Debug("Channel Changed: " .. channel)
+	C4:SendToProxy(5001, "CHANNEL_CHANGED", { CHANNEL = channel, CHANNEL_STRING = channel })	
+	C4:SendToProxy(5002, "CHANNEL_CHANGED", { CHANNEL = channel, CHANNEL_STRING = channel })
+end
+
+function InputChanged(input)
+	Debug("Input Changed: " .. input)
+	C4:SendToProxy(5001, "INPUT_CHANGED", { INPUT = input })	
+end
+
+------------------------------- Helpers ----------------------------------------
+
+function SendSerial(command)
+	data = SerialResponses[command]
+
+	if(data ~= nil) then
+		C4:SendToSerial(2, data)
+	else
+		Debug("Unknown serial command: " .. command)
+	end
+end
+
+function SendIR(command)
+	code = IRCodes[command]
+
+	if(code ~= nil) then
+		Debug("Sending IR: " .. command)
+		C4:SendIR(1, code)
+	else
+		Debug("Unknown ir code: " .. command)
+	end
+end
+
+function SendIRStart(command)
+	code = IRCodes[command]
+
+	if(code ~= nil) then
+		Debug("Starting IR: " .. command)
+		C4:SendIRStart(1, code)
+	else
+		Debug("Unknown ir code: " .. command)
+	end
+end
+
+function SendIRStop(command)
+	code = IRCodes[command]
+
+	if(code ~= nil) then
+		Debug("Stopping IR: " .. command)
+		C4:SendIRStop(1, code)
+	else
+		Debug("Unknown ir code: " .. command)
+	end
+end
+
+------------------------------- Debuging --------------------------------------------
+
+function StartDebugTimer()
+	if(g_debugTimer) then
+		g_debugTimer = C4:KillTimer(g_debugTimer)
+	end
+	g_debugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+function Debug(text)
+	if(g_debugPrint) then print(text) end
+	if(g_debugLog) then C4:ErrorLog(text) end
+end
+
+function DebugSerial(data)
+	if(g_debug) then hexdump(data) end
+end
+
+function DebugCommand(method, command, tParams)
+	if(g_debugPrint or m_debuglog) then
+		text = method .. ": " .. command
+
+			if(tParams ~= nil) then
+				for param, value in pairs(tParams) do
+					text = text .. ", " .. param .. "=" .. value
+				end
+			end
+
+		Debug(text)	
+	end
+end
+
+------------------------------- Initialization --------------------------------------
+
+-- Fire On Property Changed to set the initial Property values
+for property, value in pairs(Properties) do
+	OnPropertyChanged(property)
+end
+
+-- Update the Version property
+C4:UpdateProperty("Version", g_version)
+
+			]]>
+		</script>
+	</config>
+</devicedata>

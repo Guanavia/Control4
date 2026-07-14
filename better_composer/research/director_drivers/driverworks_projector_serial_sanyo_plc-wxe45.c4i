@@ -1,0 +1,1120 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Sanyo</manufacturer>
+  <model>PLC-WXE45 [Serial][DriverWorks]</model>
+  <search_type>c4:av_gen</search_type>
+  <creator>Control4</creator>
+  <name>Sanyo PLC-WXE45</name>
+  <small>devices_sm/projector_on.gif</small>
+  <large>devices_lg/projector_on.gif</large>
+  <top></top>
+  <bottom></bottom>
+  <front></front>
+  <back></back>
+  <left></left>
+  <right></right>
+  <c4id>6609</c4id>
+  <control>lua_gen</control>
+  <driver>DriverWorks</driver>
+  <created>02/09/2010 2:17 PM</created>
+  <modified>01/29/2016 10:00 AM</modified>
+  <version>1</version>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="Projector">projector</proxy></proxies>
+  <capabilities controlweight="0.5">
+    <surround_modes type="xml">
+</surround_modes>
+    <has_discrete_volume_control controlrating="0">False</has_discrete_volume_control>
+    <has_up_down_volume_control controlrating="0.2">True</has_up_down_volume_control>
+    <has_discrete_input_select controlrating="0.2">True</has_discrete_input_select>
+    <has_toad_input_select controlrating="0">False</has_toad_input_select>
+    <has_audio controlrating="0">True</has_audio>
+    <has_discrete_channel_select controlrating="0">False</has_discrete_channel_select>
+    <has_toggle_mute_control controlrating="0">False</has_toggle_mute_control>
+    <has_channel_up_down controlrating="0">False</has_channel_up_down>
+    <video_provider_count controlrating="0">1</video_provider_count>
+    <video_consumer_count controlrating="0">5</video_consumer_count>
+    <audio_provider_count controlrating="0">1</audio_provider_count>
+    <audio_consumer_count controlrating="0">5</audio_consumer_count>
+    <has_discrete_mute_control controlrating="0.05">True</has_discrete_mute_control></capabilities><events><event><id>1</id><name>Lamp_Time_Actual_Changed</name><description>Current Lamp Running Time - Actual</description></event><event><id>2</id><name>Lamp_Time_Corresponding_Changed</name><description>Current Lamp Running Time - Corresponding</description></event><event><id>3</id><name>Lamp_Replacement_Time_Changed</name><description>Lamp Replacement Time</description></event><event><id>4</id><name>Lamp_Mode_Status_Changed</name><description>Lamp Mode Status</description></event><event><id>5</id><name>Lamp_Lighting_Status_Changed</name><description>Lamp Lighting Status</description></event><event><id>6</id><name>Lamp_Number_Changed</name><description>Lamp Number</description></event><event><id>7</id><name>Projector_Running_Time_Changed</name><description>Projector Running Time</description></event><event><id>8</id><name>Projector_Operating_Status_Changed</name><description>Projector_Operating_Status</description></event>
+</events>  <connections>
+    <connection verified="True">
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>TV</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TV</classname>
+</class></classes></connection>
+    <connection proxybindingid="5001" verified="True">
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Serial RS-232</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+</class></classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VGA</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="True">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection - Output</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname></class>
+        <class>
+          <classname>AUDIO_VOLUME</classname></class>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+</class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 1 ANALOG RGB</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 1 ANALOG RGB</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VGA</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 1 COMPONENT</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1002</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 1 COMPONENT</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPONENT</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3003</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 2</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1003</id>
+      <facing>6</facing>
+      <connectionname>COMPUTER 2</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VGA</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3004</id>
+      <facing>6</facing>
+      <connectionname>S-VIDEO</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1004</id>
+      <facing>6</facing>
+      <connectionname>S-VIDEO</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SVIDEO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>3005</id>
+      <facing>6</facing>
+      <connectionname>VIDEO</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname></class>
+</classes></connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1005</id>
+      <facing>6</facing>
+      <connectionname>VIDEO</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPOSITE</classname></class>
+</classes></connection></connections>
+
+  <config controlweight="0.5">
+<documentation>SERIAL PROTOCOL:
+Baud rate: 19200 (Bits per second)
+Data bits: 8bits
+Parity: None
+Stop bits: 1bit
+
+A DB9 to Mini 8-Pin cable is required to connect projector to the controller using this pin configuration:
+Controller-Pin2 &gt;&gt; Projector Pin6
+Controller-Pin3 &gt;&gt; Projector Pin1
+Controller-Pin5 &gt;&gt; Projector Pin4
+Controller-Pin5 &gt;&gt; Projector Pin7
+Controller-Pin5 &gt;&gt; Projector Pin8
+Controller-Pin7 &gt;&gt; Projector Pin5
+Controller-Pin8 &gt;&gt; Projector Pin5
+
+PROJECT VARIABLES &amp; EVENTS:
+VARIABLE NAME &lt;&lt;&gt;&gt; EVENT NAME [VARIABLE TYPE, (VALUES)]
+
+Lamp_Number &lt;&lt;&gt;&gt; Lamp_Number_Changed [NUMBER, (Lamp number)]
+
+Lamp_Time_Actual &lt;&lt;&gt;&gt; Lamp_Time_Actual_Changed [NUMBER, (Running time of lamp by hours)]
+
+Lamp_Time_Correspondingl &lt;&lt;&gt;&gt; Lamp_Time_Corresponding_Changed [NUMBER, (Running time of lamp by hours - corresponding value, not actual running time)]
+
+Lamp_Replacement_Time &lt;&lt;&gt;&gt; Lamp_Replacement_Time_Changed [STRING, (YES = Over lamp replacement time, NO = Within lamp replacement time)]
+
+Lamp_Mode_Status &lt;&lt;&gt;&gt; Lamp_Mode_Status_Changed [STRING, (HIGH = Lamp Mode is High, AUTO = Lamp Mode is Auto, NORMAL=  Lamp Mode is Normal)]
+
+Lamp_Lighting_Status &lt;&lt;&gt;&gt; Lamp_Lighting_Status_Changed [STRING, (ON, OFF, FAILURE)]
+
+Projector_Running_Time &lt;&lt;&gt;&gt; Projector_Running_Time_Changed [NUMBER, (Running time of projector by hours)]
+
+Projector_Operating_Status &lt;&lt;&gt;&gt; Projector_Operating_Status_Changed [NUMBER, (See list below.)]
+POWER_ON
+STANDBY
+STANDBY_AFTER_LAMP_FAILURE
+POWER_SAVE
+POWER_FAILURE
+COUNTDOWN
+COOLING_DOWN
+COOLING_DOWN_POWER_SAVE
+COOLING_DOWN_LAMP_FAILURE
+COOLING_DOWN_TEMPERATURE_ANOMALY
+RECOVERY_FROM_TEMPERATURE_ANOMALY
+
+
+
+
+PROJECTOR CONFIGURATION:
+The Input Search must be set to 'OFF' in the projector's setup menu. Since Input Search attempts to detect an input signal automatically, the Power Off sequence may be disrupted if this feature is enabled. 
+
+This is caused when the source component has powered down and no input is presented to the projector. In this scenario, the projector will begin to cylce inputs, disrutpting the Power Off sequence.
+
+</documentation>
+<commands><command><name>RESET_TOTAL_LAMP_RUNNING_TIME</name><description>Reset Lamp Running Time</description></command></commands>
+<properties><property><name>Debug Mode</name><type>LIST</type><items><item>Off</item><item>Print</item><item>Log</item><item>Print and Log</item></items><default>Off</default><readonly>false</readonly></property><property><name>Command Delay-Milliseconds</name><type>RANGED_INTEGER</type><minimum>50</minimum><maximum>2500</maximum><default>100</default><readonly>false</readonly></property><property><name>Power On Delay-Seconds</name><type>RANGED_INTEGER</type><minimum>0</minimum><maximum>50</maximum><default>5</default><readonly>false</readonly></property><property><name>Volume Ramp Delay-Milliseconds</name><type>RANGED_INTEGER</type><minimum>50</minimum><maximum>500</maximum><default>150</default><readonly>false</readonly></property><property><name>Status Query Timer-Minutes</name><type>RANGED_INTEGER</type><minimum>1</minimum><maximum>60</maximum><default>15</default><readonly>false</readonly></property><property><name>ResponseTimeoutTimer-Seconds</name><type>RANGED_INTEGER</type><minimum>1</minimum><maximum>10</maximum><default>5</default><readonly>false</readonly></property><property><name>Operating Status Query Timer-Minutes</name><type>RANGED_INTEGER</type><minimum>1</minimum><maximum>5</maximum><default>1</default><readonly>false</readonly></property></properties>
+<actions><action><name>Destroy All Timers</name><command>Destroy Timers</command></action></actions>
+    <power_management_method controlrating="1">DiscreteCodes</power_management_method>
+    <irsettings></irsettings>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>30</power_delay>
+    <power_command_needed>True</power_command_needed>
+    <rfs>
+</rfs>
+    <serialsection>
+      <serialcodes/></serialsection>
+    
+    <serialsettings>19200 8 none 1 none 232</serialsettings>    <script><![CDATA[
+
+tSurroundCommands = {
+}
+
+tOutputConnMap = {
+[0] = 'Output',
+}
+
+tInputConnMapByID = {
+[1] = {Name = 'COMPUTER 1 ANALOG RGB',BindingID = 5001,},
+[2] = {Name = 'COMPUTER 1 COMPONENT',BindingID = 5001,},
+[3] = {Name = 'COMPUTER 2',BindingID = 5001,},
+[4] = {Name = 'S-VIDEO',BindingID = 5001,},
+[5] = {Name = 'VIDEO',BindingID = 5001,},
+}
+
+tInputConnMapByName = {
+['COMPUTER 1 ANALOG RGB'] = {ID = 1,BindingID = 5001,},
+['COMPUTER 1 COMPONENT'] = {ID = 2,BindingID = 5001,},
+['COMPUTER 2'] = {ID = 3,BindingID = 5001,},
+['S-VIDEO'] = {ID = 4,BindingID = 5001,},
+['VIDEO'] = {ID = 5,BindingID = 5001,},
+}
+
+tPendingCommands = {}
+tEmitCommands = {}
+idBusyTimer = 0
+g_debugprint = false
+g_debuglog = false
+g_PowerState = {}
+hexmap = {
+ ['0'] = 0,
+ ['1'] = 1,
+ ['2'] = 2,
+ ['3'] = 3,
+ ['4'] = 4,
+ ['5'] = 5,
+ ['6'] = 6,
+ ['7'] = 7,
+ ['8'] = 8,
+ ['9'] = 9,
+ ['A'] = 10,
+ ['B'] = 11,
+ ['C'] = 12,
+ ['D'] = 13,
+ ['E'] = 14,
+ ['F'] = 15,
+}
+ChannelCommands = ''
+tVolumeCommands = {}
+ChannelRampTimerID = 0
+tVolRampTimerID = {}
+tCurrentVolume = {}
+tMaxVolume = {}
+tVolumeCommandNames = {}
+gSerialBuf = ''
+CMDS = {
+['MENU']='1C',
+['UP']='3C',
+['DOWN']='3D',
+['LEFT']='3B',
+['RIGHT']='3A',
+['ENTER']='3F',
+['CANCEL']='1E',
+['MUTE_ON']='0B',
+['MUTE_OFF']='0C',
+['PULSE_VOL_UP']='09',
+['PULSE_VOL_DOWN']='0A',
+['RESET_TOTAL_LAMP_RUNNING_TIME']='F LAMPH RST',
+['GET_LAMP_REPLACEMENT_TIME']='R LAMPREPL',
+['GET_LAMP_TOTAL_RUNNING_TIME_ACTUAL']='R LAMPH',
+['GET_LAMP_TOTAL_RUNNING_TIME_CORRESPONDING']='R LAMPCORRESPH',
+['GET_LAMP_MODE_STATUS']='R LAMPMODE',
+['GET_LAMP_LIGHTING_STATUS']='R LAMPSTS',
+['GET_LAMP_NUMBER']='R HMLAMP',
+['GET_PROJECTOR_TOTAL_RUNNING_TIME_ACTUAL']='R PROJH',
+['GET_PROJECTOR_OPERATING_STATUS']='R0',
+}
+RESP = {}
+intraCommandDelayValue = Properties['Command Delay-Milliseconds']
+powerOnDelayValue = Properties['Power On Delay-Seconds']
+intraVolRampDelayValue = Properties['Volume Ramp Delay-Milliseconds']
+g_StatusQueryTimerInterval = Properties['Status Query Timer-Minutes']
+g_ResponseTimeoutTimerInterval = Properties['ResponseTimeoutTimer-Seconds']
+g_OperatingStatusQueryTimerInterval = Properties['Operating Status Query Timer-Minutes']
+C4:AddVariable('Lamp_Time_Actual',0,'STRING',false,false)
+g_Lamp_Time_Actual = 0
+C4:AddVariable('Lamp_Time_Corresponding',0,'STRING',false,false)
+g_Lamp_Time_Corresponding = 0
+C4:AddVariable('Lamp_Replacement_Time',0,'STRING',false,false)
+g_Lamp_Replacement_Time = N
+C4:AddVariable('Lamp_Mode_Status',0,'STRING',false,false)
+g_Lamp_Mode_Status = ''
+C4:AddVariable('Lamp_Lighting_Status',0,'STRING',false,false)
+g_Lamp_Lighting_Status = ''
+C4:AddVariable('Lamp_Number',0,'STRING',false,false)
+g_Lamp_Number = 0
+C4:AddVariable('Projector_Running_Time',0,'STRING',false,false)
+g_Projector_Running_Time = 0
+C4:AddVariable('Projector_Operating_Status',0,'STRING',false,false)
+g_Projector_Operating_Status = ''
+
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+  dbg('ReceivedFromProxy: ' .. strCommand)
+  if tParams==nil then
+    tParams={}
+  end
+  tParams['BindingID'] = idBinding
+  if (CMDS[strCommand] ~= nil) and (type(CMDS[strCommand])=='function') then
+    CMDS[strCommand] (tParams, strCommand)
+  elseif (CMDS[strCommand] ~= nil) then
+    emit(CMDS[strCommand], strCommand, tParams.OUTPUT)
+  else
+    dbg('ReceivedFromProxy - Command not defined: '.. strCommand)
+  end
+end
+
+function ExecuteCommand(Command, Parameters)
+  dbg('ExecuteCommand: ' .. Command)
+  if (CMDS[Command] ~= nil) and (type(CMDS[Command])=='function') then
+    CMDS[Command] (Parameters, Command)
+  elseif (CMDS[Command] ~= nil) then
+    emit(CMDS[Command], Command)
+  else
+    dbg('ExecuteCommand - Command not defined: '.. Command)
+  end
+end
+
+
+function emit(strCommand, strCommandName, lngOutputID)
+  local bUsePowerOnDelay = false
+  if (strCommandName == 'ON') then
+    bUsePowerOnDelay = true
+  end
+  strCommand = 'C' .. strCommand .. '\r'
+  dbg('Emit: ' .. strCommand)
+  table.insert(tEmitCommands, {strCommand, bUsePowerOnDelay, strCommandName})
+  if (idEmitCommandsTimer==nil) then
+     idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+  end
+end
+
+function OnTimerExpired(idTimer)
+  if (idTimer == idEmitCommandsTimer) then
+    C4:KillTimer(idEmitCommandsTimer)
+    idEmitCommandsTimer = nil
+
+    if (g_Projector_Operating_Status=='POWER_FAILURE') or
+       (g_Projector_Operating_Status=='COUNTDOWN') or
+       (g_Projector_Operating_Status=='COOLING_DOWN') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_POWER_SAVE') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_LAMP_FAILURE') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_TEMPERATURE_ANOMALY') or
+       (g_Projector_Operating_Status=='RECOVERY_FROM_TEMPERATURE_ANOMALY') then
+      if tEmitCommands[1] ~= nil then
+        idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+      end
+      return
+    end
+
+    if (idBusyTimer~=0) then
+      if tEmitCommands[1] ~= nil then
+        idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+      end
+      return
+    end 
+    if (tEmitCommands[1]~=nil) then
+      dbg('SendToSerial:' .. tEmitCommands[1][1])
+      g_CurrentCommand=tEmitCommands[1][3]
+      C4:SendToSerial(1, tEmitCommands[1][1]) 
+      if (tEmitCommands[1][2] == true) then
+        idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
+      end
+      table.remove(tEmitCommands, 1)
+    end 
+    if (tEmitCommands[1]~=nil) then
+      if (idResponseTimeoutTimer~=nil) then
+        C4:KillTimer(idResponseTimeoutTimer)
+      end
+      idResponseTimeoutTimer = C4:AddTimer(g_ResponseTimeoutTimerInterval, 'SECONDS', false)
+    end
+    return
+  end
+  if (idTimer == idResponseTimeoutTimer) then
+    idResponseTimeoutTimer = C4:KillTimer(idResponseTimeoutTimer)
+    idResponseTimeoutTimer=nil
+    if tEmitCommands[1] ~= nil then
+      if (idEmitCommandsTimer~=nil) then
+        C4:KillTimer(idEmitCommandsTimer)
+      end
+      idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+    end
+  end
+  if (idTimer == idBusyTimer) then
+    if (g_Projector_Operating_Status=='POWER_FAILURE') or
+       (g_Projector_Operating_Status=='COUNTDOWN') or
+       (g_Projector_Operating_Status=='COOLING_DOWN') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_POWER_SAVE') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_LAMP_FAILURE') or
+       (g_Projector_Operating_Status=='COOLING_DOWN_TEMPERATURE_ANOMALY') or
+       (g_Projector_Operating_Status=='RECOVERY_FROM_TEMPERATURE_ANOMALY') then
+      dbg('SendToSerial:' .. 'CR0\r')
+      g_CurrentCommand='GET_PROJECTOR_OPERATING_STATUS'
+      C4:SendToSerial(1, 'CR0\r') 
+      idBusyTimer = C4:KillTimer(idBusyTimer)
+      idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false) 
+      return
+    end
+    idBusyTimer = C4:KillTimer(idBusyTimer)
+    if tEmitCommands[1] ~= nil then
+      if (idEmitCommandsTimer~=nil) then
+        C4:KillTimer(idEmitCommandsTimer)
+      end
+      idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+    end
+  end
+  if (idTimer==idOperatingStatusQueryTimer) then
+    dbg('SendToSerial:' .. 'CR0\r')
+    g_CurrentCommand='GET_PROJECTOR_OPERATING_STATUS'
+    C4:SendToSerial(1, 'CR0\r') 
+    return  
+  end
+  if (idTimer==idStatusQueryTimer) then
+    CMDS.GET_STATUS()
+    return  
+  end
+  if idTimer == tVolRampTimerID[0] then
+    if (tCurrentVolume[0] ~= nil) and (tCurrentVolume[0] == 0) then
+      C4:KillTimer(VolRampTimerID)
+      tVolRampTimerID[0] = nil
+      for j,k in pairs(tEmitCommands) do 
+        if string.match(k[1],tVolumeCommands[0]) ~= nil then
+          table.remove(tEmitCommands, j)
+        end
+      end
+    end
+    emit(tVolumeCommands[0])
+    return
+  end
+  if idTimer == ChannelRampTimerID then
+    emit(ChannelCommands)
+    return
+  end
+  if (idTimer == g_DebugTimer) then
+    dbg('Turning Debug Mode back to Off [default] (timer expired)')
+    C4:UpdateProperty('Debug Mode', 'Off')
+    g_debugprint = false
+    g_debuglog = false
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+    return
+  end
+end
+
+function ReceivedFromSerial(idBinding, strData)
+  dbg('Received something from serial on binding ' .. idBinding)
+  if (g_debugprint) then
+    hexdump(strData)
+  end
+  -- concat until we have a full serial data packet, Verify checksum, send to ProcessSerial
+  gSerialBuf = gSerialBuf .. strData
+
+  local buflen, pos, start, len, data, lastpos
+
+  buflen = string.len(gSerialBuf)
+  pos = 1
+  lastpos = 0 -- Tracks last 'used' byte in gSerialBuf, so we will not cut partial messages...
+
+  while (pos < buflen) do
+    -- If completed message received, process it.
+      len = string.find(gSerialBuf,'\r',pos)
+      if (len==nil) then return end
+
+    -- Verify we have at least *len* to pull from gSerialBuf from pos to end...
+    if (len <= buflen) then
+      data = string.sub(gSerialBuf, pos, len-1)
+      pos = len+1
+      lastpos = pos
+      processSerial(data)
+    else
+      -- Leaving with partial buffer...
+      gSerialBuf = string.sub(gSerialBuf, lastpos)
+      return
+    end
+  end
+  gSerialBuf = string.sub(gSerialBuf, lastpos) 
+end
+
+function processSerial(retMessage)
+  local response, param, pos
+  pos=string.find(retMessage, ' ')
+  if (pos==nil) then
+    response =retMessage
+  else
+    response = string.sub(retMessage,1,pos-1)
+    param = string.sub(retMessage,pos+1,string.len(retMessage))
+  end
+  if (response=='?') or
+     (response==101) or
+     (response==102) or
+     (response==103) or
+     (response==201) or
+     (response==301) or
+     (response==302) or
+     (response==402) then 
+    dbg('processSerial - Error Code: ' .. response) 
+    return 
+  end
+
+  dbg('processSerial')
+  if (g_CurrentCommand~=nil) then
+    dbg('g_CurrentCommand: ' .. g_CurrentCommand)
+  end 
+  if (response~=nil) then
+    if (response==tohex('06')) then response = 'ACK' end
+    dbg('Response=' .. response)
+  end
+  if (param~=nil) then
+  dbg('Param=' .. param)
+  end
+
+  if (tEmitCommands[1]~=nil) then
+    if (idEmitCommandsTimer~=nil) then
+      C4:KillTimer(idEmitCommandsTimer)
+    end
+    idEmitCommandsTimer = C4:AddTimer(intraCommandDelayValue, 'MILLISECONDS', false)
+  end
+
+  if (g_CurrentCommand=='ON') then
+    RESP.POWER_STATUS('ON')
+  elseif (g_CurrentCommand=='OFF') then
+    RESP.POWER_STATUS('OFF')
+  elseif (g_CurrentCommand=='MUTE_ON') then
+    RESP.MUTE_STATUS('True')
+  elseif (g_CurrentCommand=='MUTE_OFF') then
+    RESP.MUTE_STATUS('False')
+  elseif (g_CurrentCommand=='GET_LAMP_REPLACEMENT_TIME') then
+    param=string.sub(param,2,2)
+    if (param=='Y') then param='YES'
+    elseif  (param=='N') then param='NO'
+    else return end
+    RESP.LAMP_REPLACEMENT_TIME(param)
+  elseif (g_CurrentCommand=='GET_LAMP_TOTAL_RUNNING_TIME_ACTUAL') then
+    param=tonumber(param)
+    RESP.LAMP_TIME_ACTUAL(param)
+  elseif (g_CurrentCommand=='GET_LAMP_TOTAL_RUNNING_TIME_CORRESPONDING') then
+    param=tonumber(param)
+    RESP.LAMP_TIME_CORRESPONDING(param)
+  elseif (g_CurrentCommand=='GET_LAMP_MODE_STATUS') then
+    RESP.LAMP_MODE_STATUS(param)
+  elseif (g_CurrentCommand=='GET_LAMP_LIGHTING_STATUS') then
+    param=string.sub(param,2,2)
+    if (param=='I') then param='ON'
+    elseif  (param=='O') then param='OFF'
+    elseif  (param=='X') then param='FAILURE' 
+    else return end
+    RESP.LAMP_LIGHTING_STATUS(param)
+  elseif (g_CurrentCommand=='GET_LAMP_NUMBER') then
+    param=tonumber(param)
+    RESP.LAMP_NUMBER(param)
+  elseif (g_CurrentCommand=='GET_PROJECTOR_TOTAL_RUNNING_TIME_ACTUAL') then
+    param=tonumber(param)
+    RESP.PROJECTOR_RUNNING_TIME(param)
+  elseif (g_CurrentCommand=='GET_PROJECTOR_OPERATING_STATUS') then
+    RESP.PROJECTOR_OPERATING_STATUS(response)
+  end
+  g_CurrentCommand=nil
+end
+
+function OnDriverDestroyed()
+  if (g_DebugTimer) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  for lngOutputID,VolRampTimerID in pairs(tVolRampTimerID) do
+    if (VolRampTimerID) then
+      VolRampTimerID = C4:KillTimer(VolRampTimerID)
+    end
+  end
+  if (idEmitCommandsTimer) then
+    idEmitCommandsTimer = C4:KillTimer(idEmitCommandsTimer)
+    idEmitCommandsTimer = nil
+  end
+  if (ChannelRampTimerID) then
+    ChannelRampTimerID = C4:KillTimer(ChannelRampTimerID)
+  end
+  if (idConnectToNetworkTimer) then
+    idConnectToNetworkTimer = C4:KillTimer(idConnectToNetworkTimer)
+  end
+  if (idBusyTimer) then
+    idBusyTimer = C4:KillTimer(idBusyTimer)
+  end
+  if (idOperatingStatusQueryTimer) then
+    idOperatingStatusQueryTimer = C4:KillTimer(idOperatingStatusQueryTimer)
+  end
+  if (idStatusQueryTimer) then
+    idStatusQueryTimer = C4:KillTimer(idStatusQueryTimer)
+  end
+  if (idResponseTimeoutTimer) then
+    idResponseTimeoutTimer = C4:KillTimer(idResponseTimeoutTimer)
+  end
+end
+
+function hextoascii(strIn)
+  local out = ""
+  string.gsub (strIn, "(.)", function (c) out = out .. string.format("%02x", string.byte(c)) end)
+  return out
+end
+
+
+function Get_Device_State(strCommand, tParams)
+  --deprecated
+end
+
+function changeChannel(lngOutputID, strCommand, strCommandData)
+  --deprecated
+end
+
+function CommandInterpreter(strCommand, tParams)
+  --deprecated
+end
+
+function GetCommandData(strCommand, tParams)
+  --deprecated
+end
+
+function PushCommand(Command, Parameters)
+  --deprecated
+end
+
+function sendNotify(t)
+  --deprecated
+end
+
+function dbg(strDebugText)
+  if (g_debugprint) then print(strDebugText) end
+  if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+function startDebugTimer()
+  if (g_DebugTimer) then
+    g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = C4:AddTimer(15, 'MINUTES')
+end
+
+function fromHex(hexString) -- converts a string representing a hex number to decimal
+   local stringLen = string.len(hexString)
+   local decValue = 0
+   for k=0,stringLen-1 do
+      lastdigit = string.sub(hexString, stringLen-k)
+      decValue = decValue + (hexmap[lastdigit] * 16^k)
+      hexString=string.sub(hexString,1,stringLen-1)
+   end
+   return decValue
+end
+
+function concat_string(s1, s2)
+  if s1 == nil then
+    return s2
+  else
+    return s1 .. s2
+  end
+end
+
+function CMDS.ON(tParams,strCommand)
+  dbg(strCommand)
+  if (g_PowerState[0] ~= nil) and (g_PowerState[0] == 'ON') then return end
+  tEmitCommands={}
+  emit('00',strCommand)
+  emit(CMDS.GET_PROJECTOR_OPERATING_STATUS,'GET_PROJECTOR_OPERATING_STATUS')
+
+  C4:SendToProxy(5001, 'ON', {})
+  g_PowerState[0] = 'ON'
+
+  if (idOperatingStatusQueryTimer==nil) then
+     idOperatingStatusQueryTimer = C4:AddTimer(g_OperatingStatusQueryTimerInterval, 'MINUTES', true)
+  end
+  if (idStatusQueryTimer==nil) then
+     idStatusQueryTimer = C4:AddTimer(g_StatusQueryTimerInterval, 'MINUTES', true)
+  end
+  CMDS.GET_STATUS()
+end
+
+function CMDS.OFF(tParams,strCommand)
+  dbg(strCommand)
+  --first OFF command will display Are You Sure message
+  --second OFF command will acknowledge message and turn unit off
+  emit('F INPUTSEARCH OFF',  'INPUTSEARCH')
+  emit('02', strCommand)
+  emit('02', strCommand)
+  emit(CMDS.GET_PROJECTOR_OPERATING_STATUS,'GET_PROJECTOR_OPERATING_STATUS')
+
+  C4:SendToProxy(5001, 'OFF', {})
+  g_PowerState[0] = 'OFF'
+
+  tSetInputTrack=nil
+  gSerialBuf = ''
+
+  if (idBusyTimer~=0) then
+    C4:KillTimer(idBusyTimer)
+  end
+  idBusyTimer = C4:AddTimer(powerOnDelayValue, 'SECONDS', false)
+
+  if (idStatusQueryTimer) then
+    idStatusQueryTimer = C4:KillTimer(idStatusQueryTimer)
+    idStatusQueryTimer =nil
+  end
+end
+
+function CMDS.GET_CAPABILITIES(tParams,strCommand) 
+  if (idOperatingStatusQueryTimer==nil) then
+     idOperatingStatusQueryTimer = C4:AddTimer(g_OperatingStatusQueryTimerInterval, 'MINUTES', true)
+  end
+end
+
+function CMDS.GET_STATUS()
+  emit(CMDS.GET_LAMP_REPLACEMENT_TIME, 'GET_LAMP_REPLACEMENT_TIME')
+  emit(CMDS.GET_LAMP_TOTAL_RUNNING_TIME_ACTUAL, 'GET_LAMP_TOTAL_RUNNING_TIME_ACTUAL')
+  emit(CMDS.GET_LAMP_TOTAL_RUNNING_TIME_CORRESPONDING, 'GET_LAMP_TOTAL_RUNNING_TIME_CORRESPONDING')
+  emit(CMDS.GET_LAMP_MODE_STATUS, 'GET_LAMP_MODE_STATUS')
+  emit(CMDS.GET_LAMP_LIGHTING_STATUS, 'GET_LAMP_LIGHTING_STATUS')
+  emit(CMDS.GET_LAMP_NUMBER, 'GET_LAMP_NUMBER')
+  emit(CMDS.GET_PROJECTOR_TOTAL_RUNNING_TIME_ACTUAL, 'GET_PROJECTOR_TOTAL_RUNNING_TIME_ACTUAL')
+end
+
+function CMDS.SET_VOLUME_LEVEL(tParams,strCommand)
+  dbg(strCommand)
+  local volumeLevel = tonumber(tParams['LEVEL'])
+  if (volumeLevel==100) then volumeLevel=99 end
+  volumeLevel=string.pack('b',volumeLevel)
+  volumeLevel=hextoascii(volumeLevel)
+  volumeLevel=string.rep("0", 3 - string.len(volumeLevel)) .. volumeLevel
+  local strCmd = 'F VOLUME ' .. volumeLevel
+  emit(strCmd, strCommand)
+  C4:SendToProxy(5001,'VOLUME_LEVEL_CHANGED', {LEVEL = tParams['LEVEL'], OUTPUT = 4000})
+end
+
+
+
+function CMDS.START_VOL_DOWN(tParams,strCommand)
+  dbg(strCommand)
+  local strCmd = '0A'
+  changeVolume(tParams['OUTPUT'],strCommand,strCmd)
+  g_Mute='False'
+  C4:SendToProxy(5001,'MUTE_CHANGED', {MUTE = g_Mute, OUTPUT = 4000})
+end
+
+function CMDS.START_VOL_UP(tParams,strCommand)
+  dbg(strCommand)
+  local strCmd =  '09'
+  changeVolume(tParams['OUTPUT'],strCommand,strCmd)
+  g_Mute='False'
+  C4:SendToProxy(5001,'MUTE_CHANGED', {MUTE = g_Mute, OUTPUT = 4000})
+end
+
+function CMDS.STOP_VOL_UP(tParams,strCommand)
+  local strCmd = '09'
+  changeVolume(tParams['OUTPUT'],strCommand,strCmd)
+end
+
+function CMDS.STOP_VOL_DOWN(tParams,strCommand)
+  local strCmd = '0A'
+  changeVolume(tParams['OUTPUT'],strCommand,strCmd)
+end
+
+function changeVolume(lngOutputID, strCommand, strCommandData)
+  lngOutputID=0
+  if (strCommand == 'STOP_VOL_UP') or (strCommand == 'STOP_VOL_DOWN') then
+    intraCommandDelayValue=g_holdIntraCommandDelayValue 
+    if tVolRampTimerID[lngOutputID] ~= nil then
+      C4:KillTimer(tVolRampTimerID[lngOutputID])
+      tVolRampTimerID[lngOutputID] = nil
+      for j,k in pairs(tEmitCommands) do 
+        if string.match(k[1],strCommandData) ~= nil then
+          table.remove(tEmitCommands, j)
+        end
+      end
+    end
+  else
+    if (strCommand == 'START_VOL_UP') or (strCommand == 'START_VOL_DOWN') then
+      g_holdIntraCommandDelayValue=intraCommandDelayValue 
+      intraCommandDelayValue=intraVolRampDelayValue
+      if  idEmitCommandsTimer ~=nil then
+        C4:KillTimer(idEmitCommandsTimer)
+        idEmitCommandsTimer = nil
+      end 
+      if (tVolRampTimerID[lngOutputID] == nil) then
+        if (tVolRampTimerID[lngOutputID]) then
+          tVolRampTimerID[lngOutputID] = C4:KillTimer(tVolRampTimerID[lngOutputID])
+        end
+        tVolRampTimerID[lngOutputID] = C4:AddTimer(intraVolRampDelayValue, 'MILLISECONDS', true)
+        tVolumeCommands[lngOutputID] = strCommandData
+        tVolumeCommandNames[lngOutputID] = strCommand
+        emit(strCommandData)
+      end
+    else
+       emit(strCommandData)
+    end
+  end
+end
+
+function CMDS.MUTE_TOGGLE(tParams,strCommand)
+  dbg(strCommand)
+  local strCmd
+  if (g_Mute==nil) or (g_Mute=='False') then
+    strCmd='0B'
+    g_Mute='True'
+  else
+    strCmd='0C'
+    g_Mute='False'
+  end
+  emit(strCmd, strCommand)
+end
+
+function CMDS.SET_INPUT(tParams,strCommand)
+  local strCmd, input
+  dbg('SET_INPUT')
+  dbg('SET_INPUT-tParams: ')
+  if tParams ~= nil then
+    for j,k in pairs(tParams) do
+      dbg('SET_INPUT_ParamID: ' .. j .. ' - SET_INPUT_ParamValue: ' .. k)
+      if (j == 'INPUT') then input = tonumber(k) % 1000  end
+    end
+  end
+  if (input==1) then --COMPUTER 1 ANALOG RGB
+    strCmd = '05'
+    emit(strCmd, strCommand)
+    strCmd = '50'
+    emit(strCmd, strCommand)
+  elseif (input==2) then --COMPUTER 1 COMPONENT
+    strCmd = '05'
+    emit(strCmd, strCommand)
+    strCmd = '54'
+    emit(strCmd, strCommand)
+  elseif (input==3) then --COMPUTER 2
+    strCmd = '06'
+    emit(strCmd, strCommand)
+  elseif (input==4) then --S-VIDEO
+    strCmd = '07'
+    emit(strCmd, strCommand)
+    strCmd = '34'
+    emit(strCmd, strCommand)
+  elseif (input==5) then --VIDEO
+    strCmd = '07'
+    emit(strCmd, strCommand)
+    strCmd = '33'
+    emit(strCmd, strCommand)
+  end
+  C4:SendToProxy(5001,'INPUT_CHANGED', {INPUT=tParams.INPUT})
+end
+
+
+function RESP.LAMP_TIME_ACTUAL(msg)
+  dbg('Lamp_Time_Actual: ' .. msg)
+  C4:SetVariable('Lamp_Time_Actual',msg)
+  if (g_Lamp_Time_Actual~=msg) then
+    dbg('Lamp_Time_Actual_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Time_Actual_Changed')
+    g_Lamp_Time_Actual=msg
+  end
+end
+
+function RESP.LAMP_TIME_CORRESPONDING(msg)
+  dbg('Lamp_Time_Corresponding: ' .. msg)
+  C4:SetVariable('Lamp_Time_Corresponding',msg)
+  if (g_Lamp_Time_Corresponding~=msg) then
+    dbg('Lamp_Time_Corresponding_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Time_Corresponding_Changed')
+    g_Lamp_Time_Corresponding=msg
+  end
+end
+
+function RESP.LAMP_REPLACEMENT_TIME(msg)
+  dbg('Lamp_Replacement_Time: ' .. msg)
+  C4:SetVariable('Lamp_Replacement_Time',msg)
+  if (g_Lamp_Replacement_Time~=msg) then
+    dbg('Lamp_Replacement_Time_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Replacement_Time_Changed')
+    g_Lamp_Replacement_Time=msg
+  end
+end
+
+function RESP.LAMP_MODE_STATUS(msg)
+  dbg('Lamp_Mode_Status: ' .. msg)
+  C4:SetVariable('Lamp_Mode_Status',msg)
+  if (g_Lamp_Mode_Status~=msg) then
+    dbg('Lamp_Mode_Status_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Mode_Status_Changed')
+    g_Lamp_Mode_Status=msg
+  end
+end
+
+function RESP.LAMP_LIGHTING_STATUS(msg)
+  dbg('Lamp_Lighting_Status: ' .. msg)
+  C4:SetVariable('Lamp_Lighting_Status',msg)
+  if (g_Lamp_Lighting_Status~=msg) then
+    dbg('Lamp_Lighting_Status_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Lighting_Status_Changed')
+    g_Lamp_Lighting_Status=msg
+  end
+end
+
+function RESP.LAMP_NUMBER(msg)
+  dbg('Lamp_Number: ' .. msg)
+  C4:SetVariable('Lamp_Number',msg)
+  if (g_Lamp_Number~=msg) then
+    dbg('Lamp_Number_Changed: ' .. msg)
+    C4:FireEvent('Lamp_Number_Changed')
+    g_Lamp_Number=msg
+  end
+end
+
+function RESP.PROJECTOR_RUNNING_TIME(msg)
+  dbg('Projector_Running_Time: ' .. msg)
+  C4:SetVariable('Projector_Running_Time',msg)
+  if (g_Projector_Running_Time~=msg) then
+    dbg('Projector_Running_Time_Changed: ' .. msg)
+    C4:FireEvent('Projector_Running_Time_Changed')
+    g_Projector_Running_Time=msg
+  end
+end
+
+function RESP.PROJECTOR_OPERATING_STATUS(msg)
+  if (msg=='00') then msg = 'POWER_ON'
+  elseif (msg=='80') then msg = 'STANDBY'
+  elseif (msg=='81') then msg = 'STANDBY_AFTER_LAMP_FAILURE'
+  elseif (msg=='04') then msg  = 'POWER_SAVE'
+  elseif (msg=='10') then msg  = 'POWER_FAILURE'
+  elseif (msg=='40') then msg  = 'COUNTDOWN'
+  elseif (msg=='20') then msg  = 'COOLING_DOWN'
+  elseif (msg=='24') then msg  = 'COOLING_DOWN_POWER_SAVE'
+  elseif (msg=='21') then msg  = 'COOLING_DOWN_LAMP_FAILURE'
+  elseif (msg=='28') then msg  = 'COOLING_DOWN_TEMPERATURE_ANOMALY'
+  elseif (msg=='88') then msg  = 'RECOVERY_FROM_TEMPERATURE_ANOMALY' 
+  else 
+    dbg('Projector_Operating_Status-Invalid Message: ' .. msg)
+     return
+  end
+
+  dbg('Projector_Operating_Status: ' .. msg)
+  C4:SetVariable('Projector_Operating_Status',msg)
+  if (g_Projector_Operating_Status~=msg) then
+    dbg('Projector_Operating_Status_Changed: ' .. msg)
+    C4:FireEvent('Projector_Operating_Status_Changed')
+    g_Projector_Operating_Status=msg
+    if (msg=='POWER_ON') or (msg=='POWER_SAVE') then
+      C4:SendToProxy(5001, 'ON', {})
+      g_PowerState[0] = 'ON'
+    else
+      C4:SendToProxy(5001, 'OFF', {})
+      g_PowerState[0] = 'OFF'
+    end
+  end
+end
+
+function RESP.POWER_STATUS(msg)
+  C4:SendToProxy(5001, msg, {})
+  g_PowerState[0] =  msg
+  dbg('Sent powerState to proxy: ' .. msg)
+end
+
+function RESP.MUTE_STATUS(msg)   
+  C4:SendToProxy(5001,'MUTE_CHANGED', {MUTE = msg, OUTPUT = 4000})
+  dbg('Sent mute State to proxy: ' .. msg)
+end
+
+
+
+function OnPropertyChanged(strProperty)
+  if (strProperty == 'Debug Mode') then
+    if (Properties[strProperty] == 'Off') then
+      g_debugprint = false
+      g_debuglog = false
+      g_DebugTimer = C4:KillTimer(g_DebugTimer)
+      g_DebugTimer = 0
+    end
+    if (Properties[strProperty] == 'Print') then
+      g_debugprint = true
+      g_debuglog = false
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == 'Log') then
+      g_debugprint = false
+      g_debuglog = true
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == 'Print and Log') then
+      g_debugprint = true
+      g_debuglog = true
+      startDebugTimer()
+    end
+  elseif (strProperty == 'Volume Ramp Delay-Milliseconds') then
+    intraVolRampDelayValue = tonumber(Properties['Volume Ramp Delay-Milliseconds'])
+  elseif (strProperty == 'Command Delay-Milliseconds') then
+    intraCommandDelayValue = tonumber(Properties['Command Delay-Milliseconds'])
+  elseif (strProperty == 'Power On Delay-Seconds') then
+    powerOnDelayValue = tonumber(Properties['Power On Delay-Seconds'])
+  elseif (strProperty == 'Status Query Timer-Minutes') then
+    g_StatusQueryTimerInterval = tonumber(Properties['Status Query Timer-Minutes'])
+  elseif (strProperty == 'ResponseTimeoutTimer-Seconds') then
+    g_ResponseTimeoutTimerInterval = tonumber(Properties['ResponseTimeoutTimer-Seconds'])
+  elseif (strProperty == 'Operating Status Query Timer-Minutes') then
+    g_OperatingStatusQueryTimerInterval = tonumber(Properties['Operating Status Query Timer-Minutes'])
+  end
+end
+
+]]></script>
+</config>
+  <driverdocumentation/>
+</devicedata>

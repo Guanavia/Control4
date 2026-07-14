@@ -1,0 +1,774 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Lutron Stanza USB Gateway</name>
+  <small>devices_sm/c4.gif</small>
+  <large>devices_lg/c4.gif</large>
+  <control>lua_gen</control>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxy>gateway_usb_lutron_stanza</proxy>
+  <driver>DriverWorks</driver>
+  <version>1</version>
+  <combo>true</combo>
+  <creator>Control4</creator>
+  <manufacturer>Lutron</manufacturer>
+  <created>04/05/2013 08:15 AM</created>
+  <modified>01/29/2016 10:00 AM</modified>
+  <model>SZ-CI-USB-CPN5138</model>
+  <states />
+  <connections>
+  </connections>
+  <capabilities>
+  </capabilities>
+  <config>
+    <documentation>
+    </documentation>
+    <properties>
+      <property>
+	<name>Version</name>
+	<type>STRING</type>
+	<default>0.0.0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+	   <item>Off</item>
+	   <item>Print</item>
+           <item>Log</item>
+   	   <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device ID</name>
+        <type>STRING</type>
+	<default>0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Serial Number</name>
+        <type>STRING</type>
+	<default></default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Hostname</name>
+        <type>STRING</type>
+	<default></default>
+	<readonly>true</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Get Device ID</name>
+        <command>DEVICE_ID</command>
+      </action>
+    </actions>
+    <commands>
+    </commands>
+    <script>
+      <![CDATA[
+
+-- Global Variables
+
+debug_timer_ = 0
+debug_print_ = false
+debug_log_ = false
+
+usb_binding_id_ = 6001
+serial_ = ""
+controller_id_ = 0
+controller_hostname_ = ""
+controller_port_ = 0
+online_ = false
+
+networkBinding = 6001
+        
+--<lutron>
+-- lutron inserted : Mon May 13 10:43:10 2013
+
+--<lutron_constants>
+
+lutron_set_operator = "#"
+lutron_get_operator = "?"
+lutron_response_operator = "~"
+
+lutron_command = { MON = "MONITORING", DEV = "DEVICE", OUT = "OUTPUT" }
+
+lutron_button_monitoring = "3"
+lutron_led_monitoring = "4"
+lutron_zone_level_monitoring = "5"
+lutron_usb_traffic_monitoring = "17"
+lutron_rf_traffic_monitoring = "18"
+
+lutron_monitoring_enable = "1"
+lutron_monitoring_disable = "2"
+
+lutron_button_press = "3"
+lutron_button_release = "4"
+
+lutron_led_off = "0"
+lutron_led_on = "1"
+
+lutron_output_level = "1"
+lutron_output_start_raising = "2"
+lutron_output_start_lowering = "3"
+lutron_output_stop = "4"
+
+--</lutron_constants>
+
+----------------------------------------
+
+function add_arg(args, value)
+
+   if args ~= nil then
+
+      table.insert(args, value)
+   end
+end
+
+function trim_leading_zeroes(value)
+
+   if value ~= nil then
+
+      if # value  > 0 then
+
+         value  = string.match(value, "[0]*(%d+[.]?%d*)")
+      end  
+   end
+   
+   return value
+end
+
+function is_valid_lutron_response(operation, command, args)
+
+   local valid = false
+   local discard = false
+
+   if operation == lutron_response_operator then
+
+      if command == lutron_command["DEV"] then
+
+         if # args == 4 then
+
+	    valid = true
+         elseif # args > 4 then
+
+	    discard = true
+	 end
+      elseif command == lutron_command["MON"] then
+
+	 if # args == 2 then
+
+            valid = true
+         elseif # args > 2 then
+
+            discard = true
+         end
+      elseif command == lutron_command["OUT"] then
+
+	 if # args == 3 then
+
+	    valid = true
+	 elseif # args > 3 then
+
+            discard = true
+         end
+      end
+   else
+
+      discard = true
+   end
+   if valid then
+
+      discard = true
+   end
+
+   return valid, discard
+end
+
+function parse_lutron_response(buffer, buffer_pos)
+
+   local args = {}
+   local operation, command = string.match(buffer, "([#?~])(%a+),", buffer_pos)
+   local value = string.match(buffer, "[#?~]%a+,(%d+)", buffer_pos)
+   value = trim_leading_zeroes(value)
+   add_arg(args, value)
+   value = string.match(buffer, "[#?~]%a+,%d+,(%d+)", buffer_pos)
+   value = trim_leading_zeroes(value)
+   add_arg(args, value)
+   value = string.match(buffer, "[#?~]%a+,%d+,%d+,(%d+)", buffer_pos)
+   value = trim_leading_zeroes(value)
+   add_arg(args, value)
+   value = string.match(buffer, "[#?~]%a+,%d+,%d+,%d+,(%d+)", buffer_pos)
+   value = trim_leading_zeroes(value)
+   add_arg(args, value)
+
+   return operation, command, args
+end
+
+function form_lutron_command(operation, command, args)
+
+   local formed = operation .. command
+
+   if args ~= nil then
+
+      for _, v in ipairs(args) do
+
+         formed = formed .. "," .. v
+      end
+   end
+
+   return formed
+end
+
+function print_lutron_command(preamble, operation, command, args)
+
+   local output = preamble .. ": Operation = " .. operation .. "; Command = " .. command
+
+   for i, v in ipairs(args) do
+
+      output = output .. "; Arg_" .. i .. " = " .. v
+   end
+
+   return output
+end
+
+------------------ monitoring --------------
+
+function enable_button_monitoring(monitoring_state)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["MON"], {lutron_button_monitoring, monitoring_state})
+end
+
+function enable_led_monitoring(monitoring_state)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["MON"], {lutron_led_monitoring, monitoring_state})
+end
+
+function enable_zone_monitoring(monitoring_state)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["MON"], {lutron_zone_monitoring, monitoring_state})
+end
+
+function query_monitoring(monitoring_id)
+
+   return form_lutron_command(lutron_get_operator, lutron_command["MON"], {monitoring_id})
+end
+
+------------------ keypad -------------------
+
+function press_lutron_button(dev_id, btn_id)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["DEV"], {dev_id, btn_id, lutron_button_press})
+end
+
+function release_lutron_button(dev_id, btn_id)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["DEV"], {dev_id, btn_id, lutron_button_release})
+end
+
+function set_lutron_led_state(dev_id, led_id)
+
+
+end
+
+------------ dimmer, switch ------------
+
+function set_lutron_output_level(dev_id, level)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["OUT"], {dev_id,  lutron_output_level, level})
+end
+
+function ramp_lutron_output_level(dev_id, level, rate)
+
+   return form_lutron_command(lutron_set_operator, lutron_command["OUT"], {dev_id,  lutron_output_level, level, rate})
+end
+
+function get_lutron_output_level(dev_id)
+
+   return form_lutron_command(lutron_get_operator, lutron_command["OUT"], {dev_id,  lutron_output_level})
+end
+
+--</lutron>
+
+--- global variables ---
+
+response_buffer_ = ""
+registrars_ = {}
+device_list_ = {}
+
+function Version()
+	
+   local maj = 0
+   local min = 1
+   local rev = 5
+   local ver = string.format("%d.%d.%d", maj, min, rev)
+
+   return ver
+end
+
+function start_debug_timer()
+
+   if debug_timer_ then
+  
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   debug_timer_ = C4:AddTimer(15, "MINUTES")
+end
+
+function add_registrar(t_params)
+
+   local id = tonumber(t_params["ID"])
+   local device_type = t_params["DEVICE_TYPE"]
+   local integration_id = tonumber(t_params["INTEGRATION_ID"])
+
+   if id ~= nil then
+
+      registrars_[id] = {INTEGRATION_ID = integration_id, DEVICE_TYPE = device_type}
+      persist_data({ID = id, INTEGRATION_ID = integration_id, DEVICE_TYPE = device_type})
+   end
+end
+
+function remove_registrar(id)
+
+  registrars_[id] = nil
+  PersistData[id] = nil
+end
+
+function clear_registrars()
+
+   if registrars_ ~= nil then
+
+      for k, _ in pairs(registrars_) do
+
+         remove_registrar(k)
+      end
+   end
+end
+
+function print_registrars()
+
+   if registrars_ ~= nil then
+
+      for k, vals in pairs(registrars_) do
+
+         print(k, vals["INTEGRATION_ID"], vals["DEVICE_TYPE"])
+      end
+   end
+end
+
+function persist_data(t_params)
+
+   if PersistData ~= nil then
+
+      if PersistData["REGISTRARS"] == nil then
+
+         PersistData["REGISTRARS"] = {}
+      end
+   
+     local id = tonumber(t_params["ID"])
+     local integration_id = tonumber(t_params["INTEGRATION_ID"])
+     local device_type = t_params["DEVICE_TYPE"]
+     PersistData["REGISTRARS"][id] = {INTEGRATION_ID = integration_id, DEVICE_TYPE = device_type}
+   else
+
+      debug("PersistData is nil")
+      PersistData = {}
+      persist_data(t_params)
+   end
+end
+
+function get_persisted_data()
+
+   if PersistData ~= nil then
+
+      local registrar_table = PersistData["REGISTRARS"]
+      if registrar_table ~= nil then
+
+	 for i, vals in pairs(registrar_table) do
+
+	    local id = tonumber(i)
+	    local integration_id = tonumber(vals["INTEGRATION_ID"])
+            local device_type = vals["DEVICE_TYPE"]
+	    local t_params = {ID = id, INTEGRATION_ID = integration_id, DEVICE_TYPE = device_type}
+	    add_registrar(t_params)
+	 end
+      else
+
+	 print("registrar_table is nil") 
+      end
+   end
+end
+
+function usb_connect(address, port)
+
+   C4:CreateNetworkConnection(usb_binding_id_, address, "USB")
+   C4:NetConnect(usb_binding_id_, port)
+end
+
+function usb_disconnect(port)
+
+   C4:NetDisconnect(usb_binding_id_, port)
+end
+
+function send_serial(data)
+
+   if online_ then
+
+      C4:SendToNetwork(usb_binding_id_, controller_port_, data)
+   end
+end
+
+function send_lutron_command(command)
+
+   send_serial(command .. "\r\n")
+end
+
+function handle_lutron_device_command(command, t_params, integration_id)
+
+   if command == "SET_DEVICE" then
+
+      local component = t_params["COMPONENT"]
+      local action = t_params["ACTION"]
+      if action == lutron_button_press then -- doing a button press
+
+         send_lutron_command(press_lutron_button(integration_id, component))
+      end
+   end
+end
+
+function handle_lutron_output_command(command, t_params, integration_id)
+ 
+   if command == "SET_OUTPUT" then
+
+      local action = t_params["ACTION"]
+      local level = t_params["LEVEL"]
+      local rate = t_params["RATE"]
+      if action == lutron_output_level then
+
+      	 if rate == nil then
+      	 
+	    send_lutron_command(set_lutron_output_level(integration_id, level))
+	 else
+
+	    send_lutron_command(ramp_lutron_output_level(integration_id, level, rate))
+	 end
+      end
+   elseif command == "GET_OUTPUT" then
+
+      local action = t_params["ACTION"]
+      if action == lutron_output_level then
+
+         send_lutron_command(get_lutron_output_level(integration_id))
+      end
+   end
+end
+
+function execute_lutron_command(command, t_params)
+
+   local id = tonumber(t_params["ID"])
+   if id ~= nil then
+
+      local reg_data = registrars_[id]
+      if reg_data ~= nil then
+
+         local integration_id = reg_data["INTEGRATION_ID"]
+      	 local device_type = reg_data["DEVICE_TYPE"]
+	 debug("execute_lutron_command: Device Type = " .. device_type .. "; Integration ID: " .. integration_id)
+	 if device_type == "LUTRON_KEYPAD" then
+
+	    handle_lutron_device_command(command, t_params, integration_id)
+	 elseif device_type == "LUTRON_DIMMER" then
+
+	    handle_lutron_output_command(command, t_params, integration_id)
+	 elseif device_type == "LUTRON_SWITCH" then
+
+	    handle_lutron_output_command(command, t_params, integration_id)
+	 end
+      end
+   end
+end
+
+function OnDriverInit()
+
+   -- get persisted data and add registrars
+   get_persisted_data()
+   C4:UpdateProperty("Device ID", get_device_id())
+
+   C4:UsbSerialGetDevices()
+end
+
+function ExecuteCommand(strCommand, t_params)
+
+  debug("ExecuteCommand function called with : " .. strCommand)
+  if t_params ~= nil then
+
+     for ParamName, ParamValue in pairs(t_params) do 
+
+	debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+     end 
+  end
+  if strCommand == "LUA_ACTION" then
+
+     if t_params ~= nil then
+
+     	for ParamName, ParamValue in pairs(t_params) do
+ 
+	    if ParamName == "ACTION" then
+
+	      if ParamValue == "DEVICE_ID" then
+
+	        C4:UpdateProperty("Device ID", get_device_id())
+	      end
+	    end
+	 end
+      end
+   elseif strCommand == "ADD_REGISTRAR" then
+
+      add_registrar(t_params)
+   elseif strCommand == "REMOVE_REGISTRAR" then
+
+      remove_registrar(tonumber(t_params["ID"]))
+   else
+
+      execute_lutron_command(strCommand, t_params)
+   end
+end
+
+function send_to_client(cmd, args)
+
+   if # args > 0 then
+      
+      for k, v in pairs(registrars_) do
+
+         local integration_id = v["INTEGRATION_ID"]
+	 if integration_id == tonumber(args[1]) then
+
+	    debug("handle_command: Integration ID = " .. integration_id)
+	    cmd = cmd .. "_UPDATE"
+	    params = {}
+	    for i, a in ipairs(args) do
+
+	       params["ARG_" .. i] = a
+	    end
+	    C4:SendToDevice(k, cmd, params)
+	    break
+	 end
+      end
+   end
+end
+
+function end_of_response(buffer)
+
+   return string.find(buffer, "\r\n")
+end
+
+function handle_command(operation, command, args)
+
+   debug(print_lutron_command("handle_command", operation, command, args))
+   if operation == lutron_response_operator then -- we are a response
+
+      send_to_client(command, args)
+   end
+end
+
+function ReceivedFromNetwork(idBinding, port, data)
+
+  if data ~= nil then
+
+     response_buffer_ =  response_buffer_ .. data
+
+     local response_end = end_of_response(response_buffer_)
+     if response_end == nil then
+
+       return
+     end
+
+     -- loop through messages
+     local message_pos = 1
+     local buffer_len = # response_buffer_
+     local remaining_buffer_len = buffer_len
+     local operation, command
+     local args = {}
+
+     while remaining_buffer_len > 0 do
+
+	operation, command, args = parse_lutron_response(response_buffer_, message_pos)
+	local valid, discard = is_valid_lutron_response(operation, command, args)
+	if valid then
+
+	   -- here is where where we handle commands based on the operation
+	   handle_command(operation, command, args)
+	end
+	if discard then
+
+	   response_buffer_ = ""
+	   break
+        end
+	remaining_buffer_len = buffer_len - message_pos
+	message_pos = message_pos + 1
+     end
+  end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, t_params)
+
+   if strCommand ~= nil then
+
+      debug("Received from Proxy: " .. strCommand)
+      if t_params ~= nil then
+
+         for ParamName, ParamValue in pairs(t_params) do 
+
+	    debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+	 end 
+      end
+   end
+end
+
+function OnPropertyChanged(strProperty)
+
+  debug("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+  if strProperty == "Debug Mode" then
+     if Properties[strProperty] == "Off" then
+
+        debug_print_ = false
+        debug_log_ = false
+        debug_timer_ = 0
+     elseif Properties[strProperty] == "Print" then
+
+        debug_print_ = true
+       	debug_log_ = false
+       	start_debug_timer()
+     elseif Properties[strProperty] == "Log" then
+
+        debug_print_ = false
+        debug_log_ = true
+        start_debug_timer()
+     elseif Properties[strProperty] == "Print and Log" then
+
+        debug_print_ = true
+       	debug_log_ = true
+       	start_debug_timer()
+     end
+  end
+end
+
+function OnTimerExpired(idTimer)
+
+   if idTimer == debug_timer_ then
+  
+      debug("Turning Debug Mode Off (timer expired)")
+      C4:UpdateProperty("Debug Mode", "Off")
+      debug_timer_ = C4:KillTimer(idTimer)
+   end
+end
+
+function OnConnectionStatusChanged(idBinding, port, status)
+
+   debug("OnConnectionStatusChanged: Binding = " .. idBinding .. "; Port = " .. port .. "; Status = " .. status)
+   if idBinding == usb_binding_id_ then
+
+      if status == "ONLINE" then
+
+         online_ = true
+      else
+
+         online_ = false
+      end
+   end
+end
+
+function debug(text)
+
+   if debug_print_ then 
+
+      print(text) 
+   end
+   if debug_log_ then 
+
+      C4:ErrorLog(text) 
+   end
+end
+
+function set_serial_port(first_tcp_port)
+
+   return (controller_port_ - first_tcp_port)
+end
+
+function OnUsbSerialDeviceOnline(deviceID, manu, prod, serial, hostname, firstport, numports)
+
+   debug("OnUsbSerialDeviceOnline:")
+   debug("From DeviceID: " .. deviceID )
+   debug("Manufacturer: " .. manu )
+   debug("Product: " .. prod )
+   debug("Serial: " .. serial )
+   debug("Hostname: " .. hostname )
+   debug("First Port: " .. firstport )
+   debug("Number Ports: " .. numports )
+
+   if # serial_ == 0 then
+ 
+      if manu == "Lutron" then
+      
+         serial_ = serial
+         C4:UpdateProperty("Serial Number", serial_)
+         controller_id_ = deviceID
+	 controller_hostname_ = hostname
+         C4:UpdateProperty("Hostname", controller_hostname_)
+	 controller_port_ = firstport
+	 C4:UsbSerialSetSerialSettings(controller_id_, serial_, set_serial_port(firstport), 9600, 8, "none", 1, "none")	 
+	 usb_connect(controller_hostname_, controller_port_)
+
+	 -- we can safely start issuing commands
+	 send_lutron_command(enable_button_monitoring(lutron_monitoring_enable))
+	 send_lutron_command(enable_led_monitoring(lutron_monitoring_enable))
+	 send_lutron_command(enable_zone_monitoring(lutron_monitoring_enable))
+	 return true
+      end
+   end
+  
+   return false
+end
+    
+function OnUsbSerialDeviceOffline(manu, prod, serial)
+      
+   debug("OnUsbSerialDeviceOffline:")
+   debug("Manufacturer: " .. manu )
+   debug("Product: " .. prod )
+   debug("Serial: " .. serial )
+      
+   if serial_ == serial then
+
+      usb_disconnect(controller_port_)
+
+      serial_ = ""
+      C4:UpdateProperty("Serial Number", serial_)
+      controller_id_ = 0
+      controller_hostname_ = ""
+      C4:UpdateProperty("Hostname", controller_hostname_)
+      controller_port_ = 0
+
+      return true
+   end 
+
+   return false
+end
+
+function get_device_id()
+
+  return C4:GetProxyDevices()
+end
+
+C4:UpdateProperty("Version", Version())
+
+      ]]>
+    </script>
+  </config>
+</devicedata>
+

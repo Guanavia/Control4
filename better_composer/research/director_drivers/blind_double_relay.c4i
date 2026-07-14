@@ -1,0 +1,94 @@
+<devicedata>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Generic</manufacturer>
+  <creator>Control4</creator>
+  <model>Dual Relay Blind</model>
+  <created>1/20/2005 2:22:54 PM</created>
+  <modified>6/01/2017 12:30 PM</modified>
+  <version>1</version>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <capabilities>
+    <can_stop>True</can_stop>
+  </capabilities>
+  <name>Dual Relay Blind</name>
+  <small>devices_sm/blinds.gif</small>
+  <large>devices_lg/blinds.gif</large>
+  <control>blind_relay</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Comfort</category>
+  </navigator_categories>
+  <proxy>blind</proxy>
+  <driver>100016</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Blinds</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>BLIND</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Relay Up</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>6</facing>
+      <connectionname>Relay Down</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <num_relays>2</num_relays>
+    <pulse_type_dual>1</pulse_type_dual>
+    <pulse_length_dual>500</pulse_length_dual>
+    <delay_up>5</delay_up>
+    <delay_down>5</delay_down>
+    <stop_pulse>250</stop_pulse>
+    <can_stop>true</can_stop>
+    <pulse_type_single>1</pulse_type_single>
+    <pulse_length_single>500</pulse_length_single>
+    <irsection>
+      <ircodes />
+      <ircodemacros />
+    </irsection>
+  </config>
+</devicedata>

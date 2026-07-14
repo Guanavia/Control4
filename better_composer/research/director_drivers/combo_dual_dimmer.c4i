@@ -1,0 +1,99 @@
+<devicedata>
+	<version>2</version>
+	<created>9/21/2015</created>
+	<modified>02/10/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+ 	<model>C4-SDAPD240</model>
+	<name>Keypad Dual Load Dimmer</name>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<control>control4_lights_gen3_dualload</control>
+	<proxies>
+		<proxy proxybindingid="5002" name="Keypad Dual Load Dimmer">keypad_proxy</proxy>
+	</proxies>
+	<composer_categories>
+		<category>Lights</category>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>23466017-d2lf-j2l9-sd27-bjso2jf290jg</driver>
+	<search_types>
+		<type>c4:control4_light:C4-SDAPD240</type>
+	</search_types>
+	<capabilities>
+		<!-- keypad stuff -->
+                <has_leds>True</has_leds>
+		<leds_have_color>True</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+                <fully_customizable>True</fully_customizable>
+		<engravable>True</engravable>
+		<custom_finishes>True</custom_finishes>
+		<button_behavior>True</button_behavior>
+		<led_behavior>True</led_behavior>
+		<number_of_loads>2</number_of_loads>
+		<dimmer>True</dimmer>
+		<load_group_support>True</load_group_support>
+	</capabilities>
+
+	<connections>
+		<connection>
+			<id>400</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Source)</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>401</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Follower)</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

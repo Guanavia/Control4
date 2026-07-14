@@ -1,0 +1,914 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Inncom RS-232 Gateway</name>
+  <small>devices_sm/c4.gif</small>
+  <large>devices_lg/c4.gif</large>
+  <control>lua_gen</control>
+  <composer_categories>
+     <category>User Interface</category>
+  </composer_categories>
+  <proxy>gateway_232_inncom</proxy>
+  <driver>DriverWorks</driver>
+  <version>13</version>
+  <combo>true</combo>
+  <creator>Control4</creator>
+  <manufacturer>Inncom</manufacturer>
+  <created>09/26/2012 8:30 AM</created>
+  <modified>01/29/2016 10:00 AM</modified>
+  <model>Gateway</model>
+  <states />
+  <connections>
+     <connection>
+	<id>1</id>
+	<facing>6</facing>
+	<connectionname>Serial RS-232</connectionname>
+	<type>1</type>
+	<consumer>True</consumer>
+	<audiosource>False</audiosource>
+    	<videosource>False</videosource>
+    	<linelevel>False</linelevel>
+        <classes>
+	    <class>
+	        <classname>RS_232</classname>
+            </class>
+        </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+  </capabilities>
+  <config>
+    <documentation>
+Refer to the Inncom_driver_instructions.txt document found in the sub-directory "Drivers\Virtual" of the installation directory of Composer.
+    </documentation>
+    <properties>
+      <property>
+	<name>Version</name>
+	<type>STRING</type>
+	<default>0.0.0</default>
+	<readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+	   <item>Off</item>
+	   <item>Print</item>
+           <item>Log</item>
+   	   <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Device ID</name>
+        <type>STRING</type>
+	<default>0</default>
+	<readonly>true</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Get Device ID</name>
+        <command>DEVICE_ID</command>
+      </action>
+    </actions>
+    <commands>
+
+    </commands>
+    <script>
+      <![CDATA[
+
+--<fastpack>
+-- fastpack inserted : Wed Mar 27 08:17:38 2013
+
+-- Inncom Lua Fastpack 
+
+local sof = "["
+local eof = "]"
+local reset_link = "~"
+local ack = "*"
+local nak = "?"
+
+local compact_control_protocol = 49
+local flags = 0
+
+local fastpack_attribute_update_tag = 65409
+local fastpack_control_tag = 65411
+
+local hvac_ui = 57
+local room_temp_cmd = 58
+
+-- ac mode
+local ac_mode_off = 0
+local ac_mode_auto = 1
+-- fan mode
+local fan_mode_off = 0
+local fan_mode_low = 1
+local fan_mode_med = 2
+local fan_mode_high = 3
+
+function parse_binary_packet(packet)
+
+   local i = 1
+   local b = string.byte(packet, i)
+
+   local tbl = {}
+
+   while b do
+
+      tbl[i] = b
+      i = i + 1
+      b = string.byte(packet, i)
+   end
+
+   return tbl	-- return the table
+end
+
+-- finds a bit and determines if it is set or not - the bit location is one based ie. bit one is the LSB
+function is_bit_set(bitLoc, byte)
+
+   local val = byte
+   local modVal = 0
+
+   for i = 1, bitLoc do
+
+      modVal = math.mod(val, 2)
+
+      if modVal == 1 then
+
+	 val = val - 1
+      end
+      val = val / 2
+   end
+
+   return modVal
+end
+
+function short_to_bytes(short)
+
+   short = short / 256
+   local msb, lsb = math.modf(short)
+   lsb = lsb * 256
+
+   return { msb, lsb }
+end
+
+function long_to_bytes(long)
+
+   long = long / 65535
+   local mss, lss = math.modf(long)
+   lss = lss * 65535
+   local ms_tbl = short_to_bytes(mss)
+   local ls_tbl = short_to_bytes(lss)
+
+   return { ms_tbl[1], ms_tbl[2], ls_tbl[1], ls_tbl[2] }
+end
+
+function append_byte(data_table, byte)
+
+   table.insert(data_table, byte)
+end
+
+function append_short(data_table, sht)
+
+   local tbl = short_to_bytes(sht)
+   for _, v in ipairs(tbl) do
+
+      table.insert(data_table, v)
+   end
+end
+
+function append_long(data_table, lng)
+
+   local tbl = long_to_bytes(lng)
+   for _, v in ipairs(tbl) do
+
+      table.insert(data_table, v)
+   end
+end
+
+function hex_string_to_number(hex_string)
+
+   return tonumber(hex_string, 16)
+end
+
+function get_string_char(str, pos)
+
+   return string.sub(str, pos, pos)
+end
+
+function get_string_byte(str, pos)
+
+   return string.sub(str, pos, pos + 1)
+end
+
+function get_string_short(str, pos)
+
+   return string.sub(str, pos, pos + 3)
+end
+
+function get_string_long(str, pos)
+
+   return string.sub(str, pos, pos + 7)
+end
+
+---------------- start form fastpack message --------------------------
+
+-- table of bytes is formed into an ascii packet
+function form_ascii_bytes(tbl)
+
+   local packet = ""
+   local packet_length = 0
+
+   for i, v in ipairs(tbl) do
+
+      local b = string.format("%02x",  v)
+      packet = packet .. b
+      packet_length = i
+   end
+
+   return packet, packet_length -- return the packet ready to be passed on
+end
+
+function toggle_sequence_flag(flags)
+
+   local val = is_bit_set(1, flags)
+   if val > 0 then
+
+      flags = flags - 1
+   else
+      flags = flags + 1
+   end
+
+   return flags
+end
+
+-- flags, length and protocol are each one byte
+function form_fastpack_packet_header(flags, length, protocol)
+
+   local tbl = { flags, length, protocol }
+   local header = form_ascii_bytes(tbl)
+
+   return header
+end
+
+function form_fastpack_short(tag)
+
+   local tbl = short_to_bytes(tag)
+
+   return form_ascii_bytes(tbl)
+end
+
+function form_fastpack_byte(byte)
+   
+   local tbl = { byte }
+
+   return form_ascii_bytes(tbl)
+end
+
+function form_fastpack_data(tbl)
+   
+   local data, data_length = form_ascii_bytes(tbl)
+
+   return data, data_length
+end
+
+function form_fastpack_packet(flags, protocol, tag, data_table)
+
+   local data, data_length = form_fastpack_data(data_table)
+   data_length = data_length + 1
+   local header = form_fastpack_packet_header(flags, data_length, protocol)
+   local str_tag = form_fastpack_short(tag)
+   local crc = form_fastpack_byte(0)
+
+   return sof .. header .. str_tag .. data .. crc .. eof
+end
+
+---------------------- end form fastpack command ---------------
+function validate_fastpack_packet(packet)
+
+   local valid = false
+   local message = ""
+
+   local first_char = string.sub(packet, 1, 1)
+   local last_char = string.sub(packet, -1, -1)
+   if first_char == sof and last_char == eof then
+
+      valid = true
+      message = string.sub(packet, 2, -2)
+   end
+
+   return valid, message
+end
+
+function detect_sof(packet)
+
+   local message_start = ""
+   local found = false
+   local char_count = # packet
+   local current_char = 1
+
+   while current_char <= char_count do
+
+      local char = string.sub(packet, current_char, current_char)
+      if char == sof then
+	 
+	 found = true
+	 message_start = string.sub(packet, current_char, -1)
+	 break;
+      end
+      current_char = current_char + 1
+   end
+
+   return found, message_start
+end
+
+function detect_eof(packet)
+
+   local message_end = ""
+   local found = false
+   local char_count = # packet
+   local current_char = 1
+
+   while current_char <= char_count do
+
+      local char = string.sub(packet, current_char, current_char)
+      if char == eof then
+	 
+	 found = true
+	 message_end = string.sub(packet, 1, current_char)
+	 break;
+      end
+      current_char = current_char + 1
+   end
+
+   return found, message_end
+end
+
+function parse_fastpack_room_id(fastpack_message)
+
+   local offset = 11
+   local room_id = get_string_short(fastpack_message, offset)
+
+   return hex_string_to_number(room_id)
+end
+
+function parse_fastpack_device_address(fastpack_message)
+
+   local offset = 15
+   local device_address = get_string_byte(fastpack_message, offset)
+
+   return hex_string_to_number(device_address)
+end
+
+function parse_fastpack_command_code(fastpack_message)
+
+   local offset = 19
+   local cmd_code = get_string_short(fastpack_message, offset)
+   
+   return hex_string_to_number(cmd_code)
+end
+
+function parse_fastpack_param_one(fastpack_message)
+
+   local offset = 23
+   local cmd_code = get_string_short(fastpack_message, offset)
+   
+   return hex_string_to_number(cmd_code)
+end
+
+function parse_fastpack_param_two(fastpack_message)
+
+   local offset = 27
+   local cmd_code = get_string_short(fastpack_message, offset)
+   
+   return hex_string_to_number(cmd_code)
+end
+
+---------------------- formed tstat commands --------------------
+
+-- not yet working
+function form_fastpack_temp_scale_command(room_id, device_addr, scale)
+
+   local s_cmd = 64
+   local data_table = {}
+  
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, s_cmd)
+   append_short(data_table, scale)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+function form_fastpack_ac_mode_command(room_id, device_addr, mode)
+
+   local ac_mode_cmd = 65
+   local data_table = {}
+  
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, ac_mode_cmd)
+   append_short(data_table, mode)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+function form_fastpack_fan_mode_command(room_id, device_addr, mode)
+
+   local fan_mode_cmd = 66
+   local data_table = {}
+  
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, fan_mode_cmd)
+   append_short(data_table, mode)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+function form_fastpack_target_temp(room_id, device_addr, temperature)
+
+   local target_temp_cmd = 63
+   local data_table = {}
+
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, target_temp_cmd)
+   append_short(data_table, temperature)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+function form_fastpack_target_temp_up(room_id, device_addr)
+
+   local target_temp_up_cmd = 67
+   local data_table = {}
+
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, target_temp_up_cmd)
+   append_short(data_table, 0)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+function form_fastpack_target_temp_dwn(room_id, device_addr)
+
+   local target_temp_dwn_cmd = 68
+   local data_table = {}
+
+   append_short(data_table, room_id)
+   append_byte(data_table, device_addr)
+   append_long(data_table, 0) -- flags for the future
+   append_short(data_table, target_temp_dwn_cmd)
+   append_short(data_table, 0)
+   append_short(data_table, 0)
+   append_byte(data_table, 0)
+
+   return form_fastpack_packet(flags, compact_control_protocol, fastpack_control_tag, data_table)
+end
+
+--</fastpack>
+
+-- Global Variables
+
+debug_timer_ = 0
+debug_print_ = false
+debug_log_ = false
+
+local msg_buffer_ = ""
+registrars_ = {}
+
+function Version()
+	
+   local maj = 1
+   local min = 0
+   local rev = 9
+   local ver = string.format("%d.%d.%d", maj, min, rev)
+
+   return ver
+end
+
+function start_debug_timer()
+
+   if debug_timer_ then
+  
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   debug_timer_ = C4:AddTimer(15, "MINUTES")
+end
+
+function add_registrar(params)
+
+   local id = tonumber(params["ID"])
+   local room_id = tonumber(params["ROOM_ID"])
+   local device_address = tonumber(params["DEVICE_ADDR"])
+
+   if id ~= nil then
+
+      registrars_[id] = {ROOM_ID = room_id, DEVICE_ADDR = device_address}
+      persist_data({ID = id, ROOM_ID = room_id, DEVICE_ADDR = device_address})
+   end
+end
+
+function remove_registrar(id)
+
+  registrars_[id] = nil
+  PersistData[id] = nil
+end
+
+function clear_registrars()
+
+   if registrars_ ~= nil then
+
+      for k, _ in pairs(registrars_) do
+
+         remove_registrar(k)
+      end
+   end
+end
+
+function print_registrars()
+
+   if registrars_ ~= nil then
+
+      for k, vals in pairs(registrars_) do
+
+         print(k, vals["ROOM_ID"], vals["DEVICE_ADDR"])
+      end
+   end
+end
+
+function persist_data(params)
+
+   if PersistData ~= nil then
+
+      if PersistData["REGISTRARS"] == nil then
+
+         PersistData["REGISTRARS"] = {}
+      end
+      local id = tonumber(params["ID"])
+      local room_id = tonumber(params["ROOM_ID"])
+      local device_address = tonumber(params["DEVICE_ADDR"])
+      print(id, room_id, device_address)
+      PersistData["REGISTRARS"][id] = {ROOM_ID = room_id, DEVICE_ADDR = device_address}
+   else
+
+      debug("PersistData is nil")
+      PersistData = {}
+      persist_data(params)
+   end
+end
+
+function get_persisted_data()
+
+   if PersistData ~= nil then
+
+      local registrar_table = PersistData["REGISTRARS"]
+      if registrar_table ~= nil then
+
+	 for i, vals in pairs(registrar_table) do
+
+	    local id = tonumber(i)
+	    local room_id = tonumber(vals["ROOM_ID"])
+	    local device_address = tonumber(vals["DEVICE_ADDR"])
+	    local params = {ID = id, ROOM_ID = room_id, DEVICE_ADDR = device_address}
+	    add_registrar(params)
+	 end
+      else
+
+	 print("registrar_table is nil") 
+      end
+   end
+end
+
+function send_to_client(device_addr, cmd, params)
+
+   for k, v in pairs(registrars_) do
+
+      if v["DEVICE_ADDR"] == device_addr then
+
+      	C4:SendToDevice(k, cmd, params)
+      end
+   end
+end
+
+function send_serial(data)
+
+  C4:SendToSerial(1, data)
+end
+
+function get_inncom_address(id)
+
+  local room_id = 0
+  local device_addr = 0
+
+  for k, v in pairs(registrars_) do
+    
+    if k == id then
+
+       room_id = v["ROOM_ID"]
+       device_addr = v["DEVICE_ADDR"]
+       break
+    end
+  end
+
+  return room_id, device_addr
+end
+
+---- set tstats ----
+
+function set_setpoint(id, setpoint)
+
+  local room_id, device_addr = get_inncom_address(id)
+  if device_addr > 0 then 
+
+     send_serial(form_fastpack_target_temp(room_id, device_addr, setpoint * 10))
+  end
+end
+
+function get_ac_mode(bit_zero, bit_one)
+ 
+  local ac_mode = "Off"
+  
+  if bit_zero == 1 then
+
+     ac_mode = "Auto"
+  end
+
+  return ac_mode
+end
+
+function set_ac_mode(id, mode)
+
+  local room_id, device_addr = get_inncom_address(id)
+  if device_addr > 0 then 
+   
+     local ac_mode = ac_mode_off
+     if mode == "Auto" then
+
+       ac_mode = ac_mode_auto
+     end
+     send_serial(form_fastpack_ac_mode_command(room_id, device_addr, ac_mode))
+  end
+end
+
+function get_fan_mode(bit_zero, bit_one)
+
+  local fan_mode = "Off"
+  
+  if bit_zero == 1 then
+
+     if bit_one == 1 then
+
+        fan_mode = "High"
+     else
+
+        fan_mode = "Low"
+     end
+  else
+
+     if bit_one == 1 then
+
+        fan_mode = "Medium"
+     end
+  end
+  
+  return fan_mode
+end
+
+function set_fan_mode(id, mode)
+
+  local room_id, device_addr = get_inncom_address(id)
+  if device_addr > 0 then 
+   
+     local fan_mode = fan_mode_off
+     if mode == "Auto" then
+
+       fan_mode = fan_mode_low
+     elseif mode == "Low" then
+
+       fan_mode = fan_mode_low
+     elseif mode == "Medium" then
+
+       fan_mode = fan_mode_med
+     elseif mode == "High" then
+
+       fan_mode = fan_mode_high
+     end
+
+     send_serial(form_fastpack_fan_mode_command(room_id, device_addr, fan_mode))
+  end
+end
+
+function temperature_scale(temp_scale)
+
+   local scale = "F"
+
+   if temp_scale == true then
+
+      scale = "C"
+   end
+
+   return scale
+end
+
+function append_to_buffer(buffer, append)
+
+  return buffer .. append
+end
+
+function OnDriverInit()
+
+   -- get persisted data and add registrars
+   get_persisted_data()
+   C4:UpdateProperty("Device ID", get_device_id())
+end
+
+function ReceivedFromSerial(idBinding, data)
+
+  if data ~= nil then
+
+     local msg_start_found, msg_start =  detect_sof(data)
+     if msg_start_found then
+     	
+	msg_buffer_ = msg_start
+     end
+
+     local msg_end_found, msg_end = detect_eof(data)
+     if msg_end_found then
+
+     	msg_buffer_ = append_to_buffer(msg_buffer_, msg_end)
+	local valid, fastpack_message = validate_fastpack_packet(msg_buffer_)
+	if valid then
+
+	   debug("Fastpack message: " .. fastpack_message)
+	   local room_id = parse_fastpack_room_id(fastpack_message)
+	   local device_addr = parse_fastpack_device_address(fastpack_message)
+	   local cmd_code = parse_fastpack_command_code(fastpack_message)
+	   local param_one = parse_fastpack_param_one(fastpack_message)
+	   local param_two = parse_fastpack_param_two(fastpack_message)
+	   local param_one_bytes = short_to_bytes(param_one)
+	   local param_two_bytes = short_to_bytes(param_two)
+
+-- 	      print("Param Two Bit Zero: " .. is_bit_set(1, param_two_bytes[2]))
+--	      print("Param Two Bit One: " .. is_bit_set(2, param_two_bytes[2]))
+--	      print("Param Two Bit Two: " .. is_bit_set(3, param_two_bytes[2]))
+--	      print("Param Two Bit Three: " .. is_bit_set(4, param_two_bytes[2]))
+
+	   debug("Room ID: " .. room_id .. "; Device Address: " .. device_addr)
+	   if cmd_code == room_temp_cmd then
+
+	      local temp = param_one / 10
+	      debug("Temperature: " .. temp)
+--	      local temp_scale = is_bit_set(1, param_one_bytes[1])
+--	      debug("Temperature Scale: " .. temperature_scale(temp_scale))
+	      send_to_client(device_addr, "TEMPERATURE_UPDATE", {TEMPERATURE = temp})
+	   elseif cmd_code == hvac_ui then
+
+	      local setpoint = param_one / 10
+	      debug("Setpoint: " .. setpoint)
+	      send_to_client(device_addr, "SETPOINT_UPDATE", {SETPOINT = setpoint})
+	      local ac_mode = get_ac_mode(is_bit_set(1, param_two_bytes[2]), is_bit_set(2, param_two_bytes[2]))
+--	      debug("AC MODE: " .. ac_mode)
+	      send_to_client(device_addr, "AC_MODE_UPDATE", {AC_MODE = ac_mode})
+	      local fan_mode = get_fan_mode(is_bit_set(3, param_two_bytes[2]), is_bit_set(4, param_two_bytes[2]))
+--	      debug("FAN MODE: " .. fan_mode)
+	      send_to_client(device_addr, "FAN_MODE_UPDATE", {FAN_MODE = fan_mode})
+	   end
+	end
+     end
+     if not msg_start_found and not msg_end_found then
+
+     	msg_buffer_ = append_to_buffer(msg_buffer_, data)
+     end
+
+     debug("ReceivedFromSerial: " .. data)
+  end
+end
+
+function OnPropertyChanged(strProperty)
+
+  debug("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+  if strProperty == "Debug Mode" then
+     if Properties[strProperty] == "Off" then
+
+        debug_print_ = false
+        debug_log_ = false
+        debug_timer_ = 0
+     elseif Properties[strProperty] == "Print" then
+
+        debug_print_ = true
+       	debug_log_ = false
+       	start_debug_timer()
+     elseif Properties[strProperty] == "Log" then
+
+        debug_print_ = false
+        debug_log_ = true
+        start_debug_timer()
+     elseif Properties[strProperty] == "Print and Log" then
+
+        debug_print_ = true
+       	debug_log_ = true
+       	start_debug_timer()
+     end
+  end
+end
+
+function OnTimerExpired(idTimer)
+
+   if idTimer == debug_timer_ then
+  
+      debug("Turning Debug Mode Off (timer expired)")
+      C4:UpdateProperty("Debug Mode", "Off")
+      debug_timer_ = C4:KillTimer(idTimer)
+   end
+end
+
+function debug(text)
+
+   if debug_print_ then 
+
+      print(text) 
+   end
+   if debug_log_ then 
+
+      C4:ErrorLog(text) 
+   end
+end
+
+function ExecuteCommand(strCommand, tParams)
+
+  debug("ExecuteCommand function called with : " .. strCommand)
+  if tParams ~= nil then
+
+     for ParamName, ParamValue in pairs(tParams) do 
+
+	debug("with parameter name: " .. ParamName .. "; and value: " .. ParamValue)
+     end 
+  end
+  if strCommand == "LUA_ACTION" then
+
+     if tParams ~= nil then
+
+     	for ParamName, ParamValue in pairs(tParams) do
+ 
+	    if ParamName == "ACTION" then
+
+	      if ParamValue == "DEVICE_ID" then
+
+	        C4:UpdateProperty("Device ID", get_device_id())
+	      end					
+	    end
+	end
+     end
+  elseif strCommand == "SETPOINT_CHANGED" then
+
+    set_setpoint(tonumber(tParams["ID"]), tonumber(tParams["SETPOINT"]))
+  elseif strCommand == "HVAC_MODE_CHANGED" then
+
+    set_ac_mode(tonumber(tParams["ID"]), tParams["MODE"])
+  elseif strCommand == "FAN_MODE_CHANGED" then
+
+    set_fan_mode(tonumber(tParams["ID"]), tParams["MODE"])
+  elseif strCommand == "ADD_REGISTRAR" then
+
+    add_registrar(tParams)
+  elseif strCommand == "REMOVE_REGISTRAR" then
+
+    remove_registrar(tonumber(tParams["ID"]))
+  else
+
+     debug("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+  end
+end
+
+function get_device_id()
+
+  return C4:GetProxyDevices()
+end
+
+C4:UpdateProperty("Version", Version())
+
+      ]]>
+    </script>
+  </config>
+</devicedata>
+

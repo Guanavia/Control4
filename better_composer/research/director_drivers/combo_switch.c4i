@@ -1,0 +1,190 @@
+<devicedata>
+	<version>2</version>
+	<created>3/12/2015</created>
+	<modified>1/27/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-SSW240</model>
+	<name>Keypad Switch</name>
+	<small>devices_sm/dimmer.gif</small>
+	<large>devices_lg/dimmer.gif</large>
+	<control>control4_lights_gen3</control>
+	<proxies>
+		<proxy proxybindingid="5001" name="Keypad Switch Light">light_v2</proxy>
+		<proxy proxybindingid="5002" name="Keypad">keypad_proxy</proxy>
+	</proxies>
+	<composer_categories>
+		<category>Lights</category>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>23466017-32de-463f-a784-b7fd6bcc2e53</driver>
+	<search_types>
+		<type>c4:control4_light:C4-SSW240</type>
+	</search_types>
+	<capabilities>
+		<!-- light stuff -->
+		<on_off>True</on_off>
+		<dimmer>False</dimmer>
+		<has_leds>True</has_leds>
+		<supports_broadcast_scenes>True</supports_broadcast_scenes>
+		<supports_multichannel_scenes>False</supports_multichannel_scenes>
+		<hide_proxy_properties>False</hide_proxy_properties>
+		<hide_proxy_events>False</hide_proxy_events>
+		<has_button_events>False</has_button_events>
+		<advanced_scene_support>True</advanced_scene_support>
+		<load_group_support>True</load_group_support>
+		<buttons_are_virtual>True</buttons_are_virtual>
+		<has_load>True</has_load>
+		<max_power>0</max_power>
+		<min_power>-7</min_power>
+
+		<!-- keypad stuff -->
+		<leds_have_color>True</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>True</fully_customizable>
+		<engravable>True</engravable>
+		<custom_finishes>True</custom_finishes>
+		<button_behavior>True</button_behavior>
+		<led_behavior>True</led_behavior>
+	</capabilities>
+
+	<connections>
+		<!-- button links and contacts are added dynamically, would look like this though
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Button 1 Link</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		-->
+		<connection>
+			<id>200</id>
+			<facing>6</facing>
+			<connectionname>Top Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>201</id>
+			<facing>6</facing>
+			<connectionname>Bottom Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>202</id>
+			<facing>6</facing>
+			<connectionname>Toggle Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>400</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Source)</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>401</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Follower)</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection proxybindingid="5001">
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>LIGHT_V2</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection proxybindingid="5002">
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

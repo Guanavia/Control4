@@ -1,0 +1,106 @@
+<devicedata>
+	<copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>6/17/2005</created>
+	<modified>6/17/2005</modified>
+	<manufacturer>Control4</manufacturer>
+	<model>Security Partition</model>
+	<name>Security Partition</name>
+	  <small>devices_sm/Security_16.gif</small>
+	  <large>devices_lg/Security_32.gif</large>
+	<commands>
+		<command>
+			<name>ARM</name>
+			<description>Set the security partition to the Armed state.</description>
+		</command>
+		<command>
+			<name>BUTTON_LIST</name>
+			<description>Gets the list of available buttons???</description>
+		</command>
+	</commands>
+	
+	<conditionals>
+    <conditional>
+      <id>0</id>
+      <name>IS_HOME</name>
+      <description>the NAME is armed to Home</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <name>IS_AWAY</name>
+      <description>the NAME is armed to Away</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <name>IS_DISARMED</name>
+      <description>the NAME is Disarmed</description>
+    </conditional>
+    <conditional>
+      <id>3</id>
+      <name>IS_ALARM</name>
+      <description>the NAME is in Alarm</description>
+    </conditional>
+	</conditionals>
+  
+	<events>
+	  <event>
+		  <id>1</id>
+		  <name>HOME</name>
+		  <description>When NAME has been armed to Home</description>
+		</event>
+		<event>
+		  <id>2</id>
+		  <name>AWAY</name>
+		  <description>When NAME has been armed to Away</description>
+		</event>
+		<event>
+		  <id>3</id>
+		  <name>ALARM</name>
+		  <description>When NAME enters Alarm state</description>
+		</event>
+		<event>
+		  <id>4</id>
+		  <name>ALARM_CLEAR</name>
+		  <description>When NAME registers an Alarm Cleared</description>
+		</event>
+		<event>
+		  <id>5</id>
+		  <name>TROUBLE</name>
+		  <description>When NAME registers a Trouble condition</description>
+		</event>
+		<event>
+		  <id>6</id>
+		  <name>DISARMED</name>
+		  <description>When NAME has been Disarmed</description>
+		</event>
+	</events>
+	<control>security</control>
+	<composer_categories>
+		<category>Security</category>
+	</composer_categories>
+	<proxy>standalonesecurity</proxy>
+	<driver>25</driver>
+	<states>
+	</states>
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>SECURITY</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SECURITY</classname>
+					<autobind>False</autobind>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+	</connections>	
+	<config>
+	</config>
+</devicedata>

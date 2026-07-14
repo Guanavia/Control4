@@ -1,0 +1,147 @@
+<devicedata>
+	<version>6</version>
+	<created>3/12/2011</created>
+	<modified>2/22/2019</modified>
+	<copyright>Copyright 2004-2019 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-SM201-Z</model>
+	<name>Puck Switch (V2)</name>
+	<small>devices_sm/dimmer.gif</small>
+	<large>devices_lg/dimmer.gif</large>
+	<control>puck_gen3</control>
+	<proxies>
+		<proxy proxybindingid="5001" name="Puck Switch">light_v2</proxy>
+		<proxy proxybindingid="5002" name="Puck Keypad">keypad_proxy</proxy>
+	</proxies>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>1350c1e3-0be7-4d91-b1b0-8632afe12088</driver>
+	<search_type>c4:control4_light:C4-SM201-Z</search_type>
+	<capabilities>
+		<!-- light stuff -->
+		<dimmer>False</dimmer>
+		<on_off>True</on_off>
+		<has_leds>True</has_leds>
+		<supports_broadcast_scenes>True</supports_broadcast_scenes>
+		<supports_multichannel_scenes>False</supports_multichannel_scenes>
+		<hide_proxy_properties>False</hide_proxy_properties>
+		<hide_proxy_events>False</hide_proxy_events>
+		<has_button_events>False</has_button_events>
+		<advanced_scene_support>True</advanced_scene_support>
+		<load_group_support>True</load_group_support>
+		<buttons_are_virtual>True</buttons_are_virtual>
+
+		<!-- keypad stuff -->
+		<leds_have_color>False</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>False</fully_customizable>
+		<columns>1</columns>
+		<rows>2</rows>
+		<engravable>False</engravable>
+		<custom_finishes>False</custom_finishes>
+		<button_behavior>True</button_behavior>
+		<led_behavior>True</led_behavior>
+	</capabilities>
+
+	<connections>
+		<connection>
+			<id>200</id>
+			<facing>6</facing>
+			<connectionname>Top Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>201</id>
+			<facing>6</facing>
+			<connectionname>Bottom Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>202</id>
+			<facing>6</facing>
+			<connectionname>Toggle Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection proxybindingid="5001">
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>LIGHT_V2</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection proxybindingid="5002">
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

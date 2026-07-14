@@ -1,0 +1,133 @@
+<devicedata>
+  <copyright>Copyright 2023 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <name>MultiDisplay Manager</name>
+  <version>314</version>
+  <manufacturer>Control4</manufacturer>
+  <model>MultiDisplay Manager</model>
+  <created>11/20/2020 5:33 PM</created>
+  <modified>06/30/2025 04:56 PM</modified>
+  <small>devices_sm\c4.gif</small>
+  <large>devices_lg\c4.gif</large>
+  <control>lua_gen</control>
+  <auto_update>true</auto_update>
+  <force_auto_update>true</force_auto_update>
+  <driver>DriverWorks</driver>
+  <proxies qty="1">
+    <proxy>MultiDisplay_Manager-agent</proxy>
+  </proxies>
+  <combo>true</combo>
+  <agent>true</agent>
+  <config>
+    <documentation file="www/documentation.rtf"/>
+    <script file="driver.lua" jit="1"/>
+    <actions/>
+    <commands>
+      <command>
+        <name>MultiDisplay On</name>
+        <description>Turn On PARAM1 MultiDisplay</description>
+        <params>
+          <param>
+            <name>MultiDisplay</name>
+            <type>CUSTOM_SELECT:GetMultiDisplaysForProgramming</type>
+            <search/>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>MultiDisplay Off</name>
+        <description>Turn Off PARAM1 MultiDisplay</description>
+        <params>
+          <param>
+            <name>MultiDisplay</name>
+            <type>CUSTOM_SELECT:GetMultiDisplaysForProgramming</type>
+            <search/>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Select Preset</name>
+        <description>Select PARAM1 MultiDisplay Preset</description>
+        <params>
+          <param>
+            <name>Preset</name>
+            <type>CUSTOM_SELECT:GetMultiDisplayPresetsForProgramming</type>
+            <search/>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Sync Audio To Video Selection</name>
+        <description>Set NAME SyncAudioToVideoSelection to PARAM1</description>
+        <params>
+          <param>
+            <name>Mode</name>
+            <type>LIST</type>
+            <readonly>False</readonly>
+            <default/>
+            <items>
+              <item>On</item>
+              <item>Off</item>
+            </items>
+          </param>
+        </params>
+      </command>
+    </commands>
+    <conditionals/>
+    <properties>
+      <property>
+        <name>Log Level</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>2 - Warning</default>
+        <items>
+          <item>0 - Alert</item>
+          <item>1 - Error</item>
+          <item>2 - Warning</item>
+          <item>3 - Info</item>
+          <item>4 - Trace</item>
+          <item>5 - Debug</item>
+        </items>
+      </property>
+      <property>
+        <name>Log Mode</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>Off</default>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+      </property>
+      <property>
+        <name>Version</name>
+        <type>STRING</type>
+        <default>0.0.0</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>DeviceID</name>
+        <type>STRING</type>
+        <default>0</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Sync Audio To Video Selection</name>
+        <type>STRING</type>
+        <default>Off</default>
+        <readonly>true</readonly>
+      </property>
+    </properties>
+    <tabs>
+      <tab name="Settings" file="html/index.html"/>
+    </tabs>
+  </config>
+  <composer_categories>
+    <category>other</category>
+  </composer_categories>
+  <events/>
+  <connections/>
+  <keywords>Lua_Agent</keywords>
+</devicedata>

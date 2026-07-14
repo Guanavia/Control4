@@ -1,0 +1,95 @@
+<devicedata>
+	<version>3</version>
+	<combo/>
+	<created>2/25/2013</created>
+	<modified>7/27/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-DIN-BEG (V1 and V2)</model>
+	<name>Bus Ethernet Gateway</name>
+	<small>devices_sm/c4modI_16.gif</small>
+	<large>devices_lg/c4modI_32.gif</large>
+	<control>control4_485_gateway</control>
+	<proxy>control4_485_gateway</proxy>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>93d1c3bb-7ef7-427d-be66-862c92dd9e2c</driver>
+	<search_types>
+		<type>c4:gateway:C4-DIN-BEG</type>
+		<type>c4:gateway:C4-DIN-BEG-V2</type>
+	</search_types>
+	<capabilities>
+		<outbound_queue_size>250</outbound_queue_size>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>DIN Rail Panel</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>DIN_RAIL_HALF_SLOT</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>Ethernet Bridge</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>TCP</classname>
+					<ports>
+						<port>
+							<name>Gateway TCP Socket</name>
+							<number>8840</number>
+							<auto_connect>False</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_alive>True</keep_alive>
+							<keep_connection>True</keep_connection>
+						</port>
+					</ports>
+				</class>
+				<class>
+					<classname>SSL</classname>
+					<ports>
+						<port>
+							<name>Gateway SSL Socket</name>
+							<number>8841</number>
+							<auto_connect>False</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_alive>True</keep_alive>
+							<keep_connection>True</keep_connection>
+						</port>
+					</ports>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>485 Bus</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class>
+					<classname>485_BUS</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+	</connections>
+</devicedata>

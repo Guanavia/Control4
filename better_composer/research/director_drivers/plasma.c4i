@@ -1,0 +1,464 @@
+<devicedata>
+ <version>2</version>
+  <roomAutoBind>
+      <bind>AudioSelectionDevice</bind>
+      <bind>AudioVolumeDevice</bind>
+      <bind>VideoAudioSelectionDevice</bind>
+      <bind>VideoAudioVolumeDevice</bind>
+      <bind>VideoSelectionDevice</bind>
+  </roomAutoBind>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands>
+    <command>
+      <id>0</id>
+      <description>Turn On the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <description>Turn Off the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <description>Push the Menu on the NAME</description>
+    </command>
+    <command>
+      <id>3</id>
+      <description>Push the Up on the NAME</description>
+    </command>
+    <command>
+      <id>4</id>
+      <description>Push the Down on the NAME</description>
+    </command>
+    <command>
+      <id>5</id>
+      <description>Push the Left on the NAME</description>
+    </command>
+    <command>
+      <id>6</id>
+      <description>Push the Right on the NAME</description>
+    </command>
+    <command>
+      <id>7</id>
+      <description>Push the enter on the NAME</description>
+    </command>
+    <command>
+      <id>8</id>
+      <description>Set volume to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>9</id>
+      <description>Start the volume up on the NAME</description>
+    </command>
+    <command>
+      <id>10</id>
+      <description>Stop the volume up on the NAME</description>
+    </command>
+    <command>
+      <id>11</id>
+      <description>Start the volume down on the NAME</description>
+    </command>
+    <command>
+      <id>12</id>
+      <description>Stop the volume down on the NAME</description>
+    </command>
+    <command>
+      <id>13</id>
+      <description>Pulse the volume up on the NAME</description>
+    </command>
+    <command>
+      <id>14</id>
+      <description>Pulse the volume down on the NAME</description>
+    </command>
+    <command>
+      <id>15</id>
+      <description>Set input to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>16</id>
+      <description>Pulse the input on the NAME</description>
+    </command>
+    <command>
+      <id>17</id>
+      <description>Turn mute on the NAME</description>
+    </command>
+    <command>
+      <id>18</id>
+      <description>Turn mute off the NAME</description>
+    </command>
+    <command>
+      <id>19</id>
+      <description>Turn mute toggle the NAME</description>
+    </command>
+    <command>
+      <id>20</id>
+      <description>Set channel to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>21</id>
+      <description>Start the channel up on the NAME</description>
+    </command>
+    <command>
+      <id>22</id>
+      <description>Stop the channel up on the NAME</description>
+    </command>
+    <command>
+      <id>23</id>
+      <description>Start the channel down on the NAME</description>
+    </command>
+    <command>
+      <id>24</id>
+      <description>Stop the channel down on the NAME</description>
+    </command>
+    <command>
+      <id>25</id>
+      <description>Pulse the channel up on the NAME</description>
+    </command>
+    <command>
+      <id>26</id>
+      <description>Pulse the channel down on the NAME</description>
+    </command>
+    <command>
+      <id>27</id>
+      <description>Push the TvVideo on the NAME</description>
+    </command>
+    <command>
+      <id>28</id>
+      <description>Push the Info on the NAME</description>
+    </command>
+    <command>
+      <id>29</id>
+      <description>Push the Cancel on the NAME</description>
+    </command>
+    <command>
+      <id>30</id>
+      <description>Push the Recall on the NAME</description>
+    </command>
+    <command>
+      <id>31</id>
+      <description>Enter '0' on the NAME</description>
+    </command>
+    <command>
+      <id>32</id>
+      <description>Enter '1' on the NAME</description>
+    </command>
+    <command>
+      <id>33</id>
+      <description>Enter '2' on the NAME</description>
+    </command>
+    <command>
+      <id>34</id>
+      <description>Enter '3' on the NAME</description>
+    </command>
+    <command>
+      <id>35</id>
+      <description>Enter '4' on the NAME</description>
+    </command>
+    <command>
+      <id>36</id>
+      <description>Enter '5' on the NAME</description>
+    </command>
+    <command>
+      <id>37</id>
+      <description>Enter '6' on the NAME</description>
+    </command>
+    <command>
+      <id>38</id>
+      <description>Enter '7' on the NAME</description>
+    </command>
+    <command>
+      <id>39</id>
+      <description>Enter '8' on the NAME</description>
+    </command>
+    <command>
+      <id>40</id>
+      <description>Enter '9' on the NAME</description>
+    </command>
+    <command>
+      <id>41</id>
+      <description>Set bass to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>42</id>
+      <description>Start the bass up on the NAME</description>
+    </command>
+    <command>
+      <id>43</id>
+      <description>Stop the bass up on the NAME</description>
+    </command>
+    <command>
+      <id>44</id>
+      <description>Pulse the bass up on the NAME</description>
+    </command>
+    <command>
+      <id>45</id>
+      <description>Start the bass down on the NAME</description>
+    </command>
+    <command>
+      <id>46</id>
+      <description>Stop the bass down on the NAME</description>
+    </command>
+    <command>
+      <id>47</id>
+      <description>Pulse the bass down on the NAME</description>
+    </command>
+    <command>
+      <id>48</id>
+      <description>Set treble to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>49</id>
+      <description>Start the treble up on the NAME</description>
+    </command>
+    <command>
+      <id>50</id>
+      <description>Stop the treble up on the NAME</description>
+    </command>
+    <command>
+      <id>51</id>
+      <description>Pulse the treble up on the NAME</description>
+    </command>
+    <command>
+      <id>52</id>
+      <description>Start the treble down on the NAME</description>
+    </command>
+    <command>
+      <id>53</id>
+      <description>Stop the treble down on the NAME</description>
+    </command>
+    <command>
+      <id>54</id>
+      <description>Pulse the bass down on the NAME</description>
+    </command>
+    <command>
+      <id>55</id>
+      <description>Set balance to INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>56</id>
+      <description>Start the balance up on the NAME</description>
+    </command>
+    <command>
+      <id>57</id>
+      <description>Stop the balance up on the NAME</description>
+    </command>
+    <command>
+      <id>58</id>
+      <description>Pulse the balance up on the NAME</description>
+    </command>
+    <command>
+      <id>59</id>
+      <description>Start the balance down on the NAME</description>
+    </command>
+    <command>
+      <id>60</id>
+      <description>Stop the balance down on the NAME</description>
+    </command>
+    <command>
+      <id>61</id>
+      <description>Pulse the balance down on the NAME</description>
+    </command>
+    <command>
+      <id>62</id>
+      <description>Turn loudness on the NAME</description>
+    </command>
+    <command>
+      <id>63</id>
+      <description>Turn loudness off the NAME</description>
+    </command>
+    <command>
+      <id>64</id>
+      <description>Turn loudness toggle the NAME</description>
+    </command>
+    <command>
+      <id>65</id>
+      <description>Push the Dash on the NAME</description>
+    </command>
+    <command>
+      <id>66</id>
+      <description>Push the Star on the NAME</description>
+    </command>
+    <command>
+      <id>67</id>
+      <description>Push the Pound on the NAME</description>
+    </command>
+    <command>
+      <id>68</id>
+      <description>Start the channel</description>
+    </command>
+    <command>
+      <id>69</id>
+      <description>Stop the channel</description>
+    </command>
+    <command>
+      <id>70</id>
+      <description>Pulse the channel</description>
+    </command>
+    <command>
+      <id>71</id>
+      <description>Start the volume</description>
+    </command>
+    <command>
+      <id>72</id>
+      <description>Stop the volume</description>
+    </command>
+    <command>
+      <id>73</id>
+      <description>Pulse the volume</description>
+    </command>
+    <command>
+      <id>74</id>
+      <description>Start the bass</description>
+    </command>
+    <command>
+      <id>75</id>
+      <description>Stop the bass</description>
+    </command>
+    <command>
+      <id>76</id>
+      <description>Pulse the bass</description>
+    </command>
+    <command>
+      <id>77</id>
+      <description>Start the treble</description>
+    </command>
+    <command>
+      <id>78</id>
+      <description>Stop the treble</description>
+    </command>
+    <command>
+      <id>79</id>
+      <description>Pulse the treble</description>
+    </command>
+    <command>
+      <id>80</id>
+      <description>Start the balance</description>
+    </command>
+    <command>
+      <id>81</id>
+      <description>Stop the balance</description>
+    </command>
+    <command>
+      <id>82</id>
+      <description>Pulse the balance</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>the NAME is on</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>the NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <description>the last channel is LOGIC INTEGER on the NAME</description>
+    </conditional>
+    <conditional>
+      <id>3</id>
+      <description>the current volume level is LOGIC INTEGER on the NAME</description>
+    </conditional>
+    <conditional>
+      <id>4</id>
+      <description>the current input is INTEGER on the NAME </description>
+    </conditional>
+    <conditional>
+      <id>5</id>
+      <description>the current bass level is LOGIC INTEGER on the NAME</description>
+    </conditional>
+    <conditional>
+      <id>6</id>
+      <description>the current treble level is LOGIC INTEGER on the NAME </description>
+    </conditional>
+    <conditional>
+      <id>7</id>
+      <description>the current balance is LOGIC INTEGER on the NAME </description>
+    </conditional>
+    <conditional>
+      <id>8</id>
+      <description>the current loudness is INTEGER on the NAME </description>
+    </conditional>
+    <conditional>
+      <id>9</id>
+      <description>the current mute is INTEGER on the NAME </description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>when NAME turns on</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>when NAME turns off</description>
+    </event>
+    <event>
+      <id>7</id>
+      <description>when NAME channel changes</description>
+    </event>
+    <event>
+      <id>8</id>
+      <description>when NAME input changes</description>
+    </event>
+    <event>
+      <id>5</id>
+      <description>when NAME volume changes</description>
+    </event>
+    <event>
+      <id>9</id>
+      <description>when NAME bass changes</description>
+    </event>
+    <event>
+      <id>10</id>
+      <description>when NAME treble changes</description>
+    </event>
+    <event>
+      <id>11</id>
+      <description>when NAME balance changes</description>
+    </event>
+    <event>
+      <id>12</id>
+      <description>when NAME loudness changes</description>
+    </event>
+    <event>
+      <id>100</id>
+      <description>when NAME audio parameter changes</description>
+    </event>
+    <event>
+      <id>13</id>
+      <description>when NAME mute changes</description>
+    </event>
+  </events>
+  <name>Plasma Television</name>
+  <small>devices_sm/plasma_on_16.gif</small>
+  <large>devices_lg/plasma_on.gif</large>
+  <control>tv</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>11</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>TV</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TV</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

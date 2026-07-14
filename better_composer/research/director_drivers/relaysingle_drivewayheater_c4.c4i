@@ -1,0 +1,96 @@
+<devicedata>
+  <c4id>495</c4id>
+  <version>3</version>
+  <manufacturer>Generic</manufacturer>
+  <creator>Control4</creator>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <created>1/20/2005 2:22:54 PM</created>
+  <modified>11/02/2005 12:30 PM</modified>
+  <model>Driveway Heater</model>
+  <capabilities>
+    <history_category>Comfort</history_category>
+    <history_subcategory>Driveway Heater</history_subcategory>
+  </capabilities>
+  <commands>
+    <command>
+      <id>0</id>
+      <description>Turn the NAME off</description>
+    </command>
+    <command>
+      <id>1</id>
+      <description>Turn the NAME on</description>
+    </command>
+    <command>
+      <id>2</id>
+      <description>Toggle the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>the NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>the NAME is on</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When the NAME is turned off</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When the NAME is turned on</description>
+    </event>
+  </events>
+  <name>Driveway Heater</name>
+  <small>devices_sm/relaysingle_drivewayheater_close.gif</small>
+  <large>devices_lg/relaysingle_drivewayheater_close.gif</large>
+  <control>control4_relaysingle</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Home</category>
+  </navigator_categories>
+  <proxy>relaysingle_drivewayheater_c4</proxy>
+  <driver>100004</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states>
+    <state>
+      <id>1</id>
+      <small>devices_sm\relaysingle_drivewayheater_open.gif</small>
+      <large>devices_lg\relaysingle_drivewayheater_open.gif</large>
+      <label>Turn the Driveway Heater off</label>
+    </state>
+    <state>
+      <id>2</id>
+      <small>devices_sm\relaysingle_drivewayheater_close.gif</small>
+      <large>devices_lg\relaysingle_drivewayheater_close.gif</large>
+      <label>Turn the Driveway Heater on</label>
+    </state>
+  </states>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Relay</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+	<pulse_type>0</pulse_type>
+	<pulse_length>500</pulse_length>
+  </config>
+</devicedata>

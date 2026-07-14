@@ -1,0 +1,77 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2006 Control4 Corporation.  All rights reserved.</copyright>
+  <config />
+  <name>Receiver-Tuner</name>
+  <small>devices_sm/receiver.gif</small>
+  <large>devices_lg/receiver.gif</large>
+  <control>av_gen</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxies>
+    <proxy>receiver</proxy>
+    <proxy>tuner</proxy>
+  </proxies>
+  <driver>100050</driver>
+  <states />
+  <connections>
+    <connection proxybindingid="5001">
+      <id>3002</id>
+      <type>6</type>
+      <connectionname>TUNER</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <idautobind>1</idautobind>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+          <autobind>True</autobind>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5002">
+      <id>4001</id>
+      <type>6</type>
+      <connectionname>TUNER Proxy Output To RECEIVER [REQUIRED]</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <idautobind>1</idautobind>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+          <autobind>True</autobind>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5002</id>
+      <type>2</type>
+      <connectionname>TUNER</connectionname>
+      <consumer>False</consumer>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TUNER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <type>2</type>
+      <connectionname>Receiver</connectionname>
+      <consumer>False</consumer>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RECEIVER</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <can_upclass>true</can_upclass>
+  </capabilities>
+</devicedata>

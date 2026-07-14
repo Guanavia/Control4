@@ -1,0 +1,246 @@
+<devicedata>
+    <c4id>496</c4id>
+    <copyright>Copyright 2004-2012 Control4 Corporation.  All rights reserved.</copyright>
+    <version>4</version>
+    <config></config>
+    <name>DSC Power 832 IT-100</name>
+    <small>devices_sm/dsc_16.gif</small>
+    <large>devices_lg/dsc_32.gif</large>
+    <control>securitysystem_232_dsc_powerit100</control>
+    <composer_categories>
+        <category>Security</category>
+    </composer_categories>
+    <proxy>security</proxy>
+    <driver>ID_DSC_232_POWERIT100</driver>
+    <states/>
+    <manufacturer>DSC</manufacturer>
+    <creator>Control4</creator>
+    <created>8/2/2005 12:30 PM</created>
+    <modified>10/10/12 10:34 AM</modified>
+    <model>Power 832 IT100</model>
+    <front>{Width=700, Height=336}\x158DVPX777-f.bmp</front>
+    <back>{Width=500, Height=250}\x158dvpx777-b.bmp</back>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+    <connections>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>Security Partition 1</connectionname>
+            <type>2</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>SECURITY</classname>
+                </class>
+            </classes>
+            <hidden>False</hidden>
+        </connection>
+        <connection>
+            <id>1</id>
+            <facing>6</facing>
+            <connectionname>Serial RS-232</connectionname>
+            <type>1</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>RS_232</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>7000</id>
+            <facing>6</facing>
+            <connectionname>Room Selection</connectionname>
+            <type>7</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <autobind>True</autobind>
+                    <classname>SECURITY_SYSTEM</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <capabilities>
+        <serialsettings>9600 8 none 1 none</serialsettings>
+        <can_poll_serial>False</can_poll_serial>
+        <power_control>False</power_control>
+        <power_delay>0</power_delay>
+        <power_macro>False</power_macro>
+        <has_alarm_cleared_event>False</has_alarm_cleared_event>
+        <button_list type = "xml">
+            <keypad>
+                <button>
+                    <id>1</id>
+                    <remote_id>NUMBER_1</remote_id>
+                    <button_text>1</button_text>
+                    <location>C1</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>2</id>
+                    <remote_id>NUMBER_2</remote_id>
+                    <button_text>2</button_text>
+                    <location>D1</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>3</id>
+                    <remote_id>NUMBER_3</remote_id>
+                    <button_text>3</button_text>
+                    <location>E1</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>4</id>
+                    <remote_id>NUMBER_4</remote_id>
+                    <button_text>4</button_text>
+                    <location>C2</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>5</id>
+                    <remote_id>NUMBER_5</remote_id>
+                    <button_text>5</button_text>
+                    <location>D2</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>6</id>
+                    <remote_id>NUMBER_6</remote_id>
+                    <button_text>6</button_text>
+                    <location>E2</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>7</id>
+                    <remote_id>NUMBER_7</remote_id>
+                    <button_text>7</button_text>
+                    <location>C3</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>8</id>
+                    <remote_id>NUMBER_8</remote_id>
+                    <button_text>8</button_text>
+                    <location>D3</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>9</id>
+                    <remote_id>NUMBER_9</remote_id>
+                    <button_text>9</button_text>
+                    <location>E3</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>0</id>
+                    <remote_id>NUMBER_0</remote_id>
+                    <button_text>0</button_text>
+                    <location>D4</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>55</id>
+                    <remote_id>STAR</remote_id>
+                    <button_text>*</button_text>
+                    <location>C4</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>56</id>
+                    <remote_id>POUND</remote_id>
+                    <button_text>#</button_text>
+                    <location>E4</location>
+                    <width></width>
+                </button>
+                <button>
+                    <id>21</id>
+                    <button_text>Away</button_text>
+                    <location>B1</location>
+                    <width>1</width>
+                </button>
+                <button>
+                    <id>22</id>
+                    <button_text>Stay</button_text>
+                    <location>A1</location>
+                    <width>1</width>
+                </button>
+                <button>
+                    <id>23</id>
+                    <button_text>Left Arrow</button_text>
+                    <location>A2</location>
+                    <width>1</width>
+                </button>
+                <button>
+                    <id>24</id>
+                    <button_text>Right Arrow</button_text>
+                    <location>B2</location>
+                    <width>1</width>
+                </button>
+                <button>
+                    <id>25</id>
+                    <button_text>Both Arrows</button_text>
+                    <location>A3</location>
+                    <width>2</width>
+                </button>
+            </keypad>
+            <other>
+                <button>
+                    <id>30</id>
+                    <button_text>Arm with No Entry</button_text>
+                </button>
+                <button>
+                    <id>31</id>
+                    <button_text>Fire Panic</button_text>
+                </button>
+                <button>
+                    <id>32</id>
+                    <button_text>Medical Panic</button_text>
+                </button>
+                <button>
+                    <id>33</id>
+                    <button_text>Police Panic</button_text>
+                </button>
+                <button>
+                    <id>35</id>
+                    <button_text>Chime</button_text>
+                </button>
+                <button>
+                    <id>36</id>
+                    <button_text>Reset</button_text>
+                </button>
+                <button>
+                    <id>37</id>
+                    <button_text>Exit</button_text>
+                </button>
+            </other>
+            <basic>
+                <button>
+                    <id>38</id>
+                    <button_text>Change Partition</button_text>
+                </button>
+                <button>
+                    <id>39</id>
+                    <button_text>Check Partition</button_text>
+                </button>
+            </basic>
+        </button_list>
+        <display_type type = "xml">
+            <location>A1</location>
+            <width>5</width>
+        </display_type>
+    </capabilities>
+</devicedata>

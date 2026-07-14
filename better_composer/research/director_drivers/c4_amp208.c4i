@@ -1,0 +1,1140 @@
+<devicedata>
+  <copyright>Copyright 2004-2018 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <manufacturer>Triad</manufacturer>
+  <name>Triad 8-Zone Power Amplifier</name>
+  <model>TS-PAMP8-100</model>
+  <created>3/09/2017 12:00 AM</created>
+  <modified>6/5/2018 01:25 PM</modified>
+  <version>14</version>
+  <small>devices_sm/ico-16-triad-g-8-4-b.png</small>
+  <large>devices_lg/ico-32-triad-g-8-4-b.png</large>
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+  <control>lua_gen</control>
+  <controlmethod/>
+  <driver>DriverWorks</driver>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="8-Zone Power Amplifier 100 WPC" small_image="devices_sm/ico-16-triad-g-8-4-b.png" large_image="devices_lg/ico-32-triad-g-8-4-b.png">amplifier</proxy>
+  </proxies>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <capabilities>
+    <can_upclass>False</can_upclass>
+    <can_downclass>False</can_downclass>
+    <can_switch>False</can_switch>
+    <has_discrete_volume_control>False</has_discrete_volume_control>
+    <has_up_down_volume_control>False</has_up_down_volume_control>
+    <has_discrete_bass_control>False</has_discrete_bass_control>
+    <has_up_down_bass_control>False</has_up_down_bass_control>
+    <has_discrete_treble_control>False</has_discrete_treble_control>
+    <has_up_down_treble_control>False</has_up_down_treble_control>
+    <has_discrete_balance_control>False</has_discrete_balance_control>
+    <has_up_down_balance_control>False</has_up_down_balance_control>
+    <has_discrete_loudness_control>False</has_discrete_loudness_control>
+    <has_toggle_loudness_control>False</has_toggle_loudness_control>
+    <has_discrete_mute_control>False</has_discrete_mute_control>
+    <has_toggle_mute_control>False</has_toggle_mute_control>
+    <video_consumer_count>0</video_consumer_count>
+    <video_provider_count>0</video_provider_count>
+    <audio_consumer_count>8</audio_consumer_count>
+    <audio_provider_count>8</audio_provider_count>
+    <has_audio_signal_sense>False</has_audio_signal_sense>
+    <has_video_signal_sense>False</has_video_signal_sense>
+    <has_discrete_input_select>False</has_discrete_input_select>
+    <has_toad_input_select>False</has_toad_input_select>
+  </capabilities>
+  <connections>
+    <!-- #################################################################### -->
+    <!--                             Analog Inputs                            -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>Global Audio Input Hidden</connectionname>
+      <hidden>True</hidden>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection> 
+    <connection>
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>Audio 1/ Global Input</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 2</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3003</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 3</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3004</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 4</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3005</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 5</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3006</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 6</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3007</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 7</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3008</id>
+      <facing>6</facing>
+      <connectionname>Audio Input 8</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                        PROXY BINDING                                 -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Amplifier</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AVSWITCH</classname>
+        </class>
+      </classes>
+    </connection>
+     <!-- #################################################################### -->
+    <!--                  POWER CONTROL BINDING                               -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>8000</id>
+      <type>1</type>
+      <connectionname>12 Volt Trigger In</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>200</id>
+      <type>1</type>
+      <connectionname>12 Volt Trigger Out</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                      SPEAKER BINDINGS                                -->
+    <!-- #################################################################### -->
+     <connection>
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 1</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4001</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 2</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4002</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 3</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4003</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 4</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4004</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 5</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4005</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 6</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4006</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 7</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4007</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 8</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                        ROOM BINDINGS                                 -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Zone 1 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7001</id>
+      <facing>6</facing>
+      <connectionname>Zone 2 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7002</id>
+      <facing>6</facing>
+      <connectionname>Zone 3 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7003</id>
+      <facing>6</facing>
+      <connectionname>Zone 4 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7004</id>
+      <facing>6</facing>
+      <connectionname>Zone 5 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7005</id>
+      <facing>6</facing>
+      <connectionname>Zone 6 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7006</id>
+      <facing>6</facing>
+      <connectionname>Zone 7 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7007</id>
+      <facing>6</facing>
+      <connectionname>Zone 8 Audio End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+    <events> 
+    </events>
+  <config>
+    <power_management_method>AlwaysOn</power_management_method>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_command_needed>False</power_command_needed>    
+    <navigator_categories>
+      <category>Home</category>
+    </navigator_categories>
+    <documentation>
+      ##################################################################################
+      Hardware setup
+      ##################################################################################
+      The Triad 8-Zone Power Amplifier Installation Guide contains all necessary hardware setup information.
+      For the installation guide, go to http://triadspkrs.co/8zamp-ig
+
+      ##################################################################################
+      Driver setup and properties
+      ##################################################################################
+      Driver Version
+      This field displays the current driver version number.
+
+      Zone Output/Linked Input Settings
+      This section identifies whether an amplifier output/zone is linked to a zone input or the global input.
+      By default, each amplifier output/zone is linked one-to-one with its respective zone input.  For example,
+      whatever is connected to Zone Input 2 will output on Zone Output 2.  However, each amplifier output can
+      be linked instead to Global In.  For more information, see the â€œGlobal In/Zone Input 1â€ section below.
+
+      Debug Mode
+      This section enables varying levels of logging for the Triad 8-Zone Power Amplifier.
+
+      ##################################################################################
+      Power Off Delay Timer
+      ##################################################################################
+      A power off delay timer exists which will keep the device on for the number of seconds set in the properties page,
+      after the device is told to turn off when using a relay for power control.  Use this setting if the end of
+      announcements or other media is getting cut off due to the amp getting turned off too soon.  This value is in seconds.
+
+      ##################################################################################
+      Bindings (Connections)
+      ##################################################################################
+      Using Composer, click on the connections tab in the left pane, then select the Triad 8-Zone Power Amplifier
+      driver in the project in which bindings will be set up.
+
+      1.  Bind the inputs of the 8-Zone Power Amplifier to the outputs of an Audio Matrix Switch (AMS), or other
+      device, which produces audio.
+      2.  If using the 12V trigger output of a Triad AMS to wake up the amplifier, bind the 12V Trigger In of the
+      8-Zone Power Amplifier to the 12V Trigger Out of the Triad AMS.  Also, ensure the physical Power Mode
+      switch on the 8-Zone Power Amplifier is in the 12V position.
+      3.  Bind the Audio End Point of rooms in the project to the Room End Points on the 8-Zone Power Amplifier.
+      4.  Bind the Audio Volume of rooms in the project to the Audio Volume control of the AMS, or other device,
+      which produces audio.  Note: If you do not bind the Audio Volume to the AMS or device producing the
+      audio you will not have volume control.
+
+      ##################################################################################
+      Using a Control4 Controller or I/O Extender Relay For Power Control
+      ##################################################################################
+      A relay from a Control4 controller or I/O extender can be used to power on the amplifier. The relay will close when
+      the amplifier needs to be turned on, and this will trigger the amplifier to power up.
+
+      1. Connect the signal wire (tip of the 3.5mm connector connected to the amplifier) to the NO of a relay block
+      on a Control4 controller or I/O extender.
+      2. Connect the ground (sleeve of the 3.5mm connector connected to the amplifier) to the GND of a contact block
+      of the controller or I/O extender.
+      3. Connect the +12V of a contact block to the COM of a relay block on the controller or I/O extender.
+
+      * Note : You must have the Power Mode switch set to 12V setting.
+      * Note : Do not bind or wire, multiple amplifiers to a single relay.  Doing this will cause both amplifiers to turn on
+      and off at the same time, regardless of what zones are in use.
+
+      For further information regarding using a Controller or I/O extender relay for power control, view this knowledgebase
+      article - ctrl4.co/12vtrigger
+
+      ##################################################################################
+      Audio 1/ Global Input
+      ##################################################################################
+      The Global Input connection on the Triad 4-Zone Power Amplifier is shared with Zone Input 1.  If the global
+      input needs to be linked to any amplifier output other than Zone Output 1, you must physically toggle the
+      â€œLink To Global Inputâ€ dipswitch for each amplifier output.  If you wish to have all amplifier outputs
+      connected to the global input, you can flip on (up position) the â€œAllâ€ dipswitch.  Once the dipswitch settings
+      have been completed, set each input that is assigned to the global input as â€œGlobal Inâ€ in the driver properties.
+      Otherwise leave the input set to the Zone Input.
+
+      Prior driver versions had a serperate Global Input.  This connection has been hidden (but still valid for existing
+      installs).  Rebind the prior device's binding to the Audio 1/ Global Input or remove and readd to driver if needed
+      to adjust prior bindings to the Global Input.
+
+    </documentation>
+    <actions>     
+    </actions>
+    <commands>
+    </commands>
+    <!--                    -->
+    <!-- Version (Driver)   -->
+    <!--                    -->
+    <properties>
+       <property>
+        <name>== Driver Version ==</name>
+        <type>STRING</type>
+        <default>========== Driver Version ==========</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Version</name>
+        <type>STRING</type>
+        <readonly>True</readonly>
+        <default>14</default>
+      </property>
+      <property>
+			<name>Power Off Delay Time (seconds)</name>
+			<type>RANGED_INTEGER</type>
+			<readonly>False</readonly>
+			<default>10</default>
+			<minimum>0</minimum>
+			<maximum>255</maximum>
+	  </property>
+      <!--
+	    Global versus one to one input to output
+	-->
+       <property>
+        <name>== Zone Output ==</name>
+        <type>STRING</type>
+        <default>====== Linked Input Settings ======</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Audio 1/ Global Input</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 2</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 3</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 4</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 5</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 6</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 7</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <property>
+        <name>Zone 8</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Zone Input</default>
+        <items>
+          <item>Zone Input</item>
+          <item>Global Input</item>
+        </items>
+      </property>
+      <!--
+	Debug
+	-->
+      <property>
+        <name>== Debug ==</name>
+        <type>STRING</type>
+        <default>========== Debug ==========</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>Off</default>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+      </property>
+    </properties>
+    <script>
+      <![CDATA[
+      
+
+--------------------------------------------------------------------------------------------------------
+-- Variables
+--------------------------------------------------------------------------------------------------------
+
+-- debugging flags
+gPermaDebug = false
+gLogVerbose = false
+g_debugprint = false
+g_debuglog = false
+
+-- Debug timer
+g_DebugTimer = 0
+
+-- Power settings
+g_useRelayForPowerStatus = false   -- When there is no contact binding we can assume that when the relay is closed the device is on.
+g_useRelayForPowerControl = false  
+g_relayDeviceID = nil
+
+-- Power Off Delay Setting
+g_powerOffDelayTimer = 0
+g_powerOffDelayTimerValueInSeconds = 0
+g_powerOffDelayTimerValuePropertyString = "Power Off Delay Time (seconds)"
+
+-- General Flags
+g_haveToldProxyWereHandlingValidity = false
+
+-- Prefix for the global audio properties
+g_globalAudioPropertyPrefix="Zone"
+g_globalAudioPropertyGlobal="Global Input"
+
+-- Binding ID's
+AVSWITCH_BINDING_ID=5001
+RELAY_BINDING_ID=8000
+
+-- Maps for command handlers
+AVSWITCH_PROXY_CMD_HANDLERS={}
+RELAY_PROXY_CMD_HANDLERS={}
+
+-- Array to know if outputs are active
+g_outputInUse={false, false, false, false}
+
+
+--------------------------------------------------------------------------------------------------------
+-- Logging Helpers
+--------------------------------------------------------------------------------------------------------
+function dbg(strDebugText)
+  if (g_debugprint) then 
+    newDebugText = "DBG: [" .. os.date("%x %X") .. "] :: " .. strDebugText
+    print(newDebugText) 
+  end
+  if (g_debuglog) then C4:DebugLog(strDebugText) end
+end
+
+function verbose(strDebugText)
+  if(gLogVerbose == false) then
+    return
+  end
+  
+  if (g_debugprint) then 
+    newDebugText = "DBG: [" .. os.date("%x %X") .. "] :: " .. strDebugText
+    print(newDebugText) 
+  end
+  if (g_debuglog) then C4:DebugLog(strDebugText) end
+end
+    
+function err(strErrText)
+  newErrorText = "ERR: [" .. os.date("%x %X") .. "] :: " .. strErrText
+  print(newErrorText) 
+  C4:ErrorLog(strErrText)
+end
+
+--------------------------------------------------------------------------------------------------------
+-- On Property Changed Handler
+--------------------------------------------------------------------------------------------------------
+
+function OnPropertyChanged(strProperty)
+  if (strProperty == "Debug Mode") then
+    if (Properties[strProperty] == "Off") then
+      g_debugprint = false
+      g_debuglog = false
+      cancelDebugTimer()
+    end
+    if (Properties[strProperty] == "Print") then
+      g_debugprint = true
+      g_debuglog = false
+      startDebugTimer() 
+    end
+    if (Properties[strProperty] == "Log") then
+      g_debugprint = false
+      g_debuglog = true
+      startDebugTimer() 
+    end
+    if (Properties[strProperty] == "Print and Log") then
+      g_debugprint = true
+      g_debuglog = true
+      startDebugTimer()
+    end
+    elseif (string.find(strProperty, g_globalAudioPropertyPrefix)) then
+      HandleGlobalAudioSetting(strProperty, Properties[strProperty])
+    elseif (strProperty == g_powerOffDelayTimerValuePropertyString) then
+      g_powerOffDelayTimerValueInSeconds = Properties[strProperty]
+    end
+end
+
+function HandleGlobalAudioSetting(strProperty, strValue)
+  dbg("Updating \"" .. strProperty .. "\" to be \"" .. strValue .. "\"" )
+  InvalidateBindingState()
+end
+
+--------------------------------------------------------------------------------------------------------
+-- timer functions
+--------------------------------------------------------------------------------------------------------
+
+function OnTimerExpired(idTimer)
+  if(gPermaDebug == true) then
+    if(idTimer == gDebugTimer) then
+      return
+    end
+  end
+  
+  if (idTimer == gDebugTimer) then
+    dbg('Turning Debug Mode back to Off [default] (timer expired)')
+    C4:UpdateProperty('Debug Mode', 'Off')
+    gDebugprint = false
+    gDebuglog = false
+    cancelDebugTimer()
+  elseif (idTimer == g_powerOffDelayTimer) then
+    power_off_device()
+  end
+end
+
+function startDebugTimer()
+  cancelDebugTimer()
+  g_DebugTimer = C4:AddTimer(15, "MINUTES")
+end
+    
+function cancelDebugTimer()
+  if (g_DebugTimer ~= 0) then
+    C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = 0
+end
+
+function startPowerOffTimer()
+  dbg("Starting Power Off Delay Timer.")
+  cancelPowerOffTimer()
+  g_powerOffDelayTimer = C4:AddTimer(g_powerOffDelayTimerValueInSeconds, "SECONDS")
+end
+
+function cancelPowerOffTimer()
+  if(g_powerOffDelayTimer ~= 0) then
+    C4:KillTimer(g_powerOffDelayTimer)
+    g_powerOffDelayTimer = 0
+  end
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Init and Update Functions
+--------------------------------------------------------------------------------------------------------
+
+function OnDriverInit()
+  verbose("OnDriverInit")
+  g_haveToldProxyWereHandlingValidity = false
+  C4:UpdateProperty("Version", 14)
+end
+
+function OnDriverLateInit()
+  verbose("OnDriverLate")
+  for k,v in pairs(Properties) do
+    OnPropertyChanged(k)
+  end
+  --TellProxyPowerOn() -- now that we have 12V trigger mode, we can't do this
+  if (g_haveToldProxyWereHandlingValidity == false) then
+    TellProxyWereInChargeOfInputOutputValidity()
+     g_haveToldProxyWereHandlingValidity = true
+  end
+
+end
+
+function OnDriverUpdate()
+  C4:UpdateProperty("Version", 14)
+  for k,v in pairs(Properties) do
+    OnPropertyChanged(k)
+  end
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Binding stuff
+--------------------------------------------------------------------------------------------------------
+function OnBindingChanged(BindingID, Class, IsBound)
+  verbose("Binding ID: " .. tostring(BindingID) .. " With type: " .. Class .. " is bound: " .. tostring(IsBound))
+  if (BindingID == RELAY_BINDING_ID) then
+    if(IsBound == true) then
+      g_relayDeviceID = C4:GetBoundProviderDevice(0, BindingID)
+      if(g_relayDeviceID == 0) then
+	      g_relayDeviceID = nil
+      end
+      g_useRelayForPowerControl = true
+      g_useRelayForPowerStatus = true
+    else
+      g_relayDeviceID = nil
+      g_useRelayForPowerControl = false
+      g_useRelayForPowerStatus = false
+    end
+  end
+end
+--------------------------------------------------------------------------------------------------------
+-- Proxy functions
+--------------------------------------------------------------------------------------------------------
+
+function ReceivedFromProxy(BindingID, Command, tParams)
+  verbose("ReceivedFromProxy: \"" .. Command .. "\"")
+  
+  if(BindingID == AVSWITCH_BINDING_ID) then
+    if (g_haveToldProxyWereHandlingValidity == false) then
+      TellProxyWereInChargeOfInputOutputValidity()
+    end
+    if (AVSWITCH_PROXY_CMD_HANDLERS[Command] ~= nil) and (type(AVSWITCH_PROXY_CMD_HANDLERS[Command])=='function') then
+      return AVSWITCH_PROXY_CMD_HANDLERS[Command] (tParams)
+    else
+      dbg(Command .. ' AVSwitch Command Handler not defined!')
+      return nil
+    end
+  elseif (BingingID == RELAY_BINDING_ID) then
+    if (RELAY_PROXY_CMD_HANDLERS[Command] ~= nil) and (type(RELAY_PROXY_CMD_HANDLERS[Command])=='function') then
+      return RELAY_PROXY_CMD_HANDLERS[Command] (tParams)
+    else
+      dbg(Command .. ' Power Control Relay Command Handler not defined!')
+      return nil
+    end
+  end
+end
+
+function InvalidateBindingState()
+  -- currently no way to do this progmatically
+end
+
+function TellProxyWereInChargeOfInputOutputValidity()
+  C4:SendToProxy(AVSWITCH_BINDING_ID, 'PROTOCOL_WILL_HANDLE_AV_VALID', {})
+  g_haveToldProxyWereHandlingValidity = true
+end
+
+function TellProxyPowerOn()
+  dbg("Reporting Device As On")
+  C4:SendToProxy(AVSWITCH_BINDING_ID, 'ON', {})
+end
+
+function TellProxyPowerOff()
+  dbg("Reporting Device As Off")
+  C4:SendToProxy(AVSWITCH_BINDING_ID, 'OFF', {})
+end
+
+function CloseRelay()
+  dbg("Closing Relay To Power ON!")
+  C4:SendToProxy(RELAY_BINDING_ID, "CLOSE", {}, 'COMMAND', false)
+end
+
+function OpenRelay()
+  dbg("Open Relay To Power OFF!")
+  C4:SendToProxy(RELAY_BINDING_ID, "OPEN", {}, 'COMMAND', false)
+end
+
+------------------------------------------------
+-- AVSwitch Proxy functions
+------------------------------------------------
+
+function AVSWITCH_PROXY_CMD_HANDLERS.IS_AV_OUTPUT_TO_INPUT_VALID(params)
+  local source            = (tonumber(params["Consumer_idBinding"]) - 3000) -- we are consuming the source, so the consumer binding is the source
+  local output            = (tonumber(params["Provider_idBinding"]) - 7000) -- we are providing the output, to the output is the provider binding
+    
+  -- First we need to check if the source binding is a global audio input binding (0)
+  if(source == 0 or source == 1) then
+     if(output == 0) then
+      verbose("global or input 1 always available for output 1")
+      return "True"
+    end
+    dbg("Received Global Input.  Checking If This Is Valid For Output: " .. tostring(output+1))
+    if(Properties[g_globalAudioPropertyPrefix .. " " .. tostring(output+1)] == g_globalAudioPropertyGlobal) then
+      verbose("Received From Proxy :: IS_AV_OUTPUT_TO_INPUT_VALID :: Source: (global input) Output: (" .. output .. ")   THIS IS VALID!!!!")
+      return "True"
+    else
+      verbose("Received From Proxy :: IS_AV_OUTPUT_TO_INPUT_VALID :: Source: (global input) Output: (" .. output .. ")   THIS IS INVALID!!!!")
+      return "False"
+    end
+  else -- else we need to check that the source is the same as the output to see if it's a one-to-one.  Add one to the output to account for the off by one introduced by the global input binding (0).
+      -- if the output is seet to the use global, the one-to-one is not hooked up
+      if(Properties[g_globalAudioPropertyPrefix .. " " .. tostring(output+1)] == g_globalAudioPropertyGlobal) then
+          verbose("global setting on output " .. tostring(output+1) .. " invalidates one-to-one input-output linkage")
+          return "False"
+      end
+      if(source == (output+1)) then
+        verbose("Received From Proxy :: IS_AV_OUTPUT_TO_INPUT_VALID :: Source: (" .. source .. ") Output: (" .. (output+1) .. ")   THIS IS VALID!!!!")
+        return "True"
+      else
+        verbose("Received From Proxy :: IS_AV_OUTPUT_TO_INPUT_VALID :: Source: (" .. source .. ") Output: (" .. (output+1) .. ")   THIS IS INVALID!!!!")
+        return "False"
+      end
+    end
+end
+
+
+function AVSWITCH_PROXY_CMD_HANDLERS.BINDING_CHANGE_ACTION(tParams)
+  --no implementation on purpose
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.SET_ROOM_BINDING_NAME(tParams)
+  --no implementation on purpose
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.ON(tParams)
+  dbg("Received From Proxy : On")
+  power_on_device()
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.OFF(tParams)
+  dbg("Received From Proxy : Off")
+  
+  if(any_outputs_are_in_use()) then
+    dbg("Outputs are still in use, not turning off.")
+    return
+  end
+  handle_power_off_request()
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.SET_INPUT(tParams)
+  --dbg("Got SET_INPUT from proxy but we don't switch.  Ignoring.")
+  verbose("Received From Proxy: SET_INPUT :: Zone(" .. tParams["OUTPUT"] ..  ") <==> Source(" .. tParams["INPUT"] .. ")") 
+  -- to get the one indexed output number, subtract the binding id (7000) then add 1 to get to the one index
+  local output = tonumber(tParams["OUTPUT"]) - 7000 + 1
+  dbg("Marking Output: " .. output .. " As In Use.")
+  g_outputInUse[output] = true
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.GET_AUDIO_PATH(tParams)
+  --dbg("Got GET_AUDIO_PATH from proxy but we don't switch.  Ignoring.")
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.CONNECT_OUTPUT(tParams)
+  --dbg("Got CONNECT_OUTPUT from proxy but we don't switch.  Ignoring.")
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.DISCONNECT_OUTPUT(tParams)
+  -- to get the one indexed output number, subtract the binding id (7000) then add 1 to get to the one index
+  local output = tonumber(tParams["OUTPUT"]) - 7000 + 1
+  dbg("Marking Output: " .. output .. " As NOT In Use.")
+  g_outputInUse[output] = false
+  if(no_outputs_are_in_use()) then
+    dbg("No Outputs In Use.  Turning Off.")
+    handle_power_off_request()
+  end
+end
+
+function AVSWITCH_PROXY_CMD_HANDLERS.GET_AUDIO_DEVICES(tParams)
+  -- no implementation on purpose
+end
+
+------------------------------------------------
+-- Relay Proxy functions
+------------------------------------------------
+function RELAY_PROXY_CMD_HANDLERS.STATE_CLOSED(tParams)
+  if(g_useContactForPowerStatus == false and g_useRelayForPowerStatus == true) then
+    TellProxyPowerOn()
+  end
+end
+
+function RELAY_PROXY_CMD_HANDLERS.STATE_OPENED(tParams)
+  if(g_useContactForPowerStatus == true and g_useRelayForPowerStatus == true) then
+    TellProxyPowerOff()
+  end
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Functions that do the real stuff
+--------------------------------------------------------------------------------------------------------
+function any_outputs_are_in_use()
+  for i=1,#g_outputInUse do
+    if(g_outputInUse[i]) then
+      dbg("Output " .. tostring(i) .. " is in use.")
+      return true
+    end
+  end
+  return false
+end
+
+function no_outputs_are_in_use()
+  if(any_outputs_are_in_use()) then
+    return false
+  else
+    return true
+  end
+end
+
+function handle_power_off_request()
+  if(g_powerOffDelayTimerValueInSeconds == 0) then
+    power_off_device()
+  else
+    startPowerOffTimer()
+  end
+end
+
+function power_on_device()
+  if(g_powerOffDelayTimer ~= 0) then
+    cancelPowerOffTimer()
+  end
+
+  if(g_useRelayForPowerControl) then
+    CloseRelay()
+    if(g_useRelayForPowerStatus == true and g_useContactForPowerStatus == false) then
+      TellProxyPowerOn()
+    end
+  end
+  
+  -- If we have no power feedback, just assume it is on or off based on the command to turn on and off
+  --  assuming that the device will power on and off using its audio sense tech.
+  if(g_useRelayForPowerStatus == false and g_useContactForPowerStatus == false) then
+    TellProxyPowerOn()
+  end
+end
+
+function power_off_device()
+  if(g_useRelayForPowerControl) then
+    OpenRelay()
+    if(g_useRelayForPowerStatus == true and g_useContactForPowerStatus == false) then
+      TellProxyPowerOff()
+    end
+  end
+  --  assuming that the device will power on and off using its audio sense tech.
+  if(g_useRelayForPowerStatus == false and g_useContactForPowerStatus == false) then
+    TellProxyPowerOff()
+  end
+end
+      ]]>
+    </script>
+  </config>
+</devicedata>

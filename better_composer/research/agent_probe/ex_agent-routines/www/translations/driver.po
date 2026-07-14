@@ -1,0 +1,7 @@
+msgid ""
+msgstr ""
+"File: \n"
+"Name: \n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+

@@ -1,0 +1,1106 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Enseo - SoHo</name>
+  <small>devices_sm/tv.gif</small>
+  <large>devices_lg/tv.gif</large>
+  <control>lua_gen</control>
+  <proxies>
+		<proxy name='Enseo' proxybindingid='5001'>tv</proxy>
+		<proxy name='Guest-Tek' proxybindingid='5002'>cable</proxy>
+		<proxy name='Watch TV' proxybindingid='5003'>cable</proxy>
+		<proxy name='Channel Guide' proxybindingid='5004'>cable</proxy>
+		<proxy name='Watch Movies' proxybindingid='5005'>cable</proxy>
+		<proxy name='JackPack VGA' proxybindingid='5006'>cable</proxy>
+		<proxy name='JackPack Composite' proxybindingid='5007'>cable</proxy>
+		<proxy name='JackPack HDMI' proxybindingid='5008'>cable</proxy>
+	</proxies>
+  <driver>DriverWorks</driver>
+  <manufacturer>Enseo</manufacturer>
+  <created>07/01/2009 12:00 PM</created>
+  <modified>01/29/2016 10:00 AM</modified>
+  <version>1</version>
+  <creator>Control4</creator>
+  <model>HD2000</model>
+  <capabilities>
+    <!-- 115200 baud, 8 bit, no parity, 1 stop bit, no flow control -->
+    <serialsettings>115200 8 none 1 none</serialsettings>
+    <has_audio>True</has_audio>
+    <has_channel_up_down>True</has_channel_up_down>
+    <has_discrete_channel_select>True</has_discrete_channel_select>
+    <has_discrete_input_select>True</has_discrete_input_select>
+    <has_toggle_mute_control>True</has_toggle_mute_control>
+    <has_discrete_volume_control>True</has_discrete_volume_control>
+    <has_discrete_mute_control>True</has_discrete_mute_control>
+    <has_up_down_volume_control>True</has_up_down_volume_control>
+    <can_be_dvr>False</can_be_dvr>
+    <can_upclass>True</can_upclass>
+    <video_consumer_count>2</video_consumer_count>
+  </capabilities>
+  <!-- Start Connections: Control = 0 VideoConsumer = 1000 VideoProvider = 2000 AudioConsumer = 3000 AudioProvider = 4000 Proxy = 5000 Network = 6000 Room = 7000 -->
+  <connections>
+    <!-- Control Connections -->
+    <connection>
+      <id>1</id>
+      <type>1</type>
+      <connectionname>Serial RS-232</connectionname>
+      <consumer>True</consumer>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- Room Connections -->
+    <connection>
+      <id>7000</id>
+      <type>7</type>
+      <connectionname>Room Control</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- Proxy Connections -->
+			
+		<connection>
+			<id>5001</id>
+			<type>2</type>
+			<connectionname>TV</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>TV</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5002</id>
+			<type>2</type>
+			<connectionname>Guest-Tek</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+				
+		<connection>
+			<id>5003</id>
+			<type>2</type>
+			<connectionname>WATCH TV</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5004</id>
+			<type>2</type>
+			<connectionname>GUIDE</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5005</id>
+			<type>2</type>
+			<connectionname>MOVIES</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5006</id>
+			<type>2</type>
+			<connectionname>AV VGA</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5007</id>
+			<type>2</type>
+			<connectionname>AV COMPOSITE</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection>
+			<id>5008</id>
+			<type>2</type>
+			<connectionname>AV HDMI</connectionname>
+			<consumer>False</consumer>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SATELLITE</classname>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5003'>
+			<id>1001</id>
+			<type>5</type>
+			<connectionname>Cable Input</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>RF_CABLE</classname>
+				</class>
+			</classes>
+		</connection>	
+		
+		<!-- AV Connetions -->
+    <connection proxybindingid="5001">
+      <!-- Video Input For HC200/HC300 -->
+      <id>1000</id>
+      <type>5</type>
+      <connectionname>Component Input</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPONENT</classname>
+        </class>
+      </classes>
+    </connection>
+    
+    <connection proxybindingid="5001">
+      <!-- Audio Input For HC200/HC300 -->
+      <id>3000</id>
+      <type>6</type>
+      <connectionname>Audio Input</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    
+    <!-- Virtual/Internal Inputs for each Proxy -->
+		
+		<connection proxybindingid='5001'>
+			<id>1002</id>
+			<type>5</type>
+			<connectionname>Guest-Tek INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>1</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1003</id>
+			<type>5</type>
+			<connectionname>WATCH TV INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>2</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1004</id>
+			<type>5</type>
+			<connectionname>CHANNEL GUIDE INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>3</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1005</id>
+			<type>5</type>
+			<connectionname>WATCH MOVIES INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>4</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1006</id>
+			<type>5</type>
+			<connectionname>AV VGA INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>5</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1007</id>
+			<type>5</type>
+			<connectionname>AV COMPOSITE INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>6</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5001'>
+			<id>1008</id>
+			<type>5</type>
+			<connectionname>AV HDMI INPUT</connectionname>
+			<consumer>True</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>7</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<!-- Virtual/Internal Outputs for each Proxy -->
+		
+		<connection proxybindingid='5002'>
+			<id>2002</id>
+			<type>5</type>
+			<connectionname>Guest-Tek OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>1</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5003'>
+			<id>2003</id>
+			<type>5</type>
+			<connectionname>WATCH TV OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>2</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5004'>
+			<id>2004</id>
+			<type>5</type>
+			<connectionname>CHANNEL GUIDE OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>3</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5005'>
+			<id>2005</id>
+			<type>5</type>
+			<connectionname>WATCH MOVIES OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>4</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5006'>
+			<id>2006</id>
+			<type>5</type>
+			<connectionname>AV VGA OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>5</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5007'>
+			<id>2007</id>
+			<type>5</type>
+			<connectionname>AV COMPOSITE OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>6</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+		<connection proxybindingid='5008'>
+			<id>2008</id>
+			<type>5</type>
+			<connectionname>AV HDMI OUTPUT</connectionname>
+			<consumer>False</consumer>
+			<linelevel>True</linelevel>
+			<idautobind>7</idautobind>
+			<hidden>True</hidden>
+			<classes>
+				<class>
+					<classname>HDMI</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		
+	</connections>
+  <commands />
+  <conditionals />
+  <events>
+    <event>
+      <id>1</id>
+      <name>Application Not Present</name>
+      <description>When the application is not present</description>
+    </event>
+    <event>
+      <id>2</id>
+      <name>Load Driver Complete - TV Off</name>
+      <description>When driver is loaded and TV is off</description>
+    </event>
+    <event>
+      <id>3</id>
+      <name>Load Driver Complete - TV On</name>
+      <description>When driver is loaded and TV is on</description>
+    </event>
+    %EVENTS%
+  </events>
+  <config>
+    <rfs>
+      <rf>rf_cable</rf>
+    </rfs>
+    <documentation></documentation>
+    <properties>
+      <property>
+        <name>Version</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Name</name>
+        <type>STRING</type>
+        <default>Enseo - SoHo</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Input Switch Status Response Delay</name>
+        <type>RANGED_INTEGER</type>
+        <default>3</default>
+        <minimum>1</minimum>
+        <maximum>100</maximum>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Power Off Status Response Delay</name>
+        <type>RANGED_INTEGER</type>
+        <default>10</default>
+        <minimum>1</minimum>
+        <maximum>100</maximum>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <script>
+      <![CDATA[
+			
+-- Driver Version
+function GetVersion()
+	local keywordString = "$Revision: 237627 $" -- this uses subversion keyword substitution
+	local _, _, revision = keywordString:find(": (.-) %$")
+	return revision
+end
+
+-- constants
+
+g_VarTrue = "1"
+g_VarFalse = "0"
+
+-- Global Variables
+g_debugTimer = 0
+g_serialTimer = 0
+g_statusResponseTimer = 0
+g_delayTimer = 0
+g_initTimer = 0
+g_receivedResponse = false
+g_lastSerialCommand = ""
+g_repeatingSerialCommand = nil
+g_debugPrint = false
+g_debugLog = false
+g_powerOn = false
+g_roomId = 0
+g_delay = false
+g_buffer = ""
+
+C4:AddVariable("EXTERNAL", "FALSE", "BOOL")
+
+InputCommands = 
+{
+	INPUT_1000 = "*APP C4_CC\r\n",
+	INPUT_1002 = "*APP SETFOCUS(ON)\r\n",
+	INPUT_1003 = "*APP TV\r\n",
+	INPUT_1004 = "*APP GUIDE\r\n",
+	INPUT_1005 = "*APP MOVIE\r\n",
+	INPUT_1006 = "*APP AV(VGA)\r\n",
+	INPUT_1007 = "*APP AV(COMPOSITE)\r\n",
+	INPUT_1008 = "*APP AV(DVI)\r\n",
+}
+
+SerialCommands = 
+{
+	ON = "*PON\r\n",
+	OFF = "*POFF\r\n",
+	QUERY_POWER = "*POWER?\r\n",
+	
+	PULSE_VOL_UP = "*VOLUP\r\n",
+	PULSE_VOL_DOWN = "*VOLDOWN\r\n",
+	QUERY_VOLUME = "*VOLUME\r\n",
+	
+	MUTE_ON = "*MUTEON\r\n",
+	MUTE_OFF = "*MUTEOFF\r\n",
+	MUTE = "*CKEY 0xF00B\r\n",
+	MUTE_TOGGLE = "*CKEY 0xF00B\r\n",
+	QUERY_MUTE = "*MUTE?\r\n",
+	
+	CLOSED_CAPTIONED = "*CKEY 0xF055\r\n",
+	
+	NUMBER_0 = "*DIGIT 0\r\n",  
+	NUMBER_1 = "*DIGIT 1\r\n",
+	NUMBER_2 = "*DIGIT 2\r\n",
+	NUMBER_3 = "*DIGIT 3\r\n",
+	NUMBER_4 = "*DIGIT 4\r\n",
+	NUMBER_5 = "*DIGIT 5\r\n",
+	NUMBER_6 = "*DIGIT 6\r\n",
+	NUMBER_7 = "*DIGIT 7\r\n",
+	NUMBER_8 = "*DIGIT 8\r\n",
+	NUMBER_9 = "*DIGIT 9\r\n",
+	
+	PULSE_CH_UP = "*CHUP\r\n",
+	PULSE_CH_DOWN = "*CHDOWN\r\n",
+	RECALL = "*CHALT\r\n",
+	
+	UP = "*NORTH\r\n",
+	DOWN = "*SOUTH\r\n",
+	LEFT = "*WEST\r\n",
+	RIGHT = "*EAST\r\n",
+	ENTER = "*SELECT\r\n",
+	
+	MENU = "*MENU\r\n",
+	CANCEL = "*CANCEL\r\n",
+	GUIDE = "*GUIDE\r\n",
+	
+	PLAY = "*PLAY\r\n",
+	STOP = "*STOP\r\n",
+	PAUSE = "*PAUSE\r\n",
+	SKIP_FWD = "*NEXT\r\n",
+	SKIP_REV = "*PREV\r\n",
+	SCAN_FWD = "*FFWD\r\n",
+	SCAN_REV = "*REWIND\r\n",
+	
+	RELOAD = "*CKEY 0xF088\r\n",
+}
+
+------------------------------- Destruction ----------------------------------------
+
+function OnDriverDestroyed()
+	Debug("OnDriverDestroyed called")
+		
+	-- Kill all timers
+	if (g_debugTimer) then
+		Debug("Stopping debug timer")
+		g_debugTimer = C4:KillTimer(g_debugTimer)
+	end
+	
+	if (g_serialTimer) then
+		Debug("Stopping serial timer")
+		g_serialTimer = C4:KillTimer(g_serialTimer)
+	end
+	
+	if (g_statusResponseTimer) then
+		Debug("Stopping response timer")
+		g_statusResponseTimer = C4:KillTimer(g_statusResponseTimer)
+	end
+
+  if g_delayTimer then
+
+   		Debug("Stopping delay timer")
+		g_delayTimer = C4:KillTimer(g_delayTimer)        
+  end
+  
+  if g_initTimer then
+  
+   	Debug("Stopping init timer")
+		g_initTimer = C4:KillTimer(g_initTimer)
+  end
+end
+
+------------------------------- Overrides/Events ----------------------------------------
+	 
+function OnPropertyChanged(strProperty)
+	if(strProperty == "Debug Mode") then
+		if(Properties[strProperty] == "Off") then
+			g_debugPrint = false
+			g_debugLog = false
+			g_debugTimer = 0
+		elseif(Properties[strProperty] == "Print") then
+			g_debugPrint = true
+			g_debugLog = false
+			StartDebugTimer()
+		elseif(Properties[strProperty] == "Log") then
+			g_debugPrint = false
+			g_debugLog = true
+			StartDebugTimer()
+		elseif(Properties[strProperty] == "Print and Log") then
+			g_debugPrint = true
+			g_debugLog = true
+			StartDebugTimer()
+		end
+	end
+end
+
+function OnTimerExpired(idTimer)
+
+	if(idTimer == g_debugTimer) then
+  
+		Debug("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+		g_debugTimer = C4:KillTimer(idTimer)
+	elseif(idTimer == g_serialTimer) then
+  
+		SendRepeatingSerial()
+	elseif(idTimer == g_statusResponseTimer) then
+  
+		CheckForStatusResponse()
+  elseif idTimer == g_initTimer then
+  
+    SendSerialCommand("QUERY_POWER")
+    g_initTimer = C4:KillTimer(idTimer)
+  elseif idTimer == g_delayTimer then
+
+    SetInput("1000")
+    g_delayTimer = C4:KillTimer(idTimer)
+    g_delay = false
+    Debug("Delay expired")
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	DebugCommand("ExecuteCommand", strCommand, tParams)
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+
+	DebugCommand("ReceivedFromProxy", strCommand, tParams)
+
+	if(strCommand == "SET_INPUT") then
+
+    if not g_delay then
+
+      SetInput(tParams["INPUT"])
+    else
+
+      StartDelayTimer(5)
+    end
+	elseif strCommand == "SET_VOLUME_LEVEL" then
+  
+		SetVolume(tParams["LEVEL"])
+	elseif strCommand == "SET_CHANNEL" then
+  
+		SetChannel(tParams["CHANNEL"], tParams["INPUT"])
+	elseif strCommand == "START_VOL_UP" then
+
+    if Variables["EXTERNAL"] == g_VarFalse then
+		
+      Debug("Start repeating volume up")
+      StartRepeatingSerialCommand("PULSE_VOL_UP")
+    end
+	elseif strCommand == "STOP_VOL_UP" then
+		
+    StopRepeatingSerialCommand()
+	elseif strCommand == "START_VOL_DOWN" then
+  
+    if Variables["EXTERNAL"] == g_VarFalse then
+    
+      Debug("Start repeating volume down")
+		  StartRepeatingSerialCommand("PULSE_VOL_DOWN")
+    end
+	elseif strCommand == "STOP_VOL_DOWN" then
+  
+		StopRepeatingSerialCommand()
+	elseif strCommand == "ON" then
+  
+		-- Only Send PON if we are off, otherwise if we have focus we lose it
+	  if g_powerOn then
+    
+		  Debug("Suppressing PON, device is already ON")
+	  else
+    
+      g_powerOn = true
+		  SendSerialCommand(strCommand)
+	  end
+	else
+  
+    FireEnseoEvent(strCommand)
+		SendSerialCommand(strCommand)
+	end
+end
+
+function ReceivedFromSerial(idBinding, strData)
+	Debug("Received from serial: " .. strData)
+
+	-- Initialize buffer to emptry string:
+	if(g_Buffer == nil) then
+		g_Buffer = ""
+	end
+
+	-- Add new data to end of buffer:
+	g_Buffer = g_Buffer .. strData
+
+	-- Search for a complete message: (Messages end with a linefeed.)
+	local messagePattern = "(.-)\n";
+	local i, j, message = g_Buffer:find(messagePattern)
+	
+	while (message ~= nil) do
+		-- Search for a valid command: (Commands start with a # and end with a carriage-return linefeed.)
+		local k, l, command = message:find("#(.-)\r") -- Note that we already removed the linefeed, so we don't need to search for it again.
+		if(command ~= nil) then
+			HandleIncomingData(command)
+		end
+		-- Remove the message from the buffer:
+		if(j == g_Buffer:len()) then
+			g_Buffer = ""
+		else
+			g_Buffer = g_Buffer:sub(j + 1)
+		end
+		-- Search again: (There may be multiple messages in this packet.)
+		i, j, message = g_Buffer:find(messagePattern)
+	end
+	-- If the buffer is too large, there is probably garbage on the line. Empty the buffer:
+	if(g_Buffer:len() > 200) then
+		g_Buffer = ""
+	end
+end
+
+function HandleIncomingData(strData)
+
+	Debug("Handling: " .. strData)
+
+	if(strData == "APP STATUS(NOPOWER,FOCUS)") then
+  
+		NotifyPowerChanged(false)
+		g_receivedStatusResponse = true
+	elseif(strData == "APP STATUS(POWER,FOCUS)") then
+  
+		NotifyPowerChanged(true)
+		g_receivedStatusResponse = true
+	elseif(strData == "APP STATUS(NOPOWER,NOFOCUS)") then
+  
+		NotifyPowerChanged(false)
+		g_receivedStatusResponse = true
+	elseif(strData == "APP STATUS(POWER,NOFOCUS)") then
+  
+		NotifyPowerChanged(true)
+		g_receivedStatusResponse = true
+  elseif strData == "PON" then
+  
+    NotifyPowerChanged(true)
+    C4:FireEvent("Load Driver Complete - TV On")
+    handled = true
+  elseif strData == "POFF" then
+  
+    NotifyPowerChanged(false)
+    C4:FireEvent("Load Driver Complete - TV Off")
+	elseif(strData == "APP MENUHOME") then
+  
+    C4:SendToDevice(C4:RoomGetId(), "CONTROL4", {})
+    SetInput("1000") -- Bernie (seaChange) and TS try to force focus for C4
+    Debug("Setting input to 1000 in response to MENUHOME")
+	elseif(strData == "APP MENUBACK") then
+  
+		C4:RoomSelectNav(C4:RoomGetId(), "SCREENSAVER_STOP")
+	elseif(strData == "APP IDLE") then
+            
+    g_delay = true
+		C4:RoomSelectNav(C4:RoomGetId(), "SCREENSAVER_START")
+   elseif strData == "APP INVALID" then
+   
+    C4:SendToDevice(C4:RoomGetId(), "CONTROL4", {})
+    C4:FireEvent("Application Not Present")
+	end
+end
+
+function OnVariableChanged(strName)
+
+  Debug("OnVariableChanged: Name = " .. strName)
+  if strName == "EXTERNAL" then
+  
+    Debug("OnVariableChanged: value = " .. Variables["EXTERNAL"])
+    if Variables["EXTERNAL"] == g_VarTrue then
+    
+      SetVolume("99")
+    else
+    
+      SetVolume("35")
+    end
+  end
+end
+
+------------------------------- Helpers ----------------------------------------
+function FireEnseoEvent(event)
+
+  
+		
+		
+end
+
+function SetInput(input)
+	data = InputCommands["INPUT_" .. input]
+
+	if data ~= nil then
+  
+		SendToSerial(data)
+		InputChanged(input)
+		delayInput = Properties["Input Switch Status Response Delay"]
+    if delayInput ~= nil then
+    
+      StartStatusResponseTimer(delayInput)
+    end
+	else
+  
+		Debug("Unknown input: " .. input)
+	end
+end
+
+function SetVolume(level)
+
+	data = "*VOLUME " .. level .. "\r\n"
+	SendToSerial(data)
+end
+
+function SetChannel(channel, input)
+	data = "*APP DIRECTUNE " .. channel .. "\r\n"
+	
+	SendToSerial(data)
+
+	NotifyChannelChanged(channel)
+	InputChanged(input)
+end
+
+function SendSerialCommand(command)
+	data = SerialCommands[command]
+
+	if data ~= nil then
+		SendToSerial(data)
+		
+		if command == "OFF" then
+    
+			StartStatusResponseTimer(Properties["Power Off Status Response Delay"])	
+		end
+	else
+  
+		Debug("Unknown serial command: " .. command)
+	end
+end
+
+function SendToSerial(serialData)
+
+	if serialData ~= nil then
+  
+		Debug("Sending serial: " .. serialData);
+		C4:SendToSerial(1, serialData)
+		g_lastSerialCommand = serialData
+	end
+end
+
+function StartRepeatingSerialCommand(command)
+
+	g_serialTimer = C4:AddTimer(300, "MILLISECONDS", true)
+	g_repeatingSerialCommand = command
+end
+
+function SendRepeatingSerial()
+
+	if g_repeatingSerialCommand ~= nil then
+  
+		SendSerialCommand(g_repeatingSerialCommand)
+    if g_repeatingSerialCommand == "PULSE_VOL_UP" then
+    
+      FireEnseoEvent("Volume Up")
+    end
+    if g_repeatingSerialCommand == "PULSE_VOL_DOWN" then
+    
+      FireEnseoEvent("Volume Down")
+    end
+	end
+end
+
+function StopRepeatingSerialCommand()
+
+	g_serialTimer = C4:KillTimer(g_serialTimer)
+	g_repeatingSerialCommand = nil
+end
+
+function StartStatusResponseTimer(seconds)
+
+	-- If we do this when the C4 button is pressed and the TV is off, we don't get a timely response back.
+	-- So I am not worrying about it unless the TV is already on
+	if g_powerOn and seconds ~= nil then
+  
+		g_statusResponseTimer = C4:AddTimer(seconds, "SECONDS", false)
+		g_receivedStatusResponse = false
+	end
+	
+end
+
+function CheckForStatusResponse()
+	
+	if g_receivedStatusResponse == false then
+		
+		if g_lastSerialCommand == InputCommands["INPUT_1000"] or g_lastSerialCommand == InputCommands["INPUT_3000"] then
+		
+			-- We tried to switch to C4, but SeaChange/Docomo doesn't want us to (i.e. on the Checkout Screen, etc.), so tell the room to go back to the previous device
+			Debug("Did not get a response to Control4 Input request, switching back to Enseo App")
+			C4:SendToDevice(C4:RoomGetId(), "RECALL", {})
+			
+		elseif g_lastSerialCommand == SerialCommands["OFF"] then
+		
+			-- We tried to turn off the TV and SeaChange/Docomo did not respond.  SeaChange wants us to tell enseo to reload the SeaChange app
+			Debug("Did not get a response to Power Off command, sending Enseo Reload command")
+			SendSerialCommand("RELOAD")	
+		end
+	end
+end
+
+function StartDelayTimer(delay)
+
+  Debug("Starting delay")
+	g_delayTimer = C4:AddTimer(delay, "SECONDS", true)
+end
+
+function StartInitTimer()
+
+  g_initTimer = C4:AddTimer(15, "SECONDS", true)
+end
+
+------------------------------- Notifications ----------------------------------
+
+function OnBindingChanged(idBinding, strClass, bIsBound)
+	-- Set initial state of the proxies when they get bound
+
+	if idBinding == 5001 and bIsBound then
+  
+		if g_powerOn then
+    
+			C4:SendToProxy(5001, "ON", { INITIALIZING = "True" })
+		else
+    
+			C4:SendToProxy(5001, "OFF", { INITIALIZING = "True" })
+		end
+	end
+  
+  if idBinding == 1 and bIsBound then
+  
+    StartInitTimer()
+  end
+end
+
+function NotifyPowerChanged(powerOn)
+
+	if g_powerOn ~= powerOn then
+
+		g_powerOn = powerOn -- in the case where we are notified
+  end
+
+	if g_powerOn then
+  
+		Debug("Power On")
+    FireEnseoEvent("Power On")
+		C4:SendToProxy(5001, "ON", { INITIALIZING = "False" })
+	else
+  
+		Debug("Power Off")
+    FireEnseoEvent("Power Off")
+		C4:SendToProxy(5001, "OFF", { INITIALIZING = "False" })
+	end
+end
+
+function NotifyChannelChanged(channel)
+
+	Debug("Channel Changed: " .. channel)
+	C4:SendToProxy(5001, "CHANNEL_CHANGED", { CHANNEL = channel, CHANNEL_STRING = channel })	
+end
+
+function InputChanged(input)
+
+	Debug("Input Changed: " .. input)
+	C4:SendToProxy(5001, "INPUT_CHANGED", { INPUT = input })
+  FireEnseoEvent(input)
+end
+
+------------------------------- Debuging --------------------------------------------
+
+function StartDebugTimer()
+
+	if g_debugTimer then
+  
+		g_debugTimer = C4:KillTimer(g_debugTimer)
+	end
+  
+	g_debugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+function Debug(text)
+
+	if g_debugPrint then 
+  
+    print(text)
+  end
+	if g_debugLog then 
+  
+    C4:ErrorLog(text) 
+  end
+end
+
+function DebugCommand(method, command, tParams)
+
+	if g_debugPrint or m_debuglog then
+  
+    text = method .. ": " .. command
+    if tParams ~= nil then
+
+      for param, value in pairs(tParams) do
+      
+        text = text .. ", " .. param .. "=" .. value
+      end
+    end
+    Debug(text)	
+  end
+end
+
+------------------------------- Initialization --------------------------------------
+
+-- Fire On Property Changed to set the initial Property values
+for property, value in pairs(Properties) do
+
+	OnPropertyChanged(property)
+end
+
+-- Update the Version property
+C4:UpdateProperty("Version", GetVersion())
+
+
+			]]></script>
+  </config>
+</devicedata>

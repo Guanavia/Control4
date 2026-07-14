@@ -1,0 +1,1059 @@
+# 
+# Translators:
+# Zab Operations <operations@zabtranslation.com>, 2024
+# Wayne Hsu <whsu@control4.com>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Chinese (Taiwan) (https://app.transifex.com/control4/teams/15374/zh_TW/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: zh_TW\n"
+"Name: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName}來源"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "動作延遲（秒）"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "動作"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "空氣保護裝置"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "空氣保護套路"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "警報清除"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "警報監視器"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "警報監控例程"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "警報觸發"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr "如果指定的門窗打開且指定的恆溫器正在主動加熱或冷卻，則在指定時間後發出警報。"
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr "如果感測器跳閘超過指定時間，則發出警報。"
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "音訊/視訊"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "自動"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "每當燈打開時自動關閉燈。"
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr "當所選門站響起時，自動閃爍所選燈"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr "在指定時間之間自動關閉觸控螢幕背光"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr "當所選相機偵測到運動時，在所選時間內自動開啟所選燈"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr "在所選燈打開/關閉後自動打開/關閉風扇指定時間"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "自動化"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "蝴蝶"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "釦"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "按下按鈕"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "按下呼叫按鈕 2"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "按下呼叫按鈕 3"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "按下呼叫按鈕 4"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "按下呼叫按鈕 5"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "按下呼叫按鈕 6"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "按下通話按鈕"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "取消此活動"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "核取方塊"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "控制燈"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "控制燈光或選擇場景"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr "控制日落和日出前後的燈光開啟和關閉。"
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "受控風扇"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "受控燈"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "受控鎖"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "受控恆溫器"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "冷氣"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "暗室"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "暗室例行公事"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "日期"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "日期/時間"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "示範常式的 UI 功能"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "不選擇預設"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "不選擇場景"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "門指示燈"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "門指示器例程"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "鴨"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "EBMS預設"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "EBMS例行公事"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "緊急觸發"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "空白"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "結束時間"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "英文：變數檢查： {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "錯誤：沒有可用的內容，請先播放一些內容"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "錯誤：未選取任何內容"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "事件"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "活動 {index} - 已完成"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "事件 {index} - 已完成 （已修改）"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "事件{index}範例"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "例行公事"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "範例區段 （完整清單）"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "範例/示範例程"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "風扇定時器"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "風扇定時器例程"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "風扇關閉"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "粉絲開啟"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "風扇將關閉"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "粉絲會開啟"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "星期五"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "產生 5 個事件"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "產生事件"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "地理圍欄"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "地理圍欄例程"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "暖氣"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "圖示"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "圖標圖片來源"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "事件索引"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "翡"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "燈自動關閉"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "燈自動關閉例程"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "燈光"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "燈光場景"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "燈光"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "燈光進入動作"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "燈光退出動作"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "控制燈光"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "要打開的燈"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "燈閃爍 - 按下 {deviceName} 按鈕"
+
+#: driver.lua:75
+msgid "List"
+msgstr "列表"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "MDM 預設集"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "最大亮度"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "最大亮度降低"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "恢復了最大亮度"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "將恢復最大亮度"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "最大亮度會降低"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "修改事件"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "修改時間軸中的事件"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "修改事件 {index} - 成功： {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "星期一"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "受監控的攝影機"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "受監控的門禁站"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "受監控的門窗"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "受監控的光"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "受監控的安全感測器"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "受監控的安全分割區"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "受監控的感測器"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "受監控的恆溫器"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "移動"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "運動偵測"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "運動燈"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "運動燈例程"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "永不"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "夜燈"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "夜燈套路"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "沒有動作"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "不變"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "通知延遲 （分鐘）"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "通知延遲 （秒）"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "通知文字"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "數"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "關閉"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "開啟"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr "如果觸發高溫、煙霧或一氧化碳警報，請執行建議的安全措施。"
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "已發送推送通知"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "降低夜間燈光的預設亮度。"
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "移除事件"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "刪除時間軸中的事件"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "移除事件 {index} - 成功： {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "房間選擇器"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "立即執行動作"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "立即執行結束時間"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "立即執行"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "立即執行開始時間"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "立即舉辦此活動"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "立即關閉"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "立即執行開啟"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "安全警報"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "安全警報程序"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "星期六"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "排程"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "排程音訊"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "排程音訊常式"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "排程事件已執行"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "預定活動將運行"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "選取排程上任何房間的音訊來源"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr "選取任何房間中的音訊來源，並選擇選擇照明場景、EBMS 預設和/或 MDM 預設"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "選擇場景"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "所選場景"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "選定的燈將關閉"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "選定的燈將亮起"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "所選場景將關閉"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "所選場景將開啟"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr "如果安全分區或安全傳感器發出警報，請發送推送通知。"
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "感測器監視器"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "感測器監視器常式"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "設定事件"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "在時間軸中設定事件"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "設定時間"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "設定事件 {index} - 成功： {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "設定過去的事件 {index} - 成功： {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "設置"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "顯示為不完整"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "顯示翻譯部分"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "顯示/隱藏元素"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "滑桿"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "開始時間"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "星期天"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "日出"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "日落"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "開關"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "主機"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "測試：通話按鈕事件"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "測試：進入地理圍欄活動"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "測試：已結束地理圍欄事件"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "測試：運動偵測到事件"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "測試：執行安全動作"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "測試：安全感測器發送通知"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "測試：安全系統發送通知"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "測試：傳送通知"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "測試：切換所選燈源"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "簡訊"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "文字欄位 Alpha"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "文字欄位英數字元"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "文字欄位正常"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "文字欄位編號"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "文字欄位數值"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "文字欄位密碼"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "恆溫器進入動作"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "恆溫器退出動作"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "恆溫器控制"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "星期四"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "時間"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "定時燈"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "定時燈光例程"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "時間軸資訊"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "時間軸互動"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "計時器（分鐘）"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "切換"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "5 秒後返回"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "切換核取方塊"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "觸控螢幕"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "觸控螢幕變亮"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "觸控螢幕變暗"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "觸摸屏會變亮"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "觸控螢幕會變暗"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "翻譯"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "翻譯開關"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "星期二"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "關閉時間"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "時間關閉"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "關燈延遲（分鐘）"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "日出後幾分鐘關閉"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "關閉超支計時器（分鐘）"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "關閉房間"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "日出時關閉"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "開啟時間"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "按時開啟"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "開啟延遲計時器（分鐘）"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "日落後幾分鐘開啟"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "在日落時開啟"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "網址"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "未知相機"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "未知門站"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "未知的 EBMS 預設"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "未知粉絲"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "未知之光"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "未知鎖"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "未知的 MDM 預設集"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "未知安全傳感器"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "未知場景"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "未知安全分割區"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "未知傳感器"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "未知恆溫器"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "未知觸控螢幕"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "圖示的網址"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr "使用地理圍欄代理程式在進入或離開地理圍欄時觸發常式。"
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "星期三"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "事件標籤"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "關閉"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "開啟"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "觸發{deviceCount} - 安全動作執行"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} 觸發 - 這將執行安全動作"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr "{deviceName} 偵測到運動，燈會在逾時後返回先前的狀態"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} 偵測到運動，燈就會亮起"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr "{deviceName} 偵測到運動，燈會在逾時後返回先前的狀態"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} 進入地理圍欄 {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} 已結束的地理柵欄 {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} 觸發的推播通知"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} 已關閉"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} 將觸發推送通知"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} 將關閉"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} 跑了"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} 將運行"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr "{openWindowsCount} 已開啟且 {hvacZonesOnCount} 已開啟 - 這將觸發推播通知"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} 內容"

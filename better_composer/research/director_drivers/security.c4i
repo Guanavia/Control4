@@ -1,0 +1,38 @@
+<devicedata>
+  <version>3</version>
+	<copyright>Copyright 2004-2013 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>6/17/2005</created>
+	<modified>11/15/2013</modified>
+	<name>Security System</name>
+	  <small>devices_sm/Security_16.gif</small>
+	  <large>devices_lg/Security_32.gif</large>
+	<commands/>
+	<conditionals/>
+	<events/>
+	<control>security</control>
+	<composer_categories>
+		<category>Security</category>
+	</composer_categories>
+	<proxy/>
+	<driver>25</driver>
+	<states/>
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>SECURITY</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>SECURITY</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+	<config/>
+</devicedata>

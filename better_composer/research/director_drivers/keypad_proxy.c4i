@@ -1,0 +1,163 @@
+<devicedata>
+  <version>2</version>
+  <copyright>Copyright 2004-2012 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/18/2012</created>
+  <modified>5/18/2012</modified>
+  <commands>
+    <command>
+      <id>0</id>
+      <name>KEYPAD_ALL_BUTTON_COLOR</name>
+      <description>Set all LEDs on the NAME to COLOR</description>
+    </command>
+    <command>
+      <id>1</id>
+      <name>KEYPAD_BUTTON_ON_COLOR</name>
+      <description>Set BTN_ID LED on the NAME to COLOR when on</description>
+    </command>
+    <command>
+      <id>2</id>
+      <name>KEYPAD_BUTTON_OFF_COLOR</name>
+      <description>Set BTN_ID LED on the NAME to COLOR when off</description>
+    </command>
+    <command>
+      <id>3</id>
+      <name>KEYPAD_BUTTON_CURR_COLOR</name>
+      <description>Set BTN_ID LED on the NAME to COLOR</description>
+    </command>
+    <command>
+      <id>4</id>
+      <name>PUSH_BUTTON</name>
+      <description>Press the BTN_ID button on the NAME</description>
+    </command>
+    <command>
+      <id>5</id>
+      <name>RELEASE_BUTTON</name>
+      <description>Release the BTN_ID button on the NAME</description>
+    </command>
+    <command>
+      <id>6</id>
+      <name>CLICK_BUTTON</name>
+      <description>Click the BTN_ID button on the NAME</description>
+    </command>
+    <command>
+      <id>7</id>
+      <name>DOUBLE_CLICK_BUTTON</name>
+      <description>Double click the BTN_ID button on the NAME</description>
+    </command>
+    <command>
+      <id>8</id>
+      <name>TRIPLE_CLICK_BUTTON</name>
+      <description>Triple click the BTN_ID button on the NAME</description>
+    </command>
+    <command>
+      <id>9</id>
+      <name>KEYPAD_BUTTON_CURR_COLOR_CLEAR</name>
+      <description>Clear BTN_ID LED on the NAME</description>
+    </command>
+    <command>
+      <id>10</id>
+      <name>KEYPAD_ALL_BUTTON_COLOR_CLEAR</name>
+      <description>Clear all LEDs on the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <name>BUTTON_PRESSED</name>
+      <description>NAME BTN_ID is pressed</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <name>BUTTON_RELEASED</name>
+      <description>NAME BTN_ID is released</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <name>BUTTON_COLOR</name>
+	  <description>NAME BTN_ID color equals COLOR</description>
+    </conditional>
+    <conditional>
+      <id>3</id>
+      <name>BUTTON_NOT_COLOR</name>
+	  <description>NAME BTN_ID color doesn't equal COLOR</description>
+    </conditional>
+    <conditional>
+      <id>4</id>
+      <name>BUTTON_USING_ON_COLOR</name>
+	  <description>NAME BTN_ID is using it's ON color</description>
+    </conditional>
+    <conditional>
+      <id>5</id>
+      <name>BUTTON_USING_OFF_COLOR</name>
+	  <description>NAME BTN_ID is using it's OFF color</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>0</id>
+	  <name>RELEASE</name>
+      <description>When NAME BTN_ID button is released</description>
+    </event>
+    <event>
+      <id>1</id>
+	  <name>PUSH</name>
+      <description>When NAME BTN_ID button is pushed</description>
+    </event>
+    <event>
+      <id>2</id>
+	  <name>SINGLE_CLICK</name>
+      <description>When NAME BTN_ID button is single tapped</description>
+    </event>
+    <event>
+      <id>3</id>
+	  <name>DOUBLE_CLICK</name>
+      <description>When NAME BTN_ID button is double tapped</description>
+    </event>
+    <event>
+      <id>4</id>
+	  <name>TRIPLE_CLICK</name>
+      <description>When NAME BTN_ID button is triple tapped</description>
+    </event>
+  </events>
+  <name>Keypad</name>
+  <small>devices_sm/ThreeButtonKeypad.GIF</small>
+  <large>devices_lg/ThreeButtonKeypad.GIF</large>
+  <control>keypad_proxy</control>
+  <composer_categories>
+    <category>User Interface</category>
+  </composer_categories>
+  <proxy/>
+  <driver>98318668-449a-48fd-8b1d-837e5632200d</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Keypad</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <classes>
+        <class>
+          <classname>KEYPAD</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>
+
+<!-- these are the various capabilties that keypads can have that will be recognized by the proxy
+	-has_leds
+	-leds_have_color
+	-push_release_support
+	-click_support
+	-multi_click_support
+	-rows
+	-colums (optional if using rows)
+	-hide_proxy_properties
+	-hide_proxy_commands
+	-hide_proxy_conditionals
+	-custom_finishes
+	-button_behavior
+	-led_behavior
+-->

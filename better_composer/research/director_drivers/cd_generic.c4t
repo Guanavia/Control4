@@ -1,0 +1,42 @@
+<devicedata>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <name>CD Player</name>
+  <small>devices_sm/cd.gif</small>
+  <large>devices_lg/cd.gif</large>
+  <control>av_gen</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>cd</proxy>
+  <driver>100050</driver>
+  <states />
+  <capabilities />
+  <manufacturer>Generic</manufacturer>
+  <version>1</version>
+  <creator>Control4</creator>
+  <model>CD</model>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <config />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>CD</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CD</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

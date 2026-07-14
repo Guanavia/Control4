@@ -1,0 +1,193 @@
+<devicedata>
+  <version>2</version>
+  <copyright>Copyright 2004-2010 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>12/15/2010 12:30 PM</modified>
+  <commands>
+    <command>
+      <name>ON</name>
+      <description>Turn On the NAME</description>
+    </command>
+    <command>
+      <name>OFF</name>
+      <description>Turn Off the NAME</description>
+    </command>
+    <command>
+      <name>PLAY</name>
+      <description>Start Playing the NAME</description>
+    </command>
+    <command>
+      <name>STOP</name>
+      <description>Stop the NAME</description>
+    </command>
+    <command>
+      <name>PAUSE</name>
+      <description>Pause the NAME</description>
+    </command>
+    <command>
+      <name>SKIP_FWD</name>
+      <description>Skip forward the NAME</description>
+    </command>
+    <command>
+      <name>SKIP_REV</name>
+      <description>Skip reverse the NAME</description>
+    </command>
+    <command>
+      <name>SCAN_FWD</name>
+      <description>Scan forward the NAME</description>
+    </command>
+    <command>
+      <name>SCAN_REV</name>
+      <description>Scan reverse the NAME</description>
+    </command>
+    <command>
+      <name>OPEN_CLOSE</name>
+      <description>Open/Close the NAME</description>
+    </command>
+    <command>
+      <name>MENU</name>
+      <description>Go to the NAME menu</description>
+    </command>
+    <command>
+      <name>UP</name>
+      <description>Push up on the NAME</description>
+    </command>
+    <command>
+      <name>DOWN</name>
+      <description>Push down on the NAME</description>
+    </command>
+    <command>
+      <name>LEFT</name>
+      <description>Push left on the NAME</description>
+    </command>
+    <command>
+      <name>RIGHT</name>
+      <description>Push right on the NAME</description>
+    </command>
+    <command>
+      <name>ENTER</name>
+      <description>Push enter on the NAME</description>
+    </command>
+    <command>
+      <name>GO_TO_TRACK</name>
+      <description>Go to the NAME Chapter INTEGER</description>
+    </command>
+    <command>
+      <name>NUMBER_0</name>
+      <description>Enter '0' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_1</name>
+      <description>Enter '1' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_2</name>
+      <description>Enter '2' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_3</name>
+      <description>Enter '3' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_4</name>
+      <description>Enter '4' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_5</name>
+      <description>Enter '5' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_6</name>
+      <description>Enter '6' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_7</name>
+      <description>Enter '7' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_8</name>
+      <description>Enter '8' on the NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_9</name>
+      <description>Enter '9' on the NAME</description>
+    </command>
+    <command>
+      <name>STAR</name>
+      <description>Enter '*' on the NAME</description>
+    </command>
+    <command>
+      <name>POUND</name>
+      <description>Enter '#' on the NAME</description>
+    </command>
+    <command>
+      <name>DASH</name>
+      <description>Enter '-' on the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <name>IS_ON</name>
+      <description>the NAME is On</description>
+    </conditional>
+    <conditional>
+      <name>IS_OFF</name>
+      <description>the NAME is Off</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME turns On</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME turns Off</description>
+    </event>
+    <event>
+      <id>3</id>
+      <description>When NAME plays</description>
+    </event>
+    <event>
+      <id>4</id>
+      <description>When NAME stops</description>
+    </event>
+    <event>
+      <id>5</id>
+      <description>When NAME pauses</description>
+    </event>
+    <event>
+      <id>7</id>
+      <description>When NAME chapter changes</description>
+    </event>
+  </events>
+  <name>DVD</name>
+  <small>devices_sm/dvd.gif</small>
+  <large>devices_lg/dvd.gif</large>
+  <control>dvd</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>14</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>DVD</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>DVD</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

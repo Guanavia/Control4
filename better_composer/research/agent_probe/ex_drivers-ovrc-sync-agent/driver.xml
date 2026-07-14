@@ -1,0 +1,89 @@
+<devicedata>
+	<copyright>Copyright 2025 Snap One, LLC. All Rights Reserved.</copyright>
+	<creator>Control4</creator>
+	<manufacturer>Control4</manufacturer>
+	<name>OvrC Sync Agent</name>
+	<model>OvrC Sync</model>
+	<search_type>c4:search-type</search_type>
+	<created>04/01/2024 12:00 PM</created>
+	<modified>04/30/2025 01:01 PM</modified>
+	<version>102501</version>
+	<small>devices_sm\c4.gif</small>
+	<large>devices_lg\c4.gif</large>
+	<control>lua_gen</control>
+	<controlmethod>other</controlmethod>
+	<driver>DriverWorks</driver>
+	<auto_update>true</auto_update>
+	<force_auto_update>true</force_auto_update>
+	<OnlineCategory>others</OnlineCategory>
+	<minimum_auto_update_version>1</minimum_auto_update_version>
+	<minimum_os_version>3.3.0</minimum_os_version>
+	<combo>true</combo>
+	<proxies qty="1">
+		<proxy name="OvrC Sync Agent">drivers-ovrc-sync-agent</proxy>
+	</proxies>
+	<agent>true</agent>
+	<capabilities />
+	<connections />
+	<dependencies />
+	<conditionals />
+	<events />
+	<config>
+		<script encryption="2" file="driver.lua" jit="1" />
+		<documentation>OvrC Sync Agent
+		
+The agent is used to synchronize changes that have occurred in the C4 system to update the OvrC environment. The agent will be automatically installed will while bootstrapping the project in OvrC. If installed from Composer, the agent will not work. Currently, only RYFF projects are supported.</documentation>
+		<commands />
+		<properties>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<type>LABEL</type>
+				<name>LABEL_General_Information</name>
+				<default>General Information</default>
+			</property>
+			<property>
+				<name>Device ID</name>
+				<type>STRING</type>
+				<readonly>true</readonly>
+				<default>--</default>
+			</property>
+			<property>
+				<name>Agent Version</name>
+				<type>STRING</type>
+				<readonly>true</readonly>
+				<default>--</default>
+			</property>
+			<property>
+				<name>Sync status</name>
+				<type>STRING</type>
+				<readonly>true</readonly>
+				<default>--</default>
+			</property>
+			<property>
+				<name>Last Sync Error</name>
+				<type>STRING</type>
+				<readonly>true</readonly>
+				<default>--</default>
+			</property>
+		</properties>
+		<actions>
+			<action>
+				<name>Send Project Snapshot</name>
+				<command>SnapshotProject</command>
+			</action>
+		</actions>
+	</config>
+	<composer_categories />
+	<keywords>OvrC,Lua_Agent,sync,OvrC sync Agent</keywords>
+</devicedata>

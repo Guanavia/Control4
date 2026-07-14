@@ -1,0 +1,35 @@
+<devicedata>
+  <version>3</version>
+  <copyright>Copyright 2012 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>7/30/2012 12:30 PM</created>
+  <modified>3/12/2013 10:45 PM</modified>
+  <name>Media Service</name>
+  <small>devices_sm/ico_16_mediaservices.png</small>
+  <large>devices_lg/ico_32_mediaservices.png</large>
+  <control>media_service</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>100029</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Media Service</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>MediaService</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

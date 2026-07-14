@@ -1,0 +1,115 @@
+<devicedata>
+  <copyright>Copyright 2009 Card Access, Inc.  All rights reserved.</copyright>
+  <config />
+  <name>Card Access Wireless Motion Sensor</name>
+  <small>devices_sm/contactsingle_motionsensor_close.gif</small>
+  <large>devices_lg/contactsingle_motionsensor_close.gif</large>
+  <control>cardaccess_wirelesscontact</control>
+  <composer_categories>
+    <category>Sensors</category>
+  </composer_categories>
+  <proxy>contactsingle_motionsensor</proxy>
+  <driver>WirelessContact</driver>
+  <states />
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+    <can_poll_serial>True</can_poll_serial>
+    <is_pir>True</is_pir>
+  </capabilities>
+  <manufacturer>Card Access</manufacturer>
+  <version>2</version>
+  <creator>Card Access</creator>
+  <created>7/20/2006 12:30 PM</created>
+  <modified>2/10/2009 12:30 PM</modified>
+  <model>WMS10</model>
+  <search_types>
+    <type>c4:cardaccess_inhome:WMS10</type>
+    <type>c4:cardaccess_inhome:WMS10-2</type>
+  </search_types>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <commands />
+  <conditionals />
+  <events />
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Contact Sensor</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>6</facing>
+      <connectionname>Night Mode Contact</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>100</id>
+      <facing>6</facing>
+      <connectionname>Sensor Cascade In</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>101</id>
+      <facing>6</facing>
+      <connectionname>Sensor Cascade Out</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6002</id>
+      <facing>6</facing>
+      <connectionname>Zigbee Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

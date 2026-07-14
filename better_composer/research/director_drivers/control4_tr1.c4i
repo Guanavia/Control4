@@ -1,0 +1,748 @@
+<devicedata>
+  <version>33</version>
+  <copyright>Copyright 2023 Snap One, LLC.  All rights reserved.</copyright>
+  <created>1/12/2017 12:30 PM</created>
+  <modified>06/21/2021 10:00 AM</modified>
+  <config>
+    <name_on_update_web_service>amp1</name_on_update_web_service>
+    <update_platform_type_name>ce5300</update_platform_type_name>
+    <actual_update_packages_directory>/mnt/internal/packages</actual_update_packages_directory>
+  </config>
+  <roomAutoBind>
+    <bind>AudioSelectionDevice</bind>
+    <bind>AudioVolumeDevice</bind>
+  </roomAutoBind>
+  <capabilities>
+    <!-- Controller Capabilities -->
+    <has_video_output>false</has_video_output>
+    <has_video_input>false</has_video_input>
+    <has_amp>true</has_amp>
+    <has_hdmi_passthrough>false</has_hdmi_passthrough>
+    <audio_sense_count>3</audio_sense_count>
+    <audio_sense_names>Analog Audio 1, Digital Audio Coax, Digital Audio Optical</audio_sense_names>
+    <has_ui_device>false</has_ui_device>
+    <has_discrete_volume_control>true</has_discrete_volume_control>
+    <auto_bind_onscreen_selection proxybindingid="5001">false</auto_bind_onscreen_selection>
+    <supports_zwave>false</supports_zwave>
+    <throttled_vol_ms_rate>25</throttled_vol_ms_rate>
+    <!-- UIDevice Capabilities -->
+    <!-- Other capabilities -->
+    <max_recommended_scan_space>1000</max_recommended_scan_space>
+    <supports_distributed_audio>true</supports_distributed_audio>
+    <AutobindToProxy>true</AutobindToProxy>
+    <eqSettings>
+      <eq1>
+        <name>InCeiling R25 OR</name>
+        <values>0	0	4	-3.5	5.5	-4.5	0	0	0	0</values>
+        <displayIndex>22</displayIndex>
+      </eq1>
+      <eq2>
+        <name>InCeiling R26 OR</name>
+        <values>0	1.5	3.5	-4.5	3.5	-4	0	-1.5	-1	1</values>
+        <displayIndex>23</displayIndex>
+      </eq2>
+      <eq3>
+        <name>InCeiling R28 OR</name>
+        <values>0	2.5	2	-4	4.5	-3	0	-3	-4.5	3.5</values>
+        <displayIndex>24</displayIndex>
+      </eq3>
+      <eq4>
+        <name>InCeiling R28 DT OR</name>
+        <values>0	2	3	-4	5.5	-6.5	-1	-1.5	-1	2</values>
+        <displayIndex>25</displayIndex>
+      </eq4>
+      <eq5>
+        <name>InCeiling Mini OR</name>
+        <values>0	1	3.5	-3	5	-5.5	6	-1.5	-4	-1.5</values>
+        <displayIndex>26</displayIndex>
+      </eq5>
+      <eq6>
+        <name>InCeiling Mini SR</name>
+        <values>0	2	3	-5	1.5	-3	4.5	-3.5	-6	-1.5</values>
+        <displayIndex>27</displayIndex>
+      </eq6>
+      <eq7>
+        <name>InCeiling Bronze OR</name>
+        <values>0	1.5	3	-5	1	-1	0	-6.5	-2	0</values>
+        <displayIndex>28</displayIndex>
+      </eq7>
+      <eq8>
+        <name>InCeiling Bronze SR</name>
+        <values>0	2.5	1.5	-4	5.5	0	-1.5	-4	-2	0</values>
+        <displayIndex>29</displayIndex>
+      </eq8>
+      <eq9>
+        <name>InCeiling Silver OR</name>
+        <values>0	2.5	1.5	-4	2.5	0	0	-5	-2	3.5</values>
+        <displayIndex>30</displayIndex>
+      </eq9>
+      <eq10>
+        <name>InCeiling Silver SR</name>
+        <values>0	2	2.5	-4.5	4	1	0.5	-2	0.5	0</values>
+        <displayIndex>31</displayIndex>
+      </eq10>
+      <eq11>
+        <name>InCeiling Silver DT OR</name>
+        <values>0	2	2.5	-4	4	0	-3.5	-3.5	-2	0</values>
+        <displayIndex>32</displayIndex>
+      </eq11>
+      <eq12>
+        <name>InCeiling Silver DT SR</name>
+        <values>0	2.5	3	-3.5	3.5	1	-2.5	-3.5	-3.5	-1.5</values>
+        <displayIndex>33</displayIndex>
+      </eq12>
+      <eq13>
+        <name>OnWall Micro Sat 2.0</name>
+        <values>0	0	3	-5.5	4	-1.5	-1.5	-4.5	0	-2</values>
+        <displayIndex>35</displayIndex>
+      </eq13>
+      <eq14>
+        <name>OnWall Micro LCR 2.0</name>
+        <values>0	0	3.5	-5.5	3.5	-2	-2	-4	2.5	-2.5</values>
+        <displayIndex>38</displayIndex>
+      </eq14>
+      <eq15>
+        <name>InWall Mini/4 Sat</name>
+        <values>0	0	2.5	-7.5	4	-4	-4	1	-2	-2.5</values>
+        <displayIndex>41</displayIndex>
+      </eq15>
+      <eq16>
+        <name>OnWall Mini Sat 2.0</name>
+        <values>0	3.5	-1	-5	3.5	-3	0	0	0	0</values>
+        <displayIndex>42</displayIndex>
+      </eq16>
+      <eq17>
+        <name>OnWall Mini LCR 2.0</name>
+        <values>0	2	0	-6	4	-3	0	-1.5	0	0</values>
+        <displayIndex>44</displayIndex>
+      </eq17>
+      <eq18>
+        <name>OnWall Mini LCR 2.0 SE</name>
+        <values>0	1.5	0	-4.5	0	-2	-0.5	-1	0	0</values>
+        <displayIndex>47</displayIndex>
+      </eq18>
+      <eq19>
+        <name>InCeiling Bronze/8 Sat</name>
+        <values>0	1.5	3.5	-3.5	-1.5	1	-4	2.5	0	0</values>
+        <displayIndex>50</displayIndex>
+      </eq19>
+      <eq20>
+        <name>InWall Bronze/4 Sat</name>
+        <values>0	1	1.5	-3	1	0	-1	0	1.5	1.5</values>
+        <displayIndex>51</displayIndex>
+      </eq20>
+      <eq21>
+        <name>InCeiling Silver/6 Sat</name>
+        <values>0	1.5	4.5	-4	-2	3.5	-2.5	-1	1.5	2</values>
+        <displayIndex>55</displayIndex>
+      </eq21>
+      <eq22>
+        <name>InWall Silver/4 Sat</name>
+        <values>0	1.5	3.5	-4	1.5	-4	-1	0	0	0</values>
+        <displayIndex>59</displayIndex>
+      </eq22>
+      <eq23>
+        <name>InCeiling R06 OR</name>
+        <values>  0	0	3	-5	2	-2	-2	-3	0	0</values>
+        <displayIndex>17</displayIndex>
+      </eq23>
+      <eq24>
+        <name>InCeiling R15 OR</name>
+        <values> 0	0	3	-7	3.5	-2	0	-4	0	0</values>
+        <displayIndex>18</displayIndex>
+      </eq24>
+      <eq25>
+        <name>InCeiling R16 OR</name>
+        <values>0	0	3	-6	3	0	0	-2.5	-5	0</values>
+        <displayIndex>19</displayIndex>
+      </eq25>
+      <eq26>
+        <name>InCeiling R18 OR</name>
+        <values>0	2	0	-4	3	0	0	0	0	0</values>
+        <displayIndex>20</displayIndex>
+      </eq26>
+      <eq27>
+        <name>InCeiling R18DT OR</name>
+        <values>0	2	0	-5	5	-3.5	0	2	-2	0</values>
+        <displayIndex>21</displayIndex>
+      </eq27>
+      <eq28>
+        <name>OnWall Micro Sat 1.0</name>
+        <values>0	0	3	-5.5	4	-1.5	-1.5	-4.5	0	-2</values>
+        <displayIndex>34</displayIndex>
+      </eq28>
+      <eq29>
+        <name>OnWall Micro Sat 3.0</name>
+        <values>0	0	3	-5.5	4	-1.5	-1.5	-4.5	0	-2</values>
+        <displayIndex>36</displayIndex>
+      </eq29>
+      <eq30>
+        <name>OnWall Micro LCR 1.0</name>
+        <values>0	0	3.5	-5.5	3.5	-2	-2	-4	2.5	-2.5</values>
+        <displayIndex>37</displayIndex>
+      </eq30>
+      <eq31>
+        <name>OnWall Micro LCR 3.0</name>
+        <values>0	0	3.5	-5.5	3.5	-2	-2	-4	2.5	-2.5</values>
+        <displayIndex>39</displayIndex>
+      </eq31>
+      <eq32>
+        <name>InCeiling Mini LCR</name>
+        <values>0	1	0	-7	-5	1.5	-0.5	-1	-1.5	-2</values>
+        <displayIndex>40</displayIndex>
+      </eq32>
+      <eq33>
+        <name>OnWall Mini LCR 1.0</name>
+        <values>0	2	0	-6	4	-3	0	-1.5	0	0</values>
+        <displayIndex>43</displayIndex>
+      </eq33>
+      <eq34>
+        <name>OnWall Mini LCR 3.0</name>
+        <values>0	2	0	-6	4	-3	0	-1.5	0	0</values>
+        <displayIndex>45</displayIndex>
+      </eq34>
+      <eq35>
+        <name>OnWall Mini LCR 1.0 SE</name>
+        <values>0	1.5	0	-4.5	0	-2	-0.5	-1	0	0</values>
+        <displayIndex>46</displayIndex>
+      </eq35>
+      <eq36>
+        <name>OnWall Mini LCR 3.0 SE</name>
+        <values>0	1.5	0	-4.5	0	-2	-0.5	-1	0	0</values>
+        <displayIndex>48</displayIndex>
+      </eq36>
+      <eq37>
+        <name>InRoom Mini Sat</name>
+        <values>0	2.5	0	-1	2	-4.5	-2	-1	-2	-3.5</values>
+        <displayIndex>49</displayIndex>
+      </eq37>
+      <eq38>
+        <name>InRoom Bronze Sat</name>
+        <values>0	1.5	1	-2	1.5	-1.5	-2	-2	-1.5	0</values>
+        <displayIndex>52</displayIndex>
+      </eq38>
+      <eq39>
+        <name>InRoom Bronze LCR</name>
+        <values>0	0	2.5	-2.5	1	-2	-2.5	-2	-2	-1</values>
+        <displayIndex>53</displayIndex>
+      </eq39>
+      <eq40>
+        <name>InRoom Bronze Center</name>
+        <values>0	0	2.5	-2.5	1	-2	-2.5	-2	-2	-1</values>
+        <displayIndex>54</displayIndex>
+      </eq40>
+      <eq41>
+        <name>InCeiling Silver/8 Sat Omni SE</name>
+        <values>0	0	2.5	-2	-5	2	-2	-2	-1.5	-1</values>
+        <displayIndex>56</displayIndex>
+      </eq41>
+      <eq42>
+        <name>InCeiling Silver Monitor</name>
+        <values>0	2	1	-2	-2	4	3	-0.5	0.5	1.5</values>
+        <displayIndex>57</displayIndex>
+      </eq42>
+      <eq43>
+        <name>InCeiling Silver MiniMonitor</name>
+        <values>0	0	2.5	-4	-1.5	-1	0	-2.5	0	0</values>
+        <displayIndex>58</displayIndex>
+      </eq43>
+      <eq44>
+        <name>InWall Silver 4/Sat Omni SE</name>
+        <values>0	0	2.5	-6.5	0	-3	-2.5	-4.5	-2.5	-2</values>
+        <displayIndex>60</displayIndex>
+      </eq44>
+      <eq45>
+        <name>InWall Silver/4 Monitor</name>
+        <values>0	1	0	-3	3	2	1	-1	1.5	1</values>
+        <displayIndex>61</displayIndex>
+      </eq45>
+      <eq46>
+        <name>InWall Silver/6 Monitor</name>
+        <values>0	0	1.5	-4	2.5	1	-2.5	-3	3	1</values>
+        <displayIndex>62</displayIndex>
+      </eq46>
+      <eq47>
+        <name>InWall Silver MiniMonitor</name>
+        <values>0	0	1	-4	1	0	-1	0	2.5	3</values>
+        <displayIndex>63</displayIndex>
+      </eq47>
+      <eq48>
+        <name>InRoom Silver Sat</name>
+        <values>0	0	2.5	-1.5	0	-1.5	-2	-1	0	-1</values>
+        <displayIndex>64</displayIndex>
+      </eq48>
+      <eq49>
+        <name>InRoom Silver Monitor</name>
+        <values>0	0	2	-1.5	0	-2	-1.5	-3	-1.5	-2</values>
+        <displayIndex>65</displayIndex>
+      </eq49>
+      <eq50>
+        <name>InRoom Silver MiniMonitor</name>
+        <values>0	0	1	0	0	-1	0	0	0	0</values>
+        <displayIndex>66</displayIndex>
+      </eq50>
+      <eq51>
+        <name>InRoom Silver LCR</name>
+        <values>0	0	1.5	-2	0	-0.5	-2	0	-0.5	-1</values>
+        <displayIndex>67</displayIndex>
+      </eq51>
+      <eq52>
+        <name>InRoom Silver Center</name>
+        <values>0	0	1.5	-2	0	-0.5	-2	0	-0.5	-1</values>
+        <displayIndex>68</displayIndex>
+      </eq52>
+      <eq53>
+        <name>InCeiling Gold/8 Sat Omni SE</name>
+        <values>0	0	3	-1.5	0	0.5	1	2	-4	-2.5</values>
+        <displayIndex>69</displayIndex>
+      </eq53>
+      <eq54>
+        <name>InCeiling Gold/8 MiniMonitor</name>
+        <values>0	1	1	0	-5.5	6	-1	-1	2	0</values>
+        <displayIndex>70</displayIndex>
+      </eq54>
+      <eq55>
+        <name>InWall Gold/4 Sat Omni SE</name>
+        <values>0	0	3	-5.5	3.5	-1	-2	-2	1	0</values>
+        <displayIndex>71</displayIndex>
+      </eq55>
+      <eq56>
+        <name>InWall Gold/6 MiniMonitor</name>
+        <values>0	1	1.5	-3.5	3.5	5	0.5	1.5	3.5	-3</values>
+        <displayIndex>72</displayIndex>
+      </eq56>
+      <eq57>
+        <name>InRoom Gold MiniMonitor</name>
+        <values>0	1.5	1	-1	0.5	-1	0	1	0.5	-2</values>
+        <displayIndex>73</displayIndex>
+      </eq57>
+      <eq58>
+        <name>InCeiling Designer Series DS4 FR</name>
+        <values>0	3	1.5	-1.5	-2.5	-3.5	-4	-4	-4.5	-6.5</values>
+        <displayIndex>74</displayIndex>
+      </eq58>
+      <eq59>
+        <name>Outdoor OD25</name>
+        <values>0 1	1.5	-1.5	3.5	-1	2	-1.5	1.5	-1</values>
+        <displayIndex>75</displayIndex>
+      </eq59>
+      <eq60>
+        <name>Outdoor OD26</name>
+        <values>0 1.5	-1	0	1	-1.5	1.5	-2.5	1	-2</values>
+        <displayIndex>76</displayIndex>
+      </eq60>
+      <!-- Distributed Audio Series -->
+      <eq61>
+        <name>IC32SD</name>
+        <values>-3	-3	3	-4	-2	-2	0	0	-6	-6</values>
+        <displayIndex>1</displayIndex>
+      </eq61>
+      <eq62>
+        <name>IC33SD</name>
+        <values>-3	-3	3	-4	-2	-2	0	0	-6	-3</values>
+        <displayIndex>2</displayIndex>
+      </eq62>
+      <eq63>
+        <name>IC52</name>
+        <values>-3	2.5	-2	0	2	-4	1	-2.5	-2.5	0</values>
+        <displayIndex>3</displayIndex>
+      </eq63>
+      <eq64>
+        <name>IC53</name>
+        <values>-3	2	0	1	0	-2	3	-2.5	-2.5	0</values>
+        <displayIndex>4</displayIndex>
+      </eq64>
+      <eq65>
+        <name>IC61</name>
+        <values>-3	2	0	0	2.5	0	1.5	-4	-5	0</values>
+        <displayIndex>5</displayIndex>
+      </eq65>
+      <eq66>
+        <name>IC62</name>
+        <values>-3	2.5	-1	-1.5	2	-1	0	0	-4	0</values>
+        <displayIndex>6</displayIndex>
+      </eq66>
+      <eq67>
+        <name>IC63</name>
+        <values>-3	2.5	1	0	2	-2	0	-1	2	0</values>
+        <displayIndex>7</displayIndex>
+      </eq67>
+      <eq68>
+        <name>IC82</name>
+        <values>-3	1.5	1	1	3	1	1	0	-2	0</values>
+        <displayIndex>8</displayIndex>
+      </eq68>
+      <eq69>
+        <name>IC83</name>
+        <values>-3	2	0	-1	1	-1	1	-2	-2	0</values>
+        <displayIndex>9</displayIndex>
+      </eq69>
+      <eq70>
+        <name>IC82DT</name>
+        <values>-3	2	1	0	3.5	-5	1	-1	-2	0</values>
+        <displayIndex>10</displayIndex>
+      </eq70>
+      <eq71>
+        <name>IC83DT</name>
+        <values>-3	3	0	0	1	-2	2	-4	-2	0</values>
+        <displayIndex>11</displayIndex>
+      </eq71>
+      <eq72>
+        <name>IW61</name>
+        <values>-3	2	2	-2	0	-1.5	1.5	-3	0	0</values>
+        <displayIndex>12</displayIndex>
+      </eq72>
+      <eq73>
+        <name>IW62</name>
+        <values>-3	3	1	-2.5	1	-1.5	2	-4	0	0</values>
+        <displayIndex>13</displayIndex>
+      </eq73>
+      <eq74>
+        <name>IW63</name>
+        <values>-3	3	1.5	-2.5	0	-2	1	-2	1.5	0</values>
+        <displayIndex>14</displayIndex>
+      </eq74>
+      <eq75>
+        <name>IW82</name>
+        <values>-3	2.5	-3.5	-2	3	-1	0	0	0	0</values>
+        <displayIndex>15</displayIndex>
+      </eq75>
+      <eq76>
+        <name>IW83</name>
+        <values>-3	4	-3	-4	3	-1	-1.5	0	0	0</values>
+        <displayIndex>16</displayIndex>
+      </eq76>
+    </eqSettings>
+  </capabilities>
+  <name>Triad One</name>
+  <small>devices_sm/ico-16-tri-1-b.png</small>
+  <large>devices_lg/ico-32-tri-1-b.png</large>
+  <control>control4_trident1</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <search_type>c4:triad_one</search_type>
+  <proxies>
+    <proxy proxybindingid="5001" name="Triad One" small_image="devices_sm/ico-16-tri-1-b.png" large_image="devices_lg/ico-32-tri-1-b.png">controller</proxy>
+  </proxies>
+  <dependencies>
+    <dependency>control4_digitalaudio</dependency>
+  </dependencies>
+  <audioPlayLoadFactor>95</audioPlayLoadFactor>
+  <audio_dev_type>tr1</audio_dev_type>
+  <driver>100063</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Controller</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>CONTROLLER</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Triad One IP Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>c4server</name>
+              <number>5116</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+	      <name>netusbserver</name>
+              <number>5110</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioserver</name>
+              <number>6000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+            <port>
+              <name>Audioclient</name>
+              <number>6100</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <delimiter>0d0a</delimiter>
+            </port>
+          </ports>
+        </class>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>Sysman</name>
+              <number>5810</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>SysmanDA</name>
+              <number>5811</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <use_bridged_alternate>True</use_bridged_alternate>
+              <delimiter>4f4b0a</delimiter>
+            </port>
+            <port>
+              <name>IOServer</name>
+              <number>5100</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+              <delimiter>0d0a</delimiter>
+            </port>
+             <port>
+              <name>IOServer USB</name>
+              <number>20000</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+              <suppress_connection_events>True</suppress_connection_events>
+              <secondary_authentication>hash1</secondary_authentication>
+              <delimiter>0d0a</delimiter>
+            </port>            
+          </ports>
+        </class>
+        <class>
+          <classname>UDP</classname>
+          <ports/>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>400</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 1</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial1X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>401</id>
+      <facing>6</facing>
+      <connectionname>IR OUT 2</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="Serial2X">
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3000</id>
+      <facing>6</facing>
+      <connectionname>Stereo Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>Digital Coax Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>1</ExtraInfo>
+      <classes>
+        <class ExcludeID="DigitalIn">
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3002</id>
+      <facing>6</facing>
+      <connectionname>Digital Optical Audio In</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <ExtraInfo>2</ExtraInfo>
+      <classes>
+        <class ExcludeID="DigitalIn">
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3003</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio Client</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_CLIENT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Stereo Out</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4100</id>
+      <facing>6</facing>
+      <connectionname>Digital Audio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>DIGITAL_AUDIO_SERVER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Audio Output</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7300</id>
+      <facing>6</facing>
+      <connectionname>Audio Volume</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <ExtraInfo>0</ExtraInfo>
+      <classes>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>Internet Input</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>RF_INTERNET</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <manufacturer>Triad</manufacturer>
+  <creator>Triad</creator>
+  <model>TS-SAMP1-100</model>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+</devicedata>

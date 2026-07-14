@@ -1,0 +1,1085 @@
+# 
+# Translators:
+# Serkan YILMAZ <serkan.yilmaz@control4.com.tr>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Turkish (https://app.transifex.com/control4/teams/15374/tr/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: tr\n"
+"Name: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName} Kaynak"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "Eylem Gecikmesi (saniye)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "İşlemler"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "Hava Tasarrufu"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "Hava Tasarrufu Rutini"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "Alarm temizlendi"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "Alarm Monitörü"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "Alarm İzleme Rutini"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "Alarm Tetiklendi"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"Belirtilen kapı veya pencereler açıksa ve belirtilen termostatlar aktif "
+"olarak ısıtıyor veya soğuyorsa, belirtilen süre sonra uyarı verir."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr ""
+"Bir sensör belirtilen süreden daha uzun süre tetiklenirse uyarı verir."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "Ses/Video"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "Otomatik"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "Işıklar her açıldığında kapatmayı otomatikleştirin."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr ""
+"Seçilen kapı istasyonu halkalarında seçilen ışıklar otomatik olarak yanıp "
+"söner"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr ""
+"Belirtilen saatler arasında dokunmatik ekran arka ışığını otomatik olarak "
+"kapatın"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"Seçilen kameralar hareket algıladığında, seçilen ışıkları seçilen süre için "
+"otomatik olarak açın"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"Seçilen ışık açılıp kapandıktan sonra fanı belirtilen süre otomatik olarak "
+"açar/kapatır"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "Otomasyon"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "Kelebek"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "Düğme"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "Düğmeye basıldı"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "Çağrı Düğmesi 2'ye Basıldı"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "Çağrı Düğmesi 3'e Basıldı"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "Çağrı Düğmesi 4'e Basıldı"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "Çağrı Düğmesi 5'e Basıldı"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "Çağrı Düğmesi 6 Basıldı"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "Çağrı Düğmesine Basıldı"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "Bu etkinliği iptal et"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "Onay kutusu"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "Kontrol Işıkları"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "Işıkları Kontrol Edin veya Sahne Seçin"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr ""
+"Gün batımı ve gün doğumu sırasında ışıkların açılıp kapanmasını kontrol "
+"edin."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "Kontrollü Fanlar"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "Kontrollü Işıklar"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "Kontrollü Kilitler"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "Kontrollü Termostatlar"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "Soğutma"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "Karanlık"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "Karanlık Oda Rutini"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "Tarih"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "Tarih/Saat"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "Rutinlerin kullanıcı arayüzü özelliklerini gösterme"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "Ön Ayarı Seçme"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "Sahne Seçme"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "Kapı Göstergesi"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "Kapı Göstergesi Rutini"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "Ördek"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "EBMS Ön Ayarı"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "EBMS Rutini"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "Acil Durum Tetiklendi"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "Boş"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "Bitiş Zamanı"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "İngilizce: Değişken Kontrolü: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "Hata: İçerik Yok, lütfen önce bir şey oynayın"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "Hata: İçerik Seçilmedi"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "Olay"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "Etkinlik {index} - tamamlandı"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "Etkinlik {index} - tamamlandı (değiştirildi)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "Örnek Etkinlik {index}"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "Örnek Rutin"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "Örnek Bölüm (Tam Liste)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "Örnek/Gösteri Rutini"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "Fan Zamanlayıcı"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "Fan Zamanlayıcı Rutini"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "Fanlar kapalı"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "Fanlar açıldı"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "Fanlar kapanacak"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "Fanlar açılacak"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "Cuma"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "5 Etkinlik Oluştur"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "Etkinlik Oluştur"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "Coğrafi çit"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "Geofence Rutini"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "Isıtma"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "İkon"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "Simge Görüntü Kaynağı"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "Etkinlik Dizini"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "Yalıçapkını"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "Hafif otomatik kapanma"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "Hafif Otomatik Kapanma Rutini"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "Aydınlatma"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "Aydınlatma Senaryosu"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "Aydınlatmalar"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "Işıklar Giriş Eylemi"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "Işıklar Çıkış Eylemi"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "Kontrol Edilecek Işıklar"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "Açılacak Işıklar"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "Işıklar yanıp söndü - {deviceName} düğmeye basıldı"
+
+#: driver.lua:75
+msgid "List"
+msgstr "Liste"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "MDM Ön Ayarı"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "Maksimum Parlaklık"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "Maksimum parlaklık azaltıldı"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "Maksimum parlaklık geri yüklendi"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "Maksimum parlaklık geri yüklenecek"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "Maksimum parlaklık azalacak"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "Etkinliği Değiştir"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "Zaman Çizelgesinde Etkinliği Değiştir"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "Etkinlik {index} değiştir - başarı: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "İzlenen Kameralar"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "İzlenen Kapı İstasyonları"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "İzlenen Kapı ve Pencereler"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "İzlenen Işık"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "İzlenen Güvenlik Sensörleri"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "İzlenen Güvenlik Bölümleri"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "İzlenen Sensörler"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "İzlenen Termostatlar"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "Hareket"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "Hareket Algılama"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "Hareketli Işıklar"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "Hareketli Işıklar Rutini"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "Hiçbir Zaman"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "Gece lambası"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "Gece Lambası Rutini"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "Eylem Yok"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "Değişiklik Yok"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "Bildirim Gecikmesi (dakika)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "Bildirim Gecikmesi (saniye)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "Bildirim Metni"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "Sayı"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "Kapalı"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "Açık"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr ""
+"Bir ısı, duman veya karbon monoksit alarmı tetiklenirse önerilen güvenlik "
+"önlemlerini gerçekleştirin."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "Push Bildirimi gönderildi"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "Gece saatlerinde ışıkların varsayılan parlaklığını azaltın."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "Olayı Sil"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "Zaman Çizelgesindeki Etkinliği Kaldır"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "Etkinlik {index} kaldır - başarılı: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "Oda Seçici"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "Eylemleri Şimdi Çalıştır"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "Bitiş Saatini Şimdi Çalıştır"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "Şimdi Çalıştır"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "Başlangıç Zamanını Şimdi Çalıştır"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "Bu Etkinliği Şimdi Çalıştırın"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "Çalıştır Şimdi Kapat"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "Çalıştır Şimdi Aç"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "Güvenlik Alarmı"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "Güvenlik Alarmı Rutini"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "Takvim"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "Zamanlanmış Ses"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "Planlanmış Ses Rutini"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "Planlanan Etkinlik Çalıştırıldı"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "Planlanmış Etkinlik Çalışacak"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "Bir programdaki herhangi bir oda(lar)daki ses kaynaklarını seçin"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"Herhangi bir odadaki ses kaynaklarını seçin ve isteğe bağlı olarak bir "
+"aydınlatma sahnesi, EBMS Ön Ayarı ve/veya MDM ön ayarı seçin"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "Sahne Seç"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "Seçilen Sahne"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "Seçilen ışıklar sönecektir"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "Seçilen ışıklar yanacaktır"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "Seçilen sahne kapanacak"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "Seçilen sahne açılacaktır"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr ""
+"Bir güvenlik bölümü veya güvenlik sensörü uyarı verirse bir Push Bildirimi "
+"gönderin."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "Sensör Monitörü"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "Sensör Monitörü Rutini"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "Etkinliği Ayarla"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "Etkinliği Zaman Çizelgesinde Ayarla"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "Zaman Ayar"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "Etkinlik {index} ayarla - başarı: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "Geçmiş etkinlik {index} ayarla - başarı: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "Kurulum"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "Bunu Eksik Olarak Göster"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "Çeviriler Bölümünü Göster"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "Öğeleri Göster/Gizle"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "Kaydırıcı"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "Başlangıç Zamanı"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "Pazar"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "Gün Doğumu"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "Gün Batımı"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "Şalter"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "Sistem"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "Test: Çağrı Butonu Olayı"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "Test: Geofence Etkinliğine Girdi"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "Test: Çıkılan Geofence Olayı"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "Test: Hareket Algılanan Olay"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "Test: Güvenlik Eylemlerini Çalıştırın"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "Test: Güvenlik Sensörü Bildirim Gönder"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "Test: Güvenlik Sistemi Bildirim Gönder"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "Test: Bildirim Gönder"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "Test: Seçili Işıkları Değiştir"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "Metin"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "Metin Alanı Alfa"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "Metin Alanı Alfanümerik"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "Metin Alanı Normal"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "Metin Alanı Numarası"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "Metin Alanı Sayısal"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "Textfield Şifresi"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "Termostat Giriş İşlemi"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "Termostat Çıkış Eylemi"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "Kontrol Edilecek Termostatlar"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "Zaman"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "Zaman Ayarlı Işıklar"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "Zaman Ayarlı Işıklar Rutini"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "Zaman Çizelgesi Bilgisi"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "Zaman Çizelgesi Etkileşimi"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "Zamanlayıcı (dakika)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "Aç/Kapa"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "5 Saniyede Geri Dön"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "Onay Kutusunu Aç/Kapat"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "Dokunmatik ekranlar"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "Dokunmatik ekranlar aydınlatıldı"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "Dokunmatik ekranlar karartılmış"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "Dokunmatik ekranlar aydınlanacak"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "Dokunmatik ekranlar kararacak"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "Çeviri -leri"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "Çeviri Anahtarı"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "Salı"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "Şuradan Kapat"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "Zamanında Kapat"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "Işıkları Kapatma Gecikmesi (dakika)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "Güneş doğduktan dakikalar sonra kapatın"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "Taşma Zamanlayıcısını Kapat (dakika)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "Odayı Kapat"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "Güneş doğarken kapatın"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "Şurada Aç"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "Zamanında Aç"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "Gecikme Zamanlayıcısını Aç (dakika)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "Gün Batımından Dakikalar Sonra Aç"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "Gün batımında aç"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "Bilinmeyen Kamera"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "Bilinmeyen Kapı İstasyonu"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "Bilinmeyen EBMS Ön Ayarı"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "Bilinmeyen Fan"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "Bilinmeyen Işık"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "Bilinmeyen Kilit"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "Bilinmeyen MDM Ön Ayarı"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "Bilinmeyen Güvenlik Sensörü"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "Bilinmeyen sahne"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "Bilinmeyen Güvenlik Bölümü"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "Bilinmeyen Sensör"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "Bilinmeyen Termostat"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "Bilinmeyen Dokunmatik Ekran"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "Simgenin URL'si"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"Bir coğrafi sınıra girerken veya çıkarken bir rutini tetiklemek için "
+"Geofence Agent'ı kullanır."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "eventLabel (Etkinlik Etiketi)"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "Kapalı"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "açık"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} tetiklenir - güvenlik eylemleri çalışır"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} tetiklenir - bu, güvenlik eylemlerini çalıştırır"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} hareket algılandığında, ışıklar zaman aşımından sonra önceki "
+"durumuna geri döndü"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} hareket algılandı, ışıklar açıldı"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} algılanan hareket, zaman aşımından sonra ışıklar önceki "
+"durumuna dönecektir"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} coğrafi sınıra girdi {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} jeo-çitten çıkıldı {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} tetiklenen Push Bildirimi"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} kapalı"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} , Push Bildirimini tetikleyecektir"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} kapanacak"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} koştu"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} çalışacak"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} açık ve {hvacZonesOnCount} açık - bu, Push Bildirimini "
+"tetikleyecektir"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} İçerik"

@@ -1,0 +1,92 @@
+<devicedata>
+  <manufacturer>Makita</manufacturer>
+  <version>3</version>
+  <creator>Control4</creator>
+  <model>100</model>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <created>1/20/2005 2:22:54 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <capabilities>
+    <history_category>Watch</history_category>
+    <history_subcategory>Motorized Screen</history_subcategory>
+  </capabilities>
+  <commands>
+    <command>
+      <id>0</id>
+      <description>Send up the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <description>Put down the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <description>Toggle the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>NAME is up</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>NAME is down</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME goes up</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME goes down</description>
+    </event>
+  </events>
+  <name>Screen</name>
+  <small>devices_sm\screen_down.gif</small>
+  <large>devices_lg\screen_down.gif</large>
+  <control>control4_relaysingle</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Home</category>
+  </navigator_categories>
+  <proxy>screen</proxy>
+  <driver>100004</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states>
+    <state>
+      <id>1</id>
+      <small>devices_sm\screen_up.gif</small>
+      <large>devices_lg\screen_up.gif</large>
+      <label>Send up the Screen</label>
+    </state>
+    <state>
+      <id>2</id>
+      <small>devices_sm\screen_down.gif</small>
+      <large>devices_lg\screen_down.gif</large>
+      <label>Put down the Screen</label>
+    </state>
+  </states>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Relay</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

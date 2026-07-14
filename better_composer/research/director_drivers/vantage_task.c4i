@@ -1,0 +1,338 @@
+<devicedata>
+	<copyright>Copyright 2009 Control4 Corporation.  All rights reserved.</copyright>
+	<version>3</version>
+    <combo>True</combo>
+	<manufacturer>Vantage</manufacturer>
+	<name>Vantage Task</name>
+	<model>Task</model>
+	<creator>Control4</creator>
+	<created>6/02/2009 11:00 AM</created>
+	<modified>6/02/2009 11:00 AM</modified>
+	<small>devices_sm/VantageDimmer.gif</small>
+	<large>devices_lg/VantageDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>vantage_task</proxy>
+	<states />
+	<conditionals/>
+	<events>
+		<event>
+			<id>1</id>
+			<name>Task Changed</name>
+			<description>When NAME Task changes</description>
+		</event>
+	</events>
+	<config>
+		<documentation>
+Vantage InFusion driver - Installation
+
+The Vantage Infusion drivers allow the Control4 system to work in conjunction with a Vantage InFusion system.  Note: They do not support the legacy Vantage QLink system which uses a different control protocol.
+
+What Support You Should Expect to Receive
+
+Control4 is not able to advise you or support you when configuring Vantage InFusion systems.  If your organization does not have a Vantage-trained programmer, you should enlist the help of a Vantage programmer - particularly for installations in customer environments. We will, by necessity, limit our support to the proper configuration of these drivers within the Control4 system.
+
+How to Install and Configure the Drivers
+
+The Control4 system on which you are installing these drivers must be running Release 1.7.0 or later.  Because these drivers are based on DriverWorks, they don't require a Release 1.8 system update.  There is no difference in the user experience based on underlying system version.
+
+Prior to installing the Vantage InFusion drivers, verify that your system is functioning correctly. These drivers are included in Releases  1.8.2 and 1.7.4.  However, they can be installed manually on other version systems.
+
+The following steps give an overview of the installation process. 
+1.  Add the Vantage InFusion Network driver to your project [System Design, Search, Local Database, --others--, Vantage InFusion]
+2.  Configure the Vantage InFusion Network driver for serial or TCP/IP connection to the Vantage system.  
+  a.  If you are using a TCP/IP connection, Enter the IP Address of the Vantage System in the Identify dialog . 
+  b.  If you are using a serial connection, configure the serial port binding [Connections, Control/AV]. 
+3.  Add/configure the specific dimmer, switch, keypad, and task drivers as needed based on the system you're connected to [System Design, Search, Local Database, ...]
+  * Dimmer [Light, Vantage Dimmer]
+  * Switch [Light, Vantage Switch]
+  * Keypad [--others--, Vantage Keypad]
+  * Task [--others--, Vantage Task]
+4.  If desired, further integrate the Vantage system with the Control4 system using one or more of the following capabilities:
+  * Binding [Connections, Control/AV, Button Link]
+  * Lighting Scenes [Agents, Lighting Scenes] 
+  * Programming (events, conditionals, actions) [Programming]
+5.  Make sure you Refresh Navigators after configuring the system
+
+
+Vantage Task Driver
+
+Programming in Vantage is done through a task. A Vantage Task can be executed  in Control4 through programming of the Vantage Task.
+
+Properties
+Device Address:
+See Dimmer
+
+Debug Mode:
+See Dimmer
+
+Variables
+No Variables
+
+Events
+Task Changed is the only event.
+
+Commands
+  Execute Task
+    Task
+      PRESS
+      RELEASE
+      HOLD
+      TIMER
+      DATA
+      POSITION
+      INRANGE
+      OUTOFRANGE
+      TEMPERATURE
+      DAYMODE
+      FANMODE
+      OPERATIONMODE
+      CONNECT
+      DISCONNECT
+      BOOT
+      LEARN
+      CANCEL
+      NONE
+
+Conditionals
+None
+
+Loops
+None
+
+Connnections
+None
+		</documentation>
+		<identify_text/>
+		<properties>
+			<property>
+				<name>Vantage Device ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Execute Task</name>
+				<description>Do PARAM1 on Task NAME</description>
+				<params>
+					<param>
+						<name>TASK</name>
+						<type>LIST</type>
+						<items>
+							<item>PRESS</item>
+							<item>RELEASE</item>
+							<item>HOLD</item>
+							<item>TIMER</item>
+							<item>DATA</item>
+							<item>POSITION</item>
+							<item>INRANGE</item>
+							<item>OUTOFRANGE</item>
+							<item>TEMPERATURE</item>
+							<item>DAYMODE</item>
+							<item>FANMODE</item>
+							<item>OPERATIONMODE</item>
+							<item>CONNECT</item>
+							<item>DISCONNECT</item>
+							<item>BOOT</item>
+							<item>LEARN</item>
+							<item>CANCEL</item>
+							<item>NONE</item>
+						</items>
+					</param>
+				</params>
+			</command>
+		</commands>
+		<script>
+			<![CDATA[
+VANTAGE_BINDING_ID = 1
+
+----------------------------------------- property handling -----------------------------------------
+function OnPropertyChanged(strProperty)
+	dbg("OnPropertyChanged(): strProperty = " .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	local prop = Properties[strProperty]
+	local tParams = {}
+
+	if (strProperty == "Debug Mode") then
+--[[
+		gDbgPrint = true; gDbgLog = true; gDbgUnitTest = true; if (true) then return end
+--]]
+		if (gDbgTimer > 0) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+		gDbgPrint, gDbgLog, gDbgUnitTest = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil), (prop:find("Log") ~= nil)
+		if (prop == "Off") then
+			return
+		end
+		gDbgTimer = C4:AddTimer(45, "MINUTES")
+		return
+	end
+
+	if (strProperty == "Vantage Device ID") then
+		tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+	end
+end
+
+----------------------------------------- debug functions -----------------------------------------
+function dbg(strDebugText)
+	if (gDbgPrint) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_task: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (gDbgUnitTest) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_task: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (gDbgPrint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (gDbgLog and debugFunction) then C4:ErrorLog("vantage_fusion_task: " .. strFunction) end
+end
+
+----------------------------------------- timer functions -----------------------------------------
+function startDebugTimer()
+	if (gDbgTimer) then
+		gDbgTimer = C4:KillTimer(gDbgTimer)
+	end
+	gDbgTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == gDbgTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+----------------------------------------- Connection Functions -----------------------------------------
+function OnBindingChanged(idBinding, class, bIsBound)
+	dbg("OnBindingChanged(), idBinding = " .. tostring(idBinding) .. ", class = " .. class .. ", bIsBound = " .. tostring(bIsBound))
+	if (bIsBound) then
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+	else
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "REMOVE_DRIVER", tParams)
+	end
+end
+
+----------------------------------------- Other Functions -----------------------------------------
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+  -- Kill open timers
+  if (gDbgTimer ~= nil) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == VANTAGE_BINDING_ID) then
+		tParams["ADDRESS"] = Properties["Vantage Device ID"]
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+----------------------------------------- DriverWorks Functions -----------------------------------------
+function ExecuteCommand(strCommand, tParams)
+	dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+		if (strCommand =="GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+		else
+			dbg ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+		end
+	end
+
+	-- Commands
+	if (strCommand == "Execute Task") then
+		SendToProxy(VANTAGE_BINDING_ID, "EXECUTE_TASK", tParams)
+
+	-- Events
+	elseif (strCommand == "TASK_CHANGED") then
+		local eventName = "Task Changed"
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	else
+		dbg("From ExecuteCommand Function - Undefined Command: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)		-- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (idBinding == VANTAGE_BINDING_ID) then
+			if (strCommand == "GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+			end
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+----------------------------- INIT -----------------------------
+--- global variables ---
+gDbgTimer = 0
+
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<capabilities/>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Vantage Infusion Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_TASK</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

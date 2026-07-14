@@ -1,0 +1,36 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2008 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>7/15/2008 12:30 PM</created>
+  <modified>7/15/2008 12:30 PM</modified>
+  <name>iPod</name>
+  <small>devices_sm/C4.gif</small>
+  <large>devices_lg/C4.gif</large>
+  <control>ipod</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>31</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>ipod</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>IPOD</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

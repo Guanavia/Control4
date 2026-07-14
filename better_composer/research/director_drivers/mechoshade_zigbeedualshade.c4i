@@ -1,0 +1,92 @@
+<devicedata>
+  <copyright>Copyright 2008 MechoShade Systems, Inc.  All rights reserved.</copyright>
+  <config />
+  <name>Dual Shade Control</name>
+  <small>devices_sm/drapes_open.gif</small>
+  <large>devices_lg/drapes_open.gif</large>
+  <control>blind_mechoshade_zigbee</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Comfort</category>
+  </navigator_categories>
+  <proxy>mechoshade_zigbeedualshade</proxy>
+  <driver>id_blind_mechoshade_zigbee</driver>
+  <states />
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+    <can_poll_serial>True</can_poll_serial>
+    <can_stop>True</can_stop>
+  </capabilities>
+  <manufacturer>MechoShade</manufacturer>
+  <version>1</version>
+  <creator>MechoShade Systems</creator>
+  <created>3/20/2008 12:30 PM</created>
+  <modified>9/3/2009 8:34 AM</modified>
+  <model>Z1C4-WI</model>
+  <search_type>c4:mecho:Z1C4-WI</search_type>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <commands />
+  <conditionals />
+  <events />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Blind Controller Port A</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>False</autobind>
+          <classname>BLIND</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>5002</id>
+      <facing>6</facing>
+      <connectionname>Blind Controller Port B</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>False</autobind>
+          <classname>BLIND</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>6002</id>
+      <facing>6</facing>
+      <connectionname>Zigbee Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <can_stop>true</can_stop>
+  </config>
+</devicedata>

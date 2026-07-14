@@ -1,0 +1,135 @@
+<devicedata>
+  <version>25</version>
+  <combo/>
+  <copyright>Copyright 2020 Wirepath Home Systems, LLC.  All rights reserved.</copyright>
+  <name>System Remote Control SR260</name>
+  <small>devices_sm/SR250.gif</small>
+  <large>devices_lg/SR250.gif</large>
+  <control>control4_remote_gen</control>
+  <search_types>
+    <type>c4:control4_sr260:C4-SR260</type>
+  </search_types>
+  <composer_categories>
+    <category>User Interface</category>
+  </composer_categories>
+  <proxy>control4_sr260</proxy>
+  <driver name="remote_gen">6b6e27a9-0f24-4598-9c7f-1449607c4b91</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Remote Control</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <has_display>True</has_display>
+    <is_display_background_bright>False</is_display_background_bright>
+    <can_be_found>True</can_be_found>
+    <can_adjust_wake_on_motion>True</can_adjust_wake_on_motion>
+    <wake_on_motion_quadstate>True</wake_on_motion_quadstate>
+    <button_behavior>ShowDeviceList</button_behavior>
+	<can_adjust_recharge_station_enable>True</can_adjust_recharge_station_enable>
+    <can_display_volume_bar>True</can_display_volume_bar>
+    <!-- These numbers come from the firmware and need to be set per hardware platform -->
+    <max_list_cache_size>15</max_list_cache_size>
+    <max_list_item_length>254</max_list_item_length>
+    <controls_string>0e</controls_string>	<!-- This is 03 04 0e 64 from c4.ln.gc, but I think the code will choke on that length, and it really isn't used anyway -->
+    <can_set_text_color>True</can_set_text_color>
+    <utf8>True</utf8>
+    <send_ConfigMenu>True</send_ConfigMenu>
+    <send_SymbolIcons>True</send_SymbolIcons>
+	<display_lines>6</display_lines>
+	<button_timestamps>True</button_timestamps>
+  </capabilities>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <created>09/01/2014 12:30 PM</created>
+  <modified>04/6/2020 03:54 PM</modified>
+  <model>SR-260</model>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <commands/>
+  <conditionals/>
+  <events/>
+  <config>
+    <identify_image>C4-SR260-Z-Identify.gif</identify_image>
+    <identify_text>Press the "4" button on the System Remote four times, or type the network address below.</identify_text>
+    <remote_gen>
+      <buttons>
+        <button keycode="0" name="ROOM_OFF"/>
+
+        <button keycode="1" name="SELECT_LAST_WATCH"/>
+        <button keycode="2" name="CONTROL4"/>
+        <button keycode="3" name="SELECT_LAST_LISTEN"/>
+
+        <button keycode="4" name="DISPLAY"/>
+        <button keycode="5" name="CUSTOM_1"/>
+        <button keycode="6" name="CUSTOM_2"/>
+        <button keycode="7" name="CUSTOM_3"/>
+
+        <button keycode="8" name="GUIDE"/>
+        <button keycode="9" name="PAGE_UP"/>
+        <button keycode="10" name="PAGE_DOWN"/>
+        <button keycode="11" name="RECALL"/>
+
+        <button keycode="12" name="VOLUME_UP"/>
+        <button keycode="13" name="UP"/>
+        <button keycode="14" name="CHANNEL_UP"/>
+        <button keycode="15" name="LEFT"/>
+        <button keycode="16" name="ENTER"/>
+        <button keycode="17" name="RIGHT"/>
+        <button keycode="18" name="VOLUME_DOWN"/>
+        <button keycode="19" name="DOWN"/>
+        <button keycode="20" name="CHANNEL_DOWN"/>
+
+        <button keycode="21" name="MUTE_TOGGLE"/>
+        <button keycode="22" name="INFO"/>
+        <button keycode="23" name="MENU"/>
+        <button keycode="24" name="CANCEL"/>
+
+        <button keycode="25" name="SCAN_REV"/>
+        <button keycode="26" name="PVR"/>
+        <button keycode="27" name="SCAN_FWD"/>
+        <button keycode="28" name="SKIP_REV"/>
+        <button keycode="29" name="PLAY"/>
+        <button keycode="30" name="SKIP_FWD"/>
+        <button keycode="31" name="RECORD"/>
+        <button keycode="32" name="PAUSE"/>
+        <button keycode="33" name="STOP"/>
+
+        <button keycode="34" name="PROGRAM_A"/>
+        <button keycode="35" name="PROGRAM_B"/>
+        <button keycode="36" name="PROGRAM_C"/>
+        <button keycode="37" name="PROGRAM_D"/>
+
+        <button keycode="38" name="NUMBER_1"/>
+        <button keycode="39" name="NUMBER_2"/>
+        <button keycode="40" name="NUMBER_3"/>
+        <button keycode="41" name="NUMBER_4"/>
+        <button keycode="42" name="NUMBER_5"/>
+        <button keycode="43" name="NUMBER_6"/>
+        <button keycode="44" name="NUMBER_7"/>
+        <button keycode="45" name="NUMBER_8"/>
+        <button keycode="46" name="NUMBER_9"/>
+        <button keycode="47" name="STAR"/>
+        <button keycode="48" name="NUMBER_0"/>
+        <button keycode="49" name="POUND"/>
+      </buttons>
+    </remote_gen>
+  </config>
+</devicedata>

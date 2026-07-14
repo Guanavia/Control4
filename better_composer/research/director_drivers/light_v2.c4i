@@ -1,0 +1,291 @@
+<devicedata>
+  <version>8</version>
+  <copyright>Copyright 2022 Snap One LLC. All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>3/08/2012 11:27 AM</created>
+  <modified>1/12/2022 10:00 AM</modified>
+  <commands>
+    <command>
+      <id>0</id>
+      <name>ON</name>
+      <description>Turn on the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <name>OFF</name>
+      <description>Turn off the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <name>SET_LEVEL</name>
+      <description>Set Level on the NAME to INTEGER</description>
+    </command>
+    <command>
+      <id>3</id>
+      <name>RAMP_TO_LEVEL</name>
+      <description>Ramp to Level INTEGER on the NAME over TIME STRING</description>
+    </command>
+    <command>
+      <id>4</id>
+      <name>TOGGLE</name>
+      <description>Toggle the NAME</description>
+    </command>
+    <command>
+      <id>5</id>
+      <name>SET_ALL_LED</name>
+      <description>Set all LEDs on the NAME to COLOR</description>
+    </command>
+    <command>
+      <id>6</id>
+      <name>SET_BUTTON_ON_COLOR</name>
+      <description>Set BTN_NAME LED on the NAME to COLOR when on</description>
+    </command>
+    <command>
+      <id>7</id>
+      <name>SET_BUTTON_OFF_COLOR</name>
+      <description>Set BTN_NAME LED on the NAME to COLOR when off</description>
+    </command>
+    <command>
+      <id>8</id>
+      <name>SET_BUTTON_CURRENT_COLOR</name>
+      <description>Set BTN_NAME LED on the NAME to COLOR</description>
+    </command>
+    <command>
+      <id>12</id>
+      <name>PUSH_BUTTON</name>
+      <description>Press the BTN_NAME button on the NAME</description>
+    </command>
+    <command>
+      <id>13</id>
+      <name>RELEASE_BUTTON</name>
+      <description>Release the BTN_NAME button on the NAME</description>
+    </command>
+    <command>
+      <id>14</id>
+      <name>CLICK_BUTTON</name>
+      <description>Click the BTN_NAME button on the NAME</description>
+    </command>
+    <command>
+      <id>15</id>
+      <name>DOUBLE_CLICK_BUTTON</name>
+      <description>Double click the BTN_NAME button on the NAME</description>
+    </command>
+    <command>
+      <id>16</id>
+      <name>TRIPLE_CLICK_BUTTON</name>
+      <description>Triple click the BTN_NAME button on the NAME</description>
+    </command>
+    <command>
+      <id>17</id>
+      <name>RAMP_TO_PRESET</name>
+      <description>Ramp to Preset Level on the NAME over TIME STRING</description>
+    </command>
+    <command>
+      <id>18</id>
+      <name>SET_BRIGHTNESS_TARGET</name>
+      <description>WHAT the brightness to VALUE on the NAME TIME_STRING</description>
+    </command>
+    <command>
+      <id>19</id>
+      <name>SET_COLOR_TARGET</name>
+      <description>WHAT the color COLOR on the NAME TIME_STRING</description>
+    </command>
+    <command>
+      <id>19</id>
+      <name>SET_BRIGHTNESS_ON_MODE</name>
+      <description>Set the Brightness On Mode to VALUE on the NAME</description>
+    </command>
+    <command>
+      <id>20</id>
+      <name>SET_COLOR_ON_MODE</name>
+      <description>Set the Color On Mode to VALUE on the NAME</description>
+    </command>
+    <command>
+      <id>21</id>
+      <name>SET_BRIGHTNESS_STOP</name>
+      <description>Stop Brightness transition on the NAME</description>
+    </command>
+    <command>
+      <id>22</id>
+      <name>SET_COLOR_STOP</name>
+      <description>Stop Color transition on the NAME</description>
+    </command>
+    <command>
+      <id>23</id>
+      <name>SET_COLOR_TARGET_TO_VARIABLE</name>
+      <description>WHAT Color Target on the NAME = VAR_DEVICE->VARIABLE TIME_STRING</description>
+    </command>
+    <command>
+      <id>24</id>
+      <name>SET_BRIGHTNESS_TARGET_TO_VARIABLE</name>
+      <description>WHAT the brightness on the NAME = VAR_DEVICE->VARIABLE TIME_STRING</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <name>LOAD_ON</name>
+      <description>NAME is on</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <name>LOAD_OFF</name>
+      <description>NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <name>IS_BRIGHTNESS_CURRENT</name>
+      <description>NAME current brightness LOGIC VALUE TYPE</description>
+    </conditional>
+    <conditional>
+      <id>3</id>
+      <name>IS_BRIGHTNESS_TARGET</name>
+	  <description>NAME brightness target LOGIC VALUE TYPE</description>
+    </conditional>
+    <conditional>
+      <id>4</id>
+      <name>BUTTON_PRESSED</name>
+      <description>NAME BTN_NAME is pressed</description>
+    </conditional>
+    <conditional>
+      <id>5</id>
+      <name>BUTTON_RELEASED</name>
+      <description>NAME BTN_NAME is released</description>
+    </conditional>
+    <conditional>
+      <id>6</id>
+      <name>BUTTON_COLOR</name>
+	  <description>NAME BTN_NAME color equals COLOR</description>
+    </conditional>
+    <conditional>
+      <id>7</id>
+      <name>BUTTON_NOT_COLOR</name>
+	  <description>NAME BTN_NAME color doesn't equal COLOR</description>
+    </conditional>
+    <conditional>
+      <id>8</id>
+      <name>IS_COLOR_CURRENT</name>
+	  <description>NAME current color is COLOR</description>
+    </conditional>
+    <conditional>
+      <id>9</id>
+      <name>IS_COLOR_TARGET</name>
+	  <description>NAME color target is COLOR</description>
+    </conditional>
+    <conditional>
+      <id>10</id>
+      <name>IS_BRIGHTNESS_ON_MODE</name>
+      <description>NAME brightness on mode is MODE</description>
+    </conditional>
+    <conditional>
+      <id>11</id>
+      <name>IS_COLOR_ON_MODE</name>
+      <description>NAME color on mode is MODE</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>5000</id>
+	  <name>LEVEL_CHANGE</name>
+      <description>When NAME level changes</description>
+    </event>
+    <event>
+      <id>1</id>
+	  <name>RELEASE</name>
+      <description>When NAME BTN_NAME button is released</description>
+    </event>
+    <event>
+      <id>2</id>
+	  <name>PUSH</name>
+      <description>When NAME BTN_NAME button is pushed</description>
+    </event>
+    <event>
+      <id>3</id>
+	  <name>SINGLE_CLICK</name>
+      <description>When NAME BTN_NAME button is single tapped</description>
+    </event>
+    <event>
+      <id>4</id>
+	  <name>DOUBLE_CLICK</name>
+      <description>When NAME BTN_NAME button is double tapped</description>
+    </event>
+    <event>
+      <id>5</id>
+	  <name>TRIPLE_CLICK</name>
+      <description>When NAME BTN_NAME button is triple tapped</description>
+    </event>
+    <event>
+      <id>100</id>
+	  <name>LIGHT_ON</name>
+      <description>When NAME turns on</description>
+    </event>
+    <event>
+      <id>101</id>
+	  <name>LIGHT_OFF</name>
+      <description>When NAME turns off</description>
+    </event>
+    <event>
+      <id>3001</id>
+	  <name>BRIGHTNESS_CHANGING</name>
+      <description>When NAME brightness starts to change</description>
+    </event>
+    <event>
+      <id>3002</id>
+	  <name>BRIGHTNESS_CHANGED</name>
+      <description>When NAME brightness finishes changing</description>
+    </event>
+    <event>
+      <id>4001</id>
+	  <name>COLOR_CHANGING</name>
+      <description>When NAME color starts to change</description>
+    </event>
+    <event>
+      <id>4002</id>
+	  <name>COLOR_CHANGED</name>
+      <description>When NAME color finishes changing</description>
+    </event>
+  </events>
+  <name>Light (v2)</name>
+  <small>devices_sm/dimmer.gif</small>
+  <large>devices_lg/dimmer.gif</large>
+  <control>light_v2</control>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxy/>
+  <driver>ebda6dc2-1240-46af-8b20-b0635f7e4ba6</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Light</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <classes>
+        <class>
+          <classname>LIGHT_V2</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>
+
+<!-- these are the various capabilties that v2 protocol lights can have that
+	 will be recognized by the proxy
+	 -dimmer (will only use the following if true)
+		set_level
+		ramp_level
+		click_rates
+		hold_rates
+		cold_start
+		min_max
+	-on_off
+	-has_leds
+	-hide_proxy_events
+	-hide_proxy_properties
+	-has_button_events
+	-num_buttons
+	-load_group_support
+	-advanced_scene_support
+-->

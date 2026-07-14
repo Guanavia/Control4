@@ -1,0 +1,269 @@
+<devicedata>
+  <version>2</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>6/18/2007 3:30 PM</created>
+  <modified>6/18/2007 3:30 PM</modified>
+  <commands>
+    <command>
+      <id>0</id>
+      <description>Turn on the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <description>Turn off the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <description>Start playing on the NAME</description>
+    </command>
+    <command>
+      <id>3</id>
+      <description>Stop the NAME</description>
+    </command>
+    <command>
+      <id>4</id>
+      <description>Pause the NAME</description>
+    </command>
+    <command>
+      <id>5</id>
+      <description>Skip forward on the NAME</description>
+    </command>
+    <command>
+      <id>6</id>
+      <description>Skip reverse on the NAME</description>
+    </command>
+    <command>
+      <id>7</id>
+      <description>Scan forward on the NAME</description>
+    </command>
+    <command>
+      <id>8</id>
+      <description>Scan reverse on the NAME</description>
+    </command>
+    <command>
+      <id>9</id>
+      <description>Display menu on the NAME</description>
+    </command>
+    <command>
+      <id>10</id>
+      <description>Push up on the NAME</description>
+    </command>
+    <command>
+      <id>11</id>
+      <description>Push down on the NAME</description>
+    </command>
+    <command>
+      <id>12</id>
+      <description>Push left on the NAME</description>
+    </command>
+    <command>
+      <id>13</id>
+      <description>Push right on the NAME</description>
+    </command>
+    <command>
+      <id>14</id>
+      <description>Push enter on the NAME</description>
+    </command>
+    <command>
+      <id>15</id>
+      <description>Go to channel INTEGER on the NAME</description>
+    </command>
+    <command>
+      <id>16</id>
+      <description>Push and hold channel up on the NAME</description>
+    </command>
+    <command>
+      <id>17</id>
+      <description>Release channel up on the NAME</description>
+    </command>
+    <command>
+      <id>18</id>
+      <description>Push and hold channel down on the NAME</description>
+    </command>
+    <command>
+      <id>19</id>
+      <description>Release channel down on the NAME</description>
+    </command>
+    <command>
+      <id>20</id>
+      <description>Push channel up on the NAME</description>
+    </command>
+    <command>
+      <id>21</id>
+      <description>Push the channel down on the NAME</description>
+    </command>
+    <command>
+      <id>22</id>
+      <description>Start recording on the NAME</description>
+    </command>
+    <command>
+      <id>23</id>
+      <description>Page up on the NAME</description>
+    </command>
+    <command>
+      <id>24</id>
+      <description>Page down on the NAME</description>
+    </command>
+    <command>
+      <id>25</id>
+      <description>Toggle TV/Video on the NAME</description>
+    </command>
+    <command>
+      <id>26</id>
+      <description>Display info on the NAME</description>
+    </command>
+    <command>
+      <id>27</id>
+      <description>Cancel the current action on the NAME</description>
+    </command>
+    <command>
+      <id>28</id>
+      <description>Recall the previous action on the NAME</description>
+    </command>
+    <command>
+      <id>29</id>
+      <description>Select PVR on the NAME</description>
+    </command>
+    <command>
+      <id>30</id>
+      <description>Display guide on the NAME</description>
+    </command>
+    <command>
+      <id>31</id>
+      <description>Enter '0' on the NAME</description>
+    </command>
+    <command>
+      <id>32</id>
+      <description>Enter '1' on the NAME</description>
+    </command>
+    <command>
+      <id>33</id>
+      <description>Enter '2' on the NAME</description>
+    </command>
+    <command>
+      <id>34</id>
+      <description>Enter '3' on the NAME</description>
+    </command>
+    <command>
+      <id>35</id>
+      <description>Enter '4' on the NAME</description>
+    </command>
+    <command>
+      <id>36</id>
+      <description>Enter '5' on the NAME</description>
+    </command>
+    <command>
+      <id>37</id>
+      <description>Enter '6' on the NAME</description>
+    </command>
+    <command>
+      <id>38</id>
+      <description>Enter '7' on the NAME</description>
+    </command>
+    <command>
+      <id>39</id>
+      <description>Enter '8' on the NAME</description>
+    </command>
+    <command>
+      <id>40</id>
+      <description>Enter '9' on the NAME</description>
+    </command>
+    <command>
+      <id>41</id>
+      <description>Enter '-' on the NAME</description>
+    </command>
+    <command>
+      <id>42</id>
+      <description>Enter '*' on the NAME</description>
+    </command>
+    <command>
+      <id>43</id>
+      <description>Enter '#' on the NAME</description>
+    </command>
+    <command>
+      <id>44</id>
+      <description>Start the Channel</description>
+    </command>
+    <command>
+      <id>45</id>
+      <description>Stop the Channel</description>
+    </command>
+    <command>
+      <id>46</id>
+      <description>Pulse the Channel</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>NAME is on</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <description>last channel is LOGIC INTEGER on the NAME</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME turns On</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME turns Off</description>
+    </event>
+ 	<event>
+      <id>3</id>
+      <description>When NAME plays</description>
+    </event>
+    <event>
+      <id>4</id>
+      <description>When NAME stops</description>
+    </event>
+    <event>
+      <id>5</id>
+      <description>When NAME pauses</description>
+    </event>
+    <event>
+      <id>6</id>
+      <description>When NAME records</description>
+    </event>
+    <event>
+      <id>7</id>
+      <description>When the channel changes on the NAME</description>
+    </event>
+  </events>
+  <name>DVR</name>
+  <small>devices_sm/cable_on_16.gif</small>
+  <large>devices_lg/cable_on_32.gif</large>
+  <control>satellite</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>19</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Satellite Receiver</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>SATELLITE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

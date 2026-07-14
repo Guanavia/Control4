@@ -1,0 +1,26 @@
+<devicedata>
+	<version>3</version>
+	<combo/>
+	<created>8/10/2016</created>
+	<modified>2/20/2019</modified>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-KA</model>
+	<name>Auxiliary Keypad</name>
+	<small>devices_sm/dimmer.gif</small>
+	<large>devices_lg/dimmer.gif</large>
+	<control>control4_mechanical_switch</control>
+	<proxy name="Control4 Auxiliary Keypad">control4_mechanical_switch</proxy>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>73322e10-8fe3-46ef-b9ad-632c2853b3fa</driver>
+	<search_types>
+		<type>c4:control4_light:C4-KA</type>
+	</search_types>
+
+	<capabilities />
+
+	<connections />
+</devicedata>

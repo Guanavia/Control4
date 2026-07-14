@@ -1,0 +1,1068 @@
+# 
+# Translators:
+# Darin Theurer <dtheurer@control4.com>, 2025
+# Yossi Gol <yossi@topaudio.co.il>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Hebrew (https://app.transifex.com/control4/teams/15374/he/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: he\n"
+"Name: \n"
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "מקור {roomName}"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "השהיית פעולה (שניות)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "פעולות"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "שומר אוויר"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "שגרת חיסכון באוויר"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "איפוס האזעקה"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "צג אזעקה"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "שגרת ניטור אזעקה"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "אזעקה מופעלת"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"התראה לאחר הזמן שצוין אם הדלתות או החלונות שצוינו פתוחים והתרמוסטטים שצוינו "
+"מחממים או מקררים באופן פעיל."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr "התראה אם חיישן מעד במשך יותר מזמן שצוין."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "אודיו / וידאו"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "אוטומטי"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "הפוך את כיבוי האורות לאוטומטי בכל פעם שהם מופעלים."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr "הבהוב באופן אוטומטי של אורות נבחרים כאשר תחנת הדלת נבחרת מצלצלת"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr "כיבוי אוטומטי של התאורה האחורית במסך המגע בין הזמנים שצוינו"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"הפעלה אוטומטית של אורות נבחרים למשך הזמן שנבחר כאשר מצלמות נבחרות מזהות "
+"תנועה"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"הפעלה/כיבוי אוטומטיים של המאוורר שצוין לאחר הדלקת/כיבוי של הנורית שנבחרה"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "אוטומציה"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "פרפר"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "כפתור"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "לחיצה על כפתור"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "לחצן שיחה 2 לחוץ"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "לחצן שיחה 3 לחוץ"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "לחצן שיחה 4 לחוץ"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "לחצן שיחה 5 לחוץ"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "לחצן שיחה 6 לחוץ"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "לחצן שיחה לחוץ"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "בטל אירוע זה"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "תיבת סימון"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "נוריות בקרה"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "שליטה באורות או בחירת סצנה"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr "אורות הבקרה נדלקים ונכבים סביב השקיעה והזריחה."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "מאווררים מבוקרים"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "אורות נשלטים"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "מנעולים מבוקרים"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "תרמוסטטים מבוקרים"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "קירור"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "חדר חושך"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "שגרת חדר חושך"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "תאריך"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "תאריך/שעה"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "הדגמת יכולות ממשק המשתמש של Routines"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "אל תבחר קביעה מוגדרת מראש"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "אל תבחר סצנה"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "מחוון דלת"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "שגרת חיווי דלת"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "ברווז"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "הגדרה מוגדרת מראש של EBMS"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "שגרת EBMS"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "מצב חירום הופעל"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "ריק"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "זמן סיום"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "אנגלית: בדיקת משתנים: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "שגיאה: אין תוכן זמין, אנא הפעל משהו קודם"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "שגיאה: לא נבחר תוכן"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "אירוע"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "{index} אירועים - הושלם"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "{index} האירוע - הושלם (שונה)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "{index} אירועים לדוגמה"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "שגרה לדוגמה"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "מקטע לדוגמה (הרשימה המלאה)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "דוגמה/שגרת הדגמה"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "טיימר למאווררים"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "שגרת טיימר למאווררים"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "מאווררים כבויים"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "מאווררים מופעלים"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "המאווררים יכבו"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "המאווררים יופעלו"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "שישי"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "צור 5 אירועים"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "יצירת אירועים"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "גדר גיאוגרפית"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "שגרת גידור גיאוגרפי"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "חימום"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "סמל"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "מקור תמונה של סמל"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "אינדקס לאירוע"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "קינגפישר"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "כיבוי אוטומטי של נורות"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "שגרת כיבוי אוטומטי קלה"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "תאורה"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "סצנת תאורה"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "תאורה"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "פעולת כניסת אורות"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "פעולת יציאת אורות"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "אורות לשליטה"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "אורות להדלקה"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "האורות הבהבו - כפתור {deviceName} נלחץ"
+
+#: driver.lua:75
+msgid "List"
+msgstr "רשימה"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "MDM מוגדר מראש"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "בהירות מרבית"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "הבהירות המקסימלית הופחתה"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "הבהירות המקסימלית שוחזרה"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "הבהירות המקסימלית תשוחזר"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "הבהירות המקסימלית תפחת"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "שינוי אירוע"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "שינוי אירוע בציר הזמן"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "שינוי {index} אירועים - הצלחה: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "שני"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "מצלמות מנוטרות"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "תחנות דלת מפוקחות"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "דלתות וחלונות מפוקחים"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "אור מנוטר"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "חיישני בטיחות מנוטרים"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "מחיצות אבטחה מנוטרות"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "חיישנים מנוטרים"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "תרמוסטטים מנוטרים"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "תזוזה"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "זיהוי תנועה"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "אורות תנועה"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "שגרת אורות תנועה"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "לעולם לא"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "תאורת לילה"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "שגרת תאורת לילה"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "אין פעולה"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "ללא שינוי"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "עיכוב הודעה (דקות)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "עיכוב הודעה (שניות)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "טקסט הודעה"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "מספר"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "כיבוי"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "דלוק"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr "בצע פעולות בטיחות מומלצות אם מופעלת אזעקת חום, עשן או פחמן חד חמצני."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "הודעת דחיפה נשלחה"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "הפחת את בהירות ברירת המחדל של אורות בשעות הלילה."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "ארוע מרוחק"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "הסרת אירוע בציר הזמן"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "הסרת אירוע {index} - הצלחה: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "בוחר חדרים"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "הפעל פעולות עכשיו"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "הפעל את שעת הסיום עכשיו"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "רוץ עכשיו"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "הפעל את שעת ההתחלה עכשיו"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "הפעל אירוע זה כעת"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "הפעל כבה כעת"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "הפעל הפעל כעת"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "אזעקת בטיחות"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "שגרת אזעקת בטיחות"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "שבת"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "לוח זמנים"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "שמע מתוזמן"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "שגרת שמע מתוזמנת"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "אירוע מתוכנן רץ"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "אירוע מתוכנן יפעל"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "בחר מקורות שמע בכל חדר בלוח זמנים"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"בחר מקורות שמע בכל חדר/ים, ובחר אפשרות לסצנת תאורה, הגדרה מוגדרת מראש של "
+"EBMS ו/או MDM"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "בחר סצנה"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "סצנה נבחרת"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "האורות שנבחרו יכבו"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "האורות שנבחרו יידלקו"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "הסצנה שנבחרה תכבה"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "הסצנה שנבחרה תופעל"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr "שלח הודעת דחיפה אם מחיצת אבטחה או חיישן בטיחות מתריעים."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "צג חיישן"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "שגרת ניטור חיישנים"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "הגדר אירוע"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "הגדרת אירוע בציר הזמן"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "קביעת זמן"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "הגדרת {index} אירועים - הצלחה: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "הגדרת {index} אירועים בעבר - הצלחה: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "ההתקנה"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "הצג זאת כלא שלם"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "הצג את המקטע 'תרגומים'"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "הצגה/הסתרה של רכיבים"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "המחוון"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "זמן התחלה"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "ראשון"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "זריחה"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "שקיעה"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "מתג"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "מערכת"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "בדיקה: אירוע לחצן שיחה"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "מבחן: נכנס לאירוע גדר גיאוגרפית"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "מבחן: אירוע גידור גיאוגרפי יציאה"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "מבחן: אירוע שזוהה תנועה"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "בדיקה: פעולות בטיחות הפעלה"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "בדיקה: חיישן בטיחות שלח התראה"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "בדיקה: מערכת אבטחה שלח התראה"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "בדיקה: שליחת התראה"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "בדיקה: החלפת מצב אורות נבחרים"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "טקסט"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "שדה טקסט אלפא"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "שדה טקסט אלפאנומרי"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "שדה טקסט רגיל"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "מספר שדה טקסט"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "מספרי שדה טקסט"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "סיסמת שדה טקסט"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "פעולת כניסת תרמוסטט"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "פעולת יציאת תרמוסטט"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "תרמוסטטים לשליטה"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "חמישי"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "זמן"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "אורות מתוזמנים"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "שגרת אורות מתוזמנים"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "מידע על ציר הזמן"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "אינטראקציה עם ציר זמן"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "טיימר (דקות)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "החלף"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "חזור למצב קודם תוך 5 שניות"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "החלף את תיבת הסימון"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "מסכי מגע"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "מסכי מגע מוארים"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "מסכי מגע חשוכים"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "מסכי מגע יתבהרו"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "מסכי המגע יתכהו"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "תרגומים"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "בורר תרגומים"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "שלישי"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "כבה ב"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "כבה בזמן"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "כיבוי אורות עיכוב (דקות)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "כבו דקות לאחר הזריחה"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "ביטול שעון עצר של הצפת (דקות)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "כיבוי חדר"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "כבה עם הזריחה"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "הפעל את ב"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "הפעל את At Time"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "הפעלת טיימר השהיה (דקות)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "הפעל דקות לאחר השקיעה"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "הפעל בשקיעה"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "כתובת URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "מצלמה לא ידועה"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "תחנת דלת לא ידועה"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "קביעה מוגדרת מראש של EBMS לא ידועה"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "מעריץ לא ידוע"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "אור לא ידוע"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "מנעול לא ידוע"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "קביעה מוגדרת מראש של MDM לא ידועה"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "חיישן בטיחות לא ידוע"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "סצנה לא ידועה"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "מחיצת אבטחה לא ידועה"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "חיישן לא ידוע"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "תרמוסטט לא ידוע"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "מסך מגע לא ידוע"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "כתובת URL של סמל"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"משתמש ב-Geofence Agent כדי להפעיל שגרה בעת כניסה או יציאה מגדר וירטואלי."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "רביעי"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "eventLabel"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "מבוטלת"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "מופעל"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} מופעל - פעולות בטיחות פועלות"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} מופעל - פעולה זו תפעיל פעולות בטיחות"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr "{deviceName} שזוהה תנועה, האורות חזרו למצב הקודם לאחר פסק זמן"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} זוהה תנועה, האורות דולקים"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr "{deviceName} שזוהה תנועה, האורות יחזרו למצב הקודם לאחר פסק הזמן"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} נכנס לגדר וירטואלית {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} יצא מגדר גיאוגרפית {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} הפעילה הודעת דחיפה"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} כבוי"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} יפעיל הודעת דחיפה"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} יכבה"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} רץ"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} ירוץ"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} פתוחים {hvacZonesOnCount} מופעלים - פעולה זו תפעיל הודעת "
+"דחיפה"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "תוכן {service}"

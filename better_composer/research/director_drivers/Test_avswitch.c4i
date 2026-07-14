@@ -1,0 +1,90 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands />
+  <conditionals />
+  <events>
+    <event>
+        <id>2101</id>
+        <description>When an output mute setting changes</description>
+    </event>
+    <event>
+        <id>601</id>
+        <description>When an output volume level changes</description>
+    </event>
+    <event>
+        <id>901</id>
+        <description>When an output Balance level changes</description>
+    </event>
+    <event>
+        <id>801</id>
+        <description>When an output Treble level changes</description>
+    </event>
+    <event>
+        <id>701</id>
+        <description>When an output Bass level changes</description>
+    </event>
+    <event>
+        <id>2001</id>
+        <description>When an output Loudness setting changes</description>
+    </event>
+    <event>
+        <id>101</id>
+        <description>When an output audio parameter changes</description>
+    </event>
+    <event>
+        <id>2201</id>
+        <description>When an input/output changes</description>
+    </event>
+  </events>
+  <name>A/V Switch</name>
+  <small>devices_sm/avswitch.gif</small>
+  <large>devices_lg/avswitch.gif</large>
+  <control>avswitch</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>24</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>AVSwitch</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>AVSWITCH</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 1</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+  <capabilities>
+    <audio_provider_count>1</audio_provider_count>
+  </capabilities>
+</devicedata>

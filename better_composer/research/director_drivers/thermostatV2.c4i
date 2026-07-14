@@ -1,0 +1,52 @@
+<devicedata>
+  <version>3</version>
+  <copyright>Copyright 2004-2010 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>11/23/2009</created>
+  <modified>03/09/2010</modified>
+  <commands/>
+  <conditionals/>
+  <events/>
+  <name>ThermostatV2</name>
+  <manufacturer>Control4</manufacturer>
+  <model>ThermostatV2</model>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+  <small>devices_sm/HVAC_16.gif</small>
+  <large>devices_lg/HVAC_32.gif</large>
+  <control>thermostatV2</control>
+  <proxy />
+  <driver>20091123</driver>
+  <states>
+  </states>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat 1</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Temperature</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <classes>
+        <class>
+          <classname>TEMPERATURE_VALUE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>
+

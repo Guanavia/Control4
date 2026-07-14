@@ -1,0 +1,42 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands/>
+  <conditionals/>
+  <events/>
+  <name>Blinds V2</name>
+  <small>devices_sm/blinds.gif</small>
+  <large>devices_lg/blinds.gif</large>
+  <control>blindV2</control>
+  <composer_categories>
+    <category>Motorization</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Comfort</category>
+  </navigator_categories>
+  <proxy />
+  <driver>18</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Blinds</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>BLIND</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

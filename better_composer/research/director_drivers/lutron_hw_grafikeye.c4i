@@ -1,0 +1,659 @@
+<devicedata>
+	<copyright>Copyright 2008 Control4 Corporation.  All rights reserved.</copyright>
+	<version>6</version>
+    <combo>True</combo>
+	<manufacturer>Lutron</manufacturer>
+	<name>GRAFIK Eye</name>
+	<model>HomeWorks GRAFIK Eye</model>
+	<creator>Control4</creator>
+	<created>3/18/2009 10:30 PM</created>
+	<modified>5/07/2009 2:30 PM</modified>
+	<small>devices_sm/LutronDimmer.gif</small>
+	<large>devices_lg/LutronDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>lutron_hw_grafikeye</proxy>
+	<states />
+	<conditionals />
+	<events>
+		<event>
+			<id>1</id>
+			<name>Scene 1 Selected</name>
+			<description>When NAME scene 1 is selected</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>Scene 2 Selected</name>
+			<description>When NAME scene 2 is selected</description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>Scene 3 Selected</name>
+			<description>When NAME scene 3 is selected</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Scene 4 Selected</name>
+			<description>When NAME scene 4 is selected</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>Scene 5 Selected</name>
+			<description>When NAME scene 5 is selected</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Scene 6 Selected</name>
+			<description>When NAME scene 6 is selected</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Scene 7 Selected</name>
+			<description>When NAME scene 7 is selected</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Scene 8 Selected</name>
+			<description>When NAME scene 8 is selected</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Scene 9 Selected</name>
+			<description>When NAME scene 9 is selected</description>
+		</event>
+		<event>
+			<id>10</id>
+			<name>Scene 10 Selected</name>
+			<description>When NAME scene 10 is selected</description>
+		</event>
+		<event>
+			<id>11</id>
+			<name>Scene 11 Selected</name>
+			<description>When NAME scene 11 is selected</description>
+		</event>
+		<event>
+			<id>12</id>
+			<name>Scene 12 Selected</name>
+			<description>When NAME scene 12 is selected</description>
+		</event>
+		<event>
+			<id>13</id>
+			<name>Scene 13 Selected</name>
+			<description>When NAME scene 13 is selected</description>
+		</event>
+		<event>
+			<id>14</id>
+			<name>Scene 14 Selected</name>
+			<description>When NAME scene 14 is selected</description>
+		</event>
+		<event>
+			<id>15</id>
+			<name>Scene 15 Selected</name>
+			<description>When NAME scene 15 is selected</description>
+		</event>
+		<event>
+			<id>16</id>
+			<name>Scene 16 Selected</name>
+			<description>When NAME scene 16 is selected</description>
+		</event>
+		<event>
+			<id>17</id>
+			<name>Scene Off Selected</name>
+			<description>When NAME scene off is selected</description>
+		</event>
+	</events>
+	<config>
+		<documentation>
+Lutron HomeWorks GRAFIK Eye
+	
+When installing drivers to connect to a Lutron HomeWorks system, it is recommended that you add the Lutron HomeWorks Network driver first. Homeworks Network is a singleton driver and can be added only once in a project. If this driver exists prior to adding any of the other drivers, then the other drivers will be automatically connected to the HomeWorks Network driver. If that driver is not added first, then those connections will need to be made manually.
+	
+The HomeWorks GRAFIK Eye driver is used to control and monitor the lighting scenes of any GRAFIK Eye on the Lutron HomeWorks system. To control or monitor a GRAFIK Eye load, a HomeWorks Dimmer driver should be added for each load that is controlled or monitored. When the driver is added it is automatically linked to a HomeWorks Network driver if it exists. If the driver does not exist the connection will need to be made manually after it has been added.
+	
+Properties
+Device Address:	
+	This is the address of the GRAFIK Eye. This is how it is identified.
+	Device Address Formatting
+	* Each device address is separated into 3-5 elements. Each element must be separated with a colon (:).  Refer to the Lutron documentation for device specific addressing.
+	* The device address must be enclosed with [brackets].
+	* Example: [01:04:01:01:01]
+	(Note:  If you are unsure of the Lutron HomeWorks addressing, please refer to the  "Device Address Formatting" section of Lutron HomeWorks protocol documentation. This documentation can be found online at: http://resi.lutron.com/Portals/3/Support/Documentation/HWI%20RS232%20Protocol.pdf)
+
+Debug Mode:
+	Used for debugging the driver. Output is displayed on the Lua tab.
+	Options:
+		Off
+		Print
+		Log
+		Print and Log
+		
+Variables
+	SCENE_SELECTED
+
+Events
+	Device Specific Events:
+	* Scene # Selected
+
+Commands
+	Device Specific Commands:
+	* Select Scene
+	  - Scene Number (the scene (1-16) to execute)
+	
+Conditionals
+	None
+
+Loops
+	None
+
+Connections
+	There is a connection for each Scene on a GRAFIK Eye. There are up to 16 scenes on a GRAFIK Eye. The following connections are available:
+	* Lighting Scene Off
+	* Lighting Scene #
+
+		</documentation>
+		<identify_text>To Be Determined.</identify_text>
+		<properties>
+			<property>
+				<name>Device Address</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Select Scene</name>
+				<description>Select NAME scene number PARAM1</description>
+				<params>
+					<param>
+						<name>Scene</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>16</maximum>
+					</param>
+				</params>
+			</command>
+		</commands>
+		<script>
+			<![CDATA[
+lutronHWBinding = 1
+
+sceneBindingOff = 300
+sceneBinding1 = 301
+sceneBinding2 = 302
+sceneBinding3 = 303
+sceneBinding4 = 304
+sceneBinding5 = 305
+sceneBinding6 = 306
+sceneBinding7 = 307
+sceneBinding8 = 308
+sceneBinding9 = 309
+sceneBinding10 = 310
+sceneBinding11 = 311
+sceneBinding12 = 312
+sceneBinding13 = 313
+sceneBinding14 = 314
+sceneBinding15 = 315
+sceneBinding16 = 316
+
+function OnPropertyChanged(strProperty)
+	dbg("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	if (strProperty == "Device Address") then
+		g_deviceAddress = Properties[strProperty]
+		local tParams = {DEVICE_ID = C4:GetDeviceID(), ADDRESS = g_deviceAddress}
+		C4:SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+	elseif (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debugunittest = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		elseif (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debugunittest = false
+			g_debuglog = false
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	else
+		dbg("No action performed for " .. strProperty .. " which has been set to: " .. Properties[strProperty])
+	end
+end
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function dbg(strDebugText)
+	if (g_debugprint) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_grafikeye: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (g_debugunittest) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_grafikeye: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (g_debugprint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (g_debuglog  and debugFunction) then C4:ErrorLog("lutron_hw_grafikeye: " .. strFunction) end
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == g_DebugTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == lutronHWBinding) then
+		tParams["ADDRESS"] = g_deviceAddress
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+			dbg ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+	end
+		
+	-- Commands
+	if (strCommand == "Select Scene") then
+		SendToProxy(lutronHWBinding, "SELECT_SCENE", tParams)
+
+	-- Events
+	elseif (strCommand == "SCENE_SELECTED") then
+		local sceneNumber = tonumber(tParams["SCENE"])
+		local eventName = ""
+
+		C4:SetVariable("SCENE_SELECTED", sceneNumber)
+		if (sceneNumber == 0) then
+			eventName = "Scene Off Selected"
+		else
+			eventName = "Scene " .. sceneNumber .. " Selected"
+		end
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	else
+		dbg("From ExecuteCommand Function - Undefined Command: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)    -- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (strCommand == "GET_PROPERTIES") then
+			if (idBinding == lutronHWBinding) then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+			end
+		elseif (strCommand == "DO_CLICK") then
+			local sceneNumber = 0
+			if (idBinding == sceneBindingOff) then sceneNumber = 0
+			elseif (idBinding == sceneBinding1) then sceneNumber = 1
+			elseif (idBinding == sceneBinding2) then sceneNumber = 2
+			elseif (idBinding == sceneBinding3) then sceneNumber = 3
+			elseif (idBinding == sceneBinding4) then sceneNumber = 4
+			elseif (idBinding == sceneBinding5) then sceneNumber = 5
+			elseif (idBinding == sceneBinding6) then sceneNumber = 6
+			elseif (idBinding == sceneBinding7) then sceneNumber = 7
+			elseif (idBinding == sceneBinding8) then sceneNumber = 8
+			elseif (idBinding == sceneBinding9) then sceneNumber = 9
+			elseif (idBinding == sceneBinding10) then sceneNumber = 10
+			elseif (idBinding == sceneBinding11) then sceneNumber = 11
+			elseif (idBinding == sceneBinding12) then sceneNumber = 12
+			elseif (idBinding == sceneBinding13) then sceneNumber = 13
+			elseif (idBinding == sceneBinding14) then sceneNumber = 14
+			elseif (idBinding == sceneBinding15) then sceneNumber = 15
+			elseif (idBinding == sceneBinding16) then sceneNumber = 16
+			else
+				dbgUnitTest("Invalid Event")
+				return
+			end
+
+			local tProxyParams = {}
+			tProxyParams["Scene"] = sceneNumber
+			SendToProxy(lutronHWBinding, "SELECT_SCENE", tProxyParams)
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+-----------------------------  INIT   -----------------------------
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+g_deviceAddress = ""
+
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+C4:AddVariable("SCENE_SELECTED", "", "NUMBER", true, false)
+
+]]>
+		</script>
+	</config>
+	<capabilities/>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Lutron HomeWorks Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>LUTRON_HW_GRAFIKEYE</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene Off</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>301</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 1</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>302</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 2</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>303</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 3</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>304</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 4</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>305</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 5</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>306</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 6</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>307</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 7</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>308</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 8</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>309</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 9</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>310</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 10</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>311</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 11</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>312</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 12</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>313</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 13</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>314</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 14</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>315</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 15</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>316</id>
+			<facing>6</facing>
+			<connectionname>Lighting Scene 16</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

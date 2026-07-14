@@ -1,0 +1,190 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands>
+    <command>
+      <name>ON</name>
+      <description>Turn On NAME</description>
+    </command>
+    <command>
+      <name>OFF</name>
+      <description>Turn Off NAME</description>
+    </command>
+    <command>
+      <name>SKIP_FWD</name>
+      <description>Set to next preset channel on NAME</description>
+    </command>
+    <command>
+      <name>SKIP_REV</name>
+      <description>Set to previous preset channel on NAME</description>
+    </command>
+    <command>
+      <name>SCAN_FWD</name>
+      <description>Search forward on NAME</description>
+    </command>
+    <command>
+      <name>SCAN_REV</name>
+      <description>Search backwards on NAME</description>
+    </command>
+    <command>
+      <name>SET_INPUT</name>
+      <description>Set Input on NAME to </description>
+    </command>
+    <command>
+      <name>INPUT_TOGGLE</name>
+      <description>Toggle input on NAME</description>
+    </command>
+    <command>
+      <name>SET_CHANNEL</name>
+      <description>Set channel on NAME to</description>
+    </command>
+    <command>
+      <name>START_CH_UP</name>
+      <description>Start channel increasing on NAME</description>
+    </command>
+    <command>
+      <name>STOP_CH_UP</name>
+      <description>Stop channel increasing on NAME</description>
+    </command>
+    <command>
+      <name>PULSE_CH_UP</name>
+      <description>Pulse channel up on NAME</description>
+    </command>
+    <command>
+      <name>START_CH_DOWN</name>
+      <description>Start channel decreasing on NAME</description>
+    </command>
+    <command>
+      <name>STOP_CH_DOWN</name>
+      <description>Stop channel decreasing on NAME</description>
+    </command>
+    <command>
+      <name>PULSE_CH_DOWN</name>
+      <description>Pulse channel down on NAME</description>
+    </command>
+    <command>
+      <name>SET_PRESET</name>
+      <description>Select preset channel to {0} on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_0</name>
+      <description>Enter '0' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_1</name>
+      <description>Enter '1' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_2</name>
+      <description>Enter '2' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_3</name>
+      <description>Enter '3' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_4</name>
+      <description>Enter '4' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_5</name>
+      <description>Enter '5' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_6</name>
+      <description>Enter '6' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_7</name>
+      <description>Enter '7' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_8</name>
+      <description>Enter '8' on NAME</description>
+    </command>
+    <command>
+      <name>NUMBER_9</name>
+      <description>Enter '9' on NAME</description>
+    </command>
+    <command>
+      <name>DASH</name>
+      <description>Push the Dash on the NAME</description>
+    </command>
+    <command>
+      <name>STAR</name>
+      <description>Push the Star on the NAME</description>
+    </command>
+    <command>
+      <name>POUND</name>
+      <description>Push the Pound on the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <name>IS_ON</name>
+      <description>the NAME is On</description>
+    </conditional>
+    <conditional>
+      <name>IS_OFF</name>
+      <description>the NAME is Off</description>
+    </conditional>
+    <conditional>
+      <name>LAST_CHANNEL</name>
+      <description>the NAME current channel is LOGIC STRING</description>
+    </conditional>
+    <conditional>
+      <name>CURRENT_INPUT</name>
+      <description>the NAME current input is LOGIC STRING</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME turns on</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME turns off</description>
+    </event>
+    <event>
+      <id>7</id>
+      <description>When NAME channel Changes</description>
+    </event>
+    <event>
+      <id>8</id>
+      <description>When NAME Input Changes</description>
+    </event>
+  </events>
+  <name>Tuner</name>
+  <small>devices_sm/receiver.gif</small>
+  <large>devices_lg/receiver.gif</large>
+  <control>tuner</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>23</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>TUNER</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TUNER</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+  </config>
+</devicedata>

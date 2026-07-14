@@ -1,0 +1,54 @@
+<devicedata>
+  <version>2</version>
+  <c4id>483</c4id>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Commercial</manufacturer>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <created>1/28/2005 2:22:54 PM</created>
+  <modified>11/02/2005 12:30 PM</modified>
+  <creator>Control4</creator>
+  <model>Radio</model>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <capabilities>
+    <media_type>8</media_type>
+    <broadcast_search_type>AM</broadcast_search_type>
+    <audio_only_default>true</audio_only_default>
+  </capabilities>
+  <commands />
+  <conditionals />
+  <events />
+  <name>AM Radio</name>
+  <small>devices_sm/AMFM.gif</small>
+  <large>devices_lg/AMFM.gif</large>
+  <control>rf_network</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>rf_am</proxy>
+  <driver>100028</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>AM Radio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RF_AM</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

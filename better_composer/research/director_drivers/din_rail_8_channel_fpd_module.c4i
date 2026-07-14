@@ -1,0 +1,102 @@
+<devicedata>
+	<version>3</version>
+	<combo/>
+	<created>3/8/2018</created>
+	<modified>2/23/2021</modified>
+	<copyright>Copyright 2004-2021 Wirepath Home Systems, LLC.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-DIN-8FPD-E</model>
+	<name>8-Channel Forward Phase Dimmer</name>
+	<small>devices_sm/c4modI_16.gif</small>
+	<large>devices_lg/c4modI_32.gif</large>
+	<control>din_rail_module</control>
+	<proxy>din_rail_8_channel_fpd_module</proxy>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>a13741b2-e148-11df-9188-0026b9e1941c</driver>
+	<search_type>c4:control4_light:C4-DIN-8FPD-E</search_type>
+	<capabilities>
+		<number_of_proxy_lights>8</number_of_proxy_lights>
+		<dimmer>True</dimmer>
+		<phases>Forward Phase=3,SSL-7A=7</phases>
+		<nominal_voltages>100,110,115,120,127</nominal_voltages>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>6001</id>
+			<connectionname>IP Control</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>TCP</classname>
+					<ports>
+						<port>
+							<name>DIN Rail Connection</name>
+							<number>8840</number>
+							<auto_connect>False</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_connection>True</keep_connection>
+							<keep_alive>True</keep_alive>
+							<delimiter>0d0a</delimiter>
+						</port>
+					</ports>
+				</class>
+				<class>
+					<classname>SSL</classname>
+					<ports>
+						<port>
+							<name>DIN Rail Connection</name>
+							<number>8841</number>
+							<auto_connect>False</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_connection>True</keep_connection>
+							<keep_alive>True</keep_alive>
+							<delimiter>0d0a</delimiter>
+						</port>
+					</ports>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>DIN Rail Panel</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>DIN_RAIL_FULL_SLOT</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+		<!--
+		This is what a single din rail connection looks like.  They are commented
+		out because they are dynamically added in the code, based on the field
+		number_of_proxy_lights up above.
+		<connection>
+			<id>100</id>
+			<facing>6</facing>
+			<connectionname>DIN Rail Light 1</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>False</autobind>
+					<classname>PANEL_DIM_LIGHT</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+		-->
+	</connections>
+</devicedata>

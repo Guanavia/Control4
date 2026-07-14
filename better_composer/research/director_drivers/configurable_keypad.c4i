@@ -1,0 +1,113 @@
+<devicedata>
+	<version>8</version>
+	<created>5/17/2012</created>
+	<modified>1/27/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-KC120277, C4-SKC</model>
+	<name>Configurable Keypad</name>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<control>control4_lights_gen3</control>
+	<proxy name="Configurable Keypad">keypad_proxy</proxy>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>23466017-32de-463f-a784-b7fd6bcc2e53</driver>
+	<search_types>
+		<type>c4:control4_kp:C4-KC120277</type>
+		<type>c4:control4_kp:C4-SKC</type>
+	</search_types>
+	<capabilities>
+		<has_leds>True</has_leds>
+		<!-- keypad stuff -->
+		<leds_have_color>True</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>True</fully_customizable>
+		<engravable>True</engravable>
+		<custom_finishes>True</custom_finishes>
+		<button_behavior>False</button_behavior> <!-- all buttons are generic -->
+		<led_behavior>True</led_behavior>
+		<has_load>False</has_load>
+		<max_power>1</max_power>
+		<min_power>-7</min_power>
+	</capabilities>
+
+	<connections>
+		<!-- button links and contacts are added dynamically, would look like this though
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Button 1 Link</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		-->
+
+		<connection>
+			<id>400</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Source)</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>401</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Follower)</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>ZIGBEE</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>ZIGBEE</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

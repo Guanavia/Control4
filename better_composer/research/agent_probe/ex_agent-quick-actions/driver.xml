@@ -1,0 +1,100 @@
+<devicedata>
+	<copyright>Copyright 2026 Snap One, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<name>Quick Actions</name>
+	<model>Quick Actions</model>
+	<creator>Control4</creator>
+	<created>07/31/2025 10:00</created>
+	<modified>06/29/2026 15:00</modified>
+	<version>32</version>
+	<control>lua_gen</control>
+	<controlmethod>other</controlmethod>
+	<driver>DriverWorks</driver>
+	<auto_update>true</auto_update>
+	<minimum_auto_update_version>1</minimum_auto_update_version>
+	<minimum_os_version>4.0.0</minimum_os_version>
+	<composer_categories>
+		<category>Agents</category>
+	</composer_categories>
+	<config>
+		<script jit="1" encryption="2" file="lua/squished.lua"/>
+		<documentation file="www/documentation/index.html"/>
+		<properties>
+			<property>
+				<name>Agent Version</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>On</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Enabled Actions</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Move Action to Disabled</name>
+				<type>DYNAMIC_LIST</type>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Disabled Actions</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Move Action to Enabled</name>
+				<type>DYNAMIC_LIST</type>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Enabled Macros</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Move Macro to Disabled</name>
+				<type>DYNAMIC_LIST</type>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Disabled Macros</name>
+				<default/>
+				<type>STRING</type>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Move Macro to Enabled</name>
+				<type>DYNAMIC_LIST</type>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<commands/>
+		<actions/>
+	</config>
+	<connections/>
+	<events/>
+	<combo>true</combo>
+	<agent>true</agent>
+	<keywords>Lua_Agent</keywords>
+	<capabilities>
+		<navigator_display_option>
+			<translation_url>controller://driver/agent-quick-actions/translations</translation_url>
+		</navigator_display_option>
+	</capabilities>
+	<proxies>
+		<proxy>agent-quick-actions</proxy>
+	</proxies>
+</devicedata>

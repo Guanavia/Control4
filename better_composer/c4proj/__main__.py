@@ -12,6 +12,9 @@ CLI for c4proj.
   python -m c4proj diff      <a.c4p> <b.c4p> [--detail]  oracle: what changed A->B; --detail shows
                                                          state-blob field deltas + added bindings
   python -m c4proj rename    <file.c4p> <old> <new> -o out.c4p [--yes]   demo edit: rename a device
+  python -m c4proj add-rule  <file.c4p> <trigger_dev> <trigger_event> <target_dev> <command>
+                             -o out.c4p [--yes]   demo edit: single-command rule via programming.py
+                             ("WHEN trigger_dev fires trigger_event: send command to target_dev")
 
 Any editing command shows an identity card (project/version/director/date) and asks you to
 confirm it's the intended project before writing. Pass --yes to bypass for scripting.
@@ -276,6 +279,30 @@ def cmd_rename(path: str, old: str, new: str, out: str, assume_yes: bool) -> int
     return 0
 
 
+def cmd_add_rule(path: str, trigger_dev: str, trigger_event: str, target_dev: str,
+                  command_name: str, out: str, assume_yes: bool) -> int:
+    """Demo of the programming compiler: WHEN trigger_dev fires trigger_event, send command_name
+    to target_dev (no params -- for anything richer, use c4proj.programming directly)."""
+    from . import programming as prog
+    with C4Package.open(path) as pkg:
+        pm = _pm(pkg)
+        if not _confirm_project(pkg, pm, assume_yes):
+            return 3
+        names = {d.id: d.name for d in pm.all_devices()}
+        target_name = names.get(target_dev, target_dev)
+        action = prog.command(target_dev, command_name, f"{command_name} on {target_name}")
+        prog.add_event_handler(pm, trigger_device_id=trigger_dev, trigger_event_id=trigger_event,
+                                actions=[action])
+        pm.save()
+        changed = pkg.save(out)
+        print(f"wrote {out}")
+        print(f"manifest md5 updated for: {changed}")
+    with C4Package.open(out) as pkg2:
+        issues = pkg2.verify()
+        print(f"new package integrity: {'CLEAN' if not issues else issues}")
+    return 0
+
+
 def main(argv: list) -> int:
     if len(argv) < 2:
         print(__doc__)
@@ -311,6 +338,12 @@ def main(argv: list) -> int:
         old, new = argv[2], argv[3]
         out = argv[argv.index("-o") + 1] if "-o" in argv else path + ".renamed.c4p"
         return cmd_rename(path, old, new, out, assume_yes="--yes" in argv)
+    if cmd == "add-rule":
+        # add-rule <file> <trigger_dev> <trigger_event> <target_dev> <command> -o out.c4p [--yes]
+        trigger_dev, trigger_event, target_dev, command_name = argv[2], argv[3], argv[4], argv[5]
+        out = argv[argv.index("-o") + 1] if "-o" in argv else path + ".ruled.c4p"
+        return cmd_add_rule(path, trigger_dev, trigger_event, target_dev, command_name, out,
+                             assume_yes="--yes" in argv)
     print(__doc__)
     return 2
 

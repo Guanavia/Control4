@@ -1,0 +1,101 @@
+<devicedata>
+	<version>3</version>
+	<created>1/27/2012</created>
+	<modified>4/25/2012</modified>
+	<copyright>Copyright 2004-2019 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>Group-Dimmer</model>
+	<name>Dimmer Load Group</name>
+	<small>devices_sm/dimmer.gif</small>
+	<large>devices_lg/dimmer.gif</large>
+	<control>load_group</control>
+	<proxy name="Dimmer Load Group">light_v2</proxy>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>58cceeee-40b1-447d-ab5e-db1795b2659c</driver>
+	<search_type>c4:group_dimmer</search_type>
+	<capabilities>
+		<!-- new gen3 stuff -->
+		<dimmer>True</dimmer>
+		<on_off>True</on_off>
+		<set_level>True</set_level>
+		<ramp_level>True</ramp_level>
+		<min_max>False</min_max>
+		<click_rates>True</click_rates>
+		<hold_rates>True</hold_rates>
+		<cold_start>False</cold_start>
+		<has_leds>True</has_leds>
+		<supports_broadcast_scenes>False</supports_broadcast_scenes>
+		<supports_multichannel_scenes>False</supports_multichannel_scenes>
+		<hide_proxy_properties>False</hide_proxy_properties>
+		<hide_proxy_events>False</hide_proxy_events>
+		<has_button_events>False</has_button_events>
+		<advanced_scene_support>True</advanced_scene_support>
+		<load_group_support>True</load_group_support>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Top Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>301</id>
+			<facing>6</facing>
+			<connectionname>Bottom Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>302</id>
+			<facing>6</facing>
+			<connectionname>Toggle Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>LIGHT_V2</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

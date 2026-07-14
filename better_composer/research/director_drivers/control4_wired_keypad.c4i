@@ -1,0 +1,95 @@
+<devicedata>
+	<version>7</version>
+	<created>1/18/2013</created>
+	<modified>3/12/2021</modified>
+	<copyright>Copyright 2021 Wirepath Home Systems, LLC. All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-KCB</model>
+	<name>Configurable Keypad (Wired)</name>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<control>control4_wired_keypad</control>
+	<proxy name="Configurable Keypad (Wired)">keypad_proxy</proxy>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>42de3c44-8ec7-4696-995a-c3f4172129ee</driver>
+        <search_types>
+                <type>c4:control4_kp:C4-KCB</type>
+                <type>c4:control4_kp:C4-SKCB2</type>
+        </search_types>
+	<capabilities>
+		<has_leds>True</has_leds>
+		<!-- keypad stuff -->
+		<leds_have_color>True</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>True</fully_customizable>
+		<engravable>True</engravable>
+		<custom_finishes>True</custom_finishes>
+		<button_behavior>False</button_behavior> <!-- all buttons are generic -->
+		<led_behavior>True</led_behavior>
+		<fallback_support>True</fallback_support>
+	</capabilities>
+
+	<connections>
+		<connection>
+			<id>400</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Source)</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>401</id>
+			<facing>6</facing>
+			<connectionname>Ambient Light Level (Follower)</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class ExcludeID="ambient">
+					<classname>AMBIENT_LEVEL</classname>
+				</class>
+			</classes>
+		</connection>
+
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>485 Bus</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>485_BUS</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+
+		<connection>
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+
+	</connections>
+</devicedata>

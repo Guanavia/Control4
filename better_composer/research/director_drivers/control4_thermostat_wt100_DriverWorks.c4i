@@ -1,0 +1,4076 @@
+<devicedata>
+  <version>110679</version>
+  <copyright>Copyright 2010 Control4 Corporation.  All rights reserved.</copyright>
+  <name>WT-100 Energy Thermostat</name>
+  <small>devices_sm/control4_thermostat_16.gif</small>
+  <large>devices_lg/control4_thermostat_32.gif</large>
+  <control>lua_gen</control>
+  <manufacturer>Control4</manufacturer>
+  <creator>Control4</creator>
+  <created>03/15/2010 11:00 AM</created>
+  <modified>11/09/2012 02:17:38 PM</modified>
+  <model>WT-100</model>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+  <proxy>thermostatV2</proxy>
+  <search_type>c4:thermostat:c4-wt-100-z</search_type>
+  <driver>DriverWorks</driver>
+  <states/>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>ZIGBEE</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE</classname>
+        </class>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE_CONTROL</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1</id>
+      <connectionname>DR HVAC</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <classes>
+        <class>
+          <classname>SE_DR_HVAC</classname>
+          <autobind>True</autobind>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <can_zigbee>True</can_zigbee>
+    <can_heat>True</can_heat>
+    <can_cool>True</can_cool>
+    <can_calibrate>True</can_calibrate>
+    <can_do_auto>False</can_do_auto>
+    <temp_heat_min>38</temp_heat_min>
+    <temp_heat_max>88</temp_heat_max>
+    <temp_cool_min>65</temp_cool_min>
+    <temp_cool_max>90</temp_cool_max>
+    <setpoint_heat_min>33</setpoint_heat_min>
+    <setpoint_heat_max>311</setpoint_heat_max>
+    <setpoint_cool_min>183</setpoint_cool_min>
+    <setpoint_cool_max>322</setpoint_cool_max>
+    <scheduling>True</scheduling>
+    <schedule_default>
+      <schedule_day_info Entries="6" DefaultHeat="211" DefaultCool="255">
+        <schedule_entry Name="Wake" Time="360" Enabled="True" Heat="211" Cool="255"/>
+        <schedule_entry Name="Leave" Time="480" Enabled="True" Heat="166" Cool="294"/>
+        <schedule_entry Name="Return" Time="1080" Enabled="True" Heat="211" Cool="255"/>
+        <schedule_entry Name="Sleep" Time="1320" Enabled="True" Heat="166" Cool="277"/>
+        <schedule_entry Name="Custom 1" Time="1005" Enabled="False"/>
+        <schedule_entry Name="Custom 2" Time="1005" Enabled="False"/>
+      </schedule_day_info>
+    </schedule_default>
+    <hvac_modes>Off,Heat,Cool,Emergency Heat</hvac_modes>
+    <fan_modes>Auto,On</fan_modes>
+    <hold_modes>Off,2 Hours</hold_modes>
+    <hvac_states>Off,Heat,Cool</hvac_states>
+    <fan_states>Off,On</fan_states>
+    <can_lock_buttons>False</can_lock_buttons>
+    <can_set_backlight>False</can_set_backlight>
+    <has_time_settings>True</has_time_settings>
+    <can_change_fan_count>False</can_change_fan_count>
+    <has_emergency_heat>False</has_emergency_heat>
+    <can_change_hvac_modes>False</can_change_hvac_modes>
+    <has_vacation_mode>True</has_vacation_mode>
+    <has_remote_sensor>False</has_remote_sensor>
+    <has_drlc>True</has_drlc>
+  </capabilities>
+  <front/>
+  <back/>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <config>
+    <documentation>
+<![CDATA[The WT-100 Energy Thermostat
+
+From the Properties page you can change the following parameters:
+  Debug Mode:  
+  Temperature Calibration:
+  Heat Cutoff Point:
+  Cool Cutoff Point:
+
+From the Properties page you can view the following information:
+  Version:  This is the version of the driver
+  Firmware Version:  Current firmware on the WT-100
+  MAC:  The MAC address of the WT-100
+  Battery Level:  of the batteries in the WT-100
+
+From the Properties page you can view the following WT-100 settings which can be changed by resetting the WT-100 (see below)
+  HVAC Type:  Gas Furnace, Electric Furnace, or Heat Pump
+  Auxiliary Stage type:  
+  Emergency Stage type:   types 
+  Reversing Valve:  O/B (Heat Pumps only) must be configured from the WT-100.  
+
+To change any of these settings you must reset the WT-100 to the factory default settings and re-add the WT-100 to the project.  To reset the WT-100 to the factory default settings press the Mode/Off button 13 times, followed by the down button 4 times, followed by the Mode/Off button 13 times.  In the factory default state the WT-100 will display a “C” (Conventional Heat) or “HP”  (Heat Pump).  Refer to the Installation Guide for information about how to configure the WT-100 for your HVAC system.   
+]]>
+</documentation>
+    <properties>
+		<property>
+			<name>Version</name>
+			<type>STRING</type>
+			<default>Unknown</default>
+			<readonly>true</readonly>
+		</property>
+		<property>
+			<name>Debug Mode</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>Report</item>
+				<item>Print</item>
+				<item>Log</item>
+				<item>Print and Log</item>
+			</items>
+			<default>Print and Log</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Log Level</name>
+			<type>LIST</type>
+			<items>
+				<item>Off</item>
+				<item>Fatal</item>
+				<item>Error</item>
+				<item>Warn</item>
+				<item>Profile</item>
+				<item>Info</item>
+				<item>Debug</item>
+			</items>
+			<default>Error</default>
+			<readonly>false</readonly>
+		</property>
+		<property>
+			<name>Debug Duration (mins)</name>
+			<type>RANGED_INTEGER</type>
+			<minimum>0</minimum>
+			<maximum>1440</maximum>
+			<default>15</default>
+			<readonly>false</readonly>
+		</property>
+      <property>
+        <name>Firmware Version</name>
+        <type>STRING</type>
+        <default>Unknown</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>MAC</name>
+        <type>STRING</type>
+        <default>Unknown</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Battery Level</name>
+        <type>RANGED_INTEGER</type>
+        <default>0</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>HVAC Type</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Auxiliary Stage Type</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Emergency Stage Type</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Reversing Valve</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Temp Calibration</name>
+        <type>RANGED_INTEGER</type>
+        <default>0</default>
+        <minimum>-5</minimum>
+        <maximum>5</maximum>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Heat Cutoff Point</name>
+		<type>LIST</type>
+		<default>0.0</default>
+        <items>
+			<item>0.0</item>
+			<item>0.1</item>
+			<item>0.2</item>
+			<item>0.3</item>
+			<item>0.4</item>
+			<item>0.5</item>
+			<item>0.6</item>
+			<item>0.7</item>
+			<item>0.8</item>
+			<item>0.9</item>
+			<item>1.0</item>
+			<item>1.1</item>
+			<item>1.2</item>
+			<item>1.3</item>
+			<item>1.4</item>
+			<item>1.5</item>
+			<item>1.6</item>
+			<item>1.7</item>
+			<item>1.8</item>
+			<item>1.9</item>
+			<item>2.0</item>
+			<item>2.1</item>
+			<item>2.2</item>
+			<item>2.3</item>
+			<item>2.4</item>
+			<item>2.5</item>
+			<item>2.6</item>
+			<item>2.7</item>
+			<item>2.8</item>
+			<item>2.9</item>
+			<item>3.0</item>
+			<item>3.1</item>
+			<item>3.2</item>
+			<item>3.3</item>
+			<item>3.4</item>
+			<item>3.5</item>
+			<item>3.6</item>
+			<item>3.7</item>
+			<item>3.8</item>
+			<item>3.9</item>
+			<item>4.0</item>
+			<item>4.1</item>
+			<item>4.2</item>
+			<item>4.3</item>
+			<item>4.4</item>
+			<item>4.5</item>
+			<item>4.6</item>
+			<item>4.7</item>
+			<item>4.8</item>
+			<item>4.9</item>
+			<item>5.0</item>
+			<item>5.1</item>
+			<item>5.2</item>
+			<item>5.3</item>
+			<item>5.4</item>
+			<item>5.5</item>
+			<item>5.6</item>
+			<item>5.7</item>
+			<item>5.8</item>
+			<item>5.9</item>
+			<item>6.0</item>
+			<item>6.1</item>
+			<item>6.2</item>
+			<item>6.3</item>
+			<item>6.4</item>
+			<item>6.5</item>
+			<item>6.6</item>
+			<item>6.7</item>
+			<item>6.8</item>
+			<item>6.9</item>
+			<item>7.0</item>
+			<item>7.1</item>
+			<item>7.2</item>
+			<item>7.3</item>
+			<item>7.4</item>
+			<item>7.5</item>
+			<item>7.6</item>
+			<item>7.7</item>
+			<item>7.8</item>
+			<item>7.9</item>
+			<item>8.0</item>
+			<item>8.1</item>
+			<item>8.2</item>
+			<item>8.3</item>
+			<item>8.4</item>
+			<item>8.5</item>
+			<item>8.6</item>
+			<item>8.7</item>
+			<item>8.8</item>
+			<item>8.9</item>
+			<item>9.0</item>
+			<item>9.1</item>
+			<item>9.2</item>
+			<item>9.3</item>
+			<item>9.4</item>
+			<item>9.5</item>
+			<item>9.6</item>
+			<item>9.7</item>
+			<item>9.8</item>
+			<item>9.9</item>
+			<item>10.0</item>
+		</items>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Cool Cutoff Point</name>
+        <type>LIST</type>
+		<default>0.0</default>
+        <items>
+			<item>0.0</item>
+			<item>0.1</item>
+			<item>0.2</item>
+			<item>0.3</item>
+			<item>0.4</item>
+			<item>0.5</item>
+			<item>0.6</item>
+			<item>0.7</item>
+			<item>0.8</item>
+			<item>0.9</item>
+			<item>1.0</item>
+			<item>1.1</item>
+			<item>1.2</item>
+			<item>1.3</item>
+			<item>1.4</item>
+			<item>1.5</item>
+			<item>1.6</item>
+			<item>1.7</item>
+			<item>1.8</item>
+			<item>1.9</item>
+			<item>2.0</item>
+			<item>2.1</item>
+			<item>2.2</item>
+			<item>2.3</item>
+			<item>2.4</item>
+			<item>2.5</item>
+			<item>2.6</item>
+			<item>2.7</item>
+			<item>2.8</item>
+			<item>2.9</item>
+			<item>3.0</item>
+			<item>3.1</item>
+			<item>3.2</item>
+			<item>3.3</item>
+			<item>3.4</item>
+			<item>3.5</item>
+			<item>3.6</item>
+			<item>3.7</item>
+			<item>3.8</item>
+			<item>3.9</item>
+			<item>4.0</item>
+			<item>4.1</item>
+			<item>4.2</item>
+			<item>4.3</item>
+			<item>4.4</item>
+			<item>4.5</item>
+			<item>4.6</item>
+			<item>4.7</item>
+			<item>4.8</item>
+			<item>4.9</item>
+			<item>5.0</item>
+			<item>5.1</item>
+			<item>5.2</item>
+			<item>5.3</item>
+			<item>5.4</item>
+			<item>5.5</item>
+			<item>5.6</item>
+			<item>5.7</item>
+			<item>5.8</item>
+			<item>5.9</item>
+			<item>6.0</item>
+			<item>6.1</item>
+			<item>6.2</item>
+			<item>6.3</item>
+			<item>6.4</item>
+			<item>6.5</item>
+			<item>6.6</item>
+			<item>6.7</item>
+			<item>6.8</item>
+			<item>6.9</item>
+			<item>7.0</item>
+			<item>7.1</item>
+			<item>7.2</item>
+			<item>7.3</item>
+			<item>7.4</item>
+			<item>7.5</item>
+			<item>7.6</item>
+			<item>7.7</item>
+			<item>7.8</item>
+			<item>7.9</item>
+			<item>8.0</item>
+			<item>8.1</item>
+			<item>8.2</item>
+			<item>8.3</item>
+			<item>8.4</item>
+			<item>8.5</item>
+			<item>8.6</item>
+			<item>8.7</item>
+			<item>8.8</item>
+			<item>8.9</item>
+			<item>9.0</item>
+			<item>9.1</item>
+			<item>9.2</item>
+			<item>9.3</item>
+			<item>9.4</item>
+			<item>9.5</item>
+			<item>9.6</item>
+			<item>9.7</item>
+			<item>9.8</item>
+			<item>9.9</item>
+			<item>10.0</item>
+		</items>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Read Day of Week</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Read Time</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Znode Refresh Interval Seconds</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>10</minimum>
+        <maximum>600</maximum>
+        <default>240</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Znode RSSI</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Znode Noise</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Znode LQI</name>
+        <type>STRING</type>
+        <default>-</default>
+        <readonly>true</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>End DR</name>
+        <command>EndDREvent</command>
+      </action>
+      <action>
+        <name>Trigger Voluntary DR</name>
+        <command>TriggerDREventVo</command>
+      </action>
+      <action>
+        <name>Trigger Mandatory DR</name>
+        <command>TriggerDREventMa</command>
+      </action>
+      <action>
+        <name>Query Time and Day</name>
+        <command>QueryTimeDay</command>
+      </action>
+    </actions>
+    <script>
+<![CDATA[
+
+----------------------------------------------------------
+--------------------- Generic Class Def  -----------------
+----------------------------------------------------------
+
+function C4_Class( baseClass )
+
+    local new_class = {}
+    local class_mt = { __index = new_class }
+	local interface = nil
+
+    function new_class:create(parentInst)
+        local newinst = {}
+        if (interface) then
+        	newinst.interface = interface
+        end
+
+		-- Copy parent instance member variables.
+		if (parentInst) then
+			for k,v in pairs(parentInst) do
+				newinst[k] = v
+			end
+		end
+
+        setmetatable( newinst, class_mt )
+        new_class:checkInterfaceMethods()
+        return newinst
+    end
+
+    if baseClass ~= nil then
+        setmetatable( new_class, { __index = baseClass } )
+    end
+
+    -- Implementation of additional OO properties starts here --
+
+    -- Return the class object of the instance
+    function new_class:instance()
+        return new_class
+    end
+
+    -- Return the super class object of the instance
+    function new_class:base()
+		return baseClass
+    end
+
+    -- Return true theClass is an instance of the caller  
+    function new_class:isa( theClass )
+        local b_isa = false
+
+		if (not theClass) then
+			return b_isa
+		end
+		
+        local cur_class = theClass
+        
+		if (theClass.instance and theClass:instance() == new_class) then
+			b_isa = true
+		end
+		
+        while ( cur_class ~= nil ) and ( b_isa == false ) do
+            if cur_class == new_class then
+                b_isa = true
+            else
+                if (cur_class.base) then
+                	cur_class = cur_class:base()
+                else
+                	cur_class = nil
+                end
+            end
+        end
+
+        return b_isa
+    end
+
+    -- Checks to make sure class implements methods on interface.
+    function new_class:implements( theInterface )
+    	if (not theInterface) then
+    		error("IMPLEMENTING NULL INTERFACE.  Check requires and syntax.")
+    	end
+    	
+    	interface = theInterface
+    	return new_class
+    end
+    
+    -- Returns the class name found in global scope
+    -- PERFORMANCE HIT as this traverse the _G variable!
+    function new_class:classname() 
+    	if (new_class._classname) then
+    		return new_class._classname
+    	end
+    	
+    	for k,v in pairs(_G) do
+    		if (v == new_class) then
+    			new_class._classname = k
+    			return new_class._classname
+    		end
+    	end
+    	error ("Class Name not found in Global scope")
+    end
+    
+    function new_class:checkInterfaceMethods()
+    	if (not interface) then
+    		return
+    	end
+    	
+		local interfaceMethods = interface:methods()
+
+		for k,v in pairs(interfaceMethods) do
+			if (type(v) == 'function' and not new_class[k]) then
+				local classname = 'Class'
+				if (new_class.classname) then
+					classname = new_class:classname()
+				end
+				error(classname .. " must implement method " .. k, 3)
+			end
+		end
+	end
+	
+	return new_class
+end
+
+
+
+------------------------------------------------------------------
+------------------- Timer Class -----------------------------------
+--~ Class is used to encapsulate the C4 Timers.
+------------------------------------------------------------------
+
+C4_Timer = C4_Class()
+
+C4_Timer.SECONDS = "SECONDS"
+C4_Timer.MINUTES = "MINUTES"
+
+C4_Timer.Handlers = {}
+
+----------------------------------------------------
+--- Creates an instance of a C4_Timer
+-- @param interval      An integer value representing the inteval in 'units'
+-- @param units         A string value representing units.  ('SECONDS' | 'MINUTES')
+-- @param callback      Function to invoke when timer expires.
+-- @param name          Optional: string value used for diagnostic purposes. Default 'NO_NAME_TIMER'
+-- @param restart       Optional: true: automatically restart timer on expiry. Otherwise false (default).
+-- @param logger        Optional: C4_Logger instance used for diagnostics.
+-- @return Instance of newly created C4_Timer
+---------------------------------------------------
+function C4_Timer:new(interval, units, callback, restart, name, logger)
+	local obj = C4_Timer:create()
+	obj.interval = tonumber(interval)
+	obj.units = units
+	obj.callback = callback
+	obj.restart = restart or false
+	obj.name = name or 'NO_NAME_TIMER'
+	obj.logger = logger or C4_Logger:new()
+	obj.id = nil
+	
+	return obj
+end
+
+----------------------------------------------------
+--- Starts the timer.  If timer is currently active,
+-- the timer is first stopped then started.
+-- @param interval      Optional: An integer value representing the inteval in 'units'
+-- @param units         Optional: A string value representing units.  ('SECONDS' | 'MINUTES')
+-- @return true if timer was started.  false otherwise
+---------------------------------------------------
+function C4_Timer:Start(interval, units)
+	self.interval = interval or self.interval
+	self.units = units or self.units
+	
+	self:Stop()
+	self.id = C4:AddTimer(self.interval, self.units, self.restart)
+	
+	-- Register callback with global OnTimerExpire
+	if (self.id) then
+		C4_Timer.Handlers[self.id] = self
+	end
+
+	if (self.id) then
+		return true
+	end
+	
+	return false
+end
+
+----------------------------------------------------
+--- Stops the timer
+---------------------------------------------------
+function C4_Timer:Stop()
+	if (self.id) then
+		C4_Timer.Handlers[self.id] = nil
+		self.id = C4:KillTimer(self.id)
+	end
+end
+
+----------------------------------------------------
+--- Static OnTimerExpire Function invoked when system
+-- timers expire.
+---------------------------------------------------
+function C4_Timer:OnTimerExpired(timerId)
+
+	if (self ~= C4_Timer) then
+		error("Invalid call to static method")
+	end
+
+	local funcName = "C4_Timer:OnTimerExpired"
+
+	if (C4_Timer.Handlers[timerId] == nil) then
+		return
+	end
+	
+	-- Fetch timer from static handlers
+	local timer = C4_Timer.Handlers[timerId];
+	if (timer) then
+--		timer.logger:Debug(funcName .. ": Processing Timer '" .. timer.name .. "'")
+		
+		if (timer.callback) then
+			-- invoke callback
+			timer.callback(timerId)
+		end
+	end
+	
+	-- Remove timer from handlers if auto restart is false.
+	if (not timer or not timer.restart) then
+		C4_Timer.Handlers[timerId] = nil
+	end
+
+end
+
+function C4_Timer:StopAll()
+	if (self ~= C4_Timer) then
+		error("Invalid call to static method")
+	end
+
+	for timerId, timer in pairs(C4_Timer.Handlers) do
+		timer:Stop()
+	end
+end
+
+function OnTimerExpired(idTimer)
+	C4_Timer:OnTimerExpired(idTimer)
+end
+
+
+
+
+C4_StringBuilder = C4_Class()
+
+----------------------------------------------------
+-- This class provides an optimal way to build a string
+----------------------------------------------------
+function C4_StringBuilder:new()
+	local obj = C4_StringBuilder:create()
+
+	obj.data = {}
+
+	return obj
+end
+
+----------------------------------------------------
+-- Append a value to the StringBuilder
+-- @param v       value to be appended to the string
+-- @return self
+----------------------------------------------------
+function C4_StringBuilder:Append(v)
+	table.insert(self.data, v)
+	return self
+end
+
+----------------------------------------------------
+-- returns the string representing this string builder
+-- @return string representing this string builder
+----------------------------------------------------
+function C4_StringBuilder:ToString()
+	return table.concat(self.data)
+end
+
+----------------------------------------------------
+-- Clears the internal buffer
+-- @return self
+----------------------------------------------------
+function C4_StringBuilder:Clear()
+	self.data = {}
+	return self
+end
+
+
+
+------------------------------------------------------------------
+------------------- DateTime Class -----------------------------------
+--~ Class is used to represent a date/time object and provides functionality
+--~ to convert between UTC and local times.  It also exposes functions to
+--~ serailize/deserilize and pefrom DateTime Addition
+--~
+--~ Note:  This class gets pretty complicated when adjusting for DST times.
+--~ Use the "Test UTC Time Conversion" action and verify the times are correct
+--~ around the DST on/off dates
+------------------------------------------------------------------
+
+C4_DateTime = C4_Class()
+
+-- contants used for Date Addition
+C4_DateTime.PERIOD_MONTH = 1
+C4_DateTime.PERIOD_WEEK = 2
+C4_DateTime.PERIOD_DAY = 3
+C4_DateTime.PERIOD_HOUR = 4
+C4_DateTime.PERIOD_MINUTE = 5
+C4_DateTime.PERIOD_SECOND = 6
+C4_DateTime.PERIOD_YEAR = 7
+
+-- static logger class the main driver should set
+C4_DateTime.Logger = nil
+
+----------------------------------------------------
+-- Constructor takes an optional string and boolean parameter.
+-- If the strings is not nil then it is used to populate the DateTime.
+-- Otherwise the DateTime is initialized to Now.
+-- Inputs:
+--       tStr -  DateTime string in the format "YYYY-mm-ddTHH:MM:SS"
+--       isUtc - if true, then the passed in string is in UTC time
+---------------------------------------------------
+function C4_DateTime:new(tStr,isUtc)
+	local obj = C4_DateTime:create()
+
+	if (tStr) then
+		obj:FromString(tStr,isUtc)
+	else
+		obj.value = os.time()  -- value stored in local time
+	end
+	return obj
+end
+
+----------------------------------------------------
+-- Function for getting the time offset between local and Utc
+-- time in sections:
+--
+-- NOTE: Do not cache this value as it will change when DST kick on/off
+--
+-- Returns:
+--       secs - number of seconds offset between local and utc time
+---------------------------------------------------
+function C4_DateTime:GetUtcOffsetSecs()
+	local now = os.time()
+
+	-- this function appears to not account for DST
+	-- for PST, os.difftime(now, os.time(os.date("!*t", now))) always returns -8 hrs
+	local diff = os.difftime(now, os.time(os.date("!*t", now)))
+	local val = self.value
+	diff = diff + self:GetDstAdjust(val)
+
+	return  diff
+end
+
+----------------------------------------------------
+-- Function to return adjustment for DST time.  The os.time(os.date("!*t", secs))
+-- does conversion based on the current UTC offiset.  This function
+-- checks the isdst field of the passed in val (or the self.value)
+-- and adjust the utc offset if it is set
+--
+-- Note: for PST, os.difftime(now, os.time(os.date("!*t", now))) always returns -8 hrs regardless of DST
+--
+-- Returns:
+--       secs - number of seconds to adjust the UtcOffset by
+---------------------------------------------------
+function C4_DateTime:GetDstAdjust(value)
+
+	value = value or self.value
+	local wasdst = os.date("*t", value).isdst
+
+	local adjust = wasdst and 3600 or 0
+	return adjust
+
+end
+
+----------------------------------------------------
+-- This function return the DataTime as the number of seconds from the epoch
+-- Inputs:
+--       utc -  if true then the returned secs will be in UTC time
+-- Returns:
+--       secs - number of seconds from the epoc
+---------------------------------------------------
+function C4_DateTime:GetDateTime(utc)
+	local secs = self.value
+	if (utc) then
+		-- local to utc
+		secs = secs - self:GetUtcOffsetSecs()
+	end
+	return secs
+end
+
+----------------------------------------------------
+-- This function returns the DataTime as a table
+-- Inputs:
+--       utc -  if true then the returned table will be in UTC time
+-- Returns:
+--       table - lua tabel containing date
+---------------------------------------------------
+function C4_DateTime:GetDateTimeTable(utc)
+	return os.date("*t", self:GetDateTime(utc))
+end
+
+----------------------------------------------------
+-- This function returns the DataTime as a string in the format "YYYY-mm-ddTHH:MM:SS"
+-- or "YYYY-mm-dd"
+-- Inputs:
+--       utc -  if true then the returned string will be in UTC time
+--       dateOnly -  if true then the string will only contain the date portion
+-- Returns:
+--       string - string representing the DateTime
+---------------------------------------------------
+function C4_DateTime:ToString(utc, dateOnly)
+	local prefix = utc and "!" or ""
+
+	local format = dateOnly and prefix.."%Y-%m-%d" or prefix.."%Y-%m-%dT%H:%M:%S"
+	return os.date(format, self:GetDateTime())
+end
+
+----------------------------------------------------
+-- This function populates the DataTime from a string.  The passed in
+-- string must be in the format "YYYY-mm-ddTHH:MM:SS"
+--
+-- Inputs:
+--       tStr -  DateTime string in one of the following formats
+--            "YYYY-mm-ddTHH:MM:SS"
+--            "YYYY-mm-ddTHH:MM:SSZ" -- UTC time zone indicator
+--            "YYYY-mm-ddTHH:MM"     -- No Seconds
+--            "YYYY-mm-ddTHH:MMZ"    -- No Seconds with UTC time zone indicator
+--       isUtc - if true, then the passed in string is in UTC time
+---------------------------------------------------
+function C4_DateTime:FromString(tStr,isUtc)
+	local _,_,yr,mth,d,hr,m,s,tz = tStr:find("(%d*)%-(%d*)%-(%d*)T(%d*):(%d*):?(%d*)(%a*)")
+
+	if (tz == 'Z') then
+		isUtc = true
+	end
+
+	if (not (yr and mth and d and hr and m and s)) then
+		if (C4_DateTime.Logger ~= nil) then
+			C4_DateTime.Logger:Error("Invalid date:"..tStr..".  Date should be in the following format: 2010-01-01T00:00:00")
+		end
+	end
+
+	self:FromTable({year=yr,month=mth,day=d,hour=hr,min=m,sec=s}, isUtc)
+	return self
+end
+----------------------------------------------------
+-- This function populates the DataTime from a table.
+-- Table should be compatable w/ what is returned from os.date("*t")
+--
+-- Inputs:
+--       tbl -  table containing date/time
+--       isUtc - if true, then the passed in tbl is in UTC time
+---------------------------------------------------
+function C4_DateTime:FromTable(tbl,isUtc)
+	local secs = os.time(tbl)
+	self:FromSeconds(secs, isUtc)
+	return self
+end
+
+----------------------------------------------------
+-- This function populates the DataTime from a number of seconds
+--
+-- Inputs:
+--       secs - number of seconds from the epoc
+--       isUtc - if true, then the passed in secs is in UTC time
+---------------------------------------------------
+function C4_DateTime:FromSeconds(secs,isUtc)
+	self.value = secs
+	if (isUtc) then
+		-- utc to local
+		secs = secs + self:GetUtcOffsetSecs()
+	end
+	self.value = secs
+
+	return self
+end
+
+----------------------------------------------------
+-- This function adds the specified interval to the date time
+--
+-- Inputs:
+--       val -  value to be added to the DateTime
+--       period - PERIOD cost that specifies which part of the DateTime
+--               should be added to (Month, Weeek, Day, etc)
+---------------------------------------------------
+function C4_DateTime:AddToDate(val, period)
+	local dt = os.date("*t",self.value)
+
+	if (period == C4_DateTime.PERIOD_MONTH) then
+		dt.month = dt.month + val
+	elseif (period == C4_DateTime.PERIOD_WEEK) then
+		dt.day = dt.day + (7*val)
+	elseif (period == C4_DateTime.PERIOD_DAY) then
+		dt.day = dt.day + val
+	elseif (period == C4_DateTime.PERIOD_HOUR) then
+		dt.hour = dt.hour + val
+	elseif (period == C4_DateTime.PERIOD_MINUTE) then
+		dt.min = dt.min + val
+	elseif (period == C4_DateTime.PERIOD_SECOND) then
+		dt.sec = dt.sec + val
+	elseif (period == C4_DateTime.PERIOD_YEAR) then
+		dt.year = dt.year + val
+	end
+
+	-- account for the crossing the DST bounrdy
+	local wasdst = dt.isdst
+	self.value = os.time(dt)
+	local isdst = os.date("*t", self.value).isdst
+
+	local adjust = 0
+	if (isdst ~= wasdst) and ((period ~= C4_DateTime.PERIOD_HOUR) and
+									(period ~= C4_DateTime.PERIOD_MINUTE) and
+									(period ~= C4_DateTime.PERIOD_SECOND)) then
+--	if (isdst ~= wasdst) then
+--print(	isdst, wasdst)
+		adjust = isdst and -3600 or 3600
+	end
+	self.value = self.value + adjust
+
+	return self
+
+end
+
+----------------------------------------------------
+-- Function to round date down to nearest PERIOD
+--
+-- Inputs:
+--       period -  PERIOD to round date down to
+--       utc - if true rounding will occur on the date in utc time
+---------------------------------------------------
+function C4_DateTime:FloorToPeriod(period, utc)
+	local dt = self:GetDateTimeTable(utc)
+
+	if (period == C4_DateTime.PERIOD_YEAR) then
+		dt.month = 1
+		dt.day = 1
+		dt.hour = 0
+		dt.min= 0
+		dt.sec = 0
+	elseif (period == C4_DateTime.PERIOD_MONTH) then
+		dt.day = 1
+		dt.hour = 0
+		dt.min= 0
+		dt.sec = 0
+	elseif (period == C4_DateTime.PERIOD_DAY) then
+		dt.hour = 0
+		dt.min= 0
+		dt.sec = 0
+	elseif (period == C4_DateTime.PERIOD_HOUR) then
+		dt.min= 0
+		dt.sec = 0
+	elseif (period == C4_DateTime.PERIOD_MINUTE) then
+		dt.sec = 0
+	else
+		if (C4_DateTime.Logger ~= nil) then
+			C4_DateTime.Logger:Error("C4_DateTime:FloorToPeriod:  Period "..period.." is not supported")
+		end
+		return
+	end
+
+	self:FromTable(dt, utc)
+
+	return self
+end
+
+
+
+----------------------------------------------------------
+--------------------- Logger Class Def  ------------------
+----------------------------------------------------------
+
+C4_Logger = C4_Class()
+
+C4_Logger.OFF   = 0x00
+C4_Logger.FATAL = 0x01
+C4_Logger.ERROR = 0x02
+C4_Logger.WARN  = 0x03
+C4_Logger.PROFILE  = 0x04
+C4_Logger.INFO  = 0x05
+C4_Logger.DEBUG = 0x06
+
+C4_Logger.LevelMap = {
+	['Off']   = C4_Logger.OFF,
+	['Fatal'] = C4_Logger.FATAL,
+	['Error'] = C4_Logger.ERROR,
+	['Warn']  = C4_Logger.WARN,
+	['Profile']  = C4_Logger.PROFILE,
+	['Info']  = C4_Logger.INFO,
+	['Debug'] = C4_Logger.DEBUG,
+}
+
+
+function C4_Logger:new(timerCallback, timerDuration, reportDirectory)
+	local obj = C4_Logger:create()
+
+	obj.Level = C4_Logger.ERROR
+
+	obj.DebugReport = false
+	obj.DebugPrint = false
+	obj.DebugLog = false
+
+	obj.ReportDirectory = reportDirectory
+	obj.DebugTimerDuration = timerDuration or 15
+	obj.DebugTimer = C4_Timer:new(obj.DebugTimerDuration, "MINUTES", function() obj.StopDebugTimer(obj) end, false, 'DebugTimer', obj)
+
+	obj.timerCallback = timerCallback
+
+	return obj
+end
+
+function C4_Logger:SetLevel(level)
+	self.Level = level
+	self:RestartDebugTimer()
+end
+
+function C4_Logger:SetOutput(outputPrint, outputLog, outputReport)
+	self.DebugReport = outputReport
+	self.DebugPrint = outputPrint
+	self.DebugLog = outputLog
+end
+
+function C4_Logger:SetDebugTimerDuration(timerDuration)
+	self.DebugTimerDuration = timerDuration or 15
+	self:RestartDebugTimer()
+end
+
+function C4_Logger:RestartDebugTimer()
+	if (self.Level > C4_Logger.ERROR) then
+		self.DebugTimer:Start(self.DebugTimerDuration)
+	end
+end
+
+function C4_Logger:StopDebugTimer()
+	if (self.timerCallback) then
+		self.timerCallback()
+	end
+end
+
+function C4_Logger:Fatal(message)
+	self:Log("[FATAL]: "..message, C4_Logger.FATAL)
+end
+
+function C4_Logger:Error(message)
+	self:Log("[ERROR]: "..message, C4_Logger.ERROR)
+end
+
+function C4_Logger:Warn(message)
+	self:Log("[WARN]: "..message, C4_Logger.WARN)
+end
+
+function C4_Logger:Info(message)
+	self:Log("[INFO]: "..message, C4_Logger.INFO)
+end
+
+function C4_Logger:Profile(message)
+	self:Log("[PROFILE]: "..message, C4_Logger.PROFILE)
+end
+
+function C4_Logger:Debug(message)
+	self:Log("[DEBUG]: "..message, C4_Logger.DEBUG)
+end
+
+function C4_Logger:Log(message, level)
+	if (self == C4_Logger) then
+		error("INVALID STATIC CALL")
+	end
+
+	if (self.Level >= level) then
+		self:Write(message)
+	end
+end
+
+function C4_Logger:Write(text, alwaysWrite)
+	if (self == C4_Logger) then
+		error("INVALID STATIC CALL")
+	end
+
+	local temp = string.gsub(text, "%%", "?")
+	if(self.DebugReport or alwaysWrite) then
+		if (self.ReportDirectory) then
+			C4:FileSetDir(self.ReportDirectory)
+			local dateTimeNow = C4_DateTime:new()
+			
+			local todayFile = string.format( "%s_%s", C4_DateTime:new():ToString(nil, true), "debug.log" )
+			local handle = C4:FileOpen(todayFile)
+			if(C4:FileIsValid(handle)) then
+				local deviceId = C4:GetDeviceID()
+				local deviceName = C4:ListGetDeviceName(deviceId)
+				local entry = string.format( "%s - %s (%s) - %s\n", dateTimeNow:ToString(), deviceName, deviceId, temp )
+				C4:FileWrite(handle, string.len(entry), entry)
+				C4:FileClose(handle)
+			end
+		end
+	end
+	if(self.DebugPrint or alwaysWrite) then C4_Logger_Helper:Print(temp) end
+	if(self.DebugLog or alwaysWrite) then C4:ErrorLog(temp) end
+
+end
+
+function C4_Logger:IsDebugEnabled()
+	return (self.Level == C4_Logger.DEBUG)
+end
+
+function C4_Logger:IsWarnEnabled()
+	return (self.Level >= C4_Logger.WARN)
+end
+
+function C4_Logger:IsProfileEnabled()
+	return (self.Level >= C4_Logger.WARN)
+end
+
+
+function C4_Logger:DebugStringToHex(value)
+	if (type(value) == 'number') then
+		local padding = 2
+		if (0xFF < value and value <= 0xFFFF) then
+			padding = 4
+		elseif (0xFFFF < value and value <= 0xFFFFFFFF) then
+			padding = 8
+		end
+		return '0x' .. string.format('%0'..padding..'X', value)
+	end
+
+	return value
+end
+
+function C4_Logger:DumpValue(value, showHex)
+	local result = ''
+	if (value == nil) then
+		result = 'nil'
+	elseif (type(value) == 'table') then
+		result = self:DumpTable(value, showHex)
+	elseif (type(value) == 'function') then
+		result = tostring(value)
+	elseif (type(value) == 'number') then
+		result = showHex and self:DebugStringToHex(value) or tostring(value)
+	elseif (type(value) == 'boolean') then
+		if (value) then
+			result = 'true'
+		else
+			result = 'false' end
+	elseif (type(value) == 'string') then
+		-- Print both HEX and String representations
+
+		if (showHex) then
+			for i=1,string.len(value) do
+				result = result .. string.format("%02X ", string.byte(value,i))
+			end
+			-- Replace carrage return and new line characters with hex value.
+			value = string.gsub(value, "\n", "\0A")
+			value = string.gsub(value, "\r", "\0D")
+			result = result .. " -- "
+		end
+		result = result .. string.format("%q", value)
+	end
+	return result
+end
+
+function C4_Logger:DumpTable(table, showHex, depth, redundantTable)
+	local result = C4_StringBuilder:new()
+	redundantTable = redundantTable or {}
+	depth = depth or 0
+	local unindent = ''
+	for i = 1, depth do
+		unindent = unindent .. '\t'
+	end
+	local indent = unindent .. '\t'
+
+	local size = 0
+	if redundantTable[table] then
+		result:Append( tostring(table) )
+		size = -1
+	else
+		redundantTable[table] = true
+		result:Append( "{\n" )
+		for key, value in pairs(table) do
+			if size > 0 then
+				result:Append( ",\n" )
+			end
+			if (type(table[key]) == 'table') then
+				value = self:DumpTable( table[key], showHex, depth+1, redundantTable)
+			else
+				value = self:DumpValue( value, showHex )
+			end
+			local keyType = type(key)
+			key = 	keyType == "string" and string.format( "\"%s\"", key )
+					or keyType == "number" and key
+					or tostring(key)
+			result:Append( string.format( "%s[%s] = %s", indent, key, value ) )
+			size = size + 1
+		end
+		result:Append( string.format( "\n%s}", unindent ) )
+	end
+
+	local strResult = size == 0 and "{}" or result:ToString()
+	return strResult
+end
+
+----------------------------------------------------------
+--------------- Logger Helper Class Def  -----------------
+----------------------------------------------------------
+C4_Logger_Helper = C4_Class()
+
+function C4_Logger_Helper:Print(message)
+	print(message)
+end
+
+-------------------------------------------------------------------------------
+-------------------------- Schedule Handling ----------------------------------
+-------------------------------------------------------------------------------
+
+ScheduleEntry = {}
+ScheduleEntry.DefaultHeatPoint = 100
+ScheduleEntry.DefaultCoolPoint = 125
+
+function ScheduleEntry.new(WhichDay, WhichEntry, DefaultTime)
+	local entry =
+	{
+		EntryDay = WhichDay,
+		EntryName = WhichEntry,
+		Enabled = false,
+		SchedTime = DefaultTime,
+		HeatSetpoint = ScheduleEntry.DefaultHeatPoint,
+		CoolSetpoint = ScheduleEntry.DefaultCoolPoint,
+
+	}
+
+	return entry
+
+end
+
+--~ function ScheduleEntry:Showall()
+--~ 	print(self.EntryName)
+--~ end
+
+
+function ScheduleEntry.SetHeatpoint(Targ, NewHeatPoint)
+	Targ.HeatSetpoint = NewHeatPoint
+end
+
+
+function ScheduleEntry.SetCoolpoint(Targ, NewCoolPoint)
+	Targ.CoolSetpoint = NewCoolPoint
+end
+
+
+function ScheduleEntry.Showall(Targ)
+	print(Targ.EntryName .. " " .. ScheduleEntry.TimeStr(Targ.SchedTime) .. " " .. FSchedVal(Targ.HeatSetpoint) .. " " .. FSchedVal(Targ.CoolSetpoint))
+end
+
+
+
+function ScheduleEntry.TimeStr(InTime)
+	local HourVal = InTime / 60
+	local MinVal = InTime % 60
+
+	return string.format("%d:%02d", HourVal, MinVal)
+end
+
+
+function FSchedVal(InRawVal)
+	local CVal = InRawVal / 5
+	local FVal = (CVal * (9.0 / 5.0)) + 32.0
+	return tostring(FVal)
+end
+
+--------------------------------------------------
+
+DaySchedule =
+{
+	Wake = "Wake",
+	Leave = "Leave",
+	Return = "Return",
+	Sleep = "Sleep",
+	Custom1 = "Custom 1",
+	Custom2 = "Custom 2",
+
+	WakeTimeDefault = 360,
+	LeaveTimeDefault = 480,
+	ReturnTimeDefault = 1080,
+	SleepTimeDefault = 1320,
+	Custom1TimeDefault = 0,
+	Custom2TimeDefault = 0,
+}
+
+function DaySchedule.new(WhichDay)
+	local DaySched =
+	{
+		[0] = ScheduleEntry.new(WhichDay, DaySchedule.Wake, DaySchedule.WakeTimeDefault),
+		[1] = ScheduleEntry.new(WhichDay, DaySchedule.Leave, DaySchedule.LeaveTimeDefault),
+		[2] = ScheduleEntry.new(WhichDay, DaySchedule.Return, DaySchedule.ReturnTimeDefault),
+		[3] = ScheduleEntry.new(WhichDay, DaySchedule.Sleep, DaySchedule.SleepTimeDefault),
+		[4] = ScheduleEntry.new(WhichDay, DaySchedule.Custom1, DaySchedule.Custom1TimeDefault),
+		[5] = ScheduleEntry.new(WhichDay, DaySchedule.Custom2, DaySchedule.Custom2TimeDefault),
+	}
+
+	DaySched.DayName = WhichDay
+
+	return DaySched
+end
+
+
+function DaySchedule.GetScheduleEntry(Targ, EntryIndex)
+	return Targ[EntryIndex]
+end
+
+
+function DaySchedule.Showall(Targ)
+	print(Targ.DayName)
+	for EntryIndex=0,5 do
+ 		ScheduleEntry.Showall(Targ[EntryIndex])
+	end
+	print("\n")
+end
+
+
+--------------------------------------------------
+
+Schedule = {}
+
+Schedule.Sunday = "Sunday"
+Schedule.Monday = "Monday"
+Schedule.Tuesday = "Tuesday"
+Schedule.Wednesday = "Wednesday"
+Schedule.Thursday = "Thursday"
+Schedule.Friday = "Friday"
+Schedule.Saturday = "Saturday"
+
+function Schedule.new(SchedName)
+	local sched =
+	{
+		[Schedule.Sunday] = DaySchedule.new(Schedule.Sunday),
+		[Schedule.Monday] = DaySchedule.new(Schedule.Monday),
+		[Schedule.Tuesday] = DaySchedule.new(Schedule.Tuesday),
+		[Schedule.Wednesday] = DaySchedule.new(Schedule.Wednesday),
+		[Schedule.Thursday] = DaySchedule.new(Schedule.Thursday),
+		[Schedule.Friday] = DaySchedule.new(Schedule.Friday),
+		[Schedule.Saturday] = DaySchedule.new(Schedule.Saturday),
+	}
+
+	sched[0] = sched[Schedule.Sunday]
+	sched[1] = sched[Schedule.Monday]
+	sched[2] = sched[Schedule.Tuesday]
+	sched[3] = sched[Schedule.Wednesday]
+	sched[4] = sched[Schedule.Thursday]
+	sched[5] = sched[Schedule.Friday]
+	sched[6] = sched[Schedule.Saturday]
+
+	sched.name = SchedName
+
+	return sched
+end
+
+
+function Schedule.GetScheduleEntry(Targ, DayIndex, EntryIndex)
+	CurDay = Targ[DayIndex]
+	return DaySchedule.GetScheduleEntry(CurDay, EntryIndex)
+end
+
+
+function Schedule.Showall(Targ)
+	print("Name is: " .. Targ.name)
+	for DayIndex=0,6 do
+		DaySchedule.Showall(Targ[DayIndex])
+	end
+end
+
+
+-- mib types
+gC4MIBGet = "0g"
+gC4MIBInvoke = "0i"
+gC4MIBSet = "0s"
+gC4MIBResponse = "0r"
+gC4MIBBinary = "0b"
+gC4MIBTrap = "0t"
+
+-------- Mib strings ------------------
+gMIBSetpointUpper      	= "c4.zt.su"
+gMIBSetpointLower      	= "c4.zt.sl"
+gMIBSetpoint           	= "c4.zt.sp"
+gMIBThermostatTime     	= "c4.zt.ct"
+gMIBThermostatDate     	= "c4.zt.cd"
+gMIBHVacMode           	= "c4.zt.mc"
+gMIBHoldMode           	= "c4.zt.mh"
+gMIBFanMode            	= "c4.zt.mf"
+gMIBScaleUnits         	= "c4.zt.un"
+gMIBTemperature        	= "c4.zt.tp"
+gMIBCalibration        	= "c4.zt.cal"
+gMIBScheduleChangeLong 	= "c4.zt.scl"
+gMIBScheduleEdit       	= "c4.zt.edt"
+gMIBTemperatureInfo    	= "c4.zt.inf"
+gMIBUIInfo             	= "c4.zt.uin"
+gMIBStates             	= "c4.zt.st"
+gMIBDirectiveResponse  	= "c4.zt.dr"
+gMIBDRQuery  	        = "c4.zt.drq"
+gMIBUpdate             	= "c4.zt.sx"
+gMIBVacationMode       	= "c4.zt.vo"
+gMIBVacationSetpoints  	= "c4.zt.vs"
+gMIBHeatCoolCutoffs    	= "c4.zt.co"
+gMIBStageStates        	= "c4.zt.sg"
+gMIBFirmwareVersion		= "c4.sy.fwv"
+
+--------- Variables -----------------
+gZigbeeBinding = 6001
+gZigbeeOnline = false
+-- set gSequenceNumber (Zigbee Packet Sequence) to 1 after a reconnect and on startup...
+gSequenceNumber = 1
+
+gMIBPacketRetryQueue = {}
+gSequenceIDRetryQueue = {}
+
+gFakeDREventID = 1234
+
+gSecondsPerMinute = 60
+gMinutesPerHour = 60
+gMinutesPerDay = (gMinutesPerHour * 24)
+gSecondsPerDay = (gMinutesPerDay * gSecondsPerMinute)
+gDefaultDutycyclePeriod = 10	-- in minutes.  Different utilities may want this to be different.
+
+----------
+
+gScaleFahrenheit = {name = "FAHRENHEIT", MIBval = "00"}
+gScaleCelsius = {name = "CELSIUS", MIBval = "01"}
+gScales =
+{
+	[gScaleFahrenheit.name] = gScaleFahrenheit,
+	[gScaleFahrenheit.MIBval] = gScaleFahrenheit,
+	[gScaleCelsius.name] = gScaleCelsius,
+	[gScaleCelsius.MIBval] = gScaleCelsius,
+}
+
+----------
+
+gHvacModeOff = {name = "Off", MIBval = "00"}
+gHvacModeHeat = {name = "Heat", MIBval = "01"}
+gHvacModeCool = {name = "Cool", MIBval = "02"}
+gHvacModeEmergency = {name = "Emergency Heat", MIBval = "06"}
+gHvacModes =
+{
+	[gHvacModeOff.name] = gHvacModeOff,
+	[gHvacModeOff.MIBval] = gHvacModeOff,
+	[gHvacModeHeat.name] = gHvacModeHeat,
+	[gHvacModeHeat.MIBval] = gHvacModeHeat,
+	[gHvacModeCool.name] = gHvacModeCool,
+	[gHvacModeCool.MIBval] = gHvacModeCool,
+	[gHvacModeEmergency.name] = gHvacModeEmergency,
+	[gHvacModeEmergency.MIBval] = gHvacModeEmergency,
+	[0] = gHvacModeOff,
+	[1] = gHvacModeHeat,
+	[2] = gHvacModeCool,
+	[6] = gHvacModeEmergency,
+}
+
+----------
+
+gFanModeAuto = { name = "Auto", MIBval = "00" }
+gFanModeOn = { name = "On", MIBval = "01" }
+gFanModes =
+{
+	[gFanModeAuto.name] = gFanModeAuto,
+	[gFanModeAuto.MIBval] = gFanModeAuto,
+	[gFanModeOn.name] = gFanModeOn,
+	[gFanModeOn.MIBval] = gFanModeOn,
+	[0] = gFanModeAuto,
+	[1] = gFanModeOn,
+	["AUTO"] = gFanModeAuto,
+	["ON"] = gFanModeOn,
+	["HIGH"] = gFanModeOn,
+
+}
+
+----------
+
+gHoldModeOff = {name = "Off", MIBval = "00"}
+gHoldMode2Hours = {name = "2 Hours", MIBval = "01"}
+gHoldModes =
+{
+	[gHoldModeOff.name] = gHoldModeOff,
+	[gHoldModeOff.MIBval] = gHoldModeOff,
+	[gHoldMode2Hours.name] = gHoldMode2Hours,
+	[gHoldMode2Hours.MIBval] = gHoldMode2Hours,
+	[0] = gHoldModeOff,
+	[1] = gHoldMode2Hours,
+}
+
+----------
+
+gVacStatusOff = { name = "off", MIBVal = "00", NTFVal = false }
+gVacStatusOn = { name = "on", MIBVal = "01", NTFVal = true }
+
+----------
+
+gHvacStateOff = { name = "Off" }
+gHvacStateHeat = { name = "Heat" }
+gHvacStateCool = { name = "Cool" }
+
+----------
+
+gFanStateOff = { name = "Off" }
+gFanStateOn = { name = "On" }
+
+----------
+
+
+gHvacTypeGas = { name = "Gas Furnace", value = 1 }
+gHvacTypeElec = { name = "Electric Furnace", value = 2 }
+gHvacTypeHPump = { name = "Heat Pump", value = 3 }
+gHvacTypes =
+{
+	[gHvacTypeGas.name] = gHvacTypeGas,
+	[gHvacTypeGas.value] = gHvacTypeGas,
+	[gHvacTypeElec.name] = gHvacTypeElec,
+	[gHvacTypeElec.value] = gHvacTypeElec,
+	[gHvacTypeHPump.name] = gHvacTypeHPump,
+	[gHvacTypeHPump.value] = gHvacTypeHPump,
+}
+gHVacType = nil		-- start off with an invalid value
+
+----------
+
+gStageTypeUndefined = { name = "Not Used", value = 2 }
+gStageTypeFuel = { name = "Fuel", value = 0 }
+gStageTypeElectric = { name = "Electric", value = 1 }
+
+gAuxStageType = nil
+gEmerStageType = nil
+
+gRevValveUndefined = { name = "Not Used", value = 2 }
+gRevValveO = { name = "O", value = 0 }
+gRevValveB = { name = "B", value = 1 }
+gRevValve = nil
+
+----------
+
+gCurTStatState =
+{
+	hvacMode			= gHvacModeOff,
+	holdMode			= gHoldModeOff,
+	fanMode				= gFanModeAuto,
+	temperatureScale	= gScaleFahrenheit,
+	temperature			= 0,
+	heatSetpoint		= 0,
+	refHeatSetpoint		= 0,
+	coolSetpoint		= 0,
+	refCoolSetpoint		= 0,
+	batteryLevel		= 101,
+	hvacState			= gHvacStateOff,
+	fanState			= gFanStateOff,
+	vacationMode		= gVacStatusOff,
+	vacHeatSetpoint		= 0,
+	vacCoolSetpoint		= 0,
+	primaryHeatRelay	= 0,
+	auxHeatRelay		= 0,
+	primaryCoolRelay	= 0,
+	auxCoolRelay		= 0,
+	emerHeatRelay		= 0,
+	calibration			= -1,
+	heatCutoff			= -1,
+	coolCutoff			= -1,
+}
+
+gDRLCState = nil
+
+gMasterSchedule = Schedule.new("Master")
+
+gMibTypes =
+{
+	gC4MIBResponse,
+	gC4MIBTrap
+}
+
+gMibs =
+{
+	gMIBSetpointUpper,
+	gMIBSetpointLower,
+	gMIBSetpoint,
+	gMIBThermostatTime,
+	gMIBThermostatDate,
+	gMIBHVacMode,
+	gMIBHoldMode,
+	gMIBScaleUnits,
+	gMIBTemperature,
+	gMIBScheduleChangeLong,
+	gMIBScheduleEdit,
+	gMIBTemperatureInfo,
+	gMIBUpdate,
+	gMIBVacationMode,
+	gMIBVacationSetpoints,
+	gMIBStates,
+	gMIBDirectiveResponse,
+	gMIBCalibration,
+	gMIBHeatCoolCutoffs,
+	gMIBStageStates,
+	gMIBFirmwareVersion,
+}
+
+
+
+
+--------------- Temperature Units Conversionss ----------------------------
+
+TemperatureUnits =
+{
+	CK_OFFSET = 2731,
+	CF_RATIO = tonumber(9.0 / 5.0),
+	KC_RATIO = tonumber(0.1),
+}
+
+function TemperatureUnits.round(number, precision)
+	precision = precision or 0
+	local precisionMultiplier = math.pow(10, precision)
+	return math.floor( (number * precisionMultiplier) + 0.5 ) / precisionMultiplier
+end
+
+function TemperatureUnits.SToK(SchedTemperature)
+  -- convert the schedule temperature values to a standard kelvin value
+	return TemperatureUnits.WToK(SchedTemperature * 2)
+end
+
+
+function TemperatureUnits.KToS(KTemperature)
+  -- convert a standard kelvin value to a schedule temperature value
+  return TemperatureUnits.round( TemperatureUnits.KToW(KTemperature) / 2 )
+end
+
+
+function TemperatureUnits.WToK(WorldTemperature)
+  -- Convert a world units temperature value to a standad kelvin values
+  -- world units are Celsius * 10
+  -- kelvin units are Celsius shifted by 273.15 degrees
+	return (WorldTemperature + TemperatureUnits.CK_OFFSET)
+end
+
+function TemperatureUnits.KToW(KelvinTemperature)
+  -- Convert a kelvin units temperature value to world values
+  -- world units are Celsius * 10
+  -- kelvin units are Celsius * 10 shifted by 273.15 degrees
+	return (KelvinTemperature - TemperatureUnits.CK_OFFSET)
+end
+
+function TemperatureUnits.WToK_Interval(WorldTemperature)
+  -- Convert a world units temperature interval value to a standad kelvin values
+  -- world units are Celsius * 10
+  -- kelvin units are Celsius * 10
+  return(WorldTemperature)
+end
+
+
+function TemperatureUnits.ScaleIntervalValue(RawValue, precision)
+	local scale = gCurTStatState.temperatureScale == gScaleFahrenheit and TemperatureUnits.CF_RATIO or 1.0
+	local interval = TemperatureUnits.round(RawValue * scale / 10.0, precision)
+	return(interval)
+end
+
+
+function TemperatureUnits.NormalizeIntervalValue(InValue, precision)
+	local scale = gCurTStatState.temperatureScale == gScaleFahrenheit and TemperatureUnits.CF_RATIO or 1.0
+	local interval = TemperatureUnits.round(InValue / scale * 10, precision)
+	return(interval)
+end
+
+
+
+
+----------- Responses -------------
+RSP = {}
+
+function RSP.c4zttp(tParams)
+	-- temperature
+	local temp = tonumber(tParams[1], 16)
+	SetTemperature(temp)
+end
+
+
+function RSP.c4ztsp(tParams)
+	-- set points
+	local coolpoint = tonumber(tParams[1], 16)
+	local heatpoint = tonumber(tParams[2], 16)
+
+	SetCoolSetpoint(coolpoint)
+	SetHeatSetpoint(heatpoint)
+end
+
+
+function RSP.c4ztsx(tParams)
+	-- status update
+	local CurTemp = tonumber(tParams[1], 16)
+	local CurSet = tonumber(tParams[2], 16)
+	local HvacMode = tonumber(tParams[3], 16)
+	local FanMode = tonumber(tParams[4], 16)
+	local BatteryLevel = tonumber(tParams[5], 16)
+	local DRLCState = tParams[6]
+	local RemainingTime = tParams[7]
+	local StageStateBits = tonumber(tParams[8], 16)
+
+	SetTemperature(CurTemp)
+	SetHvacMode(HvacMode)
+	SetFanMode(FanMode)
+	SetBatteryLevel(BatteryLevel)
+
+	if(gCurTStatState.hvacMode == gHvacModeHeat) then
+		SetHeatSetpoint(CurSet)
+	elseif(gCurTStatState.hvacMode == gHvacModeCool) then
+		SetCoolSetpoint(CurSet)
+	end
+
+	SetStageStates(StageStateBits)
+end
+
+
+function RSP.c4ztmc(tParams)
+  -- hvac mode
+end
+
+
+function RSP.c4ztmh(tParams)
+	SetHoldMode(tParams[1])
+end
+
+
+function RSP.c4ztsu(tParams)
+  -- cool set point
+end
+
+
+function RSP.c4ztsl(tParams)
+  -- heat set point
+end
+
+
+function RSP.c4ztcal(tParams)
+  -- temperature calibration
+end
+
+
+function RSP.c4ztun(tParams)
+	-- temperature units
+	local UnitsIndex = tParams[1]
+	SetScale(UnitsIndex)
+end
+
+
+function RSP.c4ztscl(tParams)
+	-- schedule change long
+	local DayIndex = tonumber(tParams[7])
+
+	for LoopIndex = 1, 6 do
+		local EntryIndex = LoopIndex - 1
+		local SchedStr = tParams[LoopIndex]
+		local CurEntry = Schedule.GetScheduleEntry(gMasterSchedule, DayIndex, EntryIndex)
+	
+		local HourStr = string.sub(SchedStr, 1, 2)
+		local MinuteStr = string.sub(SchedStr, 3, 4)
+		local CoolValStr = string.sub(SchedStr, 5, 6)
+		local HeatValStr = string.sub(SchedStr, 7, 8)
+	
+		local HourVal = tonumber(HourStr, 16)
+		local MinuteVal = tonumber(MinuteStr, 16)
+		local CoolVal = TemperatureUnits.SToK(tonumber(CoolValStr, 16))
+		local HeatVal = TemperatureUnits.SToK(tonumber(HeatValStr, 16))
+		local IsEnabled = false
+
+		-- Enable flag is stored in the top bit of the minutes value
+		if MinuteVal >= 0x80 then
+			IsEnabled = true
+			MinuteVal = MinuteVal - 0x80
+		end
+
+		CurEntry.Enabled = IsEnabled
+		CurEntry.SchedTime = ((HourVal * 60) + MinuteVal)
+		CurEntry.HeatSetpoint = HeatVal
+		CurEntry.CoolSetpoint = CoolVal
+
+		NotifyScheduleEntry(DayIndex, EntryIndex, CurEntry)
+	end
+
+	NotifyScheduleEditComplete()
+end
+
+
+function RSP.c4ztedt(tParams)
+  -- schedule edit
+end
+
+
+function RSP.c4ztinf(tParams)
+	-- thermostat info
+	SetScale(tParams[1])
+	local CurCalib = tonumber(tParams[4], 16)
+	if(CurCalib > 127) then CurCalib = CurCalib - 256 end	-- one byte signed hex digit
+	local CurTemp = tonumber(tParams[5], 16)
+	local HeatSet = tonumber(tParams[6], 16)
+	local CoolSet = tonumber(tParams[7], 16)
+
+	SetCalibration(CurCalib, false)
+	SetTemperature(CurTemp)
+	SetHeatSetpoint(HeatSet)
+	SetCoolSetpoint(CoolSet)
+end
+
+
+function RSP.c4ztuin(tParams)
+  -- ui info
+end
+
+
+function RSP.c4ztco(tParams)
+	-- heat and cool cutoff points
+	if(#tParams >= 2) then
+		SetHeatCutoff(tonumber(tParams[1], 16), false)
+		SetCoolCutoff(tonumber(tParams[2], 16), false)
+	end
+end
+
+
+function RSP.c4ztst(tParams)
+	-- tParams[1] -> Relay State
+	-- tParams[2] -> Heat Pump: 0 = Conventional, 1 = Heat Pump
+	if(tonumber(tParams[2]) == 0) then
+		-- conventional Hvac
+		-- tParams[3] -> Primary: 0 = Fuel, 1 = Electric
+		SetHvacType((tonumber(tParams[3]) == 0) and gHvacTypeGas or gHvacTypeElec)
+		SetAuxStageType(gStageTypeUndefined)
+		SetEmerStageType(gStageTypeUndefined)
+		SetReversingValve(gRevValveUndefined)
+	else
+		-- heat pump
+		-- tParams[3] -> Auxiliary: 0 = Fuel, 1 = Electric
+		-- tParams[4] -> Emergency: 0 = Fuel, 1 = Electric
+		-- tParams[5] -> Reversing Valve: 0 = Fuel, 1 = Electric
+		SetHvacType(gHvacTypeHPump)
+		SetAuxStageType((tonumber(tParams[3]) == 0) and gStageTypeFuel or gStageTypeElectric)
+		SetEmerStageType((tonumber(tParams[4]) == 0) and gStageTypeFuel or gStageTypeElectric)
+		SetReversingValve((tonumber(tParams[5]) == 0) and gRevValveO or gRevValveB)
+	end
+
+	-- relay states
+	SetRelayBits(tonumber(tParams[1], 16))
+
+end
+
+
+function RSP.c4ztsg(tParams)
+  -- Stage states
+	SetStageStates(tonumber(tParams[1], 16))
+end
+
+
+function RSP.c4ztvo(tParams)
+  -- vacation mode
+end
+
+
+function RSP.c4ztvs(tParams)
+	-- vacation set points
+	local VacEnabled = tonumber(tParams[1], 16)
+	local CoolPoint = tonumber(tParams[2], 16)
+	local HeatPoint = tonumber(tParams[3], 16)
+
+	if gCurTStatState.vacCoolSetpoint ~= CoolPoint then
+		gCurTStatState.vacCoolSetpoint = CoolPoint
+	end
+
+  	if gCurTStatState.vacHeatSetpoint ~= HeatPoint then
+		gCurTStatState.vacHeatSetpoint = HeatPoint
+	end
+
+	NotifyVacationSetpoints()
+
+	SetVacationMode(VacEnabled ~= 0 and gVacStatusOn or gVacStatusOff)
+
+end
+
+
+function RSP.c4ztdr(tParams)
+	-- drlc event
+	if ( #tParams == 1 ) then -- Response containing current state
+		local CurState = tonumber(tParams[1], 16) -- 0 = Not in event, 1 = Voluntary Event, 2 = Hold, 3 = Mandatory Event
+		local inDRState = (CurState == 1 or CurState == 3)
+		local shouldBeInDRState = GetDREventExpireTime() > os.time() and InDREvent()
+		local hasDRInQueue = false
+
+		local queuedDR = gSequenceIDRetryQueue[gMIBPacketRetryQueue[gMIBDirectiveResponse]]
+		-- If the queued DR MIB is a "set" command
+		if queuedDR ~= nil and string.sub(queuedDR, 1, 2) == "0s" then
+			g_logger:Debug( "DR in queue: " .. gSequenceIDRetryQueue[gMIBPacketRetryQueue[gMIBDirectiveResponse]] )
+			hasDRInQueue = true
+		end
+		g_logger:Debug( "hasDRInQueue: " .. tostring(hasDRInQueue) .. ", inDRState: " .. tostring(inDRState) .. ", shouldBeInDRState: " .. tostring(shouldBeInDRState) )
+
+		-- If the WT should be in DR state, but is not in DR state and does not have DR in queue
+		if (not hasDRInQueue) and (not inDRState) and shouldBeInDRState then
+			local eventParams = GetDREventParams()
+			CMD.DEMAND_RESPONSE_INITIATED( eventParams )
+		-- If The WT should not be in DR state, but it is in DR state.
+		elseif inDRState and (not shouldBeInDRState) then
+			CMD.DEMAND_RESPONSE_CANCELED( eventParams )
+		end
+	elseif ( #tParams == 6 ) then -- Actually for c4.zt.drq, but there is some truncation
+		local id = tonumber(tParams[1], 16)
+		local stopped = tonumber(tParams[2], 16) == 1 -- 0 = started, 1 = stopped
+		local day = tonumber(tParams[3], 16)
+		local hour = tonumber(tParams[4], 16)
+		local minute = tonumber(tParams[5], 16)
+		local second = tonumber(tParams[6], 16)
+		
+		if (stopped) then
+			timeStamp = DRLCState.NewTimeStamp( day, hour, minute, second )
+			ExitDREvent(id, timeStamp)
+		end
+	end
+end
+
+function RSP.c4ztct(tParams)
+	-- time
+	local readHour = tonumber(tParams[1], 16)
+	local readMinute = tonumber(tParams[2], 16)
+	local readSecond = tonumber(tParams[3], 16)
+
+	local TimeStr = tostring(readHour) .. ":" .. tostring(readMinute) .. ":" .. tostring(readSecond)
+	C4:UpdateProperty("Read Time", TimeStr)
+
+end
+
+
+function RSP.c4ztcd(tParams)
+  -- date
+	local readDow = tonumber(tParams[4], 16)
+
+	local DoWList = {}
+
+	DoWList[0] = Schedule.Sunday
+	DoWList[1] = Schedule.Monday
+	DoWList[2] = Schedule.Tuesday
+	DoWList[3] = Schedule.Wednesday
+	DoWList[4] = Schedule.Thursday
+	DoWList[5] = Schedule.Friday
+	DoWList[6] = Schedule.Saturday
+
+	C4:UpdateProperty("Read Day of Week", DoWList[readDow])
+
+end
+
+function RSP.c4syfwv(tParams)
+	local strVersion = tParams[1]
+	if strVersion ~= nil then
+		C4:UpdateProperty("Firmware Version", strVersion)
+		C4:SetVariable("FirmwareVersion", strVersion)
+	else
+		g_logger:Error( "No firmware version provided in MIB response c4.zy.fwv" )
+	end
+end
+
+-- static class
+C4_Utils_String = {}
+
+-------------------------------------------------------------------------------
+-------------------------- Static Members -------------------------------------
+-------------------------------------------------------------------------------
+C4_Utils_String.CharSet = {
+	'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+	'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+	'1','2','3','4','5','6','7','8','9','0','-','=','!','@','#','$','%','^','&','*','(',')','_','+','?',':',
+}
+
+C4_Utils_String.Range = table.getn(C4_Utils_String.CharSet)
+
+----------------------------------------------------
+--- Generates a random string
+-- @param length       Optional: Length of string to generate. Default: 32
+-- @return Ramdom string of characters.
+---------------------------------------------------
+function C4_Utils_String:Random(length)
+	length = length or 32
+
+	local result = {}
+	for i=1, length do
+		result[i] = C4_Utils_String.CharSet[math.random(1,C4_Utils_String.Range)]
+	end
+	return table.concat(result)
+end
+
+----------------------------------------------------------------------------
+-- Helper function to turn a delimited string into a indexed table
+--
+-- Inputs:
+--       str - delimited string
+--       pat - delimiter
+-- Returns:
+--       table -  table containing string tokens
+----------------------------------------------------------------------------
+function C4_Utils_String:Split(str, pat)
+   local t = {}
+   local fpat = "(.-)" .. pat
+   local last_end = 1
+   local s, e, cap = str:find(fpat, 1)
+   while s do
+      if s ~= 1 or cap ~= "" then
+	 table.insert(t,cap)
+      end
+      last_end = e+1
+      s, e, cap = str:find(fpat, last_end)
+   end
+   if last_end <= #str then
+      cap = str:sub(last_end)
+      table.insert(t, cap)
+   end
+   return t
+end
+
+function C4_Utils_String:PatternEncode(str)
+		local encoded = string.gsub(str, "%%", "%%%%")
+		encoded = string.gsub(encoded, "%(", "%%%(")
+		encoded = string.gsub(encoded, "%)", "%%%)")
+		encoded = string.gsub(encoded, "%.", "%%%.")
+		encoded = string.gsub(encoded, "%+", "%%%+")
+		encoded = string.gsub(encoded, "%-", "%%%-")
+		encoded = string.gsub(encoded, "%*", "%%%*")
+		encoded = string.gsub(encoded, "%?", "%%%?")
+		encoded = string.gsub(encoded, "%[", "%%%[")
+		encoded = string.gsub(encoded, "%]", "%%%]")
+		encoded = string.gsub(encoded, "%^", "%%%^")
+		encoded = string.gsub(encoded, "%$", "%%%$")
+		encoded = string.gsub(encoded, " ", " %-")
+		return encoded
+end
+
+function C4_Utils_String:CommaDelimitTable(tbl, usequote)
+	local quote = usequote and "'" or ""
+	local nvps = ""
+	for key,val in pairs(tbl) do
+		if (#nvps > 0) then
+			nvps = nvps..","
+		end
+		nvps = nvps..key.."="..quote..val..quote
+	end
+	return nvps
+end
+
+----------------------------------------------------
+--- Converts hex string to hex value
+-- @param string hex   String of hex characters separated by spaces ex: "AA BB CC"
+-- @return integer  
+----------------------------------------------------
+function C4_Utils_String:ToHex(hex)
+	local offset, dif = string.byte("0"), string.byte("A") - string.byte("9") - 1
+	local bytes = {}
+	hex = string.upper(hex)
+	local value = 0
+	for a,b in string.gfind(hex, "(%S)(%S)%s*") do
+		a,b = a:upper():byte()-offset, b:upper():byte()-offset
+		a,b = a>10 and a - dif or a, b>10 and b - dif or b
+		value = bit.lshift(value, 8) + a*16+b
+	end
+	return value
+end
+
+
+--------------- Zigbee support ----------------------
+function InitialDeviceQuery()
+	gHaveRecievedResponse = false
+	gInitTimer = C4:AddTimer(2, "MINUTES")
+
+	SetCurrentDateAndTime()
+	g_logger:Debug("Get Modes ...")
+	QueryDevice(gMIBUpdate)				-- HVAC mode and fan mode
+	QueryDevice(gMIBHoldMode)
+	g_logger:Debug("Get Scale ...")
+	QueryDevice(gMIBScaleUnits)			-- scale units
+	g_logger:Debug("Get Temperature Info ...")
+	QueryDevice(gMIBTemperatureInfo)
+	QueryDevice(gMIBStates)
+	QueryDevice(gMIBStageStates)
+	QueryDevice(gMIBHeatCoolCutoffs)
+	QueryDevice(gMIBVacationSetpoints)
+	QueryDevice(gMIBFirmwareVersion)
+	GetScheduleFromDevice()
+	QueryDevice(gMIBDirectiveResponse)
+	QueryDevice(gMIBDRQuery, "00")
+	QueryDevice(gMIBDRQuery, "01")
+	QueryDevice(gMIBDRQuery, "02")
+	QueryDevice(gMIBDRQuery, "03")
+	QueryDevice(gMIBDRQuery, "04")
+	QueryDevice(gMIBDRQuery, "05")
+end
+
+function QueryDevice(mibStr, params)
+	local packet = FormMibPacket(gC4MIBGet, mibStr, params or "")
+	SendData(packet)
+end
+
+function NotifyProxy(Notification, tParams)
+	g_logger:Debug("NotifyProxy: Notification = " .. Notification, "Params:", C4_Logger:DumpValue(tParams))
+	C4:SendToProxy(5001, Notification, tParams) -- , "NOTIFY"
+end -- NotifyProxy
+
+gMaxSendDataFails = 5
+gZigbeePacketFailCount = 0
+gSendDelayedDataQueue = {}
+gQueuedSendDelayMIBS = {}
+
+function SendData(packet)
+	local mibstring = AddPacketToRetryQueue( packet )
+	if (mibstring ~= nil) then
+		if gZigbeePacketFailCount < gMaxSendDataFails then
+			local nProfileID = 49756
+			local nClusterID = 1
+			local nGroupID = 0
+			local nSourceEndPoint = 197
+			local nDestinationEndPoint = 197
+			g_logger:Debug( "Sending packet to device: " .. tostring(packet) )
+			C4:SendZigbeePacket(packet, nProfileID, nClusterID, nGroupID, nSourceEndPoint, nDestinationEndPoint)
+
+		-- Exceeded the amount of failures allowed. Keep an ordered queue of packets
+		elseif gQueuedSendDelayMIBS[mibstring] == nil then
+			-- Avoid redundant MIBS from being queued
+			table.insert( gSendDelayedDataQueue, mibstring )
+			gQueuedSendDelayMIBS[mibstring] = true
+		end
+	else
+		g_logger:Debug( "Could not send packet: " .. tostring(packet) )
+	end
+end
+
+function SendDelayedData()
+	if #gSendDelayedDataQueue > 0 then
+		local mibstring = gSendDelayedDataQueue[1]
+		table.remove( gSendDelayedDataQueue, 1 )
+		gQueuedSendDelayMIBS[mibstring] = nil
+
+		local id = gMIBPacketRetryQueue[mibstring]
+		local packet = gSequenceIDRetryQueue[id]
+		if mibstring ~= nil and packet ~= nil then
+			local nProfileID = 49756
+			local nClusterID = 1
+			local nGroupID = 0
+			local nSourceEndPoint = 197
+			local nDestinationEndPoint = 197
+			g_logger:Debug( "Sending packet to device: " .. tostring(packet) )
+			C4:SendZigbeePacket(packet, nProfileID, nClusterID, nGroupID, nSourceEndPoint, nDestinationEndPoint)
+		end
+	end
+end
+
+function SendAllDelayedData()
+	while #gSendDelayedDataQueue > 0 do
+		SendDelayedData()
+	end
+end
+
+function SendDRLCToDevice(EventID, Duration, CoolSp, HeatSp, OnMinutes, OffMinutes, Mandatory)
+	g_logger:Debug("Send DR params: " .. EventID .. " " .. Duration .. " " .. CoolSp .. " " ..
+			HeatSp .. " " .. OnMinutes .. " " .. OffMinutes )
+	local DRLCParamStr = string.format("%04x %04x %04x %04x %04x %04x %02x",
+										EventID,
+										Duration,
+										CoolSp,
+										HeatSp,
+										OnMinutes,
+										OffMinutes,
+										Mandatory and 1 or 0)
+
+	g_logger:Debug("DR params: " .. DRLCParamStr)
+
+	-- WT FW will send the DR Applied confirmation before cooling & heating setpoints.
+	-- Therefore, save off cooling & heating set points to report as 'applied' temperatures
+	-- when reporting DRLC Status.
+	g_drCoolSp = CoolSp
+	g_drHeatSp = HeatSp
+
+ 	SendData(FormMibPacket(gC4MIBSet, gMIBDirectiveResponse , DRLCParamStr))
+
+end
+
+function SetCurrentDateAndTime()
+	-- Schedule the next update
+	local Now = os.date("*t")
+	local DoW = (tonumber(Now.wday) + 6) % 7  -- Lua says Sunday is 1, for the MIB Sunday is 0
+	local DateParamStr = string.format("%04x %02x %02x %02x", Now.year, Now.month, Now.day, DoW)
+	local TimeParamStr = string.format("%02x %02x %02x", Now.hour, Now.min, Now.sec)
+
+	gUpdateTime = (3 * gMinutesPerHour)	-- update at 3:00 AM
+	local CurMinutes = (Now.hour * gMinutesPerHour) + Now.min
+	local MinutesUntilMidnight = gMinutesPerDay - CurMinutes
+	local minutesToNextUpdate = MinutesUntilMidnight + gUpdateTime
+
+	if os.time() > gBackstop then
+		g_logger:Debug("Date and Time: " .. DateParamStr .. " " .. TimeParamStr)
+		SendData(FormMibPacket(gC4MIBSet, gMIBThermostatDate, DateParamStr))
+		SendData(FormMibPacket(gC4MIBSet, gMIBThermostatTime, TimeParamStr))
+	else
+		minutesToNextUpdate = 5
+		g_logger:Debug("Backstop preventing setting of Date and Time: " .. DateParamStr .. " " .. TimeParamStr .. ". Retrying in " .. minutesToNextUpdate .. " minutes")
+	end
+
+	gDateTimeUpdateTimer = C4:AddTimer(minutesToNextUpdate, "MINUTES")
+end
+
+function GetScheduleFromDevice()
+	g_logger:Debug("Getting Schedule...")
+	for DayIndex = 0,6 do	-- one for each day of the week
+		SendData(FormMibPacket(gC4MIBGet, gMIBScheduleChangeLong , DayIndex))
+	end
+end
+
+function ParseMibPacket(strPacket)
+	local i = 0
+	local j = 0
+
+	-- what type of mib are we?
+	for m, mibType in ipairs(gMibTypes) do
+
+		i = string.find(strPacket, mibType)
+		if i ~= nil then
+
+			for n, mib in ipairs(gMibs) do
+
+				i, j = string.find(strPacket, mib)
+				if i ~= nil then
+					DecodeMibPacket(mibType, mib, string.sub(strPacket, j + 2, -1))
+					return
+				end
+			end
+		end
+	end
+end
+
+function DecodeMibPacket(mibType, mib, params)
+	local tParams = {}
+	local MIBSquished = string.gsub(mib, "%.", "")
+
+	for curParam in string.gmatch(params, "[%w%p]+") do
+		tParams[#tParams + 1] = curParam
+	end
+
+	if mibType == gC4MIBResponse then
+		-- Responses
+		if RSP[MIBSquished] ~= nil then
+			g_logger:Debug("DecodeMibPacket: Handled Response Mib: " .. mib)
+			RSP[MIBSquished](tParams)
+			gHaveRecievedResponse = true
+		else
+			g_logger:Debug("DecodeMibPacket: Unhandled Response Mib: " .. mib)
+		end
+
+	elseif mibType == gC4MIBTrap then
+		-- Traps
+		if TRP[MIBSquished] ~= nil then
+			g_logger:Debug("DecodeMibPacket: Handled Trap Mib: " .. mib)
+			TRP[MIBSquished](tParams)
+		else
+			g_logger:Debug("DecodeMibPacket: Unhandled Trap Mib: " .. mib)
+		end
+	end
+end
+
+function FormMibPacketFromID(id, mibType, mib, params)
+	local strPacket = mibType .. string.format("%04x", id) .. " " .. mib .. " " .. params
+	return strPacket
+end
+
+function FormMibPacket(mibType, mib, params)
+	gSequenceNumber = gSequenceNumber + 1
+	local strPacket = FormMibPacketFromID(gSequenceNumber, mibType, mib, params)
+	return strPacket
+end
+
+function GetSequenceID(packet)
+
+	local i = 0
+	local j = 0
+	local seqID = 0
+	local hexPattern = "%x%x%x%x"
+
+	i, j = string.find(packet, hexPattern)
+
+	if i ~= nil then
+		seqID = tonumber(string.sub(packet, i, j), 16)
+	end
+	return seqID
+end
+
+function GetMIBString(packet)
+	local mibstring
+	local i, j = string.find( packet or "", 'c4.%l+.%l+' )
+	if i~= nil then
+		mibstring = string.sub( packet, i, j )
+	end
+	return mibstring
+end
+
+-- Adds a MIB to the retry queue. Overrides an earlier MIB with the most recent one
+function DefaultAddPacketToRetryQueueHandler( mibstring, packet )
+	if (mibstring and packet) then
+		local previousId = gMIBPacketRetryQueue[mibstring]
+		local previousPacket = previousId and gSequenceIDRetryQueue[previousId]
+		RemovePacketFromRetryQueue( previousPacket )
+
+		local id = GetSequenceID(packet)
+		gSequenceIDRetryQueue[id] = packet
+		gMIBPacketRetryQueue[mibstring] = id
+		return mibstring
+	end
+end
+
+-- Special case adds
+gAddPacketToRetryQueueHandlers =
+{
+	-- Append the date index to MIB table entry for schedule request
+	[gMIBScheduleChangeLong] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local dayIndex = packetSplit[3]
+		if dayIndex ~= nil then
+			local mibstringExtended = mibstring..dayIndex
+			DefaultAddPacketToRetryQueueHandler( mibstringExtended, packet )
+			return mibstringExtended
+		end
+	end,
+
+	-- Append the date and entry index to MIB table entry for schedule change
+	[gMIBScheduleEdit] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local dayIndex = packetSplit[3]
+		local entryIndex = packetSplit[4]
+		if dayIndex ~= nil and entryIndex ~= nil then
+			local mibstringExtended = mibstring..dayIndex..'_'..entryIndex
+			DefaultAddPacketToRetryQueueHandler( mibstringExtended, packet )
+			return mibstringExtended
+		end
+	end,
+
+	-- Append whether the change is for heat or cool to MIB table entry for temperature cutoff points
+	[gMIBHeatCoolCutoffs] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local bitMask = packetSplit[5]
+		if bitMask ~= nil then
+			local mibstringExtended = mibstring
+			if bitMask == '01' then
+				mibstringExtended = mibstring..'_h'
+				DefaultAddPacketToRetryQueueHandler( mibstringExtended, packet )
+			elseif bitMask == '02' then
+				mibstringExtended = mibstring..'_c'
+				DefaultAddPacketToRetryQueueHandler( mibstringExtended, packet )
+			elseif bitMask == '03' then
+				DefaultAddPacketToRetryQueueHandler( mibstringExtended, packet )
+			end
+			return mibstringExtended
+		end
+	end,
+
+	[gMIBThermostatTime] = function( mibstring, packet )
+		-- No-op. Let the date/time timer interval resolve this
+		return mibstring
+	end,
+
+	[gMIBThermostatDate] = function( mibstring, packet )
+		-- No-op. Let the date/time timer interval resolve this
+		return mibstring
+	end
+}
+
+-- Call the default add function of no special case exists
+setmetatable( gAddPacketToRetryQueueHandlers, { __index = function(a, b) return DefaultAddPacketToRetryQueueHandler end } )
+
+
+-- Removes MIB from retry queue if it exists
+function DefaultRemovePacketFromRetryQueueHandler( mibstring, packet )
+	local id = GetSequenceID(packet)
+	gSequenceIDRetryQueue[id] = nil
+	if gMIBPacketRetryQueue[mibstring] == id then
+		gMIBPacketRetryQueue[mibstring] = nil
+	end
+end
+
+-- Special case removes 
+gRemovePacketFromRetryQueueHandlers = 
+{
+	-- Append the date index to MIB table entry
+	[gMIBScheduleChangeLong] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local dayIndex = packetSplit[3]
+		if dayIndex ~= nil then
+			local mibstringExtended = mibstring..dayIndex
+			DefaultRemovePacketFromRetryQueueHandler( mibstringExtended, packet )
+		end
+	end,
+
+	-- Append the date and entry index to MIB table entry
+	[gMIBScheduleEdit] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local dayIndex = packetSplit[3]
+		local entryIndex = packetSplit[4]
+		if dayIndex ~= nil and entryIndex ~= nil then
+			local mibstringExtended = mibstring..dayIndex..'_'..entryIndex
+			DefaultRemovePacketFromRetryQueueHandler( mibstringExtended, packet )
+		end
+	end,
+
+	-- Append whether the change is for heat or cool to MIB table entry
+	[gMIBHeatCoolCutoffs] = function( mibstring, packet )
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local bitMask = packetSplit[5]
+		if bitMask ~= nil then
+			if bitMask == '01' then
+				local mibstringExtended = mibstring..'_h'
+				DefaultRemovePacketFromRetryQueueHandler( mibstringExtended, packet )
+			elseif bitMask == '02' then
+				local mibstringExtended = mibstring..'_c'
+				DefaultRemovePacketFromRetryQueueHandler( mibstringExtended, packet )
+			elseif bitMask == '03' then
+				DefaultRemovePacketFromRetryQueueHandler( mibstringExtended, packet )
+			end
+		end
+	end
+}
+
+-- Call the default remove function of no special case exists
+setmetatable( gRemovePacketFromRetryQueueHandlers, { __index = function(a, b) return DefaultRemovePacketFromRetryQueueHandler end } )
+
+gRetryPacketFromRetryQueueHandlers =
+{
+	-- Make sure we have the updated duration before attempting a retry
+	[gMIBDirectiveResponse] = function( mibstring, packet )
+		local id = GetSequenceID(packet)
+		local packetSplit = C4_Utils_String:Split(packet, ' ')
+		local duration = packetSplit[4]
+		local drExpireTime = GetDREventExpireTime()
+		local currentTime = os.time()
+		if duration ~= nil and duration ~= '0000' and drExpireTime > currentTime and InDREvent() then
+			local newDuration = ( drExpireTime - currentTime ) / 60
+			packetSplit[4] = string.format( "%04x", newDuration )
+			gSequenceIDRetryQueue[id] = table.concat( packetSplit, ' ' )
+		end
+
+		SendData(gSequenceIDRetryQueue[id])
+	end,
+
+	[gMIBThermostatTime] = function( mibstring, packet )
+		-- No-op. Let the date/time timer interval resolve this
+	end,
+
+	[gMIBThermostatDate] = function( mibstring, packet )
+		-- No-op. Let the date/time timer interval resolve this
+	end
+}
+
+setmetatable( gRetryPacketFromRetryQueueHandlers,
+	{
+		__index = function(a, b)
+			local function DefaultRetryPacketFromRetryQueueHandler( mibstring, packet )
+				SendData(packet)
+			end
+			return DefaultRetryPacketFromRetryQueueHandler
+		end
+	} )
+	
+function AddPacketToRetryQueue( packet )
+	local retmibstring = nil
+	local mibstring = GetMIBString( packet )
+	if (mibstring ~= nil and gAddPacketToRetryQueueHandlers[mibstring] ~= nil) then
+		retmibstring = gAddPacketToRetryQueueHandlers[mibstring]( mibstring, packet )
+	end
+
+	return retmibstring
+end
+
+function RemovePacketFromRetryQueue( packet )
+	local success = false
+	local mibstring = GetMIBString( packet )
+	if (mibstring ~= nil and gRemovePacketFromRetryQueueHandlers[mibstring] ~= nil) then
+	gRemovePacketFromRetryQueueHandlers[mibstring]( mibstring, packet )
+		success = true
+end
+
+	return success
+end
+
+function IsSequenceID(id)
+	return gSequenceIDRetryQueue[id] ~= nil and true or false
+end
+
+function IsMIBStringInRetryQueue(mibstring)
+	return gMIBPacketRetryQueue[mibstring] ~= nil and true or false
+end
+
+function OnZigbeePacketIn(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+	if packet ~= nil then
+	  	-- parse/decode here
+		ParseMibPacket(packet)
+	end
+end
+
+
+function OnZigbeePacketSuccess(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+	RemovePacketFromRetryQueue( packet )
+	gZigbeePacketFailCount = 0
+	SendAllDelayedData()
+end
+
+function OnZigbeePacketFailed(packet, idProfileID, idClusterID, idGroupID, sourceEndpoint, destinationEndpoint)
+	gZigbeePacketFailCount = gZigbeePacketFailCount < gMaxSendDataFails and gZigbeePacketFailCount + 1 or gMaxSendDataFails
+	g_logger:Debug("OnZigbeePacketFailed: Packet = " .. packet)
+	local id = GetSequenceID(packet)
+
+	if IsSequenceID(id) then
+		-- now retry
+		local mibstring = GetMIBString( packet )
+		gRetryPacketFromRetryQueueHandlers[mibstring]( mibstring, packet )
+	else
+		RemovePacketFromRetryQueue( packet )
+	end
+
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+	local isbound = "true"
+	if not bIsBound then
+		isbound = "false"
+	end
+	g_logger:Debug("OnNetworkBindingChanged: Binding = " .. idBinding .. "; Bound = " .. isbound)
+end
+
+function OnZigbeeOnlineStatusChanged(strStatus, strVersion, strSkew)
+
+	g_logger:Debug("OnZigbeeOnlineStatusChanged: Status = " .. strStatus .. " Version = " .. strVersion .. " Skew = " .. strSkew)
+
+	if (strStatus == "ONLINE") then
+		gZigbeePacketFailCount = 0
+		SendAllDelayedData()
+
+		local ZigbeeEUID = C4:GetZigbeeEUID() or 0
+		C4:UpdateProperty("MAC", ZigbeeEUID)
+		C4:SetVariable("DeviceID", ZigbeeEUID)
+		C4:SetVariable("ConnectionTime", os.time(os.date("!*t"))*1000)
+		SetBatteryLevel(100)
+		if not gZigbeeOnline then
+			gSequenceNumber = 1
+			gZigbeeOnline = true
+			InitialDeviceQuery()
+
+			if (gPollSignalStrength ~= nil) then
+				C4:KillTimer(gPollSignalStrength)
+			end
+
+			gPollSignalStrength = C4:AddTimer( Properties["Znode Refresh Interval Seconds"], "SECONDS", true )
+		else
+			QueryDevice(gMIBFirmwareVersion)
+		end
+	end
+
+	if ((strStatus == "OFFLINE") or(strStatus == "REBOOT")) then
+		gZigbeeOnline = false
+		C4:UpdateProperty("Firmware Version", "-")
+		C4:SetVariable("FirmwareVersion", "-")
+		C4:UpdateProperty("MAC", "-")
+		C4:SetVariable("DeviceID", "-")
+
+		if (gPollSignalStrength ~= nil) then
+			C4:KillTimer(gPollSignalStrength)
+			gPollSignalStrength = nil
+		end
+	end
+
+	NotifyProxy("CONNECTION", {CONNECTED = gZigbeeOnline})
+end
+
+------------- End Zigbee -----------------------
+
+------------- Notify ---------------------
+
+function DRAckString(EventTimeStamp)
+	-- Since FW sends DR Cooling & Heating applied setpoints after
+	-- DR applied confirmation, we need to use global DR cooling & heating
+	-- values if available.
+	local CoolSp = g_drCoolSp or gCurTStatState.coolSetpoint
+	local HeatSp = g_drHeatSp or gCurTStatState.heatSetpoint
+
+	local result = {
+		DEVICE_ID = gMyDeviceID,
+		ID = gDRLCState.curEventID,
+		COOLING_SETPOINT = TemperatureUnits.KToW( CoolSp ) * 10, -- Report to DR as Celsius x 100
+		HEATING_SETPOINT = TemperatureUnits.KToW( HeatSp ) * 10, -- Report to DR as Celsius x 100
+		DUTY_CYCLE = gDRLCState.dutyCycle,
+		TIME_STAMP = EventTimeStamp,
+	}
+
+	-- Nil out global DR cooling & heating set points.
+	g_drCoolSp = nil
+	g_drHeatSp = nil
+
+	return result
+end
+
+function NotifyEnergyAgent(Notification, paramStr)
+	g_logger:Debug("NotifyEnergyAgent: Notification = " .. Notification)
+	g_logger:Debug("Params = " .. C4_Logger:DumpValue(paramStr) )
+	C4:SendToProxy(1, Notification, paramStr) -- , "NOTIFY"
+end -- NotifyEnergyAgent
+
+function NotifyDRInitiated(EventID, InTime)
+	if(EventID == gDRLCState.curEventID) then
+		NotifyEnergyAgent("DEMAND_RESPONSE_INITIATED", DRAckString(InTime))
+	else
+		NotifyDRError("Initiated: ID mismatch")
+	end
+end
+
+
+function NotifyDRCompleted(EventID, EndTime)
+	if(EventID == gDRLCState.curEventID) then
+		NotifyEnergyAgent("DEMAND_RESPONSE_COMPLETED", DRAckString(EndTime))
+	else
+		NotifyDRError("Completed: ID mismatch")
+	end
+end
+
+
+function NotifyDRCancelled(EventID, EndTime)
+	if(EventID == gDRLCState.curEventID) then
+		NotifyEnergyAgent("DEMAND_RESPONSE_CANCELED", DRAckString(EndTime))
+	else
+		NotifyDRError("Canceled: ID mismatch")
+	end
+end
+
+
+function NotifyDROptOut(EventID, EndTime)
+	if(EventID == gDRLCState.curEventID) then
+		NotifyEnergyAgent("DRLC_OPT_OUT", DRAckString(EndTime))
+	else
+		NotifyDRError("Opt out: ID mismatch")
+	end
+end
+
+
+function NotifyDROptIn(EventID, InTime)
+	if(EventID == gDRLCState.curEventID) then
+		NotifyEnergyAgent("DRLC_OPT_IN", DRAckString(InTime))
+	else
+		NotifyDRError("Opt In: ID mismatch")
+	end
+end
+
+
+function  NotifyDRError(InErrorStr)
+	g_logger:Debug("Notify DR Error: " .. InErrorStr)
+end
+
+function NotifyVacationSetpoints()
+	local params =
+	{
+		VAC_HEAT_SETPOINT = tostring(gCurTStatState.vacHeatSetpoint),
+		VAC_COOL_SETPOINT = tostring(gCurTStatState.vacCoolSetpoint)
+	}
+	NotifyProxy("VACATION_SETPOINTS", params )
+end
+
+
+function NotifyScheduleEntry(InDayIndex, InEntryIndex, EntryInfo)
+	local params =
+	{
+		DayIndex = tostring(InDayIndex),
+		EntryIndex = tostring(InEntryIndex),
+		EnabledFlag = tostring(EntryInfo.Enabled),
+		TimeMinutes = tostring(EntryInfo.SchedTime),
+		HeatSetpoint = tostring(EntryInfo.HeatSetpoint),
+		CoolSetpoint = tostring(EntryInfo.CoolSetpoint),
+		Units = "INTERNAL"
+	}
+	NotifyProxy("SCHEDULE_ENTRY_CHANGED", params )
+
+end
+
+function NotifyScheduleEditComplete()
+	local params = {ENTRIES = '<xml></xml>'}
+
+	-- Calling "SCHEDULE_ENTRIES_CHANGED" induces a refresh of the entire schedule stored in the proxy variable
+	NotifyProxy("SCHEDULE_ENTRIES_CHANGED", params)
+end
+
+
+
+
+
+-------------------------------------------------------------------------------
+-------------------------- DRLC Handling ----------------------------------
+-------------------------------------------------------------------------------
+
+DRLCState = {}
+
+DRLCState.Schedule		= { name = "Schedule" }
+DRLCState.VoluntaryDr	= { name = "Voluntary DR" }
+DRLCState.Hold			= { name = "Hold" }
+DRLCState.Mandatory		= { name = "Mandatory" }
+DRLCState.States =
+{
+	[0] = DRLCState.Schedule,
+	[1] = DRLCState.VoluntaryDr,
+	[2] = DRLCState.Hold,
+	[3] = DRLCState.Mandatory,
+}
+
+	----------
+
+function DRLCState.new()
+	local NewDRLCState =
+	{
+		drlcState	= DRLCState.Schedule,
+		curEventID	= 0,
+		expireTime	= DRLCState.NewTimeStamp(0, 0, 0, 0),
+		dutyCycle	= 100,
+		eventParams = {}
+	}
+
+	return NewDRLCState
+
+end
+
+
+function NotifyDrlcState()
+	DRLCState.NotifyProxyDREvent(gDRLCState)
+end
+
+
+function DRLCState.NewTimeStamp(InDayOfWeek, InHour, InMinute, InSecond)
+	local WorkTime = os.date("*t")			-- time table for the now
+	local CheckDoW = (WorkTime.wday - 1)	-- Lua says Sunday is day 1, our system says Sunday is day 0
+	if(CheckDoW ~= InDayOfWeek) then
+		-- not the same day
+		local DaysAgo = CheckDoW - InDayOfWeek
+		if(DaysAgo < 0) then
+			DaysAgo = DaysAgo + 7
+		end
+
+		WorkTime.hour = 0
+		WorkTime.min = 0
+		WorkTime.sec = 0
+
+		WorkTime = os.time(WorkTime)		-- epoch for the start of today
+		WorkTime = WorkTime - (DaysAgo * gSecondsPerDay)
+		WorkTime = os.date("*t", WorkTime)	-- time table for the start of the event day
+	end
+
+	WorkTime.hour = InHour
+	WorkTime.min = InMinute
+	WorkTime.sec = InSecond
+
+	g_logger:Debug("TimeStamp " .. InHour .. " " .. InMinute .. " " .. InSecond .. " " .. os.time(WorkTime))
+
+	return os.time(WorkTime)	-- return epoch time of event
+end
+
+
+function DRLCState.InDrEvent(CheckState)
+	return ((CheckState.drlcState == DRLCState.VoluntaryDr) or (CheckState.drlcState == DRLCState.Mandatory))
+end
+
+
+function DRLCState.SetDRLCState(Targ, eventParams)
+	local somethingChanged = false
+
+	if eventParams ~= nil then
+		for i, j in pairs(eventParams) do
+			if(Targ[i] ~= j) then
+				Targ.eventParams[i] = j
+				somethingChanged = true
+			end
+		end
+
+		local Level = tonumber(eventParams["LEVEL"])
+		Targ.drlcState = (eventParams["IS_MANDATORY"] == "True") and DRLCState.Mandatory or DRLCState.VoluntaryDr
+		Targ.curEventID = tonumber(eventParams["ID"])
+		Targ.expireTime = tonumber(eventParams["END_TIME"])
+		Targ.dutyCycle = tonumber(eventParams["DUTY_CYCLE"])
+	else
+		if Targ.drlcState ~= DRLCState.Schedule then
+			Targ.drlcState = DRLCState.Schedule
+			somethingChanged = true
+		end
+		if Targ.curEventID ~= 0 then
+			Targ.curEventID = 0
+			somethingChanged = true
+		end
+		if Targ.expireTime ~= 0 then
+			Targ.expireTime = 0
+			somethingChanged = true
+		end
+		if Targ.dutyCycle ~= 100 then
+			Targ.dutyCycle = 100
+			somethingChanged = true
+		end
+	end
+
+	g_logger:Debug( string.format( "SetDRLCState. %s %s %s %s",
+							tostring(Targ.drlcState.name),
+							tostring(Targ.curEventID),
+							tostring(Targ.expireTime),
+							tostring(Targ.dutyCycle) ) )
+
+	if(somethingChanged) then
+		NotifyDrlcState()
+
+		-- Targ is only passed gDrlcState, which should be referenced in PersistData.
+		-- If any changes occured, invalidate the data to write it to the project.
+		C4:InvalidateState()
+	end
+end
+
+function GetDrlcSetpoint()
+	if(gCurTStatState.hvacMode == gHvacModeOff) then
+		return 0		-- we're off.  Neither setpoint means anything.
+	elseif (gCurTStatState.hvacMode == gHvacModeCool) then
+		return gCurTStatState.coolSetpoint	-- in cool mode, use the cool setpoint
+	end
+
+	return gCurTStatState.heatSetpoint		-- default to heat setpoint
+end
+
+
+function DRLCState.NotifyProxyDREvent(Targ)
+	NotifyProxy("DR_EVENT", {IN_EVENT = DRLCState.InDrEvent(Targ),
+							EVENT_SETPOINT = GetDrlcSetpoint(),
+							END_TIME = Targ.expireTime,
+							IS_MANDATORY = (Targ.drlcState == DRLCState.Mandatory) })
+end
+
+function ClearDREventInfo()
+	DRLCState.SetDRLCState(gDRLCState)
+end
+
+
+function SetupDREventInfo(eventParams)
+	DRLCState.SetDRLCState(gDRLCState, eventParams)
+end
+
+
+function InDREvent()
+	return DRLCState.InDrEvent(gDRLCState)
+end
+
+
+function GetDREventParams()
+	return gDRLCState.eventParams
+end
+
+
+function GetDREventExpireTime()
+	return gDRLCState.expireTime
+end
+
+
+------------- State Status functions -----------
+function SetHvacType(TargetType)
+	g_logger:Debug("SetHType: Target is " .. TargetType.name)
+	if(gHVacType ~= TargetType) then
+		gHVacType = TargetType
+		C4:UpdateProperty("HVAC Type", gHVacType.name)
+		C4:SetVariable("HvacType", tostring(gHVacType.value))
+		if gHVacType.value == gHvacTypeHPump.value then
+			NotifyProxy("HEAT_PUMP_MODE", {HAS_HEAT_PUMP = true })
+			NotifyProxy("PRIMARY_HEAT_SOURCE", {NAME = gStageTypeUndefined.name })
+		else
+			local stageType = gHVacType.value == gHvacTypeGas.value and gStageTypeFuel or gStageTypeElectric
+			NotifyProxy("HEAT_PUMP_MODE", {HAS_HEAT_PUMP = false })
+			NotifyProxy("PRIMARY_HEAT_SOURCE", {NAME = stageType.name })
+		end
+	end
+end
+
+
+function SetHvacMode(param)
+	local TargetMode = gHvacModes[param]
+	if(gCurTStatState.hvacMode ~= TargetMode) then
+		gCurTStatState.hvacMode = TargetMode
+		NotifyProxy("HVAC_MODE_CHANGED", {MODE = gCurTStatState.hvacMode.name})
+	end
+end
+
+
+function SetHoldMode(param)
+	local TargetMode = gHoldModes[param]
+	g_logger:Debug("Set Hold Mode: Cur mode is: " .. gCurTStatState.holdMode.name .. "  Target is " .. TargetMode.name)
+	if(gCurTStatState.holdMode ~= TargetMode) then
+		gCurTStatState.holdMode = TargetMode
+		NotifyProxy("HOLD_MODE_CHANGED", {MODE = gCurTStatState.holdMode.name})
+	end
+end
+
+
+function SetFanMode(param)
+	local TargetMode = gFanModes[param]
+	if(gCurTStatState.fanMode ~= TargetMode) then
+		gCurTStatState.fanMode = TargetMode
+		NotifyProxy("FAN_MODE_CHANGED", {MODE = gCurTStatState.fanMode.name})
+	end
+end
+
+
+function SetScale(param)
+	local TargetScale = gScales[param]
+	if(gCurTStatState.temperatureScale ~= TargetScale) then
+		gCurTStatState.temperatureScale = TargetScale
+		NotifyProxy("SCALE_CHANGED", {SCALE = gCurTStatState.temperatureScale.name})
+	end
+end
+
+
+function SetTemperature(param)
+	if gCurTStatState.temperature ~= param then
+		gCurTStatState.temperature = param
+		NotifyProxy("TEMPERATURE_CHANGED", {TEMPERATURE = gCurTStatState.temperature})
+	end
+end
+
+
+function SetHeatSetpoint(param)
+	if gCurTStatState.heatSetpoint ~= param then
+		gCurTStatState.heatSetpoint = param
+
+		if( not InDREvent()) then
+			gCurTStatState.refHeatSetpoint = param
+		end
+
+		NotifyProxy("HEAT_SETPOINT_CHANGED", {SETPOINT = gCurTStatState.heatSetpoint})
+	end
+end
+
+
+function SetCoolSetpoint(param)
+	if gCurTStatState.coolSetpoint ~= param then
+		gCurTStatState.coolSetpoint = param
+
+		if( not InDREvent()) then
+			gCurTStatState.refCoolSetpoint = param
+		end
+
+		NotifyProxy("COOL_SETPOINT_CHANGED", {SETPOINT = gCurTStatState.coolSetpoint})
+	end
+end
+
+
+function SetBatteryLevel(param)
+	if gCurTStatState.batteryLevel ~= param then
+		gCurTStatState.batteryLevel = param
+		C4:UpdateProperty("Battery Level", tostring(gCurTStatState.batteryLevel))
+		C4:SetVariable("BatteryLevel", gCurTStatState.batteryLevel)
+	end
+end
+
+
+function SetAuxStageType(param)
+	if gAuxStageType ~= param then
+		gAuxStageType = param
+		C4:SetVariable("AuxStageType", gAuxStageType.value)
+		C4:UpdateProperty("Auxiliary Stage Type", gAuxStageType.name)
+		NotifyProxy("AUXILIARY_HEAT_SOURCE", {NAME = gAuxStageType.name})
+		g_logger:Debug("Aux Stage Type is: " .. gAuxStageType.name)
+	end
+end
+
+
+function SetEmerStageType(param)
+	if gEmerStageType ~= param then
+		gEmerStageType = param
+		C4:SetVariable("EmerStageType", gEmerStageType.value)
+		C4:UpdateProperty("Emergency Stage Type", gEmerStageType.name)
+		NotifyProxy("EMERGENCY_HEAT_SOURCE", {NAME = gEmerStageType.name})
+		g_logger:Debug("Emer Stage Type is: " .. gEmerStageType.name)
+	end
+end
+
+
+function SetReversingValve(param)
+
+	if gRevValve ~= param then
+		gRevValve = param
+		C4:SetVariable("ReversingValve", gRevValve.value)
+		C4:UpdateProperty("Reversing Valve", gRevValve.name)
+		NotifyProxy("REVERSING_VALVE", {NAME = gRevValve.name})
+		g_logger:Debug("Rev Valve is: " .. gRevValve.name)
+	end
+end
+
+
+function SetHvacState(param)
+	if gCurTStatState.hvacState ~= param then
+		gCurTStatState.hvacState = param
+		NotifyProxy("HVAC_STATE_CHANGED", {STATE = gCurTStatState.hvacState.name})
+	end
+end
+
+
+function SetFanState(param)
+	if gCurTStatState.fanState ~= param then
+		gCurTStatState.fanState = param
+		NotifyProxy("FAN_STATE_CHANGED", {STATE = gCurTStatState.fanState.name})
+		NotifyProxy("FAN_ENGAGED", {ENGAGED = (gCurTStatState.fanState == gFanStateOn)})
+	end
+end
+
+
+function SetVacationMode(param)
+	if gCurTStatState.vacationMode ~= param then
+		gCurTStatState.vacationMode = param
+		g_logger:Debug("VacationMode is: " .. gCurTStatState.vacationMode.name)
+		NotifyProxy("VACATION_MODE", {ON_VACATION = tostring(gCurTStatState.vacationMode.NTFVal)})
+	end
+end
+
+
+function SetVacationHeatSetpoint(param)
+	if gCurTStatState.vacHeatSetpoint ~= param then
+		gCurTStatState.vacHeatSetpoint = param
+		NotifyVacationSetpoints()
+	end
+end
+
+
+function SetVacationCoolSetpoint(param)
+	if gCurTStatState.vacCoolSetpoint ~= param then
+		gCurTStatState.vacCoolSetpoint = param
+		NotifyVacationSetpoints()
+	end
+end
+
+
+function SetDrlcState(param)
+	if gCurTStatState.drlcState ~= param then
+		gCurTStatState.drlcState = param
+		NotifyDrlcState()
+	end
+end
+
+
+function SetPrimaryHeatRelay(RelayState)
+	if (gCurTStatState.primaryHeatRelay ~= RelayState) then
+		gCurTStatState.primaryHeatRelay = RelayState
+		C4:SetVariable("PrimaryHeatState", tostring(gCurTStatState.primaryHeatRelay))
+		NotifyProxy("PRIMARY_HEAT", {ENGAGED = (gCurTStatState.primaryHeatRelay ~= 0)})
+	end
+end
+
+
+function SetAuxHeatRelay(RelayState)
+	if (gCurTStatState.auxHeatRelay ~= RelayState) then
+		gCurTStatState.auxHeatRelay = RelayState
+		C4:SetVariable("AuxHeatState", tostring(gCurTStatState.auxHeatRelay))
+		NotifyProxy("SECONDARY_HEAT", {ENGAGED = (gCurTStatState.auxHeatRelay ~= 0)})
+	end
+end
+
+
+function SetPrimaryCoolRelay(RelayState)
+	if (gCurTStatState.primaryCoolRelay ~= RelayState) then
+		gCurTStatState.primaryCoolRelay = RelayState
+		C4:SetVariable("PrimaryCoolState", tostring(gCurTStatState.primaryCoolRelay))
+		NotifyProxy("PRIMARY_COOL", {ENGAGED = (gCurTStatState.primaryCoolRelay ~= 0)})
+	end
+end
+
+
+function SetAuxCoolRelay(RelayState)
+	if (gCurTStatState.AuxCoolState ~= RelayState) then
+		gCurTStatState.AuxCoolState = RelayState
+		C4:SetVariable("AuxCoolState", tostring(gCurTStatState.AuxCoolState))
+		NotifyProxy("SECONDARY_COOL", {ENGAGED = (gCurTStatState.AuxCoolState ~= 0)})
+	end
+end
+
+
+function SetEmerHeatRelay(RelayState)
+	if (gCurTStatState.EmerCoolState ~= RelayState) then
+		gCurTStatState.EmerCoolState = RelayState
+		C4:SetVariable("EmerCoolState", tostring(gCurTStatState.EmerCoolState))
+	end
+end
+
+
+function SetRelayBits(AllBits)
+--~ 	local WorkBits = tonumber(AllBits)
+
+--~ 	local Bit_01 = WorkBits % 2	-- poor man's bit extracting
+--~ 	WorkBits = math.(WorkBits / 2)		-- poor man's bit shift
+--~ 	local Bit_02 = WorkBits % 2
+--~ 	WorkBits = math.floor(WorkBits / 2)
+--~ 	local Bit_04 = WorkBits % 2
+--~ 	WorkBits = math.floor(WorkBits / 2)
+--~ 	local Bit_08 = WorkBits % 2
+--~ 	WorkBits = math.floor(WorkBits / 2)
+--~ 	local Bit_10 = WorkBits % 2
+
+--~ 	g_logger:Debug("Relay Bits are: " .. Bit_10 .. " " .. Bit_08 .. " " .. Bit_04 .. " " .. Bit_02 .. " " .. Bit_01)
+
+--~ 	SetFanState((Bit_01 == 0) and gFanStateOff or gFanStateOn)
+
+--~ 	if(gHVacType == gHvacTypeHPump) then
+--~ 		-- Heat pump settings
+--~ 		if(Bit_08 == 0) then
+--~ 			-- Heating direction
+--~ 			SetPrimaryCoolRelay(0)
+--~ 			SetPrimaryHeatRelay(Bit_02)
+--~ 			SetAuxCoolRelay(0)
+--~ 			SetAuxHeatRelay(Bit_04)
+--~ 		else
+--~ 			-- Cooling direction
+--~ 			SetPrimaryCoolRelay(Bit_02)
+--~ 			SetPrimaryHeatRelay(0)
+--~ 			SetAuxCoolRelay(Bit_04)
+--~ 			SetAuxHeatRelay(0)
+--~ 		end
+
+--~ 		SetEmerHeatRelay(Bit_10)
+
+--~ 	else
+--~ 		-- conventional settings
+--~ 		SetPrimaryCoolRelay(Bit_02)
+--~ 		SetPrimaryHeatRelay(Bit_04)
+--~ 		SetAuxCoolRelay(0)
+--~ 		SetAuxHeatRelay(0)
+--~ 		SetEmerHeatRelay(0)
+
+--~ 		if((Bit_02 ~= 0) or (Bit_04 ~= 0)) then
+--~ 			SetHvacState((Bit_02 ~= 0) and gHvacStateCool or gHvacStateHeat)
+--~ 		else
+--~ 			SetHvacState(gHvacStateOff)
+--~ 		end
+--~ 	end
+end
+
+
+function SetStageConstants()
+	gStageFanMask = 0x01
+	gStagePriHeatMask = 0x02
+	gStageSecHeatMask = 0x04
+	gStageAuxHeatMask = 0x08
+	gStageEmeHeatMask = 0x10
+	gStagePriCoolMask = 0x20
+	gStageSecCoolMask = 0x40
+	gStageHeatingMask = bit.bor(gStagePriHeatMask, gStageSecHeatMask, gStageAuxHeatMask, gStageEmeHeatMask)
+	gStageCoolingMask = bit.bor(gStagePriCoolMask, gStageSecCoolMask)
+	gStageHvacMask = bit.bor(gStageHeatingMask, gStageCoolingMask)
+end
+
+
+function SetStageStates(StateBits)
+
+--~ 	-------------------------------------------------------------------
+--~ 	local FanBit = bit.band(StateBits, gStageFanMask)
+--~ 	local PriHeatBit = bit.rshift(bit.band(StateBits, gStagePriHeatMask), 1)
+--~ 	local SecHeatBit = bit.rshift(bit.band(StateBits, gStageSecHeatMask), 2)
+--~ 	local AuxHeatBit = bit.rshift(bit.band(StateBits, gStageAuxHeatMask), 3)
+--~ 	g_logger:Debug("Relay Bits are: " .. StateBits .. " ".. AuxHeatBit .. " "  .. SecHeatBit .. " " .. PriHeatBit .. " " .. FanBit)
+--~ 	-------------------------------------------------------------------
+
+	SetFanState((bit.band(StateBits, gStageFanMask) ~= 0) and gFanStateOn or gFanStateOff)
+	SetPrimaryHeatRelay(bit.rshift(bit.band(StateBits, gStagePriHeatMask), 1))
+-- 	SetSecondaryHeatRelay(0)	-- WT100 doesn't have Secondary Heat
+	SetAuxHeatRelay(bit.rshift(bit.band(StateBits, gStageAuxHeatMask), 3))
+	SetEmerHeatRelay(bit.rshift(bit.band(StateBits, gStageEmeHeatMask), 4))
+	SetPrimaryCoolRelay(bit.rshift(bit.band(StateBits, gStagePriCoolMask), 5))
+-- 	SetAuxCoolRelay(0)	-- WT100 doesn't have Secondary Cool
+
+	if(bit.band(StateBits, gStageHvacMask) ~= 0) then
+		SetHvacState((bit.band(StateBits, gStageCoolingMask) ~= 0) and gHvacStateCool or gHvacStateHeat)
+	else
+		SetHvacState(gHvacStateOff)
+	end
+end
+
+function ScheduleEntryToDevice(InDayIndex, InEntryIndex, InTargEntry)
+	local DayOfWeekMasks =
+	{
+		[0] = 0x01,	-- Sunday
+		[1] = 0x02,	-- Monday
+		[2] = 0x04,	-- Tueday
+		[3] = 0x08,	-- Wednesday
+		[4] = 0x10,	-- Thursday
+		[5] = 0x20,	-- Friday
+		[6] = 0x40,	-- Saturday
+	}
+	local HourVal = InTargEntry.SchedTime / 60
+	local MinuteVal = InTargEntry.SchedTime % 60
+
+	if (InTargEntry.Enabled) then
+		MinuteVal = MinuteVal + 0x80
+	end
+	local HeatVal = TemperatureUnits.KToS(InTargEntry.HeatSetpoint)
+	local CoolVal = TemperatureUnits.KToS(InTargEntry.CoolSetpoint)
+
+	local MIBParmsStr = string.format("%02x %02x %02x %02x %02x %02x",
+										DayOfWeekMasks[InDayIndex],
+										InEntryIndex,
+										HourVal,
+										MinuteVal,
+										CoolVal,
+										HeatVal)
+
+	SendData(FormMibPacket(gC4MIBInvoke, gMIBScheduleEdit , MIBParmsStr))
+
+end
+
+function UpdateScheduleEntry(EntryTab)
+	local DayIndex = tonumber(EntryTab["DayOfWeek"])
+	local EntryIndex = tonumber(EntryTab["EntryIndex"])
+ 	g_logger:Debug("UpSchedEnt: DayIndex is: " .. DayIndex .. "  EntryIndex is: " .. EntryIndex)
+
+	TargEntry = Schedule.GetScheduleEntry(gMasterSchedule, DayIndex, EntryIndex)
+ 	g_logger:Debug("UpSchedEnt: Day is: " .. TargEntry.EntryDay .. "  Entry name is: " .. TargEntry.EntryName)
+
+	ScheduleEntry.SetHeatpoint(TargEntry, tonumber(EntryTab["HeatSetpoint"]))
+	ScheduleEntry.SetCoolpoint(TargEntry, tonumber(EntryTab["CoolSetpoint"]))
+	TargEntry.Enabled = (string.lower(EntryTab["IsEnabled"]) == "true")
+	TargEntry.SchedTime = tonumber(EntryTab["EntryTime"])
+
+	NotifyScheduleEntry(DayIndex, EntryIndex, TargEntry)
+	ScheduleEntryToDevice(DayIndex, EntryIndex, TargEntry)
+
+end
+
+
+function SetCalibration(NewCalib, SendToDevice)
+	if(gCurTStatState.calibration ~= NewCalib) then
+		gCurTStatState.calibration = NewCalib
+		local calibration = TemperatureUnits.ScaleIntervalValue(gCurTStatState.calibration)
+		C4:UpdateProperty("Temp Calibration", tostring(calibration))
+		NotifyProxy( "CALIBRATION_CHANGED", { CALIBRATION = gCurTStatState.calibration } )
+		if(SendToDevice) then
+			local MibStr = string.format("%02x", (gCurTStatState.calibration % 256))
+			SendData(FormMibPacket(gC4MIBSet, gMIBCalibration , MibStr))
+		end
+	end
+end
+
+
+function SetHeatCutoff(CutoffVal, SendToDevice)
+	if(gCurTStatState.heatCutoff ~= CutoffVal) then
+		gCurTStatState.heatCutoff = CutoffVal
+
+		-- For display purposes, the cutoff value is scaled to the current temperature units
+		local scaledCutoff = TemperatureUnits.ScaleIntervalValue(gCurTStatState.heatCutoff, 1)
+		C4:UpdateProperty( "Heat Cutoff Point", string.format("%.1f", scaledCutoff) )
+
+		if(SendToDevice) then
+			local MibStr = string.format("%02x 00 01", gCurTStatState.heatCutoff)
+			SendData(FormMibPacket(gC4MIBSet, gMIBHeatCoolCutoffs , MibStr))
+		end
+	end
+end
+
+
+function SetCoolCutoff(CutoffVal, SendToDevice)
+	if(gCurTStatState.coolCutoff ~= CutoffVal) then
+		gCurTStatState.coolCutoff = CutoffVal
+
+		-- For display purposes, the cutoff value is scaled to the current temperature units
+		local scaledCutoff = TemperatureUnits.ScaleIntervalValue(gCurTStatState.coolCutoff, 1)
+		C4:UpdateProperty( "Cool Cutoff Point", string.format("%.1f", scaledCutoff) )
+
+		if(SendToDevice) then
+			local MibStr = string.format("00 %02x 02", gCurTStatState.coolCutoff)
+			SendData(FormMibPacket(gC4MIBSet, gMIBHeatCoolCutoffs , MibStr))
+		end
+	end
+end
+
+function UpdateSignalStrength()
+	local rssi = "-"
+	local noise = "-"
+	local lqi = "-"
+	local rx_lqi = "-"
+	local tx_lqi = "-"
+	local signalStrength = 0
+	local rssiNumber = 0
+	local noiseNumber = 0
+	local lqiNumber = 0
+	local rx_lqiNumber = 0
+	local tx_lqiNumber = 0
+	local channelNumber = 0
+
+	local znodeInfo = C4:GetZnodeInfo( Properties["MAC"] )
+	if znodeInfo then
+		rssi = znodeInfo.rssi
+		noise = znodeInfo.noise
+		rx_lqi = znodeInfo.rx_lqi
+		tx_lqi = znodeInfo.tx_lqi
+		rssiNumber = tonumber(rssi) or rssiNumber
+		noiseNumber = tonumber(noise) or noiseNumber
+		rx_lqiNumber = tonumber(rx_lqi) or rx_lqiNumber
+		tx_lqiNumber = tonumber(tx_lqi) or tx_lqiNumber
+
+		if rx_lqiNumber < tx_lqiNumber then
+			lqi = rx_lqi
+			lqiNumber = rx_lqiNumber
+		else
+			lqi = tx_lqi
+			lqiNumber = tx_lqiNumber
+		end
+
+		channelNumber = tonumber(znodeInfo.channel) or channelNumber
+
+		g_lqiHistory = g_lqiHistory or {}
+		table.insert( g_lqiHistory, lqiNumber )
+		while #g_lqiHistory > 3 do
+			table.remove( g_lqiHistory, 1 )
+		end
+
+		local averageLQI = 0
+		if #g_lqiHistory > 0 then
+			for _, iteratedLQI in ipairs( g_lqiHistory ) do
+				averageLQI = averageLQI + iteratedLQI
+			end
+			averageLQI = averageLQI / #g_lqiHistory
+		end
+
+		signalStrength =	averageLQI > 244 and 5 or
+							averageLQI > 233 and 4 or
+							averageLQI > 222 and 3 or 
+							averageLQI > 211 and 2 or 
+							averageLQI > 199 and 1 or signalStrength
+	end
+
+	C4:UpdateProperty("Znode RSSI", rssi)
+	C4:UpdateProperty("Znode Noise", noise)
+	C4:UpdateProperty("Znode LQI", lqi)
+	C4:SetVariable("SignalStrength", signalStrength)
+	C4:SetVariable("RSSI", rssiNumber)
+	C4:SetVariable("Noise", noiseNumber)
+	C4:SetVariable("LQI", lqiNumber)
+	C4:SetVariable("Channel", channelNumber)
+
+	g_logger:Debug( "PROP: RSSI = " .. tostring( rssi ) .. " and LQI = " .. tostring( lqi ) )
+end
+
+
+
+
+
+PROP = {}
+function PROP.DebugMode()
+	-- Assume "Off" or a property we don't understand
+	local debugProp = Properties["Debug Mode"]
+	local outputPrint, outputLog, outputReport = false, false, false
+	if(debugProp == "Print") then
+		outputPrint = true
+	elseif(debugProp == "Log") then
+		outputLog = true
+	elseif debugProp == "Report" then
+		outputReport = true
+	elseif(debugProp == "Print and Log") then
+		outputPrint = true
+		outputLog = true
+	end
+	g_logger:SetOutput(outputPrint, outputLog, outputReport)
+end
+
+function PROP.LogLevel()
+	g_logger:SetLevel(C4_Logger.LevelMap[Properties["Log Level"]])
+end
+
+PROP["DebugDuration(mins)"] = function()
+	local strDuration = Properties["Debug Duration (mins)"]
+	local duration = tonumber(strDuration) or 15
+	g_logger:SetDebugTimerDuration(duration)
+end
+
+function PROP.HVACType()
+	local CurType = Properties["HVAC Type"]
+	g_logger:Debug("PROP: HVACType is " .. CurType)
+	SetHvacType(gHvacTypes[CurType])
+end
+
+
+function PROP.TempCalibration()
+	local Calibration = tonumber(Properties["Temp Calibration"])
+	g_logger:Debug("PROP: Temp Calibration is " .. Calibration)
+	SetCalibration(TemperatureUnits.NormalizeIntervalValue(Calibration), true)
+end
+
+
+function PROP.HeatCutoffPoint()
+	local HeatCutoffVal = tonumber(Properties["Heat Cutoff Point"])
+	g_logger:Debug("PROP: Heat Cutoff is " .. HeatCutoffVal)
+	SetHeatCutoff(TemperatureUnits.NormalizeIntervalValue(HeatCutoffVal), true)
+end
+
+
+function PROP.CoolCutoffPoint()
+	local CoolCutoffVal = tonumber(Properties["Cool Cutoff Point"])
+	g_logger:Debug("PROP: Cool Cutoff is " .. CoolCutoffVal)
+	SetCoolCutoff(TemperatureUnits.NormalizeIntervalValue(CoolCutoffVal), true)
+end
+
+function PROP.ZnodeRefreshIntervalSeconds()
+	if gZigbeeOnline == true then
+		if (gPollSignalStrength ~= nil) then
+			C4:KillTimer(gPollSignalStrength)
+		end
+
+		gPollSignalStrength = C4:AddTimer( Properties["Znode Refresh Interval Seconds"], "SECONDS", true )
+	end
+end
+
+
+
+
+
+--------------- Command Handlers ----------------------
+
+CMD = {}
+
+function CMD.SET_MODE_HVAC(tParams)
+	local mode = tParams["MODE"]
+	SetHvacMode(mode)
+	SendData(FormMibPacket(gC4MIBSet, gMIBHVacMode, gCurTStatState.hvacMode.MIBval))
+end
+
+
+function CMD.SET_MODE_HOLD(tParams)
+	local mode = tParams["MODE"]
+	SetHoldMode(mode)
+	SendData(FormMibPacket(gC4MIBSet, gMIBHoldMode, gCurTStatState.holdMode.MIBval))
+end
+
+
+function CMD.SET_MODE_FAN(tParams)
+	local mode = tParams["MODE"]
+	SetFanMode(mode)
+	SendData(FormMibPacket(gC4MIBSet, gMIBFanMode, gCurTStatState.fanMode.MIBval))
+end
+
+
+function CMD.SET_SCALE(tParams)
+	local scale = tParams["SCALE"]
+	SetScale(scale)
+	SendData(FormMibPacket(gC4MIBSet, gMIBScaleUnits, gCurTStatState.temperatureScale.MIBval))
+	local calibration = TemperatureUnits.ScaleIntervalValue(gCurTStatState.calibration)
+	C4:UpdateProperty("Temp Calibration", tostring(calibration))
+	C4:UpdateProperty("Heat Cutoff Point", tostring(TemperatureUnits.ScaleIntervalValue(gCurTStatState.heatCutoff, 1)))
+	C4:UpdateProperty("Cool Cutoff Point", tostring(TemperatureUnits.ScaleIntervalValue(gCurTStatState.coolCutoff, 1)))
+end
+
+function CMD.SET_CALIBRATION(tParams)
+	local calibration = tonumber( tParams["CALIBRATION"] )
+	SetCalibration(calibration, true)
+end
+
+function CMD.SET_SETPOINT_HEAT(tParams)
+	if ( gCurTStatState.hvacMode == gHvacModeHeat ) then
+	local Setpoint = tParams["KELVIN"]
+	SetHeatSetpoint(Setpoint)
+	local SetpointStr = string.format("%04x", gCurTStatState.heatSetpoint)
+	SendData(FormMibPacket(gC4MIBSet, gMIBSetpointLower , SetpointStr))
+end
+end
+
+
+function CMD.SET_SETPOINT_COOL(tParams)
+	if ( gCurTStatState.hvacMode == gHvacModeCool ) then
+	local Setpoint = tParams["KELVIN"]
+	SetCoolSetpoint(Setpoint)
+	local SetpointStr = string.format("%04x", gCurTStatState.coolSetpoint)
+	SendData(FormMibPacket(gC4MIBSet, gMIBSetpointUpper , SetpointStr))
+end
+end
+
+
+function CMD.SET_TIME(tParams)
+	SetCurrentDateAndTime()
+end
+
+
+function CMD.QUERY_DR_STATUS()
+	NotifyDrlcState()
+end
+
+
+function CMD.UPDATE_SCHEDULE_ENTRIES(tParams)
+	local ParamXMLStr = tParams["ENTRIES"]
+	local AllEntriesTbl = C4:ConvertXMLToTable(ParamXMLStr)
+
+	for tbindex=1,#AllEntriesTbl do
+		CheckEntry = AllEntriesTbl[tbindex]
+		UpdateScheduleEntry(AllEntriesTbl[tbindex])
+	end
+
+	NotifyScheduleEditComplete()
+end
+
+
+
+function CMD.SET_VACATION_MODE(tParams)
+	local VacModeStr = tParams["MODE"]
+
+	-- Turn off current hold mode when trying to turn on vacation hold
+	if VacModeStr == "On" then 
+		CMD.SET_MODE_HOLD( {MODE = "Off"} )
+	end
+
+	SetVacationMode(VacModeStr == "On" and gVacStatusOn or gVacStatusOff)
+ 	SendData(FormMibPacket(gC4MIBInvoke, gMIBVacationMode , gCurTStatState.vacationMode.MIBVal))
+end
+
+function SendVacationSetpoints()
+	local VSetpointsStr = string.format("%04x %04x", tonumber(gCurTStatState.vacCoolSetpoint), tonumber(gCurTStatState.vacHeatSetpoint))
+	g_logger:Debug("Vac setpoints: " .. VSetpointsStr)
+ 	SendData(FormMibPacket(gC4MIBSet, gMIBVacationSetpoints , VSetpointsStr))
+end
+
+function CMD.SET_VAC_SETPOINT_HEAT(tParams)
+	local Setpoint = tParams["KELVIN"]
+	SetVacationHeatSetpoint(Setpoint)
+	SendVacationSetpoints()
+end
+
+
+function CMD.SET_VAC_SETPOINT_COOL(tParams)
+	local Setpoint = tParams["KELVIN"]
+	SetVacationCoolSetpoint(Setpoint)
+	SendVacationSetpoints()
+end
+
+function CMD.DEMAND_RESPONSE_INITIATED(tParams)
+
+	for k,v in pairs(tParams) do g_logger:Debug(k .. " is " .. tostring(v)) end
+
+	local EventID = tonumber(tParams.ID)
+	local StartTime = tonumber(tParams.START_TIME)
+	local EndTime = tonumber(tParams.END_TIME)
+	local Level = tonumber(tParams.LEVEL)
+	local HeatOffset = tParams.HEATING_OFFSET and tonumber(tParams.HEATING_OFFSET) or 0
+	local CoolOffset = tParams.COOLING_OFFSET and tonumber(tParams.COOLING_OFFSET) or 0
+	local HeatSetpoint = tParams.HEATING_SETPOINT and tonumber(tParams.HEATING_SETPOINT) or 0
+	local CoolSetpoint = tParams.COOLING_SETPOINT and tonumber(tParams.COOLING_SETPOINT) or 0
+	local DutyCycle = tParams.DUTY_CYCLE and tonumber(tParams.DUTY_CYCLE) or 0
+
+	local MandatoryFlag = (tParams.IS_MANDATORY == "True")
+	local Duration = math.ceil((EndTime - StartTime) / 60)
+	local RunTimeMinutes = 0
+	local OffTimeMinutes = 0
+
+	if(DutyCycle ~= nil) then
+		local TotalCyclePeriod = gDefaultDutycyclePeriod		-- adjust this as needed
+		RunTimeMinutes = math.ceil((TotalCyclePeriod * DutyCycle) / 100)
+		OffTimeMinutes = TotalCyclePeriod - RunTimeMinutes
+	end
+
+	local TargCool = gCurTStatState.refCoolSetpoint + TemperatureUnits.WToK_Interval(CoolOffset)
+	local TargHeat = gCurTStatState.refHeatSetpoint - TemperatureUnits.WToK_Interval(HeatOffset)
+
+	if(HeatSetpoint ~= 0) then
+		TargHeat = TemperatureUnits.WToK( math.floor( HeatSetpoint / 10 ) ) -- HeatSetpoint received as Celsius * 100. Convert to Kelvin * 10
+		
+	end
+
+	if(CoolSetpoint ~= 0) then
+		TargCool = TemperatureUnits.WToK( math.floor( CoolSetpoint / 10 ) ) -- CoolSetpoint received as Celsius * 100. Convert to Kelvin * 10
+	end
+
+	TargHeat = TargHeat > 0 and TargHeat < gHeatMinK and gHeatMinK or TargHeat > gHeatMaxK and gHeatMaxK or TargHeat
+	TargCool = TargCool > 0 and TargCool < gCoolMinK and gCoolMinK or TargCool > gCoolMaxK and gCoolMaxK or TargCool
+
+	-- Save the target heating and cooling setpoints being applied
+	tParams.HEATING_SETPOINT = TemperatureUnits.KToW(TargHeat) * 10
+	tParams.COOLING_SETPOINT = TemperatureUnits.KToW(TargCool) * 10
+	tParams.HEATING_OFFSET = nil
+	tParams.COOLING_OFFSET = nil
+	SetupDREventInfo(tParams)
+
+	g_logger:Debug("DR INITIATED: HOffset: " .. HeatOffset .. " COffset: " .. CoolOffset .. " Duration: " .. Duration)
+
+	C4:SetVariable("IsMandatory", tostring(MandatoryFlag))
+	SetCurrentDateAndTime()
+	SendDRLCToDevice(EventID, Duration, TargCool, TargHeat, RunTimeMinutes, OffTimeMinutes, MandatoryFlag)
+
+end
+
+
+function CMD.DEMAND_RESPONSE_COMPLETED(tParams)
+	local EventID = tonumber(tParams["ID"])
+	SendDRLCToDevice(EventID, tonumber(0), tonumber(0), tonumber(0), tonumber(0), tonumber(0), tonumber(0))
+	ClearDREventInfo()
+end
+
+
+function CMD.DEMAND_RESPONSE_CANCELED(tParams)
+	local EventID = tonumber(tParams["ID"])
+	SendDRLCToDevice(EventID, tonumber(0), tonumber(0), tonumber(0), tonumber(0), tonumber(0), tonumber(0))
+	ClearDREventInfo()
+end
+
+
+function CMD.SET_HEAT_CUTOFF(tParams)
+	local HeatCutoffVal = tonumber(tParams["VALUE"])
+	SetHeatCutoff(HeatCutoffVal, true)
+end
+
+
+function CMD.SET_COOL_CUTOFF(tParams)
+	local CoolCutoffVal = tonumber(tParams["VALUE"])
+	SetCoolCutoff(CoolCutoffVal, true)
+end
+
+
+--------------- Actions ----------------------------
+ACTION = {}
+
+function ACTION.TriggerDREventVo()
+	g_logger:Debug("Trigger Fake Voluntary DR Event")
+
+	local CurEpoch = os.time()
+
+	DRParams =
+	{
+		["ID"] = gFakeDREventID,
+		["START_TIME"] = CurEpoch,
+		["END_TIME"] = CurEpoch + 60,
+		["LEVEL"] = 5,
+		["COOLING_OFFSET"] = 45,
+		["HEATING_OFFSET"] = 36,
+		["DUTY_CYCLE"] = 67,
+	}
+
+	CMD.DEMAND_RESPONSE_INITIATED(DRParams)
+	gFakeDREventID = gFakeDREventID + 1
+end
+
+
+function ACTION.TriggerDREventMa()
+	g_logger:Debug("Trigger Fake Mandatory DR Event")
+
+	local CurEpoch = os.time()
+
+	DRParams =
+	{
+		["ID"] = gFakeDREventID,
+		["START_TIME"] = CurEpoch,
+		["END_TIME"] = CurEpoch + 90,
+		["LEVEL"] = 9,
+		["COOLING_OFFSET"] = 45,
+		["HEATING_OFFSET"] = 36,
+		["DUTY_CYCLE"] = 75,
+	}
+
+	CMD.DEMAND_RESPONSE_INITIATED(DRParams)
+	gFakeDREventID = gFakeDREventID + 1
+end
+
+
+function ACTION.EndDREvent()
+	g_logger:Debug("End Fake DR Event")
+
+	DRParams =
+	{
+		["ID"] = gFakeDREventID - 1,
+	}
+	CMD.DEMAND_RESPONSE_COMPLETED(DRParams)
+end
+
+
+function ACTION.QueryTimeDay()
+	QueryDevice(gMIBThermostatTime)
+	QueryDevice(gMIBThermostatDate)
+end
+
+
+
+
+---------- Traps -------------------
+
+TRP = {}
+
+function TRP.c4zttp(tParams)
+	-- temperature
+	local temp = tonumber(tParams[1], 16)
+	SetTemperature(temp)
+end
+
+
+function TRP.c4ztmc(tParams)
+	-- hvac mode
+	SetHvacMode(tonumber(tParams[1]))
+end
+
+
+function TRP.c4ztmh(tParams)
+	-- hold mode
+	SetHoldMode(tonumber(tParams[1], 16))
+end
+
+
+function TRP.c4ztsp(tParams)
+	-- set points
+	local coolpoint = tonumber(tParams[1], 16)
+	local heatpoint = tonumber(tParams[2], 16)
+
+	SetCoolSetpoint(coolpoint)
+	SetHeatSetpoint(heatpoint)
+end
+
+
+function TRP.c4ztsx(tParams)
+	-- status update
+	local CurTemp = tonumber(tParams[1], 16)
+	local CurSet = tonumber(tParams[2], 16)
+	local HvacMode = tonumber(tParams[3], 16)
+	local FanMode = tonumber(tParams[4], 16)
+	local BatteryLevel = tonumber(tParams[5], 16)
+	local DRLCState = tParams[6]
+	local RemainingTime = tParams[7]
+	local StageStateBits = tonumber(tParams[8], 16)
+
+	SetTemperature(CurTemp)
+	SetHvacMode(HvacMode)
+	SetFanMode(FanMode)
+	SetBatteryLevel(BatteryLevel)
+
+	if(gCurTStatState.hvacMode == gHvacModeHeat) then
+		SetHeatSetpoint(CurSet)
+	elseif(gCurTStatState.hvacMode == gHvacModeCool) then
+		SetCoolSetpoint(CurSet)
+	end
+
+	SetStageStates(StageStateBits)
+
+--~ 	SetRelayBits(RelayStateBits)
+end
+
+function EnterDREvent(EventID, InTimeStamp)
+	NotifyDRInitiated(EventID, InTimeStamp)
+end
+
+
+function ExitDREvent(EventID, InTimeStampUtc)
+	if(EventID == gDRLCState.curEventID) then
+		if(InTimeStampUtc+60 < gDRLCState.expireTime) then -- Allow up to 60sec of skew 
+			NotifyDROptOut(EventID, InTimeStamp)
+		else
+			NotifyDRCompleted(EventID, InTimeStamp)
+		end
+		ClearDREventInfo()
+	end
+end
+
+function TRP.c4ztdr(tParams)
+	local EventID = tonumber(tParams[1], 16)
+	local StartStop = tonumber(tParams[2], 16)
+	local TimeStamp = DRLCState.NewTimeStamp(tonumber(tParams[3], 16),
+											  tonumber(tParams[4], 16),
+											  tonumber(tParams[5], 16),
+											  tonumber(tParams[6], 16))
+
+	if(StartStop == 0) then
+		EnterDREvent(EventID, TimeStamp)
+	else
+		ExitDREvent(EventID, TimeStamp)
+	end
+end
+
+--~ function TRP.c4ztsg(tParams)
+--~   -- Stage states
+--~   SetStageStates(tonumber(tParams[1], 16))
+--~ end
+
+
+
+function OnDriverInit()
+	gBackstop = 1294988400 -- Jan 14, 2011 (non-UTC). Same date used as backstop for SE Server Time ZCL
+	PersistData = PersistData or {}
+	g_logger = C4_Logger:new(OnLogTimerExpired, 15, "/var/log/tmp_selogs")
+
+	C4:UpdateProperty( "Debug Mode", "Off" )
+	g_logger:SetOutput(false, false, false)
+
+	C4:UpdateProperty( "Log Level", "Error" )
+	g_logger:SetLevel( C4_Logger.LevelMap[Properties["Log Level"]] )
+
+	C4:UpdateProperty( "Debug Duration (mins)", 15 )
+	g_logger:SetDebugTimerDuration( C4_Logger.LevelMap[Properties["Debug Duration (mins)"]] )
+
+	PersistData.DRLCState = PersistData.DRLCState or DRLCState.new()
+	gDRLCState = PersistData.DRLCState
+
+	SetStageConstants()
+	C4:AddVariable("BatteryLevel", "100", "INT", true)     -- 1001
+	C4:AddVariable("HvacType", "0", "INT", true)           -- 1002
+	C4:AddVariable("AuxStageType", "2", "INT", true)       -- 1003
+	C4:AddVariable("EmergStageType", "2", "INT", true)     -- 1004
+	C4:AddVariable("FirmwareVersion", "-", "STRING", true) -- 1005
+	C4:AddVariable("DeviceID", "-", "STRING", true)        -- 1006
+	C4:AddVariable("InDREvent", "False", "BOOL", true)     -- 1007
+	C4:AddVariable("PrimaryHeatState", "0", "INT", true)   -- 1008
+	C4:AddVariable("AuxHeatState", "0", "INT", true)       -- 1009
+	C4:AddVariable("PrimaryCoolState", "0", "INT", true)   -- 1010
+	C4:AddVariable("AuxCoolState", "0", "INT", true)       -- 1011
+	C4:AddVariable("EmerHeatState", "0", "INT", true)      -- 1012
+	C4:AddVariable("CurDRSetpoint", "0", "INT", true)      -- 1013
+	C4:AddVariable("CurDRExpireTime", "0", "INT", true)    -- 1014
+	C4:AddVariable("ReversingValve", "0", "INT", true)     -- 1015
+	C4:AddVariable("IsMandatory", "False", "BOOL", true)   -- 1016
+	C4:AddVariable("ConnectionTime", "0", "INT", true)     -- 1017
+	C4:AddVariable("SignalStrength", "0", "INT", true)     -- 1018
+	C4:AddVariable("RSSI", "0", "INT", true)               -- 1019
+	C4:AddVariable("Noise", "0", "INT", true)              -- 1020
+	C4:AddVariable("LQI", "0", "INT", true)                -- 1021
+	C4:AddVariable("Channel", "0", "INT", true)            -- 1022
+
+	gRetrySendData = C4:AddTimer(5, "MINUTES", true)
+	gMyDeviceID = C4:GetDeviceID()
+
+	SetCalibration(0, false)
+	SetHeatCutoff(5, false)
+	SetCoolCutoff(5, false)
+	SetVacationHeatSetpoint(3041)
+	SetVacationCoolSetpoint(3052)
+	SetAuxStageType(gStageTypeUndefined)
+	SetEmerStageType(gStageTypeUndefined)
+	SetReversingValve(gRevValveUndefined)
+	C4:UpdateProperty("Version", Version())
+
+	gHeatMinK = TemperatureUnits.WToK( tonumber( C4:GetCapability( "setpoint_heat_min" ) or 31 ) )
+	gHeatMaxK = TemperatureUnits.WToK( tonumber( C4:GetCapability( "setpoint_heat_max" ) or 303 ) )
+	gCoolMinK = TemperatureUnits.WToK( tonumber( C4:GetCapability( "setpoint_cool_min" ) or 48 ) )
+	gCoolMaxK = TemperatureUnits.WToK( tonumber( C4:GetCapability( "setpoint_cool_max" ) or 320 ) )
+end
+
+
+function OnDriverDestroyed()
+end
+
+
+-- Driver Version
+function Version()
+	local keywordString = "$Revision: 84514 $" -- this uses subversion keyword substitution
+	local _, _, revision = keywordString:find(": (.-) %$")
+	return revision
+end
+
+
+--------------------------
+
+function FirePropertyChanged(property, value)
+	Properties[property] = value
+	C4:UpdateProperty(property, value)
+	OnPropertyChanged(property)
+end
+
+
+
+function OnPropertyChanged(strProperty)
+
+	g_logger:Debug("OnPropertyChanged: Property = " .. strProperty)
+	local PropSquished = string.gsub(strProperty, " ", "")	-- take the spaces out
+
+	if PROP[PropSquished] ~= nil then
+		PROP[PropSquished]()
+	else
+		g_logger:Debug("Unknown Property: " .. strProperty)
+	end
+
+
+end
+
+--------------------------
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	g_logger:Debug("ReceivedFromProxy: idBinding = " .. idBinding .. "; Command = " .. strCommand .. "; Params = " .. C4_Logger:DumpValue(tParams))
+
+	if CMD[strCommand] ~= nil then
+		CMD[strCommand](tParams)
+	else
+		g_logger:Debug("ReceivedFromProxy command interpreter: Unhandled command = " .. strCommand)
+	end
+
+
+end
+
+-------------------------- timer handling -------------------------------------
+
+function OnTimerExpired(idTimer)
+	if (idTimer == gDateTimeUpdateTimer) then
+		C4:KillTimer(idTimer)
+		SetCurrentDateAndTime()
+	elseif (idTimer == gInitTimer) then
+		C4:KillTimer(idTimer)
+		if(not gHaveRecievedResponse) then
+			InitialDeviceQuery()
+		end
+	elseif (idTimer == gPollSignalStrength) then
+		UpdateSignalStrength()
+	elseif (idTimer == gRetrySendData) then
+		SendDelayedData()
+	else
+		-- Need to call this since we've overriden this function defined in C4_Timer.
+		C4_Timer:OnTimerExpired(idTimer)
+	end
+end
+
+function OnLogTimerExpired()
+	g_logger:Debug("Turning Debug Mode Off (timer expired)")
+	
+	C4:UpdateProperty( "Debug Mode", "Off" )
+	OnPropertyChanged("Debug Mode")
+
+	C4:UpdateProperty( "Log Level", "Error" )
+	OnPropertyChanged("Log Level")
+
+	C4:UpdateProperty( "Debug Duration (mins)", 15 )
+	OnPropertyChanged("Debug Duration (mins)")
+end
+
+--------------------------------------------------
+
+--~ function ScheduleWrap()
+--~ 	print("In ScheduleWrap")
+--~ 	local MasterSchedule = Schedule.new("Master")
+--~ 	Schedule.Showall(MasterSchedule)
+--~ 	CurEntry = Schedule.GetScheduleEntry(MasterSchedule, 4, 3)
+--~ 	ScheduleEntry.Showall(CurEntry)
+--~ end
+
+--~ ScheduleWrap()
+
+function ExecuteCommand(strCommand, tParams)
+	if (strCommand == "LUA_ACTION") then
+		if tParams ~= nil then
+			for cmd,cmdv in pairs(tParams) do
+				print (cmd,cmdv)
+				if cmd == "ACTION" then
+					if ACTION[cmdv] ~= nil then
+						ACTION[cmdv]()
+					else
+						g_logger:Debug("From ExecuteCommand Function - Undefined Action")
+						g_logger:Debug("Key: " .. cmd .. "  Value: " .. cmdv)
+					end
+				else
+					g_logger:Debug("From ExecuteCommand Function - Undefined Command")
+					g_logger:Debug("Key: " .. cmd .. "  Value: " .. cmdv)
+				end
+			end
+		end
+	end
+end
+
+
+
+]]>
+    </script>
+  </config>
+
+</devicedata>

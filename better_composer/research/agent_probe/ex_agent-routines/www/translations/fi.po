@@ -1,0 +1,1079 @@
+# 
+# Translators:
+# Timo Piironen <timo.piironen@eldistribution.fi>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Finnish (https://app.transifex.com/control4/teams/15374/fi/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: fi\n"
+"Name: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName} Lähde"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "Toiminnnan viive (sekunteina)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "Toiminnot"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "Ilmansäästö"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "Ilmansäästön rutiini"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "Hälytys kuitattu"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "Hälytyksen valvonta"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "Hälytyksen valvontarutiini"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "Hälytys laukaistu"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"Hälytys tietyn ajan kuluttua, jos tietyt ovet tai ikkunat ovat auki ja "
+"määritetyt termostaatit lämmittävät tai jäähdyttävät aktiivisesti."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr "Hälytä, jos sensori laukeaa yli määrätyn ajan."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "Ääni/video"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "Auto"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "Automatisoi valojen sammuttaminen aina, kun ne sytytetään."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr "Vilkuta automaattisesti valittuja valoja, kun valittu ovikello soi."
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr ""
+"Sammuta kosketusnäytön taustavalo automaattisesti määritettyjen aikojen "
+"välillä"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"Sytytä valitut valot automaattisesti valituksi ajaksi, kun valitut kamerat "
+"havaitsevat liikettä"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"Kytke tuuletin päälle/pois määrätyn ajan kuluttua valitun valon päälle/pois "
+"kytkemisestä."
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "Automaatio"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "Butterfly"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "Painike"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "Painiketta painettu"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "Soittopainiketta 2 painettu"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "Soittopainiketta 3 painetaan"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "Soittopainiketta 4 painetaan"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "Soittopainiketta 5 painettu"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "Soittopainiketta 6 painettu"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "Soittopainiketta painettu"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "Peruuta tämä tapahtuma"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "Valintaruutu"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "Ohjaa valoja"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "Ohjaa valoja tai valitse tilanne"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr ""
+"Ohjaa valojen kytkemistä päälle ja pois auringonlaskun ja auringonnousun "
+"aikaan."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "Ohjatut tuulettimet"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "Ohjattavat valot"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "Hallitut lukot"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "Ohjatut termostaatit"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "Viilennys"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "Pimeä huone"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "Pimeän huoneen rutiini"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "Päivämäärä/aika"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "Esittele rutiinien käyttöliittymäominaisuuksia"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "Älä valitse esiasetusta"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "Älä valitse kohtausta"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "Ovi-indikaattori"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "Ovi-indikaattorin rutiini"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "Duck"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "EBMS-esiasetus"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "EBMS-rutiini"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "Hätätila käynnistetty"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "Tyhjä"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "Päättymisaika"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "Englanti: Muuttujan tarkistus: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "Virhe: Sisältöä ei ole saatavilla, toista ensin jotain"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "Virhe: Sisältöä ei valittu"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "Tapahtuma"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "Tapahtuma {index} - päättynyt"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "Tapahtuma {index} - valmis (muokattu)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "Esimerkkitapahtuma {index}"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "Esimerkki rutiinista"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "Esimerkkiosio (täydellinen luettelo)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "Esimerkki/esittelyrutiini"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "Tuulettimen ajastin"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "Tuulettimen ajastusrutiini"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "Tuulettimet pois päältä"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "Tuulettimet päällä"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "Tuulettimet sammuvat"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "Tuulettimet käynnistyvät"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "Perjantai"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "Luo 5 tapahtumaa"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "Luo tapahtumia"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "Geo-aita"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "Geofence-rutiini"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "Lämmitä"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "Ikoni"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "Ikonin kuvan lähde"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "Tapahtuman hakemisto"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "Kingfisher"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "Valon automaattinen sammutus"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "Valon automaattisen sammuttamisen rutiini"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "Valaistus"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "Valaistustilanne"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "Valot"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "Valojen sisääntulo Toiminta"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "Valot poistuvat toiminnasta"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "Ohjattavat valot"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "Sytytettävät valot"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "Valot vilkkuvat - {deviceName} painiketta painettuna"
+
+#: driver.lua:75
+msgid "List"
+msgstr "Lista"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "MDM-esiasetus"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "Maksimikirkkaus"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "Maksimikirkkautta vähennettiin"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "Suurin kirkkaus palautettiin"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "Suurin kirkkaus palautuu"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "Suurin kirkkaus vähenee"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "Muokkaa tapahtumaa"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "Muokkaa tapahtumaa aikajanalla"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "Muokkaa tapahtumaa {index} - onnistunut: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "Maanantai"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "Valvotut kamerat"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "Valvotut oviasemat"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "Valvotut ovet ja ikkunat"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "Valvottu valo"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "Valvotut turva-anturit"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "Valvotut turva-alue"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "Valvotut anturit"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "Valvotut termostaatit"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "Liike"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "Liikkeentunnistus"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "Liiketunnistimella ohjatut valot"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "Liiketunnistimella ohjattujen valojen rutiini"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "Ei koskaan"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "Yövalo"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "Yövalon rutiini"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "Ei toimenpiteitä"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "Ei muutosta"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "Ilmoituksen viive (minuuteissa)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "Ilmoituksen viive (sekunneissa)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "Ilmoituksen teksti"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "Numero"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "Pois päältä"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "Päällä"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr ""
+"Suorita suositellut turvatoimet, jos lämpö-, savu- tai häkähälytys laukeaa."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "Push-ilmoitus lähetetty"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "Vähennä valojen oletuskirkkautta yöaikaan."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "Poista tapahtuma"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "Poista tapahtuma aikajanalta"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "Poista tapahtuma {index} - onnistui: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "Huoneen valitsin"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "Suorita toimintoja nyt"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "Suorita lopetusaika nyt"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "Suorita nyt"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "Suorita aloitusaika nyt"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "Suorita tämä tapahtuma nyt"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "Suorita sammutus nyt"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "Suorita Käynnistä nyt"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "Turvahälytys"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "Turvahälytyksen rutiini"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "Lauantai"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "Viikko-ohjelma"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "Ajoitettu ääni"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "Ajoitettu äänirutiini"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "Ajoitettu tapahtuma suoritettu"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "Ajoitettu tapahtuma suoritetaan"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "Valitse äänilähteet missä tahansa huoneessa aikataulun mukaan"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"Valitse äänilähteet mistä tahansa huoneesta ja valitse valinnaisesti "
+"valaistuskohtaus, EBMS-esiasetus ja/tai MDM-esiasetus"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "Valitse tilanne"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "Valittu tilanne"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "Valitut valot sammuvat"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "Valitut valot syttyvät"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "Valittu kohtaus sammuu"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "Valittu kohtaus kytkeytyy päälle"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr "Lähetä push-ilmoitus, jos turva-alue tai turvatunnistin hälyttää."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "Anturien valvonta"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "Anturien valvonnan rutiini"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "Aseta tapahtuma"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "Aseta tapahtuma aikajanalle"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "Aseta aika"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "Aseta tapahtuma {index} - onnistunut: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "Aseta menneet tapahtumat {index} - onnistuneet: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "Asetukset"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "Näytä tämä keskeneräisenä"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "Näytä käännökset-osio"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "Elementtien näyttäminen/piilottaminen"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "Liukusäädin"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "Aloitusaika"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "Sunnuntai"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "Auringonnousu"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "Auringonlasku"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "Kytkin"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "Järjestelmä"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "Testaa: Soittopainikkeen tapahtuma"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "Testi: Syötetty geofence-tapahtuma"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "Testi: Poistui geofence-tapahtumasta"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "Testaa: Liikkeentunnistustapahtuma"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "Testaa: suorita turvatoimenpiteet"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "Testaa: turva-anturin ilmoituksen lähettäminen"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "Testaa: Turvajärjestelmän ilmoituksen lähettäminen"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "Testaa: Lähetä ilmoitus"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "Testi:  vaihda valitut valot päälle/pois"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "Teksti"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "Tekstikenttä Alfa"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "Tekstikenttä Alfanumeerinen"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "Tekstikenttä Normaali"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "Tekstikenttä Numero"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "Tekstikenttä Numeerinen"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "Tekstikenttä Salasana"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "Termostaatin syöttötoiminto"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "Termostaatin poistumistoiminto"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "Ohjattavat termostaatit"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "Torstai"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "Aika"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "Ajastetut valot"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "Ajastettujen valojen rutiini"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "Aikajanan tiedot"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "Aikajanan vuorovaikutus"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "Ajastin (minuutit)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "Valintakytkin"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "Vaihda takaisin 5 sekunnissa"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "Vaihda valintaruutua"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "Kosketusnäytöt"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "Kosketusnäytöt kirkastuneet"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "Kosketusnäytöt tummenivat"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "Kosketusnäytöt kirkastuvat"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "Kosketusnäytöt tummuvat"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "Käännökset"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "Käännöskytkin"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "Tiistai"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "Sammuta klo"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "Sammuta tiettyyn aikaan"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "Valojen sammutuksen viive (minuuteissa)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "Sammuta minuutteja auringonnousun jälkeen"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "Sammuta ylitysajastin (minuuteissa)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "Sammuta tila"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "Sammuta auringonnousun aikaan"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "Laita päälle klo"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "Laita päälle tiettyyn aikaan"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "Käynnistysviiveen ajastin (minuuteissa)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "Laita päälle minuuttia auringonlaskun jälkeen"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "Laita päälle auringonlaskun aikaan"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "Tuntematon kamera"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "Tuntematon oviasema"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "Tuntematon EBMS-esiasetus"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "Tuntematon fani"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "Tuntematon valo"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "Tuntematon lukko"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "Tuntematon MDM-esiasetus"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "Tuntematon turva-anturi"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "Tuntematon kohtaus"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "Tuntematon suojausosio"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "Tuntematon anturi"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "Tuntematon termostaatti"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "Tuntematon kosketusnäyttö"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "Kuvakkeen URL-osoite"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"Käyttää Geofence Agentia käynnistämään rutiinin geoaidalle saapuessa tai "
+"sieltä poistuttaessa."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "Keskiviikko"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "tapahtuman nimike "
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "Pois päältä"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "päällä"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} käynnistyy – turvatoimet suoritetaan"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} käynnistyy – tämä suorittaa turvatoimet"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} liikettä havaittu, valot palasivat edelliseen tilaan "
+"aikakatkaisun jälkeen"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} havaitsi liikkeen, valot syttyivät"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} liikettä havaitaan, valot palaavat edelliseen tilaan "
+"aikakatkaisun jälkeen"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} siirtyi geofence- {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} poistui geoaidasta {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} laukaisi push-ilmoituksen"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} sammutettu"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} laukaisee push-ilmoituksen"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} sammuu"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} suoritettu"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} suoritetaan"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} ovat auki ja {hvacZonesOnCount} päällä - tämä käynnistää "
+"push-ilmoituksen"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} Sisältö"

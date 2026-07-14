@@ -1,0 +1,156 @@
+<devicedata>
+  <version>2</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands>
+    <command>
+      <id>0</id>
+      <name>ON</name>
+      <description>Turn On the NAME</description>
+    </command>
+    <command>
+      <id>1</id>
+      <name>OFF</name>
+      <description>Turn Off the NAME</description>
+    </command>
+    <command>
+      <id>2</id>
+      <name>SET_LEVEL</name>
+      <description>Set Level on the NAME to INTEGER</description>
+    </command>
+    <command>
+      <id>3</id>
+      <name>RAMP_TO_LEVEL</name>
+      <description>Ramp to Level INTEGER on the NAME over TIME STRING</description>
+    </command>
+    <command>
+      <id>4</id>
+      <name>TOGGLE</name>
+      <description>Toggle the NAME</description>
+    </command>
+    <command>
+      <id>5</id>
+      <name>SET_ALL_LED</name>
+      <description>Set all LEDs on the NAME to STRING</description>
+    </command>
+    <command>
+      <id>6</id>
+      <name>SET_TOP_LED_ON</name>
+      <description>Set top LED on the NAME to STRING when on</description>
+    </command>
+    <command>
+      <id>7</id>
+      <name>SET_TOP_LED_OFF</name>
+      <description>Set top LED on the NAME to STRING when off</description>
+    </command>
+    <command>
+      <id>8</id>
+      <name>SET_BOTTOM_LED_ON</name>
+      <description>Set bottom LED on the NAME to STRING when on</description>
+    </command>
+    <command>
+      <id>9</id>
+      <name>SET_BOTTOM_LED_OFF</name>
+      <description>Set bottom LED on the NAME to STRING when off</description>
+    </command>
+    <command>
+      <id>10</id>
+      <name>PUSH_TOP_BUTTON</name>
+      <description>Press the top button on the NAME</description>
+    </command>
+    <command>
+      <id>11</id>
+      <name>RELEASE_TOP_BUTTON</name>
+      <description>Release the top button on the NAME</description>
+    </command>
+    <command>
+      <id>12</id>
+      <name>PUSH_BOTTOM_BUTTON</name>
+      <description>Press the bottom button on the NAME</description>
+    </command>
+    <command>
+      <id>13</id>
+      <name>RELEASE_BOTTOM_BUTTON</name>
+      <description>Release the bottom button on the NAME</description>
+    </command>
+    <command>
+      <id>14</id>
+      <name>PUSH_TOGGLE_BUTTON</name>
+      <description>Push the toggle button on the NAME</description>
+    </command>
+    <command>
+      <id>15</id>
+      <name>RELEASE_TOGGLE_BUTTON</name>
+      <description>Release the toggle button on the NAME</description>
+    </command>
+  </commands>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <name>ON</name>
+      <description>NAME is on</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <name>OFF</name>
+      <description>NAME is off</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <name>LEVEL</name>
+      <description>NAME level is INTEGER</description>
+    </conditional>
+  </conditionals>
+  <events>
+    <event>
+      <id>1</id>
+      <description>When NAME top button is pushed</description>
+    </event>
+    <event>
+      <id>2</id>
+      <description>When NAME top button is released</description>
+    </event>
+    <event>
+      <id>3</id>
+      <description>When NAME bottom button is pushed</description>
+    </event>
+    <event>
+      <id>4</id>
+      <description>When NAME bottom button is released</description>
+    </event>
+    <event>
+      <id>5</id>
+      <description>When NAME level changes</description>
+    </event>
+  </events>
+  <name>Light</name>
+  <small>devices_sm/dimmer.gif</small>
+  <large>devices_lg/dimmer.gif</large>
+  <control>light</control>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxy />
+  <driver>10</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Light</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>LIGHT</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

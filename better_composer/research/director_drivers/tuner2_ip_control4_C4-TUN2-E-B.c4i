@@ -1,0 +1,266 @@
+<devicedata>
+	<c4id>453</c4id>
+	<copyright>Copyright 2008 Control4 Corporation.  All rights reserved.</copyright>
+	<name>Multi Tuner V2</name>
+	<small>devices_sm/receiver.gif</small>
+	<large>devices_lg/receiver.gif</large>
+	<control>tuner2_ip_control4</control>
+	<composer_categories>
+		<category>Audio/Video</category>
+	</composer_categories>
+	<search_type>c4:multitunerv2:c4-tun2-e-b</search_type>
+	<proxies>
+		<proxy proxybindingid="5001">tuner</proxy>
+		<proxy proxybindingid="5002">tuner</proxy>
+	</proxies>
+	<driver>TunerV2Driver</driver>
+	<states/>
+	<capabilities>
+		<can_upclass>False</can_upclass>
+		<can_downclass>False</can_downclass>
+		<can_switch>False</can_switch>
+		<video_provider_count>0</video_provider_count>
+		<video_consumer_count>0</video_consumer_count>
+		<audio_provider_count>3</audio_provider_count>
+		<audio_consumer_count>5</audio_consumer_count>
+		<has_discrete_input_select>True</has_discrete_input_select>
+		<has_toad_input_select>True</has_toad_input_select>
+		<has_tune_up_down>True</has_tune_up_down>
+		<has_search_up_down>True</has_search_up_down>
+		<has_discrete_preset>False</has_discrete_preset>
+		<has_preset_up_down>False</has_preset_up_down>
+		<preset_count>0</preset_count>
+		<has_discrete_channel_select>True</has_discrete_channel_select>
+		<has_channel_up_down>True</has_channel_up_down>
+		<has_feedback>True</has_feedback>
+		<rf_network_type>AMFM</rf_network_type>
+	</capabilities>
+	<manufacturer>Control4</manufacturer>
+	<version>2</version>
+	<creator>Control4</creator>
+	<created>6/18/2008 5:20 PM</created>
+	<modified>6/18/2008 5:20 PM</modified>
+	<model>C4-TUN2-E-B</model>
+	<front/>
+	<back/>
+	<top/>
+	<bottom/>
+	<left/>
+	<right/>
+	<config>
+		<power_command_delay>0</power_command_delay>
+		<power_delay>0</power_delay>
+		<power_management_method>AlwaysOn</power_management_method>
+		<rfs>
+			<rf>rf_am</rf>
+			<rf>rf_fm</rf>
+		</rfs>
+	</config>
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Tuner</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>TUNER</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Tuner</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>TUNER</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>4000</id>
+			<facing>6</facing>
+			<connectionname>AM/FM Audio Out 1</connectionname>
+			<type>6</type>
+			<consumer>False</consumer>
+			<audiosource>True</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+		        		<class>
+          				<classname>DIGITAL_COAX</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<connectionname>AM/FM Audio Out 1 End-Point</connectionname>
+			<id>7000</id>
+			<type>7</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_SELECTION</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<connectionname>AM/FM Audio Out 1 Volume</connectionname>
+			<id>7300</id>
+			<type>7</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_VOLUME</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>4001</id>
+			<facing>6</facing>
+			<connectionname>AM/FM Audio Out 2</connectionname>
+			<type>6</type>
+			<consumer>False</consumer>
+			<audiosource>True</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>STEREO</classname>
+				</class>
+		        		<class>
+          				<classname>DIGITAL_COAX</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<connectionname>AM/FM Audio Out 2 End-Point</connectionname>
+			<id>7001</id>
+			<type>7</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_SELECTION</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<connectionname>AM/FM Audio Out 2 Volume</connectionname>
+			<id>7301</id>
+			<type>7</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>AUDIO_VOLUME</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3000</id>
+			<facing>6</facing>
+			<connectionname>AM Radio 1</connectionname>
+			<type>6</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>RF_AM</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>3001</id>
+			<facing>6</facing>
+			<connectionname>AM Radio 2</connectionname>
+			<type>6</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>RF_AM</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5001">
+			<id>3002</id>
+			<facing>6</facing>
+			<connectionname>FM Radio 1</connectionname>
+			<type>6</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>RF_FM</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection proxybindingid="5002">
+			<id>3003</id>
+			<facing>6</facing>
+			<connectionname>FM Radio 2</connectionname>
+			<type>6</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>RF_FM</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>IP Connection</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>UDP</classname>
+					<ports>
+						<port>
+							<number>8750</number>
+							<auto_connect>True</auto_connect>
+							<monitor_connection>False</monitor_connection>
+							<keep_connection>True</keep_connection>
+						</port>
+					</ports>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

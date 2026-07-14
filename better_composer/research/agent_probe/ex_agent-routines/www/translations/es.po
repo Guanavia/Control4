@@ -1,0 +1,1088 @@
+# 
+# Translators:
+# Zab Operations <operations@zabtranslation.com>, 2024
+# Albert Mizrahi <albertmizrahi@ampliaudio.com.mx>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Spanish (https://app.transifex.com/control4/teams/15374/es/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: es\n"
+"Name: \n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName} fuente"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "Retraso de acción (segundos)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "Acciones"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "Ahorro de aire"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "Rutina de ahorro de aire"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "Alarma eliminada"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "Monitor de alarma"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "Rutina de monitoreo de alarma"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "Alarma activada"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"Alerte después de un tiempo específico si las puertas o ventanas "
+"especificadas están abiertas y los termostatos especificados están "
+"calentando o enfriando activamente."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr "Alerta si un sensor se dispara durante más de un tiempo especificado."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "Audio/Video"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "Automático"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "Automatice el apagado de las luces cada vez que se encienden."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr ""
+"Parpadear automáticamente las luces seleccionadas cuando suena la estación "
+"de puerta seleccionada"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr ""
+"Apaga automáticamente la luz de fondo de la pantalla táctil entre las horas "
+"especificadas"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"Encienda automáticamente las luces seleccionadas durante el tiempo "
+"seleccionado cuando las cámaras seleccionadas detecten movimiento"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"Encendido/apagado automático del ventilador tiempo especificado después de "
+"que la luz seleccionada se encienda/apague"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "Automatización"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "Mariposa"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "Botón"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "Botón pulsado"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "Botón de llamada 2 presionado"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "Botón de llamada 3 presionado"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "Botón de llamada 4 presionado"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "Botón de llamada 5 presionado"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "Botón de llamada 6 presionado"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "Botón de llamada presionado"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "Cancelar este evento"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "Casilla de verificación"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "Luces de control"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "Controlar luces o seleccionar escena"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr ""
+"Controle el encendido y apagado de las luces alrededor del atardecer y el "
+"amanecer."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "Ventiladores controlados"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "Luces controladas"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "Cerraduras controladas"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "Termostatos controlados"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "Frío"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "Cuarto oscuro"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "Rutina de cuarto oscuro"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "Fecha"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "Fecha/Hora"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "Demostrar las capacidades de la interfaz de usuario de las rutinas"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "No seleccione preajuste"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "No seleccionar escena"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "Indicador de puerta"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "Rutina de indicador de puerta"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "Pato"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "Ajuste preestablecido de EBMS"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "Rutina EBMS"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "Emergencia habilitada"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "Vacío"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "Hora de finalización"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "Inglés: Verificación de variables: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "Error: No hay contenido disponible, por favor reproduzca algo primero"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "Error: No hay contenido seleccionado"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "Evento"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "{index} del evento - completado"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "Evento {index} - completado (se modificó)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "Ejemplo de {index} de eventos"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "Ejemplo de rutina"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "Sección de ejemplo (lista completa)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "Rutina de ejemplo/demostración"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "Temporizador de ventilador"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "Rutina de temporizador de ventilador"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "Ventiladores apagados"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "Ventiladores encendidos"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "Los ventiladores se apagarán"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "Los ventiladores se encenderán"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "Viernes"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "Generar 5 eventos"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "Generar eventos"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "Geocerca"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "Rutina de geovalla"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "Calor"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "Icono"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "Fuente de imagen de icono"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "Índice de eventos"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "Martín pescador"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "Apagado automático de la luz"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "Rutina de apagado automático ligero"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "Iluminación"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "Escena de iluminación"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "Luces"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "Acción de entrada de luces"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "Acción de salida de luces"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "Luces para controlar"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "Luces para encender"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "Las luces parpadearon - {deviceName} botón presionado"
+
+#: driver.lua:75
+msgid "List"
+msgstr "Lista"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "Ajuste preestablecido de MDM"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "Brillo máximo"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "Se redujo el brillo máximo"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "Se restableció el brillo máximo"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "Se restablecerá el brillo máximo"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "El brillo máximo se reducirá"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "Modificar evento"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "Modificar evento en la línea de tiempo"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "Modificar {index} de eventos - correcto: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "Lunes"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "Cámaras monitoreadas"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "Videoporteros monitoreados"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "Puertas y ventanas monitoreadas"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "Luz monitoreada"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "Sensores de seguridad monitoreados"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "Particiones de seguridad supervisadas"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "Sensores monitoreados"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "Termostatos monitoreados"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "Movimiento"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "Detección de movimiento"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "Luces de movimiento"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "Rutina de luces de movimiento"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "Nunca"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "Luz nocturna"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "Rutina de luz nocturna"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "Sin acción"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "Sin cambios"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "Retraso de notificación (minutos)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "Retraso de notificación (segundos)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "Texto de notificación"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "Número"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "Apagado"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "Encendido"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr ""
+"Realice las acciones de seguridad recomendadas si se activa una alarma de "
+"calor, humo o monóxido de carbono."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "Notificación push enviada"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr ""
+"Reduzca el brillo predeterminado de las luces durante las horas nocturnas."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "Eliminar evento"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "Eliminar evento en la línea de tiempo"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "Quitar {index} de eventos: correcto: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "Selector de habitaciones"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "Ejecutar acciones ahora"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "Ejecutar hora de finalización ahora"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "Ejecutar ahora"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "Hora de inicio de ejecución ahora"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "Ejecute este evento ahora"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "Corre Apaga ahora"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "Corre Enciende ahora"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "Alarma de seguridad"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "Rutina de alarma de seguridad"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "Sábado"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "Agenda"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "Audio programado"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "Rutina de audio programada"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "Evento programado ejecutado"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "Se ejecutará el evento programado"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "Seleccione Fuentes de audio en cualquier habitación según un horario"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"Seleccione Fuentes de audio en cualquier habitación y, opcionalmente, "
+"seleccione una escena de iluminación, un ajuste preestablecido de EBMS y/o "
+"un ajuste preestablecido de MDM"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "Seleccionar escena"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "Escena seleccionada"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "Las luces seleccionadas se apagarán"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "Las luces seleccionadas se encenderán"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "La escena seleccionada se apagará"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "La escena seleccionada se activará"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr ""
+"Envíe una notificación push si una partición de seguridad o un sensor de "
+"seguridad alerta."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "Sensor Monitor"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "Rutina de monitor de sensor"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "Establecer evento"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "Establecer evento en la línea de tiempo"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "Ajustar tiempo"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "Establecer {index} de evento - éxito: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "Establecer {index} de eventos pasados - éxito: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "Arreglo"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "Mostrar esto como incompleto"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "Mostrar sección de traducciones"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "Mostrar/ocultar elementos"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "Slider"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "Hora de inicio"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "Domingo"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "Amanecer"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "Atardecer"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "Interruptor"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "Sistema"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "Prueba: Evento de botón de llamada"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "Prueba: Evento de geovalla ingresado"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "Prueba: Evento de geovalla de salida"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "Prueba: Evento de movimiento detectado"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "Prueba: Ejecutar acciones de seguridad"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "Prueba: Sensor de seguridad Enviar notificación"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "Prueba: Notificación de envío del sistema de seguridad"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "Prueba: Enviar notificación"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "Prueba: Alternar luces seleccionadas"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "Mensaje de texto"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "Campo de texto alfa"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "Campo de texto alfanumérico"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "Campo de texto normal"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "Número de campo de texto"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "Campo de texto numérico"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "Contraseña de campo de texto"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "Acción de entrada del termostato"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "Acción de salida del termostato"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "Termostatos para controlar"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "Jueves"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "Hora"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "Luces temporizadas"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "Rutina de luces temporizadas"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "Información de la línea de tiempo"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "Interacción de la línea de tiempo"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "Temporizador (minutos)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "Alternar"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "Volver a alternar en 5 segundos"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "Alternar la casilla de verificación"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "Pantallas táctiles"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "Pantallas táctiles iluminadas"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "Pantallas táctiles oscurecidas"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "Las pantallas táctiles se iluminarán"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "Las pantallas táctiles se oscurecerán"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "Traducciones"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "Cambiar de traducciones"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "Martes"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "Apagar a las"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "Apagar a la hora"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "Retardo de apagado de luces (minutos)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "Apague minutos después del amanecer"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "Desactivar el temporizador de desbordamiento (minutos)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "Apagar Habitación"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "Apagar al amanecer"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "Encienda a las"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "Encender a la vez"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "Activar el temporizador de retardo (minutos)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "Encienda minutos después del atardecer"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "Encender al atardecer"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "Cámara desconocida"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "Estación de puerta desconocida"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "Ajuste preestablecido de EBMS desconocido"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "Fan desconocido"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "Luz desconocida"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "Cerradura desconocida"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "Ajuste preestablecido de MDM desconocido"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "Sensor de seguridad desconocido"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "Escena desconocida"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "Partición de seguridad desconocida"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "Sensor desconocido"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "Termostato desconocido"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "Pantalla táctil desconocida"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "URL del icono"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"Utiliza Geofence Agent para activar una rutina al entrar o salir de una "
+"geocerca."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "Etiqueta de evento"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "Apagado"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "encendido"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} activado: se ejecutan acciones de seguridad"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} activado: ejecutará acciones de seguridad"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} se detectaba movimiento, las luces volvían al estado anterior "
+"después del tiempo de espera"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} detecta movimiento, se encienden las luces"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} se detecta movimiento, las luces volverán al estado anterior "
+"después del tiempo de espera"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} ingresado {geofenceName} de geocerca"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} salió de la geocerca {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} Notificación Push activada"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} apagado"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} activará la notificación push"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} se apagará"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} corrió"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} ejecutará"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} están abiertos y {hvacZonesOnCount} están encendidos, "
+"esto activará la notificación automática"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} contenido"

@@ -1,0 +1,70 @@
+<devicedata>
+    <version>3</version>
+    <combo/>
+    <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+    <config/>
+    <name>Network File Storage</name>
+    <small>devices_sm/cd.gif</small>
+    <large>devices_lg/cd.gif</large>
+    <control>control4_network_mediastorage</control>
+    <composer_categories>
+        <category>Storage</category>
+    </composer_categories>
+    <proxy>control4_network_mediastorage</proxy>
+    <driver>100055</driver>
+    <states/>
+    <connections>
+        <connection>
+            <id>4000</id>
+            <facing>6</facing>
+            <connectionname>Audio Media Storage</connectionname>
+            <type>6</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <hidden>True</hidden>
+            <classes>
+                <class>
+                    <autobind>True</autobind>
+                    <classname>AUDIO_MEDIA_STORAGE</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>1</id>
+            <facing>6</facing>
+            <connectionname>Mount Server</connectionname>
+            <type>1</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <hidden>True</hidden>
+            <classes>
+                <class>
+                    <autobind>True</autobind>
+                    <classname>MOUNT_SERVER</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <capabilities>
+        <media_type>16</media_type>
+        <can_scan_media>True</can_scan_media>
+    </capabilities>
+    <manufacturer>Control4</manufacturer>
+    <model>Network File Storage</model>
+    <creator>Control4</creator>
+    <created>5/09/2005 12:30 PM</created>
+    <modified>5/09/2005 12:30 PM</modified>
+    <front/>
+    <back/>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+    <commands/>
+    <conditionals/>
+    <events/>
+</devicedata>

@@ -1,0 +1,463 @@
+<devicedata>
+	<copyright>Copyright 2008 Control4 Corporation.  All rights reserved.</copyright>
+	<version>6</version>
+	<manufacturer>Lutron</manufacturer>
+	<name>Switch</name>
+	<model>HomeWorks Switch</model>
+	<creator>Control4</creator>
+	<created>3/5/2009 8:30 PM</created>
+	<modified>5/07/2009 2:30 PM</modified>
+	<small>devices_sm/LutronDimmer.gif</small>
+	<large>devices_lg/LutronDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>light</proxy>
+	<states />
+	<conditionals />
+	<events/>
+	<config>
+		<documentation>
+Lutron HomeWorks Switch
+
+When installing drivers to connect to a Lutron HomeWorks system, it is recommended that you add the Lutron HomeWorks Network driver first. Homeworks Network is a singleton driver and can be added only once in a project. If this driver exists prior to adding any of the other drivers, then the other drivers will be automatically connected to the HomeWorks Network driver. If that driver is not added first, then those connections will need to be made manually.
+	
+The HomeWorks Switch driver is used to control and monitor any switch on the Lutron HomeWorks system. One driver should be added for each load that is controlled or monitored. When the driver is added it is automatically linked to a HomeWorks Network driver if it exists. If the driver does not exist the connection will need to be made manually after it has been added.
+	
+Properties
+Device Address:	
+	This is the address of the switch. This is how it is identified.
+	Device Address Formatting
+	* Each device address is separated into 3-5 elements. Each element must be separated with a colon (:).  Refer to the Lutron documentation for device specific addressing.
+	* The device address must be enclosed with [brackets].
+	* Example: [01:04:01:01:01]
+	(Note:  If you are unsure of the Lutron HomeWorks addressing, please refer to the  "Device Address Formatting" section of Lutron HomeWorks protocol documentation. This documentation can be found online at: http://resi.lutron.com/Portals/3/Support/Documentation/HWI%20RS232%20Protocol.pdf)
+
+Debug Mode:
+	Used for debugging the driver. Output is displayed on the Lua tab.
+	Options:
+		Off
+		Print
+		Log
+		Print and Log
+		
+Variables
+	Same as the C4 Light Proxy.
+
+Events
+	Since the Lutron HomeWorks system switches only use one button, then the "Top Button" is used for events. 
+	C4 Light Proxy Events:
+	* Top Button Pushed
+	* Top Button Released
+	* Level Changes
+	* Top Double Tap
+
+Commands
+	All of the C4 Light Proxy commands are supported except for LED type commands.
+	Device Specific Commands:
+	* Flash Switch
+	* Stop Flashing Switch
+	
+Conditionals
+	All of the C4 Light Proxy Conditions.
+
+Loops
+	All of the C4 Light Proxy Loops.
+
+Connections
+	The following connections are available:
+	* Top (ON) Button Link
+	* Bottom (OFF) Button Link
+	* Tap (Toggle) Button Link
+
+		</documentation>
+		<identify_text>To Be Determined.</identify_text>
+		<properties>
+			<property>
+				<name>Device Address</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Flash Switch</name>
+				<description>Start flashing NAME for PARAM1 : PARAM2 : PARAM3</description>
+				<params>
+					<param>
+						<name>Hours</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>99</maximum>
+					</param>
+					<param>
+						<name>Minutes</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>59</maximum>
+					</param>
+					<param>
+						<name>Seconds</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>59</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Stop Flashing Switch</name>
+				<description>Stop Flashing NAME</description>
+			</command>
+		</commands>
+		<script>
+			<![CDATA[
+lightProxyBinding = 5001
+lutronHWBinding = 1
+
+topButtonBinding = 300
+bottomButtonBinding = 301
+tapButtonBinding = 302
+
+function OnPropertyChanged(strProperty)
+	dbg("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	if (strProperty == "Device Address") then
+		g_deviceAddress = Properties[strProperty]
+		local tParams = {DEVICE_ID = C4:GetDeviceID(), ADDRESS = g_deviceAddress}
+		C4:SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+	elseif (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debugunittest = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		elseif (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debugunittest = false
+			g_debuglog = false
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	else
+		dbg("No action performed for " .. strProperty .. " which has been set to: " .. Properties[strProperty])
+	end
+end
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function dbg(strDebugText)
+	if (g_debugprint) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_switch: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (g_debugunittest) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_switch: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (g_debugprint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (g_debuglog  and debugFunction) then C4:ErrorLog("lutron_hw_switch: " .. strFunction) end
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == g_DebugTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+	-- Kill open timers
+	if (g_DebugTimer ~= nil) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == lutronHWBinding) then
+		tParams["ADDRESS"] = g_deviceAddress
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+		print ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+	end
+
+	if (strCommand == "LIGHT_LEVEL_CHANGED") then
+		local lightLevel = tParams["LEVEL"]
+		gSwitchValue = lightLevel
+		SendToProxy(lightProxyBinding, strCommand, lightLevel)
+
+		if (tonumber(gSwitchValue) == 0) then gLightState = "False" else gLightState = "True" end
+		SendToProxy(topButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+		SendToProxy(bottomButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+		SendToProxy(tapButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+	elseif (strCommand == "TOP_BUTTON_PUSH") then
+		SendToProxy(lightProxyBinding, "TOP_BUTTON_PUSH", {})
+	elseif (strCommand == "TOP_BUTTON_RELEASE") then
+		if (tParams["NUMBER"] == "1") then
+			SendToProxy(lightProxyBinding, "TOP_BUTTON_RELEASE", {})
+		end
+	elseif (strCommand == "CLICK_COUNT") then
+		if (tParams["NUMBER"] == "1") then
+			SendToProxy(lightProxyBinding, "CLICK_COUNT", {BUTTON = 0, COUNT = 2})
+		end
+	elseif (strCommand == "Fade Switch") then
+		SendToProxy(lutronHWBinding, "FADE_DIMMER", tParams)
+	elseif (strCommand == "Flash Switch") then
+		SendToProxy(lutronHWBinding, "FLASH_DIMMER", tParams)
+	elseif (strCommand == "Stop Flashing Switch") then
+		SendToProxy(lutronHWBinding, "STOP_FLASH_DIMMER", {})
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)    -- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (idBinding == lightProxyBinding) then
+			if (strCommand == "GET_LIGHT_LEVEL") then
+				GET_LIGHT_LEVEL(idBinding, tParams)
+			elseif (strCommand == "TOGGLE") then
+				TOGGLE_PRESET(tParams)
+			elseif (strCommand == "TOGGLE_PRESET") then
+				TOGGLE_PRESET(tParams)
+			elseif (strCommand == "GET_CONNECTED_STATE") then
+				SendToProxy(lightProxyBinding, "ONLINE_CHANGED", "True")
+			elseif (strCommand == "PUSH_TOGGLE_BUTTON") then
+				if (gSwitchValue == "0") then
+					SendToProxy(lutronHWBinding, "ON", tParams)
+				else
+					SendToProxy(lutronHWBinding, "OFF", tParams)
+				end
+			elseif (strCommand == "PUSH_TOP_BUTTON") then
+				SendToProxy(lutronHWBinding, "START_RAISE_DIMMER", tParams)
+			elseif (strCommand == "RELEASE_TOP_BUTTON") then
+				SendToProxy(lutronHWBinding, "STOP_DIMMER", tParams)
+			elseif (strCommand == "PUSH_BOTTOM_BUTTON") then
+				SendToProxy(lutronHWBinding, "START_LOWER_DIMMER", tParams)
+			elseif (strCommand == "RELEASE_BOTTOM_BUTTON") then
+				SendToProxy(lutronHWBinding, "STOP_DIMMER", tParams)
+			elseif (strCommand == "AV_BINDINGS_CHANGED") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+			else
+				SendToProxy(lutronHWBinding, strCommand, tParams)
+			end
+		elseif (idBinding == lutronHWBinding) then
+			if (strCommand == "GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+			else
+				SendToProxy(lightProxyBinding, strCommand, tParams)
+			end
+		elseif (idBinding == topButtonBinding) then
+			if (strCommand == "DO_PUSH") then
+				SendToProxy(lutronHWBinding, "ON", tParams)
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(topButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		elseif (idBinding == bottomButtonBinding) then
+			if (strCommand == "DO_PUSH") then
+				SendToProxy(lutronHWBinding, "OFF", tParams)
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(bottomButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		elseif (idBinding == tapButtonBinding) then
+			if (strCommand == "DO_PUSH") then
+				TOGGLE_PRESET(tParams)
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(tapButtonBinding, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		end
+	end
+end
+
+function GET_LIGHT_LEVEL(idBinding, tParams)
+	cmd = "GET_LIGHT_LEVEL"
+	C4:SendToProxy(idBinding, "LIGHT_LEVEL_CHANGED", gSwitchValue)
+	SendToProxy(lutronHWBinding, "REQUEST_DIMMER_LEVEL", {})
+end
+
+function SET_LEVEL(tParams)
+	SendToProxy(lutronHWBinding, "SET_LEVEL", tParams)
+end
+
+function TOGGLE_PRESET(tParams)
+	if (gSwitchValue == "0") then  -- this ignores presets and should be changed if presets are implemented
+		tParams["LEVEL"] = 100
+	else
+		tParams["LEVEL"] = 0
+	end
+	SET_LEVEL(tParams)
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+-----------------------------  INIT   -----------------------------
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+g_deviceAddress = ""
+gSwitchValue = 0
+gLightState = "False"
+
+
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<capabilities>
+		<on_off>True</on_off>
+		<set_level>False</set_level>
+		<ramp_level>False</ramp_level>
+		<can_detach_buttons>False</can_detach_buttons>
+		<can_detach_led>False</can_detach_led>
+		<has_press_events>True</has_press_events>
+		<has_release_events>True</has_release_events>
+		<single_button>True</single_button>
+		<double_button>False</double_button>
+		<do_push>False</do_push>
+		<do_release>False</do_release>
+		<double_tap_top>False</double_tap_top>
+		<double_tap_bottom>False</double_tap_bottom>
+		<triple_tap_top>False</triple_tap_top>
+		<triple_tap_bottom>False</triple_tap_bottom>
+		<button_events>False</button_events>
+		<can_buttonpress_device>False</can_buttonpress_device>
+		<hide_proxy_events>False</hide_proxy_events>
+		<hide_proxy_properties>True</hide_proxy_properties>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Lutron HomeWorks Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>LUTRON_HW_SWITCH</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>LIGHT</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>Top (ON) Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>301</id>
+			<facing>6</facing>
+			<connectionname>Bottom (OFF) Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>302</id>
+			<facing>6</facing>
+			<connectionname>Tap (Toggle) Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

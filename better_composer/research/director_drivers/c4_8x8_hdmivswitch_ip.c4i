@@ -1,0 +1,3913 @@
+<devicedata>
+  <copyright>Copyright 2004-2013 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <manufacturer>Control4</manufacturer>
+  <name>Control4 8x8 HDMI Matrix</name>
+  <model>C4-8x8HDMIVSW-B</model>
+  <created>04/22/2013 12:00 AM</created>
+  <modified>03/06/2018 01:50 PM</modified>
+  <version>34</version>
+  <small>devices_sm\avswitch.gif</small>
+  <large>devices_lg\avswitch.gif</large>
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+  <control>lua_gen</control>
+  <controlmethod>ip</controlmethod>
+  <driver>DriverWorks</driver>
+  <search_type>c4:control4_8x8_hdmivswitch_b</search_type>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="Control4 8x8 HDMI Matrix">avswitch</proxy>
+  </proxies>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <capabilities>
+    <can_upclass>True</can_upclass>
+    <can_downclass>True</can_downclass>
+    <can_switch>True</can_switch>
+    <video_provider_count>8</video_provider_count>
+    <video_consumer_count>8</video_consumer_count>
+    <audio_provider_count>0</audio_provider_count> <!-- If we want to separately switch the audio outs in control-control, this needs to be set and the proxy in composer needs work. -->
+    <audio_consumer_count>0</audio_consumer_count>
+    <has_discrete_input_select>True</has_discrete_input_select>
+    <has_toad_input_select>False</has_toad_input_select>
+    <has_audio>True</has_audio>
+    <requires_separate_switching>True</requires_separate_switching>
+    <!--<can_switch_separately>True</can_switch_separately>--> <!-- If we want to separately switch the audio outs in control-control, this needs to be set and the proxy in composer needs work. -->
+    <has_audio_signal_sense>False</has_audio_signal_sense>
+    <has_video_signal_sense>False</has_video_signal_sense>
+  </capabilities>
+  <connections>
+    <!-- #################################################################### -->
+    <!--                      NETWORK PROXY Binding                           -->
+    <!-- #################################################################### -->
+    <connection proxybindingid="5001">
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Ethernet</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <number>8105</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                        PROXY BINDING                                 -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>AV Switch</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AVSWITCH</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                               HDMI Inputs                            -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>1000</id>
+      <facing>6</facing>
+      <connectionname>Source 1</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>Source 2</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1002</id>
+      <facing>6</facing>
+      <connectionname>Source 3</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1003</id>
+      <facing>6</facing>
+      <connectionname>Source 4</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1004</id>
+      <facing>6</facing>
+      <connectionname>Source 5</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1005</id>
+      <facing>6</facing>
+      <connectionname>Source 6</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1006</id>
+      <facing>6</facing>
+      <connectionname>Source 7</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1007</id>
+      <facing>6</facing>
+      <connectionname>Source 8</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--          OUTPUTS, Both HDMI and corresponding analog audio           -->
+    <!-- #################################################################### -->
+    <connection>
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Zone 1</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2001</id>
+      <facing>6</facing>
+      <connectionname>Zone 2</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2002</id>
+      <facing>6</facing>
+      <connectionname>Zone 3</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2003</id>
+      <facing>6</facing>
+      <connectionname>Zone 4</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2004</id>
+      <facing>6</facing>
+      <connectionname>Zone 5</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2005</id>
+      <facing>6</facing>
+      <connectionname>Zone 6</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2006</id>
+      <facing>6</facing>
+      <connectionname>Zone 7</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2007</id>
+      <facing>6</facing>
+      <connectionname>Zone 8</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 1</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4001</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 2</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4002</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 3</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4003</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 4</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4004</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 5</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4005</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 6</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4006</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 7</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4007</id>
+      <facing>6</facing>
+      <connectionname>Audio Output 8</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- #################################################################### -->
+    <!--                        ROOM BINDINGS                                 -->
+    <!-- #################################################################### -->
+    <!--<connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Zone 1 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7001</id>
+      <facing>6</facing>
+      <connectionname>Zone 2 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7002</id>
+      <facing>6</facing>
+      <connectionname>Zone 3 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7003</id>
+      <facing>6</facing>
+      <connectionname>Zone 4 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7004</id>
+      <facing>6</facing>
+      <connectionname>Zone 5 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7005</id>
+      <facing>6</facing>
+      <connectionname>Zone 6 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7006</id>
+      <facing>6</facing>
+      <connectionname>Zone 7 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7007</id>
+      <facing>6</facing>
+      <connectionname>Zone 8 Audio/Video End-Point</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>-->
+  </connections>
+  <events>
+    <!--                                                                -->
+    <!-- Failed to get source because it was locked events              -->
+    <!--                                                                -->
+    <event>
+     <id>1</id>
+     <name>Zone 1 Select Source Fail</name>
+     <description>When NAME Zone 1 Selection Fails</description>
+   </event>
+   <event>
+     <id>2</id>
+     <name>Zone 2 Select Source Fail</name>
+     <description>When NAME Zone 2 Selection Fails</description>
+   </event>
+   <event>
+     <id>3</id>
+     <name>Zone 3 Select Source Fail</name>
+     <description>When NAME Zone 3 Selection Fails</description>
+   </event>
+   <event>
+     <id>4</id>
+     <name>Zone 4 Select Source Fail</name>
+     <description>When NAME Zone 4 Selection Fails</description>
+   </event>
+   <event>
+     <id>5</id>
+     <name>Zone 5 Select Source Fail</name>
+     <description>When NAME Zone 5 Selection Fails</description>
+   </event>
+   <event>
+     <id>6</id>
+     <name>Zone 6 Select Source Fail</name>
+     <description>When NAME Zone 6 Selection Fails</description>
+   </event>
+   <event>
+     <id>7</id>
+     <name>Zone 7 Select Source Fail</name>
+     <description>When NAME Zone 7 Selection Fails</description>
+   </event>
+   <event>
+     <id>8</id>
+     <name>Zone 8 Select Source Fail</name>
+     <description>When NAME Zone 8 Selection Fails</description>
+   </event>
+   <!--                                                                -->
+   <!-- Source Stolen Events                                           -->
+   <!--                                                                -->
+   <event>
+     <id>9</id>
+     <name>Zone 1 Source Lost</name>
+     <description>When NAME Zone 1 Source Lost</description>
+   </event>
+   <event>
+     <id>10</id>
+     <name>Zone 2 Source Lost</name>
+     <description>When NAME Zone 2 Source Lost</description>
+   </event>
+   <event>
+     <id>11</id>
+     <name>Zone 3 Source Lost</name>
+     <description>When NAME Zone 3 Source Lost</description>
+   </event>
+   <event>
+     <id>12</id>
+     <name>Zone 4 Source Lost</name>
+     <description>When NAME Zone 4 Source Lost</description>
+   </event>
+   <event>
+     <id>13</id>
+     <name>Zone 5 Source Lost</name>
+     <description>When NAME Zone 5 Source Lost</description>
+   </event>
+   <event>
+     <id>14</id>
+     <name>Zone 6 Source Lost</name>
+     <description>When NAME Zone 6 Source Lost</description>
+   </event>
+   <event>
+     <id>15</id>
+     <name>Zone 7 Source Lost</name>
+     <description>When NAME Zone 7 Source Lost</description>
+   </event>
+   <event>
+     <id>16</id>
+     <name>Zone 8 Source Lost</name>
+     <description>When NAME Zone 8 Source Lost</description>
+   </event>
+   <!--                                                                -->
+   <!-- Source Stealing Prevention Events                              -->
+   <!--                                                                -->
+   <event>
+     <id>17</id>
+     <name>Zone 1 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 1 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>18</id>
+     <name>Zone 2 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 2 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>19</id>
+     <name>Zone 3 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 3 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>20</id>
+     <name>Zone 4 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 4 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>21</id>
+     <name>Zone 5 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 5 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>22</id>
+     <name>Zone 6 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 6 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>23</id>
+     <name>Zone 7 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 7 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>
+   <event>
+     <id>24</id>
+     <name>Zone 8 Failed Lock, Multiple Zones Viewing Source</name>
+     <description>When NAME Zone 8 Fails To Lock Because Multiple Zones Are Viewing The Same Source</description>
+   </event>      
+ </events>
+ <config>
+  <power_management_method>AlwaysOn</power_management_method>
+  <power_command_delay>0</power_command_delay>
+  <power_delay>0</power_delay>
+  <power_command_needed>False</power_command_needed>    
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <navigator_categories>
+    <category>Home</category>
+  </navigator_categories>
+  <documentation>
+
+    ##################################################################################
+    General Notes
+    ##################################################################################
+    Control-Control only works on Composer 2.5.0 and newer software releases.
+    Programming Actions and Events only works on Composer 2.5.1 and newer software releases.
+    HTBaseT Receivers are hot to the touch when in use.  This is normal.
+
+
+
+
+    ##################################################################################
+    Setup
+    ##################################################################################
+    * Be sure that the switch and HDBaseT Receivers are powered off while making physical connections.
+    * Do not run Cat5e / Cat6 cabling in close parallel proximity with high voltage wiring.
+    * HDMI out 7 is shared with HDBaseT Out 7.  Only one will be active.  Both of these connections show up as HDMI out 7 in Composer.
+    * HDMI out 8 is shared with HDBaseT Out 8.  Only one will be active.  Both of these connections show up as HDMI out 8 in Composer.
+    * ONLY use High Speed Category 2 HDMI cables.  Cables with ferrites are not recommended.  Ferrites have caused problems with intermittent blanking and random pixel discoloration artifacts in the video.
+    * HDMI cables with Redmere technology are NOT compatible with the HDMI Switch or HDBaseT Receiver.
+    * 100 meters is the maximum recommended length for Cat5e / Cat6.
+    * It is strongly recommended to not use patch panels, wall plates, or any other interruption of the Cat5e / Cat6 cable.  For the best possible performance use one run of continuous cable from the switch to the HDBaseT receiver with an RJ45 on each end.
+
+    ##################################################
+    Calibration
+    ##################################################
+    The HDMI switch has EDID management.  The way this works is through calibration.  There is a button under the Actions tab in the driver to calibrate and reset the calibration.  To calibrate all source devices should be on and all displays should be on and set to the correct input.  When the calibrate button is hit the switch will go through every device and get all the EDID information from it.  From this data a new EDID will be created with the settings which ensure all devices can display the video and playback the audio.  This new EDID is given to all source devices so when new zones join a zone in progress there is no interruption. 
+
+    This results in the lowest common settings for video and audio.  This means that if there is a mix of 3D and regular 2D TV’s all displays will be 2D unless a Zone Lock is acquired.  Similarly if there is a mix of various surround sound capabilities and stereo sound, stereo will always be used unless a Zone Lock is acquired.
+
+    Locking a zone means that a zone gets exclusive access to a source.  When this happens the zone’s real EDID is passed to the source and the full capabilities of the zone are then enabled.  So if a zone is 3D with surround sound in a system where other zones are 2D and stereo, the zone with the lock will get 3D and surround sound.  When a zone has a lock on a source, that source is no longer available to any other zones in the system.  When a zone tries to acquire a source which has been locked a programming event is fired which should be handled.
+
+
+
+
+    ##################################################
+    HDMI Switch
+    ##################################################
+
+
+    #################################
+    IP Port
+    #################################
+    This port is how the Control4 system will control the switch.  This should simply be connected to your network.
+
+
+    #################################
+    HDMI Input
+    #################################
+    Connect your sources physically and make the binding connections in Composer.
+
+    *NOTE : Always use proper cable management to provide strain relief on the HDMI cables.  Due to the size and weight of HDMI cables they can pull down and become disconnected over time.  Always make connections in a way which provides a straight in connection and prevents movement of the cable.  The use of cable management systems and zip ties is strongly recommended.
+    *NOTE : When installed in a rack a lacer bar should be placed behind the switch level with the HDMI connectors.  All HDMI cables should be secured to this lacer to prevent cable movement or pull on the connectors.
+
+
+    #################################
+    IR
+    #################################
+    Each IR input is connected to its respective HDBaseT output.  Meaning IR 1 is connected to HDBaseT Receiver 1.  The IR can be directed from the switch to the HDBaseT Receiver (default) or from the HDBaseT Receiver to the switch.  This is configurable on the properties page in Composer.  
+
+    When in Switch-to-Receiver mode the input should be connected to the IR output of a Control4 Controller.  Make all bindings from the controller to the end devices as the switch and HDBaseT Receiver are transparent to the system.  Connect an IR bud or blaster to the HDBaseT Receiver.
+
+    When in Receiver-to-Switch mode the input to the HDBaseT Receiver must be an IR Receiver.  Connecting directly to a Control4 controller will not work.  Then connect the IR bud or blaster to the switch.
+
+    *NOTE : Only 38kHz frequency devices are supported.
+    *NOTE : When creating the bindings in composer bind the output of the controller directly to the device connected on the HDBaseT Receiver.
+    *NOTE : When connecting a Control4 Controller (for Switch-to-Receiver mode) IR port a 3 connector (stereo) mini-jack connector must be used.
+    *NOTE : When connecting an IR emitter (for Receiver-to-Switch mode) a Control4 2 connector (mono) mini-jack connector must be used.
+
+    #################################
+    RS232
+    #################################
+    The RS232 ports are also connected one to one to the respective HDBaseT Receivers.  Connect directly to a Control4 controller with a stereo mini-jack to mini-jack cable if applicable, or use a DB-9 to mini-jack stereo cable.  Make all bindings from the controller to the end device as the switch and HDBaseT Receiver are transparent to the system.  Connect the HDBaseT Receiver to device using a DB-9 to mini-jack stereo cable.
+
+    *NOTE : Depending on the device being controlled you may need a NULL MODEM adapter.
+    *NOTE : When creating the bindings in Composer Pro, bind the output of the controller directly to the device connected on the HDBaseT Receiver.
+
+
+    #################################
+    LAN Ports
+    #################################
+    The LAN Ports on the switch are connected one to one to the respective baluns.  Connect the switch LAN Port to a network switch to provide network connections on the balun.
+
+
+    #################################
+    Audio Outs
+    #################################
+    This switch has analog stereo audio outputs.  These are switched separate from the HDMI outputs.  There are 8 total audio outputs to allow distribution of any source throughout the audio distribution of the home.  For greater control and distribution connect these analog audio outputs to a Control4 Audio Matrix Switch and/or a Control4 4/8 Zone Matrix Amplifier.
+
+    *NOTE : If the source is multi-channel audio the analog audio output will be muted.
+
+
+    #################################
+    HDBaseT and HDMI Output
+    #################################
+    Connect HDBaseT outputs to HDBaseT Receivers over Cat5e / Cat6 cable.  Cat6 is recommended.  Connect HDMI outputs to HDMI inputs if applicable.  Connect bindings in composer to HDMI out in the driver.  100 meters is the maximum supported cable length and has been tested on Cat6 and Cat5e.
+
+    *NOTE : Termination of Cat5e / Cat6 cables is extremely important.  Make sure your terminations are good.
+    *NOTE : Because of the different usage of wires in the Cat5e / Cat6 cable and the greater bandwidth requirements for HDBaseT you may get a successful network connection using a cable but the HDBaseT may not work.  Test terminations and cable.
+    *NOTE : HDMI Output : Always use proper cable management to provide strain relief on the HDMI cables.  Due to the size and weight of HDMI cables they can pull down and become disconnected over time.  Always make connections in a way which provides a straight in connection and prevents movement of the cable.  The use of cable management systems and zip ties is strongly recommended.
+
+
+    ##################################################
+    HDBaseT Receivers
+    ##################################################
+
+    #################################
+    HDMI Output
+    #################################
+    Connect the HDMI output from the HDBaseT Receiver  to the display device or receiver.  It is NOT recommended or supported to connect this to another video switch.
+
+    *NOTE : Always use proper cable management to provide strain relief on the HDMI cables.  Due to the size and weight of HDMI cables they can pull down and become disconnected over time.  Always make connections in a way which provides a straight in connection and prevents movement of the cable.  The use of cable management systems and zip ties is strongly recommended.
+
+
+    #################################
+    IR
+    #################################
+    When in Switch-to-Receiver mode, connect an IR bud or blaster to the IR port on the HDBaseT Receiver. When in Receiver-to-Switch mode, connect an IR sensor to this port on the HDBaseT Receiver.
+
+    *NOTE : A Control4 Controller can not be connected to this port to send IR back to the switch.
+    *NOTE : When connecting an IR emitter (for Receiver-to-Switch mode) a Control4 emitter must be used.
+    *NOTE : When connecting an IR sensor to this port a 3 conductor (stereo) mini jack must be used.
+
+    #################################
+    RS232
+    #################################
+    Connect to the device to be controlled using a stereo mini-jack to DB-9 cable.
+
+    *NOTE : Depending on the device being controlled you may need a NULL MODEM adapter.
+    *NOTE : Depending on the device being controlled you may need a gender changer adapter.
+
+
+    #################################
+    LAN Port
+    #################################
+    If the corresponding LAN Port connection on the HDMI switch is connected to the network this port can be connected to any network device.
+
+
+    ##################################################################################
+    Driver
+    ##################################################################################
+    This section documents the driver itself, settings, etc.
+
+
+    ##################################################
+    Properties
+    ##################################################
+    The driver version section has just one property, the version of this driver.
+
+    The power section has two properties.  The first is the power status.  The device's power status can be Unknown, Standby, or Powered On.  The second is Connected To Network.  This property indicates the device is online and we are communicating with it.
+
+    The calibration section simply indicates the state of calibration.  Either NOT Calibrated, Calibrating, or Calibrated.  See more on calibration below.
+
+    The firmware section has properties related to the firmware.  This includes the version on the device, the version on the server (for upgrade), the URL for the firmware on the server, the firmware upgrade mode (automatic or manual), and the status of the last upgrade (if applicable).  The default URL is: http://update.control4.com/release2/firmware/c4_8x8_hdmivswitch/c4_8x8_hdmivswitch_fw.nxp
+
+    The Lock Settings section has a property to prevent any source stealing.  When set to true, if any zone attempts a lock while another zone is viewing the same source, this lock will fail, this includes when auto lock is set to true.  A programming event will fire in this case for customization by the installer.  The remaining properties in this section, one for each source, is to prevent a lock on that source.  This is used if there is a source which the installer or homeowner wants to always be available in all zones.
+
+    The Audio Delay section indicates the state of the delay for each respective analog audio source.  The range is 0-255 and each increment is equal to 32 audio samples.  \nAt a sample rate of 32 kHz a value of 255 is 255 mS.  \nAt a sample rate of 44.1 kHz a value of 255 is 180 mS.
+
+    The IR Direction section lets you choose which direction the IR goes.  You can send IR signals from the switch to the HDBaseT Receiver, or you can send IR from the receiver to the switch.  The use case for each is as follows: you can control a device, such as a TV on the HDBaseT Receiver side by connecting the switch's IR port to a Control4 controller.  If you want to control something near the switch from the location of the HDBaseT Receiver, you can change this direction and use an IR capture device connected to the HDBaseT Receiver and an emitter connected to the switch.
+
+    The Auto Zone Lock section allows any specified zone to always attempt to lock the requested source so that full capabilities (such as surround sound, 3D, etc.) can be utilized at the zone.  If a zone auto locks every source it selects will be locked to the zone without the additional need of programming.  If the source is already locked to a zone it can not be locked again, so use of the auto zone lock should be done with caution.  The primary use case is a dedicated theatre where you always want full capabilities.  If the prevent source stealing property is set to true and another zone is viewing the source, the zone lock will fail.
+
+
+    ##################################################
+    Actions
+    ##################################################
+    There are the following actions available in this driver.
+    Print Output To Input Mapping        : This action will print in the lua output a textual representation of the current active zone to source bindings.  This is the same information as in the Control-Control but in textual form.
+    Print Output To Locked Input Mapping : This action will print in the lua output a textual representation of the current active zone to locked source bindings.  Meaning if a zone has a lock on a source that mapping will be printed.
+    Reset Calibration                    : This action will clear calibration on the switch.
+    Calibrate                            : This action will tell the switch to perform a calibration, which will tell the switch to learn about all the devices connected to it.  This is how the switch can provide faster switching times and no blanking when zones join other active zones by selecting the same source.
+    Upgrade Firmware                     : This action will tell the switch to perform a firmware upgrade.  If there is no upgrade available this will result in no action.
+
+    ##################################################
+    Programming
+    ##################################################
+    There are the following programming events for this driver.  \nThe first is when the zone to source binding changes.  \nThe second (set of programming events) is for when a zone attempts to select a source and the source is already locked in a zone.  There is one event for each zone.  \nThe next (set of programming events) is for when multiple zones are viewing the same source and one zone locks the source.  This results in the non locked zones "losing" the source.  In this case there is an event for each zone which "loses" its source.  \nThe next group of programming events (one for each zone) is when a lock fails because the flag has been set to prevent sources from being turned off in other zones.
+
+    There are two available programming actions for this driver.  One is to programmatically select a source in a zone and the other is for zone locking.  The first is straightforward and allows the ability to automatically select any source for any zone.  The second is for when auto locking is not appropriate and allows full control to be placed in the hands of either the integrator or the end user.  Based on any action a zone can lock any given source.
+
+    *NOTE : Be mindful not to create a programming loop.  For example, if on a source selection failure you select a source automatically, if that source is a locked source you could end up trying to select, fail, programming event, trying to select, fail programming event, ...
+
+
+    ##################################################################################
+    Configuration
+    ##################################################################################
+
+    #################################
+    Network
+    #################################
+    This switch supports DHCP and Static IP.  To set the Static IP use System Manager to connect to the device.  System Manager will open a web browser to the configuration URL on the device.  Static IP settings can be entered on the web page.
+
+    *NOTE : You MUST hit enter on each field after you input the text.
+
+
+    #################################
+    Calibration
+    #################################
+    This process gathers all of the information from all the devices connected.  This results in faster switching times and isolates the effect of one zone from another zone when new connections are routed.  To perform calibration manually power on ALL devices connected to the input and output of the switch and set to the appropriate inputs.  Next press the "Calibrate" button on the Actions tab of the driver.  This process may take several minutes depending on the number of devices connected.  There is a property for the status of calibration on the properties tab of the driver which will indicate if the device is calibrated or not, and if it is currently calibrating.
+
+    If calibration is not performed the device will learn each source and zone over time and the normal HDMI switching delay will be seen each time a new zone or source is learned.  When the switch reboots or loses power this learn over time process will happen again as the learning is only saved during calibration.  For the best experience always perform calibration.
+
+
+    #################################
+    Audio Outs
+    #################################
+    This device supports a delay for the analog audio output ports.  The delay is the value entered in the properties page * 32 samples.  Thus the actual delay is dependant upon the sample rate of the audio being played.  To configure the delay setup a video session to the zone you are configuring.  Listen to the audio which is on the HDMI and listen to the analog audio at the same time.  Adjust the audio delay if necessary.  This delay is tied to the source device so any output which gets mapped to a source will get that source's audio delay.
+
+
+    #################################
+    Zone Locking
+    #################################
+    A source can be locked to a specific zone.  This allows all the capabilities of a specific zone to be used. Without locking the zone would be limited to the capabilities of the least capable zone in the system.
+
+    For example, your theatre may have 3D capabilities when no other zone in your system does.  Without a zone lock your theatre will not have 3D capabilities.  When you lock the zone the zone gets exclusive access to the source and the source can then provide all the features available for that zone.  When a zone locks a source that source is not available to the other zones in the system until the zone with the lock turns off or selects another source.  During this time the Control4 system still allows other zones to select the source but the switch will only display a blank (black) screen.  Also worthy of noting is that in this state the Control4 system believes the zone with the blank screen is controlling the source device and control commands will be sent to the device.
+
+    When zone locking the first zone to lock a source will get the lock and keep the lock until it switches sources or is turned off.  If another zone attempts to lock the same source it will fail to lock and a blank screen will be displayed.
+
+    There are two ways to acquire a zone lock.  
+    * The first is an auto lock feature.  Any zone can be an auto locking zone.  This means any source it selects will automatically be locked.  Having multiple auto locking zones is possible but caution should be used as too many auto locking zones will likely lead to an inability to share sources.  In some cases it may be desired that no sources are ever shared and in this case the auto locking feature could be enabled for all zones.  The typical use case is for a theatre to lock the source so that 3D and surround sound will be enabled.
+    * The second way to lock a zone is through programming.  In the Actions pane in the programming section of composer programming can be created for any zone to lock whatever its current source is.  The event to initiate this programming is then up to the installer.
+
+    *NOTE : If multiple zones have the same source selected a lock will turn off the video in the other zones.
+    *NOTE : To see what zones have locks use the button in the Actions tab of the properties for the driver.    
+
+
+
+    ##################################################################################
+    Troubleshooting
+    ##################################################################################
+    * Double check all connections are fully engaged and that cables are not sagging or pulling out of their connectors.
+    * Make sure your HDMI cables are category 2 high speed and do not have ferrites.
+    * Have a known good and tested 100 meter length of Cat6 with RJ45 on each end for testing.  This should allow a process of elimination to prove the equipment is working and the structured wiring is the problem.
+    * Test all Cat5e / Cat6 cables and terminations with a cable tester.  Even if this test passes, and no other problem can be determined, reterminating may solve problems.  It is known that ethernet network can work just fine and HDBaseT can not work on the same cable and terminations.
+    * If you do not get video and audio try connecting the source directly to the display.  If this does not work there is likely a problem with the TV being unable to accept HDCP from the source device.
+    * If you do not get video and audio route a Control4 controller through the switch to the display.  The Control4 controllers do not do HDCP and only output 720p.  This is your best chance for success when diagnosing and troubleshooting.
+
+
+    #################################
+    Encountered Issues and Corrections
+    #################################
+    * Small white pixels throughout the screen.  Commonly called snow or noise.
+    ** Ferrites on the HDMI cable were causing this.  Replacing the cable corrected the problem.
+
+    * Source does not display on any zone, no signal
+    ** Double check the connections between the source and the switch are secure, not flexed, and proper cable management has been implemented to provide strain relief.
+
+    * Source does not display on any zone, tv does display a black screen
+    ** Reboot the source device.  If a source device stops displaying video it may need to be rebooted.  Also check for firmware upgrades for the source device.
+
+    * The first time I join a zone to a different zone already playing the original zone blanks for a moment then continues on.
+    ** This indicates the switch has not been calibrated properly.  See calibration section above more more details.
+
+    * I don't get any audio out of my TV in one zone but it works fine in another zone.
+    * I don't get any audio out of the analog audio outputs on the switch.
+    ** Verify that the source device is playing stereo audio.  If the source device is providing any kind of surround sound it may play back on a receiver or a television which can decode surround, but will not play back on a television which only accepts 2 channel stereo audio.
+    *** Example: Netflix audio works in my theatre, but not my living room.
+    *** Fix    : Change audio settings for the program you’re watching to stereo.
+
+    * I don't get any video out of my TV in one zone, but it works fine in another zone.
+    ** Verify the source device is displaying in something that this particular TV can display.  Some devices can be forced into a particular output mode which your TV does not display, and the display device may not honor EDID.
+    *** Example: I can get no video when I select my cable or satellite box
+    *** Fix    : The cable box was placed into 1080p mode, and the TV only display's 1080i.  Change the output settings on the device and it will begin working.
+
+  </documentation>
+  <actions> 
+    <action>
+      <name>Calibrate</name>
+      <command>ACTION_calibrate</command>
+    </action>
+    <action>
+      <name>Reset Calibration</name>
+      <command>ACTION_resetSettings</command>
+    </action>      
+    <action>
+      <name>Print Output To Input Mapping</name>
+      <command>ACTION_printMap</command>
+    </action>
+    <action>
+      <name>Print Output To Locked Input Mapping</name>
+      <command>ACTION_printZoneLockMap</command>
+    </action>
+    <action>
+      <name>Print Output To Input Audio Mapping</name>
+      <command>ACTION_printAudioMap</command>
+    </action>
+    <action>
+      <name>Upgrade Firmware</name>
+      <command>ACTION_manualFirmwareUpgrade</command>
+    </action>    
+  </actions>
+  <commands>
+    <command>
+      <name>Lock Zone To HDMI Source</name>
+      <description>Lock Zone PARAM1 to currently selected HDMI Source on NAME</description>
+      <params>
+        <param>
+          <name>Zone</name>
+          <type>RANGED_INTEGER</type>
+          <readonly>False</readonly>
+          <default>
+          </default>
+          <minimum>1</minimum>
+          <maximum>8</maximum>
+        </param>
+      </params>
+    </command>
+    <command>
+      <name>Unlock Zone From HDMI Source</name>
+      <description>Unlock Zone PARAM1 from currently selected HDMI Source on NAME</description>
+      <params>
+        <param>
+          <name>Zone</name>
+          <type>RANGED_INTEGER</type>
+          <readonly>False</readonly>
+          <default>
+          </default>
+          <minimum>1</minimum>
+          <maximum>8</maximum>
+        </param>
+      </params>
+    </command>
+    </commands>
+    <!--                    -->
+    <!-- Version (Driver)   -->
+    <!--                    -->
+    <properties>
+     <property>
+      <name>== Driver Version ==</name>
+      <type>STRING</type>
+      <default>========== Driver Version ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Version</name>
+      <type>STRING</type>
+      <readonly>True</readonly>
+      <default>34</default>
+    </property>
+    <!--                    -->
+    <!-- POWER              -->
+    <!--                    -->
+    <property>
+      <name>== Power ==</name>
+      <type>STRING</type>
+      <default>========== Power ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Power Status</name>
+      <type>STRING</type>
+      <readonly>True</readonly>
+      <default>Unknown</default>
+    </property>
+    <property>
+      <name>Connected To Network</name>
+      <type>STRING</type>
+      <readonly>True</readonly>
+      <default>false</default>
+    </property>
+      <!--
+      
+      Hide always on until firmware fully supports standby mode
+      
+      <property>
+        <name>Always On</name>
+        <type>LIST</type>
+        <readonly>False</readonly>
+        <default>false</default>
+        <items>
+          <item>false</item>
+          <item>true</item>
+        </items>
+      </property>
+    -->
+
+    <!--                    -->
+    <!-- CALIBRATION        -->
+    <!--                    -->
+    <property>
+      <name>== Calibration ==</name>
+      <type>STRING</type>
+      <default>========== Calibration ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Calibration Status</name>
+      <type>STRING</type>
+      <readonly>True</readonly>
+      <default>Unknown</default>
+    </property>
+    <!--                    -->
+    <!-- FIRMWARE STUFFS    -->
+    <!--                    -->
+    <property>
+      <name>== Firmware ==</name>
+      <type>STRING</type>
+      <default>========== Firmware ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Firmware Version</name>
+      <type>STRING</type>
+      <readonly>true</readonly>
+      <default>Unknown</default>
+    </property>
+    <property>
+      <name>Firmware Version (Server)</name>
+      <type>STRING</type>
+      <readonly>true</readonly>
+      <default>Unknown</default>
+    </property>
+    <property>
+      <name>Update URL</name>
+      <type>STRING</type>
+      <default>http://update.control4.com/release2/firmware/c4_8x8_hdmivswitch/c4_8x8_hdmivswitch_fw.nxp</default>
+      <readonly>false</readonly>
+    </property>
+    <property>
+      <name>Firmware Upgrade Mode</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>Automatic</default>
+      <items>
+        <item>Automatic</item>
+        <item>Manual</item>
+      </items>
+    </property>
+    <property>
+      <name>Last Upgrade Status</name>
+      <type>STRING</type>
+      <readonly>true</readonly>
+      <default>Unknown</default>
+    </property>
+    <!--                    -->
+    <!-- Theft Deterrent    -->
+    <!--                    -->
+    <property>
+      <name>== Output Settings ==</name>
+      <type>STRING</type>
+      <default>========== Output Settings ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Leave Sources Connected</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <!--                    -->
+    <!-- Theft Deterrent    -->
+    <!--                    -->
+    <property>
+      <name>== Lock Settings ==</name>
+      <type>STRING</type>
+      <default>========== Lock Settings ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Prevent Source Stealing</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>true</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 1</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 2</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 3</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 4</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 5</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 6</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 7</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <property>
+      <name>Prevent Lock Of Source 8</name>
+      <type>LIST</type>
+      <readonly>false</readonly>
+      <default>false</default>
+      <items>
+        <item>true</item>
+        <item>false</item>
+      </items>
+    </property>
+    <!--                    -->
+    <!-- ANALOG AUDIO DELAY -->
+    <!--                    -->
+    <property>
+      <name>== Audio Delay ==</name>
+      <type>STRING</type>
+      <default>========== Audio Delay ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Source 1 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 2 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 3 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 4 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 5 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 6 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 7 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <property>
+      <name>Source 8 Audio Delay</name>
+      <type>RANGED_INTEGER</type>
+      <readonly>False</readonly>
+      <default>0</default>
+      <minimum>0</minimum>
+      <maximum>255</maximum>
+    </property>
+    <!--                     -->
+    <!-- ANALOG AUDIO VOLUME -->
+    <!--                     -->
+      <!--
+       <property>
+        <name>== Audio Volume ==</name>
+        <type>STRING</type>
+        <default>========== Audio Volume ==========</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Analog Audio 1 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 2 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 3 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 4 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 5 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 6 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 7 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Analog Audio 8 Volume</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>False</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+    -->
+    <!--              -->
+    <!-- IR DIRECTION -->
+    <!--              -->
+    <property>
+      <name>== IR Direction ==</name>
+      <type>STRING</type>
+      <default>========== IR Direction ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>IR 1 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 2 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 3 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 4 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 5 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 6 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 7 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <property>
+      <name>IR 8 Direction</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Switch To Balun</default>
+      <items>
+        <item>Switch To Balun</item>
+        <item>Balun To Switch</item>
+      </items>
+    </property>
+    <!--                   -->
+    <!-- Auto Zone Locking -->
+    <!--                   -->
+    <property>
+      <name>== Auto Zone Lock ==</name>
+      <type>STRING</type>
+      <default>========== Auto Zone Lock ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Zone 1 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 2 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 3 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 4 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 5 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 6 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 7 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>Zone 8 Auto Locks</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>false</default>
+      <items>
+        <item>false</item>
+        <item>true</item>
+      </items>
+    </property>
+    <property>
+      <name>== Debug ==</name>
+      <type>STRING</type>
+      <default>========== Debug ==========</default>
+      <readonly>true</readonly>
+    </property>
+    <property>
+      <name>Debug Mode</name>
+      <type>LIST</type>
+      <readonly>False</readonly>
+      <default>Off</default>
+      <items>
+        <item>Off</item>
+        <item>Print</item>
+        <item>Log</item>
+        <item>Print and Log</item>
+      </items>
+    </property>
+  </properties>
+  <script>
+    <![CDATA[
+    -- Table containing all the messages we will send the device.  Leave off last square
+--  bracket as its appended as the message leaves.  This also allows the individual methods
+--  to put their data in.
+MESSAGES={
+  ['POLL']                     ='LEAF[.',
+  ['POWER_ON']                 ='LEAF[0D,00,00',
+  ['POWER_OFF']                ='LEAF[0E,00,00',
+  ['CALIBRATE']                ='LEAF[62,00,00',
+  ['RESET']                    ='LEAF[FE,FE,FE',
+  ['GET_ASCII_INFO']           ='LEAF[9F,00,00',
+  ['DEBUG_0']                  ='LEAF[9F,02,00',
+  ['DEBUG_1']                  ='LEAF[9F,E1,00',
+  ['DEBUG_2']                  ='LEAF[9F,E2,00',
+  ['DEBUG_3']                  ='LEAF[9F,E3,00',
+  ['DEBUG_4']                  ='LEAF[9F,E4,00',
+  ['DEBUG_5']                  ='LEAF[9F,E5,00',
+  ['DEBUG_6']                  ='LEAF[9F,E6,00',
+  ['DEBUG_7']                  ='LEAF[9F,E7,00',
+  ['DEBUG_8']                  ='LEAF[9F,E8,00',
+  ['GET_POWER_STATUS']         ='LEAF[2C,00,00',
+  ['GET_IR_STATUS']            ='LEAF[2C,02,'  , -- up to calling method to put the rest of the args in there
+  ['GET_FW_MAJOR']             ='LEAF[2C,10,10', -- ...
+  ['GET_FW_MINOR']             ='LEAF[2C,11,11', -- ...
+  ['GET_SRV_FW_MAJOR']         ='LEAF[2C,14,14', -- ...
+  ['GET_SRV_FW_MINOR']         ='LEAF[2C,15,15', -- ...
+  ['UPDATE_IS_AVAILABLE']      ='LEAF[2C,B9,B9', -- ...
+  ['LAST_UPDATE_STATUS']       ='LEAF[2C,BA,BA', -- ...
+  ['GET_CALIBRATION_STATE']    ='LEAF[2C,62,62', -- ...
+  ['GET_CALIBRATION_ACTIVITY'] ='LEAF[2C,63,63', -- ...
+  ['SET_AUDIO_DELAY']          ='LEAF[63,'     , -- ...
+  ['SET_IR_DIRECTION']         ='LEAF[FE,'     , -- ...
+  ['SET_AUTO_UPDATE']          ='LEAF[FE,B6,00', -- ... ALWAYS off.  The autoness of the update is on the driver side
+  ['UPDATE_NOW']               ='LEAF[FE,B7,'  , -- ... 
+  ['MAP_ANALOG_AUDIO']         ='LEAF[B0,'     , -- ...
+  ['ANALOG_AUDIO_OFF']         ='LEAF[B1,'     , -- ...
+  ['SET_AUDIO_VOLUME']         ='LEAF[59,'     , -- ...
+  ['AV_ZONE_ON']               ='LEAF[48,'     , -- ...
+  ['AV_ZONE_OFF']              ='LEAF[47,'     , -- ...
+  ['AV_ZONE_LOCK']             ='LEAF[5D,'     , -- ...
+  ['QUERY_AV_ZONE']            ='LEAF[34,00,'  , -- ...
+  ['QUERY_AUDIO_ZONE']         ='LEAF[30,00,'  , -- ...
+  ['QUERY_AV_LOCK']            ='LEAF[32,00,'  , -- ...
+}
+
+-- Table to be filled with functions (below) which will be our actions handler
+ACTIONS = {}
+
+-- Table to be filled with functions (below) which will be our proxy command handlers
+PROXY_CMDS = {}
+
+-- Table to be filled with functions (below) which will be handlers for the responses from the device
+DEVICE_RESPONSE_HANDLERS = {}
+
+--------------------------------------------------------------------------------------------------------
+-- Variables
+--------------------------------------------------------------------------------------------------------
+
+-- A flag to show how many outputs we have.
+gNumberOutputs = 8
+
+-- A flag to keep track of initialization state so we do smart things at the right time(s)
+gInitialized = false
+
+-- Network port number to connect to
+gPort = 8105
+
+-- A flag to keep track of the status if we're connected or not
+gNetConnected = false
+
+-- Flag to know if we are printing debug messages in the console window
+gDebugprint = false
+
+-- Flag to know if we are logging debug message to the log
+gDebuglog = false
+
+-- Flag to know if we should not disable the debugging.  Only for development.
+gPermaDebug = false
+
+-- Flag to know if we should be verbose logging
+gLogVerbose = false
+
+-- Don't queue more than this many messages.  
+gSendQueuesMaxSizes = 100
+
+-- This is a queue to put everything outgoing into then we send it
+gSendQueue = {}
+
+-- This queue will always get serviced first as its the priority
+gPrioritySendQueue = {}
+
+-- Receive buffer, so we can handle partial messages / partial reads
+gReceiveBuf = ''
+
+-- Desire a flag to never turn off
+gNeverPowerDown = false
+
+-- This flag keeps track of the power status of the unit.  On means on, off means standby (we can still talk to it) but can not send switching commands
+gPowerOn = nil
+
+-- When we turn the power on, wait for it to be on before sending it stuff (presumably switching commands)
+gWaitingForPowerOn = false
+
+-- To acommodate delay's in the device communicating after it comes online, but before it is able to talk, and to not have some arbitrary super delay in here, 
+--  this flag will let us know when we start receiving something from the device and we can send it more stuff.  This works because some commands, like get power status
+--  happen no matter what when we first connect.  So once we receive a response we can set this flag to true and send more meaningful stuff.
+gWaitingForFirstSuccessfulReceiveFromNetwork = true
+
+-- Timer - Debug
+gDebugTimer = 0
+
+-- Timer - Calibration Check Timer.  When we start a calibration this timer will go get the status.
+gCalibrationCheckTimer = 0
+gCalibrationCheckTimerValueInMilliseconds = 1000
+
+-- Timer - After Power On Power Status Detection
+gPowerOnStatusDetectionTimer = 0
+gPowerOnStatusDetectionValueInMilliseconds = 1000
+
+-- Timer - Inter command delay.  If we get a resposne we will
+--  automatically move on to the next message.  This is like a timeout for when we
+--  get no response
+gInterCommandDelayTimer = 0
+gInterCommandDelayValueInMilliseconds = 250
+
+-- Timer - After setting the URL wait a bit before asking for the version so the firmware can go out and figure it out
+gAfterURLSetGetFWVersionTimer = 0
+gAfterURLSetGetFWVersionTimerValueInSeconds = 60
+
+-- Timer - After starting the upgrade, wait a bit before asking for the status so the firmware can internally update its
+--  status from the last upgrade to the current one
+gAfterUpgradeBeginsGetUpgradeStatusTimer = 0
+gAfterUpgradeBeginsGetUpgradeStatusTimerValueInSeconds = 60
+
+-- Timer - Upgrade Status Timer
+gUpgradeStatusTimer = 0
+gUpgradeStatusTimerValueInSeconds = 15
+
+-- Timer for polling.  Default to 30 seconds
+gPollingTimer = 0
+gPollingTimerValueInSeconds = 60
+
+-- Timers for "debouncing" the number of error events for failed to aquire source (due to lock).
+--  Currently we get 4+ error events per attempt and we're really only looking for one.  So I'm using 
+--  timers which can be reset on each event and eventually only fire one event
+gDebounceFailedSourceMappingInZone1Timer = 0
+gDebounceFailedSourceMappingInZone2Timer = 0
+gDebounceFailedSourceMappingInZone3Timer = 0
+gDebounceFailedSourceMappingInZone4Timer = 0
+gDebounceFailedSourceMappingInZone5Timer = 0
+gDebounceFailedSourceMappingInZone6Timer = 0
+gDebounceFailedSourceMappingInZone7Timer = 0
+gDebounceFailedSourceMappingInZone8Timer = 0
+gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds = 150
+
+-- Map to keep track of inputs and outputs.  Primarily for progmatic zone locking
+gOutputToInputMap={
+  ["00"]="00",
+  ["01"]="00",
+  ["02"]="00",
+  ["03"]="00",
+  ["04"]="00",
+  ["05"]="00",
+  ["06"]="00",
+  ["07"]="00",
+}
+
+-- Map to keep track of locks on sources.
+gOutputToInputZoneLockMap={
+  ["00"]="00",
+  ["01"]="00",
+  ["02"]="00",
+  ["03"]="00",
+  ["04"]="00",
+  ["05"]="00",
+  ["06"]="00",
+  ["07"]="00",
+}
+
+gOutputToInputAudioMap={
+  ["00"]="00",
+  ["01"]="00",
+  ["02"]="00",
+  ["03"]="00",
+  ["04"]="00",
+  ["05"]="00",
+  ["06"]="00",
+  ["07"]="00", 
+}
+
+-- IR direction properties
+--  Default to true but will be set via properties
+gIR1DirectionFromSwitchToBalun = true
+gIR2DirectionFromSwitchToBalun = true
+gIR3DirectionFromSwitchToBalun = true
+gIR4DirectionFromSwitchToBalun = true
+gIR5DirectionFromSwitchToBalun = true
+gIR6DirectionFromSwitchToBalun = true
+gIR7DirectionFromSwitchToBalun = true
+gIR8DirectionFromSwitchToBalun = true
+
+-- Analog audio output delays
+--  Default to 0 but will be set via properties
+gAnalogAudio1Delay = 0
+gAnalogAudio2Delay = 0
+gAnalogAudio3Delay = 0
+gAnalogAudio4Delay = 0
+gAnalogAudio5Delay = 0
+gAnalogAudio6Delay = 0
+gAnalogAudio7Delay = 0
+gAnalogAudio8Delay = 0
+
+-- Analog audio output volumes
+--  Default to 0 but will be set via properties, if the properties are uncommented.  For now this property has been removed.
+gAnalogAudio1Volume = 100
+gAnalogAudio2Volume = 100
+gAnalogAudio3Volume = 100
+gAnalogAudio4Volume = 100
+gAnalogAudio5Volume = 100
+gAnalogAudio6Volume = 100
+gAnalogAudio7Volume = 100
+gAnalogAudio8Volume = 100
+
+-- Auto locking 
+--  Default to false but will be set via properties
+gAutoLockOnOutputZone1Selection = false
+gAutoLockOnOutputZone2Selection = false
+gAutoLockOnOutputZone3Selection = false
+gAutoLockOnOutputZone4Selection = false
+gAutoLockOnOutputZone5Selection = false
+gAutoLockOnOutputZone6Selection = false
+gAutoLockOnOutputZone7Selection = false
+gAutoLockOnOutputZone8Selection = false
+
+-- Firmware Upgrade
+gTicketIdForFirmwareFileGet=0
+gLastUpdateProperty="Last Upgrade Status"
+gAutoUpdateProperty="Firmware Upgrade Mode"
+gUpdateURLProperty="Update URL"
+gServerFWVersionProperty="Firmware Version (Server)"
+gUpgradingString="Upgrading"
+gLeaveSourcesConnectedPropertyString="Leave Sources Connected"
+gAudioDelay1PropertyString="Source 1 Audio Delay"
+gAudioDelay2PropertyString="Source 2 Audio Delay"
+gAudioDelay3PropertyString="Source 3 Audio Delay"
+gAudioDelay4PropertyString="Source 4 Audio Delay"
+gAudioDelay5PropertyString="Source 5 Audio Delay"
+gAudioDelay6PropertyString="Source 6 Audio Delay"
+gAudioDelay7PropertyString="Source 7 Audio Delay"
+gAudioDelay8PropertyString="Source 8 Audio Delay"
+gAudioDelay1VariableString="SOURCE_1_AUDIO_DELAY"
+gAudioDelay2VariableString="SOURCE_2_AUDIO_DELAY"
+gAudioDelay3VariableString="SOURCE_3_AUDIO_DELAY"
+gAudioDelay4VariableString="SOURCE_4_AUDIO_DELAY"
+gAudioDelay5VariableString="SOURCE_5_AUDIO_DELAY"
+gAudioDelay6VariableString="SOURCE_6_AUDIO_DELAY"
+gAudioDelay7VariableString="SOURCE_7_AUDIO_DELAY"
+gAudioDelay8VariableString="SOURCE_8_AUDIO_DELAY"
+gAutoUpdate = false
+gForceUpdate = false
+
+-- Firmware Version
+gFWMajor="-1"
+gFWMinor="-1"
+
+-- Firmware on the server version
+gFWServerMajor="-1"
+gFWServerMinor="-1"
+
+-- Currently Calibrating Flag
+gCurrentlyCalibrating = false
+
+-- We need to tell the proxy that we want to know about the validity of the av path
+--  binding before it happens.  But if we do this before the proxy is "bound" to the 
+--  protocol, the command seems to get lost.  So I need to do this once I know the 
+--  proxy is available to communicate to, but don't want to send the message all the
+--  time so I will use this flag to only send it once.
+gHaveToldProxyWeWillHandleAvPathValid = false
+
+-- System Version Variables
+gSystemVersionMajor = 0
+gSystemVersionMinor = 0
+gSystemVersionPatch = 0
+gSystemVersionBuild = 0
+
+-- This is a global flag, when set to true, will prevent any zone from locking a source
+--  if multiple zones are viewing the same source
+gPreventSourceStealing = true
+
+-- The following flags are to indicate that a particular source is not lockable
+gPreventLockOnSource1 = false
+gPreventLockOnSource2 = false
+gPreventLockOnSource3 = false
+gPreventLockOnSource4 = false
+gPreventLockOnSource5 = false
+gPreventLockOnSource6 = false
+gPreventLockOnSource7 = false
+gPreventLockOnSource8 = false
+
+-- To prevent the audio delay variable setting the property, setting the variable, setting the property...
+--  This flag will be set to prevent the infinite loop and ensure we only set the variable and
+--  the property once each.
+gSettingPropertyFromVariableContext = false
+
+-- we could put all the global code in here I think - this is called after all the drivers are up 
+function OnDriverLateInit()
+  -- now that we know we can talk to the proxy, tell it we will handle the AV Valid
+  if(gHaveToldProxyWeWillHandleAvPathValid == false) then
+    TellProxyThisProtocolWillHandleAvValid()
+  end
+end
+
+
+--------------------------------------------------------------------------------------------------------
+-- debugging helpers
+--------------------------------------------------------------------------------------------------------
+function dbg(strDebugText)
+  if (gDebugprint) then 
+    local newDebugText = "DBG: [" .. os.date("%x %X") .. "] :: " .. strDebugText
+    print(newDebugText) 
+  end
+  if (gDebuglog) then C4:DebugLog(strDebugText) end
+end
+    
+function err(strErrText)
+  local newErrorText = "ERR: [" .. os.date("%x %X") .. "] :: " .. strErrText
+  print(newErrorText) 
+  C4:ErrorLog(strErrText)
+end
+
+function printSystemVersion()
+  print("System Version :: " .. gSystemVersionMajor .. "." .. gSystemVersionMinor .. "." .. gSystemVersionPatch .. "." .. gSystemVersionPatch)
+end
+
+function printSendQueue()
+  for i=1,#gPrioritySendQueue do
+    print("Priority Message: " .. i .. ":: \"" .. gPrioritySendQueue[i] .. "\"")
+  end
+  for i=1,#gSendQueue do
+    print("         Message: " .. i .. ":: \"" .. gSendQueue[i] .. "\"")
+  end
+end
+
+function printOutputToInputMapping()
+  local numOuts = (gNumberOutputs-1)
+  for i=0,numOuts do
+     print("Output Zone(" .. makeZoneLoggable(i) .. ") <--> Input(" .. gOutputToInputMap[convertFromNumberToHexString(i)] .. ")" )
+  end
+end
+
+function printZoneLockMapping()
+  local numOuts = (gNumberOutputs-1)
+  for i=0,numOuts do
+     print("Output Zone(" .. makeZoneLoggable(i) .. ") <--> Locked Input(" .. gOutputToInputZoneLockMap[convertFromNumberToHexString(i)] .. ")" )
+  end
+end
+
+function printAudioMapping()
+  local numOuts = (gNumberOutputs-1)
+  for i=0,numOuts do
+    print("Output Audio(" .. makeZoneLoggable(i) .. ") <--> Input(" .. gOutputToInputAudioMap[convertFromNumberToHexString(i)] .. ")" )
+  end
+end
+
+function makeZoneLoggable(zone)
+  local zone_number = 0
+  local zone_string = ""
+  zone_number = tonumber(zone) + 1
+  
+  zone_string = convertFromNumberToHexString(zone_number)
+  
+  return zone_string
+end
+
+function fullDebugDump()
+  print("Get Ascii Info")
+  SendMessageToSwitch(MESSAGES.GET_ASCII_INFO)
+  print("egress status")
+  SendMessageToSwitch(MESSAGES.DEBUG_0)
+  print("ingress edid status::1")
+  SendMessageToSwitch(MESSAGES.DEBUG_1)
+  print("ingress edid status::2")
+  SendMessageToSwitch(MESSAGES.DEBUG_2)
+  print("ingress edid status::3")
+  SendMessageToSwitch(MESSAGES.DEBUG_3)
+  print("ingress edid status::4")
+  SendMessageToSwitch(MESSAGES.DEBUG_4)
+  print("ingress edid status::5")
+  SendMessageToSwitch(MESSAGES.DEBUG_5)
+  print("ingress edid status::6")
+  SendMessageToSwitch(MESSAGES.DEBUG_6)
+  print("ingress edid status::7")
+  SendMessageToSwitch(MESSAGES.DEBUG_7)
+  print("ingress edid status::8")
+  SendMessageToSwitch(MESSAGES.DEBUG_8)
+end
+
+--------------------------------------------------------------------------------------------------------
+-- utility helpers
+--------------------------------------------------------------------------------------------------------
+
+function canSendMessage()
+  local cantSendLogMessage = "Cant Send Right Now Because: "
+  if(gInterCommandDelayTimer == 0 and gWaitingForFirstSuccessfulReceiveFromNetwork == false and gNetConnected == true and gWaitingForPowerOn == false and gCurrentlyCalibrating == false) then
+    return true
+  else
+    if(gLogVerbose) then
+      if(gInterCommandDelayTimer ~= 0) then
+	cantSendLogMessage = cantSendLogMessage .. " :: Inter Command Delay Timer Is Active :: "
+      end
+      if(gNetConnected ~= true) then
+	cantSendLogMessage = cantSendLogMessage .. " :: Not Network Connected :: "
+      end
+      if(gWaitingForPowerOn ~= false) then
+	cantSendLogMessage = cantSendLogMessage .. " :: Not Powered On :: "
+      end
+      if(gCurrentlyCalibrating == true) then
+	cantSendLogMessage = cantSendLogMessage .. " :: Calibrating :: "
+      end
+      if(gWaitingForFirstSuccessfulReceiveFromNetwork == true) then
+	cantSendLogMessage = cantSendLogMessage .. " :: Waiting for a first response to know the device is ready :: "
+      end
+      dbg(cantSendLogMessage)
+    end
+    return false
+  end
+end
+
+function propertyIRDirectionToBoolean(prop)
+  if(prop == "Switch To Balun") then
+    return true
+  else
+    return false
+  end
+end
+
+function propertyStringBoolToBoolean(prop)
+  if(prop == "true") then
+    return true
+  else 
+   return false
+  end
+end
+
+function convertFromNumberToHexString(value)
+  local valueNumber = tonumber(value)
+  return string.format("%02x", valueNumber)
+end
+
+function convertDirectionFromPropertyToHexString(value)
+  if(value) then
+    return "03"
+  else
+    return "02"
+  end
+end
+
+function getCommandParamsForAudioDelay(whichOutput)
+  local returnString = ""
+  local whichSource = tonumber(gOutputToInputAudioMap[convertFromNumberToHexString(whichOutput-1)])
+  -- dont subtract one from the logging to make it human readible and consistent with the other logging stuff being one indexed
+  dbg("Output: " .. convertFromNumberToHexString(whichOutput) .. " is mapped to source: " .. tostring(whichSource))
+
+  if(whichSource == 1) then
+    returnString = convertFromNumberToHexString(gAnalogAudio1Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 2) then
+    returnString = convertFromNumberToHexString(gAnalogAudio2Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 3) then
+    returnString = convertFromNumberToHexString(gAnalogAudio3Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 4) then
+    returnString = convertFromNumberToHexString(gAnalogAudio4Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 5) then
+    returnString = convertFromNumberToHexString(gAnalogAudio5Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 6) then
+    returnString = convertFromNumberToHexString(gAnalogAudio6Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 7) then
+    returnString = convertFromNumberToHexString(gAnalogAudio7Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  elseif(whichSource == 8) then
+    returnString = convertFromNumberToHexString(gAnalogAudio8Delay) .. "," .. convertFromNumberToHexString(whichOutput-1)
+  else
+    err("getCommandParamsForAudioDelay: Got bogus source (".. tostring(whichSource) ..")")
+  end
+  
+  return returnString
+end
+
+function getCommandParamsForIRDirection(whichOutput)
+  local returnString = ""
+  if(whichOutput == 1) then
+    returnString = convertDirectionFromPropertyToHexString(gIR1DirectionFromSwitchToBalun) .. ",00" 
+  elseif(whichOutput == 2) then
+    returnString = convertDirectionFromPropertyToHexString(gIR2DirectionFromSwitchToBalun) .. ",01" 
+  elseif(whichOutput == 3) then
+    returnString = convertDirectionFromPropertyToHexString(gIR3DirectionFromSwitchToBalun) .. ",02" 
+  elseif(whichOutput == 4) then
+    returnString = convertDirectionFromPropertyToHexString(gIR4DirectionFromSwitchToBalun) .. ",03" 
+  elseif(whichOutput == 5) then
+    returnString = convertDirectionFromPropertyToHexString(gIR5DirectionFromSwitchToBalun) .. ",04" 
+  elseif(whichOutput == 6) then
+    returnString = convertDirectionFromPropertyToHexString(gIR6DirectionFromSwitchToBalun) .. ",05" 
+  elseif(whichOutput == 7) then
+    returnString = convertDirectionFromPropertyToHexString(gIR7DirectionFromSwitchToBalun) .. ",06" 
+  elseif(whichOutput == 8) then
+    returnString = convertDirectionFromPropertyToHexString(gIR8DirectionFromSwitchToBalun) .. ",07" 
+  else
+    err("getCommandParamsForIRDirection: Got bogus output (".. whichOutput ..")")
+  end
+  
+  return returnString
+end
+
+function getCommandParamsForAnalogAudioVolume(whichOutput)
+  local returnString = ""
+  if(whichOutput == 1) then
+    returnString = convertFromNumberToHexString(gAnalogAudio1Volume) .. ",00" 
+  elseif(whichOutput == 2) then
+    returnString = convertFromNumberToHexString(gAnalogAudio2Volume) .. ",01" 
+  elseif(whichOutput == 3) then
+    returnString = convertFromNumberToHexString(gAnalogAudio3Volume) .. ",02" 
+  elseif(whichOutput == 4) then
+    returnString = convertFromNumberToHexString(gAnalogAudio4Volume) .. ",03" 
+  elseif(whichOutput == 5) then
+    returnString = convertFromNumberToHexString(gAnalogAudio5Volume) .. ",04" 
+  elseif(whichOutput == 6) then
+    returnString = convertFromNumberToHexString(gAnalogAudio6Volume) .. ",05" 
+  elseif(whichOutput == 7) then
+    returnString = convertFromNumberToHexString(gAnalogAudio7Volume) .. ",06" 
+  elseif(whichOutput == 8) then
+    returnString = convertFromNumberToHexString(gAnalogAudio8Volume) .. ",07" 
+  else
+    err("getCommandParamsForAudioVolume: Got bogus output (".. whichOutput ..")")
+  end
+  
+  return returnString
+end
+
+function getCommandParamsForSourceToOutput(source, output)
+  -- minus one on the output since their outputs are 0 indexed, but not on the source since those are 1 indexed.
+  local returnString = convertFromNumberToHexString(source) .. "," .. convertFromNumberToHexString(output-1)
+  return returnString
+end
+
+function getCommandParamsForOutputDisconnect(output)
+  -- minus one on the output since their outputs are 0 indexed
+  return "00," .. convertFromNumberToHexString(output-1)
+end
+
+function sanitizeInputValueFromProxy(source)
+  -- first determine range
+  --  1000-1999 - Video Input
+  --  3000-3999 - Audio Input
+  local offset = 0
+  local input = 0
+  if ( source >= 1000 and source <= 1999) then
+    offset = 1000
+  elseif(source >= 3000 and source <= 3999) then
+    offset = 3000
+  else
+    err("Received invalid source binding (" .. source .. ")")
+  end
+  
+  --remove offset to get the local output value, then add one since we're one indexed in here
+  input = source-offset+1
+  
+  return input
+end
+
+function sanitzeOutputValueFromProxy(zone)
+  -- first determine range
+  --  2000-2999 - Video Output
+  --  4000-4999 - Audio Output
+  
+  local offset = 0
+  local output = 0
+  if ( zone >= 2000 and zone <= 2999) then
+    offset = 2000
+  elseif(zone >= 4000 and zone <= 4999) then
+    offset = 4000
+  else
+    err("Received invalid zone(output) binding (" .. zone .. ")")
+  end
+  
+  --remove offset to get the local output value, then add one since we're one indexed in here
+  output = zone-offset+1
+  
+  return output
+end
+
+--------------------------------------------------------------------------------------------------------
+-- All timer related stuff
+--------------------------------------------------------------------------------------------------------
+function OnTimerExpired(idTimer)
+  if(gPermaDebug == true) then
+    if(idTimer == gDebugTimer) then
+      return
+    end
+  end
+  
+  if (idTimer == gDebugTimer) then
+    dbg('Turning Debug Mode back to Off [default] (timer expired)')
+    C4:UpdateProperty('Debug Mode', 'Off')
+    gDebugprint = false
+    gDebuglog = false
+    cancelDebugTimer()
+  elseif (idTimer == gPollingTimer) then
+    -- This is a repeating timer so don't cancel here
+    processPoll()
+  elseif (idTimer == gInterCommandDelayTimer) then
+    cancelInterCommandDelayTimer()
+    processSendQueue()
+  elseif (idTimer == gPowerOnStatusDetectionTimer) then
+    getPowerStatus()
+  elseif (idTimer == gCalibrationCheckTimer) then
+    getCalibratingStatus()
+  elseif (idTimer == gUpgradeStatusTimer) then
+    getUpgradeStatus()
+  elseif (idTimer == gDebounceFailedSourceMappingInZone1Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 1")
+    C4:FireEvent("Zone 1 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone2Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 2")
+    C4:FireEvent("Zone 2 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone3Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 3")
+    C4:FireEvent("Zone 3 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone4Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 4")
+    C4:FireEvent("Zone 4 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone5Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 5")
+    C4:FireEvent("Zone 5 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone6Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 6")
+    C4:FireEvent("Zone 6 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone7Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 7")
+    C4:FireEvent("Zone 7 Select Source Fail")
+  elseif (idTimer == gDebounceFailedSourceMappingInZone8Timer) then
+    dbg("EVENT: Source Selection Failed In Zone 8")
+    C4:FireEvent("Zone 8 Select Source Fail")
+  elseif (idTimer == gAfterUpgradeBeginsGetUpgradeStatusTimer) then
+    dbg("Timer expired after kicking off the upgrade.  Start asking the device for the upgrade status.")
+    startUpgradeStatusTimer()
+  elseif (idTimer == gAfterURLSetGetFWVersionTimer) then
+    dbg("Timer expired after setting the Uprade URL.  Ask the firmware about the version on the server")
+    getFWVersionOnServerFromDevice()
+  else
+    err('DESTROYING STRAY TIMER: ' .. idTimer)
+    C4:KillTimer(idTimer)
+  end
+end
+
+function debounceSourceMappingInZone1Failure()
+  if(gDebounceFailedSourceMappingInZone1Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone1Timer)
+  end
+  gDebounceFailedSourceMappingInZone1Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone2Failure()
+  if(gDebounceFailedSourceMappingInZone2Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone2Timer)
+  end
+  gDebounceFailedSourceMappingInZone2Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone3Failure()
+  if(gDebounceFailedSourceMappingInZone3Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone3Timer)
+  end
+  gDebounceFailedSourceMappingInZone3Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone4Failure()
+  if(gDebounceFailedSourceMappingInZone4Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone4Timer)
+  end
+  gDebounceFailedSourceMappingInZone4Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone5Failure()
+  if(gDebounceFailedSourceMappingInZone5Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone5Timer)
+  end
+  gDebounceFailedSourceMappingInZone5Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone6Failure()
+  if(gDebounceFailedSourceMappingInZone6Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone6Timer)
+  end
+  gDebounceFailedSourceMappingInZone6Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone7Failure()
+  if(gDebounceFailedSourceMappingInZone7Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone7Timer)
+  end
+  gDebounceFailedSourceMappingInZone7Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function debounceSourceMappingInZone8Failure()
+  if(gDebounceFailedSourceMappingInZone8Timer) then
+    C4:KillTimer(gDebounceFailedSourceMappingInZone8Timer)
+  end
+  gDebounceFailedSourceMappingInZone8Timer = C4:AddTimer(gDebounceFailedSourceMappingInZoneTimerValueInMilliseconds, "MILLISECONDS")
+end
+
+function cancelURLSetGetFWVersionTimer()
+  if(gAfterURLSetGetFWVersionTimer) then
+    C4:KillTimer(gAfterURLSetGetFWVersionTimer)
+  end
+  gAfterURLSetGetFWVersionTimer = 0
+end
+
+function startURLSetGetFWVersionTimer()
+  cancelURLSetGetFWVersionTimer()
+  C4:UpdateProperty(gServerFWVersionProperty, "Checking...") 
+  gAfterURLSetGetFWVersionTimer = C4:AddTimer(gAfterURLSetGetFWVersionTimerValueInSeconds, "SECONDS")
+end
+
+function cancelUpgradeStausDelayTimer()
+  if(gAfterUpgradeBeginsGetUpgradeStatusTimer) then
+    C4:KillTimer(gAfterUpgradeBeginsGetUpgradeStatusTimer)
+  end
+  gAfterUpgradeBeginsGetUpgradeStatusTimer = 0
+end
+
+function startUpgradeStatusDelayTimer()
+  cancelUpgradeStausDelayTimer()
+  gAfterUpgradeBeginsGetUpgradeStatusTimer = C4:AddTimer(gAfterUpgradeBeginsGetUpgradeStatusTimerValueInSeconds, "SECONDS")
+end
+
+function cancelCalibrationStatusTimer()
+  if(gCalibrationCheckTimer) then
+    C4:KillTimer(gCalibrationCheckTimer)
+  end
+  gCalibrationCheckTimer = 0
+end
+
+function startCalibrationStatusTimer()
+  cancelCalibrationStatusTimer()
+  gCalibrationCheckTimer = C4:AddTimer(gCalibrationCheckTimerValueInMilliseconds, "MILLISECONDS", true) -- true, repeat until we get a status then stop
+end
+
+function cancelUpgradeStatusTimer()
+  if(gUpgradeStatusTimer) then
+    C4:KillTimer(gUpgradeStatusTimer)
+  end
+  gUpgradeStatusTimer = 0
+end
+
+function startUpgradeStatusTimer()
+  cancelUpgradeStatusTimer()
+  gUpgradeStatusTimer = C4:AddTimer(gUpgradeStatusTimerValueInSeconds, "SECONDS", true) -- true, repeat until we get a status then stop
+end
+
+
+function cancelPowerOnStatusDetectionTimer()
+  if(gPowerOnStatusDetectionTimer) then
+    C4:KillTimer(gPowerOnStatusDetectionTimer)
+  end
+  gPowerOnStatusDetectionTimer = 0
+end
+
+function startPowerOnStatusDetectionTimer()
+  cancelPowerOnStatusDetectionTimer()
+  gPowerOnStatusDetectionTimer = C4:AddTimer(gPowerOnStatusDetectionValueInMilliseconds, "MILLISECONDS", true) -- true, repeat until we get a status then stop
+end
+
+function cancelInterCommandDelayTimer()
+  if(gInterCommandDelayTimer) then
+    C4:KillTimer(gInterCommandDelayTimer)
+  end
+  gInterCommandDelayTimer = 0
+end
+
+function startInterCommandDelayTimer()
+  cancelInterCommandDelayTimer()
+  gInterCommandDelayTimer = C4:AddTimer(gInterCommandDelayValueInMilliseconds, "MILLISECONDS")
+end
+
+function cancelDebugTimer()
+  if (gDebugTimer) then
+    C4:KillTimer(gDebugTimer)
+  end
+  gDebugTimer = 0
+end
+
+function startDebugTimer()
+  cancelDebugTimer()
+  gDebugTimer = C4:AddTimer(15, 'MINUTES')
+end
+
+function cancelPollingTimer()
+  if (gPollingTimer) then
+    C4:KillTimer(gPollingTimer)
+  end
+  gPollingTimer = 0
+end
+
+function startPollingTimer()
+  cancelPollingTimer()
+  gPollingTimer = C4:AddTimer(gPollingTimerValueInSeconds, "SECONDS", true) --true - repeating timer...
+end
+
+--------------------------------------------------------------------------------------------------------
+-- All proxy stuff
+--------------------------------------------------------------------------------------------------------
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+  if (PROXY_CMDS[strCommand] ~= nil) and (type(PROXY_CMDS[strCommand])=='function') then
+    return PROXY_CMDS[strCommand] (tParams)
+  else
+    dbg(strCommand .. ' Command Handler not defined!')
+    return nil
+  end
+end
+
+function TellProxyPowerOn()
+  C4:SendToProxy(5001, 'ON', {})
+end
+
+function TellProxyPowerOff()
+  C4:SendToProxy(5001, 'OFF', {})
+end
+
+function TellProxyInputOutputChanged(input, output)
+  if(gLogVerbose) then
+    dbg("SEND PROXY INPUT OUTPUT CHANGED: INPUT Binding=".. input .." OUTPUT Binding=" .. output)
+  end
+  C4:SendToProxy(5001, 'INPUT_OUTPUT_CHANGED', {INPUT = input, OUTPUT = output, AUDIO=false, VIDEO=true} )  
+end
+
+function TellProxyInputOutputAudioChanged(input, output)
+  if(gLogVerbose) then
+    dbg("SEND PROXY INPUT OUTPUT CHANGED AUDIO: INPUT Binding=".. input .." OUTPUT Binding=" .. output)
+  end
+  C4:SendToProxy(5001, 'INPUT_OUTPUT_CHANGED', {INPUT = input, OUTPUT = output, AUDIO=true, VIDEO=false} )  
+end
+
+function TellProxyThisProtocolWillHandleAvValid()
+  C4:SendToProxy(5001, 'PROTOCOL_WILL_HANDLE_AV_VALID', {})
+  gHaveToldProxyWeWillHandleAvPathValid = true
+end
+
+function PROXY_CMDS.ON(params)
+  dbg("Received From Proxy: ON")
+  powerOn()
+  return nil
+end
+
+function PROXY_CMDS.OFF(params)
+  dbg("Received From Proxy: OFF")
+  powerOff()
+  return nil
+end
+
+function PROXY_CMDS.GET_VIDEO_DEVICES(params)
+  -- no implementation on purpose
+  return nil
+end
+
+function PROXY_CMDS.GET_AUDIO_DEVICES(params)
+  -- no implementation on purpose
+  return nil
+end
+
+function PROXY_CMDS.GET_VIDEO_PATH(params)
+  -- no implementation on purpose
+  return nil
+end
+
+function PROXY_CMDS.GET_AUDIO_PATH(params)
+  -- no implementation on purpose
+  return nil
+end
+
+function PROXY_CMDS.CONNECT_OUTPUT(params)
+  -- no implementation on purpose
+  return nil
+end
+
+function PROXY_CMDS.BINDING_CHANGE_ACTION(params)
+  -- no implementation on purpose
+  return nil
+end
+-- use this one if you want to debug the IS_AV_OUTPUT_TO_INPUT_VALID command
+function PROXY_CMDS.IS_AV_OUTPUT_TO_INPUT_VALID_debug(params)
+--     if(params ~= nil) then
+--       for name,value in pairs(params) do
+-- 	dbg("Param (" .. name .. ") :: Value (" .. value .. ")")
+--       end
+--     end
+    
+    local room_id           = tonumber(params["Params_idRoom"])
+    local current_source_id = tonumber(params["Params_idCurrentSource"])
+    local new_source_id     = tonumber(params["Params_idSource"])
+    local source            = sanitizeInputValueFromProxy(tonumber(params["Consumer_idBinding"])) -- we are consuming the source, so the consumer binding is the source
+    local output            = sanitzeOutputValueFromProxy(tonumber(params["Provider_idBinding"])) -- we are providing the output, to the output is the provider binding
+    
+    -- Room name does not work?  Why?
+    --local room_name           = C4:GetDeviceDisplayName(room_id)
+    local new_source_name     = C4:GetDeviceDisplayName(new_source_id)
+    local current_source_name = C4:GetDeviceDisplayName(current_source_id)
+    
+    dbg("Received From Proxy :: IS_AV_OUTPUT_TO_INPUT_VALID :: New Source: (" .. new_source_name .. ") In room: (" .. room_id .. ").  Previous source: (" .. current_source_name .. ")")
+    
+    return "True"
+end
+
+-- this one have a modest performance enhancement when tons of pathing is going on
+function PROXY_CMDS.IS_AV_OUTPUT_TO_INPUT_VALID(params)
+    return "True"
+end
+
+function PROXY_CMDS.SET_INPUT(params)
+  local source = sanitizeInputValueFromProxy(tonumber(params["INPUT"]))
+  local output = sanitzeOutputValueFromProxy(tonumber(params["OUTPUT"]))
+  local isAudio = (tonumber(params["OUTPUT"]) >= 4000)
+
+  if(isAudio) then
+    dbg("Received From Proxy: SET_INPUT for AUDIO:: Zone(" .. output ..  ") <==> Source(" .. source .. ")")   
+  else
+    dbg("Received From Proxy: SET_INPUT :: Zone(" .. output ..  ") <==> Source(" .. source .. ")") 
+  end
+
+  -- If this is audio then skip the check and just map the input ot output
+  if(isAudio == false and dontNeedToSwitch(output-1, source)) then
+    dbg("Don't Need To Switch.  Zone(" .. output ..  ") Already Mapped To Source(" .. source .. ")")
+  else
+    if(isAudio) then
+      mapSourceToOutputAudio(source, output)
+    else
+      mapSourceToOutput(source, output)
+    end
+  end
+  return nil
+end
+
+function PROXY_CMDS.DISCONNECT_OUTPUT(params)
+  local output = sanitzeOutputValueFromProxy(tonumber(params["OUTPUT"]))
+  local isAudio = (tonumber(params["OUTPUT"]) >= 4000)
+
+  if(isAudio) then
+    dbg("Received From Proxy: DISCONNECT_OUTPUT for AUDIO:: Zone(" .. output ..  ")")   
+  else
+    dbg("Received From Proxy: DISCONNECT_OUTPUT :: Zone(" .. output ..  ")") 
+  end
+
+  if(Properties[gLeaveSourcesConnectedPropertyString] == "true") then
+    dbg("Property Set To Leave Sources Connected To Zone.  Not Disconnecting.")
+  else
+    if(isAudio) then
+      disconnectOutputAudio(output)
+    else
+      disconnectOutput(output)
+    end
+  end
+  
+  return nil
+end
+
+--------------------------------------------------------------------------------------------------------
+-- All network connection stuff
+--------------------------------------------------------------------------------------------------------
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+  dbg("Connection Status Changed.  Binding(" .. idBinding .. ")  Port(" .. nPort .. ")  Status(" .. strStatus .. ")")
+  if (idBinding == 6001) then
+    if (strStatus == "ONLINE") then
+      -- once we connect, wait for our first success on one of our priority queue messages (like power on or calibration status or something) before sending all of our normal non priority stuff like settings and config.
+      gWaitingForFirstSuccessfulReceiveFromNetwork = true
+      startCalibrationStatusTimer() -- the calibration messages get stuffed in the priority queue, so we need to start the timer for them to ensure we don't miss them.
+      gNetConnected = true
+      C4:UpdateProperty('Connected To Network','true')
+      if(gNeverPowerDown) then
+        powerOn()
+      else
+        startPowerOnStatusDetectionTimer()
+      end
+      startPollingTimer()
+      -- now that we should be all setup... call initialize to set all of our properties and what not
+      initialize()
+    else
+      gNetConnected = false
+      C4:UpdateProperty('Connected To Network','false')
+      cancelPollingTimer()
+      cancelPowerOnStatusDetectionTimer()
+      cancelCalibrationStatusTimer()
+    end
+  end
+end
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+  if(gLogVerbose ==true) then
+    local logdata = string.gsub(strData, "\r", "").gsub(strData, "\n", "")
+    dbg("Received From Network.  Binding(" .. idBinding .. ")  Port(" .. nPort .. ") Data(" .. logdata .. ")")
+  end
+  
+  gReceiveBuf = gReceiveBuf .. strData
+
+  local start, lengthOfCommandFromDevice, commandFromDevice
+  start, lengthOfCommandFromDevice = string.find( gReceiveBuf , ']' )
+  --dbg('start = ' .. (start or 0) )
+
+  while(start ~= nil ) do
+    commandFromDevice = string.sub(gReceiveBuf, 1, start )	-- Copy string to process
+    --dbg('commandFromDevice = ' .. commandFromDevice)
+    gReceiveBuf = string.sub(gReceiveBuf, lengthOfCommandFromDevice + 1) -- Remove string to process
+    --dbg('New Buffer = ' .. gReceiveBuf)
+    
+    -- don't bother sending ping/poll repsonses to the response handler, they don't parse and 
+    --  we don't care.
+    if(string.find(commandFromDevice,"LEAF%[.*,.*,.*]")~=nil) then
+      switchResponseHandler(commandFromDevice)
+    elseif(string.find(commandFromDevice,"LEAF%[*]")~=nil) then
+      -- we got a poll response, so go ahead and move on to the next message since the device is ready
+      cancelInterCommandDelayTimer() 
+      processSendQueue()
+    end
+    
+    -- see if there is another message waiting in the buf
+     start, lengthOfCommandFromDevice = string.find( gReceiveBuf , ']' )
+    --dbg('start = ' .. (start or 0) )
+  end
+end
+
+function SendIt(message, force)
+  if( force == false and canSendMessage() ~= true ) then
+    if(gLogVerbose) then
+      dbg("Can not send right now.  Will try again later.")
+    end
+    return false
+  end
+  if(gLogVerbose) then
+    dbg("Sending To Device: \"" .. string.gsub(message, "\n", "") .. "\"")
+  end
+  C4:SendToNetwork(6001, gPort, message)
+  startInterCommandDelayTimer()
+  return true
+end
+
+--------------------------------------------------------------------------------------------------------
+-- ACTIONS
+--------------------------------------------------------------------------------------------------------
+function ACTIONS.ACTION_calibrate()
+  dbg("Received ACTION Calibrate")
+  SendMessageToSwitch(MESSAGES.CALIBRATE) -- send this before we set our flag, otherwise stuff gets jammed up on the currently calibrating flag
+  gCurrentlyCalibrating = true
+  startCalibrationStatusTimer()
+end
+
+function ACTIONS.ACTION_resetSettings()
+  dbg("Received ACTION Reset Settings")
+  SendMessageToSwitch(MESSAGES.RESET)
+  getCalibrationState()
+end
+
+function ACTIONS.ACTION_printMap()
+  dbg("Received ACTION Print Map")
+  printOutputToInputMapping()
+end
+
+function ACTIONS.ACTION_printZoneLockMap()
+  dbg("Received ACTION Print Zone Lock Map")
+  printZoneLockMapping()
+end
+
+function ACTIONS.ACTION_printAudioMap()
+  dbg("Received ACTION Print Audio Map")
+  printAudioMapping()
+end
+
+function ACTIONS.ACTION_manualFirmwareUpgrade()
+  dbg("Received ACTION Firmware Upgrade")
+  getFWVersionFromDevice() -- make sure we have this
+  getFWVersionOnServerFromDevice() -- and make sure we have this
+  tellDeviceToUpgrade()
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Commands and Properties and Variables
+--------------------------------------------------------------------------------------------------------
+
+function ExecuteCommand(Command, tParams)
+  if(gLogVerbose) then
+    dbg('Execute Command: ' .. Command)
+    if(tParams ~= nil) then
+      for name,value in pairs(tParams) do
+	dbg("Param (" .. name .. ") :: Value (" .. value .. ")")
+      end
+    end
+  end
+
+  if (PROXY_CMDS[Command] ~= nil) and (type(PROXY_CMDS[Command])=='function') then
+    PROXY_CMDS[Command] (tParams, Command)
+  elseif (PROXY_CMDS[Command] ~= nil) then
+    --emit(PROXY_CMDS[Command] , Command)
+  elseif Command == 'LUA_ACTION' then
+    if tParams ~= nil then
+      for cmd,cmdv in pairs(tParams) do
+	if cmd == 'ACTION' then
+	  if ACTIONS[cmdv] then
+	    ACTIONS[cmdv]()
+	  else
+	    err("Unknown Action (" .. cmdv .. ") with no handler.")
+	  end
+	else
+	  err('From ExecuteCommand Function - Undefined Command Key: ' .. cmd .. '  Value: ' .. cmdv)
+	end
+      end
+    end
+  elseif Command == 'Lock Zone To HDMI Source' then
+    -- in this method the zones come in 1 indexed.
+    lockZone(tParams["Zone"])
+  elseif Command == 'Unlock Zone From HDMI Source' then
+    -- in this method the zones come in 1 indexed.
+    unlockZone(tParams["Zone"])
+  else
+    err(Command .. ' Command not defined!')
+  end
+end
+
+function OnVariableChanged(strVariable)
+  gSettingPropertyFromVariableContext = true
+
+  -- we are only currently working with audio delays with values from 0 to 255, make sure it is sanitized
+  if(tonumber(Variables[strVariable]) > 255) then
+    err("Variable given invalid value(" .. tostring(Variables[strVariable]) .. ").  Setting to max of 255.")
+    Variables[strVariable] = 255
+  end
+  if(tonumber(Variables[strVariable]) < 0) then
+    err("Variable given invalid value(" .. tostring(Variables[strVariable]) .. ").  Setting to min of 0.")
+    Variables[strVariable] = 0
+  end
+
+  dbg("Set Variable (" .. strVariable .. ") To (" .. Variables[strVariable] .. ")")
+  if    (strVariable == gAudioDelay1VariableString) then
+    C4:UpdateProperty(gAudioDelay1PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay1PropertyString)
+  elseif(strVariable == gAudioDelay2VariableString) then
+    C4:UpdateProperty(gAudioDelay2PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay2PropertyString)
+  elseif(strVariable == gAudioDelay3VariableString) then
+    C4:UpdateProperty(gAudioDelay3PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay3PropertyString)
+  elseif(strVariable == gAudioDelay4VariableString) then
+    C4:UpdateProperty(gAudioDelay4PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay4PropertyString)
+  elseif(strVariable == gAudioDelay5VariableString) then
+    C4:UpdateProperty(gAudioDelay5PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay5PropertyString)
+  elseif(strVariable == gAudioDelay6VariableString) then
+    C4:UpdateProperty(gAudioDelay6PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay6PropertyString)
+  elseif(strVariable == gAudioDelay7VariableString) then
+    C4:UpdateProperty(gAudioDelay7PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay7PropertyString)
+  elseif(strVariable == gAudioDelay8VariableString) then
+    C4:UpdateProperty(gAudioDelay8PropertyString, Variables[strVariable])
+    OnPropertyChanged(gAudioDelay8PropertyString)
+  else
+    err("OnVariableChanged :: Unknown strVariable: " .. strVariable)
+  end
+  gSettingPropertyFromVariableContext = false
+end
+
+function OnPropertyChanged(strProperty)
+  dbg("Set Property (" .. strProperty .. ") To (" .. Properties[strProperty] .. ")")
+  if(gPermaDebug == true) then
+    if (strProperty == 'Debug Mode') then
+      gDebugprint = true 
+      gDebuglog = true 
+      return
+    end
+  end
+    
+  if (strProperty == 'Debug Mode') then
+    if (Properties[strProperty] == 'Off') then
+      gDebugprint = false
+      gDebuglog = false
+      cancelDebugTimer()
+    end
+    if (Properties[strProperty] == 'Print') then
+      gDebugprint = true
+      gDebuglog = false
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == 'Log') then
+      gDebugprint = false
+      gDebuglog = true
+      startDebugTimer()
+    end
+    if (Properties[strProperty] == 'Print and Log') then
+      gDebugprint = true
+      gDebuglog = true
+      startDebugTimer()
+    end
+  elseif (strProperty == 'Prevent Source Stealing') then
+    gPreventSourceStealing = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 1') then
+    gPreventLockOnSource1 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 2') then
+    gPreventLockOnSource2 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 3') then
+    gPreventLockOnSource3 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 4') then
+    gPreventLockOnSource4 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 5') then
+    gPreventLockOnSource5 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 6') then
+    gPreventLockOnSource6 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 7') then
+    gPreventLockOnSource7 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Prevent Lock Of Source 8') then
+    gPreventLockOnSource8 =  propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Always On') then
+    gNeverPowerDown = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'IR 1 Direction') then
+    gIR1DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(1)
+  elseif (strProperty == 'IR 2 Direction') then
+    gIR2DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(2)
+  elseif (strProperty == 'IR 3 Direction') then
+    gIR3DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(3)
+  elseif (strProperty == 'IR 4 Direction') then
+    gIR4DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(4)
+  elseif (strProperty == 'IR 5 Direction') then
+    gIR5DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(5)
+  elseif (strProperty == 'IR 6 Direction') then
+    gIR6DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(6)
+  elseif (strProperty == 'IR 7 Direction') then
+    gIR7DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(7)
+  elseif (strProperty == 'IR 8 Direction') then
+    gIR8DirectionFromSwitchToBalun = propertyIRDirectionToBoolean(Properties[strProperty])
+    setIRDirection(8)
+  elseif (strProperty == gAudioDelay1PropertyString) then
+    gAnalogAudio1Delay = tonumber(Properties[strProperty])
+    setAudioDelay(1)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay1VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay2PropertyString) then
+    gAnalogAudio2Delay = tonumber(Properties[strProperty])
+    setAudioDelay(2)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay2VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay3PropertyString) then
+    gAnalogAudio3Delay = tonumber(Properties[strProperty])
+    setAudioDelay(3)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay3VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay4PropertyString) then
+    gAnalogAudio4Delay = tonumber(Properties[strProperty])
+    setAudioDelay(4)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay4VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay5PropertyString) then
+    gAnalogAudio5Delay = tonumber(Properties[strProperty])
+    setAudioDelay(5)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay5VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay6PropertyString) then
+    gAnalogAudio6Delay = tonumber(Properties[strProperty])
+    setAudioDelay(6)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay6VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay7PropertyString) then
+    gAnalogAudio7Delay = tonumber(Properties[strProperty])
+    setAudioDelay(7)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay7VariableString, Properties[strProperty]) 
+    end
+  elseif (strProperty == gAudioDelay8PropertyString) then
+    gAnalogAudio8Delay = tonumber(Properties[strProperty])
+    setAudioDelay(8)
+    if(gSettingPropertyFromVariableContext == false) then
+      C4:SetVariable(gAudioDelay8VariableString, Properties[strProperty]) 
+    end
+--   elseif (strProperty == 'Analog Audio 1 Volume') then
+--     gAnalogAudio1Volume = tonumber(Properties[strProperty])
+--     setAudioProps(1)
+--   elseif (strProperty == 'Analog Audio 2 Volume') then
+--     gAnalogAudio2Volume = tonumber(Properties[strProperty])
+--     setAudioProps(2)
+--   elseif (strProperty == 'Analog Audio 3 Volume') then
+--     gAnalogAudio3Volume = tonumber(Properties[strProperty])
+--     setAudioProps(3)
+--   elseif (strProperty == 'Analog Audio 4 Volume') then
+--     gAnalogAudio4Volume = tonumber(Properties[strProperty])
+--     setAudioProps(4)
+--   elseif (strProperty == 'Analog Audio 5 Volume') then
+--     gAnalogAudio5Volume = tonumber(Properties[strProperty])
+--     setAudioProps(5)
+--   elseif (strProperty == 'Analog Audio 6 Volume') then
+--     gAnalogAudio6Volume = tonumber(Properties[strProperty])
+--     setAudioProps(6)
+--   elseif (strProperty == 'Analog Audio 7 Volume') then
+--     gAnalogAudio7Volume = tonumber(Properties[strProperty])
+--     setAudioProps(7)
+--   elseif (strProperty == 'Analog Audio 8 Volume') then
+--     gAnalogAudio8Volume = tonumber(Properties[strProperty])
+--     setAudioProps(8)
+  elseif (strProperty == 'Zone 1 Auto Locks') then
+    gAutoLockOnOutputZone1Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 2 Auto Locks') then
+    gAutoLockOnOutputZone2Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 3 Auto Locks') then
+    gAutoLockOnOutputZone3Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 4 Auto Locks') then
+    gAutoLockOnOutputZone4Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 5 Auto Locks') then
+    gAutoLockOnOutputZone5Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 6 Auto Locks') then
+    gAutoLockOnOutputZone6Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 7 Auto Locks') then
+    gAutoLockOnOutputZone7Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == 'Zone 8 Auto Locks') then
+    gAutoLockOnOutputZone8Selection = propertyStringBoolToBoolean(Properties[strProperty])
+  elseif (strProperty == gAutoUpdateProperty) then
+    dbg("Setting Auto Update Mode To: " .. Properties[strProperty])
+    if(Properties[strProperty] == "Automatic") then
+      gAutoUpdate = true
+    else
+      gAutoUpdate = false
+    end
+    getFWVersionOnServerFromDevice() -- when this data comes back, if auto upgrade is enabled it will kick off
+  elseif (strProperty == gUpdateURLProperty) then
+    sendFirmwareLocation()
+  end
+end
+
+
+--------------------------------------------------------------------------------------------------------
+-- Driver stuff
+--------------------------------------------------------------------------------------------------------
+
+function OnDriverDestroyed()
+  cancelDebugTimer()
+  cancelInterCommandDelayTimer()
+  cancelPollingTimer()
+end
+
+function OnDriverUpgrade()
+  C4:UpdateProperty("Version", 34) -- This 34 is replaced / Fixed up by the combine script.
+end
+
+function OnDriverInit()
+  local systemVersionString = C4:GetVersionInfo()["version"]
+  gSystemVersionMajor, gSystemVersionMinor, gSystemVersionPatch, gSystemVersionBuild = string.match(systemVersionString, "(%d+).(%d+).(%d+).(%d+)")
+  C4:AddVariable(gAudioDelay1VariableString, Properties[gAudioDelay1PropertyString], "INT", false, false) --1001
+  C4:AddVariable(gAudioDelay2VariableString, Properties[gAudioDelay2PropertyString], "INT", false, false) --1002
+  C4:AddVariable(gAudioDelay3VariableString, Properties[gAudioDelay3PropertyString], "INT", false, false) --1003
+  C4:AddVariable(gAudioDelay4VariableString, Properties[gAudioDelay4PropertyString], "INT", false, false) --1004
+  C4:AddVariable(gAudioDelay5VariableString, Properties[gAudioDelay5PropertyString], "INT", false, false) --1005
+  C4:AddVariable(gAudioDelay6VariableString, Properties[gAudioDelay6PropertyString], "INT", false, false) --1006
+  C4:AddVariable(gAudioDelay7VariableString, Properties[gAudioDelay7PropertyString], "INT", false, false) --1007
+  C4:AddVariable(gAudioDelay8VariableString, Properties[gAudioDelay8PropertyString], "INT", false, false) --1008
+end
+
+function initialize()
+  sendFirmwareLocation() -- send the fw location first so it can chew on it for a bit.  This will also kick off a timer to go get the FW version on the server.
+  getAllCurrentOutputToInputMappings() -- Same as above.  Regular queue, no timer required.
+  getAllCurrentOutputToLockedInputMappings() -- Same as above.  Reqular queue, no timer required.
+  gInitialized = true -- set to true so we will now send all the properties to the device.  Then when properties change one by one, they will be sent also.  Should only be set to false once in the "Main" section below to prevent setting the same property twice on startup.
+  setAllPropertiesFromDriverToDevice()
+  getUpgradeStatus()
+  getFWVersionFromDevice() -- The fw version messages are in the regular queue, so we won't request them until we know we can get them.  Since those messages use the regular queue we don't use a timer to go get them.
+end
+
+function updateFWVersionProperty()
+  if(gFWMajor ~= "-1" and gFWMinor ~= "-1") then
+    C4:UpdateProperty("Firmware Version", gFWMajor .. "." .. gFWMinor)
+  end
+end
+
+function updateFWServerVersionProperty()
+  if(gFWServerMajor == "00" and gFWServerMinor == "00") then
+    startURLSetGetFWVersionTimer()
+    return
+  end
+    
+  if(gFWServerMajor ~= "-1" and gFWServerMinor ~= "-1") then
+    C4:UpdateProperty(gServerFWVersionProperty, gFWServerMajor .. "." .. gFWServerMinor)
+    if(gFWServerMajor ~= "-1" and gFWServerMinor ~= "-1" and gAutoUpdate) then
+      dbg("Got Firmware Major and Minor From Server Version and Firmware Upgrade Mode is set to automatic.  Kick It Off.")
+      initiateFirmwareUpgrade() -- the initiate upgrade process will do the version checking
+    end
+  end
+end
+
+function getFWVersionFromDevice()
+  dbg("Get FW Version From Device")
+  gFWMajor="-1"  -- set to -1 so when we get the responses we don't kick off multiple upgrades, plus lets just ensure the data is correct and up to date.
+  gFWMinor="-1"  -- set to -1 so when we get the responses we don't kick off multiple upgrades, plus lets just ensure the data is correct and up to date.
+  
+  SendMessageToSwitch(MESSAGES.GET_FW_MAJOR)
+  SendMessageToSwitch(MESSAGES.GET_FW_MINOR)
+end
+
+function getFWVersionOnServerFromDevice()
+  dbg("Get FW Version On Server From Device")
+  
+  gFWServerMajor="-1"
+  gFWServerMinor="-1"
+  
+  SendMessageToSwitch(MESSAGES.GET_SRV_FW_MAJOR)
+  SendMessageToSwitch(MESSAGES.GET_SRV_FW_MINOR)
+end
+
+function getCalibrationState()
+  dbg("Get Calibration State")
+  SendMessageToSwitchImmediately(MESSAGES.GET_CALIBRATION_STATE)
+end
+
+function getCalibratingStatus()
+  dbg("Get Status Of Calibration Process")
+  SendMessageToSwitchImmediately(MESSAGES.GET_CALIBRATION_ACTIVITY)
+end
+
+function switchResponseHandler(retMessage)
+  -- Example Response: LEAF[2d,01,00]
+  if(gLogVerbose) then
+    local commandFromDevice = retMessage
+    if(string.find(commandFromDevice, "LEAF%[9f")~=nil) then
+      dbg('Switch Response Handler: ' .. commandFromDevice)
+    else
+      commandFromDevice = string.gsub(commandFromDevice, "\r", "")
+      commandFromDevice = string.gsub(commandFromDevice, "\n", "")
+      dbg('Switch Response Handler: ' .. commandFromDevice)
+    end
+  end
+  
+  -- set this flag to false now that we have received something and we can assume the device is ready to take more commands.
+  --  this is to accomodate the case when the device has just booted, is connected, but not ready to receive a bunch of commands
+  --  which results in many lost commands and no responses.
+  gWaitingForFirstSuccessfulReceiveFromNetwork = false
+  
+  local commandIndex
+  local command
+  local paramSSIndex
+  local paramSS
+  local paramZZIndex
+  local paramZZ
+  
+  commandIndex = string.find(retMessage, "[", nil, true)+1
+  command = string.sub(retMessage, commandIndex, commandIndex+1)
+  paramSSIndex = string.find(retMessage, ",", commandIndex, true)+1
+  paramSS = string.sub(retMessage, paramSSIndex, paramSSIndex+1)
+  paramZZIndex = string.find(retMessage, ",", paramSSIndex, true)+1
+  paramZZ = string.sub(retMessage, paramZZIndex, paramZZIndex+1)
+  
+  if(command == "2d") then
+    DEVICE_RESPONSE_HANDLERS["STATUS"](paramSS, paramZZ)
+  elseif(command == "0e") then
+    DEVICE_RESPONSE_HANDLERS["POWER_OFF"](paramSS, paramZZ)
+  elseif(command == "0d") then
+    DEVICE_RESPONSE_HANDLERS["POWER_ON"](paramSS, paramZZ)
+  elseif(command == "35") then
+    DEVICE_RESPONSE_HANDLERS["QUERY_ZONE"](paramSS, paramZZ)
+  elseif(command == "31") then
+    DEVICE_RESPONSE_HANDLERS["QUERY_ZONE_AUDIO"](paramSS, paramZZ)
+  elseif(command == "33" or command == "5d") then
+    DEVICE_RESPONSE_HANDLERS["QUERY_LOCK"](paramSS, paramZZ)
+  elseif(command == "48" or command == "47") then
+    DEVICE_RESPONSE_HANDLERS["ZONE_CHANGE"](paramSS, paramZZ)
+  elseif(command == "b0" or command == "b1") then
+    DEVICE_RESPONSE_HANDLERS["AUDIO_CHANGE"](paramSS, paramZZ)
+  end
+  
+  -- we got a response, so go ahead and move on to the next message since the device is ready
+  cancelInterCommandDelayTimer() 
+  processSendQueue()
+end
+
+function setAllPropertiesFromDriverToDevice()
+  local i
+  
+  for i=1,gNumberOutputs do
+    setAudioProps(i)
+  end
+  
+  for i=1,gNumberOutputs do
+    setIRDirection(i)
+  end
+end
+
+function getAllCurrentOutputToInputMappings()
+  local i
+  for i=0,(gNumberOutputs-1) do
+    getZoneMapping(i)
+  end
+end
+
+function getAllCurrentOutputToLockedInputMappings()
+  local i
+  for i=0,(gNumberOutputs-1) do
+    getZoneLockMapping(i)
+  end
+end
+
+function getAudioZoneMapping(zone)
+  SendMessageToSwitch(MESSAGES.QUERY_AUDIO_ZONE .. convertFromNumberToHexString(zone))
+end
+
+function getZoneMapping(zone)
+  SendMessageToSwitch(MESSAGES.QUERY_AV_ZONE .. convertFromNumberToHexString(zone))
+end
+
+function getZoneLockMapping(zone)
+  SendMessageToSwitch(MESSAGES.QUERY_AV_LOCK .. convertFromNumberToHexString(zone))
+end
+
+function processSendQueue()
+  priority = false
+  
+  if(#gSendQueue <= 0 and #gPrioritySendQueue <=0) then
+    --dbg("processSendQueue : Nothing to send.")
+    return
+  end
+  
+  if(#gPrioritySendQueue >0) then
+    priority = true
+  end
+  
+  if(gLogVerbose) then
+    dbg("Process Send Queue")
+  end
+  
+  local message
+  if(priority) then
+    message = gPrioritySendQueue[1]
+  else
+    message = gSendQueue[1]
+  end
+  
+  -- if this is not a "raw message" it needs an ending square bracket
+  if( messageIsRawMessage(message) ~= true ) then
+    message = message .. "]"
+  end
+  
+  -- make sure it ends in a newline
+  message = message .. "\n"
+    
+  -- if we successfully send the message, pop it off the front
+  if(priority) then
+    if( SendIt(message, true) == true ) then
+      table.remove(gPrioritySendQueue, 1)
+    end
+  else
+    if( SendIt(message, false) == true ) then
+      table.remove(gSendQueue, 1)
+    end
+  end
+end
+
+function processPoll()
+  if(#gSendQueue == 0 and #gPrioritySendQueue == 0) then
+    SendMessageToSwitch(MESSAGES.POLL)
+  else
+    if(gLogVerbose) then
+      dbg("Not polling because there are other messages in the queue.");
+    end
+    processSendQueue()
+  end
+end
+
+function messageIsRawMessage(message)
+  if( string.find(message, 'UPDATEURL') ~= nil ) then
+    return true
+  else
+    return false
+  end
+end
+
+function SendMessageToSwitch(message)
+  if(gLogVerbose) then
+    if(messageIsRawMessage(message)) then
+      dbg("Send Message To Switch.  Queueing message: \"" .. message .. "\"")
+    else
+      dbg("Send Message To Switch.  Queueing message: \"" .. message .. "]\"")
+    end
+  end
+  
+  if(#gSendQueue > gSendQueuesMaxSizes) then
+    err("Send Queue Is Full.  Not Queueing Any More Messages.  Something Is Wrong.")
+    return
+  end
+  
+  table.insert(gSendQueue, message)
+  processSendQueue()
+end
+
+function SendMessageToSwitchImmediately(message)
+  if(gLogVerbose) then
+    dbg("Send Message To Switch Immediately.  Sending message: \"" .. message .. "]\"")
+  end
+  
+   if(#gPrioritySendQueue > gSendQueuesMaxSizes) then
+    err("Priority Send Queue Is Full.  Not Queueing Any More Messages.  Something Is Wrong.")
+    return
+  end
+  
+  table.insert(gPrioritySendQueue, message)
+  processSendQueue()
+end
+
+function getAsciiInfo()
+  dbg("Get Ascii Info")
+  SendMessageToSwitch(MESSAGES.GET_ASCII_INFO)
+end
+
+function getPowerStatus()
+  dbg("Get Power Status")
+  SendMessageToSwitchImmediately(MESSAGES.GET_POWER_STATUS)
+end
+
+function powerOn()
+  if(gPowerOn~=true) then
+    dbg("Power On")
+    if(gNetConnected == false) then
+      dbg("Unable to power on or check because we're not net connected.")
+      return
+    end
+    SendMessageToSwitchImmediately(MESSAGES.POWER_ON) -- make sure to send this message before setting the waiting flag, otherwise the flag will prevent sending
+    gWaitingForPowerOn = true
+    startPowerOnStatusDetectionTimer()
+    getPowerStatus() -- call this now, if we're already on then we can circumvent waiting one cycle of the request
+  end
+end
+
+function powerOff()
+  if(gNeverPowerDown) then
+    dbg("Received power off command but flag is set to stay on all the time.  Ignoring.")
+    return
+  end
+  
+  if(gPowerOn==true) then 
+    dbg("Power Off")
+    SendMessageToSwitch(MESSAGES.POWER_OFF)
+  else
+    dbg("Received power off command, but we're already off.")
+  end
+end
+
+function setAudioProps(output)
+  if(gInitialized) then
+    SendMessageToSwitch(MESSAGES.SET_AUDIO_VOLUME .. getCommandParamsForAnalogAudioVolume(output))
+  end
+end
+
+function setAudioDelay(source)
+  local numOuts = (gNumberOutputs-1)
+  for i=0,numOuts do
+    dbg("Checking Output: " .. makeZoneLoggable(i) .. " To see if its source (".. gOutputToInputAudioMap[convertFromNumberToHexString(i)] ..") Is Bound To Source: " .. tostring(source))
+    if(gOutputToInputAudioMap[convertFromNumberToHexString(i)] == convertFromNumberToHexString(source)) then
+      dbg("Setting Audio Delay For Output(".. makeZoneLoggable(i) ..") which is mapped to source(".. gOutputToInputAudioMap[convertFromNumberToHexString(i)]..")")
+      -- becuase of the weirdness with the indexes between this method and the methods from director, we need to add one before we pass this into the audio delay params function
+      local params = getCommandParamsForAudioDelay(i+1)
+      if(params ~= "") then
+        SendMessageToSwitch(MESSAGES.SET_AUDIO_DELAY .. params)
+      end
+    end
+  end
+
+end
+
+function setIRDirection(output)
+  if(gInitialized) then
+    SendMessageToSwitch(MESSAGES.SET_IR_DIRECTION .. getCommandParamsForIRDirection(output))
+  end
+end
+
+function disconnectOutput(output)
+  local commandArgs = getCommandParamsForOutputDisconnect(output)
+  SendMessageToSwitch(MESSAGES.AV_ZONE_OFF .. commandArgs)
+  -- output comes in 1 indexed.  Make sure to account for that in our map which is 0 indexed
+  gOutputToInputMap[convertFromNumberToHexString(output-1)] = "00"
+  gOutputToInputZoneLockMap[convertFromNumberToHexString(output-1)] = "00"
+end
+
+function disconnectOutputAudio(output)
+  local commandArgs = getCommandParamsForOutputDisconnect(output)
+  SendMessageToSwitch(MESSAGES.ANALOG_AUDIO_OFF .. commandArgs)
+  -- output comes in 1 indexed.  Make sure to account for that in our map which is 0 indexed
+  gOutputToInputAudioMap[convertFromNumberToHexString(output-1)] = "00"
+end
+
+-- zone should be zero indexed
+function sourceSelectionFailedInZone(zone)
+  dbg("Source Selection Failed In Zone: " .. makeZoneLoggable(zone))
+  if(zone == 0) then
+    debounceSourceMappingInZone1Failure()
+  elseif(zone == 1) then
+    debounceSourceMappingInZone2Failure()
+  elseif(zone == 2) then
+    debounceSourceMappingInZone3Failure()
+  elseif(zone == 3) then
+    debounceSourceMappingInZone4Failure()
+  elseif(zone == 4) then
+    debounceSourceMappingInZone5Failure()
+  elseif(zone == 5) then
+    debounceSourceMappingInZone6Failure()
+  elseif(zone == 6) then
+    debounceSourceMappingInZone7Failure()
+  elseif(zone == 7) then
+    debounceSourceMappingInZone8Failure()
+  else
+    err("Source Selction Failed Method: INVALID Zone : " .. makeZoneLoggable(zone))
+  end
+end
+
+function sourceSelectionStolenInZone(zone)
+  dbg("EVENT: Source Selection Stolen In Zone: " .. makeZoneLoggable(zone))
+  if(zone == 0) then
+    C4:FireEvent("Zone 1 Source Lost")
+  elseif(zone == 1) then
+    C4:FireEvent("Zone 2 Source Lost")
+  elseif(zone == 2) then
+    C4:FireEvent("Zone 3 Source Lost")
+  elseif(zone == 3) then
+    C4:FireEvent("Zone 4 Source Lost")
+  elseif(zone == 4) then
+    C4:FireEvent("Zone 5 Source Lost")
+  elseif(zone == 5) then
+    C4:FireEvent("Zone 6 Source Lost")
+  elseif(zone == 6) then
+    C4:FireEvent("Zone 7 Source Lost")
+  elseif(zone == 7) then
+    C4:FireEvent("Zone 8 Source Lost")
+  else
+    err("Source Selction Stolen Method: INVALID Zone : " .. makeZoneLoggable(zone))
+  end
+end
+
+function sourceSelectionStealingPreventedInZone(zone)
+  dbg("EVENT: Source Selection Prevented Stealing In Zone: " .. makeZoneLoggable(zone))
+  if(zone == 0) then
+    C4:FireEvent("Zone 1 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 1) then
+    C4:FireEvent("Zone 2 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 2) then
+    C4:FireEvent("Zone 3 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 3) then
+    C4:FireEvent("Zone 4 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 4) then
+    C4:FireEvent("Zone 5 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 5) then
+    C4:FireEvent("Zone 6 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 6) then
+    C4:FireEvent("Zone 7 Failed Lock, Multiple Zones Viewing Source")
+  elseif(zone == 7) then
+    C4:FireEvent("Zone 8 Failed Lock, Multiple Zones Viewing Source")
+  else
+    err("Source Selction Prevented Stealing Method: INVALID Zone : " .. makeZoneLoggable(zone))
+  end
+  
+end
+
+--sone should be zero indexed
+function dontNeedToSwitch(zone, source)
+  local zz = convertFromNumberToHexString(zone)
+  local ss = convertFromNumberToHexString(source)
+  
+  --dbg("CHECKING ZONE (".. makeZoneLoggable(zz) ..")  :: CURRENT SOURCE (".. tonumber(gOutputToInputMap[zz]) ..")  :: NEW SOURCE (".. tonumber(ss) ..")")
+  
+  if(tonumber(gOutputToInputMap[zz]) == tonumber(ss)) then
+    return true -- don't need to switch
+  else
+    --dbg("Need to switch.  Zone: " .. makeZoneLoggable(zz) .. " Is mapped to source: " .. ss)
+    return false
+  end
+end
+
+
+-- source should be zero indexed
+function isSourceAvailable(source)
+  local zz
+  local ss
+  
+  for zz,ss in pairs(gOutputToInputZoneLockMap) do
+    if(tonumber(ss) ~= 0) then
+      if(tonumber(ss) == tonumber(source)) then
+	dbg("isSourceAvailable:: Zone(" .. makeZoneLoggable(zz) .. ") Has Lock On Source(" .. convertFromNumberToHexString(source) .. ")")
+	return false
+      end
+    end
+  end
+  return true
+end
+
+-- returns true if the source would be stolen
+function sourceWouldBeStolen(zone_number, source)
+  local zz
+  local ss
+
+  for zz,ss in pairs(gOutputToInputMap) do
+    if(tonumber(ss) == tonumber(source)) then		-- if the source (ss, source) is already in use
+      if(zone_number ~= tonumber(zz)) then		-- and the zone that has is (zz) is not the zone locking it (zone_number), it's stolen
+	      return true
+      end
+    end
+  end
+  
+  return false
+end
+
+function ifSourceIsInUseAndBeingLockedHandleIt(zone_number, source)
+  local zz
+  local ss
+  
+  for zz,ss in pairs(gOutputToInputMap) do
+    if(tonumber(ss) == tonumber(source)) then		-- if the source (ss, source) is already in use
+      if(zone_number ~= tonumber(zz)) then		-- and the zone that has is (zz) is not the zone locking it (zone_number), it's stolen
+	  sourceSelectionStolenInZone(tonumber(zz))
+      end
+    end
+  end
+end
+
+function unlockZone(zone)
+  local source
+  local source_number
+  -- the zones come into this method from programming in Control4.  In that context all zones are 1 indexed.  We need to 
+  --  be zero indexed here, so subtract one from the given zone to get our zone_number
+  local zone_number = tonumber(zone) - 1
+
+  -- make sure the data that came in is sane
+  if(zone_number < 0 or zone_number > (gNumberOutputs-1)) then
+    err("Invalid zone to lock (" .. makeZoneLoggable(zone_number) .. ")")
+    return
+  end
+
+  -- make sure we're acutally locked before we try to unlock
+  if(gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)] == "00") then
+    err("Zone (" .. makeZoneLoggable(zone_number) .. ") is not locked.  So it can not be unlocked.")
+    return
+  end
+
+  -- source is a hex string at this point
+  source = gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)]
+  source_number = tonumber(source)
+  dbg("Unlocking zone (" .. makeZoneLoggable(zone_number) .. ").  To unlock we will reslect the source(" .. source .. ") without the lock command.")
+
+  -- to make sure the mapping of the source and the output goes smoothly, and that the source is 
+  --  available in other zones now, flag the zone lock map for the zone to be not locked to a source
+  --  (which means that the selected source will not appear in the zone lock map, thus unlocking the source)
+  gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)] = "00"
+
+  -- The mapSourceToOutput method expects output to come in 1 indexed.  So use the original zone. 
+  --  It also expects number so make sure the args are in the number format
+  mapSourceToOutput(source_number, tonumber(zone))
+
+end
+
+
+
+function lockZone(zone)
+  local source
+  -- the zones come into this method from programming in Control4.  In that context all zones are 1 indexed.  We need to 
+  --  be zero indexed here, so subtract one from the given zone to get our zone_number
+  local zone_number = tonumber(zone) - 1
+  
+  -- check that the zone is valid.  Less than zero and greater than outputs minus one beacuse the zones (outputs) are zero based.
+  if(zone_number < 0 or zone_number > (gNumberOutputs-1)) then
+    err("Invalid zone to lock (" .. makeZoneLoggable(zone_number) .. ")")
+    return
+  end
+  
+  -- now grab the source and make sure it is valid.
+  source = gOutputToInputMap[convertFromNumberToHexString(zone_number)]
+  if( source == "00" )then
+    err("Zone requesting lock does not have a valid source.")
+    return
+  end
+  
+  if(sourceCanNotBeLocked(source) == true) then
+    dbg("Source(".. source ..") can not be locked.  The configuration option to never lock this source is set.")
+    sourceSelectionStealingPreventedInZone(zone_number)
+    -- we are going to prevent the locking, but we still want it to switch...  So fire that off.
+    return
+  end
+  
+  -- make sure no one else has a lock on the zone, if they do then send up the error via the method call
+  if(isSourceAvailable(source)) then
+    dbg("Locking Zone(" .. makeZoneLoggable(zone_number) .. ") to Source(" .. source .. ")")
+  else
+    dbg("There is a lock.  See if the zone requesting the source is the one that has it.  Source Requested: " .. source .. ".  Source (" .. gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)] .. ") locked in zone(" .. makeZoneLoggable(zone_number) .. ") ")
+    if(convertFromNumberToHexString(source) ~= gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)]) then
+      sourceSelectionFailedInZone(zone_number)
+      return
+    else
+      dbg("Already Have Lock, but will send command again.  Locking Zone(" .. makeZoneLoggable(zone_number) .. ") to Source(" .. source .. ")")
+    end
+  end
+  
+  -- if the source is going to be stolen, but the flag is set to prevent it, fire the events and bail.
+  if(sourceWouldBeStolen(zone_number, source) and gPreventSourceStealing == true) then
+    dbg("Source(".. source ..") would be stolen and the global flag preventing source stealing is set to true")
+    sourceSelectionStealingPreventedInZone(zone_number)
+    return
+  end
+  
+  -- if the source is being stolen, or turned off in some zones, due to this lock then handle the situation appropriately
+  ifSourceIsInUseAndBeingLockedHandleIt(zone_number, source)
+  
+  -- if we're locking, and the source was not already locked, then set the zone's locked source in the map.
+  --  We want to mark this right away instead of waiting for the response from the device.  If software is selecting a bunch of 
+  --  mappings we need this info to be correct before getting the response back as the delay from command send to response may
+  --  cause stuff to get out of whack and the system thinks multiple zones have a source when only one has it locked.
+  gOutputToInputZoneLockMap[convertFromNumberToHexString(zone_number)] = convertFromNumberToHexString(source)
+  
+  -- ugh.  The getCommandParamsForSourceToOutput method expects a 1 indexed zone.  So use the zone given instead of the zone_number
+  commandArgs = getCommandParamsForSourceToOutput(source, zone)
+  SendMessageToSwitch(MESSAGES.AV_ZONE_LOCK .. commandArgs)
+end
+
+function sourceCanNotBeLocked(source)
+  source_number = tonumber(source)
+  if(source_number == 1 and gPreventLockOnSource1 == true) then
+    return true
+  elseif(source_number == 2 and gPreventLockOnSource2 == true) then
+    return true
+  elseif(source_number == 3 and gPreventLockOnSource3 == true) then
+    return true
+  elseif(source_number == 4 and gPreventLockOnSource4 == true) then
+    return true
+  elseif(source_number == 5 and gPreventLockOnSource5 == true) then
+    return true
+  elseif(source_number == 6 and gPreventLockOnSource6 == true) then
+    return true
+  elseif(source_number == 7 and gPreventLockOnSource7 == true) then
+    return true
+  elseif(source_number == 8 and gPreventLockOnSource8 == true) then
+    return true
+  elseif(source_number < 0 or source_number > 8) then
+    err("sourceCanNotBeLocked : Received bogus source: (" .. source .. ")" )
+    return true
+  end
+  
+  return false
+end
+
+--NOTE: output, or zone, in this function comes in 1 indexed.
+function mapSourceToOutput(source, output)
+  local commandArgs = getCommandParamsForSourceToOutput(source, output)
+  local doingLock = false
+  
+  -- If the source is not available then we won't bother sending any messages to the 
+  --  device, and we can fire an error event back to the system for programming purposes
+  if(isSourceAvailable(source) ~= true) then
+    dbg("There is a lock.  See if the zone requesting the source is the one that has it.  Source Requested: " .. convertFromNumberToHexString(source) .. ".  Source (" .. gOutputToInputZoneLockMap[convertFromNumberToHexString(output-1)] .. ") locked in zone(" .. makeZoneLoggable(output-1) .. ") ")
+    if(convertFromNumberToHexString(source) ~= gOutputToInputZoneLockMap[convertFromNumberToHexString(output-1)]) then
+      sourceSelectionFailedInZone(output-1)
+      return
+    else
+      dbg("Already Have Lock, but will send command again.  Locking Zone(" .. makeZoneLoggable(output-1) .. ") to Source(" .. source .. ")")
+    end
+    return
+  end
+  
+  if(output == 1) then
+    if(gAutoLockOnOutputZone1Selection) then
+      doingLock = true
+    end
+  elseif(output == 2) then
+    if(gAutoLockOnOutputZone2Selection) then
+      doingLock = true
+    end
+  elseif(output == 3) then
+    if(gAutoLockOnOutputZone3Selection) then
+      doingLock = true
+    end
+  elseif(output == 4) then
+    if(gAutoLockOnOutputZone4Selection) then
+      doingLock = true
+    end
+  elseif(output == 5) then
+    if(gAutoLockOnOutputZone5Selection) then
+      doingLock = true
+    end
+  elseif(output == 6) then
+    if(gAutoLockOnOutputZone6Selection) then
+      doingLock = true
+    end
+  elseif(output == 7) then
+    if(gAutoLockOnOutputZone7Selection) then
+      doingLock = true
+    end
+  elseif(output == 8) then
+    if(gAutoLockOnOutputZone8Selection) then
+      doingLock = true
+    end
+  else
+    err("mapSourceToOutput : Received bogus output: (" .. makeZoneLoggable(output-1) .. ")" )
+    return
+  end
+  
+  -- output is 1 indexed and our map is zero indexed.  For logging leave it as is.
+  if(doingLock) then
+    
+    if(sourceCanNotBeLocked(source) == true) then
+      dbg("Source(".. source ..") can not be locked.  The configuration option to never lock this source is set.  Just Select it instead.")
+      -- we are going to prevent the locking, but we still want it to switch...  So fire that off.
+      SendMessageToSwitch(MESSAGES.AV_ZONE_ON .. commandArgs)
+      sourceSelectionStealingPreventedInZone(output-1)
+      return
+    end
+    
+    -- if the source is going to be stolen, but the flag is set to prevent it, fire the events and bail.
+    if(sourceWouldBeStolen(output-1, source) and gPreventSourceStealing == true) then
+      dbg("Source(".. source ..") would be stolen and the global flag preventing source stealing is set to true")
+      sourceSelectionStealingPreventedInZone(output-1)
+      
+      -- we are going to prevent the stealing, but we still want it to switch...  So fire that off.
+      SendMessageToSwitch(MESSAGES.AV_ZONE_ON .. commandArgs)
+      
+      return
+    end
+    
+    -- now print our debug message
+    dbg("Auto Locking Zone(" .. convertFromNumberToHexString(output) .. ") to Source(" .. source .. ")")
+    
+    -- send the message to the switch
+    SendMessageToSwitch(MESSAGES.AV_ZONE_LOCK .. commandArgs)
+    
+    -- set this zone as locked.
+    --  We want to mark this right away instead of waiting for the response from the device.  If software is selecting a bunch of 
+    --  mappings we need this info to be correct before getting the response back as the delay from command send to response may
+    --  cause stuff to get out of whack and the system thinks multiple zones have a source when only one has it locked.
+    gOutputToInputZoneLockMap[convertFromNumberToHexString(output-1)] = convertFromNumberToHexString(source)
+    
+    -- if the source is being stolen, or turned off in some zones, due to this lock then handle the situation appropriately
+    ifSourceIsInUseAndBeingLockedHandleIt(output-1, source)
+  else
+    
+    -- send the message to the switch
+    SendMessageToSwitch(MESSAGES.AV_ZONE_ON .. commandArgs)
+    
+    -- set this zone as not locked.
+    --  We want to mark this right away instead of waiting for the response from the device.  If software is selecting a bunch of 
+    --  mappings we need this info to be correct before getting the response back as the delay from command send to response may
+    --  cause stuff to get out of whack and the system thinks multiple zones have a source when only one has it locked.
+    gOutputToInputZoneLockMap[convertFromNumberToHexString(output)] = "00"
+    dbg("Select  Zone(" .. convertFromNumberToHexString(output) .. ") to Source(" .. source .. ")")
+  end
+  
+end
+
+function mapSourceToOutputAudio(source, output)
+  dbg("Select Audio Output!!! Source: " .. source .. " Output: " .. output)
+  local commandArgs = getCommandParamsForSourceToOutput(source, output)
+  SendMessageToSwitch(MESSAGES.MAP_ANALOG_AUDIO .. commandArgs)
+  
+  --next store off the mapping, then send the delay for the source to this output
+  gOutputToInputAudioMap[convertFromNumberToHexString(output-1)] = convertFromNumberToHexString(source)
+
+  local commandArgsAudio =  getCommandParamsForAudioDelay(output)
+  SendMessageToSwitch(MESSAGES.SET_AUDIO_DELAY .. commandArgsAudio)
+
+  dbg("Mapping For Audio.  Output Index: ".. convertFromNumberToHexString(output-1) .. " To Source: " .. gOutputToInputAudioMap[convertFromNumberToHexString(output-1)])
+end
+
+function DEVICE_RESPONSE_HANDLERS.STATUS(paramSS, paramZZ)
+  if(paramZZ == "00") then -- this is a power status
+    cancelPowerOnStatusDetectionTimer() -- now that we have a status, turn off the timer
+    if(paramSS == "01") then
+      gPowerOn = true
+      C4:UpdateProperty("Power Status", "On")
+      gWaitingForPowerOn = false
+      dbg("Device Is Powered On")
+      TellProxyPowerOn()
+    elseif(paramSS == "00") then
+      gPowerOn = false
+      C4:UpdateProperty("Power Status", "Standby")
+      dbg("Device Is In Standby")
+      TellProxyPowerOff()
+      
+      -- if we are a never power down state, or we are waiting to power on, 
+      --   and we just got the power status that we're in standby, send the 
+      --   power on command.  Check separately so the log makes sense
+      if(gNeverPowerDown) then
+	dbg("Received power off status but we're supposed to be on all the time.  Sending Power On Command.")
+	powerOn()
+      end
+      if(gWaitingForPowerOn) then
+	dbg("Received power off status but we're waiting for power on.  Sending Power On Command Again.")
+	powerOn()
+      end
+      
+    end
+  elseif(paramZZ == "10") then -- FW Major Version
+    dbg("Got FW Major Number: " .. paramSS)
+    gFWMajor = paramSS
+    updateFWVersionProperty()
+  elseif(paramZZ == "11") then -- FW Minor Version
+    dbg("Got FW Minor Number: " .. paramSS)
+    gFWMinor = paramSS
+    updateFWVersionProperty()
+  elseif(paramZZ == "14") then -- FW SERVER Major Version
+    dbg("Got Server FW Major Number: " .. paramSS)
+    gFWServerMajor = paramSS
+    updateFWServerVersionProperty()
+  elseif(paramZZ == "15") then -- FW SERVER Minor Version
+    dbg("Got Server FW Minor Number: " .. paramSS)
+    gFWServerMinor = paramSS
+    updateFWServerVersionProperty()
+  elseif(paramZZ == "b9") then -- Update available
+    if(paramSS == "00") then
+      err("FW Response To Update Available: NO FILE AVAILABLE")
+    elseif(paramSS == "01") then
+      if(gForceUpdate == true) then
+	dbg("FW Response To Update Available: NO UPDATE AVAILABLE, but the force flag is set.  Fire it off.")
+	tellDeviceToUpgrade()
+      else
+	dbg("FW Response To Update Available: NO UPDATE AVAILABLE")
+      end
+    elseif(paramSS == "02") then
+      dbg("FW Response To Update Available: UPDATE AVAILABLE")
+      if(gAutoUpdate) then
+	tellDeviceToUpgrade()
+      end
+    elseif(paramSS == "03") then
+      dbg("FW Response To Update Available: UPDATE TRIGGERED")
+      C4:UpdateProperty(gLastUpdateProperty, gUpgradingString)
+    else
+      err("FW Response To Update Available : UNKNOWN RESPONSE: " .. paramSS)
+    end
+  elseif(paramZZ == "ba") then -- Last firmware upgrade
+    if(paramSS == "00") then
+      C4:UpdateProperty("Last Upgrade Status", "No Status")
+      dbg("Received Upgrade Status : No Status")
+    elseif(paramSS == "01") then
+      C4:UpdateProperty("Last Upgrade Status", "Success")
+      dbg("Received Upgrade Status : SUCCESS!")
+      cancelUpgradeStatusTimer()
+      getFWVersionFromDevice()
+    elseif(paramSS == "02") then
+      C4:UpdateProperty("Last Upgrade Status", "FAILED")
+      err("Received Upgrade Status : FAILED!!!")
+      cancelUpgradeStatusTimer()
+    else
+      err("FW Response To Last Update Status: UNKNOWN RESPONSE: " .. paramSS)
+    end
+  elseif(paramZZ == "62") then -- Calibration State
+    if(paramSS == "00") then
+      C4:UpdateProperty("Calibration Status", "NOT Calibrated")
+      dbg("Received Status : NOT Calibrated")
+    else 
+      C4:UpdateProperty("Calibration Status", "Calibrated")
+      dbg("Received Status : Calibrated")
+    end
+  elseif(paramZZ == "63") then -- Calibration Activity
+    if(paramSS == "01") then
+      C4:UpdateProperty("Calibration Status", "Calibrating")
+      dbg("Received Status : Calibrating")
+      gCurrentlyCalibrating = true
+    else
+      dbg("Received Status : Not Currently Calibrating")
+      gCurrentlyCalibrating = false
+      getCalibrationState()
+      cancelCalibrationStatusTimer()
+    end
+  else
+    dbg("Got Status For Something We Don't Care About")
+  end
+end
+
+function DEVICE_RESPONSE_HANDLERS.POWER_OFF(paramSS, paramZZ)
+  startPowerOnStatusDetectionTimer()
+end
+
+function DEVICE_RESPONSE_HANDLERS.POWER_ON(paramSS, paramZZ)
+  startPowerOnStatusDetectionTimer()
+end
+
+function DEVICE_RESPONSE_HANDLERS.QUERY_ZONE(paramSS, paramZZ)
+  dbg("QUERY ZONE RESPONSE.  Zone(" .. makeZoneLoggable(paramZZ) .. ") <--> Source(" .. paramSS .. ")" )
+  gOutputToInputMap[paramZZ] = paramSS
+  local inputBinding=tostring(tonumber(paramSS)-1+1000)
+  local outputBinding=tostring(tonumber(paramZZ+2000))
+  
+  -- if we end up with a 999, this means we're disconnected and we need to do a -1
+  if(tonumber(inputBinding) == 999) then
+    inputBinding = -1
+  end
+  
+  -- if we just switch sources in an "unlocked" mode, make sure if we had a previous lock on a source we release it
+  gOutputToInputZoneLockMap[paramZZ] = "00"
+  TellProxyInputOutputChanged(inputBinding, outputBinding)
+end
+
+function DEVICE_RESPONSE_HANDLERS.QUERY_ZONE_AUDIO(paramSS, paramZZ)
+  dbg("QUERY ZONE AUDIO RESPONSE.  Zone(" .. makeZoneLoggable(paramZZ) .. ") <--> Source(" .. paramSS .. ")" )
+  gOutputToInputAudioMap[paramZZ] = paramSS
+  local inputBinding=tostring(tonumber(paramSS)-1+1000)
+  local outputBinding=tostring(tonumber(paramZZ+4000))
+  
+  -- if we end up with a 999, this means we're disconnected and we need to do a -1
+  if(tonumber(inputBinding) == 999) then
+    inputBinding = -1
+  end
+  
+  -- if we just switch sources in an "unlocked" mode, make sure if we had a previous lock on a source we release it
+  TellProxyInputOutputAudioChanged(inputBinding, outputBinding)
+end
+
+function DEVICE_RESPONSE_HANDLERS.QUERY_LOCK(paramSS, paramZZ)
+  dbg("QUERY LOCK RESPONSE.  Zone(" .. makeZoneLoggable(paramZZ) .. ") <--> Source(" .. paramSS .. ")" )
+
+  local inputBinding=tostring(tonumber(paramSS)-1+1000)
+  local outputBinding=tostring(tonumber(paramZZ+2000))
+  
+  gOutputToInputZoneLockMap[paramZZ] = paramSS   -- the zone is locked so mark it as such, or if we have no lock ("00") then setting that as not locked is equally important
+  if(paramSS ~= "00") then                       -- if we have not lock, it does not mean we have no regular mapping, so only set the regular mapping if we have a lock.
+    gOutputToInputMap[paramZZ] = paramSS         -- we have a lock, but that also implies we have the source to zone mapping as well
+    TellProxyInputOutputChanged(inputBinding, outputBinding) -- only report the input output changed stuff if the source is not "00", else we end up with goofy values and stuff not working.
+  end
+end
+
+function DEVICE_RESPONSE_HANDLERS.ZONE_CHANGE(paramSS, paramZZ)
+  dbg("Zone Changed (" .. makeZoneLoggable(paramZZ) .. ").  Go Get the new source mapping for this zone.")
+  getZoneMapping(paramZZ)
+end
+
+function DEVICE_RESPONSE_HANDLERS.AUDIO_CHANGE(paramSS, paramZZ)
+  dbg("Audio Changed (" .. makeZoneLoggable(paramZZ) .. ").  Go Get the new source mapping for this zone for audio.")
+  getAudioZoneMapping(paramZZ)
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Firmware Upgrade and methods to support it
+--------------------------------------------------------------------------------------------------------
+function sendFirmwareLocation()
+  dbg("UPGRADE_TRACE : sendFirmwareLocation")
+  local updateUrl = Properties["Update URL"]
+  local updateMsg = "LEAF:UPDATEURL="
+  SendMessageToSwitch(updateMsg .. updateUrl)
+  startURLSetGetFWVersionTimer() -- when this timer expires we will go get the fw version on the server, and then when the data comes back if auto upgrade is enabled it will kick off
+end
+
+function initiateFirmwareUpgrade()
+  dbg("UPGRADE_TRACE : initiateFirmwareUpgrade")
+  -- ALWAYS call need to upgrade.  This does at least a sanity check that there is something out there.
+  --  then if the force flag is set and we have a valid file out there, we can kick it off then.
+  needToUpgrade()
+end
+
+function getUpgradeStatus()
+  dbg("UPGRADE_TRACE : getUpgradeStatus")
+  SendMessageToSwitch(MESSAGES.LAST_UPDATE_STATUS)
+end
+
+function tellDeviceToUpgrade()
+  dbg("UPGRADE_TRACE : tellDeviceToUpgrade")
+  local args=""
+  if(gForceUpdate == true) then
+    args="01"
+    gForceUpdate=false -- make sure we don't upgrade in an infinite loop by setting this to false
+  else
+    args="00"
+  end
+  dbg("Tell Switch To Upgrade Now.")
+  C4:UpdateProperty("Last Upgrade Status", gUpgradingString)
+  startUpgradeStatusDelayTimer()
+  SendMessageToSwitch(MESSAGES.UPDATE_NOW .. args)
+end
+
+function needToUpgrade()
+  dbg("UPGRADE_TRACE : needToUpgrade")
+  SendMessageToSwitch(MESSAGES.UPDATE_IS_AVAILABLE)
+end
+
+--------------------------------------------------------------------------------------------------------
+-- Main entry point of script
+--------------------------------------------------------------------------------------------------------
+
+gInitialized = false --to prevent setting properties twice (once in OnPropertyChanged and once in setAllPropertiesFromDriverToDevice), set this flag to false
+
+for k,v in pairs(Properties) do
+  OnPropertyChanged(k)
+end
+
+C4:UpdateProperty("Version", 34) -- This 34 is replaced / Fixed up by the combine script.
+C4:UpdateProperty("Power Status", "Unknown")
+C4:UpdateProperty("Connected To Network", "false")
+C4:UpdateProperty("Firmware Version", "Unknown") 
+C4:UpdateProperty(gServerFWVersionProperty, "Unknown") 
+C4:UpdateProperty("Calibration Status", "Unknown")
+C4:UpdateProperty("Always On", "true")
+gTicketIdForFirmwareFileGet = 0
+gHaveToldProxyWeWillHandleAvPathValid = false
+gNetConnected = false
+gFWMajor="-1"
+gFWMinor="-1"
+
+
+    ]]>
+  </script>
+</config>
+</devicedata>

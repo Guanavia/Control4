@@ -1,0 +1,462 @@
+<devicedata>
+	<copyright>Copyright 2009 Control4 Corporation.  All rights reserved.</copyright>
+	<version>3</version>
+	<manufacturer>Vantage</manufacturer>
+	<name>Vantage Switch</name>
+	<model>Vantage Switch</model>
+	<creator>Control4</creator>
+	<created>6/08/2009 11:30 AM</created>
+	<modified>6/08/2009 11:30 AM</modified>
+	<small>devices_sm/VantageDimmer.gif</small>
+	<large>devices_lg/VantageDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>light</proxy>
+	<states />
+	<conditionals />
+	<events/>
+	<config>
+		<documentation>
+Vantage InFusion driver - Installation
+
+The Vantage Infusion drivers allow the Control4 system to work in conjunction with a Vantage InFusion system.  Note: They do not support the legacy Vantage QLink system which uses a different control protocol.
+
+What Support You Should Expect to Receive
+
+Control4 is not able to advise you or support you when configuring Vantage InFusion systems.  If your organization does not have a Vantage-trained programmer, you should enlist the help of a Vantage programmer - particularly for installations in customer environments. We will, by necessity, limit our support to the proper configuration of these drivers within the Control4 system.
+
+How to Install and Configure the Drivers
+
+The Control4 system on which you are installing these drivers must be running Release 1.7.0 or later.  Because these drivers are based on DriverWorks, they don't require a Release 1.8 system update.  There is no difference in the user experience based on underlying system version.
+
+Prior to installing the Vantage InFusion drivers, verify that your system is functioning correctly. These drivers are included in Releases  1.8.2 and 1.7.4.  However, they can be installed manually on other version systems.
+
+The following steps give an overview of the installation process. 
+1.  Add the Vantage InFusion Network driver to your project [System Design, Search, Local Database, --others--, Vantage InFusion]
+2.  Configure the Vantage InFusion Network driver for serial or TCP/IP connection to the Vantage system.  
+  a.  If you are using a TCP/IP connection, Enter the IP Address of the Vantage System in the Identify dialog . 
+  b.  If you are using a serial connection, configure the serial port binding [Connections, Control/AV]. 
+3.  Add/configure the specific dimmer, switch, keypad, and task drivers as needed based on the system you're connected to [System Design, Search, Local Database, ...]
+  * Dimmer [Light, Vantage Dimmer]
+  * Switch [Light, Vantage Switch]
+  * Keypad [--others--, Vantage Keypad]
+  * Task [--others--, Vantage Task]
+4.  If desired, further integrate the Vantage system with the Control4 system using one or more of the following capabilities:
+  * Binding [Connections, Control/AV, Button Link]
+  * Lighting Scenes [Agents, Lighting Scenes] 
+  * Programming (events, conditionals, actions) [Programming]
+5.  Make sure you Refresh Navigators after configuring the system
+
+
+Vantage Switch Driver
+
+The Vantage Switch driver is used to control and monitor any switch on a Vantage Infusion system. One driver should be added for each load that is controlled or monitored. When the driver is added it is automatically linked to a Vantage Infusion driver if it exists. If the driver does not exist the connection will need to be made manually after it has been added.
+The Vantage Switch Driver will also control and monitor Vantage Groups.
+
+Properties
+
+Vantage Device ID:	
+This is the vantage id of the switch to control. This is how it is identified. The Vantage ID can be found by using Vantage Design Center.
+
+Debug Mode:
+Used for debugging the driver. Output is displayed on the Lua tab.
+Options:
+    Off
+    Print
+    Log
+    Print and Log
+
+Variables
+Same as the C4 Light Proxy.
+
+Events
+The Vantage Switch has no buttons attached to the switch. There are therefore no associations between a button and a switch. Level Changes is the only event for a Vantage Switch.
+
+Commands
+All of the C4 Light Proxy non button commands are supported.
+
+Conditionals
+All of the C4 Light Proxy Conditions.
+
+Loops
+All of the C4 Light Proxy Loops.
+
+Connnections
+The following connections are available:
+*  ON Button Link
+*  OFF Button Link
+*  Toggle Button Link
+		</documentation>
+		<identify_text/>
+		<properties>
+			<property>
+				<name>Vantage Device ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+		</commands>
+		<script>
+			<![CDATA[
+LIGHT_PROXY_BINDING_ID = 5001
+VANTAGE_BINDING_ID = 1
+
+ON_BUTTON_BINDING = 300
+OFF_BUTTON_BINDING = 301
+TOGGLE_BUTTON_BINDING = 302
+
+----------------------------------------- property handling -----------------------------------------
+function OnPropertyChanged(strProperty)
+	dbg("OnPropertyChanged(): strProperty = " .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	local prop = Properties[strProperty]
+
+	if (strProperty == "Debug Mode") then
+--[[
+		gDbgPrint = true; gDbgLog = true; gDbgUnitTest = true; if (true) then return end
+--]]
+		if (gDbgTimer > 0) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+		gDbgPrint, gDbgLog, gDbgUnitTest = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil), (prop:find("Log") ~= nil)
+		if (prop == "Off") then
+			return
+		end
+		gDbgTimer = C4:AddTimer(45, "MINUTES")
+		return
+	end
+
+	if (strProperty == "Vantage Device ID") then
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+		return
+	end
+end
+
+----------------------------------------- debug functions -----------------------------------------
+function dbg(strDebugText)
+	if (gDbgPrint) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_switch: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (gDbgUnitTest) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_switch: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (gDbgPrint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (gDbgLog and debugFunction) then C4:ErrorLog("vantage_fusion_switch: " .. strFunction) end
+end
+
+----------------------------------------- timer functions -----------------------------------------
+function startDebugTimer()
+	if (gDbgTimer) then
+		gDbgTimer = C4:KillTimer(gDbgTimer)
+	end
+	gDbgTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == gDbgTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+----------------------------------------- Connection Functions -----------------------------------------
+function OnBindingChanged(idBinding, class, bIsBound)
+	dbg("OnBindingChanged(), idBinding = " .. tostring(idBinding) .. ", class = " .. class .. ", bIsBound = " .. tostring(bIsBound))
+	if (bIsBound) then
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+	else
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "REMOVE_DRIVER", tParams)
+	end
+end
+
+----------------------------------------- Other Functions -----------------------------------------
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+  -- Kill open timers
+  if (gDbgTimer ~= nil) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == VANTAGE_BINDING_ID) then
+		tParams["ADDRESS"] = Properties["Vantage Device ID"]
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+----------------------------------------- DriverWorks Functions -----------------------------------------
+function ExecuteCommand(strCommand, tParams)
+	dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+		if (strCommand =="GET_PROPERTIES") then
+			local tParams = {DEVICE_ID = C4:GetDeviceID()}
+			SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+		else
+			dbg ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+		end
+	end
+
+	-- Proxy Commands
+	if (strCommand == "LIGHT_LEVEL_CHANGED") then
+		gLightLevel = tParams["LEVEL"]
+		SendToProxy(LIGHT_PROXY_BINDING_ID, strCommand, gLightLevel)
+
+		if (tonumber(gLightLevel) == 0) then gLightState = "False" else gLightState = "True" end
+		SendToProxy(ON_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+		SendToProxy(OFF_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+		SendToProxy(TOGGLE_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+	elseif (strCommand == "TOP_BUTTON_PUSH") then
+		SendToProxy(LIGHT_PROXY_BINDING_ID, "TOP_BUTTON_PUSH", {})
+	elseif (strCommand == "TOP_BUTTON_RELEASE") then
+		SendToProxy(LIGHT_PROXY_BINDING_ID, "TOP_BUTTON_RELEASE", {})
+	elseif (strCommand == "CLICK_COUNT") then
+		if (tParams["NUMBER"] == "1") then
+			SendToProxy(LIGHT_PROXY_BINDING_ID, "CLICK_COUNT", {BUTTON = 0, COUNT = 2})
+		end
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)		-- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (idBinding == LIGHT_PROXY_BINDING_ID) then
+
+			-- notifies
+			if (strCommand == "GET_LIGHT_LEVEL") then
+				GET_LIGHT_LEVEL(idBinding, tParams)
+			elseif (strCommand == "GET_CONNECTED_STATE") then
+				SendToProxy(LIGHT_PROXY_BINDING_ID, "ONLINE_CHANGED", "True")
+
+			-- commands
+			elseif (strCommand == "TOGGLE") then
+				TOGGLE_PRESET(tParams)
+			elseif (strCommand == "TOGGLE_PRESET") then
+				TOGGLE_PRESET(tParams)
+			elseif (strCommand == "PUSH_TOGGLE_BUTTON") then
+				TOGGLE_PRESET(tParams)
+			elseif (strCommand == "RELEASE_TOGGLE_BUTTON") then
+				if (gSwitchValue == "0") then
+					SendToProxy(VANTAGE_BINDING_ID, "ON", tParams)
+				else
+					SendToProxy(VANTAGE_BINDING_ID, "OFF", tParams)
+				end
+			elseif (strCommand == "PUSH_TOP_BUTTON") then
+				SendToProxy(VANTAGE_BINDING_ID, "START_RAISE_DIMMER", tParams)
+			elseif (strCommand == "RELEASE_TOP_BUTTON") then
+				SendToProxy(VANTAGE_BINDING_ID, "STOP_DIMMER", tParams)
+			elseif (strCommand == "PUSH_BOTTOM_BUTTON") then
+				SendToProxy(VANTAGE_BINDING_ID, "START_LOWER_DIMMER", tParams)
+			elseif (strCommand == "RELEASE_BOTTOM_BUTTON") then
+				SendToProxy(VANTAGE_BINDING_ID, "STOP_DIMMER", tParams)
+			elseif (strCommand == "AV_BINDINGS_CHANGED") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+			else
+				SendToProxy(VANTAGE_BINDING_ID, strCommand, tParams)
+			end
+		elseif (idBinding == VANTAGE_BINDING_ID) then
+			if (strCommand == "GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+			else
+				SendToProxy(LIGHT_PROXY_BINDING_ID, strCommand, tParams)
+			end
+		elseif (idBinding == ON_BUTTON_BINDING) then
+			if (strCommand == "DO_PUSH") then
+				SendToProxy(VANTAGE_BINDING_ID, "ON", {})
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(ON_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		elseif (idBinding == OFF_BUTTON_BINDING) then
+			if (strCommand == "DO_PUSH") then
+				SendToProxy(VANTAGE_BINDING_ID, "OFF", {})
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(OFF_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		elseif (idBinding == TOGGLE_BUTTON_BINDING) then
+			if (strCommand == "DO_CLICK") then
+				TOGGLE_PRESET(tParams)
+--			Not currently supported, implement once SDK provides a color chooser
+--			elseif (strCommand == "REQUEST_BUTTON_COLORS") then
+--				SendToProxy(TOGGLE_BUTTON_BINDING, "MATCH_LED_STATE", {STATE = gLightState})
+			end
+		end
+	end
+end
+
+function GET_LIGHT_LEVEL(idBinding, tParams)
+	C4:SendToProxy(idBinding, "LIGHT_LEVEL_CHANGED", tostring(gLightLevel))
+	SendToProxy(VANTAGE_BINDING_ID, "REQUEST_DIMMER_LEVEL", {})
+end
+
+function SET_LEVEL(tParams)
+	SendToProxy(VANTAGE_BINDING_ID, "SET_LEVEL", tParams)
+end
+
+function TOGGLE_PRESET(tParams)
+	if (gLightLevel == "0") then	-- this ignores presets and should be changed if presets are implemented
+		tParams["LEVEL"] = 100
+	else
+		tParams["LEVEL"] = 0
+	end
+	SET_LEVEL(tParams)
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+----------------------------- INIT -----------------------------
+--- global variables ---
+gDbgTimer = 0
+gLightLevel = 0
+gLightState = "False"
+
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<capabilities>
+		<on_off>True</on_off>
+		<set_level>False</set_level>
+		<ramp_level>False</ramp_level>
+		<can_detach_buttons>False</can_detach_buttons>
+		<can_detach_led>False</can_detach_led>
+		<has_press_events>False</has_press_events>
+		<has_release_events>False</has_release_events>
+		<single_button>False</single_button>
+		<double_button>False</double_button>
+		<do_push>False</do_push>
+		<do_release>False</do_release>
+		<double_tap_top>False</double_tap_top>
+		<double_tap_bottom>False</double_tap_bottom>
+		<triple_tap_top>False</triple_tap_top>
+		<triple_tap_bottom>False</triple_tap_bottom>
+		<button_events>False</button_events>
+		<can_buttonpress_device>False</can_buttonpress_device>
+		<hide_proxy_events>False</hide_proxy_events>
+		<hide_proxy_properties>True</hide_proxy_properties>
+	</capabilities>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Vantage Infusion Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_SWITCH</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Light</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>LIGHT</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>300</id>
+			<facing>6</facing>
+			<connectionname>ON Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>301</id>
+			<facing>6</facing>
+			<connectionname>OFF Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>302</id>
+			<facing>6</facing>
+			<connectionname>Toggle Button Link</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>BUTTON_LINK</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

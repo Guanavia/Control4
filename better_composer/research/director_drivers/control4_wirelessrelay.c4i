@@ -1,0 +1,70 @@
+<devicedata>
+  <copyright>Copyright 2015 Control4 Corporation. All rights reserved.</copyright>
+  <config />
+  <name>Control4 Wireless Contact Relay</name>
+  <small>devices_sm/relay2.gif</small>
+  <large>devices_lg/relay2.gif</large>
+  <control>cardaccess_wirelesscontact</control>
+  <composer_categories>
+    <category>Controllers</category>
+  </composer_categories>
+  <proxy>control4_wirelessrelay</proxy>
+  <driver>WirelessContact</driver>
+  <states />
+  <capabilities>
+    <serialsettings>9600 8 none 1 none</serialsettings>
+    <can_poll_serial>True</can_poll_serial>
+    <is_relay>True</is_relay>
+  </capabilities>
+  <manufacturer>Control4</manufacturer>
+  <version>1</version>
+  <creator>Control4</creator>
+  <created>11/30/2015 12:30 PM</created>
+  <modified>11/30/2015 12:30 PM</modified>
+  <model>WCS10-R</model>
+  <search_types>
+    <type>c4:control4:WCS10-R</type>
+    <type>c4:cardaccess_inhome:WCS10-R</type>
+  </search_types>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <commands />
+  <conditionals />
+  <events />
+  <connections>
+    <connection>
+      <id>202</id>
+      <facing>6</facing>
+      <connectionname>Internal Magnetic Contact</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>CONTACT_SENSOR</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6002</id>
+      <facing>6</facing>
+      <connectionname>Zigbee Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ZIGBEE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+</devicedata>

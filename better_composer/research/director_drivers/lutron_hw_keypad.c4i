@@ -1,0 +1,861 @@
+<devicedata>
+	<copyright>Copyright 2008 Control4 Corporation.  All rights reserved.</copyright>
+	<version>6</version>
+    <combo>True</combo>
+	<manufacturer>Lutron</manufacturer>
+	<name>Keypad</name>
+	<model>HomeWorks Keypad</model>
+	<creator>Control4</creator>
+	<created>3/19/2009 3:00 PM</created>
+	<modified>5/07/2009 2:30 PM</modified>
+	<small>devices_sm/LutronDimmer.gif</small>
+	<large>devices_lg/LutronDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>lutron_hw_keypad</proxy>
+	<states />
+	<conditionals />
+	<events>
+		<event>
+			<id>1</id>
+			<name>Button 1 Press</name>
+			<description>When NAME button 1 is pressed</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>Button 1 Release</name>
+			<description>When NAME button 1 is released</description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>Button 1 Hold</name>
+			<description>When NAME button 1 is held</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Button 1 Double Tap</name>
+			<description>When NAME button 1 is double-clicked</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>Button 2 Press</name>
+			<description>When NAME button 2 is pressed</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Button 2 Release</name>
+			<description>When NAME button 2 is released</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Button 2 Hold</name>
+			<description>When NAME button 2 is held</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Button 2 Double Tap</name>
+			<description>When NAME button 2 is double-clicked</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Button 3 Press</name>
+			<description>When NAME button 3 is pressed</description>
+		</event>
+		<event>
+			<id>10</id>
+			<name>Button 3 Release</name>
+			<description>When NAME button 3 is released</description>
+		</event>
+		<event>
+			<id>11</id>
+			<name>Button 3 Hold</name>
+			<description>When NAME button 3 is held</description>
+		</event>
+		<event>
+			<id>12</id>
+			<name>Button 3 Double Tap</name>
+			<description>When NAME button 3 is double-clicked</description>
+		</event>
+		<event>
+			<id>13</id>
+			<name>Button 4 Press</name>
+			<description>When NAME button 4 is pressed</description>
+		</event>
+		<event>
+			<id>14</id>
+			<name>Button 4 Release</name>
+			<description>When NAME button 4 is released</description>
+		</event>
+		<event>
+			<id>15</id>
+			<name>Button 4 Hold</name>
+			<description>When NAME button 4 is held</description>
+		</event>
+		<event>
+			<id>16</id>
+			<name>Button 4 Double Tap</name>
+			<description>When NAME button 4 is double-clicked</description>
+		</event>
+		<event>
+			<id>17</id>
+			<name>Button 5 Press</name>
+			<description>When NAME button 5 is pressed</description>
+		</event>
+		<event>
+			<id>18</id>
+			<name>Button 5 Release</name>
+			<description>When NAME button 5 is released</description>
+		</event>
+		<event>
+			<id>19</id>
+			<name>Button 5 Hold</name>
+			<description>When NAME button 5 is held</description>
+		</event>
+		<event>
+			<id>20</id>
+			<name>Button 5 Double Tap</name>
+			<description>When NAME button 5 is double-clicked</description>
+		</event>
+		<event>
+			<id>21</id>
+			<name>Button 6 Press</name>
+			<description>When NAME button 6 is pressed</description>
+		</event>
+		<event>
+			<id>22</id>
+			<name>Button 6 Release</name>
+			<description>When NAME button 6 is released</description>
+		</event>
+		<event>
+			<id>23</id>
+			<name>Button 6 Hold</name>
+			<description>When NAME button 6 is held</description>
+		</event>
+		<event>
+			<id>24</id>
+			<name>Button 6 Double Tap</name>
+			<description>When NAME button 6 is double-clicked</description>
+		</event>
+		<event>
+			<id>25</id>
+			<name>Button 7 Press</name>
+			<description>When NAME button 7 is pressed</description>
+		</event>
+		<event>
+			<id>26</id>
+			<name>Button 7 Release</name>
+			<description>When NAME button 7 is released</description>
+		</event>
+		<event>
+			<id>27</id>
+			<name>Button 7 Hold</name>
+			<description>When NAME button 7 is held</description>
+		</event>
+		<event>
+			<id>28</id>
+			<name>Button 7 Double Tap</name>
+			<description>When NAME button 7 is double-clicked</description>
+		</event>
+		<event>
+			<id>29</id>
+			<name>Button 8 Press</name>
+			<description>When NAME button 8 is pressed</description>
+		</event>
+		<event>
+			<id>30</id>
+			<name>Button 8 Release</name>
+			<description>When NAME button 8 is released</description>
+		</event>
+		<event>
+			<id>31</id>
+			<name>Button 8 Hold</name>
+			<description>When NAME button 8 is held</description>
+		</event>
+		<event>
+			<id>32</id>
+			<name>Button 8 Double Tap</name>
+			<description>When NAME button 8 is double-clicked</description>
+		</event>
+		<event>
+			<id>33</id>
+			<name>Button 9 Press</name>
+			<description>When NAME button 9 is pressed</description>
+		</event>
+		<event>
+			<id>34</id>
+			<name>Button 9 Release</name>
+			<description>When NAME button 9 is released</description>
+		</event>
+		<event>
+			<id>35</id>
+			<name>Button 9 Hold</name>
+			<description>When NAME button 9 is held</description>
+		</event>
+		<event>
+			<id>36</id>
+			<name>Button 9 Double Tap</name>
+			<description>When NAME button 9 is double-clicked</description>
+		</event>
+		<event>
+			<id>37</id>
+			<name>Button 10 Press</name>
+			<description>When NAME button 10 is pressed</description>
+		</event>
+		<event>
+			<id>38</id>
+			<name>Button 10 Release</name>
+			<description>When NAME button 10 is released</description>
+		</event>
+		<event>
+			<id>39</id>
+			<name>Button 10 Hold</name>
+			<description>When NAME button 10 is held</description>
+		</event>
+		<event>
+			<id>40</id>
+			<name>Button 10 Double Tap</name>
+			<description>When NAME button 10 is double-clicked</description>
+		</event>
+		<event>
+			<id>41</id>
+			<name>Button 11 Press</name>
+			<description>When NAME button 11 is pressed</description>
+		</event>
+		<event>
+			<id>42</id>
+			<name>Button 11 Release</name>
+			<description>When NAME button 11 is released</description>
+		</event>
+		<event>
+			<id>43</id>
+			<name>Button 11 Hold</name>
+			<description>When NAME button 11 is held</description>
+		</event>
+		<event>
+			<id>44</id>
+			<name>Button 11 Double Tap</name>
+			<description>When NAME button 11 is double-clicked</description>
+		</event>
+		<event>
+			<id>45</id>
+			<name>Button 12 Press</name>
+			<description>When NAME button 12 is pressed</description>
+		</event>
+		<event>
+			<id>46</id>
+			<name>Button 12 Release</name>
+			<description>When NAME button 12 is released</description>
+		</event>
+		<event>
+			<id>47</id>
+			<name>Button 12 Hold</name>
+			<description>When NAME button 12 is held</description>
+		</event>
+		<event>
+			<id>48</id>
+			<name>Button 12 Double Tap</name>
+			<description>When NAME button 12 is double-clicked</description>
+		</event>
+		<event>
+			<id>49</id>
+			<name>Button 13 Press</name>
+			<description>When NAME button 13 is pressed</description>
+		</event>
+		<event>
+			<id>50</id>
+			<name>Button 13 Release</name>
+			<description>When NAME button 13 is released</description>
+		</event>
+		<event>
+			<id>51</id>
+			<name>Button 13 Hold</name>
+			<description>When NAME button 13 is held</description>
+		</event>
+		<event>
+			<id>52</id>
+			<name>Button 13 Double Tap</name>
+			<description>When NAME button 13 is double-clicked</description>
+		</event>
+		<event>
+			<id>53</id>
+			<name>Button 14 Press</name>
+			<description>When NAME button 14 is pressed</description>
+		</event>
+		<event>
+			<id>54</id>
+			<name>Button 14 Release</name>
+			<description>When NAME button 14 is released</description>
+		</event>
+		<event>
+			<id>55</id>
+			<name>Button 14 Hold</name>
+			<description>When NAME button 14 is held</description>
+		</event>
+		<event>
+			<id>56</id>
+			<name>Button 14 Double Tap</name>
+			<description>When NAME button 14 is double-clicked</description>
+		</event>
+		<event>
+			<id>57</id>
+			<name>Button 15 Press</name>
+			<description>When NAME button 15 is pressed</description>
+		</event>
+		<event>
+			<id>58</id>
+			<name>Button 15 Release</name>
+			<description>When NAME button 15 is released</description>
+		</event>
+		<event>
+			<id>59</id>
+			<name>Button 15 Hold</name>
+			<description>When NAME button 15 is held</description>
+		</event>
+		<event>
+			<id>60</id>
+			<name>Button 15 Double Tap</name>
+			<description>When NAME button 15 is double-clicked</description>
+		</event>
+		<event>
+			<id>61</id>
+			<name>Button 16 Press</name>
+			<description>When NAME button 16 is pressed</description>
+		</event>
+		<event>
+			<id>62</id>
+			<name>Button 16 Release</name>
+			<description>When NAME button 16 is released</description>
+		</event>
+		<event>
+			<id>63</id>
+			<name>Button 16 Hold</name>
+			<description>When NAME button 16 is held</description>
+		</event>
+		<event>
+			<id>64</id>
+			<name>Button 16 Double Tap</name>
+			<description>When NAME button 16 is double-clicked</description>
+		</event>
+		<event>
+			<id>65</id>
+			<name>Button 17 Press</name>
+			<description>When NAME button 17 is pressed</description>
+		</event>
+		<event>
+			<id>66</id>
+			<name>Button 17 Release</name>
+			<description>When NAME button 17 is released</description>
+		</event>
+		<event>
+			<id>67</id>
+			<name>Button 17 Hold</name>
+			<description>When NAME button 17 is held</description>
+		</event>
+		<event>
+			<id>68</id>
+			<name>Button 17 Double Tap</name>
+			<description>When NAME button 17 is double-clicked</description>
+		</event>
+		<event>
+			<id>69</id>
+			<name>Button 18 Press</name>
+			<description>When NAME button 18 is pressed</description>
+		</event>
+		<event>
+			<id>70</id>
+			<name>Button 18 Release</name>
+			<description>When NAME button 18 is released</description>
+		</event>
+		<event>
+			<id>71</id>
+			<name>Button 18 Hold</name>
+			<description>When NAME button 18 is held</description>
+		</event>
+		<event>
+			<id>72</id>
+			<name>Button 18 Double Tap</name>
+			<description>When NAME button 18 is double-clicked</description>
+		</event>
+		<event>
+			<id>73</id>
+			<name>Button 19 Press</name>
+			<description>When NAME button 19 is pressed</description>
+		</event>
+		<event>
+			<id>74</id>
+			<name>Button 19 Release</name>
+			<description>When NAME button 19 is released</description>
+		</event>
+		<event>
+			<id>75</id>
+			<name>Button 19 Hold</name>
+			<description>When NAME button 19 is held</description>
+		</event>
+		<event>
+			<id>76</id>
+			<name>Button 19 Double Tap</name>
+			<description>When NAME button 19 is double-clicked</description>
+		</event>
+		<event>
+			<id>77</id>
+			<name>Button 20 Press</name>
+			<description>When NAME button 20 is pressed</description>
+		</event>
+		<event>
+			<id>78</id>
+			<name>Button 20 Release</name>
+			<description>When NAME button 20 is released</description>
+		</event>
+		<event>
+			<id>79</id>
+			<name>Button 20 Hold</name>
+			<description>When NAME button 20 is held</description>
+		</event>
+		<event>
+			<id>80</id>
+			<name>Button 20 Double Tap</name>
+			<description>When NAME button 20 is double-clicked</description>
+		</event>
+		<event>
+			<id>81</id>
+			<name>Button 21 Press</name>
+			<description>When NAME button 21 is pressed</description>
+		</event>
+		<event>
+			<id>82</id>
+			<name>Button 21 Release</name>
+			<description>When NAME button 21 is released</description>
+		</event>
+		<event>
+			<id>83</id>
+			<name>Button 21 Hold</name>
+			<description>When NAME button 21 is held</description>
+		</event>
+		<event>
+			<id>84</id>
+			<name>Button 21 Double Tap</name>
+			<description>When NAME button 21 is double-clicked</description>
+		</event>
+		<event>
+			<id>85</id>
+			<name>Button 22 Press</name>
+			<description>When NAME button 22 is pressed</description>
+		</event>
+		<event>
+			<id>86</id>
+			<name>Button 22 Release</name>
+			<description>When NAME button 22 is released</description>
+		</event>
+		<event>
+			<id>87</id>
+			<name>Button 22 Hold</name>
+			<description>When NAME button 22 is held</description>
+		</event>
+		<event>
+			<id>88</id>
+			<name>Button 22 Double Tap</name>
+			<description>When NAME button 22 is double-clicked</description>
+		</event>
+		<event>
+			<id>89</id>
+			<name>Button 23 Press</name>
+			<description>When NAME button 23 is pressed</description>
+		</event>
+		<event>
+			<id>90</id>
+			<name>Button 23 Release</name>
+			<description>When NAME button 23 is released</description>
+		</event>
+		<event>
+			<id>91</id>
+			<name>Button 23 Hold</name>
+			<description>When NAME button 23 is held</description>
+		</event>
+		<event>
+			<id>92</id>
+			<name>Button 23 Double Tap</name>
+			<description>When NAME button 23 is double-clicked</description>
+		</event>
+		<event>
+			<id>93</id>
+			<name>Button 24 Press</name>
+			<description>When NAME button 24 is pressed</description>
+		</event>
+		<event>
+			<id>94</id>
+			<name>Button 24 Release</name>
+			<description>When NAME button 24 is released</description>
+		</event>
+		<event>
+			<id>95</id>
+			<name>Button 24 Hold</name>
+			<description>When NAME button 24 is held</description>
+		</event>
+		<event>
+			<id>96</id>
+			<name>Button 24 Double Tap</name>
+			<description>When NAME button 24 is double-clicked</description>
+		</event>
+	</events>
+	<config>
+		<documentation>
+Lutron HomeWorks Keypad
+
+When installing drivers to connect to a Lutron HomeWorks system, it is recommended that you add the Lutron HomeWorks Network driver first. Homeworks Network is a singleton driver and can be added only once in a project. If this driver exists prior to adding any of the other drivers, then the other drivers will be automatically connected to the HomeWorks Network driver. If that driver is not added first, then those connections will need to be made manually.
+	
+The HomeWorks Keypad driver is used to control and monitor any keypad on the Lutron HomeWorks system. The keypad driver is a combo driver and does not connect to the Control4 Keypad Proxy. When the driver is added it is automatically linked to a HomeWorks Network driver if it exists. If the driver does not exist the connection will need to be made manually after it has been added.
+
+Properties
+Device Address:	
+	This is the address of the dimmer. This is how it is identified.
+	Device Address Formatting
+	* Each device address is separated into 3-5 elements. Each element must be separated with a colon (:).  Refer to the Lutron documentation for device specific addressing.
+	* The device address must be enclosed with [brackets].
+	* Example: [01:04:01:01:01]
+	(Note:  If you are unsure of the Lutron HomeWorks addressing, please refer to the  "Device Address Formatting" section of Lutron HomeWorks protocol documentation. This documentation can be found online at: http://resi.lutron.com/Portals/3/Support/Documentation/HWI%20RS232%20Protocol.pdf)
+
+Debug Mode:
+	Used for debugging the driver. Output is displayed on the Lua tab.
+	Options:
+		Off
+		Print
+		Log
+		Print and Log
+		
+Variables
+	None
+
+Events
+	There are the same events for each button on a keypad. A Lutron system supports up to a 24 button keypad. Only use the number of buttons that the keypad supports that you are identified with. Buttons 23 and 24 are typically the two buttons at the bottom of a keypad. For example a 6 button keypad will have buttons 1-6 and 23-24.
+	* Button # Press
+	* Button # Release
+	* Button # Hold
+	* Button # Double Tap
+	
+Commands
+	Commands that have a Button Number parameter. This specifies the button (1-24) to execute.
+	Device Specific Commands:
+	* Press
+	  - Button Number (the button (1-24) to execute)
+	* Release
+	  - Button Number (the button (1-24) to execute)
+	* Hold
+	  - Button Number (the button (1-24) to execute)
+	* Double Tap
+	  - Button Number (the button (1-24) to execute)
+	* Enable
+	* Disable
+	* Set LED State
+	  - Button Number (the button (1-24) to execute)
+	  - State
+	    - Off
+	    - On
+	    - Flash 1
+	    - Flash 2
+
+Conditionals
+	None
+
+Loops
+	None
+
+Connections
+	None
+
+		</documentation>
+		<identify_text>To Be Determined.</identify_text>
+		<properties>
+			<property>
+				<name>Device Address</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Press</name>
+				<description>Press button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Release</name>
+				<description>Release button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Hold</name>
+				<description>Hold button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Double Tap</name>
+				<description>Double-click button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Enable</name>
+				<description>Enable NAME</description>
+			</command>
+			<command>
+				<name>Disable</name>
+				<description>Disable NAME</description>
+			</command>
+			<command>
+				<name>Set LED State</name>
+				<description>Turn LED: PARAM1 PARAM2 on NAME</description>
+				<params>
+					<param>
+						<name>LED Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+					<param>
+						<name>State</name>
+						<type>LIST</type>
+						<items>
+							<item>Off</item>
+							<item>On</item>
+							<item>Flash 1</item>
+							<item>Flash 2</item>
+						</items>
+					</param>
+				</params>
+			</command>
+		</commands>
+		<script>
+			<![CDATA[
+lutronHWBinding = 1
+
+function OnPropertyChanged(strProperty)
+	dbg("strProperty = "  .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	if (strProperty == "Device Address") then
+		g_deviceAddress = Properties[strProperty]
+		local tParams = {DEVICE_ID = C4:GetDeviceID(), ADDRESS = g_deviceAddress}
+		C4:SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+	elseif (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debugunittest = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		elseif (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debugunittest = false
+			g_debuglog = false
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		elseif (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debugunittest = true
+			g_debuglog = true
+			startDebugTimer()
+		end
+	else
+		dbg("No action performed for " .. strProperty .. " which has been set to: " .. Properties[strProperty])
+	end
+end
+
+function startDebugTimer()
+	if (g_DebugTimer) then
+		g_DebugTimer = C4:KillTimer(g_DebugTimer)
+	end
+	g_DebugTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function dbg(strDebugText)
+	if (g_debugprint) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_keypad: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (g_debugunittest) then print (strDebugText) end
+	if (g_debuglog) then C4:ErrorLog("lutron_hw_keypad: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (g_debugprint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (g_debuglog  and debugFunction) then C4:ErrorLog("lutron_hw_keypad: " .. strFunction) end
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == g_DebugTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+	-- Kill open timers
+	if (g_DebugTimer ~= nil) then g_DebugTimer = C4:KillTimer(g_DebugTimer) end
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == lutronHWBinding) then
+		tParams["ADDRESS"] = g_deviceAddress
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function ExecuteCommand(strCommand, tParams)
+	dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+			dbg ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+	end
+
+	-- Commands
+	if (strCommand == "Press") then
+		SendToProxy(lutronHWBinding, "KEYPAD_BUTTON_PRESS", tParams)
+	elseif (strCommand == "Release") then
+		SendToProxy(lutronHWBinding, "KEYPAD_BUTTON_RELEASE", tParams)
+	elseif (strCommand == "Hold") then
+		SendToProxy(lutronHWBinding, "KEYPAD_BUTTON_HOLD", tParams)
+	elseif (strCommand == "Double Tap") then
+		SendToProxy(lutronHWBinding, "KEYPAD_BUTTON_DOUBLE", tParams)
+	elseif (strCommand == "Enable") then
+		SendToProxy(lutronHWBinding, "KEYPAD_ENABLE", {})
+	elseif (strCommand == "Disable") then
+		SendToProxy(lutronHWBinding, "KEYPAD_DISABLE", {})
+	elseif (strCommand == "Set LED State") then
+		SendToProxy(lutronHWBinding, "KEYPAD_BUTTON_STATE", tParams)
+
+	-- Events
+	elseif (strCommand == "KP_BUTTON_PUSH") then
+		local buttonNumber = tParams["BUTTON"]
+		local eventName = "Button " .. buttonNumber .. " Press"
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	elseif (strCommand == "KP_BUTTON_RELEASE") then
+		local buttonNumber = tParams["BUTTON"]
+		local eventName = "Button " .. buttonNumber .. " Release"
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	elseif (strCommand == "KP_BUTTON_HOLD") then
+		local buttonNumber = tParams["BUTTON"]
+		local eventName = "Button " .. buttonNumber .. " Hold"
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	elseif (strCommand == "KP_BUTTON_DOUBLE_TAP") then
+		local buttonNumber = tParams["BUTTON"]
+		local eventName = "Button " .. buttonNumber .. " Double Tap"
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	else
+		dbg("From ExecuteCommand Function - Undefined Command: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)    -- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (idBinding == lutronHWBinding) then
+			if (strCommand == "GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(lutronHWBinding, "ADD_DRIVER", tParams)
+			end
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+-----------------------------  INIT   -----------------------------
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+g_deviceAddress = ""
+
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<capabilities/>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Lutron HomeWorks Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>LUTRON_HW_KEYPAD</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

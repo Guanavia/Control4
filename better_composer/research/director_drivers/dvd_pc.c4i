@@ -1,0 +1,64 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2010 Control4 Corporation.  All rights reserved.</copyright>
+  <created>6/1/2010 12:00:00 PM</created>
+  <modified>7/28/2010 1:40:00 PM</modified>
+  <name>PC DVD Player</name>
+  <small>devices_sm/dvd_pc.gif</small>
+  <large>devices_lg/dvd_pc.gif</large>
+  <control>av_gen</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <!-- need the proxies tag in order to get name of proxy parsed -->
+  <proxies>
+  	<proxy name='PC' smimagepath="devices_sm\dvd_pc.gif" lgimagepath="devices_lg\dvd_pc.gif">dvd</proxy>
+  </proxies>
+  <driver>100050</driver>
+  <manufacturer>Generic</manufacturer>
+  <creator>Control4</creator>
+  <model>DVD-PC</model>
+  <states />
+  <capabilities>
+	<navigator_display_option>
+  		<show_transport>False</show_transport>
+  		<display_icon>watch_btnico_pc.png</display_icon>
+  		<status_icon>md_btnstatico_pc.png</status_icon>	
+  	</navigator_display_option>
+  </capabilities>
+  <commands />
+  <conditionals />
+  <events />
+  <config />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <type>2</type>
+      <connectionname>DVD</connectionname>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>DVD</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      	<id>4000</id>
+      	<facing>6</facing>
+      	<connectionname>Output</connectionname>
+      	<type>6</type>
+      	<consumer>False</consumer>
+      	<audiosource>False</audiosource>
+      	<videosource>True</videosource>
+      	<linelevel>False</linelevel>
+      	<classes>
+	        <class>
+	          <classname>VGA</classname>
+	        </class>
+		</classes>
+	</connection>
+  </connections>
+</devicedata>

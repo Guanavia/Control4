@@ -50,13 +50,374 @@ completes it (this is what regenerates skeletal state). Our tool lives entirely 
 → `.c4p` → (restore) Director. So "open in Composer" already means "live in Director, fully
 instantiated" — no load-then-program step.
 
-**NEXT-SESSION HANDOFF (workstation):** reopen on the Windows workstation (has VSCode+Claude Code +
-Composer Pro installed) to grab Director-internal driver defs NOT in the online catalog (confirmed 0
-hits) and NOT bundled in projects: `roomdevice.c4i`, all `control4_agent_*.c4i` (agent vocab), and
-proxy drivers `tv.c4i`/`light_v2.c4i`/`keypad_proxy.c4i`/`media_player.c4i`/`avswitch.c4i`/`fan.c4i`/
-`thermostatV2.c4i`/`controller.c4i`/`uidevice.c4i`. Look in Composer's built-in drivers folder
-(likely `C:\Program Files (x86)\Control4\Composer[ Pro]\Drivers\` or `%USERPROFILE%\Documents\
-Control4\Drivers\`). Copy the whole drivers folder into the repo → closes the agent/room vocab gap.
+**WORKSTATION HANDOFF — DONE (2026-07-13).** Found and copied Composer's built-in driver defs into
+`better_composer/research/director_drivers/` (295 `.c4i` + 12 `.c4z`, ~15MB, committed to git — not
+gitignored, small enough). Actual location on this workstation: `C:\Program Files (x86)\Control4\
+Shared\4.1.0\Drivers\Virtual\` (version-numbered per installed Director release; matched to the live
+project's director 4.1.0.743847 — `3.4.3`/`4.0.0` sibling folders also exist for older projects).
+`roomdevice.c4i` and all 9 target proxy drivers (`tv`/`light_v2`/`keypad_proxy`/`media_player`/
+`avswitch`/`fan`/`thermostatV2`/`controller`/`uidevice`) confirmed present as real XML `.c4i` and
+copied — **closes the room/proxy half of the vocab gap.**
+
+**AGENT VOCAB GAP — NOT closed, and the original handoff's assumption was wrong.**
+`control4_agent_*.c4i` do not exist anywhere on disk in any form — there is no XML source file to
+copy. Agents ship ONLY as compiled `control4_agent_*.c4w` (PE32 native DLLs, ~5MB each) in
+`Shared\4.1.0\Director\Drivers\`. Confirmed via three checks: (1) not present under any version's
+`Drivers\Virtual\` folder; (2) not referenced anywhere in Composer's own device-catalog XML
+(`%APPDATA%\Control4\Composer\devices_41.xml`, the source for the "Add Device" tree) — agents are
+apparently never added via that generic flow; (3) byte-level scan of `control4_agent_adv_lighting.c4w`
+for embedded XML markers (`<commands>`, `<events>`, `<proxy>`) found nothing — no plaintext schema
+embedded in the binary. **Conclusion: agent command/event vocab isn't a file-retrieval problem, it's
+either compiled into native code (would need PE resource extraction / disassembly to confirm even
+that) or generated dynamically by Director at runtime.** Decided path forward (2026-07-13, user's
+call): don't chase binary extraction — treat agent vocab like the scene/keypad state model was
+solved, i.e. reverse-engineer via `c4proj diff` captures of the Agents view in Composer against a
+virtual director, same method as the capture campaigns already documented below. Not started.
+
+**AGENT SCHEMA UNDERSTOOD + GAP RE-SCOPED SMALLER (2026-07-13), via snap-one's public GitHub
+(`github.com/snap-one` — 18 public repos, all DriverWorks SDK docs/templates/samples).**
+`docs-driverworks-fundamentals` has a dedicated "DriverWorks Agents" chapter (OS 3.1.3+): an agent
+is just a normal self-proxy/combo driver `.c4z` with **`<agent>true</agent>`** added to
+`<devicedata>` — same `<commands>`/`<events>`/`<conditionals>`/`<properties>` schema as any other
+driver, just a singleton hidden from the room hierarchy. So `c4proj/drivers.py`'s existing parser
+needs zero changes to handle agents — it's a vocab-sourcing problem only, not a schema/format one.
+None of our 27 target legacy `control4_agent_*` names are in the public Solr catalog (they're
+OS-bundled, not third-party-distributed), **but 9 newer first-party Control4 agents ARE** (search
+`q=agent`): Routines, Quick Actions, Timeline, Recently Played Manager, MultiDisplay Manager, OvrC
+Sync, Vibrant Smart Bulb, OVRC WiFi QRCode. Downloaded + inspected 6 of them
+(`research/agent_probe/`, via `c4proj.repo.search()`/`.download()` — first real use of the repo
+module end-to-end). **Finding: 5 of 6 have completely empty `<commands/>` and `<events/>`**
+(Routines, Timeline, Quick Actions, Recently Played, OvrC Sync) — these manage everything through
+a self-contained Composer UI tab + internal state, confirming the "own sub-model, state-blob-based"
+pattern already seen for keypad/scene config, NOT the classic event/command programming model.
+Only **MultiDisplay Manager** (an older 2023-era agent) has real populated `<commands>` (4, incl.
+`CUSTOM_SELECT:GetMultiDisplaysForProgramming` dynamic-dropdown params) — and even it has **no
+`<events>`**.
+**Revised plan:** the "39 agents in the project" concern is likely overblown — most probably expose
+NOTHING to the classic Programming view (no capture needed, out of scope by design) and are already
+covered by the state-blob approach. Before running any manual capture campaign, do a **fast triage
+first**: in Composer's Programming view device picker, for each of the ~12 agents actually present
+in Russell House, just check whether it lists ANY events/commands at all (a few minutes, no program-
+building). That tells us the *real* size of the remaining gap — likely 1-4 agents, not 27. Full
+capture campaign (prog01-14-style) only needed for whichever agents survive that triage.
+
+**TRIAGE DONE BY USER (2026-07-13) — prediction above was WRONG, gap is much bigger than 1-4.**
+User manually checked every agent in the Russell House virtual-director project's Programming tab.
+**Only 10 of the ~39 agents have NO programmable events**: ChowMain agent, Data Analytics, Halo
+Remote Hub, History, Navigation, Programming Control, Remote Access, System Diagnostics, UI
+Configuration, Update Manager. **Every other agent (the large majority) DOES expose real events** —
+opposite of the public-catalog sample (Routines/Timeline/etc., all empty), because those newer
+(2024-2026) agents are a different generation from the classic OS-bundled ones actually used in
+real projects. **Conclusion: the classic legacy agents are the ones that matter, and most of them
+need real vocab capture.** This is a much larger campaign than hoped — not started.
+
+**DLL REVERSE-ENGINEERING ATTEMPT (2026-07-13) — partial success, not a full solution.** User asked
+whether the compiled `control4_agent_*.c4w` binaries (native PE DLLs, confirmed via
+`[System.Reflection.AssemblyName]::GetAssemblyName()` throwing "not a valid assembly") can be
+decoded. Findings:
+- PE resource enumeration (Win32 `EnumResourceTypes`/`EnumResourceNames` via P/Invoke, read-only,
+  `LOAD_LIBRARY_AS_DATAFILE` so no code executes) found only resource type `#24` (RT_MANIFEST, the
+  standard app manifest) — **no embedded data/string-table resource** to extract.
+- Raw string extraction (ASCII + UTF-16LE scan of the full byte content) works and the binaries are
+  **not stripped** — real C++ symbol names survive, e.g. `scheduler_agent::calculate_events_to_fire_`,
+  `scheduler_agent::TestCondition`, `scheduler_agent::ExecuteCommand`, plus internal literals
+  (`Sunrise:`, `Sunset:`, `GET_SUNRISE_SUNSET`, `start_weekday`) and even a build path
+  (`C:\j\workspace\4.1.0-virtual-director@2\control4\agents\scheduler\c4w\scheduler_agent.cpp`) —
+  confirms Control4's internal build layout (`control4/agents/<name>/`) and that scheduler entries
+  are parsed as `pugi::xml_node` internally. **Useful for confirming implementation behavior, but
+  did NOT surface a clean list of user-facing event/command display names** — those are presumably
+  sourced from a separate localization/resource bundle (not found by filename search in the install
+  tree) or constructed at a point string-scanning can't cleanly recover.
+- Separately: `ComposerPro.exe` and its `Control4.Designer.*.dll` (incl. `Control4.Designer.Agents.dll`,
+  `Control4.Designer.Programming.dll`) **are managed .NET** (confirmed via
+  `ReflectionOnlyLoadFrom`) — much easier to inspect — but their embedded resources are only
+  compiled WinForms `.resources` (control layout/icons/generic label text), **not per-agent
+  vocabulary**. This confirms Composer queries the live Director at runtime (via c4soap on 5021) for
+  each device/agent's actual command/event list rather than having it baked into the client — so
+  there is no static client-side file that shortcuts this.
+- **Verdict: binary extraction is not a practical shortcut.** Getting a clean vocab list would
+  require full disassembly (Ghidra/IDA-level effort) per agent, high effort for uncertain yield.
+  **The `c4proj diff` capture-campaign method (proven for scenes/keypads/programming grammar)
+  remains the only reliable path** for the ~29 legacy agents that do have events.
+
+**SCOPE EXPANDED (2026-07-13, user's call): agent CONFIGURATION is in scope, not just agent
+programming events.** Configuring agents (not just wiring their events into programming) is used
+very frequently in real system builds and must be supported, even if it lands after the initial
+pass. **FUNCTIONALITY checklist only — explicitly NOT a UI/layout mandate** (user was emphatic:
+Composer's UI/UX is "awful" and a core reason this project exists at all; the replacement will
+**completely overhaul** the UX once UI design starts — we haven't gotten there yet, still on the
+backend). The following are the *capabilities* that must exist somewhere in the finished tool,
+regardless of how they end up laid out:
+- System Design, Connections, Media, Agents, Programming — all five functional areas, not just
+  Connections+Programming as previously implied.
+- Properties, Summary, List View, and sub-properties — full property-editing surface for whatever's
+  selected, not just top-level fields.
+- Items and Drivers — the device/room tree + driver catalog/search.
+This reframes the backend-scope gaps already documented above (device instance properties/`<state>`
+modeling, agent config models) as core v1 surface, not stretch goals — the tool needs functional
+parity across all of the above, agents included, before it can replace Composer for daily use. UI
+design is a separate, later phase.
+
+**LIVE-DIRECTOR ACCESS INVESTIGATION (2026-07-13) — PAUSED, not abandoned. Real progress, no
+breakthrough yet.** Prompted by the agent-vocab dead end: since this workstation has a fully
+licensed, authorized Composer Pro install (dealer account `S508194`, `david@propertyrenewal.llc`),
+explored whether our tool could use that same legitimate access to query (or eventually author
+against) a live Director directly via the `c4soap` protocol on port 5021, instead of/in addition to
+the file-based `.c4p` round-trip. **Explicit scope boundary set by user:** using the machine's own
+already-authorized access is fine; extracting secrets from Control4's compiled software to defeat
+its own protection is a separate, greyer line — user is comfortable crossing THAT line too (their
+hardware, their license), but decrypting/using the actual dealer *account password*
+(`dealeraccount.xml`, DPAPI-encrypted) is explicitly OFF LIMITS for now — if truly needed later, the
+user will type credentials fresh rather than have the stored copy touched.
+- **Confirmed live and reachable:** port 5021 is listening on this machine right now (virtual
+  director running). `composer.p12` (`%APPDATA%\Control4\Composer\composer.p12`) is the mutual-TLS
+  client cert Composer uses — NOT in the Windows cert store (CurrentUser\My / LocalMachine\My
+  checked, absent), exists only as a standalone PKCS12 file. Common/default passwords (blank,
+  `control4`, `composer`, `changeit`) all failed to unlock it.
+- **Static password extraction attempted, dead-ended.** Managed DLLs (`Control4.Client.dll`,
+  `Control4.Broker.dll`, `Control4.Broker-RT.dll`, `Control4.Client-RT.dll`, `ComposerPro-RT.dll` —
+  all confirmed managed .NET via PE CLR-header parsing) contain **no** string literal referencing
+  `.p12`/`.pfx`/`composer.p12` anywhere (checked via raw UTF-16LE byte search across all 92 DLLs in
+  Composer/Pro). The native `Control4BrokerRT.dll`/`Control4ClientRT.dll` (different from the
+  managed `Control4.Broker-RT.dll` — extracted at runtime to per-session folders under
+  `%TEMP%\<guid>\`) had apparent `p12`/`pfx` string hits that turned out to be false positives
+  (substrings inside unrelated longer strings, e.g. `p12v`, `pfxta`). **Conclusion: the password is
+  almost certainly derived at runtime** (e.g. from machine ID + account hash via a KDF), not a
+  static literal — which static string analysis fundamentally cannot recover. Would need dynamic
+  analysis (debugger attach to the running Composer process, catching the password at the moment it
+  unlocks the file) to go further this way — not attempted, higher effort/more invasive, paused per
+  user call.
+- **Pivoted to look for a legitimate cert-(re)enrollment flow instead of extracting the existing
+  cert's password** — cleaner technically and ethically (would mean getting our OWN freshly-issued
+  cert, not cracking Composer's). Found `dealeraccount.xml` (`%APPDATA%\Control4\`) — dealer login
+  (username, account `S508194`, DPAPI-encrypted password — **not decrypted, off limits per user**)
+  — and `remoteaccounts.json` confirming a real cloud API host: `apis.control4.com/account/v2/rest/
+  customers/<id>`. Composer logs (`%APPDATA%\Control4\Logs\Composer-*.log`) from Jul 9 (the day
+  `composer.p12`'s mtime last changed) show `Control4.ComposerPro.RegistrationForm` — "ComposerPro
+  is registering the license" — but this reads as **Composer's own software-license activation**,
+  a different mechanism from the Director mTLS client cert, not confirmed as the same flow. No
+  SSL/TLS/X509/cert/5021-specific logging exists at INFO level anywhere in Composer's logs — that
+  layer is silent unless DEBUG logging is enabled (not explored).
+- **Verdict: real progress (confirmed live port, confirmed cert isn't in the cert store, ruled out
+  static extraction, found the account/API surface, found the registration flow class name), but no
+  working path to either read the cert password or complete a clean re-enrollment yet.** Paused
+  here per user call (2026-07-13) rather than escalating to dynamic analysis or live credentials —
+  explicitly NOT abandoned, revisit with a fresh time budget. If resumed, next concrete steps in
+  order of promise: (1) try enabling Composer's DEBUG-level logging and repeat a fresh
+  registration/connection cycle to see if the TLS/cert layer becomes visible; (2) if that's a dead
+  end too, either dynamic analysis (debugger attach) or the user typing fresh credentials into a
+  purpose-built enrollment-flow test are the remaining options — both bigger commitments to be
+  scoped with the user first, not started unilaterally.
+
+**CORRECTION (2026-07-13, user's call) on how the live-Director thread relates to the core goal:**
+reverse-engineering the read/query side (whichever method — captures, disassembly, live query) is
+NOT "most of the way to live authoring." It's the thing that unblocks the ALREADY-WORKING `.c4p`
+authoring engine (`authoring.py`'s `add_device`/`clone_device`, proven to load correctly in a
+virtual director) to build a COMPLETE project with full programming + agent configuration, which
+then round-trips through Composer to Director exactly as already validated. That's the actual
+remaining lift, and vocab-completeness is what closes it. Live Director access (bypassing the
+Composer round-trip entirely) is a separate, additional, later feature, not a blocker for
+"author a complete project."
+
+**GHIDRA DISASSEMBLY — BREAKTHROUGH (2026-07-13). Automated agent-vocab extraction WORKS.**
+Installed **Ghidra 12.1.2** (`github.com/NationalSecurityAgency/ghidra` releases, no winget
+package) + **OpenJDK 21** (`winget install Microsoft.OpenJDK.21`) — Ghidra 12.x dropped built-in
+Jython, so scripts must be **Java**, not Python, for headless use (no PyGhidra/jep setup needed).
+**Gotcha:** Ghidra's OSGi script loader only resolves scripts placed in a *registered* script
+directory — `-scriptPath <arbitrary dir>` alone silently fails ("Failed to get OSGi bundle") even
+for trivial scripts. Fix: drop scripts in the default `%USERPROFILE%\ghidra_scripts\` and omit
+`-scriptPath` entirely. Real compile errors (as opposed to this OSGi resolution failure) DO show up
+clearly in the headless log, so iterate there.
+- **Method that worked, against `control4_agent_scheduler.c4w`:** don't search for named functions
+  (release binaries have no real symbol table — the `scheduler_agent::ExecuteCommand`-style strings
+  seen in the initial PowerShell string scan are RTTI/exception-metadata strings, not Ghidra
+  function symbols). Instead: **decompile every function in the binary** (10,121 for this one
+  binary; full pass took a few minutes), and for each, **regex-extract every `PTR_s_<NAME>_<addr>`
+  token** from the decompiled C output — this is Ghidra's own auto-generated label for any string
+  data reference, so it requires zero manual xref-tracing. Rank functions by token count; functions
+  with many are command/event/conditional dispatchers (sequential string-comparison chains); their
+  tokens ARE the vocabulary. This works on stripped/unnamed binaries and needs no per-agent tuning.
+  Script: `ExtractVocab.java` (also `FindDispatch.java` for the earlier, more manual xref-based
+  approach, superseded by this one; both in `%USERPROFILE%\ghidra_scripts\` on this workstation —
+  **not yet copied into the repo**, next-session TODO).
+- **Full Scheduler agent vocab extracted, clean, structured, zero manual work after the script ran:**
+  - Commands (w/ params): `ADD_ENTRY`(`ENTRY_XML`), `MODIFY_ENTRY`, `DELETE_ENTRY`(`EVENT_ID`),
+    `DELETE_ENTRIES_BY_CREATOR`(`CREATOR_ID`), `GET_ALL_ENTRIES`, `GET_ENTRIES_BY_CREATOR`
+    (`CREATOR_ID`), `GET_ENTRY`(`EVENT_ID`), `GET_ENTRY_OCCURRENCES`(`EVENT_ID`,`FROM_YEAR`,
+    `FROM_MONTH`,`FROM_DAY`,`TO_YEAR`,`TO_MONTH`,`TO_DAY`), `GET_SUNRISE_SUNSET`(`month`,`timezone`
+    → `sunrise`,`sunset`).
+  - Conditionals: `IF_TIME`, `IF_TODAY`, `IF_DATE`, `IF_MONTH`, `IF_YEAR`, `IF_LEAP` (wrapped in a
+    `CONDITIONAL_XML` param), each with its own comparator sub-vocab (e.g. IF_DATE:
+    `date_between`/`date_from`/`date_to`; IF_TODAY: `day_between`/`day_names`/etc; similarly for
+    month/year).
+  - Full entry/config schema (the scheduler entry's property model): `eventid`, `description`,
+    `category`, `enabled`, `locked`, `creatorid`, `creatorstate`, `hidden`, `user_hidden`, `start`,
+    `offset`, `offset_minutes`, `start_date/day/month/year/period/weekday`, `randomize`,
+    `next_occurrence`, `repeat`, `frequency`, `daymask`, `end_date/day/month/year`, `timezone`.
+  - This is the ENTIRE programmable + configuration surface for one agent, fully automated, no
+    per-agent manual reverse engineering. Matches the shape `c4proj/drivers.py` already models for
+    regular `.c4i` drivers (commands/conditions/events + property schema) — next step is normalizing
+    this extraction format to feed the same `Driver`/`ResolvedApi` structures.
+- **GENERALIZATION TEST RESULT (2026-07-13): technique does NOT universally generalize as-is —
+  TWO agent architecture families exist.** Ran the identical unmodified `ExtractVocab.java` against
+  Notification, Advanced Lighting, and Custom Buttons: **all 3 came back with only OpenSSL/protobuf
+  noise, zero real command vocab** (vs. Scheduler's complete clean extraction). Root cause found by
+  inspecting the shared `CmdDispatcher::ExecuteCmd` function (statically linked into every agent,
+  `C4LibDriverBases\CmdDispatcher.cpp`): it does a **map lookup by command-name string** (`std::map`-
+  style find, dispatching through function-pointer slots at offsets +0x20/+0x40/+0x60/+0x80 in the
+  found entry — supports multiple handler signatures), NOT sequential string comparison. Command
+  names are passed as arguments to some `Register`-style call **at agent construction/init time**,
+  scattered across the agent's own code — not concentrated in one big comparison chain, so they
+  don't trip the "many `PTR_s_` tokens in one function" heuristic. **Two families:**
+  - **"Legacy" style (Scheduler):** agent overrides `ExecuteCommand`/`TestCondition` itself with
+    hand-written sequential string comparisons — `ExtractVocab.java` as-is works great.
+  - **"Modern" style (Notification, Advanced Lighting, Custom Buttons, likely most others):** agent
+    relies entirely on the generic `CmdDispatcher`/`CondDispatcher` map-based registration — no
+    per-agent `ExecuteCommand` override, no per-agent `__PRETTY_FUNCTION__`-style debug strings at
+    all (confirmed: raw string search for `*_agent::`/`*Agent::` patterns in
+    `control4_agent_notification.c4w` found ZERO matches, unlike scheduler's rich
+    `scheduler_agent::*` strings) — much harder to anchor on with simple string search; needs actual
+    control-flow tracing (find the registration function via what calls the map's insert operation,
+    then extract string-literal arguments at each call site) rather than a decompile-and-regex pass.
+  - **Not yet attempted:** locating the registration function and its call sites for a "modern"-style
+    agent. This is the concrete next step if/when this thread resumes — the map-based architecture
+    is actually GOOD news for generalization once cracked (one shared function to anchor on across
+    ~25+ agents, versus each legacy agent needing its own bespoke comparison-chain scan), it's just a
+    different, not-yet-solved technique.
+  - **Honest bottom line for this session:** proved the disassembly approach is viable and can be
+    FULLY automated (Scheduler, zero manual work) — but "automate agent details generically" is only
+    solved for one of two architecture families so far. Real, demonstrable progress; not a finished
+    pipeline.
+- Scripts copied into the repo: `better_composer/research/agent_vocab/ghidra_scripts/`
+  (`ExtractVocab.java`, `TraceCreation.java`, `TraceCallees.java`, `FindDispatch.java`,
+  `DumpCapsStrings.java`). Extracted results: `better_composer/research/agent_vocab/*.json` +
+  `README.md` (methodology). Ghidra itself (546MB) is NOT persisted — still only in this session's
+  scratchpad; reinstall next session via `winget install Microsoft.OpenJDK.21` +
+  download from `github.com/NationalSecurityAgency/ghidra` releases (see README for the OSGi
+  scripts-directory gotcha).
+
+**MODERN-STYLE REGISTRATION PATTERN — CRACKED (2026-07-13, autonomous continuation, user stepped
+away).** Triaged all 27 `control4_agent_*.c4w`: only **6 are "legacy" style** (own class name in a
+TestCondition/ExecuteCommand debug string: hospitality, lightingscenes, remoteaccess, scheduler,
+screensaver, wakeup_goodnight) — but running `ExtractVocab.java` on all 6 showed **only Scheduler
+actually yields real vocab**; the other 5 also turn out to rely on the generic map-based
+registration despite having their own class name string somewhere. So in practice ~26 of 27 need
+the "modern" technique; only Scheduler is fully solved by the simple approach.
+- **Found the universal factory pattern:** every agent `.c4w` exports exactly two PE symbols,
+  `GetAgentName` and `GetCreationFunc` (confirmed via a raw PE export-table parser,
+  `research/agent_vocab/pe_exports.py`). `GetCreationFunc` returns a
+  pointer to the real factory function; Ghidra imports these exports as properly-named functions
+  (unlike the thousands of anonymous `FUN_xxxx`), so they're a reliable, symbol-name-based entry
+  point into ANY agent regardless of how obfuscated/stripped the rest of the binary is.
+  `TraceCreation.java` finds+decompiles these two exports; `TraceCallees.java` (script args via
+  `getScriptArgs()`, NOT `askString` — that needs a GUI and silently breaks headless) then
+  recursively decompiles a function's callees up to depth 3, which is how the chain
+  `GetCreationFunc → factory → subclass ctor → C4BaseAgentDriver ctor → registration call` was
+  found by hand for Notification.
+- **Confirmed registration call shape:** `FUN_1005e160("COMMAND_NAME", len)` builds a std::string,
+  then a second call (`FUN_1009c790` in this binary — address differs per agent since statically
+  linked) commits `{name, handler_fn_ptr}` into the dispatcher. This IS the CmdDispatcher
+  registration Composer would see. Found and validated one real base-class registration this way:
+  `GET_LAST_ACTION`.
+- **Key fix that unlocked real signal — Ghidra represents the SAME kind of string reference two
+  different ways** depending on how the compiler emitted it: either a named `PTR_s_<NAME>_<addr>`
+  pointer (my original regex) OR an inline `"LITERAL"` string directly in the decompiled C (missed
+  entirely before). `GET_LAST_ACTION` itself only appeared in the inline-literal form — the
+  original script would never have found it. Fixed `ExtractVocab.java` to match both forms, added
+  a small stoplist (OpenSSL/XML/crypto constants that coincidentally match the `ALL_CAPS` shape:
+  `SOAP_ENV`, `AES_128_WRAP`, `ENCRYPTED_PRIVATE_KEY`, etc.), and lowered the per-function
+  threshold from 4 tokens to 1 (registration is often one small function per command, not one big
+  comparison chain) — re-running against Notification went from 0 real tokens → 73, including
+  confirmed universal base-agent commands.
+- **UNIVERSAL BASE-AGENT API FOUND (`_base_agent_api.json`) — applies to all ~39 agents for free:**
+  `GET_LAST_ACTION`, `GET_CAPABILITIES`, `GET_COMMAND_INFO` (commands), `CAPABILITIES_CHANGED`
+  (event), plus shared comparator operators `GREATER_THAN`/`GREATER_THAN_OR_EQUAL`/`LESS_THAN`/
+  `LESS_THAN_OR_EQUAL`/`NOT_EQUAL` used across conditionals generically.
+- **PROMISING UNTESTED LEAD:** if `GET_CAPABILITIES`/`GET_COMMAND_INFO` can be invoked on a live
+  agent instance and their result captured (e.g. author a programming rule that calls
+  `GET_COMMAND_INFO` and writes the result to a Variable, load via the ALREADY-PROVEN `.c4p` →
+  Composer → virtual-director pipeline, trigger it, read the result back from a saved state or
+  Director's own logs) — that could give complete, runtime-authoritative vocab for every agent
+  **without** the live-Director access problem that was separately paused. This does NOT require
+  resuming the live-c4soap-query thread — it uses the existing file-based authoring loop. Not
+  attempted yet; strong candidate for next session.
+- **UPDATE — the fix generalizes better than the Notification test alone suggested.** Batch re-run
+  (autonomous, user stepped away) across the remaining agents found REAL per-agent vocab well
+  beyond the shared base API: **Announcements** → `SHOW_POPUP`, `HIDE_POPUP`, `PLAY_ANNOUNCEMENT`;
+  **AudioScenes** → rich scene/volume/room-linking vocab (`SCENE_ID`, `SCENE_XML`,
+  `SET_SCENE_DEFAULT_VOLUME_LEVEL`, `IS_ACTIVATED`/`IS_DEACTIVATED`, `CURRENT_SCENE_VOLUME`,
+  `SET_ROOM_LINKS`, `MUTE_LINKED`/`VOLUME_LINKED`/`SELECTIONS_LINKED`/`ROOMOFF_LINKED`,
+  `ACTIVATE_EVENT_OFFSET`/`CHANGE_EVENT_OFFSET`/`DEACTIVATE_EVENT_OFFSET`). So Notification was
+  apparently more resistant than most, not representative — the dual-pattern + shape-filter +
+  stoplist fix is a genuinely useful general-purpose extractor, just not a 100%-complete one per
+  agent (some commands still won't surface, e.g. still no clean "send notification"-style command
+  found for Notification itself).
+- **BATCH COMPLETE (2026-07-13).** All 18 batched agents finished; combined with the 9 processed
+  earlier, **all 27 `control4_agent_*` binaries have been run through the extractor.** Final tally
+  (`summarize_vocab.py`, copied into `research/agent_vocab/`, subtracts known shared-noise tokens
+  to rank agents by real signal): **17 of 27 yielded real, non-noise vocab** (some rich — Media
+  Sessions 54 real tokens, Video Intercom 36, AudioScenes 20 — some sparse but genuine — Macros,
+  Navigation, UI Configuration, Services, Hospitality WMB, Timer); **2 confirmed null results**
+  (Access, Light Properties — base API only, same dead-end as Notification, needs manual
+  `GetCreationFunc`/`TraceCallees.java` tracing to progress further); **the remaining ~8 have raw
+  uncurated signal** (Backup, Diagnostics, DriverUpdate, EmailNotification, History, Identity —
+  see `*.raw_tokens.json`). Fully curated to clean per-agent JSON (commands/conditionals/params,
+  like Scheduler got): Announcements, Macros, Navigation, UIConfiguration, Services,
+  HospitalityWMB, Timer, MediaSessions, VideoIntercom, AudioScenes, Access, LightProperties — 12
+  files. Stoplist grew substantially mid-batch (media-type constants, OpenSSL/logging noise, TLS
+  1.3 handshake secret labels, `PROXY_NAME`/`DIR_ADD`/`DIR_LOAD`/`LIST_ADD` all confirmed generic
+  across 3+ agents) — a fresh re-run of any early-processed agent would come back cleaner than
+  what's currently saved; not worth re-running given the returns already captured by hand.
+  Scripts: `parse_vocab_logs.py` + `summarize_vocab.py`, both now in `research/agent_vocab/`.
+  **Bottom line: the agent-vocab gap that blocked full programming for ~39 agents is now
+  substantially (not completely) closed** — most agents have actionable command vocab, a
+  documented and reproducible extraction method exists for adding more later, and the two
+  remaining null results are a known, bounded problem (not a mystery).
+
+**PROGRAMMING COMPILER BUILT — `c4proj/programming.py` (2026-07-13, autonomous continuation).**
+`PROGRAMMING.md`'s grammar was fully decoded but never implemented — this closes that gap. Builds
+`<event>`/`<codeitem>` trees exactly per spec and appends them to a `ProjectModel`'s `event_mgr`.
+Primitives implemented and tested end-to-end (built real rules against the `prog14` capture
+project, `.c4p`-repackaged, integrity-verified with `c4proj`'s own checker — all passed):
+- `command()` / `agent_command()` — device and agent commands, with typed params
+  (`<value type=T><static>`).
+- `set_variable()` — `owneridtype="variable"`, inline int param, auto-generates the
+  `#!"..."` display template.
+- `delay()`, `break_()`, `stop()` — pseudo-device-100000 programming primitives.
+- `if_()` / `else_` — type=2/4, else as a SIBLING codeitem (not nested), `extra_conditions` param
+  chains And/Or via an `<expression>` block (type=6 operator node + next condition, repeatable).
+- `while_()` — type=3, deviceconditional + body in subitems.
+- Codeitem ids are sequential **in document order, parent before children** (root=0), matching
+  what a human authoring top-down in Composer would produce — fixed from an initial
+  children-before-parent bug caught by testing.
+- **Two real bugs found and fixed via testing, not just spec-reading:** (1) the And/Or operator
+  node was hardcoding `id="0"`, colliding with the event's root codeitem id — now takes an id from
+  the same ambient counter as everything else; (2) a chained extra-condition was reusing the OUTER
+  if's display text instead of its own — fixed by taking a per-condition display string.
+- **Not yet built:** the "declarative → event-hooks" synthesis layer (CLAUDE.md's stated
+  core-value-add UX design, e.g. "while X, maintain Y" compiling to reactive event handlers) — this
+  module is the low-level codeitem-tree primitive layer that synthesis would compile DOWN to, not
+  the synthesis itself.
+- Test artifact: `test projects/programming-compiler-smoketest.c4p` (variable set + while + delay +
+  break, built from the `prog14` capture base). `agent_command()` separately validated (toggle-scene
+  against the real Advanced Lighting agent, matches PROGRAMMING.md's prog09 example exactly).
+- **CLI wired up:** `python -m c4proj add-rule <file.c4p> <trigger_dev> <trigger_event> <target_dev>
+  <command> -o out.c4p [--yes]` — demo single-command rule builder (same identity-card-confirm
+  pattern as `rename`). End-to-end verified: built a rule this way, then read it back with the
+  EXISTING `c4proj rules` command and it rendered correctly (`WHEN SvrRm - Light: When SvrRm -
+  Light turns on -> ON on Lux Universal Dimmer") — proves the new write side and the pre-existing
+  read side agree on the wire format, not just that the compiler's output looks plausible in
+  isolation.
+
+**Python installed (2026-07-13).** This workstation had no real Python (only the Microsoft Store
+`python`/`python3` alias stubs) — installed **Python 3.12.10** via `winget install Python.Python.3.12`.
+`c4proj` confirmed working: `python -m c4proj info "research/Russell House.c4p"` parses the live
+417-device/version-133 project correctly. VS Code's Python extension pack (`ms-python.python`,
+`pylance`, `debugpy`, `python-envs`) was already present from a prior setup — it only provides
+editor tooling, not an interpreter, which is why this was still needed. Note: a terminal session
+open *before* the install won't see the new PATH entry (`%LOCALAPPDATA%\Programs\Python\Python312\`)
+until restarted — open a fresh terminal / restart VS Code if `python` still resolves to the Store
+stub.
 
 Goal: determine whether a modern, streamlined replacement UI for Composer Pro is buildable.
 Composer is just a client of Director; the open question was whether Director exposes a
@@ -329,6 +690,61 @@ Key findings so far (2026-07-11):
   declarative rule compiles to event handlers on the variable's change event + relevant device-state
   events (or a timer). Reactive/edge-triggered, not a literal loop, but equivalent for most cases.
   This declarative→event-hooks compilation is THE core value-add of our interface over Composer.
+
+---
+
+## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)
+
+**Where things stand, in one paragraph:** the workstation session closed two big gaps —
+agent-command vocabulary (17 of 27 agents now have real extracted vocab, via Ghidra disassembly,
+fully documented and reproducible — see "GHIDRA DISASSEMBLY" / "MODERN-STYLE REGISTRATION PATTERN"
+/ "BATCH COMPLETE" entries above) and the programming-rule compiler (`c4proj/programming.py`,
+fully implements `PROGRAMMING.md`'s grammar, tested end-to-end, wired into the CLI as
+`c4proj add-rule`). Combined with the already-proven read side and device-add engine, **authoring
+a complete project with real device programming is now largely unblocked.**
+
+**User's question this session, and the honest answer:** "what's left before we have a fully
+usable UI that can create-new-or-import a project, fully build it out (rooms/controllers/drivers/
+agents/programming), and save back out for Composer to load?" Answer, ranked by how blocking each
+is:
+
+1. **There is no UI.** Everything built so far (`c4proj`) is a Python library + CLI. This is the
+   most literal blocker for "a fully usable UI" — it's a from-scratch layer, not started.
+2. **Device/agent instance PROPERTIES and agent CONFIGURATION are not systematized.** Adding a bare
+   device/agent is solid (Director fills in defaults on load — proven). But *configuring* one
+   (device property values from its `<state>` blob; agent config like a scheduler entry, a
+   lighting scene, guest-services settings) is a different, much less complete problem. Only ONE
+   config recipe has ever been captured as a documented write-shape (Advanced Lighting scenes, in
+   the capture-campaign notes above: `<AdvScene>` under the agent's state) — nothing generalized
+   into reusable code the way `add_device`/`clone_device`/`programming.py` are. This is the most
+   load-bearing remaining backend gap for "fully create" (not just "add").
+3. **`add_controller()` is not generalized.** Current pressure tests replay one decoded operation
+   (Core5 substituted in); works for that case, not proven for other controller models or a truly
+   from-scratch blank project. Only blocks NEW-project creation, not editing an imported one.
+4. **Standalone binding/connection authoring** — bindings that come bundled with `clone_device`
+   work; a general "wire an arbitrary new binding between two arbitrary devices" function doesn't
+   clearly exist as its own primitive yet.
+5. **Remaining agent vocab** — 2 confirmed null results (Access, Light Properties) + ~8 agents with
+   raw uncurated signal (Backup, Diagnostics, DriverUpdate, EmailNotification, History, Identity).
+   Lowest priority — already mostly closed, this is finishing touches.
+
+**User has not yet said which of these to tackle next** — that's the first thing to settle when
+resuming. My own suggested order was #2 (property/config write-side) before UI work, since UI
+without a complete backend to drive would just be a shell — but this wasn't decided, just proposed.
+
+**Practical continuity notes for the laptop:**
+- Ghidra (546MB) + the OpenJDK 21 install are workstation-only, not portable — if agent-vocab work
+  (gap #5, or deeper tracing on Access/Light Properties/Notification) resumes on a different
+  machine, that whole toolchain needs reinstalling there (see "GHIDRA DISASSEMBLY" section above
+  for the exact install/gotcha notes). The RESULTS (`research/agent_vocab/*.json`) are portable and
+  already committed to the repo/synced via OneDrive — no need to redo extraction, just to add to it.
+- `c4proj/programming.py` and the `add-rule` CLI command need no special environment beyond Python
+  3.12 (stdlib only, like the rest of `c4proj`) — fully portable, works on the laptop immediately.
+- The live-Director access investigation (mutual-TLS cert, dealer credentials) is paused, per
+  earlier user call — not touched further this session, still sitting exactly where the
+  "LIVE-DIRECTOR ACCESS INVESTIGATION" section above left it.
+
+---
 
 ## Reference resources (better_composer)
 

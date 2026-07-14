@@ -1,0 +1,113 @@
+<devicedata>
+    <copyright>Copyright 2004-2012 Control4 Corporation.  All rights reserved.</copyright>
+    <version>3</version>
+    <name>Modulator</name>
+    <small>devices_sm/c4modI_16.gif</small>
+    <large>devices_lg/c4modI_32.gif</large>
+    <created>1/20/2005 2:22:54 PM</created>
+    <modified>8/20/2012 3:00 PM</modified>
+    <control>control4_modulator</control>
+    <manufacturer>Control4</manufacturer>
+    <creator>Control4</creator>
+    <model>MODULATOR-3.8C1-W</model>
+    <composer_categories>
+        <category>Audio/Video</category>
+    </composer_categories>
+    <proxy>control4_modulator</proxy>
+    <driver>100048</driver>
+    <states/>
+    <connections>
+        <connection>
+            <id>2000</id>
+            <facing>6</facing>
+            <connectionname>UHF/VHF Video Output</connectionname>
+            <type>5</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>True</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>RF_UHF_VHF</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>4000</id>
+            <facing>6</facing>
+            <connectionname>UHF/VHF Audio Output</connectionname>
+            <type>6</type>
+            <consumer>False</consumer>
+            <audiosource>True</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>RF_UHF_VHF</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>1000</id>
+            <type>5</type>
+            <connectionname>Video Input</connectionname>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+				<class ExcludeID = "VideoInX">
+					<classname>COMPOSITE</classname>
+				</class>
+				<class ExcludeID = "VideoInX">
+                    <classname>SVIDEO</classname>
+                </class>
+				<class ExcludeID = "VideoInX">
+					<classname>RF_UHF_VHF</classname>
+				</class>
+				<class ExcludeID = "VideoInX">
+					<classname>RF_CABLE</classname>
+				</class>
+				<class ExcludeID = "VideoInX">
+					<classname>HDMI</classname>
+				</class>
+				<class ExcludeID = "VideoInX">
+					<classname>VGA</classname>
+				</class>
+				<class ExcludeID = "VideoInX">
+					<classname>COMPONENT</classname>
+				</class>
+			</classes>
+        </connection>
+        <connection>
+            <id>3000</id>
+            <type>6</type>
+            <connectionname>Audio Input</connectionname>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+				<class ExcludeID = "AudioInX">
+                    <classname>STEREO</classname>
+                </class>
+				<class ExcludeID = "AudioInX">
+					<classname>DIGITAL_OPTICAL</classname>
+				</class>
+				<class ExcludeID = "AudioInX">
+					<classname>DIGITAL_COAX</classname>
+				</class>
+			</classes>
+        </connection>
+    </connections>
+    <capabilities/>
+    <front/>
+    <back/>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+    <commands/>
+    <conditionals/>
+    <events/>
+</devicedata>

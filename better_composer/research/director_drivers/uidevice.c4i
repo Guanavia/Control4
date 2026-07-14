@@ -1,0 +1,38 @@
+<devicedata>
+	<version>1</version>
+	<copyright>Copyright 2014 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>02/19/2014</created>
+	<modified>03/21/2014</modified>
+	<commands/>
+	<conditionals/>
+	<events/>
+	<name>UIDevice</name>
+  <small>devices_sm/control4_touchpad_16.gif</small>
+  <large>devices_lg/control4_touchpad_32.gif</large>
+  <control>uidevice</control>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<proxy />
+	<driver>20140219</driver>
+	<states />
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>UIDevice</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+			<class>
+				<classname>UI_DEVICE</classname>
+			</class>
+			</classes>
+		</connection>
+	</connections>
+	<config />
+</devicedata>

@@ -1,0 +1,1359 @@
+<devicedata>
+  <copyright>Copyright 2009 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>4/22/2009 12:30 PM</created>
+  <modified>8/24/2018 12:30 PM</modified>
+  <name>Media Player[DriverWorks]</name>
+  <model>C4-MP1-E</model>
+  <manufacturer>Control4</manufacturer>
+  <driver>DriverWorks</driver>
+  <control>lua_gen</control>
+  <search_type>c4:control4_mediaplayer</search_type>
+  <version>8</version>
+  <small>devices_sm/dvd.gif</small>
+  <large>devices_lg/dvd.gif</large>
+  <front>{Width=700, Height=336}\x158DVPX777-f.bmp</front>
+  <back>{Width=500, Height=250}\x158dvpx777-b.bmp</back>
+  <top/>
+  <bottom/>
+  <left/>
+  <right/>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>media_player</proxy>
+  <states/>
+  <config>
+<documentation>
+  The Control4 Media Player allows you to play videos stored on a Network Attached Storage (NAS) drive.
+
+  This driver allows the Control4 system to control the Media Player and allows the Control4 Navigator interface to be used to select a video title (requires Control4 1.7 or later system software).
+
+  To configure the Media Player in a system:
+
+  1. Add the Media Player (C4-MP1-E) driver to your project.
+
+  2. Using Composer, add a Network File Storage driver to your system for the NAS drive which you use for video storage.  On the Properties page connect to the NAS drive by typing in the appropriate credentials then click Connect.
+
+  3. Using Composer add a Network File Storage driver to your system for the network storage device which you use for video storage.  On the Properties page connect to the NAS drive by typing in the appropriate credentials and clicking on Connect.
+
+  4. Use Composer, Media tab to scan the Network File Storage device for video content.  The Scan operation will identify video_ts format video files and ISO files that contain video_ts folders, add them to the media DB, and automatically associate the video meta data including cover art.
+
+  5. For other video formats supported by the Media Player, you can use Composer to manually add these items to the media DB, use the Scan, Add Files Ending with function to retrieve the appropriate meta data from the web service, and enter the correct network path to the video file. If you have a video file format that is not listed in the drop down menu you can type in that file format extension (eg, .mp4).  They can then also be selected for playback using the Navigator interface.
+
+  6.  A description of the available Properties settings available in the driver:
+  Resolution:  Auto is the default setting; it allows the Media Player and driver to negotiate the resolution over HDMI. Changing the setting will force the Media Player to display a specific video resolution that the television supports.
+
+  Current Resolution:  the resolution currently set on the Media Player. If the Resolution is set to Auto this will display the resolution negotiated over HDMI.
+
+  Switchable Resolutions: At the time of video playback the user can change the video resolution of the Media Player by using the page up and page down buttons on the Control4 System Remote Control. Video resolutions identified with true will be cycled through using the page up and page down buttons. Mark false any resolution that you do not want selectable from the remote.
+
+  Background Image URL:  Allows the dealer to change the background image displayed on the Media Player status screen.
+
+  Screen Saver Image URL:  Allows the dealer to change the background image displayed on the Media Player screen saver.
+
+  Update URL:  indicates the stored location for the current Media Player firmware.
+
+  Auto Updates Enabled:  True  causes the Media Player automatically update firmware when a new version is available.  Updates will only occur when the Control4 system software and/or Media Player driver is upgraded.
+
+  Switchable Resolutions:  The user can change the video Resolution of the Media Player by using the page up and page down buttons on the Control4 System Remote Control.  Video resolutions identified with true will be cycled through using the page up and page down buttons.  Mark false any resolution that you do not want available to the television.
+
+  Restart Playback on Reselect:  True causes the Media Player to start playback of selected movie from the beginning when the same movie is selected.  A setting of false mean the Media Player will not restart the same movie if reselected without first stopping the playing movie or selecting a different movie.  Note that setting this to false may resolve some issues with the movie restarting after an announcement is played in the room.
+
+  7:  What video file formats does the Media Player support?
+  Because the file format (also known as the container) is only a part of the overall video file, it's difficult to say that any specific file format will always play.  A video file is made up of three main parts:
+  1.  Encoded video (codec such as MPEG2, H.264, etc)
+  2.  Encoded audio (AC3, AAC, etc)
+  3.  File container (ifo/vob, avi, mp4, etc)
+  For example, many of today's standard definition video files contain video that has been encoded using MPEG2, with an audio track encoded in Dolby Digital with both audio and video combined in a .vob file container.
+
+  Many audio and video codecs are available from competing companies. For instance, Microsoft has developed the WMV and WMA file formats and associated codecs. A variety of software tools have also been developed to convert files into a broad range of video files. With the variety of audio and video codecs as well, as video file containers available from different companies, it is easy to understand that not all combinations of codecs and file formats will work together. For best results we recommend the following codec and file format combinations:
+
+  Video Container     Vid Codec  Aud Codec  HDMI Aud   S/PIDF Stereo
+  VIDEO TS(vob/ifo)   MPEG2	     AC3	      yes	         yes	       yes
+  VIDEO TS(vob/ifo)   MPEG2	     DTS	      yes*	         yes*      no
+  ISO	                MPEG2	     AC3	      yes	         yes	       yes
+  ISO	                MPEG2	     DTS	      yes*	         yes*      no
+  mp4	                H264	     AC3	      yes	         yes	       yes
+  mp4	                FFmpeg	     AC3	      yes	         yes	       yes
+  avi	                XviD	     mp3	      yes	         yes	       yes
+  avi	                XviD	     AC3	      yes	         yes	       yes
+  avi	                XviD	     mp3	      yes	         yes	       yes
+  avi	                FFmpeg	     AC3	      yes	         yes	       yes
+  avi	                FFmpeg	     mp3	      yes	         yes	       yes
+
+  *Requires a receiver or TV that supports DTS.
+</documentation>
+    <properties>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Resolution</name>
+        <type>LIST</type>
+        <items>
+          <item>Auto</item>
+          <item>VGA</item>
+          <item>480i Fullscreen</item>
+          <item>480p Fullscreen</item>
+          <item>480p Widescreen</item>
+          <item>576i Fullscreen</item>
+          <item>576p Fullscreen</item>
+          <item>576p Widescreen</item>
+          <item>720p</item>
+          <item>720p 50Hz</item>
+          <item>1080i</item>
+          <item>1080i 50Hz</item>
+          <item>1080p</item>
+          <item>1080p 50Hz</item>
+        </items>
+        <default>480i</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Current Resolution</name>
+        <type>STRING</type>
+        <default>unknown</default>
+        <readonly>true</readonly>
+      </property>
+			<property>
+        <name>Background Image URL</name>
+        <type>STRING</type>
+        <default>unknown</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Screen Saver Image URL</name>
+        <type>STRING</type>
+        <default>unknown</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Firmware Version</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Update Status</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Last Error</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Update URL</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+			<property>
+				<name>Auto Updates Enabled</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Switchable Resolutions</name>
+				<type>STRING</type>
+				<default>Select below</default>
+				<readonly>true</readonly>
+			</property>
+			<property>
+				<name>Auto</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>VGA</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>480i Fullscreen</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>480p Fullscreen</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>480p Widescreen</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>576i Fullscreen</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>false</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>576p Fullscreen</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>false</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>720p</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>720p 50Hz</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>false</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>1080i</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>1080i 50Hz</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>false</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>1080p</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>true</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>1080p 50Hz</name>
+				<type>LIST</type>
+				<items>
+					<item>true</item>
+					<item>false</item>
+				</items>
+				<default>false</default>
+				<readonly>false</readonly>
+			</property>
+      <property>
+        <name>Restart Playback on Reselect</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>false</default>
+        <items>
+          <item>false</item>
+          <item>true</item>
+        </items>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Start Update</name>
+        <command>StartUpdate</command>
+      </action>
+    </actions>
+    <commands/>
+    <events/>
+    <script>
+    <![CDATA[
+TCP_BINDING_ID = 6001
+TCP_PORT = 5775
+ID_PROXY = 5001
+
+CMDS = {
+	-- Power Control
+	PowerOn = 			0x01,
+	PowerOff =	 		0x02,
+	PowerQuery = 		0x03,
+	-- Transport Control
+	Play = 				0x04,
+	Stop = 				0x05,
+	Pause = 			0x06,
+	SKIP_FWD = 			0x07,
+	SKIP_REV = 			0x08,
+	SCAN_FWD = 			0x09,
+	StartScanFwd = 		0x0A,
+	StopScanFwd =	 	0x0B,
+	SCAN_REV = 			0x0C,
+	StartScanRev = 		0x0D,
+	StopScanRev =	 	0x0E,
+	-- Menu Navigation Control
+  -- Note that the lower case is to
+  -- differentiate between function LEFT and 
+  -- cmd 0x14 Left
+	Menu = 				0x11,
+	Up = 				0x12,
+	Down = 				0x13,
+	Left = 				0x14,
+	Right = 			0x15,
+	ENTER = 			0x16,
+	Cancel = 			0x17,
+	NumberKey =	 		0x18,
+	-- Video File Commands
+	OpenVideoFile = 	0x19,
+	-- Player Status and Controls
+	Info = 				0x1A,
+	StatusQuery = 		0x1B,
+	Resolution = 		0x1C,
+	VersionNumber = 	0x1D,
+	UpdateURL = 		0x1E,
+	StartUpdate = 		0x1F,
+	AudioDownmix =    	0x20,
+	BackgroundUrl = 	0x21,
+	ScreenSaverUrl = 	0x22,
+	NextTitle = 	0x23,
+	PrevTitle = 	0x24,
+	NextAudio = 	0x25,
+	PrevAudio = 	0x26,
+  SetTitleText = 0x27,
+  Ping =         0x28,
+	-- Notifications/Responses
+	STS_Power = 		0x81,
+	STS_Playing = 		0x82,
+	STS_Stopped = 		0x83,
+	STS_Paused = 		0x84,
+	STS_Error = 		0x85,
+	STS_VersionNumber = 0x86,
+	STS_Update = 		0x87,
+	STS_Resolution = 	0x88,
+	STS_AudioMode = 	0x89,
+	STS_BackgroudUrl = 	0x8A,
+	STS_ScreenSaverUrl =0x8B
+}
+
+UPDATE_STS =
+{
+  	"Idle",
+	"Initialized",
+	"Downloading Firmware Update",
+	"Checking Firmware",
+	"Preparing Upgrade",
+	"Replacing Firmware",
+	"Verifying Upgrade",
+	"Restarting",
+	"Status"
+}
+
+PropertyNames =
+{
+	FirmwareVersion = "Firmware Version",
+	LastError = "Last Error",
+	Resolution = "Resolution",
+	CurrentResolution = "Current Resolution",
+	UpdateURL = "Update URL",
+	UpdateStatus = "Update Status",
+	StartUpdate = "Start Update",
+	AudioDownmix = "Audio Downmix",
+	AudioDownmixSetting = "Audio Downmix Setting",
+	BgUrl = "Background Image URL",
+	SSUrl = "Screen Saver Image URL",
+	RestartOnReselect = "Restart Playback on Reselect",
+}
+
+ResolutionNamesToModes = {}
+ResolutionNamesToModes["unknown"] 				= ""
+ResolutionNamesToModes["Auto"] 					= "auto"
+ResolutionNamesToModes["VGA"] 					= "640x480p 59.94Hz 4x3"
+ResolutionNamesToModes["480i Fullscreen"] 		= "720x480i 59.94Hz 4x3"
+ResolutionNamesToModes["480p Fullscreen"] 		= "720x480p 59.94Hz 4x3"
+ResolutionNamesToModes["480p Widescreen"] 		= "720x480p 59.94Hz 16x9"
+ResolutionNamesToModes["576i Fullscreen"] 		= "720x576i 50Hz 4x3"
+ResolutionNamesToModes["576p Fullscreen"] 		= "720x576p 50Hz 4x3"
+ResolutionNamesToModes["576p Widescreen"] 		= "720x576p 50Hz 16x9"
+ResolutionNamesToModes["720p"] 					= "1280x720p 59.94Hz 16x9"
+ResolutionNamesToModes["720p 50Hz"] 			= "1280x720p 50Hz 16x9"
+ResolutionNamesToModes["1080i"] 				= "1920x1080i 59.94Hz 16x9"
+ResolutionNamesToModes["1080i 50Hz"] 			= "1920x1080i 50Hz 16x9"
+ResolutionNamesToModes["1080p"] 				= "1920x1080p 59.94Hz 16x9"
+ResolutionNamesToModes["1080p 50Hz"] 			= "1920x1080p 50Hz 16x9"
+
+--------------- global vars  ---------------------
+g_expectedVersion = "1.0.17.34"
+g_defaultUrlForUpdate = "http://update.control4.com/release-pro/firmware/Control4MediaPlayer-1.0.17.34.fw"
+
+----- Everything below this point should be the same for C4-MP1-E.c4i and C4-MP2-E.c4i
+----- So if you make any changes, make it in both!
+
+g_location = ""
+g_powerOffTimer = 0
+g_queueTimer = 0
+g_playTimer = 0
+g_receiveBuffer = "" 
+g_tcpConnected = false
+g_powerStatus = -1 --init to invalid
+g_triedUpdate = false
+
+
+function ParseVersions(firmwareVersionString)
+    local d1 = string.find(firmwareVersionString, "%p")
+    local d2 = string.find(firmwareVersionString, "%p", d1 + 1)
+    local d3 = string.find(firmwareVersionString, "%p", d2 + 1)
+		if ((d1 == nill) or (d2 == nill) or (d3 == nill)) then
+			print("Unable to verify version - no firmware update will be initiated")
+			return false
+		end
+		local major = string.sub(firmwareVersionString, 0, d1-1)
+		local minor = string.sub(firmwareVersionString, d1+1, d2-1)
+		local build = string.sub(firmwareVersionString, d2+1, d3-1)
+		local rev = string.sub(firmwareVersionString, d3+1);
+		if ((major == nill) or (minor == nill) or (build == nill) or (rev == nill)) then
+			print("Unable to verify version - no firmware update will be initiated")
+			return false
+		end
+		t1 = tonumber(major)
+		t2 = tonumber(minor)
+		t3 = tonumber(build)
+		t4 = tonumber(rev)	
+		if ((t1 == nill) or (t2 == nill) or (t3 == nill) or (t4 == nill)) then
+			print("Unable to verify version - non numeric version data - no firmware update will be initiated")
+			return false
+		end
+			
+		return true, tonumber(major), tonumber(minor), tonumber(build), tonumber(rev)
+end
+
+function IsExpectedVersionNewerThanFirmwareVersion(firmwareVersion)
+    good, major, minor, build, rev = ParseVersions(g_expectedVersion)
+		if (good == false) then
+			return(false)
+	  end
+		dbg("Expected ver:   Maj:" .. major .. " Min:" .. minor .. " Bld: " .. build .. " Rev:" .. rev)
+			
+    good, fmajor, fminor, fbuild, frev = ParseVersions(firmwareVersion)
+		if (good == false) then
+			return(false)
+	  end
+		dbg("Firmware ver:   Maj:" .. fmajor .. " Min:" .. fminor .. " Bld: " .. fbuild .. " Rev:" .. frev)
+			
+		if (major < fmajor) then 
+	        return false	
+		elseif (major > fmajor) then
+				dbg("Expected major greater - firmware update initiated");
+				return true
+		end
+		if (minor < fminor) then
+			return false
+		elseif (minor > fminor) then
+				dbg("Expected minor greater - firmware update initiated");
+				return true
+		end
+		if (build < fbuild) then
+			return false
+		elseif (build > fbuild) then
+				dbg("Expected build greater - firmware update initiated");
+				return true
+		end
+		if (rev < frev) then
+			return false
+		elseif (rev > frev) then
+				dbg("Expected rev greater - firmware update initiated");
+				return true
+		end
+		dbg("Expected equals target");
+		return false
+end
+
+
+
+--------------  hard coded version and URL for updates ---------------------
+function CheckVersionAndUpdate(firmwareVersion)
+  if (Properties["Auto Updates Enabled"] == "true") then
+		if ((firmwareVersion ~= "") and (firmwareVersion ~= g_expectedVersion)) then
+			 if (g_triedUpdate == false) then
+					if (IsExpectedVersionNewerThanFirmwareVersion(firmwareVersion)) then
+						dbg("Current firmware version (" .. firmwareVersion .. ") needs to be updated to (" .. g_expectedVersion .. ").  Starting update.")
+						SendCmd(CMDS.StartUpdate)
+						g_triedUpdate = true
+					end
+			 else 
+					dbg("Different firmware detected - already attempted update - no automatic update will be initiated")
+			 end
+		end
+	end
+end
+
+g_pingTimer = C4:AddTimer(30,"SECONDS", true)
+
+--------------- property handling ------------------
+function OnPropertyChanged(strProperty)
+	if (strProperty == "Debug Mode") then
+		if (Properties[strProperty] == "Off") then
+			g_debugprint = false
+			g_debuglog = false
+			g_DebugTimer = 0
+		 end
+		 if (Properties[strProperty] == "Print") then
+			g_debugprint = true
+			g_debuglog = false
+			startDebugTimer()
+		 end
+		 if (Properties[strProperty] == "Log") then
+			g_debugprint = false
+			g_debuglog = true
+			startDebugTimer()
+		 end
+		 if (Properties[strProperty] == "Print and Log") then
+			g_debugprint = true
+			g_debuglog = true
+			startDebugTimer()
+		 end
+  end
+  if (strProperty == PropertyNames.Resolution) then
+		SendCmd(CMDS.Resolution, ResolutionNamesToModes[Properties[strProperty]])
+  end
+  if (strProperty == "Update URL") then
+		if (Properties[strProperty] == "") then
+			Properties[strProperty] = g_defaultUrlForUpdate
+			C4:UpdateProperty(strProperty, g_defaultUrlForUpdate)
+		end
+		SendCmd(CMDS.UpdateURL, makeHttpCompliant(Properties["Update URL"], true))
+  end
+  if (strProperty == PropertyNames.StartUpdate) then
+		SendCmd(CMDS.StartUpdate)
+  end
+  if (strProperty == PropertyNames.AudioDownmix) then
+    if (Properties[strProperty] == "true") then
+		  SendCmd(CMDS.AudioDownmix, "stereo")
+    else
+		  SendCmd(CMDS.AudioDownmix, "passthrough")
+    end
+    -- following used to verify and update property
+    SendCmd(CMDS.AudioDownmix)
+  end
+  if (strProperty == PropertyNames.BgUrl) then
+		SendCmd(CMDS.BackgroundUrl, Properties[strProperty])
+  end
+  if (strProperty == PropertyNames.SSUrl) then
+		SendCmd(CMDS.ScreenSaverUrl, Properties[strProperty])
+  end
+end
+
+function startDebugTimer()
+  if (g_DebugTimer) then
+	 g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  g_DebugTimer = C4:AddTimer(15, "MINUTES")
+end
+
+function dbg(strDebugText)
+  if (g_debugprint) then print(strDebugText) end
+  if (g_debuglog) then C4:ErrorLog(strDebugText) end
+end
+
+function PrintPacket(msg, packet)
+  if (g_debugprint) then
+	 print("........Hex Packet: " .. msg)
+	 hexdump(packet)
+  end
+end
+
+--------------------------------- switchable resolution handling --------------------------
+g_lastSwitchableSelected = ""
+
+PropertySwitchableResolutionsNext =
+{
+"Auto",
+"VGA",
+"480i Fullscreen",
+"480p Fullscreen",
+"480p Widescreen",
+"576i Fullscreen",
+"576p Fullscreen",
+"720p",
+"720p 50Hz",
+"1080i",
+"1080i 50Hz",
+"1080p",
+"1080p 50Hz"
+}
+
+PropertySwitchableResolutionsPrev =
+{
+"1080p 50Hz",
+"1080p",
+"1080i 50Hz",
+"1080i",
+"720p 50Hz",
+"720p",
+"576p Fullscreen",
+"576i Fullscreen",
+"480p Widescreen",
+"480p Fullscreen",
+"480i Fullscreen",
+"VGA",
+"Auto"
+}
+
+
+-- return the next usable resolution
+function GetNextSwitchableRes(DirArray)
+	-- first check to make sure they have at least one set to true
+	local haveAtLeastOne = false
+ 	for index,pName in pairs(DirArray)do
+		if (Properties[pName] == "true") then
+			haveAtLeastOne = true
+			break
+	  end
+	end
+  if (haveAtLeastOne == false) then
+	  return nul
+	end
+
+	local bUseNext = false;
+	if (g_lastSwitchableSelected == "") then
+		--if they haven't selected any yet - pick the first one
+		bUseNext = true;
+	end
+ 	for index,pName in pairs(DirArray)do
+		if (bUseNext) then
+			if (Properties[pName] == "true") then
+			 	g_lastSwitchableSelected = pName
+				return(pName)
+			end
+		elseif (pName == g_lastSwitchableSelected) then
+			-- we found the last guy we used - set use next to true
+			bUseNext = true
+		end
+	end
+	-- if we made it this far then they are at the last one - call again and pick the first
+	g_lastSwitchableSelected = ""
+	return(GetNextSwitchableRes(DirArray))
+end
+
+
+
+-----------------------------------------  timer functions -----------------------------------------
+function CancelOffTimer()
+  if (g_powerOffTimer ~= 0) then
+	 C4:KillTimer(g_powerOffTimer)
+  end
+  g_powerOffTimer = 0
+end
+
+function CancelQueueTimer()
+  if (g_queueTimer ~= 0) then
+	 g_queueTimer = C4:KillTimer(g_queueTimer)
+  end
+  g_queueTimer = 0
+end
+
+function CancelPlayTimer()
+  if (g_playTimer ~= 0) then
+    g_playTimer = C4:KillTimer(g_playTimer)
+  end
+  g_playTimer = 0
+end
+
+function CancelPingTimer()
+  if (g_pingTimer ~= 0) then
+    g_pingTimer = C4:KillTimer(g_pingTimer)
+  end
+  g_pingTimer = 0
+end
+
+ ----------------------------------------- Command Functions -----------------------------------------
+function CMDS.PLAY_THIS_FILE(BindingID, Params)
+  CancelOffTimer()
+  location = Params["FILE"]
+  if ((location ~= nil) and (location ~= g_location)) then
+	  g_location = location
+    if (Properties["Restart Playback on Reselect"] == "true") then
+      CancelPlayTimer()
+      g_playTimer = C4:AddTimer(2,"SECONDS")
+    end
+	  -- Send a play event for programming
+	  -- we should get back a "play" from the device C4:SendToProxy(BindingID, "PLAY", {})
+	  -- Stop any currently playing files
+	  -- they didn't want a stop SendCmd(CMDS.Stop)
+	  user = Params["USER"]
+	  pass = Params["PASSWORD"]
+	  title = Params["TITLE"]
+    if ((title) and (title ~= "")) then
+  		SendCmd(CMDS.SetTitleText, title)
+    else
+  		SendCmd(CMDS.SetTitleText, "Video")
+    end
+	  SendPlayFile(location, user, pass)
+  end
+end
+
+function CMDS.ON(BindingID, Params)
+  CancelOffTimer()
+  SendCmd(CMDS.PowerOn)
+  --should be called from driver response C4:SendToProxy(BindingID, "ON", {})
+end
+
+function CMDS.OFF(BindingID, Params)
+  CancelOffTimer()
+  -- Stop any currently playing files
+  SendCmd(CMDS.Stop)
+  g_powerOffTimer = C4:AddTimer(5,"SECONDS")
+  g_location = ""
+end
+
+function CMDS.PLAY(BindingID, Params)
+  SendCmd(CMDS.Play)
+  --should be called from driver response C4:SendToProxy(BindingID, "PLAY", {})
+end
+
+function CMDS.STOP(BindingID, Params)
+  SendCmd(CMDS.Stop)
+  --should be called from driver response C4:SendToProxy(BindingID, "STOP", {})
+  g_location = ""
+end
+
+function CMDS.PAUSE(BindingID, Params)
+  SendCmd(CMDS.Pause)
+  --should be called from driver response C4:SendToProxy(BindingID, "PAUSE", {})
+end
+
+function CMDS.SET_PROPERTIES(tParams)
+	-- send down stored properties in driver
+  SendCmd(CMDS.AudioDownmix, "passthrough")
+	SendCmd(CMDS.BackgroundUrl, Properties[PropertyNames.BgUrl])
+	SendCmd(CMDS.ScreenSaverUrl, Properties[PropertyNames.SSUrl])
+	SendCmd(CMDS.Resolution, ResolutionNamesToModes[Properties[PropertyNames.Resolution]])
+	SendCmd(CMDS.UpdateURL, makeHttpCompliant(Properties["Update URL"], true))
+end
+
+function CMDS.GET_PROPERTIES(tParams)
+  SendCmd(CMDS.PowerQuery)
+  SendCmd(CMDS.StatusQuery)
+  SendCmd(CMDS.VersionNumber)
+  SendCmd(CMDS.Resolution)
+  SendCmd(CMDS.AudioDownmix)
+  SendCmd(CMDS.BackgroundUrl)
+  SendCmd(CMDS.ScreenSaverUrl)
+end
+
+function CMDS.NUMBER_0(tParams)
+  SendCmd(CMDS.NumberKey, tohex("00"))
+end
+
+function CMDS.NUMBER_1(tParams)
+  SendCmd(CMDS.NumberKey, tohex("01"))
+end
+
+function CMDS.NUMBER_2(tParams)
+  SendCmd(CMDS.NumberKey, tohex("02"))
+end
+
+function CMDS.NUMBER_3(tParams)
+  SendCmd(CMDS.NumberKey, tohex("03"))
+end
+
+function CMDS.NUMBER_4(tParams)
+  SendCmd(CMDS.NumberKey, tohex("04"))
+end
+
+function CMDS.NUMBER_5(tParams)
+  SendCmd(CMDS.NumberKey, tohex("05"))
+end
+
+function CMDS.NUMBER_6(tParams)
+  SendCmd(CMDS.NumberKey, tohex("06"))
+end
+
+function CMDS.NUMBER_7(tParams)
+  SendCmd(CMDS.NumberKey, tohex("07"))
+end
+
+function CMDS.NUMBER_8(tParams)
+  SendCmd(CMDS.NumberKey, tohex("08"))
+end
+
+function CMDS.NUMBER_9(tParams)
+  SendCmd(CMDS.NumberKey, tohex("09"))
+end
+
+function CMDS.UP(tParams)
+  -- send the simple menu cmd
+ 	SendCmd(CMDS.Up)
+  -- also send the Next Title cmd
+  SendCmd(CMDS.NextAudio)
+end
+
+function CMDS.DOWN(tParams)
+  -- send the simple menu cmd
+ 	SendCmd(CMDS.Down)
+  -- also send the Next Title cmd
+  SendCmd(CMDS.PrevAudio)
+end
+ 
+function CMDS.PAGE_UP(tParams)
+  local newRes = GetNextSwitchableRes(PropertySwitchableResolutionsNext)
+	if (newRes) then
+		dbg("Next res is " .. newRes)
+ 		Properties.Resolution = newRes
+		C4:UpdateProperty("Resolution", newRes)
+		SendCmd(CMDS.Resolution, ResolutionNamesToModes[newRes])
+	end
+end
+
+function CMDS.PAGE_DOWN(tParams)
+  local newRes = GetNextSwitchableRes(PropertySwitchableResolutionsPrev)
+	if (newRes) then
+		dbg("Prev res is " .. newRes)
+ 		Properties.Resolution = newRes
+		C4:UpdateProperty("Resolution", newRes)
+		SendCmd(CMDS.Resolution, ResolutionNamesToModes[newRes])
+	end
+end
+
+function CMDS.RIGHT(tParams)
+  -- send the simple menu cmd
+ 	SendCmd(CMDS.Right)
+  -- also send the Next Title cmd
+  SendCmd(CMDS.NextTitle)
+end
+ 
+function CMDS.LEFT(tParams)
+  -- send the simple menu cmd
+ 	SendCmd(CMDS.Left)
+  -- also send the Next Title cmd
+  SendCmd(CMDS.PrevTitle)
+end
+
+function ReceivedFromProxy(BindingID, Command, Params)
+
+  if (g_tcpConnected == false) then
+	  dbg("Received command from proxy with no connection to device.  Verify device's ip address")
+  end
+  dbg("ReceivedFromProxy called with command: " .. Command)
+  if ((nil ~= tParams) and (tParams ~= "")) then
+	 for pName, pValue in pairs(Params) do
+		dbg("..Parameter: " .. pName .. " with value: " .. pValue)
+	 end
+  end
+
+  -- First try our function LUT
+  cmd = CMDS[Command]   -- ON, OFF, PLAY, STOP, PAUSE
+  if ((cmd ~= nil) and (type(cmd) == "function")) then
+	 cmd(BindingID, Params)
+	 return
+  end
+
+  -- OK. Lets try the simple commands
+  if (cmd ~= nil) then
+	 SendCmd(cmd)
+	return
+  end
+
+  dbg("Unhandled Command: " .. Command)
+end
+
+function SendCmd(strCmd, params)
+  -- Generate Command based on parameters passed...
+  local len = 1
+  if (nil ~= params) then
+	 len = len + string.len(params)
+  end
+
+  local cmd = string.pack("b>Hb", 0xC4, len, strCmd)
+  if (nil ~= params) then
+	 cmd = cmd .. params
+  end
+
+  if (g_debugprint) then
+	 dbg("SendChangerCmd: ")
+	 hexdump(cmd)
+  end
+  C4:SendToNetwork(TCP_BINDING_ID, TCP_PORT, cmd)
+end
+
+function uriEscape(s)
+  -- see rfc 2396
+     return string.gsub(s, "([^A-Za-z0-9-_.!~*%'%(%)%/%/])", function(c)
+        return string.format("%%%02x", string.byte(c))
+    end)
+end
+
+function makeHttpCompliant(data, hasLoc)
+  -- see rfc 2396
+  start = ""
+	if (hasLoc) then
+		-- it has something://somePath
+		pos = string.find(data, ":")
+		if (pos) then
+			start = string.sub(data, 0, pos)
+			data = string.sub(data, pos + 1)
+		end
+	end
+	data = uriEscape(data)
+	return(start .. data)
+end
+
+
+function SendPlayFile(fileLoc, user, pass)
+   -- first strip any leader slashes - look like "//servername/share/folder/filename" - want in form "servername/share/folder/filename"
+  local slashPos = string.find(fileLoc, "/")
+	while (slashPos == 1) do
+       fileLoc = string.sub(fileLoc, 2)
+	   slashPos = string.find(fileLoc, "/")
+	end
+  if (user ~= nil) then
+  -- should look like: smb://username:password@servername/share/folder/filename.mpg
+	 sessionMsg = [[smb://]]
+	 sessionMsg = sessionMsg .. uriEscape(user)
+	 sessionMsg = sessionMsg .. ":"
+	 sessionMsg = sessionMsg .. uriEscape(pass)
+	 sessionMsg = sessionMsg .. "@"
+  else
+  -- should look like: smb://servername/share/folder/filename.mpg
+	 sessionMsg = [[smb://]]
+  end
+	fileLoc = uriEscape(fileLoc);
+  sessionMsg = sessionMsg .. fileLoc
+  SendCmd(CMDS.OpenVideoFile, sessionMsg)
+end
+
+-- handles unpacking of status message received from the device
+function HandleUpdateStatus(updateSts)
+  local code = "Unknown update code"
+  local msg = nil
+  if (UPDATE_STS[string.byte(updateSts, 1)] ~= nil) then
+    code = UPDATE_STS[string.byte(updateSts, 1)]
+    dbg("Code is " .. code)
+    msg = string.sub(updateSts, 2)
+    if (code == "Status") then
+      subcode = string.byte(updateSts, 2)
+      msg = string.sub(updateSts, 3)
+    end
+  end
+  if (msg ~= nil) then
+    C4:UpdateProperty(PropertyNames.UpdateStatus, "code: " .. code .. " status: " .. msg)
+  else
+    C4:UpdateProperty(PropertyNames.UpdateStatus, "code: " .. code)
+  end
+end
+
+---------------------- call to dispatch all data from device --------------------------
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+  PrintPacket("ReceivedFromNetwork - port " .. nPort, strData)
+  if (nPort == TCP_PORT) then
+		g_receiveBuffer = g_receiveBuffer .. strData
+	-- Find 0xC4 in buf... If not at first, move to top...
+	  local pos --position in the buffer of the start current packet
+	  local hdr --position in the buffer of the start of the c4 header
+	  local len --the length (as reported by the device) of the current packet
+	  local cmd --the cmd from the packet
+
+	  local startpos = string.find(g_receiveBuffer, tohex("C4"), 1, true)
+	  while (startpos ~= nil) do
+
+		-- If 0xC4 not found in position 1, delete anything up to the 0xC4...
+		if (startpos ~= 1) then
+		  g_receiveBuffer = string.sub(g_receiveBuffer, startpos)
+		end
+
+		-- If there aren't at least 4 characters, we don't have a full msg header to parse out...
+		if (string.len(g_receiveBuffer) < 4) then
+		  return
+		end
+
+		-- Unpack header, see what we've got...
+		hexdump(g_receiveBuffer)
+		pos, hdr, len, cmd = string.unpack(g_receiveBuffer, "b>Hb")
+		dbg("CMD Header Found:   Pos: " .. pos .. " Len: " .. len .. " Cmd: " .. cmd)
+
+		-- If we don't have full message (length of rest of message + 0xC4 + length (2 bytes))
+		if (string.len(g_receiveBuffer) < (3 + len)) then
+		  dbg("Full Data not received... returning")
+		  return
+		end
+
+		-- Call function for this notify, if there is one...
+		if (cmd == CMDS.STS_Power) then
+		  hexdump(g_receiveBuffer)
+		  local _, onoff = string.unpack(g_receiveBuffer, "b", pos)
+		  dbg("Power Notify, pos is " .. pos .. ", onoff is " .. onoff)
+      if (g_powerStatus ~= onoff) then
+		    if (onoff == 0x01) then
+			    C4:SendToProxy(ID_PROXY, "ON", {})
+			    dbg("Sending ON to Proxy")
+		    else
+			    C4:SendToProxy(ID_PROXY, "OFF", {})
+			    dbg("Sending OFF to Proxy")
+		    end
+      end
+      g_powerStatus = onoff
+		end
+		if (cmd == CMDS.STS_Playing) then
+			C4:SendToProxy(ID_PROXY, "PLAY", {})
+			dbg("Sending PLAY to Proxy")
+		end
+		if (cmd == CMDS.STS_Stopped) then
+			C4:SendToProxy(ID_PROXY, "STOP", {})
+			dbg("Sending STOP to Proxy")
+		end
+		if (cmd == CMDS.STS_Paused) then
+			C4:SendToProxy(ID_PROXY, "PAUSE", {})
+			dbg("Sending PAUSE to Proxy")
+		end
+		if (cmd == CMDS.STS_Error) then
+			errorMsg = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			if (len > 1) then
+				dbg("Received error from player - error is" .. errorMsg)
+				C4:UpdateProperty(PropertyNames.LastError, errorMsg)
+			else
+				dbg("Received error from player - no data")
+				C4:UpdateProperty(PropertyNames.LastError, "No data")
+			end
+		end
+		if (cmd == CMDS.STS_VersionNumber) then
+			firmwareVersion = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			firmwareVersion = string.gsub(firmwareVersion, "\n", "")
+			firmwareVersion = string.gsub(firmwareVersion, "\r", "")
+			C4:UpdateProperty(PropertyNames.FirmwareVersion, firmwareVersion)
+			CheckVersionAndUpdate(firmwareVersion)
+		end
+		if (cmd == CMDS.STS_Update) then
+			updateSts = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			HandleUpdateStatus(updateSts)
+		end
+		if (cmd == CMDS.STS_Resolution) then
+			resol = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			C4:UpdateProperty(PropertyNames.CurrentResolution, resol)
+		end
+		if (cmd == CMDS.STS_AudioMode) then
+			local dwnMix = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			if (dwnMix == "stereo") then
+			  C4:UpdateProperty(PropertyNames.AudioDownmixSetting, "true")
+			else
+			  C4:UpdateProperty(PropertyNames.AudioDownmixSetting, "false")
+			end
+		end
+		if (cmd == CMDS.STS_BackgroudUrl) then
+			local bgUrl = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			C4:UpdateProperty(PropertyNames.BgUrl,  bgUrl)
+		end
+		if (cmd == CMDS.STS_ScreenSaverUrl) then
+			local ssUrl = string.sub(g_receiveBuffer, pos, pos + (len - 2))
+			C4:UpdateProperty(PropertyNames.SSUrl,  ssUrl)
+		end
+
+
+		-- FF past data section...
+		pos = pos + (len - 1)
+
+		g_receiveBuffer = string.sub(g_receiveBuffer, pos)
+		startpos = string.find(g_receiveBuffer, tohex("C4"), 1, true)
+	  end
+	end
+end
+
+
+function OnTimerExpired(idTimer)
+  if (idTimer == g_enquedPacketTimer) then
+	 if (g_SendBuffer ~= nil) then
+		if (g_tcpConnected) then
+		SendToNetwork(TCP_BINDING_ID, TCP_PORT, g_SendBuffer)
+		  g_SendBuffer = nil
+		else
+		  -- we need to readd the queue timer because the device is still offline
+		  CancelQueueTimer()
+		  g_queueTimer = C4:AddTimer(1,"SECONDS")
+		end
+	 end
+  elseif (idTimer == g_DebugTimer) then
+	 dbg("Turning Debug Mode back to Print [default] (timer expired)")
+	 C4:UpdateProperty("Debug Mode", "Print")
+  elseif (idTimer == g_powerOffTimer) then
+		  g_powerOffTimer = 0
+		  dbg("OnTimerExpired - g_powerOffTimer sending off")
+		  SendCmd(CMDS.PowerOff)
+		  --should be called from driver response C4:SendToProxy(ID_PROXY, "OFF", {})
+  elseif (idTimer == g_playTimer) then
+  	  g_location = nil
+  elseif (idTimer == g_pingTimer) then
+    if (g_tcpConnected == true) then
+  	  SendCmd(CMDS.Ping)
+    end
+	else 
+		C4:KillTimer(idTimer)
+  end
+
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	dbg("OnConnectionStatusChanged nPort " .. nPort .. " status = " .. strStatus)
+	if (nPort == TCP_PORT) then
+		if (strStatus == "ONLINE") then
+			g_tcpConnected = true
+			CMDS.SET_PROPERTIES()
+			CMDS.GET_PROPERTIES()
+			-- make sure the device has our stored url
+			SendCmd(CMDS.UpdateURL, makeHttpCompliant(Properties["Update URL"], true))
+		else
+			-- tcp off line - not good
+			g_tcpConnected = false
+		end
+	 end
+end
+
+function ExecuteCommand(strCommand, tParams)
+  dbg("ExecuteCommand function called with : " .. strCommand)
+  if (tParams == nil) then
+    if (strCommand =="GET_PROPERTIES") then
+      CMDS.GET_PROPERTIES()
+    else
+      print ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+    end
+  end
+  if (strCommand == "LUA_ACTION") then
+    if tParams ~= nil then
+      for cmd,cmdv in pairs(tParams) do
+        print (cmd,cmdv)
+        if cmd == "ACTION" then
+          if cmdv == "StartUpdate" then
+        		SendCmd(CMDS.StartUpdate)
+          else
+            dbg("From ExecuteCommand Function - Undefined Action")
+            dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+          end
+        else
+          dbg("From ExecuteCommand Function - Undefined Command")
+          dbg("Key: " .. cmd .. "  Value: " .. cmdv)
+        end
+      end
+    end
+  end
+end
+
+function OnDriverDestroyed()
+  dbg("OnDriverDestroyed called")
+  CancelOffTimer()
+  g_receiveBuffer = ""
+  g_SendBuffer = ""
+  if (g_DebugTimer ~= 0) then
+	 g_DebugTimer = C4:KillTimer(g_DebugTimer)
+  end
+  CancelQueueTimer()
+  CancelPlayTimer()
+  CancelPingTimer()
+end
+
+-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+  OnPropertyChanged(k)
+end
+
+-- get any other stuff from the device
+CMDS.GET_PROPERTIES(tParams)
+
+
+-----------  stuff to get the firmware version on the director box -----------
+function connect(address, port, laddress, lport)
+    local sock, err = socket.tcp()
+    if not sock then return nil, err end
+    if laddress then
+        local res, err = sock:bind(laddress, lport, -1)
+        if not res then return nil, err end
+    end
+    local res, err = sock:connect(address, port)
+    if not res then return nil, err end
+    return sock
+end
+
+]]>
+</script>
+</config>
+<connections>
+<connection>
+<id>5001</id>
+<facing>6</facing>
+<connectionname>MEDIA_PLAYER</connectionname>
+<type>2</type>
+<consumer>False</consumer>
+<audiosource>False</audiosource>
+<videosource>False</videosource>
+<linelevel>False</linelevel>
+<classes>
+  <class>
+    <classname>MEDIA_PLAYER</classname>
+  </class>
+</classes>
+</connection>
+<connection>
+<id>6001</id>
+<facing>6</facing>
+<connectionname>Media Player Connection</connectionname>
+<type>4</type>
+<consumer>True</consumer>
+<audiosource>False</audiosource>
+<videosource>False</videosource>
+<linelevel>True</linelevel>
+<classes>
+  <class>
+    <classname>TCP</classname>
+    <ports>
+      <port>
+        <number>5775</number>
+        <auto_connect>True</auto_connect>
+        <monitor_connection>False</monitor_connection>
+        <keep_connection>True</keep_connection>
+      </port>
+      <port>
+        <number>80</number>
+        <auto_connect>False</auto_connect>
+        <monitor_connection>False</monitor_connection>
+        <keep_connection>False</keep_connection>
+      </port>
+    </ports>
+  </class>
+</classes>
+</connection>
+<connection>
+<id>2001</id>
+<facing>6</facing>
+<force>True</force>
+<connectionname>Digital Media Storage</connectionname>
+<type>5</type>
+<consumer>True</consumer>
+<audiosource>False</audiosource>
+<videosource>False</videosource>
+<linelevel>False</linelevel>
+<hidden>True</hidden>
+<classes>
+  <class>
+    <autobind>True</autobind>
+    <classname>DIGITAL_MEDIA_STORAGE</classname>
+  </class>
+</classes>
+</connection>
+<connection proxybindingid="5001" verified="False">
+<id>4000</id>
+<facing>6</facing>
+<connectionname>TV1 OUTPUT</connectionname>
+<type>6</type>
+<consumer>False</consumer>
+<audiosource>True</audiosource>
+<videosource>False</videosource>
+<linelevel>True</linelevel>
+<classes>
+  <class>
+    <classname>STEREO</classname>
+  </class>
+  <class>
+    <classname>DIGITAL_OPTICAL</classname>
+  </class>
+</classes>
+</connection>
+<connection proxybindingid="5001" verified="False">
+<id>2000</id>
+<facing>6</facing>
+<connectionname>TV1 OUTPUT</connectionname>
+<type>5</type>
+<consumer>False</consumer>
+<audiosource>False</audiosource>
+<videosource>True</videosource>
+<linelevel>True</linelevel>
+<classes>
+  <class>
+    <classname>COMPOSITE</classname>
+  </class>
+  <class>
+    <classname>SVIDEO</classname>
+  </class>
+  <class>
+    <classname>COMPONENT</classname>
+  </class>
+  <class>
+    <classname>HDMI</classname>
+  </class>
+</classes>
+</connection>
+<connection proxybindingid="5001" verified="True">
+<id>7000</id>
+<facing>6</facing>
+<connectionname>Room Selection - TV1 OUTPUT</connectionname>
+<type>7</type>
+<consumer>False</consumer>
+<audiosource>True</audiosource>
+<videosource>True</videosource>
+<linelevel>True</linelevel>
+<classes>
+  <class>
+    <classname>AUDIO_SELECTION</classname>
+  </class>
+  <class>
+    <classname>VIDEO_SELECTION</classname>
+  </class>
+</classes>
+</connection>
+</connections>
+<capabilities/>
+</devicedata>

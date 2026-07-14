@@ -1,0 +1,1079 @@
+# 
+# Translators:
+# Göran Ekström <goran@affixum.se>, 2025
+# Darin Theurer <dtheurer@control4.com>, 2025
+# William Walsh, 2025
+# 
+msgid ""
+msgstr ""
+"Last-Translator: William Walsh, 2025\n"
+"Language-Team: Swedish (Sweden) (https://app.transifex.com/control4/teams/15374/sv_SE/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"File: \n"
+"Language: sv_SE\n"
+"Name: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: driver.lua:700
+msgid " {roomName} Source"
+msgstr "{roomName} Källa"
+
+#: driver.lua:356
+msgid "Action Delay (seconds)"
+msgstr "Åtgärdsfördröjning (sekunder)"
+
+#: driver.lua:374
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: driver.jsonmodel
+msgid "Air Saver"
+msgstr "Luftbesparare"
+
+#: driver.jsondisplayName
+msgid "Air Saver Routine"
+msgstr "Rutin för luftsparare"
+
+#: driver.lua:64
+msgid "Alarm Cleared"
+msgstr "Alarm rensat"
+
+#: driver.jsonmodel
+msgid "Alarm Monitor"
+msgstr "Larm Monitor"
+
+#: driver.jsondisplayName
+msgid "Alarm Monitor Routine"
+msgstr "Rutin för larmmonitor"
+
+#: driver.lua:60
+msgid "Alarm Triggered"
+msgstr "Larmet utlöst"
+
+#: driver.jsondescription
+msgid ""
+"Alert after specified time if specified doors or windows are open and "
+"specified thermostats are actively heating or cooling."
+msgstr ""
+"Larma efter angiven tid om angivna dörrar eller fönster är öppna och angivna"
+" termostater aktivt värmer eller kyler."
+
+#: driver.jsondescription
+msgid "Alert if a sensor is tripped for more than a specified time."
+msgstr "Avisera om en sensor utlöses under mer än en angiven tid."
+
+#: driver.jsoncategory
+msgid "Audio/Video"
+msgstr "Ljud/Video"
+
+#: driver.lua243, driver.lua:276
+msgid "Auto"
+msgstr "Auto"
+
+#: driver.jsondescription
+msgid "Automate turning lights off whenever they are turned on."
+msgstr "Automatisera släckningen av lampor när de slås på."
+
+#: driver.jsondescription
+msgid "Automatically flash selected lights when selected door station rings"
+msgstr "Blinka automatiskt valda lampor när vald dörrstation ringer"
+
+#: driver.jsondescription
+msgid "Automatically turn off touchscreen backlight between specified times"
+msgstr ""
+"Stäng automatiskt av pekskärmens bakgrundsbelysning mellan angivna tider"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on selected lights for selected time when selected "
+"cameras detect motion"
+msgstr ""
+"Slå automatiskt på valda lampor under vald tid när valda kameror upptäcker "
+"rörelse"
+
+#: driver.jsondescription
+msgid ""
+"Automatically turn on/off fan specified time after selected light turns "
+"on/off"
+msgstr ""
+"Slå på/av fläkten automatiskt angiven tid efter att den valda lampan slås "
+"på/av"
+
+#: driver.jsoncategory
+msgid "Automation"
+msgstr "Automatisering"
+
+#: driver.lua:205
+msgid "Butterfly"
+msgstr "Fjäril"
+
+#: driver.lua:39
+msgid "Button"
+msgstr "Knapp"
+
+#: driver.lua:26
+msgid "Button Pressed"
+msgstr "Knapp nedtryckt"
+
+#: driver.lua:19
+msgid "Call Button 2 Pressed"
+msgstr "Samtalsknapp 2 intryckt"
+
+#: driver.lua:20
+msgid "Call Button 3 Pressed"
+msgstr "Samtalsknapp 3 intryckt"
+
+#: driver.lua:21
+msgid "Call Button 4 Pressed"
+msgstr "Samtalsknapp 4 intryckt"
+
+#: driver.lua:22
+msgid "Call Button 5 Pressed"
+msgstr "Samtalsknapp 5 intryckt"
+
+#: driver.lua:23
+msgid "Call Button 6 Pressed"
+msgstr "Samtalsknapp 6 intryckt"
+
+#: driver.lua:18
+msgid "Call Button Pressed"
+msgstr "Samtalsknapp nedtryckt"
+
+#: driver.lua:220
+msgid "Cancel This Event"
+msgstr "Avbryt det här evenemanget"
+
+#: driver.lua:43
+msgid "Checkbox"
+msgstr "Kryssrutan"
+
+#: driver.lua:575
+msgid "Control Lights"
+msgstr "Kontrollampor"
+
+#: driver.lua:568
+msgid "Control Lights or Select Scene"
+msgstr "Styr lampor eller välj scen"
+
+#: driver.jsondescription
+msgid "Control lights turning on and off around sunset and sunrise."
+msgstr "Kontrollampor som slås på och av runt solnedgång och soluppgång."
+
+#: driver.lua225, driver.lua:290
+msgid "Controlled Fans"
+msgstr "Styrda fläktar"
+
+#: driver.lua173, driver.lua:238
+msgid "Controlled Lights"
+msgstr "Kontrollerade lampor"
+
+#: driver.lua261, driver.lua:346
+msgid "Controlled Locks"
+msgstr "Kontrollerade lås"
+
+#: driver.lua:155
+msgid "Controlled Thermostats"
+msgstr "Styrda termostater"
+
+#: driver.lua251, driver.lua:284
+msgid "Cool"
+msgstr "Kyla"
+
+#: driver.jsonmodel
+msgid "Darkroom"
+msgstr "Mörkrum"
+
+#: driver.jsondisplayName
+msgid "Darkroom Routine"
+msgstr "Mörkrum Rutin"
+
+#: driver.lua156, driver.lua:59
+msgid "Date"
+msgstr "Datum"
+
+#: driver.lua147, driver.lua:55
+msgid "Date/Time"
+msgstr "Datum/tid"
+
+#: driver.jsondescription
+msgid "Demonstrate the UI capabilities of Routines"
+msgstr "Demonstrera UI-funktionerna i rutiner"
+
+#: driver.lua263, driver.lua:327
+msgid "Do Not Select Preset"
+msgstr "Välj inte förinställning"
+
+#: driver.lua:395
+msgid "Do Not Select Scene"
+msgstr "Välj inte scen"
+
+#: driver.jsonmodel
+msgid "Door Indicator"
+msgstr "Indikator för dörr"
+
+#: driver.jsondisplayName
+msgid "Door Indicator Routine"
+msgstr "Rutin för dörrindikator"
+
+#: driver.lua:209
+msgid "Duck"
+msgstr "Anka"
+
+#: driver.lua284, driver.lua:735
+msgid "EBMS Preset"
+msgstr "Förinställd EBMS"
+
+#: driver.jsondisplayName, driver.jsonmodel
+msgid "EBMS Routine"
+msgstr "EBMS-rutin"
+
+#: driver.lua:67
+msgid "Emergency Triggered"
+msgstr "Nödläge utlöst"
+
+#: driver.lua:213
+msgid "Empty"
+msgstr "Tom"
+
+#: driver.lua:449
+msgid "End Time"
+msgstr "Sluttid"
+
+#: driver.lua:382
+msgid "English: Variable Check: {luaVar}"
+msgstr "Svenska: Variabel Check: {luaVar}"
+
+#: driver.lua:619
+msgid "Error: No Content Available, please play something first"
+msgstr "Fel: Inget innehåll tillgängligt, spela upp något först"
+
+#: driver.lua:625
+msgid "Error: No Content Selected"
+msgstr "Fel: Inget innehåll har valts"
+
+#: driver.lua:306
+msgid "Event"
+msgstr "Händelse"
+
+#: driver.lua:643
+msgid "Event {index} - completed"
+msgstr "Händelse {index} - avslutad"
+
+#: driver.lua:710
+msgid "Event {index} - completed (was modified)"
+msgstr "Händelse {index} - slutförd (ändrades)"
+
+#: driver.lua:756
+msgid "Example Event {index}"
+msgstr "Exempel på händelse {index}"
+
+#: driver.jsondisplayName
+msgid "Example Routine"
+msgstr "Exempel på rutin"
+
+#: driver.lua:27
+msgid "Example Section (Complete List)"
+msgstr "Exempel på avsnitt (fullständig lista)"
+
+#: driver.jsonmodel
+msgid "Example/Demonstration Routine"
+msgstr "Exempel/Demonstrationsrutin"
+
+#: driver.jsonmodel
+msgid "Fan Timer"
+msgstr "Fläkt timer"
+
+#: driver.jsondisplayName
+msgid "Fan Timer Routine"
+msgstr "Rutin för fläkttimer"
+
+#: driver.lua:129
+msgid "Fans turned off"
+msgstr "Fläktar avstängda"
+
+#: driver.lua:127
+msgid "Fans turned on"
+msgstr "Fläktar påslagna"
+
+#: driver.lua:147
+msgid "Fans will turn off"
+msgstr "Fläktarna stängs av"
+
+#: driver.lua:145
+msgid "Fans will turn on"
+msgstr "Fläktarna slås på"
+
+#: driver.lua:310
+msgid "Friday"
+msgstr "Fredag"
+
+#: driver.lua:358
+msgid "Generate 5 Events"
+msgstr "Generera 5 händelser"
+
+#: driver.lua:360
+msgid "Generate Events"
+msgstr "Generera händelser"
+
+#: driver.jsonmodel
+msgid "Geofence"
+msgstr "Geofence (geostaket)"
+
+#: driver.jsondisplayName
+msgid "Geofence Routine"
+msgstr "Rutin för geofence"
+
+#: driver.lua247, driver.lua:280
+msgid "Heat"
+msgstr "Värme"
+
+#: driver.lua178, driver.lua:67
+msgid "Icon"
+msgstr "Ikon"
+
+#: driver.lua:194
+msgid "Icon Image Source"
+msgstr "Ikon Bildkälla"
+
+#: driver.lua:295
+msgid "Index for Event"
+msgstr "Index för Händelse"
+
+#: driver.lua:201
+msgid "Kingfisher"
+msgstr "Kungsfiskare"
+
+#: driver.jsonmodel
+msgid "Light Auto-Off"
+msgstr "Ljus automatisk avstängning"
+
+#: driver.jsondisplayName
+msgid "Light Auto-Off Routine"
+msgstr "Rutin för automatisk avstängning av ljus"
+
+#: driver.jsoncategory
+msgid "Lighting"
+msgstr "Belysning"
+
+#: driver.lua413, driver.lua:755
+msgid "Lighting Scene"
+msgstr "Belysningsscen"
+
+#: driver.jsoncategory
+msgid "Lights"
+msgstr "Lampor"
+
+#: driver.lua:311
+msgid "Lights Entry Action"
+msgstr "Åtgärder för inträde av lampor"
+
+#: driver.lua:336
+msgid "Lights Exit Action"
+msgstr "Lampor Avsluta åtgärd"
+
+#: driver.lua:301
+msgid "Lights To Control"
+msgstr "Lampor att styra"
+
+#: driver.lua:306
+msgid "Lights To Turn On"
+msgstr "Lampor att slå på"
+
+#: driver.lua:81
+msgid "Lights flashed - {deviceName} button pressed"
+msgstr "Lamporna blinkade - {deviceName} knappen intryckt"
+
+#: driver.lua:75
+msgid "List"
+msgstr "Lista"
+
+#: driver.lua345, driver.lua:745
+msgid "MDM Preset"
+msgstr "MDM-förinställd"
+
+#: driver.lua:453
+msgid "Maximum Brightness"
+msgstr "Maximal ljusstyrka"
+
+#: driver.lua:559
+msgid "Maximum brightness was reduced"
+msgstr "Den maximala ljusstyrkan minskades"
+
+#: driver.lua:631
+msgid "Maximum brightness was restored"
+msgstr "Maximal ljusstyrka återställdes"
+
+#: driver.lua316, driver.lua:736
+msgid "Maximum brightness will be restored"
+msgstr "Maximal ljusstyrka kommer att återställas"
+
+#: driver.lua199, driver.lua:712
+msgid "Maximum brightness will reduce"
+msgstr "Maximal ljusstyrka kommer att minska"
+
+#: driver.lua:328
+msgid "Modify Event"
+msgstr "Ändra händelse"
+
+#: driver.lua:326
+msgid "Modify Event in Timeline"
+msgstr "Ändra händelse i tidslinjen"
+
+#: driver.lua:702
+msgid "Modify event {index} - success: {success}"
+msgstr "Ändra händelse {index} - lyckades: {success}"
+
+#: driver.lua:294
+msgid "Monday"
+msgstr "Måndag"
+
+#: driver.lua226, driver.lua:296
+msgid "Monitored Cameras"
+msgstr "Övervakade kameror"
+
+#: driver.lua158, driver.lua:228
+msgid "Monitored Door Stations"
+msgstr "Övervakade dörrstationer"
+
+#: driver.lua258, driver.lua:328
+msgid "Monitored Doors and Windows"
+msgstr "Övervakade dörrar och fönster"
+
+#: driver.lua210, driver.lua:280
+msgid "Monitored Light"
+msgstr "Övervakat ljus"
+
+#: driver.lua216, driver.lua:316
+msgid "Monitored Safety Sensors"
+msgstr "Övervakade säkerhetssensorer"
+
+#: driver.lua395, driver.lua:468
+msgid "Monitored Security Partitions"
+msgstr "Övervakade säkerhetspartitioner"
+
+#: driver.lua413, driver.lua:478
+msgid "Monitored Sensors"
+msgstr "Övervakade sensorer"
+
+#: driver.lua273, driver.lua:338
+msgid "Monitored Thermostats"
+msgstr "Övervakade termostater"
+
+#: driver.lua27, driver.lua30, driver.lua:33
+msgid "Motion"
+msgstr "Rörelse"
+
+#: driver.lua18, driver.lua21, driver.lua:24
+msgid "Motion Detection"
+msgstr "Rörelsedetektor"
+
+#: driver.jsonmodel
+msgid "Motion Lights"
+msgstr "Rörelsefria ljus"
+
+#: driver.jsondisplayName
+msgid "Motion Lights Routine"
+msgstr "Rutin för rörelseljus"
+
+#: driver.lua658, driver.lua:705
+msgid "Never"
+msgstr "Aldrig"
+
+#: driver.jsonmodel
+msgid "Nightlight"
+msgstr "Nattlampa"
+
+#: driver.jsondisplayName
+msgid "Nightlight Routine"
+msgstr "Rutin för nattljus"
+
+#: driver.lua259, driver.lua292, driver.lua327, driver.lua:352
+msgid "No Action"
+msgstr "Ingen åtgärd"
+
+#: driver.lua:495
+msgid "No Change"
+msgstr "Ingen förändring"
+
+#: driver.lua:357
+msgid "Notification Delay (minutes)"
+msgstr "Meddelandefördröjning (minuter)"
+
+#: driver.lua:497
+msgid "Notification Delay (seconds)"
+msgstr "Meddelandefördröjning (sekunder)"
+
+#: driver.lua:348
+msgid "Notification Text"
+msgstr "Text för anmälan"
+
+#: driver.lua222, driver.lua:79
+msgid "Number"
+msgstr "Nummer"
+
+#: driver.lua255, driver.lua288, driver.lua323, driver.lua:348
+msgid "Off"
+msgstr "Av"
+
+#: driver.lua319, driver.lua:344
+msgid "On"
+msgstr "På"
+
+#: driver.jsondescription
+msgid ""
+"Perform recommended safety actions if a heat, smoke or carbon monoxide alarm"
+" triggers."
+msgstr ""
+"Utför rekommenderade säkerhetsåtgärder om ett värme-, rök- eller "
+"kolmonoxidlarm utlöses."
+
+#: driver.lua:116
+msgid "Push Notification sent"
+msgstr "Push-meddelande skickat"
+
+#: driver.jsondescription
+msgid "Reduce default brightness of lights during nighttime hours."
+msgstr "Minska standardljusstyrkan för lampor under nattetid."
+
+#: driver.lua:340
+msgid "Remove Event"
+msgstr "Ta bort händelse"
+
+#: driver.lua:338
+msgid "Remove Event in Timeline"
+msgstr "Ta bort händelse i tidslinjen"
+
+#: driver.lua743, driver.lua:799
+msgid "Remove event {index} - success: {success}"
+msgstr "Ta bort händelse {index} - lyckades: {success}"
+
+#: driver.lua538, driver.lua:687
+msgid "Room Picker"
+msgstr "Väljare för rum"
+
+#: driver.lua:458
+msgid "Run Actions Now"
+msgstr "Kör åtgärder nu"
+
+#: driver.lua472, driver.lua:475
+msgid "Run End Time Now"
+msgstr "Sluttid för körning nu"
+
+#: driver.lua821, driver.lua:824
+msgid "Run Now"
+msgstr "Kör nu"
+
+#: driver.lua463, driver.lua:466
+msgid "Run Start Time Now"
+msgstr "Starta starttid för körning nu"
+
+#: driver.lua:224
+msgid "Run This Event Now"
+msgstr "Kör det här evenemanget nu"
+
+#: driver.lua760, driver.lua:763
+msgid "Run Turn Off Now"
+msgstr "Kör Stäng av nu"
+
+#: driver.lua751, driver.lua:754
+msgid "Run Turn On Now"
+msgstr "Kör Slå På nu"
+
+#: driver.jsonmodel
+msgid "Safety Alarm"
+msgstr "Säkerhetslarm"
+
+#: driver.jsondisplayName
+msgid "Safety Alarm Routine"
+msgstr "Rutin för säkerhetslarm"
+
+#: driver.lua:314
+msgid "Saturday"
+msgstr "Lördag"
+
+#: driver.lua:287
+msgid "Schedule"
+msgstr "Tidsschema"
+
+#: driver.jsonmodel
+msgid "Scheduled Audio"
+msgstr "Schemalagt ljud"
+
+#: driver.jsondisplayName
+msgid "Scheduled Audio Routine"
+msgstr "Schemalagd ljudrutin"
+
+#: driver.lua:918
+msgid "Scheduled Event Ran"
+msgstr "Schemalagd händelse kördes"
+
+#: driver.lua1167, driver.lua:165
+msgid "Scheduled Event Will Run"
+msgstr "Schemalagd händelse kommer att köras"
+
+#: driver.jsondescription
+msgid "Select Audio sources in any room(s) on a schedule"
+msgstr "Välj ljudkällor i alla rum enligt ett schema"
+
+#: driver.jsondescription
+msgid ""
+"Select Audio sources in any room(s), and optionally select a lighting scene,"
+" EBMS Preset and/or MDM preset"
+msgstr ""
+"Välj ljudkällor i alla rum och välj eventuellt en belysningsscen, EBMS-"
+"förinställning och/eller MDM-förinställning"
+
+#: driver.lua:579
+msgid "Select Scene"
+msgstr "Välj scen"
+
+#: driver.lua523, driver.lua:589
+msgid "Selected Scene"
+msgstr "Vald scen"
+
+#: driver.lua1147, driver.lua:420
+msgid "Selected lights will turn off"
+msgstr "Valda lampor släcks"
+
+#: driver.lua1118, driver.lua:237
+msgid "Selected lights will turn on"
+msgstr "Valda lampor tänds"
+
+#: driver.lua1149, driver.lua:422
+msgid "Selected scene will turn off"
+msgstr "Den valda scenen stängs av"
+
+#: driver.lua1120, driver.lua:239
+msgid "Selected scene will turn on"
+msgstr "Den valda scenen slås på"
+
+#: driver.jsondescription
+msgid ""
+"Send a Push Notification if a security partition or safety sensor alerts."
+msgstr ""
+"Skicka ett push-meddelande om en säkerhetspartition eller säkerhetssensor "
+"larmar."
+
+#: driver.jsonmodel
+msgid "Sensor Monitor"
+msgstr "Sensor Monitor"
+
+#: driver.jsondisplayName
+msgid "Sensor Monitor Routine"
+msgstr "Rutin för sensormonitor"
+
+#: driver.lua:316
+msgid "Set Event"
+msgstr "Ställ in händelse"
+
+#: driver.lua:314
+msgid "Set Event in Timeline"
+msgstr "Ställ in händelse i tidslinjen"
+
+#: driver.lua662, driver.lua:709
+msgid "Set Time"
+msgstr "Ställ in tid"
+
+#: driver.lua:637
+msgid "Set event {index} - success: {success}"
+msgstr "Ställ in händelse {index} - framgång: {success}"
+
+#: driver.lua:597
+msgid "Set past event {index} - success: {success}"
+msgstr "Ställ in tidigare evenemang {index} - framgång: {success}"
+
+#: driver.lua:282
+msgid "Setup"
+msgstr "Installationen"
+
+#: driver.lua:131
+msgid "Show This As Incomplete"
+msgstr "Visa detta som ofullständigt"
+
+#: driver.lua:139
+msgid "Show Translations Section"
+msgstr "Visa avsnittet Översättningar"
+
+#: driver.lua:32
+msgid "Show/Hide Elements"
+msgstr "Visa/dölj element"
+
+#: driver.lua233, driver.lua:83
+msgid "Slider"
+msgstr "Skjutreglage"
+
+#: driver.lua:441
+msgid "Start Time"
+msgstr "Starttid"
+
+#: driver.lua:318
+msgid "Sunday"
+msgstr "Söndag"
+
+#: driver.lua:713
+msgid "Sunrise"
+msgstr "Soluppgång"
+
+#: driver.lua:666
+msgid "Sunset"
+msgstr "Solnedgång"
+
+#: driver.lua:47
+msgid "Switch"
+msgstr "Strömbrytare"
+
+#: driver.jsoncategory
+msgid "System"
+msgstr "System"
+
+#: driver.lua253, driver.lua:256
+msgid "Test: Call Button Event"
+msgstr "Test: Händelse för samtalsknapp"
+
+#: driver.lua366, driver.lua:369
+msgid "Test: Entered Geofence Event"
+msgstr "Test: Anmäld geofence-händelse"
+
+#: driver.lua375, driver.lua:378
+msgid "Test: Exited Geofence Event"
+msgstr "Test: Avslutad Geofence-händelse"
+
+#: driver.lua332, driver.lua:335
+msgid "Test: Motion Detected Event"
+msgstr "Test: Rörelseidentifierad händelse"
+
+#: driver.lua372, driver.lua:375
+msgid "Test: Run Safety Actions"
+msgstr "Test: Kör säkerhetsåtgärder"
+
+#: driver.lua522, driver.lua:525
+msgid "Test: Safety Sensor Send Notification"
+msgstr "Test: Säkerhetssensor Skicka meddelande"
+
+#: driver.lua513, driver.lua:516
+msgid "Test: Security System Send Notification"
+msgstr "Test: Skicka meddelande om säkerhetssystem"
+
+#: driver.lua368, driver.lua:371
+msgid "Test: Send Notification"
+msgstr "Test: Skicka meddelande"
+
+#: driver.lua327, driver.lua:330
+msgid "Test: Toggle Selected Lights"
+msgstr "Test: Växla valda lampor"
+
+#: driver.lua244, driver.lua:87
+msgid "Text"
+msgstr "SMS"
+
+#: driver.lua:95
+msgid "Textfield Alpha"
+msgstr "Textfält Alpha"
+
+#: driver.lua:279
+msgid "Textfield Alphanumeric"
+msgstr "Textfält Alfanumeriskt"
+
+#: driver.lua252, driver.lua:91
+msgid "Textfield Normal"
+msgstr "Textfält Normal"
+
+#: driver.lua:99
+msgid "Textfield Number"
+msgstr "Nummer på textfält"
+
+#: driver.lua:270
+msgid "Textfield Numeric"
+msgstr "Numeriskt textfält"
+
+#: driver.lua103, driver.lua:261
+msgid "Textfield Password"
+msgstr "Lösenord för textfält"
+
+#: driver.lua:235
+msgid "Thermostat Entry Action"
+msgstr "Åtgärd för termostatinmatning"
+
+#: driver.lua:268
+msgid "Thermostat Exit Action"
+msgstr "Åtgärd för utgång av termostat"
+
+#: driver.lua:225
+msgid "Thermostats To Control"
+msgstr "Termostater att styra"
+
+#: driver.lua:306
+msgid "Thursday"
+msgstr "Torsdag"
+
+#: driver.lua167, driver.lua:63
+msgid "Time"
+msgstr "Tid"
+
+#: driver.jsonmodel
+msgid "Timed Lights"
+msgstr "Tidsinställda lampor"
+
+#: driver.jsondisplayName
+msgid "Timed Lights Routine"
+msgstr "Rutin för tidsinställda lampor"
+
+#: driver.lua:350
+msgid "Timeline Info"
+msgstr "Information om tidslinjen"
+
+#: driver.lua:290
+msgid "Timeline Interaction"
+msgstr "Interaktion med tidslinjen"
+
+#: driver.lua:274
+msgid "Timer (minutes)"
+msgstr "Timer (minuter)"
+
+#: driver.lua:114
+msgid "Toggle"
+msgstr "Växla"
+
+#: driver.lua:123
+msgid "Toggle Back In 5 Seconds"
+msgstr "Växla tillbaka om 5 sekunder"
+
+#: driver.lua:112
+msgid "Toggle The Checkbox"
+msgstr "Växla kryssrutan"
+
+#: driver.jsoncategory, driver.lua376, driver.lua:431
+msgid "Touchscreens"
+msgstr "Pekskärmar"
+
+#: driver.lua:601
+msgid "Touchscreens brightened"
+msgstr "Pekskärmar blir ljusare"
+
+#: driver.lua:535
+msgid "Touchscreens darkened"
+msgstr "Pekskärmarna är mörkare"
+
+#: driver.lua320, driver.lua:700
+msgid "Touchscreens will brighten"
+msgstr "Pekskärmar kommer att bli ljusare"
+
+#: driver.lua203, driver.lua:676
+msgid "Touchscreens will darken"
+msgstr "Pekskärmar blir mörkare"
+
+#: driver.lua:369
+msgid "Translations"
+msgstr "Översättningar"
+
+#: driver.lua:51
+msgid "Translations Switch"
+msgstr "Växel för översättningar"
+
+#: driver.lua:298
+msgid "Tuesday"
+msgstr "Tisdag"
+
+#: driver.lua:699
+msgid "Turn Off At"
+msgstr "Stäng av vid"
+
+#: driver.lua:723
+msgid "Turn Off At Time"
+msgstr "Stäng av i tid"
+
+#: driver.lua:316
+msgid "Turn Off Lights Delay (minutes)"
+msgstr "Stäng av lampor Fördröjning (minuter)"
+
+#: driver.lua:732
+msgid "Turn Off Minutes After Sunrise"
+msgstr "Stäng av minuter efter soluppgången"
+
+#: driver.lua:311
+msgid "Turn Off Overrun Timer (minutes)"
+msgstr "Stäng av timern för överskridning (minuter)"
+
+#: driver.lua:499
+msgid "Turn Off Room"
+msgstr "Stäng av rum"
+
+#: driver.lua:300
+msgid "Turn Off at sunrise"
+msgstr "Stäng av vid soluppgången"
+
+#: driver.lua:652
+msgid "Turn On At"
+msgstr "Slå på"
+
+#: driver.lua:676
+msgid "Turn On At Time"
+msgstr "Slå på i tid"
+
+#: driver.lua:300
+msgid "Turn On Delay Timer (minutes)"
+msgstr "Slå på fördröjningstimer (minuter)"
+
+#: driver.lua:685
+msgid "Turn On Minutes After Sunset"
+msgstr "Slå på minuter efter solnedgången"
+
+#: driver.lua:117
+msgid "Turn On at sunset"
+msgstr "Slå på vid solnedgången"
+
+#: driver.lua:71
+msgid "URL"
+msgstr "URL"
+
+#: driver.lua123, driver.lua182, driver.lua393, driver.lua:97
+msgid "Unknown Camera"
+msgstr "Okänd kamera"
+
+#: driver.lua314, driver.lua:75
+msgid "Unknown Door Station"
+msgstr "Okänd dörrstation"
+
+#: driver.lua:1109
+msgid "Unknown EBMS Preset"
+msgstr "Okänd EBMS-förinställning"
+
+#: driver.lua:419
+msgid "Unknown Fan"
+msgstr "Okänd fläkt"
+
+#: driver.lua:343
+msgid "Unknown Light"
+msgstr "Okänt ljus"
+
+#: driver.lua:526
+msgid "Unknown Lock"
+msgstr "Okänt lås"
+
+#: driver.lua:1126
+msgid "Unknown MDM Preset"
+msgstr "Okänd MDM-förinställning"
+
+#: driver.lua254, driver.lua300, driver.lua:638
+msgid "Unknown Safety Sensor"
+msgstr "Okänd säkerhetssensor"
+
+#: driver.lua:1143
+msgid "Unknown Scene"
+msgstr "Okänd scen"
+
+#: driver.lua137, driver.lua629, driver.lua:90
+msgid "Unknown Security Partition"
+msgstr "Okänd säkerhetspartition"
+
+#: driver.lua137, driver.lua382, driver.lua:84
+msgid "Unknown Sensor"
+msgstr "Okänd sensor"
+
+#: driver.lua:513
+msgid "Unknown Thermostat"
+msgstr "Okänd termostat"
+
+#: driver.lua:643
+msgid "Unknown Touchscreen"
+msgstr "Okänd pekskärm"
+
+#: driver.lua:186
+msgid "Url of Icon"
+msgstr "Webbadress till ikonen"
+
+#: driver.jsondescription
+msgid ""
+"Uses Geofence Agent to trigger a routine when entering or leaving a "
+"geofence."
+msgstr ""
+"Använder Geofence Agent för att utlösa en rutin när du går in i eller lämnar"
+" ett geofence."
+
+#: driver.lua:302
+msgid "Wednesday"
+msgstr "Onsdag"
+
+#: driver.lua319, driver.lua331, driver.lua:343
+msgid "eventLabel"
+msgstr "eventLabel"
+
+#: driver.lua:892
+msgid "turned off"
+msgstr "Avstängd"
+
+#: driver.lua:827
+msgid "turned on"
+msgstr "Påslagen"
+
+#: driver.lua:120
+msgid "{deviceCount} triggered - safety actions run"
+msgstr "{deviceCount} utlöst – säkerhetsåtgärder körs"
+
+#: driver.lua:163
+msgid "{deviceCount} triggered - this will run safety actions"
+msgstr "{deviceCount} utlöses - detta kommer att köra säkerhetsåtgärder"
+
+#: driver.lua:100
+msgid ""
+"{deviceName} detected motion, lights returned to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} identifierade rörelse återgick lamporna till det tidigare "
+"tillståndet efter timeout"
+
+#: driver.lua:185
+msgid "{deviceName} detected motion, lights turned on"
+msgstr "{deviceName} detekterad rörelse tändes lamporna"
+
+#: driver.lua:126
+msgid ""
+"{deviceName} detected motion, lights will return to previous state after "
+"timeout"
+msgstr ""
+"{deviceName} upptäcks rörelse återgår lamporna till tidigare tillstånd efter"
+" timeout"
+
+#: driver.lua:85
+msgid "{deviceName} entered geofence {geofenceName}"
+msgstr "{deviceName} gick in i geofence- {geofenceName}"
+
+#: driver.lua:129
+msgid "{deviceName} exited geofence {geofenceName}"
+msgstr "{deviceName} avslutade geofence- {geofenceName}"
+
+#: driver.lua257, driver.lua:93
+msgid "{deviceName} triggered Push Notification"
+msgstr "{deviceName} utlöst push-meddelande"
+
+#: driver.lua:105
+msgid "{deviceName} turned off"
+msgstr "{deviceName} avstängd"
+
+#: driver.lua140, driver.lua:303
+msgid "{deviceName} will trigger Push Notification"
+msgstr "{deviceName} kommer att utlösa push-meddelanden"
+
+#: driver.lua:130
+msgid "{deviceName} will turn off"
+msgstr "{deviceName} stängs av"
+
+#: driver.lua:588
+msgid "{eventLabel} ran"
+msgstr "{eventLabel} sprang"
+
+#: driver.lua616, driver.lua:681
+msgid "{eventLabel} will run"
+msgstr "{eventLabel} kommer att köras"
+
+#: driver.lua:208
+msgid ""
+"{openWindowsCount} are open and {hvacZonesOnCount} are on - this will "
+"trigger Push Notification"
+msgstr ""
+"{openWindowsCount} är öppna och {hvacZonesOnCount} är på - detta kommer att "
+"utlösa push-meddelande"
+
+#: driver.lua:718
+msgid "{service} Content"
+msgstr "{service} innehåll"

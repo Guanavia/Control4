@@ -1,0 +1,12 @@
+{
+  "agent": "control4_agent_uiconfiguration",
+  "display_name": "UI Configuration",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "low-medium - only 2 tokens found, likely incomplete (this agent is on the user's manually-verified 'no programming events' list from Composer's Programming tab, so this may legitimately be near-exhaustive rather than a missed extraction).",
+  "likely_commands": ["GET_MEDIA_WALLS", "GET_PRESETS"],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "notes": "User confirmed via Composer's Programming tab that UI Configuration has no programmable events -- consistent with this agent surfacing almost nothing beyond read-only getters."
+}

@@ -1,0 +1,46 @@
+<devicedata>
+  <version>2</version> 
+  <c4id>480</c4id>
+  <copyright>Copyright 2010 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Control4</manufacturer>
+  <created>10/29/2010 10:30 AM</created>
+  <modified>11/12/2010 11:37 AM</modified>
+  <creator>Control4</creator>
+  <model>Internet Radio</model>
+  <capabilities>
+    <media_type>8</media_type>
+    <broadcast_search_type>INTERNET_RADIO</broadcast_search_type>
+    <audio_only_default>true</audio_only_default>
+  </capabilities>
+  <commands />
+  <conditionals />
+  <events />
+  <name>Internet Radio</name>
+  <small>devices_sm/InternetRadio.gif</small>
+  <large>devices_lg/InternetRadio.gif</large>
+  <control>rf_network</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>rf_internet</proxy>
+  <driver>100028</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Internet Audio</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RF_INTERNET</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

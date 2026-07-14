@@ -1,0 +1,39 @@
+<devicedata>
+	<version>1</version>
+	<copyright>Copyright 2021 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>04/30/2021</created>
+	<modified>04/30/2021</modified>
+	<commands/>
+	<conditionals/>
+	<events/>
+	<name>VoiceInput</name>
+	  <small>devices_sm/contactsingle_doorbell_open.gif</small>
+	  <large>devices_lg/contactsingle_doorbell_open.gif</large>
+	<control>voiceinput</control>
+	<composer_categories>
+		<category>GenericVoiceInput</category>
+	</composer_categories>
+	<proxy />
+    <!-- Unique ID for proxy driver. -->
+	<driver>20210501</driver>
+	<states />
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>VoiceInput</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+			<class>
+				<classname>VOICEINPUT</classname>
+			</class>
+			</classes>
+		</connection>
+	</connections>
+	<config />
+</devicedata>

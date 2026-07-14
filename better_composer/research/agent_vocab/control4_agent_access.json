@@ -1,0 +1,12 @@
+{
+  "agent": "control4_agent_access",
+  "display_name": "Access",
+  "architecture": "modern (generic CmdDispatcher/CondDispatcher registration)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "null result - honest",
+  "likely_commands": [],
+  "likely_conditionals": [],
+  "likely_events": [],
+  "likely_params_or_properties": [],
+  "notes": "All 56 extracted tokens were shared base-API/noise (see _base_agent_api.json + ExtractVocab.java's STOPLIST) -- ZERO agent-specific vocab surfaced for this agent with the current static technique. Same situation as Notification: this agent's own commands are registered via a mechanism (numeric IDs, or scattered single-registration call sites the decompiler didn't inline as a literal/PTR_s_ string in a way our regex catches) that this extraction method doesn't reach. Would need the deeper GetCreationFunc-constructor-chain tracing (TraceCreation.java/TraceCallees.java) done by hand for this specific agent to make further progress, same as was done for Notification's base-class GET_LAST_ACTION."
+}

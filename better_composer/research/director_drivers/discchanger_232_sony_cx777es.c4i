@@ -1,0 +1,136 @@
+<devicedata>
+    <c4id>12</c4id>
+    <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+    <config/>
+    <name>Sony CX777ES 232</name>
+    <small>devices_sm/dvd.gif</small>
+    <large>devices_lg/dvd.gif</large>
+    <control>discchanger_232_sony_cx777es</control>
+    <composer_categories>
+        <category>Audio/Video</category>
+    </composer_categories>
+    <proxy>discchanger</proxy>
+    <driver>100022</driver>
+    <states/>
+    <connections>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>DISCChanger</connectionname>
+            <type>2</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>DISCCHANGER</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>1</id>
+            <facing>6</facing>
+            <connectionname>Serial RS-232</connectionname>
+            <type>1</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>RS_232</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>4000</id>
+            <facing>6</facing>
+            <connectionname>Output 1</connectionname>
+            <type>6</type>
+            <consumer>False</consumer>
+            <audiosource>True</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>DIGITAL_COAX</classname>
+                </class>
+                <class>
+                    <classname>DIGITAL_OPTICAL</classname>
+                </class>
+                <class>
+                    <classname>STEREO</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>2000</id>
+            <facing>6</facing>
+            <connectionname>Output 1</connectionname>
+            <type>5</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>True</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>COMPOSITE</classname>
+                </class>
+                <class>
+                    <classname>COMPONENT</classname>
+                </class>
+                <class>
+                    <classname>SVIDEO</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>7000</id>
+            <facing>6</facing>
+            <connectionname>Room Control</connectionname>
+            <type>7</type>
+            <consumer>False</consumer>
+            <audiosource>True</audiosource>
+            <videosource>True</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>AUDIO_SELECTION</classname>
+                </class>
+                <class>
+                    <classname>VIDEO_SELECTION</classname>
+                </class>
+                <class>
+                    <classname>AUDIO_VOLUME</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <capabilities>
+        <serialsettings>9600 8 none 1 none</serialsettings>
+        <can_poll_serial>False</can_poll_serial>
+        <can_scan_media>True</can_scan_media>
+        <has_direct_disk_access>True</has_direct_disk_access>
+        <has_direct_track_access>True</has_direct_track_access>
+        <media_count>400</media_count>
+        <media_type>5</media_type>
+        <power_command_delay>40</power_command_delay>
+        <power_control>False</power_control>
+        <power_delay>0</power_delay>
+        <power_macro>False</power_macro>
+        <power_management_method>DiscreteCodes</power_management_method>
+    </capabilities>
+    <manufacturer>Sony</manufacturer>
+    <version>2</version>
+    <creator>Control4</creator>
+    <created>5/09/2005 12:30 PM</created>
+    <modified>6/9/2021 12:30 PM</modified>
+    <model>CX777ES</model>
+    <front>{Width=700, Height=336}\x158DVPX777-f.bmp</front>
+    <back>{Width=500, Height=250}\x158dvpx777-b.bmp</back>
+    <top/>
+    <bottom/>
+    <left/>
+    <right/>
+</devicedata>

@@ -1,0 +1,85 @@
+<devicedata>
+  <version>1</version>
+  <roomAutoBind>
+      <bind>AudioSelectionDevice</bind>
+      <bind>AudioVolumeDevice</bind>
+      <bind>VideoAudioSelectionDevice</bind>
+      <bind>VideoAudioVolumeDevice</bind>
+      <bind>VideoSelectionDevice</bind>
+  </roomAutoBind>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <conditionals>
+    <conditional>
+      <id>0</id>
+      <description>the NAME is On</description>
+    </conditional>
+    <conditional>
+      <id>1</id>
+      <description>the NAME is Off</description>
+    </conditional>
+    <conditional>
+      <id>2</id>
+      <description>the current input on NAME is INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>3</id>
+      <description>the current volume on NAME is LOGIC INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>4</id>
+      <description>the current surround on NAME is LOGIC INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>5</id>
+      <description>the current bass on NAME is LOGIC INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>6</id>
+      <description>the current treble on NAME is LOGIC INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>7</id>
+      <description>the current balance on NAME is LOGIC INTEGER</description>
+    </conditional>
+    <conditional>
+      <id>8</id>
+      <description>the current loudness is INTEGER on the NAME</description>
+    </conditional>
+    <conditional>
+      <id>9</id>
+      <description>the current mute is INTEGER on the NAME </description>
+    </conditional>
+  </conditionals>
+  <events />
+  <name>Receiver</name>
+  <small>devices_sm/receiver.gif</small>
+  <large>devices_lg/receiver.gif</large>
+  <control>receiver</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>12</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Receiver</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RECEIVER</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

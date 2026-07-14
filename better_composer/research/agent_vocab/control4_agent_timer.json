@@ -1,0 +1,11 @@
+{
+  "agent": "control4_agent_timer",
+  "display_name": "Timer",
+  "architecture": "legacy (triaged as own-class, but yielded minimal signal like a modern-style agent)",
+  "extraction_method": "Ghidra 12.1.2 headless disassembly, ExtractVocab.java v2 (dual-pattern token extraction + shape filter + stoplist)",
+  "confidence": "low - only 1 token found; Timer almost certainly has real commands (start/stop/reset timer) not reached by this technique.",
+  "likely_events": ["TIMER_STATE_CHANGED"],
+  "likely_commands": [],
+  "likely_conditionals": [],
+  "notes": "Suspiciously sparse for an agent whose whole job is timers -- a good candidate for the deeper GetCreationFunc/TraceCallees manual tracing if this agent matters for your use case."
+}

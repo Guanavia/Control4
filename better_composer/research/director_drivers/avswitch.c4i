@@ -1,0 +1,68 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>5/09/2005 12:30 PM</created>
+  <modified>5/09/2005 12:30 PM</modified>
+  <commands />
+  <conditionals />
+  <events>
+    <event>
+      <id>3</id>
+      <description>When an output is tied to a new input</description>
+    </event>
+    <event>
+      <id>5</id>
+      <description>When an output volume level changes</description>
+    </event>
+    <event>
+      <id>9</id>
+      <description>When an output bass level changes</description>
+    </event>
+    <event>
+      <id>10</id>
+      <description>When an output treble level changes</description>
+    </event>
+    <event>
+      <id>11</id>
+      <description>When an output balance level changes</description>
+    </event>
+    <event>
+      <id>12</id>
+      <description>When an output loudness setting changes</description>
+    </event>
+    <event>
+      <id>13</id>
+      <description>When an output mute setting changes</description>
+    </event>
+  </events>
+  <name>A/V Switch</name>
+  <small>devices_sm/avswitch.gif</small>
+  <large>devices_lg/avswitch.gif</large>
+  <control>avswitch</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy />
+  <driver>24</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>AVSwitch</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>AVSWITCH</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

@@ -1,0 +1,66 @@
+<devicedata>
+	<version>2</version>
+	<created>10/15/2013</created>
+	<modified>2/5/2014</modified>
+	<copyright>Copyright 2004-2013 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-DCIM4</model>
+	<name>Dry Contact Input</name>
+	<small>devices_sm/ThreeButtonKeypad.gif</small>
+	<large>devices_lg/ThreeButtonKeypad.gif</large>
+	<control>control4_dry_contact</control>
+	<proxy name='Dry Contact'>keypad_proxy</proxy>
+	<composer_categories>
+		<category>User Interface</category>
+	</composer_categories>
+	<driver>8f259a4f-3666-4bf2-b262-d2ce8c6c60d4</driver>
+	<capabilities>
+		<has_leds>False</has_leds>
+		<!-- keypad stuff -->
+		<leds_have_color>False</leds_have_color>
+		<push_release_support>True</push_release_support>
+		<click_support>True</click_support>
+		<multi_click_support>True</multi_click_support>
+		<fully_customizable>False</fully_customizable>
+		<columns>1</columns>
+		<rows>4</rows>
+		<engravable>False</engravable>
+		<custom_finishes>False</custom_finishes>
+		<button_behavior>True</button_behavior>
+		<led_behavior>False</led_behavior>
+		<fallback_support>True</fallback_support>
+	</capabilities>
+
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>485 Bus</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<classes>
+				<class>
+					<classname>485_BUS</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+		<connection>
+			<id>5002</id>
+			<facing>6</facing>
+			<connectionname>Keypad</connectionname>
+			<type>2</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<autobind>True</autobind>
+					<classname>KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

@@ -1,0 +1,677 @@
+<devicedata>
+	<copyright>Copyright 2009 Control4 Corporation.  All rights reserved.</copyright>
+	<version>3</version>
+    <combo>True</combo>
+	<manufacturer>Vantage</manufacturer>
+	<name>Vantage Keypad</name>
+	<model>Keypad</model>
+	<creator>Control4</creator>
+	<created>4/29/2009 3:00 PM</created>
+	<modified>4/29/2009 3:00 PM</modified>
+	<small>devices_sm/VantageDimmer.gif</small>
+	<large>devices_lg/VantageDimmer.gif</large>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<control>lua_gen</control>
+	<driver>DriverWorks</driver>
+	<proxy>vantage_keypad</proxy>
+	<states />
+	<conditionals />
+	<events>
+		<event>
+			<id>1</id>
+			<name>Button 1 Press</name>
+			<description>When NAME button 1 is pressed</description>
+		</event>
+		<event>
+			<id>2</id>
+			<name>Button 1 Release</name>
+			<description>When NAME button 1 is released</description>
+		</event>
+		<event>
+			<id>3</id>
+			<name>Button 2 Press</name>
+			<description>When NAME button 2 is pressed</description>
+		</event>
+		<event>
+			<id>4</id>
+			<name>Button 2 Release</name>
+			<description>When NAME button 2 is released</description>
+		</event>
+		<event>
+			<id>5</id>
+			<name>Button 3 Press</name>
+			<description>When NAME button 3 is pressed</description>
+		</event>
+		<event>
+			<id>6</id>
+			<name>Button 3 Release</name>
+			<description>When NAME button 3 is released</description>
+		</event>
+		<event>
+			<id>7</id>
+			<name>Button 4 Press</name>
+			<description>When NAME button 4 is pressed</description>
+		</event>
+		<event>
+			<id>8</id>
+			<name>Button 4 Release</name>
+			<description>When NAME button 4 is released</description>
+		</event>
+		<event>
+			<id>9</id>
+			<name>Button 5 Press</name>
+			<description>When NAME button 5 is pressed</description>
+		</event>
+		<event>
+			<id>10</id>
+			<name>Button 5 Release</name>
+			<description>When NAME button 5 is released</description>
+		</event>
+		<event>
+			<id>11</id>
+			<name>Button 6 Press</name>
+			<description>When NAME button 6 is pressed</description>
+		</event>
+		<event>
+			<id>12</id>
+			<name>Button 6 Release</name>
+			<description>When NAME button 6 is released</description>
+		</event>
+		<event>
+			<id>13</id>
+			<name>Button 7 Press</name>
+			<description>When NAME button 7 is pressed</description>
+		</event>
+		<event>
+			<id>14</id>
+			<name>Button 7 Release</name>
+			<description>When NAME button 7 is released</description>
+		</event>
+		<event>
+			<id>15</id>
+			<name>Button 8 Press</name>
+			<description>When NAME button 8 is pressed</description>
+		</event>
+		<event>
+			<id>16</id>
+			<name>Button 8 Release</name>
+			<description>When NAME button 8 is released</description>
+		</event>
+	</events>
+	<config>
+		<documentation>
+Vantage InFusion driver - Installation
+
+The Vantage Infusion drivers allow the Control4 system to work in conjunction with a Vantage InFusion system.  Note: They do not support the legacy Vantage QLink system which uses a different control protocol.
+
+What Support You Should Expect to Receive
+
+Control4 is not able to advise you or support you when configuring Vantage InFusion systems.  If your organization does not have a Vantage-trained programmer, you should enlist the help of a Vantage programmer - particularly for installations in customer environments. We will, by necessity, limit our support to the proper configuration of these drivers within the Control4 system.
+
+How to Install and Configure the Drivers
+
+The Control4 system on which you are installing these drivers must be running Release 1.7.0 or later.  Because these drivers are based on DriverWorks, they don't require a Release 1.8 system update.  There is no difference in the user experience based on underlying system version.
+
+Prior to installing the Vantage InFusion drivers, verify that your system is functioning correctly. These drivers are included in Releases  1.8.2 and 1.7.4.  However, they can be installed manually on other version systems.
+
+The following steps give an overview of the installation process. 
+1.  Add the Vantage InFusion Network driver to your project [System Design, Search, Local Database, --others--, Vantage InFusion]
+2.  Configure the Vantage InFusion Network driver for serial or TCP/IP connection to the Vantage system.  
+  a.  If you are using a TCP/IP connection, Enter the IP Address of the Vantage System in the Identify dialog . 
+  b.  If you are using a serial connection, configure the serial port binding [Connections, Control/AV]. 
+3.  Add/configure the specific dimmer, switch, keypad, and task drivers as needed based on the system you're connected to [System Design, Search, Local Database, ...]
+  * Dimmer [Light, Vantage Dimmer]
+  * Switch [Light, Vantage Switch]
+  * Keypad [--others--, Vantage Keypad]
+  * Task [--others--, Vantage Task]
+4.  If desired, further integrate the Vantage system with the Control4 system using one or more of the following capabilities:
+  * Binding [Connections, Control/AV, Button Link]
+  * Lighting Scenes [Agents, Lighting Scenes] 
+  * Programming (events, conditionals, actions) [Programming]
+5.  Make sure you Refresh Navigators after configuring the system
+
+
+Vantage Keypad Driver
+
+The Vantage Keypad driver is used to control and monitor any keypad on the Vantage Infusion system.  Each button within the Vantage Infusion system has its own Vantage ID. Each button must be identified in the system.
+
+The keypad driver is a combo driver and does not connect to the Control4 Keypad Proxy. When the driver is added it is automatically linked to a Vantage Infusion driver if it exists. If the driver does not exist the connection will need to be made manually after it has been added.
+
+Properties
+
+Vantage Device ID:
+See Dimmer
+
+Number of Buttons:
+This parameter specifies the number of buttons on the keypad. Additional parameters will be dynamically added based on this parameter. If the value = 4, then 4 "Button # ID" parameters will be added.
+
+Button # ID:
+This is the Vantage ID of the button. Each button has a Vantage ID. In order to control  a button it must be identified.
+
+Debug Mode:
+See Dimmer
+
+Variables
+None
+
+Events
+There are the same events for each button on a keypad. An Infusion system supports up to an 8 button keypad. Only use the number of buttons that the keypad supports that you are identified with. 
+  Button  # Press
+  Button # Release
+
+Commands
+Device Specific Commands:
+  Press
+  Button Number (the button (1-8) to execute)
+
+  Release
+  Button Number (the button (1-8) to execute)
+
+  Set LED Blink Rate
+  LED Number (the button (1-8) to change)
+  Blink Rate
+  Fast
+  Medium 
+  Slow
+  Very Slow
+  Off
+
+  Set LED Color
+  LED Number (the button (1-8) to change)
+  Color 1 (Red Value, 0 - 255)
+  Color 2 (Green Value, 0 - 255)
+  Color 3 (Blue Value, 0 - 255)
+
+  Set LED Off Color
+  LED Number (the button (1-8) to change)
+  Color 1 (Red Value, 0 - 255)
+  Color 2 (Green Value, 0 - 255)
+  Color 3 (Blue Value, 0 - 255)
+
+Conditionals
+None
+
+Loops
+None
+
+Connections
+None
+		</documentation>
+		<identify_text/>
+		<properties>
+			<property>
+				<name>Vantage Device ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Number of Buttons</name>
+				<type>RANGED_INTEGER</type>
+				<minimum>1</minimum>
+				<maximum>8</maximum>
+				<default>1</default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 1 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 2 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 3 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 4 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 5 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 6 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 7 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Button 8 ID</name>
+				<type>STRING</type>
+				<default></default>
+				<readonly>false</readonly>
+			</property>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions/>
+		<commands>
+			<command>
+				<name>Press</name>
+				<description>Press button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Release</name>
+				<description>Release button: PARAM1 on NAME</description>
+				<params>
+					<param>
+						<name>Button Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>24</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Set LED Blink Rate</name>
+				<description>Set Button PARAM1 LED Blink Rate on NAME to PARAM2</description>
+				<params>
+					<param>
+						<name>LED Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>8</maximum>
+					</param>
+					<param>
+						<name>Blink Rate</name>
+						<type>LIST</type>
+						<items>
+							<item>Fast</item>
+							<item>Medium</item>
+							<item>Slow</item>
+							<item>Very Slow</item>
+							<item>Off</item>
+						</items>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Set LED Color</name>
+				<description>Set Button PARAM1 LED Color on NAME to PARAM2 : PARAM3 : PARAM4</description>
+				<params>
+					<param>
+						<name>LED Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>8</maximum>
+					</param>
+					<param>
+						<name>Color 1</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+					<param>
+						<name>Color 2</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+					<param>
+						<name>Color 3</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+				</params>
+			</command>
+			<command>
+				<name>Set LED Off Color</name>
+				<description>Set Button PARAM1 LED Off Color on NAME to PARAM2 : PARAM3 : PARAM4</description>
+				<params>
+					<param>
+						<name>LED Number</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>1</minimum>
+						<maximum>8</maximum>
+					</param>
+					<param>
+						<name>Color 1</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+					<param>
+						<name>Color 2</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+					<param>
+						<name>Color 3</name>
+						<type>RANGED_INTEGER</type>
+						<minimum>0</minimum>
+						<maximum>255</maximum>
+					</param>
+				</params>
+			</command>
+		</commands>
+		<script>
+			<![CDATA[
+VANTAGE_BINDING_ID = 1
+
+----------------------------------------- property handling -----------------------------------------
+function OnPropertyChanged(strProperty)
+	dbg("OnPropertyChanged(): strProperty = " .. strProperty .. " changed to: " .. Properties[strProperty])
+
+	local prop = Properties[strProperty]
+	local tParams = {}
+
+	if (strProperty == "Debug Mode") then
+--[[
+		gDbgPrint = true; gDbgLog = true; gDbgUnitTest = true; if (true) then return end
+--]]
+		if (gDbgTimer > 0) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+		gDbgPrint, gDbgLog, gDbgUnitTest = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil), (prop:find("Log") ~= nil)
+		if (prop == "Off") then
+			return
+		end
+		gDbgTimer = C4:AddTimer(45, "MINUTES")
+		return
+	end
+
+	if (strProperty == "Vantage Device ID") then
+		tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+	elseif (strProperty == "Number of Buttons") then
+		InitButtons()
+	elseif (strProperty == "Button 1 ID") then
+		AddButton(1)
+	elseif (strProperty == "Button 2 ID") then
+		AddButton(2)
+	elseif (strProperty == "Button 3 ID") then
+		AddButton(3)
+	elseif (strProperty == "Button 4 ID") then
+		AddButton(4)
+	elseif (strProperty == "Button 5 ID") then
+		AddButton(5)
+	elseif (strProperty == "Button 6 ID") then
+		AddButton(6)
+	elseif (strProperty == "Button 7 ID") then
+		AddButton(7)
+	elseif (strProperty == "Button 8 ID") then
+		AddButton(8)
+	end
+end
+
+----------------------------------------- debug functions -----------------------------------------
+function dbg(strDebugText)
+	if (gDbgPrint) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_keypad: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (gDbgUnitTest) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion_keypad: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (gDbgPrint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (gDbgLog and debugFunction) then C4:ErrorLog("vantage_fusion_keypad: " .. strFunction) end
+end
+
+----------------------------------------- timer functions -----------------------------------------
+function startDebugTimer()
+	if (gDbgTimer) then
+		gDbgTimer = C4:KillTimer(gDbgTimer)
+	end
+	gDbgTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == gDbgTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+	end
+	C4:KillTimer(idTimer)
+end
+
+----------------------------------------- Connection Functions -----------------------------------------
+function OnBindingChanged(idBinding, class, bIsBound)
+	dbg("OnBindingChanged(), idBinding = " .. tostring(idBinding) .. ", class = " .. class .. ", bIsBound = " .. tostring(bIsBound))
+	if (bIsBound) then
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+		InitButtons()
+	else
+		local tParams = {DEVICE_ID = C4:GetDeviceID()}
+		SendToProxy(VANTAGE_BINDING_ID, "REMOVE_DRIVER", tParams)
+	end
+end
+
+----------------------------------------- Other Functions -----------------------------------------
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+  -- Kill open timers
+  if (gDbgTimer ~= nil) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if (idBinding == VANTAGE_BINDING_ID) then
+		tParams["ADDRESS"] = Properties["Vantage Device ID"]
+	end
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function AddButton(buttonNumber)
+	local buttonName = "Button " .. tostring(buttonNumber) .. " ID"
+	local tParams = {DEVICE_ID = C4:GetDeviceID()}
+	local buttonID = tonumber(Properties[buttonName])
+
+	if ((buttonID ~= nil) and (buttonID > 0)) then
+		-- remove previous button
+		if (gButtonIDs[buttonNumber] ~= nil) then
+			tParams["BUTTON_ID"] = gButtonIDs[buttonNumber]
+			SendToProxy(VANTAGE_BINDING_ID, "REMOVE_BUTTON", tParams)
+		end
+		-- add new button
+		gButtonIDs[buttonNumber] = buttonID
+		tParams["BUTTON_ID"] = buttonID
+		SendToProxy(VANTAGE_BINDING_ID, "ADD_BUTTON", tParams)
+	else
+		dbg ("Invalid button ID: Must be an integer value greater than 0.")
+		C4:UpdateProperty(buttonName, "")
+	end
+end
+
+function InitButtons()
+	local numButtons = tonumber(Properties["Number of Buttons"])
+	local propertyString = ""
+	for i = 1, numButtons do
+		AddButton(i)
+		propertyString = "Button " .. tostring(i) .. " ID"
+		C4:SetPropertyAttribs(propertyString, 0)
+	end
+	for i = numButtons + 1, 8 do
+		propertyString = "Button " .. tostring(i) .. " ID"
+		C4:SetPropertyAttribs(propertyString, 1)
+	end
+end
+
+function ButtonIdToNumber(buttonID)
+	local numButtons = tonumber(Properties["Number of Buttons"])
+	for i = 1, numButtons do
+		local propertyString = "Button " .. tostring(i) .. " ID"
+		if (tonumber(buttonID) == tonumber(Properties[propertyString])) then
+			return i
+		end
+	end
+	return 0
+end
+
+function FireEvent(buttonID, eventType)
+	local buttonNumber = ButtonIdToNumber(buttonID)
+	if (buttonNumber > 0) then
+		local eventName = "Button " .. buttonNumber .. " " .. eventType
+		dbg ("Firing Event " .. eventName)
+		C4:FireEvent(eventName)
+	end
+end
+
+----------------------------------------- DriverWorks Functions -----------------------------------------
+function ExecuteCommand(strCommand, tParams)
+	dbg("ExecuteCommand function called with : " .. strCommand)
+	if (tParams == nil) then
+		if (strCommand =="GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+		else
+			dbg ("From ExecuteCommand Function - Unutilized command: " .. strCommand)
+		end
+	end
+
+	-- Commands
+	if (strCommand == "Press") then
+		local buttonNumber = tParams["Button Number"]
+		local propertyString = "Button " .. tostring(buttonNumber) .. " ID"
+		tParams["BUTTON_ID"] = Properties[propertyString]
+		SendToProxy(VANTAGE_BINDING_ID, "KEYPAD_BUTTON_PRESS", tParams)
+	elseif (strCommand == "Release") then
+		local buttonNumber = tParams["Button Number"]
+		local propertyString = "Button " .. tostring(buttonNumber) .. " ID"
+		tParams["BUTTON_ID"] = Properties[propertyString]
+		SendToProxy(VANTAGE_BINDING_ID, "KEYPAD_BUTTON_RELEASE", tParams)
+	elseif (strCommand == "Set LED Blink Rate") then
+		local ledNumber = tParams["LED Number"]
+		local propertyString = "Button " .. tostring(ledNumber) .. " ID"
+		tParams["BUTTON_ID"] = Properties[propertyString]
+		SendToProxy(VANTAGE_BINDING_ID, "KEYPAD_BUTTON_STATE", tParams)
+	elseif (strCommand == "Set LED Color") then
+		local ledNumber = tParams["LED Number"]
+		local propertyString = "Button " .. tostring(ledNumber) .. " ID"
+		tParams["BUTTON_ID"] = Properties[propertyString]
+		SendToProxy(VANTAGE_BINDING_ID, "KEYPAD_BUTTON_COLOR", tParams)
+	elseif (strCommand == "Set LED Off Color") then
+		local ledNumber = tParams["LED Number"]
+		local propertyString = "Button " .. tostring(ledNumber) .. " ID"
+		tParams["BUTTON_ID"] = Properties[propertyString]
+		SendToProxy(VANTAGE_BINDING_ID, "KEYPAD_BUTTON_OFF_COLOR", tParams)
+
+	-- Events
+	elseif (strCommand == "KP_BUTTON_PUSH") then
+		FireEvent(tParams["BUTTON"], "Press")
+	elseif (strCommand == "KP_BUTTON_RELEASE") then
+		FireEvent(tParams["BUTTON"], "Release")
+	elseif (strCommand == "KP_BUTTON_HOLD") then
+		FireEvent(tParams["BUTTON"], "Hold")
+	else
+		dbg("From ExecuteCommand Function - Undefined Command: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	dbgFunction("ReceivedFromProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)		-- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+		if (idBinding == VANTAGE_BINDING_ID) then
+			if (strCommand == "GET_PROPERTIES") then
+				local tParams = {DEVICE_ID = C4:GetDeviceID()}
+				SendToProxy(VANTAGE_BINDING_ID, "ADD_DRIVER", tParams)
+				InitButtons()
+			elseif (strCommand == "REMOVE_BUTTON") then
+				local deviceId = tParams["DEVICE_ID"]
+				local buttonAddress = tParams["BUTTON_ID"]
+				if (tonumber(deviceId) ~= tonumber(C4:GetDeviceID())) then
+					for i = 1, 8 do
+						local propertyString = "Button " .. tostring(i) .. " ID"
+						if (Properties[propertyString] == buttonAddress) then
+							dbg ("Removing duplicate button ID, id = " .. tostring(buttonAddress))
+							C4:UpdateProperty(propertyString, "")
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+----------------------------- INIT -----------------------------
+--- global variables ---
+gDbgTimer = 0
+gButtonIDs = {}
+
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<capabilities/>
+	<connections>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Vantage Infusion Control</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_KEYPAD</classname>
+					<autobind>True</autobind>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

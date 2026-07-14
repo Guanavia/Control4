@@ -1,0 +1,51 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2004-2007 Control4 Corporation.  All rights reserved.</copyright>
+  <name>Web Image</name>
+  <small>devices_sm/HVAC_16.gif</small>
+  <large>devices_lg/HVAC_32.gif</large>
+  <control>camera_ip_http</control>
+  <proxy>camera_ip_http_URL</proxy>
+  <driver>HTTP_IP_CAMERA</driver>
+  <composer_categories>
+	<category>Cameras</category>
+  </composer_categories>
+  <states />
+  <connections />
+  <config>
+    <commands>
+      <command>
+        <name>GET_IMAGE</name>
+        <URL/>
+      </command>
+    </commands>
+  </config>
+  <manufacturer>Control4</manufacturer>
+  <version>1</version>
+  <creator>Control4</creator>
+  <created>11/16/2006 12:30 PM</created>
+  <modified>11/16/2006 12:30 PM</modified>
+  <model>Web Image</model>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <capabilities>
+  <is_camera>False</is_camera>
+  <can_pan>False</can_pan>
+  <can_pan_scan>False</can_pan_scan>
+  <can_tilt>False</can_tilt>
+  <can_tilt_scan>False</can_tilt_scan>
+  <can_home>False</can_home>
+  <can_zoom>False</can_zoom>
+  <can_focus>False</can_focus>
+  <can_brightness>False</can_brightness>
+  <can_click_position>False</can_click_position>
+  <presets>0</presets>
+  <num_image_list>5</num_image_list>
+  <update_seconds>600</update_seconds>
+  <update_milliseconds_not>500</update_milliseconds_not>
+  </capabilities>
+</devicedata>

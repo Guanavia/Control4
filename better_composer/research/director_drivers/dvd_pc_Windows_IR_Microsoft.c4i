@@ -1,0 +1,621 @@
+<devicedata>
+	<version>1</version>
+  <c4id>5105</c4id>
+  <manufacturer>Microsoft</manufacturer>
+  <model>Windows Media Center [IR]</model>
+  <search_type>c4:av_gen</search_type>
+  <creator>Control4</creator>
+  <name>Microsoft Windows Media Center</name>
+  <small>devices_sm/dvd_pc.gif</small>
+  <large>devices_lg/dvd_pc.gif</large>
+  <top>
+  </top>
+  <bottom>
+  </bottom>
+  <front>
+  </front>
+  <back>
+  </back>
+  <left>
+  </left>
+  <right>
+  </right>
+  <control>av_gen</control>
+  <controlmethod>ir</controlmethod>
+  <driver>100050</driver>
+  <copyright>Copyright 2004-2010 Control4 Corporation.  All rights reserved.</copyright>
+  <created>6/1/2010 12:00:00 PM</created>
+  <modified>8/5/2010 3:50:00 PM</modified>
+  <proxies qty="1">
+    <proxy name="Windows Media Center" proxybindingid="5001" smimagepath="devices_sm\dvd_pc.gif" lgimagepath="devices_lg\dvd_pc.gif">dvd</proxy>
+  </proxies>
+  <capabilities controlweight="0.5">
+    <surround_modes>
+    </surround_modes>
+    <can_be_dvr controlrating="0">True</can_be_dvr>
+    <has_discrete_channel_select controlrating="0">False</has_discrete_channel_select>
+    <video_provider_count controlrating="0">1</video_provider_count>
+    <video_consumer_count controlrating="0">1</video_consumer_count>
+    <audio_provider_count controlrating="0">1</audio_provider_count>
+    <audio_consumer_count controlrating="0">0</audio_consumer_count>
+    <has_channel_up_down controlrating="0.2">True</has_channel_up_down>
+	<navigator_display_option>
+  		<show_transport>True</show_transport>
+  		<display_icon>watch_btnico_laptop.png</display_icon>
+  		<status_icon>md_btnstatico_laptop.png</status_icon>	
+  	</navigator_display_option>
+  </capabilities>
+  <config controlweight="0.5">
+    <power_management_method controlrating="1">DiscreteCodes</power_management_method>
+    <irsettings>
+    </irsettings>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>1</power_delay>
+    <power_command_needed>True</power_command_needed>
+    <rfs>
+      <rf>rf_cable</rf>
+      <rf>rf_uhf_vhf</rf>
+    </rfs>
+    <irsection>
+      <ircodes>
+        <ircode verified="False" controlrating="0">
+          <id>28436</id>
+          <name>DVD Menu</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+       </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28434</id>
+          <name>More</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>     
+	   </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28441</id>
+          <name>Music</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	    </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28440</id>
+          <name>Pictures</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	   </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28442</id>
+          <name>Radio</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	   </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28438</id>
+          <name>TV</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>      
+	   </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28439</id>
+          <name>Videos</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>      
+	   </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>28435</id>
+          <name>Windows</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>      
+	   </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>1</id>
+          <name>PLAY</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	       </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>2</id>
+          <name>STOP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	   </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>3</id>
+          <name>PAUSE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	     </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>4</id>
+          <name>SKIP_FWD</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	    </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>5</id>
+          <name>SKIP_REV</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>       
+	  </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>6</id>
+          <name>FAST_FWD</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>7</id>
+          <name>FAST_REV</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>8</id>
+          <name>RECORD</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	          </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>10</id>
+          <name>NUMBER_0</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>4</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>11</id>
+          <name>NUMBER_1</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+ 		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>12</id>
+          <name>NUMBER_2</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+      </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>13</id>
+          <name>NUMBER_3</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>14</id>
+          <name>NUMBER_4</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>15</id>
+          <name>NUMBER_5</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>4</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>16</id>
+          <name>NUMBER_6</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>17</id>
+          <name>NUMBER_7</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0072 0000 0022 0060 0023 000e 0013 000f 0012 000e 0023 000e 0023 002f 0022 000f 0012 000e 0013 000f 0012 000e 0013 000e 0013 000f 0012 000e 0013 000e 0013 000f 0012 000e 0013 001f 0012 000e 0013 000e 0013 000f 0012 000e 0023 000e 0013 000e 0013 000f 0012 001f 0022 000f 0013 000e 0013 000f 0012 000f 0012 000e 0013 000e 0013 001f 0012 000e 0013 000e 09e5</pattern>
+          <altpattern>0000 0072 0000 0022 005f 0024 000e 0013 000e 0013 000e 0023 000e 0023 002e 0023 000e 0013 000e 0014 000e 0013 000e 0013 000e 0013 000e 0013 000e 0013 000e 0013 000e 0013 000e 0013 001e 0013 000e 0013 000e 0013 000e 0023 000e 0013 000e 0013 000e 0013 000e 0013 001e 0023 000e 0013 000e 0013 000e 0013 000e 0013 000e 0014 000e 0013 001e 0013 000e 0013 000e 09e6</altpattern>
+        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>18</id>
+          <name>NUMBER_8</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>19</id>
+          <name>NUMBER_9</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>23</id>
+          <name>STAR</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>24</id>
+          <name>POUND</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+ 		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>103</id>
+          <name>POWER_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>104</id>
+          <name>CHANNEL_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>105</id>
+          <name>CHANNEL_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>106</id>
+          <name>VOLUME_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>107</id>
+          <name>VOLUME_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+ 		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>108</id>
+          <name>MENU</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>109</id>
+          <name>BACK</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>111</id>
+          <name>ENTER</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="0.5">
+          <id>113</id>
+          <name>UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>114</id>
+          <name>DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>115</id>
+          <name>LEFT</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>116</id>
+          <name>RIGHT</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>118</id>
+          <name>PAGE_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>119</id>
+          <name>PAGE_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>3</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>121</id>
+          <name>CANCEL</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>122</id>
+          <name>RECALL</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>4</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="1">
+          <id>123</id>
+          <name>DVR</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	         </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>124</id>
+          <name>GUIDE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	          </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>137</id>
+          <name>MUTE_ON</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>7</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	          </ircode>
+        <ircode verified="False" controlrating="0.7">
+          <id>138</id>
+          <name>MUTE_OFF</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+        <ircode verified="False" controlrating="0.8">
+          <id>139</id>
+          <name>MUTE_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>6</repeatcount>
+          <delayafter>0</delayafter>
+		  <pattern/>
+		  <altpattern/>
+	        </ircode>
+      </ircodes>
+      <ircodemacros />
+    </irsection>
+  </config>
+  <connections>
+    <connection verified="True">
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>DVD</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>DVD</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="True">
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>IR Sensor</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+        <class>
+          <classname>DIGITAL_COAX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VGA</classname>
+        </class>
+        <class>
+          <classname>SVIDEO</classname>
+        </class>
+        <class>
+          <classname>COMPOSITE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="True">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection - Output</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001" verified="False">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>RF</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RF_CABLE</classname>
+        </class>
+        <class>
+          <classname>RF_UHF_VHF</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <driverdocumentation>
+    <category name="missing_required_codes" description="Missing Required Codes">POWER_ON, POWER_OFF</category>
+    <category name="nonverified_required_codes" description="Non-verified Required Codes">PLAY, STOP, PAUSE, FAST_FWD, FAST_REV, NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4, NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9, MENU, UP, DOWN, LEFT, RIGHT, ENTER</category>
+    <category name="nonverified_inputs" description="Non-verified Inputs" ratio="1">RF</category>
+    <category name="missing_capabilities" description="Missing Capabilities">Direct Track Access</category>
+  </driverdocumentation>
+  <completeness>75%</completeness>
+  <controllability>60%</controllability>
+</devicedata>

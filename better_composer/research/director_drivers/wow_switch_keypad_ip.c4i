@@ -1,0 +1,1872 @@
+<devicedata>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <name>WoW Switch Keypad</name>
+  <small>devices_sm/TwoButtonKeypad.gif</small>
+  <large>devices_lg/TwoButtonKeypad.gif</large>
+  <control>lua_gen</control>
+  <proxy>wow_switch_keypad_ip</proxy>
+  <driver>DriverWorks</driver>
+  <manufacturer>Unique Automation</manufacturer>
+  <created>03/12/2014 9:30 AM</created>
+  <modified>01/29/2016 10:00 AM</modified>
+  <creator>Control4</creator>
+  <version>90</version>
+  <combo>true</combo>
+  <model>UUI WoW Switch</model>
+  <!-- Start Connections: Control = 0 VideoConsumer = 1000 VideoProvider = 2000 AudioConsumer = 3000 AudioProvider = 4000 Proxy = 5000 Network = 6000 Room = 7000 -->
+  <connections>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>IP Connection</connectionname>
+      <type>4</type>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <name>wow port</name>
+              <number>21826</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+  </connections> 
+  <capabilities />
+  <conditionals />
+  <events>
+	  <event>
+	    <id>1</id>
+	    <name>Button One Changed</name>
+	    <description>When NAME Button One has changed</description>
+	  </event>
+	  <event>
+	    <id>2</id>
+	    <name>Button One Pressed</name>
+	    <description>When NAME Button One is pressed</description>
+	  </event>
+	  <event>
+	    <id>3</id>
+	    <name>Button One Released</name>
+	    <description>When NAME Button One is released</description>
+	  </event>
+	  <event>
+	    <id>4</id>
+	    <name>Button Two Changed</name>
+	    <description>When NAME Button Two has changed</description>
+	  </event>
+	  <event>
+	    <id>5</id>
+	    <name>Button Two Pressed</name>
+	    <description>When NAME Button Two is pressed</description>
+	  </event>
+	  <event>
+	    <id>6</id>
+	    <name>Button Two Released</name>
+	    <description>When NAME Button Two is released</description>
+	  </event>
+	  <event>
+	    <id>7</id>
+	    <name>Button Three Changed</name>
+	    <description>When NAME Button Three has changed</description>
+	  </event>
+	  <event>
+	    <id>8</id>
+	    <name>Button Three Pressed</name>
+	    <description>When NAME Button Three is pressed</description>
+	  </event>
+	  <event>
+	    <id>9</id>
+	    <name>Button Three Released</name>
+	    <description>When NAME Button Three is released</description>
+	  </event>
+	  <event>
+	    <id>10</id>
+	    <name>Button Four Changed</name>
+	    <description>When NAME Button Four has changed</description>
+	  </event>
+	  <event>
+	    <id>11</id>
+	    <name>Button Four Pressed</name>
+	    <description>When NAME Button Four is pressed</description>
+	  </event>
+	  <event>
+	    <id>12</id>
+	    <name>Button Four Released</name>
+	    <description>When NAME Button Four is released</description>
+	  </event>
+	  <event>
+	    <id>13</id>
+	    <name>Button Five Changed</name>
+	    <description>When NAME Button Five has changed</description>
+	  </event>
+	  <event>
+	    <id>14</id>
+	    <name>Button Five Pressed</name>
+	    <description>When NAME Button Five is pressed</description>
+	  </event>
+	  <event>
+	    <id>15</id>
+	    <name>Button Five Released</name>
+	    <description>When NAME Button Five is released</description>
+	  </event>
+	  <event>
+	    <id>16</id>
+	    <name>Button Six Changed</name>
+	    <description>When NAME Button Six has changed</description>
+	  </event>
+	  <event>
+	    <id>17</id>
+	    <name>Button Six Pressed</name>
+	    <description>When NAME Button Six is pressed</description>
+	  </event>
+	  <event>
+	    <id>18</id>
+	    <name>Button Six Released</name>
+	    <description>When NAME Button Six is released</description>
+	  </event>
+	  <event>
+	    <id>19</id>
+	    <name>Button Seven Changed</name>
+	    <description>When NAME Button Seven has changed</description>
+	  </event>
+	  <event>
+	    <id>20</id>
+	    <name>Button Seven Pressed</name>
+	    <description>When NAME Button Seven is pressed</description>
+	  </event>
+	  <event>
+	    <id>21</id>
+	    <name>Button Seven Released</name>
+	    <description>When NAME Button Seven is released</description>
+	  </event>
+	  <event>
+	    <id>22</id>
+	    <name>Button Eight Changed</name>
+	    <description>When NAME Button Eight has changed</description>
+	  </event>
+	  <event>
+	    <id>23</id>
+	    <name>Button Eight Pressed</name>
+	    <description>When NAME Button Eight is pressed</description>
+	  </event>
+	  <event>
+	    <id>24</id>
+	    <name>Button Eight Released</name>
+	    <description>When NAME Button Eight is released</description>
+	  </event>
+	  <event>
+	    <id>25</id>
+	    <name>Button Nine Changed</name>
+	    <description>When NAME Button Nine has changed</description>
+	  </event>
+	  <event>
+	    <id>26</id>
+	    <name>Button Nine Pressed</name>
+	    <description>When NAME Button Nine is pressed</description>
+	  </event>
+	  <event>
+	    <id>27</id>
+	    <name>Button Nine Released</name>
+	    <description>When NAME Button Nine is released</description>
+	  </event>
+  </events>
+  <config>
+	  <commands> 
+			<command>
+				<name>Sleep</name>
+				<description>Turn off the display on NAME</description> 
+				<params />
+		   </command>
+			<command>
+				<name>Wake</name>
+				<description>Turn on the display on NAME</description> 
+				<params />
+		   </command>
+			<command>
+				<name>Page_Activate</name>
+				<description>Activate Page PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Page</name> 
+						<type>RANGED_INTEGER</type> 
+						<minimum>1</minimum> 
+						<maximum>6</maximum>
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_One</name>
+				<description>Set Field One Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Two</name>
+				<description>Set Field Two Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Three</name>
+				<description>Set Field Three Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Four</name>
+				<description>Set Field Four Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Five</name>
+				<description>Set Field Five Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Six</name>
+				<description>Set Field Six Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Seven</name>
+				<description>Set Field Seven Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Eight</name>
+				<description>Set Field Eight Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Nine</name>
+				<description>Set Field Nine Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Ten</name>
+				<description>Set Field Ten Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Eleven</name>
+				<description>Set Field Eleven Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Twelve</name>
+				<description>Set Field Twelve Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Thirteen</name>
+				<description>Set Field Thirteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Fourteen</name>
+				<description>Set Field Fourteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Fifteen</name>
+				<description>Set Field Fifteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Sixteen</name>
+				<description>Set Field Sixteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Seventeen</name>
+				<description>Set Field Seventeen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Eighteen</name>
+				<description>Set Field Eighteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Nineteen</name>
+				<description>Set Field Nineteen Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Twenty</name>
+				<description>Set Field Twenty Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Twenty_One</name>
+				<description>Set Field Twenty-One Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+			<command>
+				<name>Field_Twenty_Two</name>
+				<description>Set Field Twenty-Two Text to PARAM1 on NAME</description> 
+				<params>
+					<param>
+						<name>Text</name> 
+						<type>STRING</type> 
+		         </param>
+		      </params>
+		   </command>
+	  </commands>
+    <documentation>
+Copyright 2014 Control4.  All rights reserved.
+
+ ***** The WoW Keypad Switch IP Driver *****
+
+This driver serves as the Control4 driver interface to Unique Automation's WoW Keypad Switch.
+
+***** FEATURES *****
+
+The following features are supported through Control4 programming:
+
+* Button events for the first nine buttons.  These events are: change, press, release.  A typical
+sequence of events will look like this: press, change, release, change.
+* Commands to put the WoW Keypad display into sleep or wake mode.
+* Activation of the six available display pages on the keypad.
+* The ability to write to the 22 fields available on the display.
+* Tag substitution used in the display fields for a guest's name and the outside temperature.
+* Five string variables and ten integer variables are available and corresponding tags for 
+substitution in a display string.
+
+***** USAGE *****
+
+Properties Page:
+
+* Field_One through Field_Twenty_Two: These are the available text fields in the display.  Each field 
+can include substitution tags (see below for more on substitution tags).  When you set the field text
+the keypad display is updated.
+* Guest_Name: The name of the checked-in guest.  This corresponds to the substitution tag: %GN%.  The
+property is read/write so that the tag substitution can be tested.  This property will be overwritten
+by a check-in or check-out of a guest.
+* S0 through S4: String variables available in programming.  They use the substitution tags:
+%S0% through %S4%.
+* N0 through N9: integer variables 0 through 10000 available in programming.  These use the 
+substitution tags %N0% through %N9%.
+
+***** SUBSTITUTION TAGS *****
+
+Substitution tags are used to substitute a tag with a meaningful value.  For example, if you set the 
+value of S0 to "California" and set Field_One to: "Hotel %S0%", the keypad display would scroll the 
+following:
+
+"Hotel California"
+
+The value S0 is a Control4 programming variable, so this value can be set programmatically and will
+immediately update the keypad display.
+
+Another useful tag is %GN%.  When a guest checks in, their name can be displayed by including the
+tag in the text field:
+
+"Welcome %GN%"
+
+Chuck Norris has checked in, therefore the display field using the text above would show:
+
+"Welcome Chuck Norris"
+
+The outside temperature %OT% tag uses the outside temperature provided by the Hospitality Agent:
+
+"Outside: %OT%"
+
+Which would look something like this:
+
+"Outside: 58.0"
+
+The text fields can also be set programmatically in the same way.  Here is an example
+of Composer programming:
+
+When a customer checked in.
+Activate Page 2 on Room->Wow Keypad
+Set Field Two to Welcome %GN% on Room->Wow Keypad
+
+***********************************
+
+    </documentation>
+    <properties>
+      <property>
+        <name>Version</name>
+        <type>STRING</type>
+        <default>0.0.0</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_One</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Two</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Three</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Four</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Five</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Six</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Seven</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Eight</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Nine</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Ten</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Eleven</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Twelve</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Thirteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Fourteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Fifteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Sixteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Seventeen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Eighteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Nineteen</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Twenty</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Twenty_One</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Field_Twenty_Two</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Guest_Name</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>S0</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>S1</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>S2</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>S3</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>S4</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N0</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N1</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N2</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N3</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N4</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N5</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N6</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N7</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N8</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>N9</name>
+        <type>RANGED_INTEGER</type>
+			<minimum>0</minimum> 
+			<maximum>10000</maximum>
+        <default>0</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Activate Page 6</name>
+        <command>page_six</command>
+      </action>
+      <action>
+        <name>Activate Page 5</name>
+        <command>page_five</command>
+      </action>
+      <action>
+        <name>Activate Page 4</name>
+        <command>page_four</command>
+      </action>
+      <action>
+        <name>Activate Page 3</name>
+        <command>page_three</command>
+      </action>
+      <action>
+        <name>Activate Page 2</name>
+        <command>page_two</command>
+      </action>
+      <action>
+        <name>Activate Page 1</name>
+        <command>page_one</command>
+      </action>
+      <action>
+        <name>Sleep/Wake</name>
+        <command>sleep_wake</command>
+      </action>
+    </actions>
+    <script>
+      <![CDATA[
+			
+-- Driver Version
+function version()
+
+   local maj = 1
+   local min = 1
+   local rev = 90
+   local ver = string.format("%d.%d.%d", maj, min, rev)
+
+   return ver
+end
+
+-- Global Variables
+
+debug_timer_ = 0
+debug_print_ = false
+debug_log_ = false
+
+network_bound_ = false
+connection_id_ = 6001
+port_ = 21826
+connected_ = false
+
+watch_variable_timer_ = 0
+
+update_text_fields_timer_ = 0
+
+sleep_ = true
+
+button_command_ = 0x221
+
+frame_end_ = 0xc0
+destination_id_ = 0x01
+source_id_ = 0x00
+
+-- protocol field lengths that are constant
+frame_end_length_ = 1
+source_id_length_ = 0
+destination_id_length_ = 1
+command_length_length_ = 2
+destination_id_length_ = 1 
+command_length_ = 2
+crc_length_ = 1
+
+button_changed_event_ = 1
+button_pressed_event_ = 2
+button_released_event_ = 3
+
+button_changed_ = { 
+"Button One Changed", 
+"Button Two Changed",
+"Button Three Changed",
+"Button Four Changed",
+"Button Five Changed",
+"Button Six Changed",
+"Button Seven Changed",
+"Button Eight Changed",
+"Button Nine Changed"
+}
+
+button_pressed_ = { 
+"Button One Pressed", 
+"Button Two Pressed",
+"Button Three Pressed",
+"Button Four Pressed",
+"Button Five Pressed",
+"Button Six Pressed",
+"Button Seven Pressed",
+"Button Eight Pressed",
+"Button Nine Pressed"
+}
+
+button_released_ = { 
+"Button One Released", 
+"Button Two Released",
+"Button Three Released",
+"Button Four Released",
+"Button Five Released",
+"Button Six Released",
+"Button Seven Released",
+"Button Eight Released",
+"Button Nine Released"
+}
+
+command_dictionary_ = {
+Sleep = {0x02, 0x11},
+Wake = {0x02, 0x12},
+Page_Activate = {0x02, 0x33},
+Text_Write = {0x02, 0x31}
+}
+
+arg_length_dictionary_ = {
+Sleep = 0,
+Wake = 0,
+Page_Activate = 1,
+Text_Write = 33
+}
+
+field_property_ = {
+"Field_One",
+"Field_Two",
+"Field_Three",
+"Field_Four",
+"Field_Five",
+"Field_Six",
+"Field_Seven",
+"Field_Eight",
+"Field_Nine",
+"Field_Ten",
+"Field_Eleven",
+"Field_Twelve",
+"Field_Thirteen",
+"Field_Fourteen",
+"Field_Fifteen",
+"Field_Sixteen",
+"Field_Seventeen",
+"Field_Eighteen",
+"Field_Nineteen",
+"Field_Twenty",
+"Field_Twenty_One",
+"Field_Twenty_Two"
+}
+
+-- substitution tags
+
+TAG_GN = "%%GN%%" -- guest name
+TAG_OT = "%%OT%%" -- outside temperature
+
+-- string variable tags
+tag_strings_ = {
+"%%S0%%",
+"%%S1%%",
+"%%S2%%",
+"%%S3%%",
+"%%S4%%"
+}
+
+-- string variable names
+var_strings_ = {
+"S0",
+"S1",
+"S2",
+"S3",
+"S4"
+}
+
+-- number variable tags
+tag_numbers_ = {
+"%%N0%%",
+"%%N1%%",
+"%%N2%%",
+"%%N3%%",
+"%%N4%%",
+"%%N5%%",
+"%%N6%%",
+"%%N7%%",
+"%%N8%%",
+"%%N9%%"
+}
+
+-- number variable names
+var_numbers_ = {
+"N0",
+"N1",
+"N2",
+"N3",
+"N4",
+"N5",
+"N6",
+"N7",
+"N8",
+"N9"
+}
+
+sub_values_ = {
+SUB_GN = "Guest",
+SUB_OT = "--"
+}
+
+-- hospitality specific data from agent
+HOSPITALITY_AGENT_ID = 100121
+VARIABLE_CHECKED_IN = 1000
+VARIABLE_CUSTOMER_NAME = 1002
+VARIABLE_OUTSIDE_TEMPERATURE = 1004
+
+--------------- helpers ---------------------
+--<bitwise_operations>
+
+function bit_value(bit_pos)
+
+   return math.pow(2, bit_pos - 1)
+end
+
+-- finds a bit and determines if it is set or not - the bit location is one based ie. bit one is the LSB
+function is_bit_set(bit_loc, byte)
+
+   local val = byte
+   local mod_val = 0
+
+   for i = 1, bit_loc do
+
+      mod_val = math.mod(val, 2)
+
+      if mod_val == 1 then
+
+	 val = val - 1
+      end
+      val = val / 2
+   end
+
+   return mod_val
+end
+
+function bit_shift_left(shift_count, byte)
+  
+  local val = byte
+
+  if shift_count > 0 then
+  
+     for i = 1, shift_count do
+
+	val = val * 2
+	if val > 255 then
+
+	   val = val - 256
+	end
+     end
+  end
+
+  return val
+end
+
+function bit_xor(byte_one, byte_two)
+
+   local val = 0
+
+   for i = 1, 8 do
+
+      if is_bit_set(i, byte_one) > 0 then
+
+	 if is_bit_set(i, byte_two) == 0 then
+
+	    val = val + bit_value(i) 
+	 end
+      else
+
+	 if is_bit_set(i, byte_two) > 0 then
+
+	    val = val + bit_value(i)
+	 end
+      end
+   end
+
+   return val
+end
+
+function bit_and(byte_one, byte_two)
+
+   local val = 0
+
+   for i = 1, 8 do
+
+      if is_bit_set(i, byte_one) > 0 then
+
+	 if is_bit_set(i, byte_two) > 0 then
+
+	    val = val + bit_value(i) 
+	 end
+      end
+   end
+
+   return val
+end
+
+--</bitwise_operations>
+
+function hex_string_to_number(hex_string)
+
+   return tonumber(hex_string, 16)
+end
+
+function short_to_bytes(short)
+
+   short = short / 256
+   local msb, lsb = math.modf(short)
+   lsb = lsb * 256
+
+   return { msb, lsb }
+end
+
+function long_to_bytes(long)
+
+   long = long / 65535
+   local mss, lss = math.modf(long)
+   lss = lss * 65535
+   local ms_tbl = short_to_bytes(mss)
+   local ls_tbl = short_to_bytes(lss)
+
+   return { ms_tbl[1], ms_tbl[2], ls_tbl[1], ls_tbl[2] }
+end
+
+function append_byte(data_table, byte)
+
+   table.insert(data_table, byte)
+end
+
+function append_table(data_table, tbl)
+
+	for _, v in ipairs(tbl) do
+
+   	table.insert(data_table, v)
+	end
+end
+
+function append_short(data_table, sht)
+
+   local tbl = short_to_bytes(sht)
+   append_table(data_table, tbl)
+end
+
+function append_long(data_table, lng)
+
+   local tbl = long_to_bytes(lng)
+   append_table(data_table, tbl)
+end
+
+function serialize_text_write(data_table, text)
+
+	for i = 1, 32 do
+	
+		if i <= #text then
+		
+    		local b = string.byte(text, i) 
+    		append_byte(data_table, b)
+		else
+		
+			append_byte(data_table, 0) -- fill with 0
+		end
+	end
+end
+
+function tag_substitute(str, tag, sub)
+
+	return string.gsub(str, tag, sub)
+end
+--------------- packet parsing & forming ---------------
+
+function parse_binary_packet(packet)
+
+   local i = 1
+   local b = string.byte(packet, i)
+
+   local tbl = {}
+
+   while b do
+
+      tbl[i] = b
+      i = i + 1
+      b = string.byte(packet, i)
+   end
+
+   return tbl	-- return the table
+end
+
+function parse_source_id(tbl)
+
+	local val_tbl = { tbl[2] } -- second byte is source id
+   local hex_string = form_ascii_bytes(val_tbl) -- not needed for this function but makes other parsing consistent
+
+   return hex_string_to_number(hex_string)
+end
+
+function parse_command_length(tbl)
+
+	local val_tbl = { tbl[3], tbl[4] } -- third and fourth bytes is the command length
+   local hex_string = form_ascii_bytes(val_tbl)
+
+   return hex_string_to_number(hex_string)
+end
+
+function parse_destination_id(tbl)
+
+	local val_tbl = { tbl[5] } -- second byte is destination id
+   local hex_string = form_ascii_bytes(val_tbl) -- not needed for this function but makes other parsing consistent
+
+   return hex_string_to_number(hex_string)
+end
+
+function parse_command(tbl)
+
+	local val_tbl = { tbl[6], tbl[7] } -- sixth and seventh bytes is the command
+   local hex_string = form_ascii_bytes(val_tbl)
+
+   return hex_string_to_number(hex_string)
+end
+
+function process_button_data(tbl, offset)
+
+	local btn = 0
+	local upper_offset = offset + 4 -- four bytes of argument payload
+	while offset < upper_offset do
+
+		if tbl[offset] > 0 then
+		
+			btn = tbl[offset]
+			break
+		end
+		offset = offset + 1
+	end
+	
+	return btn
+end
+
+function form_binary_packet(tbl)
+
+   local packet = ""
+   local packet_length = 0
+   for i, v in ipairs(tbl) do
+
+      local b = string.char(v)
+      packet = packet .. b
+      packet_length = i
+   end
+
+   return packet, packet_length
+end
+
+-- table of bytes is formed into an ascii packet
+function form_ascii_bytes(tbl)
+
+   local packet = ""
+   local packet_length = 0
+
+   for i, v in ipairs(tbl) do
+
+      local b = string.format("%02x",  v)
+      packet = packet .. b
+      packet_length = i
+   end
+
+   return packet, packet_length -- return the packet as a hex string
+end
+
+function form_binary_command(cmd, cmd_args)
+
+	local data_frame_table = {}
+	append_byte(data_frame_table, frame_end_)
+	local cmd_table = {}
+	form_binary_header(cmd_table, cmd)
+	form_binary_payload(cmd_table, cmd, cmd_args)
+	form_binary_checksum(cmd_table)
+	append_table(data_frame_table, cmd_table)
+	append_byte(data_frame_table, frame_end_)
+	
+	return data_frame_table
+end
+
+function form_binary_header(data_table, cmd) -- does not have frame end delim
+
+	append_byte(data_table, source_id_)
+	local cmd_length = arg_length_dictionary_[cmd] + 2
+	append_short(data_table, cmd_length)
+	append_byte(data_table, destination_id_)
+end
+
+function form_binary_payload(data_table, cmd, cmd_args)
+
+	local tbl = command_dictionary_[cmd]
+	if tbl ~= nil then
+	
+		append_table(data_table, tbl)
+		append_table(data_table, cmd_args)
+	end
+end
+
+function form_binary_checksum(data_table)
+
+	local checksum = 0
+	
+	for _, v in ipairs(data_table) do
+
+  	   checksum = checksum + v
+		if (checksum / 256) >= 1 then
+		
+			checksum = checksum - 256
+		end
+	end	
+	cs = 256 - checksum -- negation
+	append_byte(data_table, cs)
+end
+
+--------------- end packet parsing & forming ---------------
+
+function fire_button_changed(btn)
+
+	local evt = lookup_button_event(btn, button_changed_event_)
+	debug("Button Changed Event: " .. evt)
+	C4:FireEvent(evt)
+end
+
+function fire_button_pressed(btn)
+
+	local evt = lookup_button_event(btn, button_pressed_event_)
+	debug("Button Pressed Event: " .. evt)
+	C4:FireEvent(evt)
+end
+
+function fire_button_released(btn)
+
+	local evt = lookup_button_event(btn, button_released_event_)
+	debug("Button Released Event: " .. evt)
+	C4:FireEvent(evt)
+end
+
+function lookup_button_event(btn, event_type)
+
+	local evt = ""
+	local index = btn -- one to one on buttons
+	if index > 0 and index < 10 then
+	
+		if event_type == button_changed_event_ then
+		
+			evt = button_changed_[index]
+		elseif event_type == button_pressed_event_ then
+		
+			evt = button_pressed_[index]
+		elseif event_type == button_released_event_ then
+		
+			evt = button_released_[index]
+		end
+	end
+	
+	return evt
+end
+
+function update_property(name, val)
+
+	C4:UpdateProperty(name, val)
+	PersistData[name] = val
+end
+
+function execute_text_write(field_name, field_text)
+
+	for i, v in ipairs(field_property_) do
+	
+		if v == field_name then
+		
+			if field_text ~= nil then
+
+				wow_text_write(i, field_text)
+			end			
+		end
+	end
+end
+
+-- intelligently updates fields based on tag in field
+function update_text_fields(tag)
+
+	for _, v in ipairs(field_property_) do
+
+		local val = Properties[v]
+		if val ~= nil then
+		
+			if string.find(val, tag) ~= nil then
+		
+				execute_text_write(v, val)
+			end
+		end
+	end
+end
+
+function update_all_text_fields()
+
+	for _, v in ipairs(field_property_) do
+
+		local val = Properties[v]
+		if val ~= nil then
+	
+			if # val > 0 then
+	
+				execute_text_write(v, val)
+			end
+		end
+	end
+end
+
+function init_hospitality_values()
+
+	local guest_name = C4:GetDeviceVariable(HOSPITALITY_AGENT_ID, VARIABLE_CUSTOMER_NAME)
+	local outside_temperature = C4:GetDeviceVariable(HOSPITALITY_AGENT_ID, VARIABLE_OUTSIDE_TEMPERATURE)
+	
+	if guest_name ~= nil then
+	
+		sub_values_["SUB_GN"] = guest_name
+	end
+	if outside_temperature ~= nil then
+	
+		sub_values_["SUB_OT"] = outside_temperature
+	end
+end
+
+function add_variables(tbl, data_type)
+
+	for _, v in ipairs(tbl) do
+	
+		C4:AddVariable(v, Properties[v], data_type)
+	end
+end
+
+function delete_variables(tbl)
+
+	for _, v in ipairs(tbl) do
+	
+		C4:DeleteVariable(v)
+	end
+end
+
+function get_table_index(tbl, name)
+
+	for i, v in ipairs(tbl) do
+
+		if name == v then
+		
+			return i
+		end
+	end
+end
+
+function update_tagged_variable(name, var_tag_tbl, var_name_tbl)
+
+	local index = get_table_index(var_name_tbl, name)
+	if index ~= nil then
+
+		local tag = var_tag_tbl[index]
+		update_text_fields(tag)
+	end
+
+	return index
+end
+
+-- tag_substitute(str, tag, sub)
+function tag_substitute_variables(str, var_tag_tbl, var_name_tbl)
+
+	for i, v in ipairs(var_tag_tbl) do
+	
+		str = tag_substitute(str, v, Variables[var_name_tbl[i]])
+	end
+	
+	return str
+end
+
+function persist_data()
+
+   if PersistData ~= nil then
+
+		for _, v in ipairs(field_property_) do
+
+			local val = Properties[v]
+			if val ~= nil then
+
+				PersistData[v] = val
+			end
+		end
+   else
+
+      debug("PersistData is nil")
+      PersistData = {}
+      persist_data()
+   end
+end
+
+function get_persisted_data()
+
+   if PersistData ~= nil then
+
+		for k, v in pairs(PersistData) do
+		
+			C4:UpdateProperty(k, v)
+		end
+	else
+	
+		PersistData = {}
+   end
+end
+
+function kill_update_text_fields_timer()
+
+	update_text_fields_timer_ = C4:KillTimer(update_text_fields_timer_)
+end
+
+function start_update_text_fields_timer()
+
+	kill_update_text_fields_timer()
+	update_text_fields_timer_ = C4:AddTimer(5, "MINUTES")
+end
+
+----------------- Driverwork callbacks -----------------
+function OnDriverInit()
+
+ 	-- get persisted data and add registrars
+	get_persisted_data()
+	
+	add_variables(var_strings_, "STRING")
+	add_variables(var_numbers_, "NUMBER")
+end
+
+function OnDriverLateInit()
+
+	start_watch_variable_timer()
+	init_hospitality_values()
+end
+
+function OnDriverDestroyed()
+
+   debug("OnDriverDestroyed called")
+
+	delete_variables(var_strings_)
+	delete_variables(var_numbers_)
+
+	C4:UnregisterVariableListener(HOSPITALITY_AGENT_ID, VARIABLE_CUSTOMER_NAME)
+	C4:UnregisterVariableListener(HOSPITALITY_AGENT_ID, VARIABLE_OUTSIDE_TEMPERATURE)
+	
+   -- Kill all timers
+   if debug_timer_ then
+  
+      debug("Stopping debug timer")
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   if watch_variable_timer_ then
+
+      watch_variable_timer_ = C4:KillTimer(watch_variable_timer_)
+   end
+
+	kill_update_text_fields_timer()
+end
+
+function OnPropertyChanged(strProperty)
+
+	if strProperty == "Debug Mode" then
+  
+		if Properties[strProperty] == "Off" then
+    
+			debug_print_ = false
+			debug_log_ = false
+			debug_timer_ = 0
+     	elseif Properties[strProperty] == "Print" then
+    
+			debug_print_ = true
+			debug_log_ = false
+			start_debug_timer()
+     	elseif Properties[strProperty] == "Log" then
+    
+			debug_print_ = false
+			debug_log_ = true
+			start_debug_timer()
+     	elseif Properties[strProperty] == "Print and Log" then
+    
+			debug_print_ = true
+			debug_log_ = true
+			start_debug_timer()
+     	end
+	elseif strProperty == "Guest_Name" then
+		
+		sub_values_["SUB_GN"] = Properties[strProperty]
+	else
+	
+		if get_table_index(field_property_, strProperty) ~= nil then
+		
+			execute_text_write(strProperty, Properties[strProperty])
+		else 
+		
+			local index = get_table_index(var_strings_, strProperty)
+			if index ~= nil then
+			
+				C4:SetVariable(strProperty, Properties[strProperty])
+				update_text_fields(tag_strings_[index])
+			else
+			
+				index = get_table_index(var_numbers_, strProperty)
+				if index ~= nil then
+				
+					C4:SetVariable(strProperty, Properties[strProperty])
+					update_text_fields(tag_numbers_[index])
+				end
+			end
+		end
+		
+		PersistData[strProperty] = Properties[strProperty]
+	end
+end
+
+function OnTimerExpired(idTimer)
+
+   if idTimer == debug_timer_ then
+  
+      debug("Turning Debug Mode Off (timer expired)")
+      C4:UpdateProperty("Debug Mode", "Off")
+      debug_timer_ = C4:KillTimer(idTimer)
+	elseif idTimer == watch_variable_timer_ then
+
+		-- register variables
+		C4:RegisterVariableListener(HOSPITALITY_AGENT_ID, VARIABLE_CUSTOMER_NAME)
+		C4:RegisterVariableListener(HOSPITALITY_AGENT_ID, VARIABLE_OUTSIDE_TEMPERATURE)
+		watch_variable_timer_ = C4:KillTimer(idTimer)
+	elseif idTimer == update_text_fields_timer_ then
+	
+		update_all_text_fields()
+		start_update_text_fields_timer()
+   end
+end
+
+function OnWatchedVariableChanged(id_device, id_variable, str_value)
+
+	debug("Watched variable changed: ID = " .. id_device .. "; Variable = " .. id_variable .. "; Value = " .. str_value)
+	
+	-- HOSPITALITY_AGENT_ID, VARIABLE_CUSTOMER_NAME
+	if id_device == HOSPITALITY_AGENT_ID then
+	
+		if id_variable == VARIABLE_CUSTOMER_NAME then
+		
+			sub_values_["SUB_GN"] = str_value
+			C4:UpdateProperty("Guest_Name", str_value)
+			update_text_fields(TAG_GN)
+		elseif id_variable == VARIABLE_OUTSIDE_TEMPERATURE then
+			
+			sub_values_["SUB_OT"] = str_value
+			update_text_fields(TAG_OT)	
+		end
+	end
+end
+
+function ExecuteCommand(str_command, t_params)
+
+   debug_command("ExecuteCommand", str_command, t_params)
+
+ 	if str_command == "LUA_ACTION" then
+
+		if t_params ~= nil then
+
+     		for param_name, param_value in pairs(t_params) do
+
+	    		if param_name == "ACTION" then
+
+	      		if param_value == "sleep_wake" then
+
+						if sleep_ then
+				
+							wow_sleep()
+						else
+				
+							wow_wake()
+						end
+						sleep_ = not sleep_;
+					elseif param_value == "page_one" then
+					
+						wow_activate_page(1)
+					elseif param_value == "page_two" then
+
+						wow_activate_page(2)
+					elseif param_value == "page_three" then
+
+						wow_activate_page(3)
+					elseif param_value == "page_four" then
+
+						wow_activate_page(4)
+					elseif param_value == "page_five" then
+
+						wow_activate_page(5)
+					elseif param_value == "page_six" then
+
+						wow_activate_page(6)
+	      		end					
+	   		end
+	  		end
+ 		end
+	elseif str_command == "Sleep" then
+	
+		wow_sleep()
+	elseif str_command == "Wake" then
+	
+		wow_wake()
+	elseif str_command == "Page_Activate" then
+	
+		local page_num = t_params["Page"]
+		if page_num ~= nil then
+		
+			wow_activate_page(tonumber(page_num))
+		end
+	else
+	
+		if get_table_index(field_property_, str_command) ~= nil then
+	
+			execute_text_write(str_command, t_params["Text"])
+			update_property(str_command, t_params["Text"])
+		end	
+	end
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+
+  	debug("Network Binding " .. idBinding .. " Changed.")
+  	if bIsBound then
+      
+    	debug("Binding is bound.")
+  	else
+
+    	debug("Binding is not bound.")
+ 	end
+  	network_bound_ = bIsBound
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+
+	if idBinding == 6001 then
+	
+    	if strStatus == "ONLINE" then
+
+			connected_ = true
+			OnDriverLateInit()
+			-- update the text fields
+			update_all_text_fields()
+			start_update_text_fields_timer()
+			
+			debug("OnConnectionStatusChanged: Connected = true")
+   	else
+
+			connected_ = false
+			kill_update_text_fields_timer()
+			debug("OnConnectionStatusChanged: Connected = false")
+      end
+	end
+end
+
+function ReceivedFromNetwork(idBinding, nPort, packet)
+
+	debug("<--- incoming packet --->")	
+	local tbl = parse_binary_packet(packet)
+	debug("Source ID: " .. parse_source_id(tbl))
+	debug("Command Length: " .. parse_command_length(tbl))
+	debug("Destination ID: " .. parse_destination_id(tbl))
+	local command = parse_command(tbl)
+	debug("Command: " .. command)
+	if command == button_command_ then
+	
+		local btn = process_button_data(tbl, 12)
+		if btn > 0 then
+		
+			fire_button_changed(btn)
+			-- was it a press or a release?
+			if btn == process_button_data(tbl, 8) then
+			
+				fire_button_pressed(btn)
+			else
+			
+				fire_button_released(btn)
+			end
+		end
+	end
+	local str_packet, packet_length = form_ascii_bytes(tbl)
+	debug("Hex from network: " .. str_packet)
+	packet, packet_length = form_binary_packet(tbl)
+	debug("Packet length: " .. packet_length)
+	debug("<--- end incoming packet --->")
+	debug(" ")
+end
+
+function OnVariableChanged(name)
+
+	update_tagged_variable(name, tag_strings_, var_strings_)
+	update_tagged_variable(name, tag_numbers_, var_numbers_)
+	update_property(name, Variables[name])
+end
+
+function start_debug_timer()
+
+   if debug_timer_ then
+  
+      debug_timer_ = C4:KillTimer(debug_timer_)
+   end
+   debug_timer_ = C4:AddTimer(15, "MINUTES")
+end
+
+function start_watch_variable_timer()
+
+	if watch_variable_timer_ then
+
+   	watch_variable_timer_ = C4:KillTimer(watch_variable_timer_)
+	end
+	watch_variable_timer_ = C4:AddTimer(2, "MINUTES")
+end
+
+function debug(text)
+
+   if debug_print_ then 
+
+      print(text) 
+   end
+   if debug_log_ then 
+
+      C4:ErrorLog(text) 
+   end
+end
+
+function debug_command(method, command, t_params)
+
+   if debug_print_ or debug_log_ then
+
+      text = method .. ": " .. command
+      if t_params ~= nil then
+
+      	 for param, value in pairs(t_params) do
+
+            text = text .. ", " .. param .. "=" .. value
+      	 end
+      end
+      debug(text)	
+    end
+end
+
+function send_serial(data)
+
+   if connected_ then
+
+      C4:SendToNetwork(6001, port_, data)
+   end
+end
+
+-------------------- commands sent to switch ------------------
+
+function wow_sleep()
+
+	local tbl = form_binary_command("Sleep", {})
+	packet, packet_length = form_ascii_bytes(tbl)
+	debug("Sleep Command: Packet = " .. packet .. "; Length = " .. packet_length)
+	send_serial(form_binary_packet(tbl))
+end
+
+function wow_wake()
+
+	local tbl = form_binary_command("Wake", {})
+	packet, packet_length = form_ascii_bytes(tbl)
+	debug("Wake Command: Packet = " .. packet .. "; Length = " .. packet_length)
+	send_serial(form_binary_packet(tbl))
+end
+
+function wow_activate_page(page_num)
+
+	local num = tonumber(page_num)
+	local tbl = form_binary_command("Page_Activate", {num})
+	packet, packet_length = form_ascii_bytes(tbl)
+	debug("Activate Page Command: Packet = " .. packet .. "; Length = " .. packet_length)
+	send_serial(form_binary_packet(tbl))
+end
+
+function wow_text_write(field_num, text)
+
+	local num = tonumber(field_num)
+	local arg_tbl = {num}
+	
+	text = tag_substitute(text, TAG_GN, sub_values_["SUB_GN"]) -- guest name
+	text = tag_substitute(text, TAG_OT, sub_values_["SUB_OT"]) -- outside temperature
+	text = tag_substitute_variables(text, tag_strings_, var_strings_) -- variable strings
+	text = tag_substitute_variables(text, tag_numbers_, var_numbers_) -- variable numbers
+
+	serialize_text_write(arg_tbl, text)
+	local tbl = form_binary_command("Text_Write", arg_tbl)
+	packet, packet_length = form_ascii_bytes(tbl)
+	debug("Text Write Command: Packet = " .. packet .. "; Length = " .. packet_length)
+	send_serial(form_binary_packet(tbl))
+end
+
+-- Update the Version property
+C4:UpdateProperty("Version", version())
+
+  ]]></script>
+  </config>
+</devicedata>

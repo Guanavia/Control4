@@ -1,0 +1,807 @@
+<devicedata>
+	<copyright>Copyright 2009 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Vantage</manufacturer>
+	<version>8</version>
+    <combo>True</combo>
+	<creator>Control4</creator>
+	<created>4/29/2009 3:00 PM</created>
+	<modified>6/13/2012 5:00 PM</modified>
+	<model>InFusion</model>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<front />
+	<back />
+	<top />
+	<bottom />
+	<left />
+	<right />
+	<capabilities>
+		<serialsettings>19200 8 none 1 none</serialsettings>
+		<can_poll_serial>False</can_poll_serial>
+	</capabilities>
+	<config>
+		<SINGLETON_ID>vantage_infusion_network_protocol_driver</SINGLETON_ID>
+		<documentation>
+Vantage InFusion driver - Installation
+
+The Vantage Infusion drivers allow the Control4 system to work in conjunction with a Vantage InFusion system.  Note: They do not support the legacy Vantage QLink system which uses a different control protocol.
+
+What Support You Should Expect to Receive
+
+Control4 is not able to advise you or support you when configuring Vantage InFusion systems.  If your organization does not have a Vantage-trained programmer, you should enlist the help of a Vantage programmer - particularly for installations in customer environments. We will, by necessity, limit our support to the proper configuration of these drivers within the Control4 system.
+
+How to Install and Configure the Drivers
+
+The Control4 system on which you are installing these drivers must be running Release 1.7.0 or later.  Because these drivers are based on DriverWorks, they do not require a Release 1.8 system update.  There is no difference in the user experience based on underlying system version.
+
+Prior to installing the Vantage InFusion drivers, verify that your system is functioning correctly. These drivers are included in Releases  1.8.2 and 1.7.4.  However, they can be installed manually on other version systems.
+
+The following steps give an overview of the installation process. 
+1. Add the Vantage InFusion Network driver to your project [System Design, Search, Local Database, --others--, Vantage InFusion]
+2. Configure the Vantage InFusion Network driver for serial or TCP/IP connection to the Vantage system.  
+    a. If you are using a TCP/IP connection, Enter the IP Address of the Vantage System in the Identify dialog . 
+    b. If you are using a serial connection, configure the serial port binding [Connections, Control/AV]. 
+3. Add/configure the specific dimmer, switch, keypad, and task drivers as needed based on the system you are connected to [System Design, Search, Local Database, ...]
+    * Dimmer [Light, Vantage Dimmer]
+    * Switch [Light, Vantage Switch]
+    * Keypad [--others--, Vantage Keypad]
+    * Task [--others--, Vantage Task]
+4. If desired, further integrate the Vantage system with the Control4 system using one or more of the following capabilities:
+    * Binding [Connections, Control/AV, Button Link]
+    * Lighting Scenes [Agents, Lighting Scenes] 
+    * Programming (events, conditionals, actions) [Programming]
+5. Make sure you Refresh Navigators after configuring the system
+
+
+Vantage Infusion Driver
+The Vantage Infusion Driver is a driver which can be added only one time to a project. It is recommended that this driver be the first Vantage driver added to the system.
+
+Connecting / Identifying the Driver
+
+Serial:
+Go to the Connections Tab and connect to the appropriate RS_232 Output Device.
+
+Network:
+Enter the IP Address of the Vantage System in the Identify dialog.
+Properties
+
+Debug Mode:
+Used for debugging the driver. Output is displayed on the Lua tab.
+Options:
+    Off
+    Print
+    Log
+    Print and Log
+
+Actions
+
+Initialize Vantage Status:
+This action initializes the Vantage system. If you are having trouble communicating with the system, try executing this task.
+
+Display Vantage Devices:
+This action will display the Device ID, Vantage ID and Device Name of all the devices that have been linked to the Vantage Infusion driver.
+
+Display Keypad Buttons:
+This action will display the Device ID, Button ID and Device Name of all the keypad buttons defined in the system.
+		</documentation>
+		<identify_text/>
+		<properties>
+			<property>
+				<name>Debug Mode</name>
+				<type>LIST</type>
+				<items>
+					<item>Off</item>
+					<item>Print</item>
+					<item>Log</item>
+					<item>Print and Log</item>
+				</items>
+				<default>Off</default>
+				<readonly>false</readonly>
+			</property>
+		</properties>
+		<actions>
+			<action>
+				<name>Display Globals</name>
+				<command>DisplayGlobals</command>
+			</action>
+			<action>
+				<name>Display Keypad Buttons</name>
+				<command>DisplayKeypadButtons</command>
+			</action>
+			<action>
+				<name>Display Vantage Devices</name>
+				<command>DisplayVantageDevice</command>
+			</action>
+			<action>
+				<name>Initialize Vantage Status</name>
+				<command>SetVantageStatus</command>
+			</action>
+		</actions>
+		<commands/>
+		<script>
+<![CDATA[
+NETWORK_BINDING_ID = 6001
+SERIAL_BINDING_ID = 1
+DIMMER_BINDING_ID = 2
+SWITCH_BINDING_ID = 3
+KEYPAD_BINDING_ID = 4
+TASK_BINDING_ID = 5
+
+----------------------------------------- property handling -----------------------------------------
+function OnPropertyChanged(strProperty)
+	dbg("OnPropertyChanged(): strProperty = " .. strProperty .. " changed to: " .. Properties[strProperty])
+	local prop = Properties[strProperty]
+
+	if (strProperty == "Debug Mode") then
+--[[
+		gDbgPrint = true; gDbgLog = true; gDbgUnitTest = true; if (true) then return end
+--]]
+		if (gDbgTimer > 0) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+		gDbgPrint, gDbgLog, gDbgUnitTest = (prop:find("Print") ~= nil), (prop:find("Log") ~= nil), (prop:find("Log") ~= nil)
+		if (prop == "Off") then
+			return
+		end
+		gDbgTimer = C4:AddTimer(45, "MINUTES")
+		return
+	end
+end
+
+----------------------------------------- debug functions -----------------------------------------
+function dbg(strDebugText)
+	if (gDbgPrint) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion: " .. strDebugText) end
+end
+
+function dbgUnitTest(strDebugText)
+	if (gDbgUnitTest) then print (strDebugText) end
+	if (gDbgLog) then C4:ErrorLog("vantage_fusion: " .. strDebugText) end
+end
+
+function dbgFunction(strFunction)
+	local debugFunction = true
+	if (gDbgPrint and debugFunction) then print ("Function:\t" .. strFunction .. ":") end
+	if (gDbgLog and debugFunction) then C4:ErrorLog("vantage_fusion: " .. strFunction) end
+end
+
+----------------------------------------- timer functions -----------------------------------------
+function startDebugTimer()
+	if (gDbgTimer) then
+		gDbgTimer = C4:KillTimer(gDbgTimer)
+	end
+	gDbgTimer = C4:AddTimer(45, "MINUTES")
+end
+
+function startInitVantageTimer()
+	if (gInitVantageTimer) then
+		gInitVantageTimer = C4:KillTimer(gInitVantageTimer)
+	end
+	gInitVantageTimer = C4:AddTimer(2, "MINUTES")
+end
+
+function startVantagePollTimer()
+	if (gVantagePollTimer) then
+		gVantagePollTimer = C4:KillTimer(gVantagePollTimer)
+	end
+	gVantagePollTimer = C4:AddTimer(1, "MINUTES")
+end
+
+function startResetDeviceListTimer()
+	if (gResetDeviceTimer) then
+		gResetDeviceTimer = C4:KillTimer(gResetDeviceTimer)
+	end
+	gResetDeviceTimer = C4:AddTimer(1, "SECONDS")
+end
+
+function OnTimerExpired(idTimer)
+	if (idTimer == gDbgTimer) then
+		dbg("Turning Debug Mode Off (timer expired)")
+		C4:UpdateProperty("Debug Mode", "Off")
+		OnPropertyChanged("Debug Mode")
+		gDbgTimer = 0
+		return
+	end
+
+	if (idTimer == gInitVantageTimer) then
+		SetVantageStatus()
+		if (gSerialBound) then
+			startVantagePollTimer()
+		end
+	elseif (idTimer == gVantagePollTimer) then
+		SendVantageCmd("GETCOUNT")
+		C4:KillTimer(idTimer)
+		if (gSerialBound) then
+			startVantagePollTimer()
+		end
+		return
+	elseif (idTimer == gResetDeviceTimer) then
+		dbg("Reset Device Timer expired)")
+		gDeviceList = {}
+		gButtonList = {}
+		SendToProxyAll("GET_PROPERTIES", {})
+	end
+	C4:KillTimer(idTimer)
+end
+
+----------------------------------------- Connection Functions -----------------------------------------
+function OnBindingChanged(idBinding, class, bIsBound)
+	dbg("OnBindingChanged(), idBinding = " .. tostring(idBinding) .. ", class = " .. class .. ", bIsBound = " .. tostring(bIsBound))
+	if (class == "RS_232") then
+		gSerialBound = bIsBound
+		if (bIsBound) then
+			startInitVantageTimer()
+		end
+	end
+end
+
+function OnNetworkBindingChanged(idBinding, bIsBound)
+	dbg("OnNetworkBindingChanged(), idBinding = " .. tostring(idBinding) .. ", bIsBound = " .. tostring(bIsBound))
+	gNetworkBound = bIsBound
+	if (bIsBound) then
+		startInitVantageTimer()
+	end
+end
+
+function OnConnectionStatusChanged(idBinding, nPort, strStatus)
+	dbg("OnConnectionStatusChanged(), idBinding = " .. tostring(idBinding) .. ", nPort = " .. tostring(nPort) .. ", strStatus = " .. strStatus)
+	if (idBinding == NETWORK_BINDING_ID) then
+		if (strStatus == "ONLINE") then
+			dbg("Network Connection Online...")
+			SetVantageStatus()
+		else
+			dbg("Network Connection Offline...")
+		end
+	end
+end
+
+----------------------------------------- Other Functions -----------------------------------------
+-- Release things this driver had allocated...
+function OnDriverDestroyed()
+  -- Kill open timers
+  if (gInitVantageTimer ~= nil) then gInitVantageTimer = C4:KillTimer(gInitVantageTimer) end
+  if (gResetDeviceTimer ~= nil) then gResetDeviceTimer = C4:KillTimer(gResetDeviceTimer) end
+  if (gVantagePollTimer ~= nil) then gVantagePollTimer = C4:KillTimer(gVantagePollTimer) end
+  if (gDbgTimer ~= nil) then gDbgTimer = C4:KillTimer(gDbgTimer) end
+end
+
+function SendToProxyAll(strCommand, tParams, ...)
+	SendToProxy(DIMMER_BINDING_ID, strCommand, tParams, ...)
+	SendToProxy(SWITCH_BINDING_ID, strCommand, tParams, ...)
+	SendToProxy(KEYPAD_BINDING_ID, strCommand, tParams, ...)
+	SendToProxy(TASK_BINDING_ID, strCommand, tParams, ...)
+end
+
+function SendToProxy(idBinding, strCommand, tParams, ...)
+	dbgFunction("SendToProxy (" .. idBinding .. ", " .. strCommand .. ")")
+	if ... then
+		local callType = ...
+		C4:SendToProxy(idBinding, strCommand, tParams, callType)
+	else
+		C4:SendToProxy(idBinding, strCommand, tParams)
+	end
+end
+
+function ForEachDevice(func, ...)
+	for deviceID, vantageID in pairs(gDeviceList) do
+		local retval = func(deviceID, vantageID, unpack(arg))
+		if (retval == "found") then break end
+	end
+end
+
+function ForEachButton(func, ...)
+	for buttonID, deviceID in pairs(gButtonList) do
+		local retval = func(deviceID, buttonID, unpack(arg))
+		if (retval == "found") then break end
+	end
+end
+
+function DisplayDevice(deviceID, vantageID)
+	local deviceName = C4:ListGetDeviceName(deviceID)
+	local strPrint = tostring(deviceID) .. "\t\t" .. tostring(vantageID) .. "\t\t" .. deviceName
+	print (strPrint)
+end
+
+function DisplayGlobalVariables()
+	for k,v in pairs(_G) do	-- globals`
+		if (string.find(k, "^g%L")  == 1) then
+			print(k .. ":  " .. tostring(v)) 
+		end
+	end
+end
+
+function SetVantageStatus()
+	dbg ("Setting Vantage Status")
+	SendVantageCmd("STATUS LOAD")
+	SendVantageCmd("STATUS LED")
+	SendVantageCmd("STATUS BTN")
+	SendVantageCmd("STATUS TASK")
+
+	-- SendVantageCmd("STATUS ALL")
+end
+
+function RemoveButton(buttonID, deviceID, removeID)
+	if (deviceID == removeID) then
+		gButtonList[buttonID] = nil
+	end
+end
+
+function SendVantageCmd(strCommand)
+	if (gNetworkBound) then
+		SendToNetwork(strCommand)
+	end
+	if (gSerialBound) then
+		SendToSerial(strCommand)
+	end
+end
+
+function SendToSerial(strCommand)
+	dbgFunction("SendToSerial(" .. SERIAL_BINDING_ID .. ", " .. strCommand .. ")")
+	C4:SendToSerial(SERIAL_BINDING_ID, strCommand .. "\r\n")
+end
+
+function SendToNetwork(strCommand)
+	dbgFunction("SendToNetwork(" .. NETWORK_BINDING_ID .. ", " .. strCommand .. ")")
+	C4:SendToNetwork(NETWORK_BINDING_ID, 3001, strCommand .. "\n\r")
+end
+
+function SendToDevice(deviceAddress, strCommand, tParams)
+	for ID, Address in pairs(gDeviceList) do 
+		if (deviceAddress == Address) then
+			dbg("SendToDevice(".. ID .. ", " .. strCommand .. ")")
+			C4:SendToDevice(ID, strCommand, tParams)
+		end
+	end
+end
+
+function SendToKeypad(buttonAddress, strCommand, tParams)
+	for Address, ID in pairs(gButtonList) do 
+		if (buttonAddress == Address) then
+			dbg("SendToDevice(".. ID .. ", " .. strCommand .. ")")
+			C4:SendToDevice(ID, strCommand, tParams)
+		end
+	end
+end
+
+----------------------------------------- DriverWorks Functions -----------------------------------------
+function ExecuteCommand(strCommand, tParams)
+--	dbgFunction("ExecuteCommand(" .. strCommand .. ")")
+	if (strCommand == "LUA_ACTION") then
+		if tParams ~= nil then
+			for cmd,cmdv in pairs(tParams) do 
+				dbg (cmd,cmdv)
+				if cmd == "ACTION" then
+					if cmdv == "DisplayVantageDevice" then
+						print ("Device ID\tVantage ID\tDevice Name")
+						print ("-----------------\t------------------\t---------------------------")
+						ForEachDevice(DisplayDevice)
+					elseif cmdv == "DisplayKeypadButtons" then
+						print ("Device ID\tButton ID\tDevice Name")
+						print ("-----------------\t------------------\t---------------------------")
+						ForEachButton(DisplayDevice)
+					elseif cmdv == "DisplayGlobals" then
+						DisplayGlobalVariables()
+					elseif cmdv == "SetVantageStatus" then
+						SetVantageStatus()
+					else
+						dbg("From ExecuteCommand Function - Undefined Action")
+						dbg("Key: " .. cmd .. " Value: " .. cmdv)
+					end
+				else
+					dbg("From ExecuteCommand Function - Undefined Command")
+					dbg("Key: " .. cmd .. " Value: " .. cmdv)
+				end
+			end
+		end
+	end
+end
+
+function OnVariableChanged(strName)
+	dbgFunction("OnVariableChanged(" .. strName .. ")")
+end
+
+function ReceivedFromNetwork(idBinding, nPort, strData)
+	dbg("ReceivedFromNetwork(), idBinding = " .. tostring(idBinding) .. ", nPort = " .. tostring(nPort) .. ", strData = " .. strData)
+	-- hexdump(strData)
+
+	gRcvBuffer = gRcvBuffer .. strData
+	local rcvBufferLen = string.len(gRcvBuffer)
+
+	-- loop through messages
+	local messagePos = 1
+	local remainingBufferLen = rcvBufferLen
+	local strMatch = ""
+	local strType = ""
+	local pos = 0
+
+	while(remainingBufferLen > 0) do
+		strType, strMatch, pos = string.match(gRcvBuffer, "(%a):(.-)\r\n()", messagePos)
+		--dbg("strType= " .. tostring(strType))
+		--dbg("strMatch= " .. tostring(strMatch))
+		--dbg("pos = " .. tostring(pos))
+
+		if (strMatch == nil) then
+			if ((string.find(gRcvBuffer, "\r\n", messagePos + 1)) == nil) then
+				dbgUnitTest("receive buffer does not contain full message")
+				gRcvBuffer = string.sub(gRcvBuffer, messagePos)
+				return
+			else
+				dbg ("^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*")
+				dbgUnitTest("Error: Invalid Network Command")
+				dbg ("remainingBufferLen = " .. remainingBufferLen)
+				dbg ("strData = " .. strData)
+				dbg ("")
+				dbg ("hexdump(strData)")
+				hexdump(strData)
+				dbg ("")
+				dbg ("gRcvBuffer = " .. gRcvBuffer)
+				dbg ("")
+				dbg ("hexdump(gRcvBuffer)")
+				hexdump(gRcvBuffer)
+				dbg ("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^")
+				gRcvBuffer = ""
+				return
+			end
+		end
+
+		HandleCommand(strMatch)
+
+		messagePos = pos
+		remainingBufferLen = rcvBufferLen - messagePos + 1
+		--dbg("new: messagePos = " .. messagePos .. ", remainingBufferLen = " .. remainingBufferLen .. ", rcvBufferLen = " .. rcvBufferLen)
+	end -- end while
+
+	gRcvBuffer = ""
+end
+
+function ReceivedFromSerial(idBinding, strData)
+	dbg("ReceivedFromSerial(), idBinding = " .. tostring(idBinding) .. ", strData = " .. strData)
+	-- hexdump (strData)
+
+	gRcvBuffer = gRcvBuffer .. strData
+	local rcvBufferLen = string.len(gRcvBuffer)
+
+	-- loop through messages
+	local messagePos = 1
+	local remainingBufferLen = rcvBufferLen
+	local strMatch = ""
+	local pos = 0
+
+	while(remainingBufferLen > 0) do
+		strType, strMatch, pos = string.match(gRcvBuffer, "(%a):(.-)\r\n()", messagePos)
+		dbg("strMatch= " .. tostring(strMatch))
+		-- dbg("pos = " .. tostring(pos))
+
+		if (strMatch == nil) then
+			if ((string.find(gRcvBuffer, "\r\n", messagePos + 1)) == nil) then
+				dbgUnitTest("receive buffer does not contain full message")
+				gRcvBuffer = string.sub(gRcvBuffer, messagePos)
+				return
+			else
+				dbg ("^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*")
+				dbgUnitTest("Error: Invalid Serial Command")
+				dbg ("remainingBufferLen = " .. remainingBufferLen)
+				dbg ("strData = " .. strData)
+				dbg ("")
+				dbg ("hexdump(strData)")
+				hexdump(strData)
+				dbg ("")
+				dbg ("gRcvBuffer = " .. gRcvBuffer)
+				dbg ("")
+				dbg ("hexdump(gRcvBuffer)")
+				hexdump(gRcvBuffer)
+				dbg ("*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^")
+				gRcvBuffer = ""
+				return
+			end
+		end
+
+		HandleCommand(strMatch)
+
+		messagePos = pos
+		remainingBufferLen = rcvBufferLen - messagePos + 1
+		-- dbg("new: messagePos = " .. messagePos .. ", remainingBufferLen = " .. remainingBufferLen .. ", rcvBufferLen = " .. rcvBufferLen)
+	end -- end while
+
+	gRcvBuffer = ""
+end
+
+function HandleCommand(strCommand)
+	-- get the command
+	local strCmd, pos = string.match(strCommand, "(%a+) ().*")
+	--dbg("strCmd = " .. strCmd)
+	--dbg("pos = " .. pos)
+
+	-- process commmands
+	if (strCmd == "GETCOUNT") then
+		local count = string.match(strCommand, "(%d+)", pos)
+		if (tonumber(count) == 0) then
+			startInitVantageTimer()
+		end
+
+	-- Dimmer Commands
+	elseif (strCmd == "LOAD") then
+		local deviceAddress, lightLevel = string.match(strCommand, "(%d+)%D(%d+)", pos)
+		SendToDevice(deviceAddress, "LIGHT_LEVEL_CHANGED", {LEVEL = lightLevel})
+	elseif (strCmd == "GETLOAD") then
+		local deviceAddress, lightLevel = string.match(strCommand, "(%d+)%D(%d+)", pos)
+		SendToDevice(deviceAddress, "LIGHT_LEVEL_CHANGED", {LEVEL = lightLevel})
+
+	-- Keypad Commands
+	elseif (strCmd == "BTN") then
+		local buttonAddress, buttonStatus = string.match(strCommand, "(%d+)%D(%a+)", pos)
+		if (buttonStatus == "PRESS") then
+			SendToKeypad(buttonAddress, "KP_BUTTON_PUSH", {BUTTON = buttonAddress})
+		elseif (buttonStatus == "RELEASE") then
+			SendToKeypad(buttonAddress, "KP_BUTTON_RELEASE", {BUTTON = buttonAddress})
+		end
+
+	-- Task Commands
+	elseif (strCmd == "TASK") then
+		local deviceAddress, taskStatus = string.match(strCommand, "(%d+)%D(%d+)", pos)
+		SendToDevice(deviceAddress, "TASK_CHANGED", {STATUS = taskStatus})
+	else
+		dbgUnitTest ("UNKNOWN COMMAND: " .. strCommand)
+	end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+	CommandInterpreter(idBinding, strCommand, tParams)
+end
+
+function CommandInterpreter(idBinding, strCommand, tParams)
+	if (strCommand ~= nill) then
+		if(tParams == nill)		-- initial table variable if nill
+			then tParams = {}
+		end
+		dbg("Received from Proxy: " .. strCommand .. " on binding " .. idBinding .. "; Call Function " .. strCommand .. "()")
+
+		if (strCommand == "ADD_DRIVER") then
+			local deviceId = tParams["DEVICE_ID"]
+			local driverAddress = tParams["ADDRESS"]
+			gDeviceList[deviceId] = driverAddress
+		elseif (strCommand == "REMOVE_DRIVER") then
+			local deviceId = tParams["DEVICE_ID"]
+			gDeviceList[deviceId] = nil
+			ForEachButton(RemoveButton, deviceId)
+		elseif (strCommand == "ADD_BUTTON") then
+			local deviceId = tParams["DEVICE_ID"]
+			local driverAddress = tParams["ADDRESS"]
+			local buttonAddress = tParams["BUTTON_ID"]
+			gButtonList[buttonAddress] = deviceId
+			SendToProxy(KEYPAD_BINDING_ID, "REMOVE_BUTTON", tParams)
+		elseif (strCommand == "REMOVE_BUTTON") then
+			local buttonAddress = tParams["BUTTON_ID"]
+			gButtonList[buttonAddress] = nil
+			
+		-- Dimmer Commands
+		elseif (strCommand == "ON") then
+			tParams["LEVEL"] = 100
+			SET_LEVEL(tParams)
+		elseif (strCommand == "OFF") then
+			tParams["LEVEL"] = 0
+			SET_LEVEL(tParams)
+		elseif (strCommand == "SET_LEVEL") then
+			SET_LEVEL(tParams)
+		elseif (strCommand == "RAMP_TO_LEVEL") then
+			SET_LEVEL(tParams)
+		elseif (strCommand == "REQUEST_DIMMER_LEVEL") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("GETLOAD %s", deviceAddress)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "START_RAISE_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local holdRampRate = tParams["TIME"]
+			local cmd = string.format("INVOKE %s load.ramp fixed %s 100", deviceAddress, holdRampRate)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "START_LOWER_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local holdRampRate = tParams["TIME"]
+			local cmd = string.format("INVOKE %s load.ramp fixed %s 0", deviceAddress, holdRampRate)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "STOP_DIMMER") then
+			local deviceAddress = tParams["ADDRESS"]
+			local cmd = string.format("INVOKE %s load.ramp stop", deviceAddress)
+			SendVantageCmd(cmd)
+
+		-- Keypad Commands
+		elseif (strCommand == "KEYPAD_BUTTON_PRESS") then
+			local buttonID = tParams["BUTTON_ID"]
+			local cmd = string.format("BTNPRESS %d", buttonID)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_RELEASE") then
+			local buttonID = tParams["BUTTON_ID"]
+			local cmd = string.format("BTNRELEASE %d", buttonID)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_STATE") then
+			local buttonID = tParams["BUTTON_ID"]
+			local blinkRate = string.upper(tParams["Blink Rate"])
+			if (blinkRate == "VERY SLOW") then blinkRate = "VERYSLOW" end
+			local cmd = string.format("LED %d 0 0 0 0 0 0 %s", buttonID, blinkRate)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_COLOR") then
+			dbg ("KEYPAD_BUTTON_COLOR")
+			for k,v in pairs(tParams) do dbg(k .. ":  " .. v) end
+			local buttonID = tParams["BUTTON_ID"]
+			local color1 = tParams["Color 1"]
+			local color2 = tParams["Color 2"]
+			local color3 = tParams["Color 3"]
+			local cmd = string.format("LED %d %d %d %d 0 0 0 OFF", buttonID, color1, color2, color3)
+			SendVantageCmd(cmd)
+		elseif (strCommand == "KEYPAD_BUTTON_OFF_COLOR") then
+			dbg ("KEYPAD_BUTTON_OFF_COLOR")
+			for k,v in pairs(tParams) do dbg(k .. ":  " .. v) end
+			local buttonID = tParams["BUTTON_ID"]
+			local color1 = tParams["Color 1"]
+			local color2 = tParams["Color 2"]
+			local color3 = tParams["Color 3"]
+			local cmd = string.format("LED %d 0 0 0 %d %d %d OFF", buttonID, color1, color2, color3)
+			SendVantageCmd(cmd)
+
+		-- Task Commands
+		elseif (strCommand == "EXECUTE_TASK") then
+			local deviceAddress = tParams["ADDRESS"]
+			local taskCommand = tParams["TASK"]
+			local cmd = string.format("TASK %d %s", deviceAddress, taskCommand)
+			SendVantageCmd(cmd)
+		else
+			UndefinedFunction(strCommand, tParams)
+		end
+	end
+end
+
+function SET_LEVEL(tParams)
+	if (tParams ~= nil) then
+		if ((tParams["LEVEL"] ~= nil) and (tParams["ADDRESS"] ~= nil)) then
+			local lightLevel = tParams["LEVEL"]
+			local deviceAddress = tParams["ADDRESS"]
+			local rate = 0 
+			if (tParams["TIME"] ~= nil) then
+				rate = (tonumber(tParams["TIME"]))/1000		-- convert to seconds
+			end
+			local cmd = string.format("RAMPLOAD %d %d %d", deviceAddress, lightLevel, rate)
+			SendVantageCmd(cmd)
+			SendToDevice(deviceAddress, "LIGHT_LEVEL_CHANGED", {LEVEL = lightLevel})
+		end 
+	end
+end
+
+function UndefinedFunction(strCommand, tParams)
+	if (tParams ~= nil) then
+		for ParamName, ParamValue in pairs(tParams) do 
+			dbg("Undefined function: " .. strCommand .. "; - parameter name: " .. ParamName .. "; with value: " .. ParamValue) 
+		end 
+	end
+end
+
+function OnPoll(bindingId, port)
+--	dbgFunction("OnPoll id:" .. bindingId .. " port:" .. port)
+end
+
+----------------------------- INIT -----------------------------
+---- global vars ----
+gRcvBuffer = ""
+gInitVantageTimer = 0
+gResetDeviceTimer = 0
+gVantagePollTimer = 0
+gDeviceList = {}
+gButtonList = {}
+gNetworkBound = false
+gSerialBound = false
+gDbgTimer = 0
+
+-- Fire On Property Changed to set the initial Headers and other Property global sets, they'll change if Property is changed.
+for k,v in pairs(Properties) do
+	OnPropertyChanged(k)
+end
+
+]]>
+		</script>
+	</config>
+	<name>Vantage Infusion Network</name>
+	<small>devices_sm/VantageNetwork.gif</small>
+	<large>devices_lg/VantageNetwork.gif</large>
+	<proxy>vantage_infusion</proxy>
+	<driver>DriverWorks</driver>
+	<control>lua_gen</control>
+	<states />
+	<connections>
+		<connection>
+			<id>6001</id>
+			<facing>6</facing>
+			<connectionname>Network Connection</connectionname>
+			<type>4</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>TCP</classname>
+					<ports>
+						<port>
+							<number>3001</number>
+							<auto_connect>True</auto_connect>
+							<monitor_connection>True</monitor_connection>
+							<keep_connection>True</keep_connection>
+						</port>
+					</ports>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>Serial 232</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>RS_232</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>2</id>
+			<facing>6</facing>
+			<connectionname>Vantage Dimmer</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_DIMMER</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>3</id>
+			<facing>6</facing>
+			<connectionname>Vantage Switch</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_SWITCH</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>4</id>
+			<facing>6</facing>
+			<connectionname>Vantage Keypad</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_KEYPAD</classname>
+				</class>
+			</classes>
+		</connection>
+		<connection>
+			<id>5</id>
+			<facing>6</facing>
+			<connectionname>Vantage Task</connectionname>
+			<type>1</type>
+			<consumer>False</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>True</linelevel>
+			<classes>
+				<class>
+					<classname>VANTAGE_TASK</classname>
+				</class>
+			</classes>
+		</connection>
+	</connections>
+</devicedata>

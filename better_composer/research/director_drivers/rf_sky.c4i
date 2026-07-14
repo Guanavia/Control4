@@ -1,0 +1,53 @@
+<devicedata>
+  <version>2</version> 
+  <c4id>476</c4id>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <manufacturer>Sky</manufacturer>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <created>1/20/2005 2:22:54 PM</created>
+  <modified>11/02/2005 12:30 PM</modified>
+  <creator>Control4</creator>
+  <model>Network</model>
+  <front />
+  <back />
+  <top />
+  <bottom />
+  <left />
+  <right />
+  <capabilities>
+    <media_type>8</media_type>
+    <broadcast_search_type>SATELLITE_VIDEO</broadcast_search_type>
+  </capabilities>
+  <commands />
+  <conditionals />
+  <events />
+  <name>Sky Network</name>
+  <small>devices_sm/Sky.gif</small>
+  <large>devices_lg/Sky.gif</large>
+  <control>rf_network</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>rf_sky</proxy>
+  <driver>100028</driver>
+  <powermanagementmethod>AlwaysOn</powermanagementmethod>
+  <states />
+  <connections>
+    <connection>
+      <id>2000</id>
+      <facing>6</facing>
+      <connectionname>Sky Network Video</connectionname>
+      <type>5</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>True</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RF_SKY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>

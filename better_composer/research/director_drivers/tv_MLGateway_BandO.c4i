@@ -1,0 +1,1137 @@
+<devicedata>
+	<copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+    <manufacturer>Bang and Olufsen</manufacturer>
+    <model>Bang and Olufsen TV</model>
+    <creator>Control4, Bang and Olufsen</creator>
+    <name>Bang and Olufsen TV</name>
+	<created>07/01/2009 12:00 PM</created>
+	<modified>01/28/2016 3:20 PM</modified>
+	<version>1</version>
+    <small>devices_sm/tv.gif</small>
+    <large>devices_lg/tv.gif</large>
+    <control>lua_gen</control>
+		<proxies>
+			<proxy name="Television" proxybindingid="5001">tv</proxy>
+			<proxy name="DVD" proxybindingid="5002">dvd</proxy>
+		</proxies>
+    <driver>DriverWorks</driver>
+    <composer_categories>
+    <category>User Interface</category>
+    </composer_categories>
+    <capabilities>
+		<serialsettings>9600 8 none 1 none</serialsettings>
+		<audio_consumer_count>1</audio_consumer_count>
+		<audio_provider_count>4</audio_provider_count>
+		<has_audio>True</has_audio>
+		<has_toggle_mute_control>True</has_toggle_mute_control>
+		<has_discrete_mute_control>False</has_discrete_mute_control>
+		<has_toggle_loudness_control>False</has_toggle_loudness_control>
+		<has_up_down_volume_control>True</has_up_down_volume_control>
+		<has_discrete_volume_control>False</has_discrete_volume_control>
+		<has_channel_up_down>True</has_channel_up_down>
+		<has_discrete_channel_select>True</has_discrete_channel_select>
+		<has_tune_up_down>True</has_tune_up_down>
+		<has_discrete_input_select>True</has_discrete_input_select>
+    </capabilities>
+    <connections>
+        
+        <!-- Room Connections -->
+
+        <connection>
+            <id>7000</id>
+            <type>7</type>
+            <connectionname>Room Control</connectionname>
+            <consumer>False</consumer>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>AUDIO_SELECTION</classname>
+                </class>
+                <class>
+                    <classname>VIDEO_SELECTION</classname>
+                </class>
+                <class>
+                    <classname>AUDIO_VOLUME</classname>
+                </class>
+            </classes>
+        </connection>
+        
+      	<connection>
+        	<id>1</id>
+        	<facing>6</facing>
+        	<connectionname>Serial RS-232</connectionname>
+        	<type>1</type>
+    		<consumer>True</consumer>
+    		<audiosource>False</audiosource>
+    		<videosource>False</videosource>
+    		<linelevel>False</linelevel>
+			<classes>
+				<class>
+				<classname>RS_232</classname>
+				</class>
+			</classes>
+      	</connection>
+            
+			<connection>
+				<id>5001</id>
+				<type>2</type>
+				<connectionname>TV</connectionname>
+				<consumer>False</consumer>
+				<linelevel>False</linelevel>
+				<classes>
+					<class>
+						<classname>TV</classname>
+					</class>
+				</classes>
+			</connection>
+            
+			<connection>
+				<id>5002</id>
+				<type>2</type>
+				<connectionname>DVD</connectionname>
+				<consumer>False</consumer>
+				<linelevel>False</linelevel>
+				<classes>
+					<class>
+						<classname>DVD</classname>
+					</class>
+				</classes>
+			</connection>
+
+      <connection proxybindingid="5001">
+          <id>1002</id>
+          <type>5</type>
+          <connectionname>DVD INPUT</connectionname>
+          <consumer>True</consumer>
+          <linelevel>True</linelevel>
+          <idautobind>1</idautobind>
+          <hidden>True</hidden>
+          <classes>
+            <class>
+              <classname>HDMI</classname>
+              <autobind>True</autobind>
+            </class>
+          </classes>
+      </connection>
+        
+      <connection proxybindingid="5002">
+          <id>2002</id>
+          <type>5</type>
+          <connectionname>DVD OUTPUT</connectionname>
+          <consumer>False</consumer>
+          <linelevel>True</linelevel>
+          <idautobind>1</idautobind>
+          <hidden>True</hidden>
+          <classes>
+            <class>
+              <classname>HDMI</classname>
+              <autobind>True</autobind>
+            </class>
+          </classes>
+      </connection>
+       
+      <!-- AV Connections -->
+
+      <connection proxybindingid="5001">
+        <id>1005</id>
+        <type>5</type>
+        <connectionname>Cable Input</connectionname>
+        <consumer>True</consumer>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>RF_CABLE</classname>
+          </class>
+        </classes>
+      </connection>
+
+      <connection proxybindingid="5001">
+        <!-- Video Input For HC200/HC300 -->
+        <id>1006</id>
+        <type>5</type>
+        <connectionname>VMEM Input</connectionname>
+        <consumer>True</consumer>
+        <linelevel>True</linelevel>
+        <classes>
+          <class>
+            <classname>COMPONENT</classname>
+          </class>
+        </classes>
+      </connection>
+
+        <connection proxybindingid="5001">
+          <!-- Video Input For DTV2 -->
+          <id>1007</id>
+          <type>5</type>
+          <connectionname>DTV2 Input</connectionname>
+          <consumer>True</consumer>
+          <linelevel>True</linelevel>
+          <classes>
+            <class>
+              <classname>COMPOSITE</classname>
+            </class>
+          </classes>
+        </connection>
+
+        <connection>
+          <id>3007</id>
+          <type>6</type>
+          <connectionname>Audio INPUT</connectionname>
+          <consumer>True</consumer>
+          <linelevel>True</linelevel>
+          <classes>
+            <class>
+              <classname>STEREO</classname>
+            </class>
+          </classes>
+        </connection>
+
+        <connection proxybindingid="5001">
+          <!-- Video Input For PC -->
+          <id>1008</id>
+          <type>5</type>
+          <connectionname>PC Input</connectionname>
+          <consumer>True</consumer>
+          <linelevel>True</linelevel>
+          <classes>
+            <class>
+              <classname>HDMI</classname>
+            </class>
+          </classes>
+        </connection>
+        
+    </connections>
+  
+    <states/>
+    <config>
+		<rfs>
+			<rf>rf_cable</rf>
+		</rfs>
+    <documentation>Bang and Olufsen TV Driver</documentation>
+    <properties>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Version</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Product_MLN_Address</name>
+        <type>LIST</type>
+        <items>
+          <item>MLN1</item>
+          <item>MLN2</item>
+          <item>MLN3</item>
+          <item>MLN4</item>
+          <item>MLN5</item>
+          <item>MLN6</item>
+          <item>MLN7</item>
+          <item>MLN8</item>
+          <item>MLN9</item>
+          <item>MLN10</item>
+          <item>MLN11</item>
+          <item>MLN12</item>
+          <item>MLN13</item>
+          <item>MLN14</item>
+          <item>MLN15</item>
+          <item>MLN16</item>
+        </items>
+        <default>MLN1</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+
+      <actions>
+        <action>
+          <name>Exit</name>
+          <command>EXIT</command>
+        </action>
+        <action>
+          <name>Menu</name>
+          <command>MENU</command>
+        </action>
+        <action>
+          <name>Stop</name>
+          <command>STOP</command>
+        </action>
+        <action>
+          <name>Play</name>
+          <command>PLAY</command>
+        </action>
+        <action>
+          <name>Fast Forward</name>
+          <command>WIND</command>
+        </action>
+        <action>
+          <name>Rewind</name>
+          <command>REWIND</command>
+        </action>
+        <action>
+          <name>Step Backward</name>
+          <command>BACK</command>
+        </action>
+        <action>
+          <name>Step Forward</name>
+          <command>FORWARD</command>
+        </action>
+        <action>
+          <name>Standby</name>
+          <command>STANDBY</command>
+        </action>
+        <action>
+          <name>Select Radio Source</name>
+          <command>RADIO_SOURCE</command>
+        </action>
+        <action>
+          <name>Select CD Source</name>
+          <command>CD_SOURCE</command>
+        </action>
+        <action>
+          <name>Select DVD Source</name>
+          <command>DVD_SOURCE</command>
+        </action>
+        <action>
+          <name>Select TV Source</name>
+          <command>TV_SOURCE</command>
+        </action>
+        <action>
+          <name>Select DTV Source</name>
+          <command>DTV_SOURCE</command>
+        </action>
+        <action>
+          <name>Select DTV2 Source</name>
+          <command>DTV2_SOURCE</command>
+        </action>
+        <action>
+          <name>Select VMEM Source</name>
+          <command>VMEM_SOURCE</command>
+        </action>
+        <action>
+          <name>Select PC Source</name>
+          <command>PC_SOURCE</command>
+        </action>
+        <action>
+          <name>Select VAUX2 Source</name>
+          <command>VAUX2_SOURCE</command>
+        </action>
+
+        <action>
+          <name>Select CAMERA Source</name>
+          <command>CAMERA_SOURCE</command>
+        </action>
+        <action>
+          <name>Select AAUX Source</name>
+          <command>AAUX_SOURCE</command>
+        </action>
+        <action>
+          <name>Select Text</name>
+          <command>Text</command>
+        </action>
+        <action>
+          <name>Select AMEM Source</name>
+          <command>AMEM_SOURCE</command>
+        </action>
+        <action>
+          <name>Select NRADIO Source</name>
+          <command>NRADIO_SOURCE</command>
+        </action>
+        <action>
+          <name>Select NMUSIC Source</name>
+          <command>NMUSIC_SOURCE</command>
+        </action>
+        <action>
+          <name>Select Mute</name>
+          <command>Mute</command>
+        </action>
+        <action>
+          <name>Select VolUp</name>
+          <command>VolUp</command>
+        </action>
+        <action>
+          <name>Select VolDown</name>
+          <command>VolDown</command>
+        </action>
+        <action>
+          <name>Select Key0</name>
+          <command>Key0</command>
+        </action>
+        <action>
+          <name>Select Key1</name>
+          <command>Key1</command>
+        </action>
+        <action>
+          <name>Select Key2</name>
+          <command>Key2</command>
+        </action>
+        <action>
+          <name>Select Key3</name>
+          <command>Key3</command>
+        </action>
+        <action>
+          <name>Select Key4</name>
+          <command>Key4</command>
+        </action>
+        <action>
+          <name>Select Key5</name>
+          <command>Key5</command>
+        </action>
+        <action>
+          <name>Select Key6</name>
+          <command>Key6</command>
+        </action>
+        <action>
+          <name>Select Key7</name>
+          <command>Key7</command>
+        </action>
+        <action>
+          <name>Select Key8</name>
+          <command>Key8</command>
+        </action>
+        <action>
+          <name>Select Key9</name>
+          <command>Key9</command>
+        </action>
+      </actions>
+
+<script>
+        <![CDATA[
+
+function GetVersion()
+	local keywordString = "$Revision: 64731 $" -- this uses subversion keyword substitution
+	local _, _, revision = keywordString:find(": (.-) %$")
+	return revision
+end
+
+function Debug(strDebugText)
+
+  if gDebugPrint then 
+
+		print(strDebugText) 
+	end
+  if gDebugLog then 
+
+		C4:ErrorLog(strDebugText) 
+	end
+end
+
+function FirePropertyChanged()
+
+	-- Fire On Property Changed to set Property global sets, they'll change if Property is changed.
+	for k,v in pairs(Properties) do
+
+ 		 OnPropertyChanged(k)
+	end
+end
+
+function OnPropertyChanged(strProperty)
+
+	-- Debug Mode
+	if strProperty == "Debug Mode" then
+
+  	if Properties[strProperty] == "Off" then
+
+  		gDebugPrint = false
+  		gDebugLog = false
+  	end
+  	if Properties[strProperty] == "Print" then
+
+   		gDebugPrint = true
+    	gDebugLog = false
+  	end
+  	if Properties[strProperty] == "Log" then
+
+  		gDebugPrint = false
+  		gDebugLog = true
+  	end
+  	if Properties[strProperty] == "Print and Log" then
+
+  		gDebugPrint = true
+  		gDebugLog = true
+  	end
+	end
+  
+	-- Product_MLN_Address
+
+
+    	if Properties[strProperty] == "MLN1" then
+		gMLN = 1
+    	end
+    	if Properties[strProperty] == "MLN2" then
+		gMLN = 2
+    	end
+    	if Properties[strProperty] == "MLN3" then
+		gMLN = 3
+    	end
+    	if Properties[strProperty] == "MLN4" then
+		gMLN = 4
+    	end
+    	if Properties[strProperty] == "MLN5" then
+		gMLN = 5
+    	end
+    	if Properties[strProperty] == "MLN6" then
+		gMLN = 6
+    	end
+    	if Properties[strProperty] == "MLN7" then
+		gMLN = 7
+    	end
+    	if Properties[strProperty] == "MLN8" then
+		gMLN = 8
+    	end
+    	if Properties[strProperty] == "MLN9" then
+		gMLN = 9
+    	end
+    	if Properties[strProperty] == "MLN10" then
+		gMLN = 10
+    	end
+    	if Properties[strProperty] == "MLN11" then
+		gMLN = 11
+    	end
+    	if Properties[strProperty] == "MLN12" then
+		gMLN = 12
+    	end
+    	if Properties[strProperty] == "MLN13" then
+		gMLN = 13
+    	end
+    	if Properties[strProperty] == "MLN14" then
+		gMLN = 14
+    	end
+    	if Properties[strProperty] == "MLN15" then
+		gMLN = 15
+    	end
+    	if Properties[strProperty] == "MLN16" then
+		gMLN = 16
+    	end
+
+	Debug("OnPropertyChanged: Property = ".. strProperty .. "; Value = " .. Properties[strProperty])
+end
+
+function ExecuteCommand(strCommand, tParams)
+
+	if strCommand == "LUA_ACTION" then
+
+		if tParams ~= nil then
+
+			for cmd, cmdv in pairs(tParams) do 
+
+				if cmd == "ACTION" then
+
+					if cmdv == "EXIT" then
+
+						SendMLGatewayCommand(gExit)
+					end
+					if cmdv == "MENU" then
+
+						SendMLGatewayCommand(gMenu)
+					end
+					if cmdv == "STOP" then
+
+						SendMLGatewayCommand(gStop)
+					end
+					if cmdv == "PLAY" then
+
+						SendMLGatewayCommand(gPlay)
+					end
+					if cmdv == "WIND" then
+
+						SendMLGatewayCommand(gWind)
+					end
+					if cmdv == "REWIND" then
+
+						SendMLGatewayCommand(gRewind)
+					end
+					if cmdv == "BACK" then
+
+						SendMLGatewayCommand(gStepDown)
+					end
+					if cmdv == "FORWARD" then
+
+						SendMLGatewayCommand(gStepUp)
+					end
+					if cmdv == "STANDBY" then
+
+						SendMLGatewayCommand(gStandby)
+					end
+					if cmdv == "DVD_SOURCE" then
+
+						SendMLGatewayCommand(gDVDSource)
+					end
+					if cmdv == "TV_SOURCE" then
+
+						SendMLGatewayCommand(gTVSource)
+					end
+					if cmdv == "CD_SOURCE" then
+
+						SendMLGatewayCommand(gCDSource)
+					end
+					if cmdv == "RADIO_SOURCE" then
+
+						SendMLGatewayCommand(gRadioSource)
+					end
+					if cmdv == "DTV_SOURCE" then
+
+						SendMLGatewayCommand(gDTVSource)
+					end
+					if cmdv == "DTV2_SOURCE" then
+
+						SendMLGatewayCommand(gDTV2Source)
+					end
+					if cmdv == "VMEM_SOURCE" then
+
+						SendMLGatewayCommand(gVMEMSource)
+					end
+					if cmdv == "PC_SOURCE" then
+
+						SendMLGatewayCommand(gPCSource)
+					end
+					if cmdv == "VAUX2_SOURCE" then
+
+						SendMLGatewayCommand(gVAUX2Source)
+					end
+					if cmdv == "CAMERA_SOURCE" then
+
+						SendMLGatewayCommand(gCAMERASource)
+					end
+					if cmdv == "AAUX_SOURCE" then
+
+						SendMLGatewayCommand(gAAUXSource)
+					end
+					if cmdv == "Text" then
+
+						SendMLGatewayCommand(gTEXT)
+					end
+					if cmdv == "AMEM_SOURCE" then
+
+						SendMLGatewayCommand(gAMEMSource)
+					end
+					if cmdv == "NRADIO_SOURCE" then
+
+						SendMLGatewayCommand(gNRADIOSource)
+					end
+					if cmdv == "NMUSIC_SOURCE" then
+
+						SendMLGatewayCommand(gNMUSICSource)
+					end
+					if cmdv == "Mute" then
+
+						SendMLGatewayCommand(gMute)
+					end
+					if cmdv == "VolUp" then
+
+						SendMLGatewayCommand(gVolUp)
+					end
+					if cmdv == "VolDown" then
+
+						SendMLGatewayCommand(gVolDown)
+					end
+					if cmdv == "Key0" then
+
+						SendMLGatewayCommand(gKey0)
+					end
+					if cmdv == "Key1" then
+
+						SendMLGatewayCommand(gKey1)
+					end
+					if cmdv == "Key2" then
+
+						SendMLGatewayCommand(gKey2)
+					end
+					if cmdv == "Key3" then
+
+						SendMLGatewayCommand(gKey3)
+					end
+					if cmdv == "Key4" then
+
+						SendMLGatewayCommand(gKey4)
+					end
+					if cmdv == "Key5" then
+
+						SendMLGatewayCommand(gKey5)
+					end
+					if cmdv == "Key6" then
+
+						SendMLGatewayCommand(gKey6)
+					end
+					if cmdv == "Key7" then
+
+						SendMLGatewayCommand(gKey7)
+					end
+					if cmdv == "Key8" then
+
+						SendMLGatewayCommand(gKey8)
+					end
+					if cmdv == "Key9" then
+
+						SendMLGatewayCommand(gKey9)
+					end
+					strCommand = strCommand .. "; Action = " .. cmdv
+				end
+			end
+		end
+	end
+
+	Debug("ExecuteCommand: Command = " .. strCommand)
+end
+
+function SetSource(idBinding)
+
+    gSourceBindingID = idBinding
+    Debug("SetSource: Changed binding ID = " .. gSourceBindingID)
+    if gSourceBindingID == 5001 then
+    
+      SendMLGatewayCommand(gTVSource)
+    elseif gSourceBindingID == 5002 then
+    
+      SendMLGatewayCommand(gDVDSource)
+    end
+end
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+
+	Debug("ReceivedFromProxy: Binding ID = " .. idBinding .. "; Command: " .. strCommand )
+    
+    if tParams ~= nil then
+    
+      for name, value in pairs(tParams) do
+      
+        Debug("ReceivedFromProxy: Param = " .. name .. "; Value = " .. value)
+      end
+    end
+    
+    if strCommand == "SET_INPUT" then
+    
+      Debug("ReceivedFromProxy: Command = " .. strCommand .. "; tParam = " .. tParams["INPUT"])
+      if tParams["INPUT"] == "1005" then -- cable input
+      
+        SetSource(5001)
+      elseif tParams["INPUT"] == "1002" then -- DVD
+      
+        SetSource(5002)
+      elseif tParams["INPUT"] == "1006" then -- VMEM
+      
+        SendMLGatewayCommand(gVMEMSource)
+      elseif tParams["INPUT"] == "1007" then -- DTV2
+      
+        SendMLGatewayCommand(gDTV2Source)
+      elseif tParams["INPUT"] == "1008" then -- DTV2
+      
+        SendMLGatewayCommand(gPCSource)
+      end
+    elseif strCommand == "PULSE_CH_UP" then
+    
+      SendMLGatewayCommand(gStepUp)
+      NotifyChannelChanged({})
+    elseif strCommand == "PULSE_CH_DOWN" then
+    
+      SendMLGatewayCommand(gStepDown)
+      NotifyChannelChanged({})
+    elseif strCommand == "PLAY" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gPlay)
+    elseif strCommand == "STOP" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gStop)
+    elseif strCommand == "SCAN_FWD" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gWind)
+    elseif strCommand == "SCAN_REV" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gRewind)
+    elseif strCommand == "SKIP_FWD" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gStepUp)
+    elseif strCommand == "SKIP_REV" then
+    
+    	SendMLGatewayCommand(gYellow)
+      SendMLGatewayCommand(gStepDown)
+    elseif strCommand == "ON" then
+    
+      NotifyPowerStateChanged("ON", { INITIALIZING = "False" })
+    elseif strCommand == "OFF" then
+    
+      SendMLGatewayCommand(gStandby)
+      NotifyPowerStateChanged("OFF", { INITIALIZING = "False" })
+	  elseif strCommand == "PULSE_VOL_UP" then
+
+      SendMLGatewayCommand(gVolUp)
+      NotifyVolumeChanged({})
+	  elseif strCommand == "PULSE_VOL_DOWN" then
+
+      SendMLGatewayCommand(gVolDown)
+      NotifyVolumeChanged({})
+    elseif strCommand == "MUTE_TOGGLE" then
+    
+      SendMLGatewayCommand(gMute)
+    elseif strCommand == "NUMBER_1" then
+    
+      SendMLGatewayCommand(gKey1)
+    elseif strCommand == "NUMBER_2" then
+    
+      SendMLGatewayCommand(gKey2)
+    elseif strCommand == "NUMBER_3" then
+    
+      SendMLGatewayCommand(gKey3)
+    elseif strCommand == "NUMBER_4" then
+    
+      SendMLGatewayCommand(gKey4)
+    elseif strCommand == "NUMBER_5" then
+    
+      SendMLGatewayCommand(gKey5)
+    elseif strCommand == "NUMBER_6" then
+    
+      SendMLGatewayCommand(gKey6)
+    elseif strCommand == "NUMBER_7" then
+    
+      SendMLGatewayCommand(gKey7)
+    elseif strCommand == "NUMBER_8" then
+    
+      SendMLGatewayCommand(gKey8)
+    elseif strCommand == "NUMBER_9" then
+    
+      SendMLGatewayCommand(gKey9)
+    elseif strCommand == "NUMBER_0" then
+    
+      SendMLGatewayCommand(gKey0)
+    end
+ end
+ 
+ function NotifyVolumeChanged(vals)
+
+	if gSetFlag then
+
+		Debug("NotifyVolumeChanged: VOLUME_LEVEL_CHANGED")
+		C4:SendToProxy(gSourceBindingID, "VOLUME_LEVEL_CHANGED", vals)
+ 		if (vals ~= nil) then
+  
+ 			for ParamName, ParamValue in pairs(vals) do 
+     	
+				Debug(ParamName .. " = " .. ParamValue)
+			end
+   	end
+	end
+end
+
+function NotifyChannelChanged(vals)
+
+  if gSetFlag then
+
+    Debug("NotifyChannelChanged: CHANNEL_CHANGED")
+    C4:SendToProxy(gSourceBindingID, "CHANNEL_CHANGED", vals)
+    if (vals ~= nil) then
+
+      for ParamName, ParamValue in pairs(vals) do 
+     	
+	      Debug(ParamName .. " = " .. ParamValue)
+      end
+    end
+    gSetFlag = false
+  end
+end
+
+-- state = "ON or "OFF"
+function NotifyPowerStateChanged(state, vals)
+
+  Debug("NotifyPowerStateChanged: " .. state)
+  C4:SendToProxy(gSourceBindingID, state, vals)
+  if (vals ~= nil) then
+
+    for ParamName, ParamValue in pairs(vals) do 
+
+      Debug(ParamName .. " = " .. ParamValue)
+    end
+  end
+end
+
+function InputChanged(input)
+
+	Debug("Input Changed: " .. input)
+	C4:SendToProxy(5001, "INPUT_CHANGED", { INPUT = input })	
+end
+
+function SendSerial(data)
+
+   Debug("SendSerial: Data = 0x" .. ParseToHex(data))
+	C4:SendToSerial(1, data)
+end
+
+function ReceivedFromSerial(idBinding, data)
+
+	if data ~= nil then
+
+		local telegram = ParseBinaryPacket(data)
+		DecodeTelegram(telegram)
+	end
+
+	Debug("ReceivedFromSerial: Data = 0x" .. ParseToHex(data))
+end
+
+function ParseToHex(data)
+
+	local i = 1
+	local b = string.byte(data, i)
+	local pkt = ""
+
+	while b do
+
+		pkt = pkt .. string.format("%02x", b)
+		i = i + 1
+		b = string.byte(data, i)
+	end
+
+	return pkt
+end
+
+ -- binary packet is parsed and returned as a table
+function ParseBinaryPacket(packet)
+
+	local i = 1
+	local b = string.byte(packet, i)
+
+	local tbl = {}
+	local pkt = "0x"
+
+	while b do
+
+		tbl[i] = b
+		pkt = pkt .. string.format("%02x", b)
+		i = i + 1
+		b = string.byte(packet, i)
+	end
+
+	Debug("ParseBinaryPacket: Packet = " .. pkt)
+
+	return tbl	-- return the table
+end
+
+----------------- MasterLink Gateway Support ---------------------
+
+-- forms the head for a ML gateway telegram - returns a table that represents the header
+function FormMLGatewayHeader(type, payloadSz)
+
+	local hdr = {}
+
+	hdr[1] = 1			-- SOH
+	hdr[2] = type		-- type legal values are 1, 2, 3
+	hdr[3] = payloadSz	-- length of payload in bytes
+	hdr[4] = 0			-- spare
+	
+	return hdr
+end
+
+-- Command ML Gateway telegram - MLN node, destination and command, each one byte
+function FormMLGatewayCommand(mln, dest, cmd)
+
+	local payload = {mln, dest, cmd}
+
+	local header = {}
+	header = FormMLGatewayHeader(gType_Command, 3)
+
+	local pkt = ""
+	local byte = ""
+	
+	for a, h in pairs(header) do
+
+		byte = string.format("%02x",  h)
+		pkt = pkt .. byte
+	end
+
+	for b, p in pairs(payload) do
+
+		byte = string.format("%02x",  p)
+		pkt = pkt .. byte
+	end
+
+	Debug("FormMLGatewayCommand: Telegram = 0x" .. pkt)
+
+	return tohex(pkt) -- return the packet ready to be passed on
+end
+
+function SendMLGatewayCommand(cmd)
+
+	if (cmd == gDVDSource) or (cmd == gTVSource) then
+
+		gMLN = gMLN_Video
+		gDest = gDest_Video
+	end
+	if (cmd == gCDSource) or (cmd == gRadioSource) then
+
+		gMLN = gMLN_Audio
+		gDest = gDest_Audio
+	end
+	SendSerial(FormMLGatewayCommand(gMLN, gDest, cmd))
+end
+
+-- telegram comes in as a table of bytes that represent the telegram
+function DecodeTelegramHeader(telegram)
+
+	local type = 0
+	local len = 0
+
+	local soh = telegram[1]
+	if soh == 1 then
+
+		type = telegram[2]
+		len = telegram[3]
+	end
+	return type, len
+end
+
+-- telegram comes in as a table of bytes that represent the telegram
+function DecodeTelegram(telegram)
+
+  local type = 0
+  local len = 0
+  type, len = DecodeTelegramHeader(telegram)
+  if type > 0 then	-- have a valid type
+
+	  local payload = {}
+	  local i = 1
+	  for j = 5, len + 5 do -- payload starts at byte 5
+
+		  payload[i] = telegram[j]
+		  i = i + 1 -- increment
+	  end
+
+	  if type == gType_SrcStatus then
+
+		  Debug("DecodeTelegram: Telegram Type = Source Status")
+      DecodeSourceStatusTelegram(payload)
+	  end
+        
+    if type == gType_PicSndStatus then
+      
+      Debug("DecodeTelegram: Telegram Type = Picture and Sound Status")   
+      DecodeSourceStatusTelegram(payload)      
+    end
+  end
+end
+
+function DecodeSourceStatusTelegram(payload)
+
+  local src = ""
+
+  if payload[2] == gStatusSrcTV then
+
+    src = "TV"
+  end
+  if payload[2] == gStatusSrcDVD then
+
+    src = "DVD"
+  end
+  Debug("DecodeSourceStatusTelegram: Source = " .. src)
+end
+
+function DecodePicSndStatusTelegram(payload)
+
+  Debug("DecodePicSndStatusTelegram: Sound Status = ")
+end
+
+----------------- Start Init -------------------
+
+	gDebugPrint = false
+    gDebugLog = false
+
+	gfalse = "false"
+	gtrue = "true"
+
+	gVersionName = "Version"
+
+	-- types
+	gType_Command = 1
+	gType_SrcStatus = 2
+	gType_PicSndStatus = 3
+
+	-- MLN's
+	gMLN_Video = 1
+	gMLN_Audio = 2
+
+	gMLN = gMLN_Video
+
+	-- Destinations
+	gDest_Video = 0
+	gDest_Audio = 1
+
+	gDest = gDest_Video
+    
+    -- status sources
+    gStatusSrcTV = 0 
+   --  gStatusSrcRadio = 1
+    gStatusSrcDVD = 6
+    -- gStatusSrcCD = 18
+
+	-- commands
+	gTVSource = 128
+	-- gRadioSource = 129
+  gVAux = 130
+	gDVDSource = 134
+	-- gCDSource = 146
+	gStandby = 12
+	gStepUp = 30
+	gStepDown = 31
+	gRewind = 50
+	gWind = 52
+	gPlay = 53
+	gStop = 54
+	gMenu = 92
+  gVolUp = 96
+  gVolDown = 100
+  gMute = 13
+  gTheaterOn = 28
+  gTheaterOff = 29
+	gExit = 127
+	gDTVSource = 138
+	gDTV2Source = 130
+	gVMEMSource = 133
+	gPCSource = 139
+	gVAUX2Source = 141
+	gCAMERASource = 135
+	gAAUXSource = 131
+	gText = 136
+	gAMEMSource = 145
+	gNRADIOSource = 147
+	gNMUSICSource = 148
+	gMute = 13
+	gVolUp = 96
+	gVolDown = 100
+	gKey0 = 0
+	gKey1 = 1
+	gKey2 = 2
+	gKey3 = 3
+	gKey4 = 4
+	gKey5 = 5
+	gKey6 = 6
+	gKey7 = 7
+	gKey8 = 8
+	gKey9 = 9
+  gYellow = 212
+  
+  C4:AddVariable("SOURCE", "TV", "STRING", true)
+
+	C4:UpdateProperty(gVersionName, GetVersion())
+	FirePropertyChanged()
+
+----------------- End Init --------------------
+
+        ]]>
+    </script>
+	</config>
+
+</devicedata>
+
+

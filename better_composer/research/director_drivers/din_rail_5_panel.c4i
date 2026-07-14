@@ -1,0 +1,46 @@
+<devicedata>
+	<version>1</version>
+  <combo/>
+	<created>7/12/2011</created>
+	<modified>7/12/2011</modified>
+	<copyright>Copyright 2004-2011 Control4 Corporation.  All rights reserved.</copyright>
+	<manufacturer>Control4</manufacturer>
+	<creator>Control4</creator>
+	<model>C4-DIN-5PAN</model>
+	<name>5-Slot Panel</name>
+	<small>devices_sm/c4modI_16.gif</small>
+	<large>devices_lg/c4modI_32.gif</large>
+	<control>din_rail_panel</control>
+	<proxy>din_rail_5_panel</proxy>
+	<composer_categories>
+		<category>Lights</category>
+	</composer_categories>
+	<driver>f831af83-885b-49cc-a81a-1de149c2fda6</driver>
+	<search_type/>
+	<capabilities>
+		<number_of_slots>5</number_of_slots>
+	</capabilities>
+	<connections>
+		<!--
+		This is what a single din rail connection looks like.  They are commented
+		out because they are dynamically added in the code, based on the field
+		number_of_rails up above.
+		<connection>
+			<id>1</id>
+			<facing>6</facing>
+			<connectionname>DIN Rail Module</connectionname>
+			<type>1</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>DIN_RAIL_FULL_SLOT</classname>
+				</class>
+			</classes>
+			<hidden>False</hidden>
+		</connection>
+		-->
+	</connections>
+</devicedata>

@@ -1,0 +1,132 @@
+<devicedata>
+	<c4id>460</c4id>
+	<copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+	<creator>Control4</creator>
+	<created>6/17/2005</created>
+	<modified>11/02/2005</modified>
+	<manufacturer>Control4</manufacturer>
+	<model>HVAC System Zone</model>
+	<composer_categories>
+		<category>Comfort</category>
+	</composer_categories>
+	<name>HVAC System Zone</name>
+	  <small>devices_sm/HVAC_16.gif</small>
+	  <large>devices_lg/HVAC_32.gif</large>
+	<commands>
+		<command>
+			<name>SET_MODE</name>
+            <description>Set the HVAC Mode of the NAME to STRING</description>
+		</command>
+		<command>
+			<name>SET_FAN_MODE</name>
+			<description>Set the Fan Mode of the NAME to STRING</description>
+		</command>
+		<command>
+			<name>SET_SETPOINT</name>
+			<description>Set the Setpoint of the NAME to INTEGER</description>
+		</command>
+		<command>
+			<name>SET_HEAT_SETPOINT</name>
+			<description>Set the Heat Setpoint of the NAME to INTEGER</description>
+		</command>
+		<command>
+			<name>SET_COOL_SETPOINT</name>
+			<description>Set the Cool Setpoint of the NAME to INTEGER</description>
+		</command>
+	</commands>
+	<conditionals>
+     <conditional>
+            <id>1</id>
+            <name>IF_HVACMODE</name>
+            <description>the NAME HVAC Mode is STRING</description>
+        </conditional>
+        <conditional>
+            <id>2</id>
+            <name>IF_FANMODE</name>
+            <description>the NAME Fan Mode is STRING</description>
+        </conditional>
+        <conditional>
+            <id>3</id>
+            <name>IF_SETPOINT</name>
+            <description>the NAME Set Point is STRING</description>
+        </conditional>
+        <conditional>
+            <id>4</id>
+            <name>IF_TEMPERATURE</name>
+            <description>the NAME Temperature is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>5</id>
+            <name>IF_HEAT_SETPOINT</name>
+            <description>the NAME Heat Set Point is LOGIC INTEGER</description>
+        </conditional>
+        <conditional>
+            <id>6</id>
+            <name>IF_COOL_SETPOINT</name>
+            <description>the NAME Cool Set Point is LOGIC INTEGER</description>
+        </conditional>
+	</conditionals>
+	<events>
+	  <event>
+		  <id>1</id>
+		  <name>HVACMODE_CHANGED</name>
+		  <description>When NAME HVAC Mode has changed</description>
+		</event>
+	  <event>
+		  <id>2</id>
+		  <name>FANMODE_CHANGED</name>
+		  <description>When NAME Fan Mode has changed</description>
+		</event>
+	  <event>
+		  <id>3</id>
+		  <name>SETPOINT_CHANGED</name>
+		  <description>When NAME Set Point has changed</description>
+		</event>
+	  <event>
+		  <id>4</id>
+		  <name>TEMPERATURE_CHANGED</name>
+		  <description>When NAME Temperature has changed</description>
+		</event>
+	  <event>
+		  <id>5</id>
+		  <name>HEAT_SETPOINT_CHANGED</name>
+		  <description>When NAME Heat Set Point has changed</description>
+		</event>
+	  <event>
+		  <id>6</id>
+		  <name>COOL_SETPOINT_CHANGED</name>
+		  <description>When NAME Cool Set Point has changed</description>
+		</event>
+	</events>	
+	<control>thermostat</control>
+	<proxy>standalonethermostat</proxy>
+	<driver>22</driver>
+	<states>
+	</states>
+	<connections>
+		<connection>
+			<id>5001</id>
+			<facing>6</facing>
+			<connectionname>Thermostat</connectionname>
+			<type>2</type>
+			<consumer>True</consumer>
+			<audiosource>False</audiosource>
+			<videosource>False</videosource>
+			<linelevel>False</linelevel>
+			<classes>
+				<class>
+					<classname>THERMOSTAT</classname>
+					<autobind>False</autobind>
+				</class>
+			</classes>
+<hidden>False</hidden>
+		</connection>
+	</connections>
+	
+	<config>
+	</config>
+<capabilities>
+  <temp_min>32</temp_min>
+  <temp_max>120</temp_max>
+</capabilities>
+</devicedata>

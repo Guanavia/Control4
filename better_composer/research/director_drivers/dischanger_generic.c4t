@@ -1,0 +1,36 @@
+<devicedata>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <config />
+  <name>Disc Changer</name>
+  <small>devices_sm/dvd.gif</small>
+  <large>devices_lg/dvd.gif</large>
+  <control>av_gen</control>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <proxy>discchanger</proxy>
+  <driver>100050</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>DISCChanger</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>DISCCHANGER</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities />
+  <manufacturer>Generic</manufacturer>
+  <version>1</version>
+  <creator>Control4</creator>
+  <model>Disc Changer</model>
+</devicedata>

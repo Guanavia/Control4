@@ -1,0 +1,56 @@
+<devicedata>
+  <version>1</version>
+  <copyright>Copyright 2016 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>Control4</creator>
+  <created>9/22/2016 4:00 PM</created>
+  <modified>9/22/2016 4:00 PM</modified>
+  <commands>
+  </commands>
+  <conditionals>
+  </conditionals>
+  <events>
+  </events>
+  <name>Lock</name>
+  <small>devices_sm/relaysingle_doorlock_open.gif</small>
+  <large>devices_lg/relaysingle_doorlock_open.gif</large>
+  <control>lock</control>
+  <composer_categories>
+    <category>Locks</category>
+  </composer_categories>
+  <proxy />
+  <driver>0974fA6C-7569-4634-9CA9-227ABDF284EF</driver>
+  <states />
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Lock</connectionname>
+      <type>2</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>LOCK</classname>
+        </class>
+      </classes>
+    </connection>
+   <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Lock State</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RELAY</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config />
+</devicedata>
