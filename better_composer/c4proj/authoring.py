@@ -428,6 +428,169 @@ def remove_item(model: ProjectModel, item_id: str) -> bool:
     return True
 
 
+# ---- referential integrity (dependency-aware delete) --------------------------------------------
+
+def _item_name_map(root: ET.Element) -> Dict[str, str]:
+    return {it.findtext("id"): (it.findtext("name") or "") for it in root.iter("item")}
+
+
+def _parse_state_tree(item: ET.Element) -> Optional[ET.Element]:
+    st = item.find("state")
+    if st is None or not (st.text or "").strip():
+        return None
+    try:
+        return ET.fromstring(st.text)
+    except Exception:
+        return None
+
+
+def _enclosing_scene_name(record: ET.Element, parent_map: Dict[ET.Element, ET.Element]) -> Optional[str]:
+    cur = record
+    while cur is not None:
+        if cur.tag == "AdvScene":
+            nm = cur.find("name")
+            return nm.text if nm is not None else None
+        cur = parent_map.get(cur)
+    return None
+
+
+def find_references(model: ProjectModel, ids) -> List[dict]:
+    """Find everywhere the given device id(s) are referenced across the project: connections, network
+    bindings, programming (triggers + actions), and other items' <state> blobs (lighting-scene
+    members, room media lists, ...). Returns dicts {ref_type, holder_id, holder_name, description}
+    for the UI to show before a destructive action. Does not mutate."""
+    ids = set(ids)
+    root = model.root
+    names = _item_name_map(root)
+    out: List[dict] = []
+
+    def nm(i):
+        return names.get(i) or f"device {i}"
+
+    bindings = root.find("bindings")
+    if bindings is not None:
+        for bb in bindings.findall("boundbinding"):
+            prov = bb.findtext("deviceid")
+            for bound in bb.findall("boundconsumers/bound"):
+                cons = bound.findtext("deviceid")
+                if prov in ids and cons not in ids:
+                    out.append({"ref_type": "connection", "holder_id": cons, "holder_name": nm(cons),
+                                "description": f"connected to {nm(cons)}"})
+                elif cons in ids and prov not in ids:
+                    out.append({"ref_type": "connection", "holder_id": prov, "holder_name": nm(prov),
+                                "description": f"connected from {nm(prov)}"})
+
+    em = root.find("event_mgr")
+    if em is not None:
+        for ev in em.findall("event"):
+            trig = ev.findtext("deviceid")
+            if trig in ids:
+                out.append({"ref_type": "programming", "holder_id": trig, "holder_name": nm(trig),
+                            "description": "triggers a programming rule"})
+            for ci in ev.iter("codeitem"):
+                if ci.findtext("device") in ids:
+                    out.append({"ref_type": "programming", "holder_id": trig, "holder_name": nm(trig),
+                                "description": f"used as an action in a rule (triggered by {nm(trig)})"})
+                    break
+
+    for it in root.iter("item"):
+        iid = it.findtext("id")
+        if iid in ids:
+            continue
+        tree = _parse_state_tree(it)
+        if tree is None:
+            continue
+        parent_map = {c: p for p in tree.iter() for c in p}
+        for el in tree.iter():
+            if el.tag in ("deviceid", "device_id") and (el.text or "").strip() in ids:
+                scene = _enclosing_scene_name(parent_map.get(el), parent_map)
+                desc = (f"member of lighting scene '{scene}'" if scene
+                        else f"referenced in {nm(iid)}'s configuration")
+                out.append({"ref_type": "state", "holder_id": iid, "holder_name": nm(iid),
+                            "description": desc})
+    return out
+
+
+def _remove_codeitems_targeting(container: ET.Element, ids) -> int:
+    removed = 0
+
+    def walk(ci: ET.Element):
+        nonlocal removed
+        si = ci.find("subitems")
+        if si is None:
+            return
+        for child in list(si.findall("codeitem")):
+            if child.findtext("device") in ids:
+                si.remove(child)
+                removed += 1
+            else:
+                walk(child)
+
+    for ci in container.findall("codeitem"):
+        walk(ci)
+    return removed
+
+
+def _clean_state_refs(tree: ET.Element, ids) -> int:
+    parent_map = {c: p for p in tree.iter() for c in p}
+    targets = [el for el in tree.iter()
+               if el.tag in ("deviceid", "device_id") and (el.text or "").strip() in ids]
+    removed = 0
+    for el in targets:
+        record = parent_map.get(el)                 # e.g. <AdvSceneMember> or a room's <device>
+        record_parent = parent_map.get(record) if record is not None else None
+        if record_parent is not None:
+            try:
+                record_parent.remove(record)
+                removed += 1
+            except ValueError:
+                pass
+    return removed
+
+
+def clean_references(model: ProjectModel, ids) -> Dict[str, int]:
+    """Remove dangling references to the given device id(s) so deleting them leaves no inconsistency:
+    network bindings, programming (rules triggered by them, and actions targeting them), and other
+    items' <state> records (lighting-scene members, room media entries). (Ordinary connection
+    bindings are handled by remove_item.) Returns counts by category."""
+    ids = set(ids)
+    root = model.root
+    counts = {"network": 0, "programming": 0, "state": 0}
+
+    nb = root.find("networkbindings")
+    if nb is not None:
+        for b in list(nb.findall("networkbinding")):
+            if b.findtext("deviceid") in ids:
+                nb.remove(b)
+                counts["network"] += 1
+
+    em = root.find("event_mgr")
+    if em is not None:
+        for ev in list(em.findall("event")):
+            if ev.findtext("deviceid") in ids:
+                em.remove(ev)
+                counts["programming"] += 1
+                continue
+            counts["programming"] += _remove_codeitems_targeting(ev, ids)
+
+    for it in root.iter("item"):
+        if it.findtext("id") in ids:
+            continue
+        st = it.find("state")
+        if st is None or not (st.text or "").strip():
+            continue
+        try:
+            tree = ET.fromstring(st.text)
+        except Exception:
+            continue
+        n = _clean_state_refs(tree, ids)
+        if n:
+            st.text = ET.tostring(tree, encoding="unicode")
+            counts["state"] += n
+
+    return counts
+
+
 def add_variable(model: ProjectModel, name: str, var_type: str = "3", *, value: str = "",
                  owner_id: str = "100001", readonly: bool = False, hidden: bool = False,
                  description: str = "") -> str:

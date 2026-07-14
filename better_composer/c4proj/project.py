@@ -94,6 +94,16 @@ class PropertyValue:
 
 
 @dataclass
+class Reference:
+    """One place a device is referenced elsewhere in the project. Shown to the user before a
+    destructive action (dependency-aware delete)."""
+    ref_type: str        # "connection" | "programming" | "state" | "network"
+    holder_id: str       # the item that holds/depends on the reference
+    holder_name: str
+    description: str      # human-readable ("member of lighting scene 'House Off'", ...)
+
+
+@dataclass
 class EditableSurface:
     """The complete editable surface of one selected item — the thing a UI needs to render a
     property/programming/connections panel for a selection, gathered in one place."""
@@ -493,10 +503,29 @@ class Project:
         self._editors.pop(item_id, None)   # state was stripped; drop any cached editor
         self._touch()
 
-    def remove_item(self, item_id: str) -> None:
+    def _subtree_ids(self, item_id: str) -> set:
+        """All item ids under (and including) item_id — a device plus its proxy subs."""
+        return {x.findtext("id") for x in self.get(item_id).el.iter("item")}
+
+    def references_to(self, item_id: str) -> List[Reference]:
+        """Everywhere this item (and its proxy subs) is referenced elsewhere — connections,
+        programming rules, lighting scenes / room lists, network. Show these before deleting so the
+        user knows what a delete affects. Empty list = safe to remove with no cleanup."""
+        ids = self._subtree_ids(item_id)
+        return [Reference(**r) for r in authoring.find_references(self.model, ids)]
+
+    def remove_item(self, item_id: str, *, clean_references: bool = False) -> None:
+        """Remove an item (and its subtree) plus its bindings. When clean_references=True, ALSO
+        remove dangling references to it elsewhere (rules triggered by / targeting it, lighting-scene
+        members, room media entries, network bindings) so the project stays internally consistent —
+        this is the safe, dependency-aware delete a UI should use after confirming with the user."""
+        ids = self._subtree_ids(item_id)
+        if clean_references:
+            authoring.clean_references(self.model, ids)
         if not authoring.remove_item(self.model, item_id):
             raise ProjectError(f"no item with id {item_id!r}")
-        self._editors.pop(item_id, None)
+        for i in ids:
+            self._editors.pop(i, None)
         self._touch()
 
     # ---- write: connections -------------------------------------------------
