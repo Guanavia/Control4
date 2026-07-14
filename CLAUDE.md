@@ -733,11 +733,17 @@ resuming. My own suggested order was #2 (property/config write-side) before UI w
 without a complete backend to drive would just be a shell — but this wasn't decided, just proposed.
 
 **Practical continuity notes for the laptop:**
-- Ghidra (546MB) + the OpenJDK 21 install are workstation-only, not portable — if agent-vocab work
-  (gap #5, or deeper tracing on Access/Light Properties/Notification) resumes on a different
-  machine, that whole toolchain needs reinstalling there (see "GHIDRA DISASSEMBLY" section above
-  for the exact install/gotcha notes). The RESULTS (`research/agent_vocab/*.json`) are portable and
-  already committed to the repo/synced via OneDrive — no need to redo extraction, just to add to it.
+- Ghidra + OpenJDK 21 toolchain is now installed on BOTH machines (both environments matched,
+  2026-07-13 Mac session). **Mac install:** `brew install ghidra` (formula, not a cask — pulls
+  stable **12.1.2**, the same version used on the workstation, and auto-installs its `openjdk@21`
+  dependency; no sudo). Headless launcher: `/opt/homebrew/Cellar/ghidra/12.1.2/libexec/support/analyzeHeadless`
+  (confirmed boots on JDK 21.0.10). The vocab-extraction scripts are copied into the Mac's
+  registered scripts dir `~/ghidra_scripts/` (Mac equivalent of the workstation's
+  `%USERPROFILE%\ghidra_scripts\` — same OSGi gotcha applies: scripts MUST live in that registered
+  dir or they silently fail to load). **Workstation install** (for reference): `winget install
+  Microsoft.OpenJDK.21` + download Ghidra from `github.com/NationalSecurityAgency/ghidra` releases.
+  The RESULTS (`research/agent_vocab/*.json`) are portable and committed to the repo/synced via
+  OneDrive — no need to redo extraction, just to add to it.
 - `c4proj/programming.py` and the `add-rule` CLI command need no special environment beyond Python
   3.12 (stdlib only, like the rest of `c4proj`) — fully portable, works on the laptop immediately.
 - The live-Director access investigation (mutual-TLS cert, dealer credentials) is paused, per

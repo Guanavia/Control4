@@ -1,0 +1,30 @@
+# Normalize all text files to LF in the repo, regardless of platform.
+# Stops CRLF churn when the same files are touched on the Windows workstation
+# and this Mac (the two environments this repo moves between via OneDrive).
+* text=auto eol=lf
+
+# Windows scripts stay CRLF (they're only run on Windows).
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Control4 driver defs / templates / project XML are text -> LF.
+*.c4i text eol=lf
+*.c4t text eol=lf
+*.xml text eol=lf
+
+# Binary artifacts: never touch line endings, never diff as text.
+*.c4z  binary
+*.c4p  binary
+*.zip  binary
+*.db   binary
+*.pdf  binary
+*.rtf  binary
+*.png  binary
+*.gif  binary
+*.jpg  binary
+*.jpeg binary
+*.pyc  binary
+*.crt  binary
+*.key  binary
+*.signature binary
+*.encrypted binary
