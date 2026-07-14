@@ -761,13 +761,15 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
   full save+reload round-trip, correct escaping (no raw `<State>` leaks into project.xml).
   CLI added: `c4proj properties <c4p> <item_id>` (read) and `c4proj set-property <c4p> <item_id>
   <state_path> <value> -o out.c4p [--yes]` (write, with the identity-card confirm). Both exercised.
-  - **VM test PENDING (the crux for #2's viability):** does Director PRESERVE an edited property on
-    load, or regenerate/overwrite it? Artifact `test projects/state-edit-property-test
-    [MAX_ON_LEVEL=77].c4p` (capture-12 base, item 16 dimmer MAX_ON_LEVEL 100->77, drivers bundled).
-    Prior evidence says preserve — the controller compound's PROVIDED room/media state came back
-    unchanged after load (Director only regenerates EMPTY/skeletal state, doesn't clobber provided
-    values) — but this is the direct confirmation. User loads + backs up -> `c4proj diff` checks
-    whether 77 survived.
+  - **VM test — PASSED (2026-07-13). Director PRESERVES edited property values on load.** Loaded
+    `test projects/state-edit-property-test [MAX_ON_LEVEL=77].c4p` (capture-12 base, item 16 dimmer
+    MAX_ON_LEVEL 100->77); backed up; diff of item 16's state: **27 fields in -> 27 out, nothing
+    added/removed, MAX_ON_LEVEL=77 survived, no other value changed** (1-byte state-size delta was
+    whitespace normalization only). **Complete state rule now empirically established:** empty/
+    skeletal state -> Director fills driver defaults (Test B); PROVIDED/edited values -> Director
+    preserves them exactly (this test). **=> the StateEditor approach to configuration authoring is
+    VALIDATED end-to-end.** (Same benign "substituting driver" backup warnings as the controller
+    compound — expected for file-synthesized projects, not a defect.)
   - **Still to do on #2:** generalize the one captured agent-config recipe (Advanced Lighting
     scenes, captures 15-18) on top of StateEditor; then the #2c VM capture campaign for per-driver
     property maps + other agents' config models (needs the property/field semantics that only
