@@ -1037,6 +1037,24 @@ serialized payloads). Key decisions:
   stay supported (legacy drivers run on OS 4 directors; catalog + backend handle old driver files).
   Our tool is file-based so — unlike Composer Pro — it needs no "pick OS version on open" gate; read
   director version from `identity()`, preserve it, align driver/agent vocab to OS 4.x.
+- **HARD INVARIANT — "do no harm": nothing in an OS4+ project may break when our tool touches it.**
+  Both DEVICES and AGENTS must keep working (agents evolve across OS versions; we have full vocab for
+  only ~13 of ~39). Two parts, one VALIDATED, one a KNOWN GAP:
+  - *Round-trip/preserve (VALIDATED):* anything not explicitly edited round-trips verbatim; unknown
+    agents/devices (no vocab / unbundled driver) DISPLAY + PRESERVE and never crash (`surface_of` = 0
+    crashes across all 417 RH items, degrades gracefully). UI rule: only offer STRUCTURED edits where
+    we have a known model (`agent_config_kind` set, or a driver schema); for anything unknown, show
+    read-only / preserve — never let a user write a partial/wrong state blob.
+  - *Referential integrity on DELETE (KNOWN GAP, found 2026-07-14):* `remove_item` removes the item +
+    its bindings, but does NOT clean references to the removed device held in OTHER items' state —
+    a lighting-scene `AdvSceneMember/device_id`, room `OrderedWatch/ListenList` entries, keypad
+    button bindings, or programming codeitems that target it — leaving DANGLING references. Confirmed:
+    deleting a scene-member light left the scene still listing the dead id. Director may tolerate it,
+    but it violates "nothing breaks." **Fix approach (recommended, also better UX than Composer):** add
+    a backend `references_to(item_id)` query (scan agent/room/keypad state blobs + programming +
+    bindings for the id) and make destructive ops **dependency-aware** — the UI surfaces "this device
+    is used by N scenes / M rules" before delete and offers cascade-clean. Not a beta blocker (tool
+    works; likely Director-tolerated) but a near-term robustness item. NOT yet built.
 
 ---
 

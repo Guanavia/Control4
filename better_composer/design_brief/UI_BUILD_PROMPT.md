@@ -122,6 +122,14 @@ for the data/methods each uses. Beta priorities: **System Design** (add/configur
 6. **Non-destructive & reversible-feeling.** Reflect `dirty` state clearly; make Save deliberate;
    consider an activity/undo affordance. Nothing hits the real home until the dealer loads the saved
    file.
+6b. **Do no harm — nothing in a project may break.** Both devices AND agents must keep working, even
+   the ones the tool doesn't fully understand (we have deep vocab for only some agents). **For any
+   item without a known model (unknown agent / unbundled driver), present it read-only and PRESERVE
+   it** — never let a user write a partial/guessed state blob. And **destructive actions must be
+   dependency-aware**: before deleting a device, show what references it (scenes, programming rules,
+   room media lists) and offer to clean those up — deleting a device that a scene or rule still points
+   at must not leave the project inconsistent. (Backend support for "what references this?" is a
+   near-term addition; design the delete flow to expect and use it.)
 7. **Empty and loading states matter** — a `Project.new()` project has one root item; the UI should
    guide the dealer through "add your first controller → room → devices."
 
