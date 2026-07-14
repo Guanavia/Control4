@@ -308,17 +308,48 @@ def cmd_add_rule(path: str, trigger_dev: str, trigger_event: str, target_dev: st
 
 
 def cmd_properties(path: str, item_id: str) -> int:
-    """Dump an item's <state> config as flat path=value fields (read-only)."""
+    """Show an item's config surface: the driver-DECLARED properties (schema: type/options/default,
+    from the driver's <properties> — no capture needed) joined with the CURRENT stored value, plus
+    the raw <state> fields underneath."""
     from .state import edit_state
     with C4Package.open(path) as pkg:
         pm = _pm(pkg)
-        name = {d.id: d.name for d in pm.all_devices()}.get(item_id, "?")
+        dev = pm.find_device(item_id)
+        name = dev.name if dev else "?"
         ed = edit_state(pm, item_id)
+        values = ed.driver_properties()
+
+        lib = DriverLibrary(pkg.path("drivers"))
+        drv = lib.get(dev.driver) if (dev and dev.driver) else None
+        schema = drv.properties if drv else []
+
+        print(f"({item_id}) {name}   driver={dev.driver if dev else '?'}")
+        if schema:
+            print(f"\n  CONFIG PROPERTIES — driver-declared ({len(schema)}):")
+            for p in schema:
+                cur = values.get(p.name)
+                opts = ""
+                if p.type == "LIST" and p.items:
+                    opts = f"  options=[{', '.join(p.items)}]"
+                elif p.minimum is not None or p.maximum is not None:
+                    opts = f"  range=[{p.minimum}..{p.maximum}]"
+                ro = "  (readonly)" if p.readonly else ""
+                shown = cur if cur is not None else f"{p.default} (default)"
+                print(f"    - {p.name:30} [{p.type}] = {shown!r}{ro}{opts}")
+        else:
+            print("\n  (no driver-declared <properties> — driver not bundled, or a proxy/structural item)")
+
+        extra = {k: v for k, v in values.items()
+                 if not any(s.name == k for s in schema)}
+        if extra:
+            print(f"\n  property values present but not in schema ({len(extra)}):")
+            for k in sorted(extra):
+                print(f"    - {k:30} = {extra[k]!r}")
+
         fields = ed.fields()
-        print(f"({item_id}) {name} — {len(fields)} state fields"
-              + ("" if fields else "  (empty state)"))
+        print(f"\n  RAW STATE FIELDS ({len(fields)}):")
         for k in sorted(fields):
-            print(f"  {k} = {fields[k]!r}")
+            print(f"    {k} = {fields[k]!r}")
     return 0
 
 

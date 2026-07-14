@@ -125,6 +125,50 @@ class StateEditor:
             el.text = str(value)
         return el
 
+    # ---- driver properties --------------------------------------------------
+    # A DriverWorks device stores its config-property VALUES in the state blob as
+    # <properties><property><name>X</name><value>Y</value></property>...</properties>, keyed by the
+    # same display name the driver's <properties> SCHEMA declares (see drivers.Property). These
+    # helpers work by property name, joining to that schema.
+    def driver_properties(self) -> Dict[str, str]:
+        """{property name: value} for every <property> in the state (any nesting)."""
+        out: Dict[str, str] = {}
+        if self.root is None:
+            return out
+        for p in self.root.iter("property"):
+            nm = p.findtext("name")
+            if nm is not None:
+                out[nm.strip()] = (p.findtext("value") or "").strip()
+        return out
+
+    def get_driver_property(self, name: str) -> Optional[str]:
+        if self.root is None:
+            return None
+        for p in self.root.iter("property"):
+            if (p.findtext("name") or "").strip() == name:
+                return (p.findtext("value") or "").strip()
+        return None
+
+    def set_driver_property(self, name: str, value) -> ET.Element:
+        """Set the value of the config property named `name`, matching how Composer's Properties
+        view persists it. Updates the existing <property> if present, else creates one under a
+        <properties> container (created at the state root if missing). Returns the <property>."""
+        self.init_root()
+        for p in self.root.iter("property"):
+            if (p.findtext("name") or "").strip() == name:
+                v = p.find("value")
+                if v is None:
+                    v = ET.SubElement(p, "value")
+                v.text = "" if value is None else str(value)
+                return p
+        container = self.root.find("properties")
+        if container is None:
+            container = ET.SubElement(self.root, "properties")
+        prop = ET.SubElement(container, "property")
+        ET.SubElement(prop, "name").text = name
+        ET.SubElement(prop, "value").text = "" if value is None else str(value)
+        return prop
+
     def remove(self, path: str) -> bool:
         """Remove the element at path. Returns True if something was removed."""
         segs = _split(path)

@@ -512,9 +512,12 @@ Key findings so far (2026-07-11):
   virtual-director parity."** What exists is a read + envelope + one edit-primitive + driver-
   capability layer (~a foundation). Verified gaps toward full parity:
   - Device **instance properties** live in the item's `<state>` escaped-XML blob (readable, not yet
-    modeled/editable). Driver files have **no static `<properties>` schema** (light_v2=proxy only;
-    core5=config) — property defs are often **dynamic/Lua**, so per-driver property schema+defaults
-    is an unsolved discovery problem.
+    modeled/editable). ~~Driver files have no static `<properties>` schema~~ **[CORRECTED
+    2026-07-13 — this was WRONG: the PARENT device driver (`.c4z`/`.c4i`) DOES declare a full static
+    `<properties>` schema (name/type/items/min/max/default/readonly), direct-child or under
+    `<config>`; only the PROXY drivers like light_v2 lack it. `drivers.py` now parses it; values
+    live in the item state under `<properties>/<property>`. See the "MAC SESSION PROGRESS" #2c-
+    REFRAMED entry. Dynamic/Lua properties are a small residual, not the whole problem.]**
   - **No "add a device" engine**: id allocation (`iditemcurrent`), default `<state>` instantiation,
     connections, manifest+driver-file placement — none built. This is the linchpin for devices,
     controllers, sub-controllers.
@@ -770,10 +773,35 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
     preserves them exactly (this test). **=> the StateEditor approach to configuration authoring is
     VALIDATED end-to-end.** (Same benign "substituting driver" backup warnings as the controller
     compound — expected for file-synthesized projects, not a defect.)
-  - **Still to do on #2:** generalize the one captured agent-config recipe (Advanced Lighting
-    scenes, captures 15-18) on top of StateEditor; then the #2c VM capture campaign for per-driver
-    property maps + other agents' config models (needs the property/field semantics that only
-    Composer knows — user-in-the-loop in the VM).
+  - **#2c REFRAMED — NOT a manual capture campaign (2026-07-13, user pushed back, correctly).**
+    User's model: "install a driver in Composer, load it, and all its config options are ready to
+    configure" — the config surface comes FROM THE DRIVER, not from manually capturing each op.
+    Investigated and CONFIRMED this is exactly right, and it collapses #2c to metadata parsing:
+    - **Property SCHEMA is driver-declared and parseable** — the driver's `driver.xml`/`.c4i`
+      declares `<properties>` (direct child, or nested under `<config>`) with per-property
+      `<name>/<type>/<items>/<minimum>/<maximum>/<default>/<readonly>` (types LIST/RANGED_INTEGER/
+      STRING/LABEL/...). This is the Composer Properties view, verbatim. `drivers.py` now parses it
+      (`Property` dataclass + `_parse_properties`). Coverage: 55/295 bundled `.c4i` proxies + **146
+      of 417 Russell House devices** resolve a full property schema this way. **NO capture needed —
+      sourced like commands/events already are.**
+    - **Property VALUES live in the item's `<state>`** under `<properties><property><name>X</name>
+      <value>Y</value></property>`, keyed by the same display name (NOT in `<state_values>`, which
+      is vestigial/empty on all 118 RH items that have it). `StateEditor.driver_properties()` /
+      `get_driver_property` / `set_driver_property` read+write them (create-if-missing); round-trip
+      + VM-preserve already validated.
+    - **Defaults + dynamic values materialize on Director load** (already proven) — so even
+      dynamically-added (Lua `C4:AddProperty`) values come back in the state; the static parse
+      covers the declared baseline and their schema.
+    - `c4proj properties <c4p> <item_id>` now shows the MERGED config surface: driver-declared
+      schema (type/options/default) joined with each property's current stored value, then the raw
+      state fields. This is the "install driver -> options ready" surface, reconstructed offline.
+    - **Residual (small, NOT manual capture):** fully-dynamic/conditional properties (appear based
+      on other selections, Lua-driven) — their schema only fully materializes in a live driver
+      instance; get them by reading back a Director-loaded instance's state (automatable), not by
+      hand. And the proxy-layer config (keypad buttons, dimmer levels in `<State>`) is edited via
+      the generic StateEditor path API (several such shapes already captured, e.g. BUTTON_LIST_INFO).
+  - **Still to do on #2:** the Advanced Lighting scene helper (agent-config recipe, captures 15-18)
+    on top of StateEditor — the one remaining generalize-a-captured-recipe task.
 
 **Still open after #2:** GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
 

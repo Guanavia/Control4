@@ -69,6 +69,19 @@ class Condition:
 
 
 @dataclass
+class Property:
+    """A driver-declared configuration option — the config surface Composer renders in the
+    Properties view. Sourced statically from the driver's <properties> XML (no capture needed)."""
+    name: str
+    type: str = ""                 # LIST, RANGED_INTEGER, STRING, DYNAMIC_LIST, ...
+    default: str = ""
+    items: List[str] = field(default_factory=list)   # allowed values for LIST types
+    minimum: Optional[str] = None
+    maximum: Optional[str] = None
+    readonly: bool = False
+
+
+@dataclass
 class Connection:
     id: str
     name: str
@@ -89,6 +102,7 @@ class Driver:
     commands: List[Command] = field(default_factory=list)
     conditions: List[Condition] = field(default_factory=list)
     events: List[Event] = field(default_factory=list)
+    properties: List[Property] = field(default_factory=list)
 
     @property
     def stem(self) -> str:
@@ -158,6 +172,29 @@ def _parse_events(root: ET.Element) -> List[Event]:
     return out
 
 
+def _parse_properties(root: ET.Element) -> List["Property"]:
+    """Parse the driver's declared config <properties> — name/type/items/min/max/default/readonly.
+    This is the per-driver config surface; it needs no capture, just like commands/events."""
+    out: List[Property] = []
+    # <properties> is a direct child in some drivers and nested under <config> in others.
+    c = root.find("properties") or root.find("config/properties")
+    if c is None:
+        return out
+    for p in c.findall("property"):
+        items = [(i.text or "").strip() for i in p.findall("items/item")]
+        ro = (p.findtext("readonly") or "").strip().lower() == "true"
+        out.append(Property(
+            name=(p.findtext("name") or "").strip(),
+            type=(p.findtext("type") or "").strip(),
+            default=(p.findtext("default") or "").strip(),
+            items=items,
+            minimum=(p.findtext("minimum") or None),
+            maximum=(p.findtext("maximum") or None),
+            readonly=ro,
+        ))
+    return out
+
+
 def _parse_connections(root: ET.Element) -> List[Connection]:
     out = []
     c = root.find("connections")
@@ -191,6 +228,7 @@ def load_driver(path: str) -> Optional[Driver]:
         commands=_parse_commands(root),
         conditions=_parse_conditions(root),
         events=_parse_events(root),
+        properties=_parse_properties(root),
     )
 
 
