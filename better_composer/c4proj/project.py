@@ -502,6 +502,12 @@ class Project:
     # ---- write: connections -------------------------------------------------
     def add_binding(self, provider_id: str, provider_bindingid: str, consumer_id: str,
                     consumer_bindingid: str, name: str, classes: List[str]) -> None:
+        """Wire a connection provider->consumer. Both device ids must exist in the project (guards a
+        UI against silently creating a dangling binding from a stale/typo id, which breaks load)."""
+        if self.find(provider_id) is None:
+            raise ProjectError(f"provider device {provider_id!r} does not exist")
+        if self.find(consumer_id) is None:
+            raise ProjectError(f"consumer device {consumer_id!r} does not exist")
         authoring.add_binding(self.model, provider_id, provider_bindingid, consumer_id,
                               consumer_bindingid, name, classes)
         self._touch()
