@@ -937,6 +937,27 @@ touched areas). Found ONE real bug and ONE genuine gap:
 + 1 exposure gap, both minor). What remains is additive coverage and UX-decisions that only surface
 while building the UI — appropriate to handle in-beta, not pre-UI blockers.
 
+### Fifth review pass (2026-07-14) — programming primitives + edit-existing flows; 1 silent-write bug
+Went after the programming compiler (every primitive vs Composer captures) and the edit-EXISTING-
+content flows (where a UI spends most of its time). One real bug, now fixed:
+- **BUG (silent wrong write): `set_property` targeted the driver-property `<property><name>/<value>`
+  surface, but proxy state fields (a dimmer's `MAX_ON_LEVEL`, keypad button config) live as DIRECT
+  `<State>` fields.** Calling `set_property("16","MAX_ON_LEVEL",55)` silently created a bogus
+  `<property>` entry and DIDN'T change the real field — a UI would think the edit succeeded. Fixed:
+  `set_property` now (validate=True, default) rejects any name that isn't a real config property
+  (raises ProjectError instead of silently creating). Added `Project.set_state_field(item_id, path,
+  value)` + `state_fields(item_id)` as the explicit, separate proxy-state-config surface (edits the
+  raw `<State>` fields by path). Both device-config representations are now cleanly distinct:
+  driver `<properties>` (set_property / surface.properties) vs proxy `<State>` fields (set_state_field
+  / state_fields). ~equal split in practice (4 proxy-state vs 5 driver-property items in one capture).
+- **Everything else validated:** all 11 programming primitives (command±params, set_variable, delay,
+  break, stop, agent_command, if/else, while, if+AND, if+OR, nested if) build + reload CLEAN;
+  `set_variable` output is STRUCTURALLY IDENTICAL to Composer's prog08 (`owneridtype="variable"`,
+  `name="="`, param, display template). Edit-existing flows work: edit a real device's state field,
+  add member to an existing scene, clone_device (independent state — verified), change_driver,
+  remove existing binding, multi-item concurrent edits in one session (cached editors flush
+  correctly), all save + reload CLEAN. Unicode/special-char content round-trips.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

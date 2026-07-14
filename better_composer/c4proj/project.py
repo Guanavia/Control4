@@ -410,19 +410,38 @@ class Project:
         return self._editors[item_id]
 
     def set_property(self, item_id: str, name: str, value, *, validate: bool = True) -> None:
-        """Set a driver config property by display name. When validate=True (default) and the item's
-        driver declares a schema for this property, the value is checked against it first."""
+        """Set a driver CONFIG property by display name (the <property><name>/<value> surface —
+        i.e. what `properties()` / `surface_of().properties` return). When validate=True (default)
+        the name must be a real config property of this item and the value must satisfy its schema —
+        this guards against silently creating a bogus property from a typo or from a proxy state
+        field. For raw proxy state fields (a dimmer's MAX_ON_LEVEL, keypad button config, ...) use
+        set_state_field() instead."""
         if validate:
             schema = {p.name: p for p in self.properties(item_id)}
             p = schema.get(name)
-            if p is not None:
-                if p.readonly:
-                    raise ProjectError(f"property {name!r} is read-only")
-                if not p.is_valid(value):
-                    allowed = f" allowed: {p.options}" if p.options else \
-                        (f" range: [{p.minimum}..{p.maximum}]" if p.minimum is not None else "")
-                    raise ProjectError(f"invalid value {value!r} for {name!r} [{p.type}].{allowed}")
+            if p is None:
+                raise ProjectError(
+                    f"{name!r} is not a config property of item {item_id}. Use one of "
+                    f"properties()'s names, or set_state_field() for raw proxy state fields.")
+            if p.readonly:
+                raise ProjectError(f"property {name!r} is read-only")
+            if not p.is_valid(value):
+                allowed = f" allowed: {p.options}" if p.options else \
+                    (f" range: [{p.minimum}..{p.maximum}]" if p.minimum is not None else "")
+                raise ProjectError(f"invalid value {value!r} for {name!r} [{p.type}].{allowed}")
         self.state_editor(item_id).set_driver_property(name, value)
+        self._touch()
+
+    def state_fields(self, item_id: str) -> Dict[str, str]:
+        """Flat {path: value} of an item's raw <state> — the proxy-level config (dimmer levels,
+        keypad buttons, ...) that lives as direct state fields rather than driver <properties>.
+        Paths use the /TAG/CHILD[i] notation; edit with set_state_field()."""
+        return self._read_editor(item_id).fields()
+
+    def set_state_field(self, item_id: str, path: str, value) -> None:
+        """Set a raw <state> field by path (e.g. '/MAX_ON_LEVEL'). The proxy-state config surface,
+        distinct from driver config properties (set_property)."""
+        self.state_editor(item_id).set(path, value)
         self._touch()
 
     def agent(self, item_id: str):
