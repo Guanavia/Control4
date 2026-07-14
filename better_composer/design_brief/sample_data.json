@@ -1,0 +1,863 @@
+{
+  "tree_view (trimmed)": [
+    {
+      "id": "1",
+      "name": "Russell House",
+      "kind": "PROJECT",
+      "driver": "",
+      "children": [
+        {
+          "id": "100100",
+          "name": "Scheduler",
+          "kind": "AGENT",
+          "driver": "control4_agent_scheduler.c4i",
+          "children": []
+        },
+        {
+          "id": "100116",
+          "name": "Update Manager",
+          "kind": "AGENT",
+          "driver": "control4_agent_updatemanager.c4i",
+          "children": []
+        },
+        {
+          "id": "2",
+          "name": "Backup",
+          "kind": "AGENT",
+          "driver": "control4_agent_backup.c4i",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "surface_of AGENT (Daylight, id 14) \u2014 config properties": {
+    "item_id": "14",
+    "name": "Daylight",
+    "kind": "AGENT",
+    "driver": "control4_agent_daylight.c4z",
+    "properties": [
+      {
+        "name": "LABEL_Log_Settings",
+        "type": "LABEL",
+        "value": "Log Settings",
+        "default": "Log Settings",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Log Level",
+        "type": "LIST",
+        "value": "5 - Trace",
+        "default": "5 - Trace",
+        "options": [
+          "0 - Fatal",
+          "1 - Error",
+          "2 - Warning",
+          "3 - Info",
+          "4 - Debug",
+          "5 - Trace"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Log Mode",
+        "type": "LIST",
+        "value": "Off",
+        "default": "Off",
+        "options": [
+          "Off",
+          "Print",
+          "Log",
+          "Print and Log"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "LABEL_General_Information",
+        "type": "LABEL",
+        "value": "General Information",
+        "default": "General Information",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Device ID",
+        "type": "STRING",
+        "value": "14",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "Agent Version",
+        "type": "STRING",
+        "value": "56.00195",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "Agent Status",
+        "type": "STRING",
+        "value": "OK",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "OS Version Status",
+        "type": "STRING",
+        "value": "4.1.0.743847-res (OK)",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "LABEL_General_Settings",
+        "type": "LABEL",
+        "value": "General Settings",
+        "default": "General Settings",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Poll Interval",
+        "type": "LIST",
+        "value": "15 Minutes",
+        "default": "15 Minutes",
+        "options": [
+          "5 Minutes",
+          "10 Minutes",
+          "15 Minutes"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      }
+    ],
+    "commands": [],
+    "events": [],
+    "conditions": [],
+    "connections": [],
+    "bindings_out": [],
+    "network": [],
+    "agent_config_kind": null
+  },
+  "surface_of AGENT (Scheduler, id 100100) \u2014 programmable commands/conditions": {
+    "item_id": "100100",
+    "name": "Scheduler",
+    "kind": "AGENT",
+    "driver": "control4_agent_scheduler.c4i",
+    "properties": [],
+    "commands": [
+      {
+        "id": "ADD_ENTRY",
+        "name": "ADD_ENTRY",
+        "description": "",
+        "params": [
+          "ENTRY_XML"
+        ]
+      },
+      {
+        "id": "MODIFY_ENTRY",
+        "name": "MODIFY_ENTRY",
+        "description": "",
+        "params": [
+          "ENTRY_XML"
+        ]
+      },
+      {
+        "id": "DELETE_ENTRY",
+        "name": "DELETE_ENTRY",
+        "description": "",
+        "params": [
+          "EVENT_ID"
+        ]
+      },
+      {
+        "id": "DELETE_ENTRIES_BY_CREATOR",
+        "name": "DELETE_ENTRIES_BY_CREATOR",
+        "description": "",
+        "params": [
+          "CREATOR_ID"
+        ]
+      },
+      {
+        "id": "GET_ALL_ENTRIES",
+        "name": "GET_ALL_ENTRIES",
+        "description": "",
+        "params": []
+      },
+      {
+        "id": "GET_ENTRIES_BY_CREATOR",
+        "name": "GET_ENTRIES_BY_CREATOR",
+        "description": "",
+        "params": [
+          "CREATOR_ID"
+        ]
+      },
+      {
+        "id": "GET_ENTRY",
+        "name": "GET_ENTRY",
+        "description": "",
+        "params": [
+          "EVENT_ID"
+        ]
+      },
+      {
+        "id": "GET_ENTRY_OCCURRENCES",
+        "name": "GET_ENTRY_OCCURRENCES",
+        "description": "",
+        "params": [
+          "EVENT_ID",
+          "FROM_YEAR",
+          "FROM_MONTH",
+          "FROM_DAY",
+          "TO_YEAR",
+          "TO_MONTH",
+          "TO_DAY"
+        ]
+      },
+      {
+        "id": "GET_SUNRISE_SUNSET",
+        "name": "GET_SUNRISE_SUNSET",
+        "description": "",
+        "params": [
+          "month",
+          "timezone"
+        ]
+      }
+    ],
+    "events": [],
+    "conditions": [
+      {
+        "id": "IF_TIME",
+        "name": "IF_TIME",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      },
+      {
+        "id": "IF_TODAY",
+        "name": "IF_TODAY",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      },
+      {
+        "id": "IF_DATE",
+        "name": "IF_DATE",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      },
+      {
+        "id": "IF_MONTH",
+        "name": "IF_MONTH",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      },
+      {
+        "id": "IF_YEAR",
+        "name": "IF_YEAR",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      },
+      {
+        "id": "IF_LEAP",
+        "name": "IF_LEAP",
+        "description": "",
+        "params": [
+          "CONDITIONAL_XML"
+        ]
+      }
+    ],
+    "connections": [],
+    "bindings_out": [],
+    "network": [],
+    "agent_config_kind": null
+  },
+  "surface_of IP device (id 23) \u2014 network binding": {
+    "item_id": "23",
+    "name": "NVIDIA SHIELD TV",
+    "kind": "DEVICE",
+    "driver": "nv_shield_tv.c4z",
+    "properties": [
+      {
+        "name": "Log Level",
+        "type": "LIST",
+        "value": "2 - Warning",
+        "default": "2 - Warning",
+        "options": [
+          "0 - Alert",
+          "1 - Error",
+          "2 - Warning",
+          "3 - Info",
+          "4 - Trace",
+          "5 - Debug"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Log Mode",
+        "type": "LIST",
+        "value": "Off",
+        "default": "Off",
+        "options": [
+          "Off",
+          "Print",
+          "Log",
+          "Print and Log"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Command Delay Milliseconds",
+        "type": "RANGED_INTEGER",
+        "value": "150",
+        "default": "150",
+        "options": [],
+        "minimum": "100",
+        "maximum": "1000",
+        "readonly": false
+      },
+      {
+        "name": "Network Keep Alive Interval Seconds",
+        "type": "RANGED_INTEGER",
+        "value": "30",
+        "default": "30",
+        "options": [],
+        "minimum": "15",
+        "maximum": "120",
+        "readonly": false
+      },
+      {
+        "name": "Connected To Network",
+        "type": "STRING",
+        "value": "true",
+        "default": "false",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "Volume Ramp Delay Milliseconds",
+        "type": "RANGED_INTEGER",
+        "value": "150",
+        "default": "150",
+        "options": [],
+        "minimum": "150",
+        "maximum": "500",
+        "readonly": false
+      },
+      {
+        "name": "MENU Button",
+        "type": "LIST",
+        "value": "Home",
+        "default": "Home",
+        "options": [
+          "Home",
+          "Back",
+          "Settings"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "CANCEL Button",
+        "type": "LIST",
+        "value": "Back",
+        "default": "Back",
+        "options": [
+          "Home",
+          "Back",
+          "Settings"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "INFO Button",
+        "type": "LIST",
+        "value": "Settings",
+        "default": "Settings",
+        "options": [
+          "Home",
+          "Back",
+          "Settings"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      }
+    ],
+    "commands": [],
+    "events": [],
+    "conditions": [],
+    "connections": [
+      {
+        "id": "5001",
+        "name": "SHIELD TV",
+        "type": "2",
+        "consumer": false,
+        "classes": [
+          "MEDIA_PLAYER"
+        ]
+      },
+      {
+        "id": "6001",
+        "name": "Network Connection",
+        "type": "4",
+        "consumer": true,
+        "classes": [
+          "SSL"
+        ]
+      },
+      {
+        "id": "2000",
+        "name": "Output Main",
+        "type": "5",
+        "consumer": false,
+        "classes": [
+          "HDMI"
+        ]
+      },
+      {
+        "id": "5002",
+        "name": "AVSWITCH",
+        "type": "2",
+        "consumer": false,
+        "classes": [
+          "AVSWITCH"
+        ]
+      },
+      {
+        "id": "1101",
+        "name": "Video in from SHIELD App Switch",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "COMPONENT",
+          "HDMI"
+        ]
+      },
+      {
+        "id": "3101",
+        "name": "Audio In from SHIELD App Switch",
+        "type": "6",
+        "consumer": true,
+        "classes": [
+          "STEREO",
+          "DIGITAL_COAX",
+          "DIGITAL_OPTICAL"
+        ]
+      },
+      {
+        "id": "2110",
+        "name": "SHIELD App Switch Video Out",
+        "type": "5",
+        "consumer": false,
+        "classes": [
+          "COMPONENT",
+          "HDMI"
+        ]
+      },
+      {
+        "id": "4110",
+        "name": "SHIELD App Switch Audio Out",
+        "type": "6",
+        "consumer": false,
+        "classes": [
+          "STEREO",
+          "DIGITAL_COAX",
+          "DIGITAL_OPTICAL"
+        ]
+      },
+      {
+        "id": "3051",
+        "name": "MiniApp 1",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3052",
+        "name": "MiniApp 2",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3053",
+        "name": "MiniApp 3",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3054",
+        "name": "MiniApp 4",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3055",
+        "name": "MiniApp 5",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3056",
+        "name": "MiniApp 6",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3057",
+        "name": "MiniApp 7",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3058",
+        "name": "MiniApp 8",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3059",
+        "name": "MiniApp 9",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3060",
+        "name": "MiniApp 10",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3061",
+        "name": "MiniApp 11",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3062",
+        "name": "MiniApp 12",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3063",
+        "name": "MiniApp 13",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3064",
+        "name": "MiniApp 14",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3065",
+        "name": "MiniApp 15",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3066",
+        "name": "MiniApp 16",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3067",
+        "name": "MiniApp 17",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3068",
+        "name": "MiniApp 18",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3069",
+        "name": "MiniApp 19",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3070",
+        "name": "MiniApp 20",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3071",
+        "name": "MiniApp 21",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3072",
+        "name": "MiniApp 22",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3073",
+        "name": "MiniApp 23",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3074",
+        "name": "MiniApp 24",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      },
+      {
+        "id": "3075",
+        "name": "MiniApp 25",
+        "type": "5",
+        "consumer": true,
+        "classes": [
+          "RF_MINI_APP"
+        ]
+      }
+    ],
+    "bindings_out": [
+      {
+        "provider_deviceid": "23",
+        "provider_bindingid": "5001",
+        "consumers": [
+          {
+            "deviceid": "24",
+            "bindingid": "5001",
+            "name": "MEDIA_PLAYER",
+            "classes": [
+              "MEDIA_PLAYER"
+            ]
+          }
+        ]
+      },
+      {
+        "provider_deviceid": "23",
+        "provider_bindingid": "5002",
+        "consumers": [
+          {
+            "deviceid": "25",
+            "bindingid": "5001",
+            "name": "AVSwitch",
+            "classes": [
+              "AVSWITCH"
+            ]
+          }
+        ]
+      }
+    ],
+    "network": [
+      {
+        "deviceid": "23",
+        "bindingid": "6001",
+        "address_type": "1",
+        "address": "192.168.1.133",
+        "uuid": "nvidia:shield-uuid:a6c5e213-6387-4885-8b6a-0215061d0af5",
+        "ssdp_type": "nvidia:shield",
+        "status": "online"
+      }
+    ],
+    "agent_config_kind": null
+  },
+  "rules_view (one rule)": [
+    {
+      "handle": "4406091424",
+      "trigger_device": "3",
+      "trigger_event": "0",
+      "actions": [
+        {
+          "id": "0",
+          "device": "0",
+          "type": "1",
+          "display": "",
+          "command": null,
+          "children": []
+        }
+      ]
+    }
+  ],
+  "variables (2)": [
+    {
+      "id": "68",
+      "name": "CP-DiagnosticsIgnoredDevices",
+      "type": "1",
+      "value": "[]",
+      "owner_id": "100001",
+      "readonly": false,
+      "hidden": false,
+      "description": "Used for Composer Pro Diagnostics"
+    },
+    {
+      "id": "69",
+      "name": "CP-DiagnosticsIgnoredDevices",
+      "type": "1",
+      "value": "[]",
+      "owner_id": "100001",
+      "readonly": false,
+      "hidden": false,
+      "description": "Used for Composer Pro Diagnostics"
+    }
+  ],
+  "bindings (1)": [
+    {
+      "provider_deviceid": "3",
+      "provider_bindingid": "3",
+      "consumers": [
+        {
+          "deviceid": "64",
+          "bindingid": "300",
+          "name": "FamRm - Evening Lights Button Link",
+          "classes": [
+            "BUTTON_LINK"
+          ]
+        }
+      ]
+    }
+  ],
+  "network_bindings (1)": [
+    {
+      "deviceid": "23",
+      "bindingid": "6001",
+      "address_type": "1",
+      "address": "192.168.1.133",
+      "uuid": "nvidia:shield-uuid:a6c5e213-6387-4885-8b6a-0215061d0af5",
+      "ssdp_type": "nvidia:shield",
+      "status": "online"
+    }
+  ],
+  "search_drivers hit (DriverHit)": [
+    {
+      "name": "Sony STR-DN850",
+      "manufacturer": "Sony",
+      "model": "STR-DN850 [Network][DriverWorks]",
+      "proxy": [
+        "receiver",
+        "tuner",
+        "dvd",
+        "dvd",
+        "dvd",
+        "dvd",
+        "dvd"
+      ],
+      "control": "lua_gen",
+      "filename": "receiver_STR-DN850 _Network_DriverWorks__Sony_V1.c4i",
+      "md5sum": "078f9b7084c9df27c552169645401ff0",
+      "combo": false
+    }
+  ]
+}
