@@ -14,10 +14,13 @@ Run for development:
 from __future__ import annotations
 
 import dataclasses
+import urllib.error
+import zipfile
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from c4proj import Project, ProjectError
@@ -40,10 +43,27 @@ def proj() -> Project:
     return p
 
 
+# Client-caused errors (bad path, bad file, bad id/input) -> 400 with a clean message.
+_CLIENT_ERRORS = (ProjectError, FileNotFoundError, IsADirectoryError, ValueError, KeyError,
+                  zipfile.BadZipFile, urllib.error.URLError)
+
+
 @app.exception_handler(ProjectError)
 def _project_error(_request, exc: ProjectError):
-    from fastapi.responses import JSONResponse
     return JSONResponse(status_code=400, content={"detail": str(exc)})
+
+
+@app.exception_handler(FileNotFoundError)
+def _not_found(_request, exc: FileNotFoundError):
+    return JSONResponse(status_code=400, content={"detail": f"file not found: {exc.filename or exc}"})
+
+
+@app.exception_handler(Exception)
+def _unexpected(_request, exc: Exception):
+    # Known client-input errors -> 400; anything truly unexpected -> 500. Either way, return a clean
+    # message (never leak a stack trace to the UI) and never let a request crash.
+    status = 400 if isinstance(exc, _CLIENT_ERRORS) else 500
+    return JSONResponse(status_code=status, content={"detail": f"{type(exc).__name__}: {exc}"})
 
 
 def _aslist(items) -> List[dict]:

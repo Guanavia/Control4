@@ -99,8 +99,11 @@ class StateEditor:
         arbitrary repeat positions — use append() for that). Returns the leaf element."""
         if self.root is None:
             self.init_root()
+        segs = _split(path)
+        if not segs:
+            raise ValueError("empty state path")
         cur = self.root
-        for tag, idx in _split(path):
+        for tag, idx in segs:
             matches = [c for c in cur if c.tag == tag]
             if idx < len(matches):
                 cur = matches[idx]
