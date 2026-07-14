@@ -725,16 +725,31 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
   - **Validation:** building from the blank project (cap01) produces an item topology (type,c4i
     multiset) and binding topology that **exactly match Composer's own cap03 output**; controller
     lands at id 6, digital audio at 100002, integrity-clean, re-parses.
-  - **VM load-test artifact ready:** `test projects/controller-compound-from-blank [gen-code].c4p`
-    (Core Lite, from blank, drivers bundled). **TODO: user loads it in the VM virtual director to
-    confirm Director accepts the generalized-code output** (cap03 itself is known-good, and our
-    topology is identical, so this is expected to pass). Other controller models: same call with a
-    different `controller_driver` (fetch via `repo.download()`); Core5 already load-proven manually
-    via the earlier theater-from-blank pressure test.
-  - **Not yet generalized (honest scope):** whether Director AUTO-seeds media services on controller
-    load (letting us drop `seed_media`) is untested — currently we always emit them, which is known
-    to load (theater-from-blank did). The skeletal-controller-state assumption is proven for devices
-    (Test B) but a controller is heavier — the VM load-test confirms it for controllers specifically.
+  - **VM LOAD-TEST — PASSED + fully analyzed (2026-07-13).** Artifact
+    `test projects/controller-compound-from-blank [gen-code].c4p` (Core Lite, from blank, drivers
+    bundled) loaded in the VM virtual director without issue; user did **Backup As** (virtual
+    director's equivalent of Save-out) → `...[gen-code] - saved out.c4p`. `c4proj diff` of our input
+    vs Director's post-load backup is DECISIVE:
+    - **0 items added, 0 removed** → Director does NOT auto-seed media services; our explicit
+      `seed_media` emission was exactly right, no duplicates. (Answers the open question: keep
+      emitting media services ourselves.)
+    - **The 3 skeletal controller items regenerated to full state, at the EXACT byte sizes Composer
+      itself produces** — controller 0→979b, controller-sub 0→18b, UIDevice 0→422b (identical to
+      cap03). **Skeletal-controller-state assumption is now LOAD-PROVEN for controllers, not just
+      devices.** Reused generic-state items (room 1484b, media services, digital audio) came back
+      unchanged in size; media-service subs stayed empty (as in cap03).
+    - **10 bindings accepted unchanged; `iditemcurrent` stayed 14** (our id allocation matched
+      Composer's). Same-size items show only internal state-blob normalization, no identity-field
+      changes.
+  - **Benign warning documented:** on Backup, Composer emits "Unable to retrieve driver <item> from
+    the controller. Substituting with the local or online copy of the driver" for every
+    driver-bearing item we synthesized. This is EXPECTED and benign for a file-synthesized project —
+    the drivers weren't registered into the controller's runtime driver DB via Composer's normal
+    install flow, so backup falls back to the (correct) local/online copy. The project loaded and
+    fully instantiated regardless (state regenerated correctly). Worth remembering for the eventual
+    real-hardware deployment path, but NOT a defect for the Composer-round-trip authoring model.
+  - Other controller models: same call with a different `controller_driver` (fetch via
+    `repo.download()`); Core5 already load-proven via the earlier theater-from-blank pressure test.
 
 **Still open, next in order:** GAP #2 (property/config write-side) — the generic `<state>`-blob
 editor primitive + generalizing the one captured agent-config recipe (Advanced Lighting scenes),
