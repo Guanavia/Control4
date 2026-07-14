@@ -17,35 +17,56 @@ The backend is done and battle-tested: a Python library (`c4proj`) that reads/ed
 `.c4p` project files, exposed through one clean `Project` facade with JSON-serializable reads and
 validated writes. The UI's job is to make that capability feel effortless.
 
-## Architecture
+## Architecture — a cross-platform DESKTOP app (not a browser web app)
 
-- **You build the web frontend.** It talks to a thin **API server** (a mechanical JSON wrapper around
-  the `Project` facade — generated separately, not your concern) over HTTP. Design as if each backend
-  call returns the JSON in `sample_data.json`.
+- Target a **native desktop app** for Windows and macOS from one codebase, using **web UI technology**
+  (React/HTML/CSS) inside a lightweight shell (**Tauri** preferred; Electron acceptable). This matches
+  the dealer workflow (on-site laptop, offline, opening/saving local `.c4p` files with native file
+  dialogs) and removes browser/hosting friction.
+- The proven **Python `c4proj` backend ships bundled as a local sidecar process** (Tauri sidecar /
+  Electron child process); the UI calls it over a local IPC/HTTP channel. Do NOT rewrite the backend —
+  it's hard-won and validated; keep it as the engine. Design as if each backend call returns the JSON
+  in `sample_data.json`.
+- **Mobile is phase 2**, not a constraint on this build: because the engine is Python (can't run
+  on-device easily), a future mobile client is a thin app talking to a backend, or a responsive web
+  build — keeping the UI in React leaves that path open. Don't compromise the desktop build for it.
 - One open project = one editing session with dirty-tracking and an explicit **Save** (produces a
   `.c4p` the dealer loads onto the controller).
 
-## The spine: selection → surface
+## Interaction model — DO NOT build a persistent-tree master-detail layout
 
-The backend exposes `surface_of(itemId)` → **everything editable about a selection** in one object
-(config properties with types/values/validation, programmable commands/events/conditions, connection
-points, current bindings, network address, agent-config availability). The natural, high-leverage
-layout is **master–detail**:
+**Hard requirement / explicit anti-goal:** the classic Composer-style **left-hand project tree +
+right-hand detail panel is exactly the layout we are replacing.** It's a primary reason this tool
+exists. It forces hunting through a rigid hierarchy, wastes space, and — critically — makes it HARDER
+to keep context as you move between tasks. Do not reproduce it. (A tree may exist as *one optional*
+navigation affordance, never as the mandatory spine.)
 
-- **Left: the project tree** (`tree_view`) — rooms, devices, agents. Persistent, always visible,
-  fast to navigate/search.
-- **Right: the contextual detail panel** — renders `surface_of(selected)`. Its content adapts to the
-  selection's `kind` (a Room ≠ a Device ≠ an Agent).
+What must be preserved is the **capability**, delivered through a better model. The backend primitive
+`surface_of(itemId)` returns **everything editable about a selection** in one object (config
+properties, programmable vocab, connections, network, agent-config) — a portable "context bundle."
+Design a model where **the current object of focus travels with the user across functional areas**,
+navigated by something better than a tree. Directions worth exploring (pick/combine; the visual
+direction will be supplied separately):
 
-Composer scatters a single device's settings across disjoint tabs; **keep the selected item's context
-constant as the user moves between functional areas** — that continuity is a big part of "smooth."
+- **Focus + lenses:** a persistent, lightweight "what am I working on" context (a room, a device, a
+  rule) that stays constant while the user switches *lenses* (System Design / Connections / Media /
+  Agents / Programming) over that same focus — you change the object, not the panel.
+- **Search / command-palette first:** jump to any device/room/agent/rule instantly (modern-editor
+  style), reducing reliance on hierarchical browsing.
+- **Spatial / canvas:** rooms and devices laid out spatially (floor-plan or graph); selection and
+  context are anchored to the object in space and follow you.
+- **AI-assistant as navigation & authoring** (see below): describing intent to the built-in assistant
+  is itself a way to find and change things, further reducing rigid navigation.
 
-## The five functional areas (surface as modes, not silos)
+The goal: keeping a device's full context constant across sections must be EASIER than Composer, not
+harder — that is the bar this layout decision is judged against.
 
-Offer the five areas — **System Design, Connections, Media, Agents, Programming** — but treat them as
-lenses over a shared selection rather than separate apps. See `API_REFERENCE.md §5` for exactly what
-data/methods each uses. Priorities for a workable beta: **System Design** (tree + add-device),
-**Programming** (rules), and **Connections** — those are where dealers spend their time.
+## The five functional areas (lenses over a shared focus, not silos)
+
+Offer the five areas — **System Design, Connections, Media, Agents, Programming** — as **lenses over
+the current focus**, not separate screens the user context-switches between. See `API_REFERENCE.md §5`
+for the data/methods each uses. Beta priorities: **System Design** (add/configure devices),
+**Programming** (rules), **Connections**.
 
 ## Interaction principles for "smooth" (specific, opinionated)
 
@@ -59,12 +80,22 @@ data/methods each uses. Priorities for a workable beta: **System Design** (tree 
 3. **Validate live, fail gracefully.** Writes validate server-side and throw a `ProjectError` with a
    human message (e.g. "invalid value for 'Poll Interval'"). Prefer constraining the input (dropdowns,
    clamped sliders) so errors are rare, and surface the message inline when they happen.
-4. **Programming as a structured rule builder.** A rule = a **trigger** (pick a device + one of its
-   events) → an **ordered action list**. Actions come from a fixed vocabulary: Command, Agent Command,
-   Set Variable, Delay, If/Else, While, Break, Stop. Each device's `surface` supplies the concrete
-   choices (its commands/conditions). Support nesting (If/While contain sub-actions). Render existing
-   rules from `rules_view()` (each has a stable `handle` for edit/delete). This is the highest-value
-   screen to get right — Composer's programming view is universally disliked.
+4. **Programming — THREE authoring modes over one engine.** A rule = a **trigger** (a device + one of
+   its events) → an **ordered, nestable action list** from a fixed vocabulary (Command, Agent Command,
+   Set Variable, Delay, If/Else, While, Break, Stop); each device's `surface` supplies the concrete
+   choices. All three modes below **compile to the same backend** (`add_rule`/`replace_rule` with the
+   builder-produced actions), and the user can move a rule between modes:
+   - **(a) Visual drag-and-drop** — block/node based (Scratch / Node-RED feel): drag triggers,
+     actions, conditionals; snap them into sequences and nested blocks. The approachable default.
+   - **(b) Advanced expression building** — a power-user surface with the full grammar (compound
+     And/Or conditions, nested If/While, variables, precise parameters). Parity with what Composer
+     power users can express, but far cleaner. For dealers who want exact control.
+   - **(c) AI-driven** — when a model is linked (see AI section), the dealer describes intent in
+     natural language ("when the theater lights are off and it's after sunset, set the hallway to
+     30%") and the model generates the rule (compiling to the same actions). A headline differentiator
+     when enabled; the other two modes stand alone without it.
+   Render existing rules from `rules_view()` (each has a stable `handle`). This is the highest-value
+   area to get right — Composer's programming view is universally disliked.
 5. **Connections should show compatibility, not raw ids.** For a selected device, show its connection
    points (`surface.connections`) and current wires (`surface.bindings_out`); when wiring, offer only
    compatible targets (matching binding classes). Show IP devices' addresses (`surface.network`).
@@ -73,6 +104,34 @@ data/methods each uses. Priorities for a workable beta: **System Design** (tree 
    file.
 7. **Empty and loading states matter** — a `Project.new()` project has one root item; the UI should
    guide the dealer through "add your first controller → room → devices."
+
+## AI — a linkable model integration (a first-class option, not a hard dependency)
+
+The tool is designed to **link to an AI model** (Claude via the Anthropic API, or another provider —
+keep it provider-agnostic and configurable). AI does NOT have to be baked in as a mandatory
+dependency: the core editor is fully usable without a model connected. But when the user **links a
+model**, a set of AI capabilities lights up across the app — not just for programming, but as a way to
+**navigate, author, and explain** the whole project. Because the backend already exposes the entire
+project as serializable data (`tree_view`, `surface_of`, `rules_view`, `variables`, driver vocab, …)
+and as validated write operations, a linked model can be given **full project context** and **act on
+it**:
+
+- **Author programming** from natural language (mode (c) above) — the flagship use.
+- **Answer/navigate:** "which devices are in the theater?", "take me to the hallway dimmer", "what's
+  connected to the receiver?" — the assistant reads the project data and jumps/focuses.
+- **Bulk & assistive edits:** "add a Roku to every bedroom", "rename all the keypads consistently",
+  "set every dimmer's max level to 90%" — proposed as reviewable actions the user confirms.
+- **Explain existing config:** summarize what a rule does, or what a device is wired to.
+
+Design implications:
+- **Model linking is a setting:** a "connect a model" config (provider + API key, stored locally,
+  provider-agnostic). AI features are present but gracefully **dormant/hidden until a model is linked**
+  — the editor never depends on it to function.
+- When linked, an accessible **assistant surface** (a panel/overlay/command-bar — your call) becomes
+  available; not intrusive when unused.
+- The assistant proposes **structured, reviewable actions** that map to backend write calls; the user
+  confirms before anything changes (respect the non-destructive / explicit-save principle).
+- The same project-context data the UI renders is what a linked model consumes — one source of truth.
 
 ## Data shapes you'll bind to (see sample_data.json for real payloads)
 

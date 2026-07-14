@@ -19,21 +19,28 @@ against those exact shapes.
                      tree_view(), ...
 ```
 
-- The UI is a **web frontend**. It cannot call Python directly, so there is a **thin API server**
-  (FastAPI/Flask, ~one endpoint per facade method) between them. That server is small backend glue —
-  it just JSON-wraps the facade. **The design tool builds the frontend; the API server is generated
-  separately** (it's mechanical). Design the frontend as if these calls return the JSON in
-  `sample_data.json`.
-- One `Project` instance = one open project = one editing session. It tracks `dirty`; the user hits
-  Save to persist (`save(out_path)`), which writes a `.c4p` that Composer loads into a Director.
+- **Target a cross-platform DESKTOP app** (Windows/macOS) using web UI tech (React) in a native shell
+  (**Tauri** preferred; Electron acceptable) — matches the dealer workflow (on-site, offline, local
+  `.c4p` files, native open/save dialogs) and avoids browser/hosting friction. See
+  `UI_BUILD_PROMPT.md` "Architecture".
+- The proven Python `c4proj` backend ships as a **bundled local sidecar**; the "API server" above is a
+  thin JSON wrapper (~one endpoint per facade method) that the UI calls over local IPC/HTTP. **Do not
+  rewrite the backend** — it's the validated engine. The wrapper is mechanical glue, **generated
+  separately, not the design tool's concern.** Design the frontend as if these calls return the JSON
+  in `sample_data.json`. Mobile is a later phase (thin client to a backend), not part of this build.
+- One `Project` instance = one open project = one editing session. It tracks `dirty`; Save persists
+  (`save(out_path)`) a `.c4p` that Composer loads into a Director.
 
 ## 2. The core idea: selection → surface
 
-The whole UI hangs off one method. Given any selected item id, `surface_of(id)` returns **everything
-editable about that selection** in one object: its config properties (with types + current values +
-validation), its programmable API (commands/events/conditions), its connection points, its current
-bindings, its network address, and whether it has a special agent-config editor. **A master-detail
-UI (project tree on the left, `surface_of(selected)` rendered on the right) is the natural spine.**
+Given any selected item id, `surface_of(id)` returns **everything editable about that selection** in
+one object: its config properties (with types + current values + validation), its programmable API
+(commands/events/conditions), its connection points, its current bindings, its network address, and
+whether it has a special agent-config editor. Think of it as a **portable "context bundle" for the
+current focus** — whatever the UI is focused on, this is everything it can show/edit about it, in one
+call. (NOTE: do **not** assume a tree-left/detail-right master-detail layout — that classic Composer
+arrangement is an explicit anti-goal; see `UI_BUILD_PROMPT.md` "Interaction model". `surface_of`
+powers whatever focus-centric model the design uses, not a fixed panel.)
 
 ## 3. The domain model
 
