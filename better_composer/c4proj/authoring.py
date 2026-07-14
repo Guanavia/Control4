@@ -14,10 +14,41 @@ from __future__ import annotations
 
 import copy
 import datetime
+import uuid
 import xml.etree.ElementTree as ET
 from typing import Dict, List, Optional
 
+from . import _compound
 from .model import ProjectModel
+
+
+def _now() -> str:
+    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _make_item(item_id: str, name: str, type_: str, *, c4i: Optional[str] = None,
+               state: str = "", large_image: Optional[str] = None,
+               small_image: Optional[str] = None, tag: Optional[str] = None) -> ET.Element:
+    """Build a bare <item>. Locations have no c4i; devices/services carry a driver ref + state."""
+    item = ET.Element("item")
+    ET.SubElement(item, "id").text = item_id
+    ET.SubElement(item, "name").text = name
+    ET.SubElement(item, "type").text = type_
+    ET.SubElement(item, "created_datetime").text = _now()
+    idata = ET.SubElement(item, "itemdata")
+    if c4i:
+        ET.SubElement(idata, "config_data_file").text = c4i
+    if large_image:
+        ET.SubElement(idata, "large_image").text = large_image
+    if small_image:
+        ET.SubElement(idata, "small_image").text = small_image
+    if tag:
+        ET.SubElement(idata, "tag").text = tag
+    ET.SubElement(item, "state").text = state
+    if c4i:
+        ET.SubElement(item, "c4i").text = c4i
+    ET.SubElement(item, "subitems")
+    return item
 
 
 def _find_item(root: ET.Element, item_id: str) -> Optional[ET.Element]:
@@ -117,6 +148,75 @@ def change_driver(model: ProjectModel, item_id: str, new_c4i: str, new_name: str
         st.text = ""
 
 
+def _bindings_root(root: ET.Element) -> ET.Element:
+    b = root.find("bindings")
+    if b is None:
+        b = ET.SubElement(root, "bindings")
+    return b
+
+
+def _find_boundbinding(bindings: ET.Element, provider_id: str,
+                       provider_bindingid: str) -> Optional[ET.Element]:
+    for bb in bindings.findall("boundbinding"):
+        if bb.findtext("deviceid") == provider_id and bb.findtext("bindingid") == provider_bindingid:
+            return bb
+    return None
+
+
+def add_binding(model: ProjectModel, provider_id: str, provider_bindingid: str,
+                consumer_id: str, consumer_bindingid: str, name: str,
+                classes: List[str]) -> None:
+    """Wire an arbitrary connection: bind provider (provider_id/provider_bindingid) to consumer
+    (consumer_id/consumer_bindingid). Mirrors the Composer Connections screen. If a <boundbinding>
+    already exists for this provider endpoint, the consumer is appended to it; otherwise a new
+    <boundbinding> is created. Idempotent — re-adding the same consumer is a no-op. `classes` are
+    the <boundclass> tags (e.g. ["BUTTON_LINK"], ["CONTROLLER"])."""
+    bindings = _bindings_root(model.root)
+    bb = _find_boundbinding(bindings, provider_id, provider_bindingid)
+    if bb is None:
+        bb = ET.SubElement(bindings, "boundbinding")
+        ET.SubElement(bb, "deviceid").text = provider_id
+        ET.SubElement(bb, "bindingid").text = provider_bindingid
+        ET.SubElement(bb, "boundconsumers")
+    consumers = bb.find("boundconsumers")
+    if consumers is None:
+        consumers = ET.SubElement(bb, "boundconsumers")
+    for existing in consumers.findall("bound"):
+        if (existing.findtext("deviceid") == consumer_id
+                and existing.findtext("bindingid") == consumer_bindingid):
+            return  # already wired
+    bound = ET.SubElement(consumers, "bound")
+    ET.SubElement(bound, "deviceid").text = consumer_id
+    ET.SubElement(bound, "bindingid").text = consumer_bindingid
+    ET.SubElement(bound, "name").text = name
+    bcs = ET.SubElement(bound, "boundclasses")
+    for cls in classes:
+        ET.SubElement(bcs, "boundclass").text = cls
+
+
+def remove_binding(model: ProjectModel, provider_id: str, provider_bindingid: str,
+                   consumer_id: str, consumer_bindingid: str) -> bool:
+    """Remove the consumer link from the provider's <boundbinding>. If that leaves the boundbinding
+    with no consumers, remove the boundbinding too. Returns True if something was removed."""
+    bindings = model.root.find("bindings")
+    if bindings is None:
+        return False
+    bb = _find_boundbinding(bindings, provider_id, provider_bindingid)
+    if bb is None:
+        return False
+    consumers = bb.find("boundconsumers")
+    removed = False
+    if consumers is not None:
+        for bound in list(consumers.findall("bound")):
+            if (bound.findtext("deviceid") == consumer_id
+                    and bound.findtext("bindingid") == consumer_bindingid):
+                consumers.remove(bound)
+                removed = True
+    if consumers is None or not consumers.findall("bound"):
+        bindings.remove(bb)
+    return removed
+
+
 def clone_device(model: ProjectModel, source_id: str, new_name: str,
                  skeletal: bool = False) -> Dict[str, str]:
     """Clone the device subtree rooted at source_id (parent + proxy subs) with fresh IDs, insert
@@ -174,3 +274,113 @@ def clone_device(model: ProjectModel, source_id: str, new_name: str,
                 bindings.append(nb)
 
     return id_map
+
+
+def add_location_scaffold(model: ProjectModel, *, home: str = "Home", house: str = "House",
+                          floor: str = "Main", room: str = "Room") -> Dict[str, str]:
+    """Create the 4-level location tree Home>House>Floor>Room under the project root (item 1),
+    matching what Composer seeds when the first controller is added. Returns role->id for
+    home/house/floor/room. The four items share one site tag (a fresh GUID), as Composer does."""
+    root = model.root
+    if _find_item(root, "1") is None:
+        raise ValueError("no project-root item (id 1) to attach the location scaffold to")
+    ids = next_ids(model, 4)
+    id_map = dict(zip(("home", "house", "floor", "room"), ids))
+    tag = uuid.uuid4().hex
+    tag = f"{tag[:8]}_{tag[8:12]}_{tag[12:16]}_{tag[16:20]}_{tag[20:]}"[:35]
+
+    home_it = _make_item(id_map["home"], home, "2",
+                         large_image=_compound.SCAFFOLD["home"]["large_image"],
+                         small_image=_compound.SCAFFOLD["home"]["small_image"], tag=tag)
+    house_it = _make_item(id_map["house"], house, "3",
+                          large_image=_compound.SCAFFOLD["house"]["large_image"],
+                          small_image=_compound.SCAFFOLD["house"]["small_image"], tag=tag)
+    floor_it = _make_item(id_map["floor"], floor, "4",
+                          large_image=_compound.SCAFFOLD["floor"]["large_image"],
+                          small_image=_compound.SCAFFOLD["floor"]["small_image"], tag=tag)
+    room_it = _make_item(id_map["room"], room, "8", c4i="roomdevice.c4i",
+                         state=_compound.SCAFFOLD["room"]["state"],
+                         large_image="locations_lg\\room.gif",
+                         small_image="locations_sm\\room.gif", tag=tag)
+
+    home_it.find("subitems").append(house_it)
+    house_it.find("subitems").append(floor_it)
+    floor_it.find("subitems").append(room_it)
+    _room_of(root, "1").append(home_it)   # create item-1 <subitems> if the blank project lacks it
+    return id_map
+
+
+def add_controller(model: ProjectModel, room_id: str, controller_driver: str,
+                   controller_name: str, *, seed_media: bool = True) -> Dict[str, str]:
+    """Add a controller under room_id: the controller item (type 6) + its two proxy subs
+    (controller.c4i, uidevice.c4i, type 7), all emitted SKELETAL (empty state) — Director
+    regenerates their model-specific state/icons on load. When seed_media is True, also seeds the
+    generic media services (Manage Music / Stations / Channels + the digital-audio service) and
+    wires the full internal binding topology, reproducing Composer's atomic add-controller compound.
+    Returns role->id for every item created. Caller must ensure the referenced driver files are in
+    the package's drivers/."""
+    root = model.root
+    room = _find_item(root, room_id)
+    if room is None:
+        raise ValueError(f"no room item with id {room_id}")
+    room_subs = room.find("subitems")
+    if room_subs is None:
+        room_subs = ET.SubElement(room, "subitems")
+
+    id_map: Dict[str, str] = {"room": room_id}
+
+    # --- controller + proxy subs (skeletal; Director fills state/icons) ---
+    cid, csub, uisub = next_ids(model, 3)
+    id_map.update(controller=cid, controller_sub=csub, uidevice_sub=uisub)
+    ctrl = _make_item(cid, controller_name, "6", c4i=controller_driver)
+    ctrl_sub = _make_item(csub, controller_name, "7", c4i="controller.c4i")
+    ui_sub = _make_item(uisub, "UIDevice", "7", c4i="uidevice.c4i")
+    ctrl.find("subitems").append(ctrl_sub)
+    ctrl.find("subitems").append(ui_sub)
+    room_subs.append(ctrl)
+
+    if seed_media:
+        # --- generic media services (reuse captured model-independent state) ---
+        mm, mmsub, st, stsub, ch, chsub = next_ids(model, 6)
+        id_map.update(manage_music=mm, manage_music_sub=mmsub, stations=st,
+                      stations_sub=stsub, channels=ch, channels_sub=chsub)
+        for svc_role, sub_role, svc_id, sub_id in (
+                ("manage_music", "manage_music_sub", mm, mmsub),
+                ("stations", "stations_sub", st, stsub),
+                ("channels", "channels_sub", ch, chsub)):
+            svc_blob = _compound.SCAFFOLD[svc_role]
+            svc = _make_item(svc_id, svc_blob["name"], svc_blob["type"], c4i=svc_blob["c4i"],
+                             state=svc_blob["state"], large_image=svc_blob["large_image"],
+                             small_image=svc_blob["small_image"])
+            sub_blob = _compound.SCAFFOLD[sub_role]
+            sub = _make_item(sub_id, sub_blob["name"], sub_blob["type"], c4i=sub_blob["c4i"],
+                             state=sub_blob["state"], large_image=sub_blob["large_image"],
+                             small_image=sub_blob["small_image"])
+            svc.find("subitems").append(sub)
+            room_subs.append(svc)
+
+        # --- digital-audio service (system-service id range, like Composer's 100002) ---
+        da_id = _next_system_id(model)
+        id_map["digital_audio"] = da_id
+        da_blob = _compound.SCAFFOLD["digital_audio"]
+        da = _make_item(da_id, da_blob["name"], da_blob["type"], c4i=da_blob["c4i"],
+                        state=da_blob["state"], large_image=da_blob["large_image"],
+                        small_image=da_blob["small_image"])
+        room_subs.append(da)
+
+        # --- wire the internal binding topology ---
+        for prov_role, prov_bid, cons_role, cons_bid, cls, name in _compound.BINDINGS:
+            add_binding(model, id_map[prov_role], prov_bid,
+                        id_map[cons_role], cons_bid, name, [cls])
+
+    return id_map
+
+
+def _next_system_id(model: ProjectModel) -> str:
+    """Allocate a system-service id in the 100000+ range (media services etc.), separate from the
+    user-device sequence tracked by iditemcurrent. Returns the lowest free id >= 100002."""
+    used = {it.findtext("id") for it in model.root.iter("item")}
+    n = 100002
+    while str(n) in used:
+        n += 1
+    return str(n)

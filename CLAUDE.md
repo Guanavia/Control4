@@ -693,6 +693,56 @@ Key findings so far (2026-07-11):
 
 ---
 
+## MAC SESSION PROGRESS (2026-07-13) — bindings + add_controller done, backend-completion push
+
+**Context correction:** the user CAN drive Composer + a virtual director in the VMware Fusion
+Windows VM on this Mac — load-validation and new capture campaigns are all doable here, in the VM.
+The only thing the Mac can't do is read the Windows *install* files directly (already extracted on
+the workstation; results in the repo). So nothing is "queued for another machine" — it's just
+user-in-the-loop in the VM. Toolchain matched: Ghidra 12.1.2 + OpenJDK 21 now installed on the Mac
+too (see the updated "Practical continuity notes" bullet below).
+
+**Plan decided:** UI comes LAST and will be done with a design-focused tool (user is better at
+visual iteration there); first make sure ALL backend pieces are in place. Order for the backend
+gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress this session:
+
+- **GAP #4 (standalone bindings) — DONE + validated.** `authoring.add_binding()` / `remove_binding()`
+  wire an arbitrary provider→consumer connection (append to an existing `<boundbinding>` if the
+  provider endpoint already exists, else create it; idempotent; remove drops the boundbinding when
+  its last consumer goes). Validated by replaying the capture-18 Connections-screen op: output is a
+  **byte-for-byte structural match** to what real Composer wrote in capture 19.
+- **GAP #3 (add_controller generalization) — code-complete + structurally validated.** Decoded the
+  full add-controller compound (cap02→cap03): 14 items (location scaffold Home>House>Floor>Room +
+  controller type6 + `controller.c4i`/`uidevice.c4i` proxy subs + 3 media-service drivers + a
+  digital-audio service at id 100002) wired by 11 bindings. Generalized into:
+  - `authoring.add_location_scaffold()` — the 4-level tree (shared site-tag GUID), returns role→id.
+  - `authoring.add_controller(model, room_id, controller_driver, controller_name, seed_media=True)`
+    — controller + proxy subs emitted SKELETAL (Director regenerates model-specific state/icons on
+    load, per Test B), media services + digital audio reused from captured generic (model-INDEPENDENT)
+    state. Wires the full binding topology. Returns role→id.
+  - Generic scaffolding + binding topology extracted once from cap03 into `c4proj/_compound.py`
+    (data module, so the library doesn't depend on a capture file at runtime).
+  - **Validation:** building from the blank project (cap01) produces an item topology (type,c4i
+    multiset) and binding topology that **exactly match Composer's own cap03 output**; controller
+    lands at id 6, digital audio at 100002, integrity-clean, re-parses.
+  - **VM load-test artifact ready:** `test projects/controller-compound-from-blank [gen-code].c4p`
+    (Core Lite, from blank, drivers bundled). **TODO: user loads it in the VM virtual director to
+    confirm Director accepts the generalized-code output** (cap03 itself is known-good, and our
+    topology is identical, so this is expected to pass). Other controller models: same call with a
+    different `controller_driver` (fetch via `repo.download()`); Core5 already load-proven manually
+    via the earlier theater-from-blank pressure test.
+  - **Not yet generalized (honest scope):** whether Director AUTO-seeds media services on controller
+    load (letting us drop `seed_media`) is untested — currently we always emit them, which is known
+    to load (theater-from-blank did). The skeletal-controller-state assumption is proven for devices
+    (Test B) but a controller is heavier — the VM load-test confirms it for controllers specifically.
+
+**Still open, next in order:** GAP #2 (property/config write-side) — the generic `<state>`-blob
+editor primitive + generalizing the one captured agent-config recipe (Advanced Lighting scenes),
+then the #2c capture campaign in the VM for the per-driver property maps + other agents' config
+models. Then GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
+
+---
+
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)
 
 **Where things stand, in one paragraph:** the workstation session closed two big gaps —
