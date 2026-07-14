@@ -958,6 +958,30 @@ content flows (where a UI spends most of its time). One real bug, now fixed:
   remove existing binding, multi-item concurrent edits in one session (cached editors flush
   correctly), all save + reload CLEAN. Unicode/special-char content round-trips.
 
+### Sixth review pass (2026-07-14) — least-tested surfaces (mm.db, file preservation, binding legality, churn)
+Aimed at what prior passes hadn't touched. One footgun-guardrail fix; everything else clean:
+- **FIX (footgun): `add_binding` did zero validation** — accepted a binding between two nonexistent
+  devices, creating a dangling binding that breaks Director load. A UI with a stale/typo id would
+  silently corrupt the project. Facade `add_binding` now validates both endpoints exist (raises
+  ProjectError). Internal `authoring.add_binding` (used by the controller compound) left permissive;
+  compound still builds fine.
+- **File preservation across save — CLEAN:** `identity.db` + `mm.db` byte-identical; the 6
+  `announcements/*.mp3` (custom audio) + `meta/manifest.json` + all 115 drivers preserved; only empty
+  zip DIRECTORY-marker entries (`drivers/`, `meta/`, `announcements/`) are dropped (harmless — files
+  read by path). project.xml manifest md5 refreshes correctly.
+- **Heavy churn — CLEAN:** 40 add / 20 remove / 20 re-add devices + 15 vars + 15 rules -> 45 items,
+  ZERO id collisions, reload CLEAN. Id allocation solid under churn.
+- **`mm.db` characterized = NOT a blocker:** it's the media LIBRARY db (movies/songs/albums/playlists/
+  broadcast) — EMPTY in the real project, runtime-populated by Director scanning media sources /
+  streaming catalogs. A dealer never authors it. Media sources = `add_device`; room media lists =
+  room `<state>`. Confirms the earlier "Media is additive" call.
+- **Remaining known-additive (not blockers), for in-beta:** a binding class-COMPATIBILITY helper (a
+  UI can compute valid targets from `surface.connections`; existence now validated), deeper Media,
+  more agent-config recipes/vocab.
+
+**Convergence: pass 3 = 2 blockers; pass 4 = 1 bug + 1 gap; pass 5 = 1 silent bug; pass 6 = 1
+footgun-guardrail (mildest yet).** Findings shrinking in count AND severity each pass.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)
