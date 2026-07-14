@@ -17,6 +17,9 @@ from .drivers import (
     DriverLibrary, Driver, Command, Condition, Connection, Property, ResolvedApi, load_driver,
 )
 from .state import StateEditor, edit_state
+from ._logging import (
+    enable_debug_logging, disable_debug_logging, is_debug_enabled, debug_log_path, logger,
+)
 from . import programming
 from .programming import (
     command, agent_command, set_variable, delay, break_, stop, if_, while_,
@@ -35,6 +38,8 @@ __all__ = [
     "ResolvedApi", "load_driver",
     # state editing
     "StateEditor", "edit_state",
+    # debug logging (togglable)
+    "enable_debug_logging", "disable_debug_logging", "is_debug_enabled", "debug_log_path",
     # programming rule builders
     "programming", "command", "agent_command", "set_variable", "delay", "break_",
     "stop", "if_", "while_",

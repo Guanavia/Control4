@@ -47,6 +47,7 @@ def jsonable(obj):
 
 from . import agent_config, authoring
 from . import programming as prog
+from ._logging import logger
 from .agents import AgentVocab
 from .c4p import C4Package
 from .drivers import Command, Condition, Connection, Driver, DriverLibrary, Event as DrvEvent, \
@@ -175,7 +176,10 @@ class Project:
     # ---- lifecycle ----------------------------------------------------------
     @classmethod
     def open(cls, path: str) -> "Project":
-        return cls(C4Package.open(path))
+        logger.debug("Project.open(%r)", path)
+        p = cls(C4Package.open(path))
+        logger.debug("  opened %r v%s (%d items)", p.name, p.version, len(p.items()))
+        return p
 
     @classmethod
     def new(cls, name: Optional[str] = None) -> "Project":
@@ -220,11 +224,14 @@ class Project:
     def save(self, out_path: Optional[str] = None) -> List[str]:
         """Flush every open state editor into the model, write project.xml, and repackage. If
         out_path is omitted, overwrites the source archive. Returns manifest paths whose md5 changed."""
+        logger.debug("Project.save(out_path=%r) [dirty=%s, %d cached editors]",
+                     out_path, self._dirty, len(self._editors))
         for ed in self._editors.values():
             ed.flush()
         self.model.save()
         changed = self._pkg.save(out_path or (self._pkg.source_path or ""))
         self._dirty = False
+        logger.debug("  saved; %d manifest file(s) changed", len(changed))
         return changed
 
     # ---- identity -----------------------------------------------------------
@@ -319,7 +326,9 @@ class Project:
         expect_md5 = getattr(driver, "md5sum", None) or md5
         dest = self._pkg.path("drivers")
         os.makedirs(dest, exist_ok=True)
+        logger.debug("install_driver(%r) downloading -> %s", filename, dest)
         repo.download(filename, dest, expect_md5=expect_md5)
+        logger.debug("  installed %r", filename)
         self.drivers = DriverLibrary(dest)   # re-index so the new driver resolves
         self._touch()
         return filename
@@ -477,6 +486,7 @@ class Project:
                 allowed = f" allowed: {p.options}" if p.options else \
                     (f" range: [{p.minimum}..{p.maximum}]" if p.minimum is not None else "")
                 raise ProjectError(f"invalid value {value!r} for {name!r} [{p.type}].{allowed}")
+        logger.debug("set_property(%r, %r, %r)", item_id, name, value)
         self.state_editor(item_id).set_driver_property(name, value)
         self._touch()
 
@@ -561,6 +571,8 @@ class Project:
         members, room media entries, network bindings) so the project stays internally consistent —
         this is the safe, dependency-aware delete a UI should use after confirming with the user."""
         ids = self._subtree_ids(item_id)
+        logger.debug("remove_item(%r, clean_references=%s) [subtree ids=%s]",
+                     item_id, clean_references, sorted(ids))
         if clean_references:
             # clean_references edits other items' <state> directly on the tree; a cached StateEditor
             # holds a stale parsed copy that would clobber that on save. So: flush pending editor
@@ -649,6 +661,8 @@ class Project:
 
     # ---- write: programming -------------------------------------------------
     def add_rule(self, trigger_device_id: str, trigger_event_id: str, actions: list):
+        logger.debug("add_rule(trigger=%s/%s, %d action(s))",
+                     trigger_device_id, trigger_event_id, len(actions))
         ev = prog.add_event_handler(self.model, trigger_device_id, trigger_event_id, actions)
         self._touch()
         return ev

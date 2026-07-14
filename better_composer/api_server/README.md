@@ -47,6 +47,7 @@ uvicorn api_server.server:app --reload --port 8765
 | `POST /variables`, `PATCH`/`DELETE /variables/{id}` | variable CRUD |
 | `GET /rules`, `GET /rules/{handle}/actions` | list rules / a rule's script as action-JSON |
 | `POST /rules`, `PUT`/`DELETE /rules/{handle}` | add / replace / delete a rule |
+| `GET /debug`, `POST /debug {enabled, path?}` | togglable debug logging (see below) |
 
 ## Authoring rules over the API (action-JSON)
 
@@ -66,6 +67,20 @@ server compiles to the programming builders (this is also the shape a linked AI 
 ```
 
 `PUT /rules/{handle}` replaces a rule's actions (handle comes from `GET /rules`).
+
+## Debug logging (togglable)
+
+Off by default. Turn on to capture backend operations + API requests to a log file — wire this to a
+"Create debug logs" switch in the UI:
+
+- **Runtime:** `POST /debug {"enabled": true, "path": "/optional/path.log"}` (default
+  `~/.c4proj/debug.log`); `GET /debug` returns state + path; `POST /debug {"enabled": false}` off.
+- **At startup:** env vars `C4PROJ_DEBUG=1` and optional `C4PROJ_DEBUG_LOG=/path/to/debug.log`.
+- **From Python directly:** `c4proj.enable_debug_logging(path=None)` / `disable_debug_logging()` /
+  `is_debug_enabled()` / `debug_log_path()`.
+
+When on, the log records each request (method/path/status/timing) plus facade operations
+(open/save/add/remove/set_property/add_rule with arguments). Stdlib `logging`, no dependency.
 
 ## Packaging note (desktop sidecar)
 

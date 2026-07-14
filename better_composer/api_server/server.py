@@ -14,23 +14,45 @@ Run for development:
 from __future__ import annotations
 
 import dataclasses
+import os
+import time
 import urllib.error
 import zipfile
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+import c4proj
 from c4proj import Project, ProjectError
 from c4proj import programming as prog
+from c4proj import logger as c4logger
 
 app = FastAPI(title="c4proj API", version="1.0",
               description="Local API over the c4proj Project facade (Control4 .c4p editor backend).")
 
 # Permissive CORS for local dev (the UI runs on a different port / the Tauri webview).
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
+
+# Enable debug logging at startup from env: C4PROJ_DEBUG=1 [C4PROJ_DEBUG_LOG=/path/to/debug.log]
+if os.environ.get("C4PROJ_DEBUG", "").lower() in ("1", "true", "yes"):
+    c4proj.enable_debug_logging(os.environ.get("C4PROJ_DEBUG_LOG") or None)
+
+
+@app.middleware("http")
+async def _log_requests(request: Request, call_next):
+    # When debug logging is on, record each request + its status/timing.
+    if not c4proj.is_debug_enabled():
+        return await call_next(request)
+    t0 = time.time()
+    c4logger.debug("--> %s %s", request.method, request.url.path)
+    response = await call_next(request)
+    c4logger.debug("<-- %s %s %s (%dms)", request.method, request.url.path,
+                   response.status_code, int((time.time() - t0) * 1000))
+    return response
 
 # ---- session (one open project) -----------------------------------------------------------------
 _session: Dict[str, Optional[Project]] = {"project": None}
@@ -91,6 +113,28 @@ def _project_info(p: Project) -> dict:
 @app.get("/health")
 def health():
     return {"ok": True, "project_open": _session["project"] is not None}
+
+
+class DebugReq(BaseModel):
+    enabled: bool
+    path: Optional[str] = None      # log file path; default ~/.c4proj/debug.log
+
+
+@app.get("/debug")
+def debug_get():
+    """Current debug-logging state + log file path."""
+    return {"enabled": c4proj.is_debug_enabled(), "path": c4proj.debug_log_path()}
+
+
+@app.post("/debug")
+def debug_set(req: DebugReq):
+    """Toggle debug logging (the UI's 'create debug logs' switch). When enabled, backend operations
+    and API requests are written to the log file; returns its path."""
+    if req.enabled:
+        path = c4proj.enable_debug_logging(req.path)
+        return {"enabled": True, "path": path}
+    c4proj.disable_debug_logging()
+    return {"enabled": False, "path": None}
 
 
 @app.post("/project/open")
