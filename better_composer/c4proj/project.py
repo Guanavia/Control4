@@ -562,7 +562,13 @@ class Project:
         this is the safe, dependency-aware delete a UI should use after confirming with the user."""
         ids = self._subtree_ids(item_id)
         if clean_references:
+            # clean_references edits other items' <state> directly on the tree; a cached StateEditor
+            # holds a stale parsed copy that would clobber that on save. So: flush pending editor
+            # edits into the tree, clean, then drop all caches (they re-parse the cleaned state).
+            for ed in self._editors.values():
+                ed.flush()
             authoring.clean_references(self.model, ids)
+            self._editors.clear()
         if not authoring.remove_item(self.model, item_id):
             raise ProjectError(f"no item with id {item_id!r}")
         for i in ids:
