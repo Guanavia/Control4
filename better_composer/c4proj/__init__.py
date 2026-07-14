@@ -4,7 +4,9 @@ The primary entry point is the `Project` facade (project.py): open a .c4p, read/
 functional area through one consistent API, save it back. The lower-level modules (model, drivers,
 state, authoring, programming, agent_config, c4p) remain available for direct use.
 """
-from .project import Project, ProjectError, EditableSurface, PropertyValue, Reference, jsonable
+from .project import (
+    Project, ProjectError, EditableSurface, PropertyValue, Reference, ConnectionCandidate, jsonable,
+)
 from .agents import AgentVocab
 from .c4p import C4Package, IntegrityIssue
 from .model import (
@@ -22,8 +24,8 @@ from .programming import (
 
 __all__ = [
     # facade
-    "Project", "ProjectError", "EditableSurface", "PropertyValue", "Reference", "jsonable",
-    "AgentVocab",
+    "Project", "ProjectError", "EditableSurface", "PropertyValue", "Reference",
+    "ConnectionCandidate", "jsonable", "AgentVocab",
     # package + model
     "C4Package", "IntegrityIssue",
     "ProjectModel", "Item", "Device", "ItemKind", "Binding", "Consumer", "Variable",

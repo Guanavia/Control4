@@ -1045,16 +1045,16 @@ serialized payloads). Key decisions:
     crashes across all 417 RH items, degrades gracefully). UI rule: only offer STRUCTURED edits where
     we have a known model (`agent_config_kind` set, or a driver schema); for anything unknown, show
     read-only / preserve — never let a user write a partial/wrong state blob.
-  - *Referential integrity on DELETE (KNOWN GAP, found 2026-07-14):* `remove_item` removes the item +
-    its bindings, but does NOT clean references to the removed device held in OTHER items' state —
-    a lighting-scene `AdvSceneMember/device_id`, room `OrderedWatch/ListenList` entries, keypad
-    button bindings, or programming codeitems that target it — leaving DANGLING references. Confirmed:
-    deleting a scene-member light left the scene still listing the dead id. Director may tolerate it,
-    but it violates "nothing breaks." **Fix approach (recommended, also better UX than Composer):** add
-    a backend `references_to(item_id)` query (scan agent/room/keypad state blobs + programming +
-    bindings for the id) and make destructive ops **dependency-aware** — the UI surfaces "this device
-    is used by N scenes / M rules" before delete and offers cascade-clean. Not a beta blocker (tool
-    works; likely Director-tolerated) but a near-term robustness item. NOT yet built.
+  - *Referential integrity on DELETE (FIXED 2026-07-14):* `remove_item` used to leave dangling
+    references to a removed device in OTHER items' state (lighting-scene `AdvSceneMember/device_id`,
+    room `OrderedWatch/ListenList` entries) + programming. **Now closed:** `authoring.find_references`
+    / `clean_references` scan+clean device-id refs across connections, network bindings, programming
+    (rules triggered by / actions targeting the device), and state blobs. Facade:
+    `Project.references_to(id) -> [Reference]` (serializable — for the UI to show "used by N scenes /
+    M rules" before delete) and `remove_item(id, clean_references=True)` for the safe cascade
+    (default `remove_item` unchanged/backward-compatible). Verified: scene-member + programming refs
+    detected and fully cleaned, 0 dangling refs, reload CLEAN. **UI must call `references_to` before a
+    delete, show dependencies, and use `clean_references=True` on confirm** (warn-and-cascade).
 
 ---
 

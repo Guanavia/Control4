@@ -94,6 +94,33 @@ class PropertyValue:
 
 
 @dataclass
+class ConnectionCandidate:
+    """A valid target for wiring one of a device's connection points: a complementary endpoint
+    (provider↔consumer) on another device that shares at least one binding class. This is what a
+    Connections UI offers when the user wires a connection, so it never proposes an illegal binding."""
+    from_connection_id: str        # the selected device's endpoint
+    from_connection_name: str
+    from_is_consumer: bool
+    to_item_id: str                # the other device
+    to_item_name: str
+    to_connection_id: str
+    to_connection_name: str
+    classes: List[str]             # the shared binding class(es)
+
+    def as_binding_args(self, from_item_id: str) -> dict:
+        """The provider→consumer arguments for Project.add_binding() to realize this candidate."""
+        if self.from_is_consumer:
+            provider_id, provider_bid = self.to_item_id, self.to_connection_id
+            consumer_id, consumer_bid = from_item_id, self.from_connection_id
+        else:
+            provider_id, provider_bid = from_item_id, self.from_connection_id
+            consumer_id, consumer_bid = self.to_item_id, self.to_connection_id
+        return {"provider_id": provider_id, "provider_bindingid": provider_bid,
+                "consumer_id": consumer_id, "consumer_bindingid": consumer_bid,
+                "name": self.to_connection_name, "classes": self.classes}
+
+
+@dataclass
 class Reference:
     """One place a device is referenced elsewhere in the project. Shown to the user before a
     destructive action (dependency-aware delete)."""
@@ -183,6 +210,12 @@ class Project:
     def _touch(self) -> None:
         self._dirty = True
         self._index = None   # structural or state edits can invalidate the id index
+
+    @staticmethod
+    def _require_name(name: str) -> str:
+        if name is None or not str(name).strip():
+            raise ProjectError("name must not be empty")
+        return name
 
     def save(self, out_path: Optional[str] = None) -> List[str]:
         """Flush every open state editor into the model, write project.xml, and repackage. If
@@ -469,15 +502,17 @@ class Project:
 
     # ---- write: items -------------------------------------------------------
     def rename(self, item_id: str, new_name: str) -> None:
-        self.get(item_id).rename(new_name)
+        self.get(item_id).rename(self._require_name(new_name))
         self._touch()
 
     def add_device(self, driver_filename: str, name: str, room_id: str) -> str:
+        self._require_name(name)
         new_id = authoring.add_device(self.model, driver_filename, name, room_id)
         self._touch()
         return new_id
 
     def add_room(self, floor_id: str, name: str, template_room_id: Optional[str] = None) -> str:
+        self._require_name(name)
         new_id = authoring.add_room(self.model, floor_id, name, template_room_id)
         self._touch()
         return new_id
@@ -489,6 +524,7 @@ class Project:
 
     def add_controller(self, room_id: str, controller_driver: str, controller_name: str,
                        **kw) -> Dict[str, str]:
+        self._require_name(controller_name)
         ids = authoring.add_controller(self.model, room_id, controller_driver, controller_name, **kw)
         self._touch()
         return ids
@@ -529,6 +565,41 @@ class Project:
         self._touch()
 
     # ---- write: connections -------------------------------------------------
+    def connection_candidates(self, item_id: str,
+                              connection_id: Optional[str] = None) -> List[ConnectionCandidate]:
+        """Valid wiring targets for a device's connection point(s): complementary endpoints
+        (provider↔consumer) on OTHER devices that share a binding class. Pass connection_id to scope
+        to one endpoint. The UI offers these so it never proposes an illegal binding; realize a choice
+        with `add_binding(**candidate.as_binding_args(item_id))`."""
+        src = self.driver_of(item_id)
+        if src is None:
+            return []
+        src_conns = [c for c in src.connections
+                     if connection_id is None or c.id == connection_id]
+        if not src_conns:
+            return []
+        others = [(it, self.driver_of(it.id))
+                  for it in self.items() if it.id != item_id and it.driver]
+        out: List[ConnectionCandidate] = []
+        for sc in src_conns:
+            sc_classes = set(sc.classes)
+            for it, drv in others:
+                if drv is None:
+                    continue
+                for oc in drv.connections:
+                    if sc.consumer == oc.consumer:   # need one provider + one consumer
+                        continue
+                    shared = sc_classes & set(oc.classes)
+                    if not shared:
+                        continue
+                    out.append(ConnectionCandidate(
+                        from_connection_id=sc.id, from_connection_name=sc.name,
+                        from_is_consumer=sc.consumer,
+                        to_item_id=it.id, to_item_name=it.name,
+                        to_connection_id=oc.id, to_connection_name=oc.name,
+                        classes=sorted(shared)))
+        return out
+
     def add_binding(self, provider_id: str, provider_bindingid: str, consumer_id: str,
                     consumer_bindingid: str, name: str, classes: List[str]) -> None:
         """Wire a connection provider->consumer. Both device ids must exist in the project (guards a
@@ -550,6 +621,7 @@ class Project:
 
     # ---- write: variables ---------------------------------------------------
     def add_variable(self, name: str, var_type: str = "3", **kw) -> str:
+        self._require_name(name)
         vid = authoring.add_variable(self.model, name, var_type, **kw)
         self._touch()
         return vid
