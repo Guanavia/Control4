@@ -1009,6 +1009,35 @@ none. This pass made NO code changes (nothing needed fixing). What remains is pu
 best driven by the UI itself: Media depth, binding class-compatibility helper, more agent-config
 recipes/vocab, optional name validation.
 
+## UI BUILD PHASE — decisions (2026-07-14)
+
+Backend is done; UI is next, built with a design-focused tool. Full brief in
+`better_composer/design_brief/` (`API_REFERENCE.md`, `UI_BUILD_PROMPT.md`, `sample_data.json` = real
+serialized payloads). Key decisions:
+- **Architecture: cross-platform DESKTOP app** (Windows/macOS), React UI in a native shell (**Tauri**
+  preferred; Electron fallback), with the validated Python `c4proj` backend bundled as a local
+  sidecar (thin JSON wrapper = one endpoint per facade method, generated separately). DO NOT rewrite
+  the backend.
+- **Mobile/tablet-FORWARD (phase 2 goal, design for it now):** on-site programmers should eventually
+  use iPads/tablets/phones (Composer Express is barely usable). Build desktop-first but make no
+  desktop-only choices — responsive/adaptive, touch-first-friendly. Eventual mobile client talks to a
+  backend (Python can't run on-device); React + adaptive keeps that cheap.
+- **Interaction model: NO persistent tree-left/detail-right master-detail** (explicit anti-goal —
+  user flagged it as a core Composer failure; I wrongly re-proposed it and corrected). Use a
+  **focus+lenses** model: current object of focus travels with the user across the five areas
+  (System Design/Connections/Media/Agents/Programming), navigated by search/command-palette, spatial/
+  canvas, and/or AI — not a rigid tree. `surface_of(id)` is the portable "context bundle" that powers
+  the focus view.
+- **Programming: THREE modes over one engine** — visual drag-drop, advanced expression building
+  (Composer-parity grammar), AI-driven NL — all compile to `add_rule`.
+- **AI: LINKABLE, not hard-baked** — provider-agnostic "connect a model" setting (Claude or other);
+  core editor fully works with no model linked; features light up when linked, consuming the same
+  serializable project data + proposing reviewable actions.
+- **SCOPE: Control4 OS 4+ only.** Disregard OS 3 and earlier (formats/agents/directors). Old DEVICES
+  stay supported (legacy drivers run on OS 4 directors; catalog + backend handle old driver files).
+  Our tool is file-based so — unlike Composer Pro — it needs no "pick OS version on open" gate; read
+  director version from `identity()`, preserve it, align driver/agent vocab to OS 4.x.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

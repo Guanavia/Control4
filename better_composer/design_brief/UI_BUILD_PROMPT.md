@@ -27,11 +27,31 @@ validated writes. The UI's job is to make that capability feel effortless.
   Electron child process); the UI calls it over a local IPC/HTTP channel. Do NOT rewrite the backend —
   it's hard-won and validated; keep it as the engine. Design as if each backend call returns the JSON
   in `sample_data.json`.
-- **Mobile is phase 2**, not a constraint on this build: because the engine is Python (can't run
-  on-device easily), a future mobile client is a thin app talking to a backend, or a responsive web
-  build — keeping the UI in React leaves that path open. Don't compromise the desktop build for it.
+- **Build desktop-first, but design mobile/tablet-FORWARD.** A real goal (phase 2) is an app that
+  on-site programmers can actually use on **iPads/large tablets and phones** — Control4's current
+  mobile tool ("Composer Express") is barely usable beyond trivial tasks, and a genuinely capable
+  touch tool would be a major benefit. So while we ship desktop first, **do not make choices that
+  paint us into a desktop-only corner**: use responsive/adaptive layouts, **touch-first-friendly**
+  interactions (large targets, no hover-only affordances, drag that also works by touch, no
+  right-click-only actions), and a component structure that reflows to tablet/phone. This *reinforces*
+  the no-rigid-tree decision above — the focus+lenses / search / canvas model adapts to touch far
+  better than a dense tree+detail desktop layout. (Engine note: the Python backend can't run
+  on-device, so the eventual mobile client talks to a backend — but keeping the UI React + adaptive
+  keeps that path cheap.)
 - One open project = one editing session with dirty-tracking and an explicit **Save** (produces a
   `.c4p` the dealer loads onto the controller).
+
+## Scope: Control4 OS 4+ only (a deliberate simplification)
+
+Target **Director OS version 4 and newer**. We can **disregard OS 3 and earlier** entirely — no OS 3
+project formats, agents, or director interaction. **Old DEVICES stay supported** (a legacy driver
+still runs on an OS 4 director; the driver catalog covers old + new hardware, and the backend handles
+old driver files) — we just don't support old OS *directors*. Note: unlike Composer Pro (which pins a
+specific Director OS version because it connects live to that controller), our tool is **file-based** —
+it edits the `.c4p`, and Composer does the final load to a matching director. So we don't need
+Composer's "pick an OS version on open" gate; we read the project's director version from `identity()`,
+preserve it, and align our driver/agent vocab to OS 4.x. This narrows scope meaningfully — build to
+OS 4.x semantics and don't spend effort on backward-compat with OS 3.
 
 ## Interaction model — DO NOT build a persistent-tree master-detail layout
 
