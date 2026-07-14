@@ -751,10 +751,29 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
   - Other controller models: same call with a different `controller_driver` (fetch via
     `repo.download()`); Core5 already load-proven via the earlier theater-from-blank pressure test.
 
-**Still open, next in order:** GAP #2 (property/config write-side) — the generic `<state>`-blob
-editor primitive + generalizing the one captured agent-config recipe (Advanced Lighting scenes),
-then the #2c capture campaign in the VM for the per-driver property maps + other agents' config
-models. Then GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
+- **GAP #2 (property/config write-side) — STARTED: generic state editor DONE (Mac-side machinery).**
+  `c4proj/state.py` `StateEditor` reads/edits an item's `<state>` blob (escaped XML; ET unescapes on
+  read, re-escapes on save). Path notation matches `c4proj diff`: `/TAG/CHILD` with `[i]` on
+  repeats (e.g. `/BUTTON_LIST_INFO/KEYPAD_BUTTON_INFO[1]/BUTTON_ID`). API: `fields()`, `get`, `find`,
+  `set` (creates missing single-occurrence ancestors/leaf), `append`/`remove` (repeated structures),
+  `init_root` (for empty/skeletal items, e.g. agents), `flush`. Module helper `edit_state(model,
+  item_id)`. Tested end-to-end: read, set existing+new+nested, append/remove keypad buttons,
+  full save+reload round-trip, correct escaping (no raw `<State>` leaks into project.xml).
+  CLI added: `c4proj properties <c4p> <item_id>` (read) and `c4proj set-property <c4p> <item_id>
+  <state_path> <value> -o out.c4p [--yes]` (write, with the identity-card confirm). Both exercised.
+  - **VM test PENDING (the crux for #2's viability):** does Director PRESERVE an edited property on
+    load, or regenerate/overwrite it? Artifact `test projects/state-edit-property-test
+    [MAX_ON_LEVEL=77].c4p` (capture-12 base, item 16 dimmer MAX_ON_LEVEL 100->77, drivers bundled).
+    Prior evidence says preserve — the controller compound's PROVIDED room/media state came back
+    unchanged after load (Director only regenerates EMPTY/skeletal state, doesn't clobber provided
+    values) — but this is the direct confirmation. User loads + backs up -> `c4proj diff` checks
+    whether 77 survived.
+  - **Still to do on #2:** generalize the one captured agent-config recipe (Advanced Lighting
+    scenes, captures 15-18) on top of StateEditor; then the #2c VM capture campaign for per-driver
+    property maps + other agents' config models (needs the property/field semantics that only
+    Composer knows — user-in-the-loop in the VM).
+
+**Still open after #2:** GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
 
 ---
 

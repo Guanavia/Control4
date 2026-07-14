@@ -7,11 +7,15 @@ CLI for c4proj.
   python -m c4proj program   <file.c4p>              programming (events -> codeitems)
   python -m c4proj drivers   <file.c4p>              driver files + command/event/proxy counts
   python -m c4proj device    <file.c4p> <deviceid>   a device's resolved events/commands/conditions
+  python -m c4proj properties <file.c4p> <item_id>   dump an item's <state> config as path=value
   python -m c4proj roundtrip <file.c4p>              unpack -> repack unchanged; verify integrity
   python -m c4proj identify  <file.c4p>              show the project-version confirmation card
   python -m c4proj diff      <a.c4p> <b.c4p> [--detail]  oracle: what changed A->B; --detail shows
                                                          state-blob field deltas + added bindings
   python -m c4proj rename    <file.c4p> <old> <new> -o out.c4p [--yes]   demo edit: rename a device
+  python -m c4proj set-property <file.c4p> <item_id> <state_path> <value> -o out.c4p [--yes]
+                             edit one <state> config field (path like /MAX_ON_LEVEL or
+                             /BUTTON_LIST_INFO/KEYPAD_BUTTON_INFO[1]/BUTTON_ID)
   python -m c4proj add-rule  <file.c4p> <trigger_dev> <trigger_event> <target_dev> <command>
                              -o out.c4p [--yes]   demo edit: single-command rule via programming.py
                              ("WHEN trigger_dev fires trigger_event: send command to target_dev")
@@ -303,6 +307,44 @@ def cmd_add_rule(path: str, trigger_dev: str, trigger_event: str, target_dev: st
     return 0
 
 
+def cmd_properties(path: str, item_id: str) -> int:
+    """Dump an item's <state> config as flat path=value fields (read-only)."""
+    from .state import edit_state
+    with C4Package.open(path) as pkg:
+        pm = _pm(pkg)
+        name = {d.id: d.name for d in pm.all_devices()}.get(item_id, "?")
+        ed = edit_state(pm, item_id)
+        fields = ed.fields()
+        print(f"({item_id}) {name} — {len(fields)} state fields"
+              + ("" if fields else "  (empty state)"))
+        for k in sorted(fields):
+            print(f"  {k} = {fields[k]!r}")
+    return 0
+
+
+def cmd_set_property(path: str, item_id: str, statepath: str, value: str, out: str,
+                     assume_yes: bool) -> int:
+    """Set one <state> field on an item, then repackage. The generic property/config write."""
+    from .state import edit_state
+    with C4Package.open(path) as pkg:
+        pm = _pm(pkg)
+        if not _confirm_project(pkg, pm, assume_yes):
+            return 3
+        ed = edit_state(pm, item_id)
+        old = ed.get(statepath)
+        ed.set(statepath, value)
+        ed.flush()
+        print(f"item {item_id}: {statepath}  {old!r} -> {value!r}")
+        pm.save()
+        changed = pkg.save(out)
+        print(f"wrote {out}")
+        print(f"manifest md5 updated for: {changed}")
+    with C4Package.open(out) as pkg2:
+        issues = pkg2.verify()
+        print(f"new package integrity: {'CLEAN' if not issues else issues}")
+    return 0
+
+
 def main(argv: list) -> int:
     if len(argv) < 2:
         print(__doc__)
@@ -327,6 +369,14 @@ def main(argv: list) -> int:
         return cmd_drivers(path)
     if cmd == "device":
         return cmd_device(path, argv[2])
+    if cmd == "properties":
+        # properties <file> <item_id>
+        return cmd_properties(path, argv[2])
+    if cmd == "set-property":
+        # set-property <file> <item_id> <state_path> <value> -o out.c4p [--yes]
+        item_id, statepath, value = argv[2], argv[3], argv[4]
+        out = argv[argv.index("-o") + 1] if "-o" in argv else path + ".prop.c4p"
+        return cmd_set_property(path, item_id, statepath, value, out, assume_yes="--yes" in argv)
     if cmd == "rules":
         return cmd_rules(path)
     if cmd == "diff":
