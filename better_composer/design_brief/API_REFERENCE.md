@@ -25,9 +25,11 @@ against those exact shapes.
   `UI_BUILD_PROMPT.md` "Architecture".
 - The proven Python `c4proj` backend ships as a **bundled local sidecar**; the "API server" above is a
   thin JSON wrapper (~one endpoint per facade method) that the UI calls over local IPC/HTTP. **Do not
-  rewrite the backend** — it's the validated engine. The wrapper is mechanical glue, **generated
-  separately, not the design tool's concern.** Design the frontend as if these calls return the JSON
-  in `sample_data.json`. Mobile is a later phase (thin client to a backend), not part of this build.
+  rewrite the backend** — it's the validated engine. **The API server already EXISTS and works** —
+  `better_composer/api_server/` (FastAPI, 31 endpoints, interactive/try-it docs at `/docs`; run:
+  `uvicorn api_server.server:app --port 8765`; see its `README.md`). **Design the UI against those
+  endpoints**; each returns the JSON in `sample_data.json`. Mobile is a later phase (thin client to a
+  backend), not part of this build.
 - One `Project` instance = one open project = one editing session. It tracks `dirty`; Save persists
   (`save(out_path)`) a `.c4p` that Composer loads into a Director.
 
@@ -79,6 +81,11 @@ empty for structural items), and a **`kind`** (`ItemKind`):
 - `properties(id)`, `state_fields(id)` — the two config surfaces.
 - `search_drivers(query)` → `[DriverHit{name,manufacturer,model,proxy,control,filename,md5sum}]`.
 - `missing_drivers()`, `bundled_driver_files()`.
+- `references_to(id)` → `[Reference{ref_type,holder_id,holder_name,description}]` — everywhere this
+  item is used (scenes, rules, connections). **Call before deleting** (see below).
+- `connection_candidates(id[, connection_id])` → `[ConnectionCandidate{...}]` — valid wiring targets
+  (complementary endpoints sharing a binding class), so the Connections UI never offers an illegal
+  binding. `candidate.as_binding_args(id)` → the `add_binding` args to realize it.
 
 **Write (raise `ProjectError` on bad input — surface the message to the user)**
 - Items: `add_device(driver, name, room_id)`, `add_device_from_catalog(hit, name, room_id)` (search
@@ -127,3 +134,9 @@ empty for structural items), and a **`kind`** (`ItemKind`):
 - **`ItemKind` drives everything** — a ROOM's detail panel ≠ a DEVICE's ≠ an AGENT's.
 - **Two property surfaces** (driver properties vs proxy state) — primary vs Advanced.
 - **Save is explicit**; reflect `dirty` state; the output `.c4p` is what Composer loads.
+- **Deleting a device MUST be dependency-aware** — call `references_to(id)` first, show the user what
+  uses it ("member of 2 scenes, used in 1 rule"), and on confirm call `remove_item(id,
+  clean_references=True)` so nothing is left dangling. Plain `remove_item(id)` does NOT clean refs.
+- **Never write config you don't understand:** only offer structured edits where a schema / known
+  model exists (`surface.properties`, `agent_config_kind`); for unknown agents/devices, read-only +
+  preserve. Nothing in a project may break.

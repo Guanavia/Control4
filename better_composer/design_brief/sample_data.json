@@ -859,5 +859,63 @@
       "md5sum": "078f9b7084c9df27c552169645401ff0",
       "combo": false
     }
+  ],
+  "references_to (sample)": [
+    {
+      "ref_type": "connection",
+      "holder_id": "405",
+      "holder_name": "8-Ch APD - Slot 2",
+      "description": "connected to 8-Ch APD - Slot 2"
+    },
+    {
+      "ref_type": "connection",
+      "holder_id": "439",
+      "holder_name": "8-Ch APD - Slot 3",
+      "description": "connected to 8-Ch APD - Slot 3"
+    },
+    {
+      "ref_type": "connection",
+      "holder_id": "404",
+      "holder_name": "Bus Ethernet Gateway",
+      "description": "connected to Bus Ethernet Gateway"
+    }
+  ],
+  "connection_candidates (sample)": [
+    {
+      "from_connection_id": "5001",
+      "from_connection_name": "485 Bus",
+      "from_is_consumer": false,
+      "to_item_id": "435",
+      "to_item_name": "Lux Wired Keypad",
+      "to_connection_id": "5001",
+      "to_connection_name": "485 Bus",
+      "classes": [
+        "485_BUS"
+      ]
+    },
+    {
+      "from_connection_id": "5001",
+      "from_connection_name": "485 Bus",
+      "from_is_consumer": false,
+      "to_item_id": "442",
+      "to_item_name": "Lux Wired Keypad",
+      "to_connection_id": "5001",
+      "to_connection_name": "485 Bus",
+      "classes": [
+        "485_BUS"
+      ]
+    },
+    {
+      "from_connection_id": "5001",
+      "from_connection_name": "485 Bus",
+      "from_is_consumer": false,
+      "to_item_id": "440",
+      "to_item_name": "Lux Wired Keypad",
+      "to_connection_id": "5001",
+      "to_connection_name": "485 Bus",
+      "classes": [
+        "485_BUS"
+      ]
+    }
   ]
 }

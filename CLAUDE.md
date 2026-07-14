@@ -1009,6 +1009,23 @@ none. This pass made NO code changes (nothing needed fixing). What remains is pu
 best driven by the UI itself: Media depth, binding class-compatibility helper, more agent-config
 recipes/vocab, optional name validation.
 
+## UI ENABLERS BUILT (2026-07-14) — designer-ready
+
+Beyond the facade, built the glue + safety a beta UI needs (all tested + pushed):
+- **API SERVER (`better_composer/api_server/`)** — FastAPI wrapper over the `Project` facade, the
+  desktop app's backend **sidecar**. 31 endpoints (one open project/session), reads return the same
+  JSON the UI binds to, `ProjectError`->HTTP 400, `/docs` interactive console. Includes an
+  **action-JSON rule compiler** (`POST /rules` takes structured action nodes -> programming builders;
+  also the shape a linked AI model emits). Boots under `uvicorn api_server.server:app`; verified
+  end-to-end via TestClient + live uvicorn. Its `requirements.txt` (fastapi, uvicorn) is the ONLY
+  dependency outside stdlib — kept isolated from the stdlib-only `c4proj` core.
+- **`connection_candidates(id[, connection_id])`** (+ `ConnectionCandidate.as_binding_args`) — valid
+  wiring targets (complementary provider/consumer endpoints sharing a binding class) so the
+  Connections UI never proposes an illegal binding. Verified (TV HDMI inputs -> controller HDMI out).
+- **Name validation** — rename/add_device/add_room/add_controller/add_variable reject empty/whitespace.
+- Design brief refreshed (`design_brief/`): `sample_data.json` now includes references_to +
+  connection_candidates shapes; API_REFERENCE points the UI at the running API server.
+
 ## UI BUILD PHASE — decisions (2026-07-14)
 
 Backend is done; UI is next, built with a design-focused tool. Full brief in
