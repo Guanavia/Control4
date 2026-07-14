@@ -200,6 +200,19 @@ def while_(device_id: str, conditional_name: str, display: str, body: List["_Ite
 
 # ---- assembly ----------------------------------------------------------------------------------
 
+def _flatten_actions(actions):
+    """Expand any list elements one level so builders compose uniformly. Needed because if_()
+    returns a LIST ([if] or [if, else] — else is a sibling codeitem), while every other builder
+    returns a single _Item. Lets a caller write actions=[cmd, if_(...), delay(...)] naturally."""
+    out = []
+    for a in actions or []:
+        if isinstance(a, (list, tuple)):
+            out.extend(a)
+        else:
+            out.append(a)
+    return out
+
+
 class _Item:
     """A not-yet-materialized codeitem: holds enough to build() once we have an _IdCounter."""
 
@@ -214,7 +227,8 @@ class _Item:
 
     def build(self, counter: _IdCounter) -> ET.Element:
         my_id = counter.take()
-        sub_built = [s.build(counter) for s in self.subitems] if self.subitems is not None else None
+        sub_built = ([s.build(counter) for s in _flatten_actions(self.subitems)]
+                     if self.subitems is not None else None)
         expr_built = None
         if self.expression is not None:
             expr_built = []
@@ -234,7 +248,7 @@ def add_event_handler(model: ProjectModel, trigger_device_id: str, trigger_event
         em = ET.SubElement(model.root, "event_mgr")
 
     counter = _IdCounter()
-    built_actions = [a.build(counter) for a in actions]
+    built_actions = [a.build(counter) for a in _flatten_actions(actions)]
 
     root_ci = ET.Element("codeitem")
     ET.SubElement(root_ci, "id").text = "0"

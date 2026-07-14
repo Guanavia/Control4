@@ -911,6 +911,32 @@ configure properties, wire bindings, program rules incl. agents, edit/delete) wo
 through one serializable facade. Residual is additive coverage (Media area depth, more agent-config
 recipes/vocab, binding-legality validation) — build as the UI reaches it.
 
+### Fourth review pass (2026-07-14) — stress/edge/error-surface; one real bug + one gap fixed
+Reviewed by hammering the flows harder (heavy from-scratch builds, edge inputs, bad inputs, lightly
+touched areas). Found ONE real bug and ONE genuine gap:
+- **BUG (would break every UI-built conditional): `if_()` returns a LIST** (`[if]` or `[if, else]`,
+  since else is a sibling codeitem), while every other builder returns a single `_Item`. So the
+  natural `actions=[cmd, if_(...), delay(...)]` crashed (`'list' object has no attribute 'build'`).
+  Fixed: `programming._flatten_actions()` expands list elements one level, applied in
+  `add_event_handler` and `_Item.build` (covers top-level + nested then/else/body). Verified: mixed
+  rules with if/else build correct sibling structure.
+- **GAP: networkbindings (IP device addresses) weren't exposed at all.** 42 in Russell House
+  (`addr=192.168.1.133`, uuid, ssdp, status) — a UI couldn't even display a device's IP. Added
+  `model.NetworkBinding` + `ProjectModel.network_bindings()`, `Project.network_bindings()`,
+  `EditableSurface.network` (per-device, serializable), and `set_network_address(device_id, addr)`.
+  (Media area confirmed NOT a blocker: adding a streaming service = `add_device` with that driver,
+  works via catalog; only the deep media-DB is additive.)
+- **Error-surface audit PASSED:** 13 bad-input cases (bad ids, wrong item kind, bad rule handle,
+  agent-on-non-agent, ...) all raise clean `ProjectError` — no raw crashes. Edge-item surfaces
+  (project root/room/location) return empty surfaces without crashing. Unicode/special-char names
+  (`Café & Bar <Main>`, quotes) survive XML round-trip. Remove-controller leaves a consistent,
+  CLEAN-loading project. save() re-entrancy holds.
+- Committed/pushed. `__init__` exports `NetworkBinding`; 37 exports total.
+
+**Pattern note:** each successively deeper pass has found less (pass 3 = 2 blockers; pass 4 = 1 bug
++ 1 exposure gap, both minor). What remains is additive coverage and UX-decisions that only surface
+while building the UI — appropriate to handle in-beta, not pre-UI blockers.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

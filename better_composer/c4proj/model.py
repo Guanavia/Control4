@@ -116,6 +116,19 @@ class Binding:
 
 
 @dataclass
+class NetworkBinding:
+    """A device's network connection (IP/serial) — how Composer's Connections > Network tab stores
+    an IP device's address. `address` is e.g. '192.168.1.133'."""
+    deviceid: str
+    bindingid: str
+    address_type: str = ""
+    address: str = ""
+    uuid: str = ""
+    ssdp_type: str = ""
+    status: str = ""
+
+
+@dataclass
 class Variable:
     """A project variable (bool/number/string), owned by a device or the Variables agent (100001)."""
     id: str
@@ -255,6 +268,24 @@ class ProjectModel:
                 provider_deviceid=_text(bb, "deviceid"),
                 provider_bindingid=_text(bb, "bindingid"),
                 consumers=consumers,
+            ))
+        return out
+
+    # ---- network bindings ---------------------------------------------------
+    def network_bindings(self) -> List[NetworkBinding]:
+        nb = self.root.find("networkbindings")
+        if nb is None:
+            return []
+        out: List[NetworkBinding] = []
+        for b in nb.findall("networkbinding"):
+            out.append(NetworkBinding(
+                deviceid=_text(b, "deviceid"),
+                bindingid=_text(b, "networkbindingid"),
+                address_type=_text(b, "addresstype"),
+                address=_text(b, "addr"),
+                uuid=_text(b, "uuid"),
+                ssdp_type=_text(b, "ssdptype"),
+                status=_text(b, "status"),
             ))
         return out
 

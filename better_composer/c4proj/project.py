@@ -23,6 +23,7 @@ import enum
 import os
 import shutil
 import tempfile
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
@@ -50,7 +51,7 @@ from .agents import AgentVocab
 from .c4p import C4Package
 from .drivers import Command, Condition, Connection, Driver, DriverLibrary, Event as DrvEvent, \
     Property, ResolvedApi
-from .model import Binding, Event, Item, ItemKind, ProjectModel, Variable
+from .model import Binding, Event, Item, ItemKind, NetworkBinding, ProjectModel, Variable
 from .state import StateEditor
 
 
@@ -106,6 +107,7 @@ class EditableSurface:
     conditions: List[Condition]              # programmable: conditionals you can test
     connections: List[Connection]            # bindable endpoints declared by its driver
     bindings_out: List[Binding]              # connections currently made FROM this item
+    network: List[NetworkBinding] = field(default_factory=list)  # IP/serial network config
     agent_config_kind: Optional[str] = None  # e.g. "advanced_lighting" if a config helper exists
 
     def to_dict(self) -> dict:
@@ -292,6 +294,28 @@ class Project:
     def variables(self) -> List[Variable]:
         return self.model.variables()
 
+    def network_bindings(self) -> List[NetworkBinding]:
+        return self.model.network_bindings()
+
+    def set_network_address(self, device_id: str, address: str) -> None:
+        """Set an IP/serial device's network address (Connections > Network). Updates the device's
+        existing <networkbinding>; raises ProjectError if it has none (address bindings are normally
+        created by discovery on load, not authored from scratch)."""
+        nb = self.model.root.find("networkbindings")
+        target = None
+        if nb is not None:
+            for b in nb.findall("networkbinding"):
+                if b.findtext("deviceid") == device_id:
+                    target = b
+                    break
+        if target is None:
+            raise ProjectError(f"device {device_id} has no network binding to set an address on")
+        addr = target.find("addr")
+        if addr is None:
+            addr = ET.SubElement(target, "addr")
+        addr.text = address
+        self._touch()
+
     def rules(self) -> List[Event]:
         return self.model.events()
 
@@ -373,6 +397,7 @@ class Project:
             conditions=api.conditions if api else [],
             connections=drv.connections if drv else [],
             bindings_out=[b for b in self.model.bindings() if b.provider_deviceid == item_id],
+            network=[nb for nb in self.model.network_bindings() if nb.deviceid == item_id],
             agent_config_kind=agent_kind,
         )
 

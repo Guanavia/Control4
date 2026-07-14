@@ -8,7 +8,8 @@ from .project import Project, ProjectError, EditableSurface, PropertyValue, json
 from .agents import AgentVocab
 from .c4p import C4Package, IntegrityIssue
 from .model import (
-    ProjectModel, Item, Device, ItemKind, Binding, Consumer, Variable, Event, CodeItem,
+    ProjectModel, Item, Device, ItemKind, Binding, Consumer, Variable, NetworkBinding,
+    Event, CodeItem,
 )
 from .drivers import (
     DriverLibrary, Driver, Command, Condition, Connection, Property, ResolvedApi, load_driver,
@@ -25,7 +26,7 @@ __all__ = [
     # package + model
     "C4Package", "IntegrityIssue",
     "ProjectModel", "Item", "Device", "ItemKind", "Binding", "Consumer", "Variable",
-    "Event", "CodeItem",
+    "NetworkBinding", "Event", "CodeItem",
     # drivers
     "DriverLibrary", "Driver", "Command", "Condition", "Connection", "Property",
     "ResolvedApi", "load_driver",
