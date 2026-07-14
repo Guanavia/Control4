@@ -800,8 +800,26 @@ gaps: **#4 bindings → #3 add_controller → #2 property/config**. Progress thi
       instance; get them by reading back a Director-loaded instance's state (automatable), not by
       hand. And the proxy-layer config (keypad buttons, dimmer levels in `<State>`) is edited via
       the generic StateEditor path API (several such shapes already captured, e.g. BUTTON_LIST_INFO).
-  - **Still to do on #2:** the Advanced Lighting scene helper (agent-config recipe, captures 15-18)
-    on top of StateEditor — the one remaining generalize-a-captured-recipe task.
+  - **Advanced Lighting scene helper — DONE + validated.** `c4proj/agent_config.py`
+    `AdvancedLighting(model, agent_id)` with `add_scene` (auto scene_id), `add_member` (add a light
+    load at a level), `set_togglable` (enables default toggle — creates the `<OffToggleScene>` under
+    `all_off_toggle_scenes` + points the scene's `off_toggle_id` at it, auto-allocating the id), and
+    `scene_names`/`flush`. Structures/defaults reverse-engineered from captures 15-18 (`<AdvScene>`
+    under `all_scenes`; `<AdvSceneMember>` under the scene's `all_members` with an `all_elements/
+    element` level/color block). **Validation:** rebuilding the "House Off" scene from the empty
+    capture-15 agent (add scene + 2 loads + toggle) yields state that is **data-identical to
+    Composer's own capture-18** — 0 differing leaf paths, matching element order; only residual is
+    empty-element serialization style (`<x/>` vs `<x></x>`), which Director normalizes on load. This
+    is the template for other agent-config recipes (scheduler entries, announcements, ...): decode
+    the state sub-model from captures once, wrap it as a helper on StateEditor.
+
+  **=> GAP #2 (property/config write-side) is now substantially COMPLETE:** generic StateEditor
+  (VM-validated: Director preserves edits), driver-property schema+values (metadata-derived, no
+  capture), and the first agent-config recipe (Advanced Lighting, data-identical to Composer). What
+  remains is additive: decode more agent-config sub-models the same way as they're needed (each is a
+  bounded ~1-capture-series task, not an open-ended campaign), and fully-dynamic Lua properties
+  (read back from a Director-loaded instance). Backend is close to virtual-director parity for
+  authoring.
 
 **Still open after #2:** GAP #5 (2 null + ~8 raw agents; Ghidra now runs on the Mac).
 
