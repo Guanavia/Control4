@@ -982,6 +982,33 @@ Aimed at what prior passes hadn't touched. One footgun-guardrail fix; everything
 **Convergence: pass 3 = 2 blockers; pass 4 = 1 bug + 1 gap; pass 5 = 1 silent bug; pass 6 = 1
 footgun-guardrail (mildest yet).** Findings shrinking in count AND severity each pass.
 
+### Seventh review pass (2026-07-14) — CLEAN. No blockers, no bugs found.
+Aimed at the last untested corners: driver-resolution edges, change_driver interactions, multi-save
+durability, degenerate cases. Everything held:
+- **`surface_of` swept across ALL 417 items: 0 crashes**; unbundled-driver items (51 of them),
+  combo drivers, proxy subs all degrade gracefully and serialize.
+- **`change_driver`** strips state (Director regenerates on load), drops the stale cached editor,
+  works on a parent that has proxy subs.
+- **9 edit/save cycles with a LIVE mid-session catalog install** (Roku) -> reload CLEAN.
+- **Remove-room cascade** (removes room + all descendants + their bindings, consistent),
+  **save-overwrite-in-place** (UI "Save" over the open file) then continue editing, **deep
+  programming nesting** (if>while>if>cmd, depth 4), **variable conditionals**, **5000-char property
+  values**, **400-char unicode names**, **degenerate empty project** (read/serialize/save on 1 item)
+  — all CLEAN.
+- **Shared-cached-editor invariant CONFIRMED:** `set_property` + `set_state_field` on the same item
+  use ONE editor and both persist — the lost-update hazard is genuinely closed.
+- **Only soft note (NOT a blocker):** empty/whitespace names are accepted (`rename("")`,
+  `add_variable("")`). Doesn't crash or corrupt; name validation is conventionally the UI's job.
+  Left as a UI-layer choice, not fixed as a backend finding. (If desired later, add a non-empty
+  check to rename/add_* — trivial.)
+
+**VERDICT: the backend passed a clean deep-review pass — no blockers to a full beta UI.** Six passes
+of escalating adversarial review (create flows -> serialization -> stress/edge -> silent-write bugs
+-> footguns -> resolution/durability edges) found progressively fewer, milder issues; pass 7 found
+none. This pass made NO code changes (nothing needed fixing). What remains is purely additive and
+best driven by the UI itself: Media depth, binding class-compatibility helper, more agent-config
+recipes/vocab, optional name validation.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)
