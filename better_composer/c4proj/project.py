@@ -383,6 +383,11 @@ class Project:
             })
         return out
 
+    def rule_actions(self, rule) -> list:
+        """A rule's script as action-JSON (the same shape add_rule/replace_rule accept) — so a UI can
+        load an existing rule into its editor and round-trip it. `rule` is an Event or handle string."""
+        return prog.decompile_event(self._resolve_rule(rule))
+
     def _resolve_rule(self, rule) -> Event:
         """Accept a rule as an Event object or a handle string (from rules_view)."""
         if isinstance(rule, str):

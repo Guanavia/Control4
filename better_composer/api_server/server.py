@@ -139,6 +139,13 @@ def rules():
     return proj().rules_view()
 
 
+@app.get("/rules/{handle}/actions")
+def rule_actions(handle: str):
+    """The rule's script as action-JSON (same shape POST/PUT accept) — load an existing rule into the
+    editor and round-trip it."""
+    return proj().rule_actions(handle)
+
+
 @app.get("/variables")
 def variables():
     return _aslist(proj().variables())
@@ -370,7 +377,8 @@ def _build_action(a: dict):
         return prog.agent_command(a["agent"], a["command"], a.get("display", a["command"]),
                                   params=a.get("params"))
     if t == "set_variable":
-        return prog.set_variable(a["variable_id"], a["value"], var_name=a.get("var_name", ""))
+        return prog.set_variable(a["variable_id"], a["value"], display=a.get("display"),
+                                 var_name=a.get("var_name", ""))
     if t == "delay":
         return prog.delay(int(a["ms"]))
     if t == "break":

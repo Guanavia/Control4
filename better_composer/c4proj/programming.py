@@ -95,7 +95,7 @@ def command(device_id: str, command_name: str, display: str,
     ET.SubElement(dc, "command").text = command_name
     params_el = ET.SubElement(dc, "params")
     for name, spec in (params or {}).items():
-        value, value_type = spec if isinstance(spec, tuple) else (spec, "INTEGER")
+        value, value_type = spec if isinstance(spec, (tuple, list)) else (spec, "INTEGER")
         params_el.append(_value_param(name, value, value_type))
     cc = ET.Element("cmdcond")
     cc.append(dc)
@@ -148,14 +148,14 @@ def _conditional_cmdcond(name: str, params: Optional[dict], owner_type: str, own
     if owner_type == "variable":
         dcond.set("name", "==")
         for pname, spec in (params or {}).items():
-            value, value_type = spec if isinstance(spec, tuple) else (spec, "int")
+            value, value_type = spec if isinstance(spec, (tuple, list)) else (spec, "int")
             dcond.append(_inline_param(pname, value, value_type))
     else:
         ET.SubElement(dcond, "name").text = name
         if params:
             params_el = ET.SubElement(dcond, "params")
             for pname, spec in params.items():
-                value, value_type = spec if isinstance(spec, tuple) else (spec, "INTEGER")
+                value, value_type = spec if isinstance(spec, (tuple, list)) else (spec, "INTEGER")
                 params_el.append(_value_param(pname, value, value_type))
     cc = ET.Element("cmdcond")
     cc.append(dcond)
@@ -268,6 +268,127 @@ def add_event_handler(model: ProjectModel, trigger_device_id: str, trigger_event
     ET.SubElement(event_el, "eventid").text = trigger_event_id
     event_el.append(root_ci)
     return event_el
+
+
+def _param_value(param_el: ET.Element):
+    """Return (value, type) from a param, handling both encodings: <value type=T><static>V</static>
+    </value> (device commands) and inline <param name=.. type=..>V</param> (variable ops)."""
+    v = param_el.find("value")
+    if v is not None:
+        static = v.find("static")
+        return (static.text if static is not None else None), v.get("type")
+    return param_el.text, param_el.get("type")
+
+
+def _decompile_params(container: ET.Element) -> dict:
+    out = {}
+    params_el = container.find("params")
+    if params_el is not None:
+        for p in params_el.findall("param"):
+            out[p.findtext("name")] = list(_param_value(p))
+    for p in container.findall("param"):        # inline (variable-op) params
+        if p.get("name"):
+            out[p.get("name")] = [p.text, p.get("type")]
+    return out
+
+
+def _decompile_expression(expr_el: ET.Element) -> list:
+    """<expression> -> extra_conditions [[op, device, conditional, display, params], ...]."""
+    ecs, op = [], None
+    for el in expr_el.findall("codeitem"):
+        if el.findtext("type") == "6":
+            op = el.findtext("display")
+        else:
+            dcond = el.find("cmdcond/deviceconditional")
+            params = _decompile_params(dcond) if dcond is not None else {}
+            cname = (dcond.findtext("name") or dcond.get("name")) if dcond is not None else None
+            ecs.append([op, el.findtext("device"), cname, el.findtext("display") or "",
+                        params or None])
+    return ecs
+
+
+def _decompile_codeitem(ci: ET.Element):
+    """One codeitem -> one action-JSON node (the inverse of api_server's _build_action). Returns None
+    for structural nodes handled by the caller (else/operator)."""
+    typ = ci.findtext("type")
+    device = ci.findtext("device")
+    display = ci.findtext("display") or ""
+    if typ == "1":
+        dc = ci.find("cmdcond/devicecommand")
+        cmd = dc.findtext("command") if dc is not None else None
+        if device == PROGRAMMING_DEVICE:
+            if cmd == "DELAY":
+                params = _decompile_params(dc) if dc is not None else {}
+                ms = (params.get("time") or [0])[0]
+                return {"type": "delay", "ms": int(ms) if str(ms).isdigit() else ms}
+            if cmd == "BREAK":
+                return {"type": "break"}
+            if cmd == "RETURN":
+                return {"type": "stop"}
+        owner = dc.get("owneridtype") if dc is not None else ""
+        if owner == "variable":
+            params = _decompile_params(dc)
+            return {"type": "set_variable", "variable_id": dc.get("owneriditem"),
+                    "value": (params.get("value") or [None])[0], "display": display}
+        node = {"type": "agent_command" if owner == "agent" else "command",
+                "command": cmd, "display": display}
+        node["agent" if owner == "agent" else "device"] = device
+        params = _decompile_params(dc) if dc is not None else {}
+        if params:
+            node["params"] = params
+        return node
+    if typ in ("2", "3"):
+        dcond = ci.find("cmdcond/deviceconditional")
+        node = {"type": "if" if typ == "2" else "while", "device": device, "display": display}
+        if dcond is not None:
+            node["conditional"] = dcond.findtext("name") or dcond.get("name")
+            owner = dcond.get("owneridtype")
+            if owner:
+                node["owner_type"] = owner
+                node["owner_id"] = dcond.get("owneriditem")
+            params = _decompile_params(dcond)
+            if params:
+                node["params"] = params
+        if typ == "2":
+            expr = ci.find("expression")
+            if expr is not None:
+                ecs = _decompile_expression(expr)
+                if ecs:
+                    node["extra_conditions"] = ecs
+            node["then"] = _decompile_subitems(ci.find("subitems"))
+        else:
+            node["body"] = _decompile_subitems(ci.find("subitems"))
+        return node
+    return None  # type 4 (else) paired by caller; type 6 handled in expression
+
+
+def _decompile_subitems(subitems_el: Optional[ET.Element]) -> list:
+    if subitems_el is None:
+        return []
+    cis = subitems_el.findall("codeitem")
+    out, i = [], 0
+    while i < len(cis):
+        ci = cis[i]
+        if ci.findtext("type") == "4":       # stray else without a preceding if
+            i += 1
+            continue
+        node = _decompile_codeitem(ci)
+        if node is not None:
+            if node.get("type") == "if" and i + 1 < len(cis) and cis[i + 1].findtext("type") == "4":
+                node["else"] = _decompile_subitems(cis[i + 1].find("subitems"))
+                i += 1
+            out.append(node)
+        i += 1
+    return out
+
+
+def decompile_event(event) -> list:
+    """A rule's script as action-JSON — the inverse of add_event_handler's builders — so a UI can
+    load an existing rule back into its visual/expression editor and round-trip it. `event` is a
+    model.Event or an <event> element."""
+    ev = getattr(event, "el", event)
+    root = ev.find("codeitem")
+    return _decompile_subitems(root.find("subitems")) if root is not None else []
 
 
 def remove_event_handler(model: ProjectModel, event) -> bool:

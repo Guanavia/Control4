@@ -45,7 +45,8 @@ uvicorn api_server.server:app --reload --port 8765
 | `POST /items/{id}/property` `/state-field` `/network-address` | config writes |
 | `POST` / `DELETE /bindings` | add / remove binding |
 | `POST /variables`, `PATCH`/`DELETE /variables/{id}` | variable CRUD |
-| `POST /rules`, `PUT`/`DELETE /rules/{handle}` | programming |
+| `GET /rules`, `GET /rules/{handle}/actions` | list rules / a rule's script as action-JSON |
+| `POST /rules`, `PUT`/`DELETE /rules/{handle}` | add / replace / delete a rule |
 
 ## Authoring rules over the API (action-JSON)
 

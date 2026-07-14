@@ -76,7 +76,10 @@ empty for structural items), and a **`kind`** (`ItemKind`):
 **Read (all return JSON-ready via the *_view methods / to_dict())**
 - `tree_view()` → nested `{id,name,kind,driver,children}` — the project tree.
 - `surface_of(id).to_dict()` → the selection surface (see §2, sample_data.json).
-- `rules_view()` → `[{handle, trigger_device, trigger_event, actions:[…]}]` — programming.
+- `rules_view()` → `[{handle, trigger_device, trigger_event, actions:[…]}]` — programming (display).
+- `rule_actions(handle)` → the rule's script as **action-JSON** (the exact shape `add_rule`/
+  `replace_rule` accept) — so the visual/expression editor can LOAD an existing rule, edit it, and
+  save it back with no drift (verified round-trip-identical).
 - `variables()`, `bindings()`, `network_bindings()` — dataclass lists (JSON via `asdict`).
 - `properties(id)`, `state_fields(id)` — the two config surfaces.
 - `search_drivers(query)` → `[DriverHit{name,manufacturer,model,proxy,control,filename,md5sum}]`.
