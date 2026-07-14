@@ -108,24 +108,39 @@ def add_device(model: ProjectModel, driver_filename: str, name: str, room_id: st
     return new_id
 
 
-def add_room(model: ProjectModel, floor_id: str, name: str, template_room_id: str) -> str:
-    """Add a room by cloning an existing room's structure (RoomDeviceData state) under floor_id."""
+def add_room(model: ProjectModel, floor_id: str, name: str,
+             template_room_id: Optional[str] = None) -> str:
+    """Add a room under floor_id. If template_room_id is given, clone that room's structure;
+    otherwise (or if no rooms exist yet) build a fresh room from the standard roomdevice defaults —
+    so a UI can add the very first room without needing an existing one to clone."""
     root = model.root
-    tmpl = _find_item(root, template_room_id)
-    if tmpl is None:
-        raise ValueError(f"no template room {template_room_id}")
     new_id = next_ids(model, 1)[0]
-    clone = copy.deepcopy(tmpl)
-    clone.find("id").text = new_id
-    clone.find("name").text = name
-    cd = clone.find("created_datetime")
-    if cd is not None:
-        cd.text = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    si = clone.find("subitems")          # empty the cloned room's contents
-    if si is not None:
-        for ch in list(si):
-            si.remove(ch)
-    _room_of(root, floor_id).append(clone)
+
+    tmpl = _find_item(root, template_room_id) if template_room_id else None
+    if tmpl is None and template_room_id is None:
+        # auto-pick any existing room as the template, else synthesize a fresh one
+        tmpl = next((it for it in root.iter("item") if it.findtext("type") == "8"), None)
+
+    if tmpl is not None:
+        clone = copy.deepcopy(tmpl)
+        clone.find("id").text = new_id
+        clone.find("name").text = name
+        cd = clone.find("created_datetime")
+        if cd is not None:
+            cd.text = _now()
+        si = clone.find("subitems")          # empty the cloned room's contents
+        if si is not None:
+            for ch in list(si):
+                si.remove(ch)
+        _room_of(root, floor_id).append(clone)
+    elif template_room_id is not None:
+        raise ValueError(f"no template room {template_room_id}")
+    else:
+        room = _make_item(new_id, name, "8", c4i="roomdevice.c4i",
+                          state=_compound.SCAFFOLD["room"]["state"],
+                          large_image="locations_lg\\room.gif",
+                          small_image="locations_sm\\room.gif")
+        _room_of(root, floor_id).append(room)
     return new_id
 
 

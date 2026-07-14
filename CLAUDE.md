@@ -880,6 +880,37 @@ A deeper pass specifically for "what will fight a UI" surfaced three real hitche
 - All committed/pushed. Serialization, agent-vocab coverage, and handle round-trip tested; existing
   CLI + facade re-verified, no regressions. `__init__` exports `Project/jsonable/AgentVocab/...`.
 
+### Third review pass (2026-07-14) — create-flow blockers found + fixed
+Reviewed by walking the actual end-to-end CREATE flows a beta UI must support. Found TWO real
+blockers (both now fixed) plus two ergonomic gaps:
+- **Add-device flow was broken end-to-end.** `add_device` only referenced the driver filename; it
+  never installed the driver file into the package's `drivers/`, and the facade exposed no catalog
+  search/download/install — so a UI couldn't do "search catalog -> pick -> add." Added
+  `Project.search_drivers(query)` (live Control4 Solr catalog -> serializable DriverHits),
+  `install_driver(hit_or_filename)` (downloads into the package's drivers/, md5-verified, re-indexes
+  the DriverLibrary), `add_device_from_catalog(hit, name, room)` (one-call install+add), and
+  `missing_drivers()` / `bundled_driver_files()`. **Verified against the LIVE catalog**: searched
+  "Sony", installed `um_SonyLIV.c4z` into the package, added the device, driver resolves.
+- **No new-project-from-scratch seed.** The facade only opened existing `.c4p`s; a UI "New Project"
+  had nothing to start from. Shipped a tiny blank seed as package data (`c4proj/templates/blank.c4p`
+  = the clean 1-item capture-01, 137 KB; a `!` exception added to `.gitignore`'s `*.c4p` rule so it
+  tracks) + `Project.new(name=None)` classmethod. Verified: New -> add_controller compound -> rooms
+  -> device -> save -> reload CLEAN.
+- **`add_room` required a template room** (couldn't create the first room). Now `template_room_id` is
+  optional: clones a given/auto-picked room, or synthesizes a fresh one from roomdevice defaults.
+- **Programming rule builders weren't discoverable** (importable but not exported). `__init__` now
+  exports `command/agent_command/set_variable/delay/break_/stop/if_/while_` + the `programming`
+  module so a UI can construct rule actions from the top-level API.
+- save() re-entrancy (edit->save->edit->save) confirmed working — not a blocker.
+- All tested end-to-end (new project, live-catalog install+add device, first room, exported builder)
+  + facade/CLI regression; committed/pushed.
+
+**Verdict: no remaining backend blockers to a full, mostly-workable beta UI.** All five functional
+areas + the core create flows (new/import project, add controller/room/device incl. from catalog,
+configure properties, wire bindings, program rules incl. agents, edit/delete) work end-to-end
+through one serializable facade. Residual is additive coverage (Media area depth, more agent-config
+recipes/vocab, binding-legality validation) — build as the UI reaches it.
+
 ---
 
 ## NEXT-SESSION HANDOFF (laptop, 2026-07-13 end of workstation session)

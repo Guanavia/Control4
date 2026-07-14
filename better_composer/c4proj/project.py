@@ -20,8 +20,13 @@ from __future__ import annotations
 
 import dataclasses
 import enum
+import os
+import shutil
+import tempfile
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
+
+_BLANK_SEED = os.path.join(os.path.dirname(__file__), "templates", "blank.c4p")
 
 
 def jsonable(obj):
@@ -133,6 +138,23 @@ class Project:
     def open(cls, path: str) -> "Project":
         return cls(C4Package.open(path))
 
+    @classmethod
+    def new(cls, name: Optional[str] = None) -> "Project":
+        """Start a brand-new project from the bundled blank seed (one project-root item, empty
+        sections) — the 'New Project' flow. Add a controller (add_controller) + rooms + devices,
+        then save(out_path). Optionally set the project name."""
+        work = os.path.join(tempfile.mkdtemp(prefix="c4new_"), "new.c4p")
+        shutil.copy(_BLANK_SEED, work)
+        proj = cls(C4Package.open(work))
+        if name:
+            root_item = proj.model.root.find("./systemitems/item")
+            if root_item is not None:
+                nm = root_item.find("name")
+                if nm is not None:
+                    nm.text = name
+                    proj._touch()
+        return proj
+
     def close(self) -> None:
         self._pkg.close()
 
@@ -224,6 +246,44 @@ class Project:
             return api
         agent_api = self.agent_vocab.resolve(it.driver)
         return agent_api if agent_api is not None else api
+
+    # ---- driver catalog + install ------------------------------------------
+    def bundled_driver_files(self) -> List[str]:
+        d = self._pkg.path("drivers")
+        return sorted(os.listdir(d)) if os.path.isdir(d) else []
+
+    def missing_drivers(self) -> List[str]:
+        """Driver files referenced by items but NOT present in the package's drivers/. Note: some
+        are Director-internal (roomdevice.c4i, control4_agent_*.c4i) that Director supplies at load
+        and needn't be bundled; the rest are genuinely missing and should be install_driver()'d."""
+        bundled = set(self.bundled_driver_files())
+        referenced = {it.driver for it in self.items() if it.driver}
+        return sorted(referenced - bundled)
+
+    def search_drivers(self, query: str, rows: int = 20):
+        """Search the online Control4 driver catalog. Returns DriverHit dataclasses (serializable)."""
+        from . import repo
+        return repo.search(query, rows=rows)
+
+    def install_driver(self, driver, md5: Optional[str] = None) -> str:
+        """Download a driver into the package's drivers/ so it's bundled for save/load, and refresh
+        the driver library. `driver` is a filename str or a DriverHit (from search_drivers). Returns
+        the installed filename."""
+        from . import repo
+        filename = getattr(driver, "filename", driver)
+        expect_md5 = getattr(driver, "md5sum", None) or md5
+        dest = self._pkg.path("drivers")
+        os.makedirs(dest, exist_ok=True)
+        repo.download(filename, dest, expect_md5=expect_md5)
+        self.drivers = DriverLibrary(dest)   # re-index so the new driver resolves
+        self._touch()
+        return filename
+
+    def add_device_from_catalog(self, driver, name: str, room_id: str) -> str:
+        """One-call add-device create flow: install the catalog driver into the package, then add a
+        device instance of it to the room. `driver` is a DriverHit or filename str. Returns item id."""
+        filename = self.install_driver(driver)
+        return self.add_device(filename, name, room_id)
 
     # ---- read: areas --------------------------------------------------------
     def bindings(self) -> List[Binding]:
@@ -363,7 +423,7 @@ class Project:
         self._touch()
         return new_id
 
-    def add_room(self, floor_id: str, name: str, template_room_id: str) -> str:
+    def add_room(self, floor_id: str, name: str, template_room_id: Optional[str] = None) -> str:
         new_id = authoring.add_room(self.model, floor_id, name, template_room_id)
         self._touch()
         return new_id

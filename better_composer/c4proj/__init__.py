@@ -14,6 +14,10 @@ from .drivers import (
     DriverLibrary, Driver, Command, Condition, Connection, Property, ResolvedApi, load_driver,
 )
 from .state import StateEditor, edit_state
+from . import programming
+from .programming import (
+    command, agent_command, set_variable, delay, break_, stop, if_, while_,
+)
 
 __all__ = [
     # facade
@@ -27,4 +31,7 @@ __all__ = [
     "ResolvedApi", "load_driver",
     # state editing
     "StateEditor", "edit_state",
+    # programming rule builders
+    "programming", "command", "agent_command", "set_variable", "delay", "break_",
+    "stop", "if_", "while_",
 ]
