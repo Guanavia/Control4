@@ -146,7 +146,8 @@ def _conditional_cmdcond(name: str, params: Optional[dict], owner_type: str, own
     dcond.set("owneridtype", owner_type)
     dcond.set("owneriditem", owner_id)
     if owner_type == "variable":
-        dcond.set("name", "==")
+        # `name` carries the comparison operator for variable conditions (==, !=, >, <, >=, <=).
+        dcond.set("name", name or "==")
         for pname, spec in (params or {}).items():
             value, value_type = spec if isinstance(spec, (tuple, list)) else (spec, "int")
             dcond.append(_inline_param(pname, value, value_type))
