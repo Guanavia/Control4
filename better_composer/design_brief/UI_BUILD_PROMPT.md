@@ -174,7 +174,9 @@ Design implications:
 ## What NOT to worry about
 
 - The `.c4p` file format, XML, integrity/manifest — all handled by the backend.
-- The API server — generated separately.
+- The API server already exists (`better_composer/api_server/`) and works — run it and build against
+  it. You don't need to create it, but you CAN read/extend it (`server.py`) when a screen needs a
+  different endpoint shape.
 - Media library content — runtime data, not authored here.
 
 ## Deliverable for a first beta

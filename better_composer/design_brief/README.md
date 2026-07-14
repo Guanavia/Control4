@@ -3,6 +3,26 @@
 Everything needed to design + build the UI for the Control4 project editor. The backend is done,
 validated, and running behind an HTTP API; this folder is the handoff package for the design phase.
 
+## For the Claude Design agent (read this first)
+
+You have this whole repo. **Read `../../CLAUDE.md` for full project context** (why this exists, every
+decision, the backend's capabilities and its validated confidence level) — it's written for a Claude
+peer and will orient you fast. Then read this folder for the UI brief.
+
+**Source of truth vs. orientation.** The files in this folder (`API_REFERENCE.md`, `sample_data.json`)
+are hand-written SNAPSHOTS for fast orientation — helpful, but they can lag the code. The
+AUTHORITATIVE API contract is the actual code, which you can read and run:
+- **`../api_server/server.py`** — the real endpoints + request/response models (~33 routes).
+- **`openapi.json`** — the machine-readable spec (also live at `/docs` when the server runs).
+- **`../c4proj/project.py`** — the `Project` facade the server wraps (exact method semantics).
+
+**Prefer running the API over trusting the docs.** Start it (`cd better_composer && uvicorn
+api_server.server:app --port 8765`), hit `/docs`, and build against real responses. You can
+regenerate `sample_data.json` yourself from live calls. If the API doesn't perfectly serve a UI need
+(a batched call, an extra field), you can read `server.py` and add it, or flag it — those additions
+are cheap and expected. Turn on debug logging (`POST /debug {"enabled": true}`) to trace every call
+while you build.
+
 ## What's in here
 
 | File | What it is | Who reads it |
@@ -15,23 +35,26 @@ validated, and running behind an HTTP API; this folder is the handoff package fo
 
 ## Recommended process (best starting point)
 
-1. **You add the visual direction.** The brief deliberately leaves look-and-feel open — color,
-   typography, density, brand feel, any specific screens you envision. Layer that on top of
-   `UI_BUILD_PROMPT.md`. (One hard constraint the prompt already sets: **no persistent tree +
-   detail-pane layout** — that's the thing we're replacing.)
-2. **Give the design tool the prompt + the two references.** Lead with `UI_BUILD_PROMPT.md`; attach
-   `API_REFERENCE.md` and `sample_data.json` so it designs against real shapes. If the tool can read
-   this repo/folder or GitHub, point it here; if it's web-only, paste them in.
-3. **Run the live API** (`cd better_composer && uvicorn api_server.server:app --port 8765`, see
-   `../api_server/README.md`). If the tool can consume a live API / OpenAPI, this lets it generate a
-   frontend already wired to real data and try endpoints at `/docs`. Otherwise, `openapi.json` is the
-   static contract.
-4. **Start narrow, highest-value first.** Have it design the **focus + lenses shell** and the three
-   core screens — **System Design / add-a-device**, **Programming**, **Connections** — polished,
-   before breadth. The prompt explains why these.
-5. **Iterate against reality.** As the UI reveals needs the API doesn't perfectly serve (a batched
-   call, an extra field), those are expected and easy to add on the backend. Turn on **debug logging**
-   (`POST /debug {"enabled": true}`) while developing to trace exactly what the backend receives.
+1. **Absorb context.** Read `../../CLAUDE.md` (full project context, peer-written) and
+   `UI_BUILD_PROMPT.md` (the UI vision + hard constraints). The one layout constraint that's
+   non-negotiable: **no persistent tree + detail-pane layout** — that's the thing we're replacing.
+2. **Dave provides visual direction, collaboratively.** Look-and-feel (color, typography, density,
+   brand feel, specific screens) is deliberately open in the brief — work it out with Dave; propose
+   directions and iterate. Everything else (architecture, interaction model, flows, data) is settled.
+3. **Stand up the real backend and build against it.** Run `uvicorn api_server.server:app --port
+   8765`, explore `/docs`, and design/build against live responses — not the sample snapshots.
+   Generate a typed client from `openapi.json` if useful. This collapses the gap between mockup and
+   working app: you're wired to the validated backend from the first screen.
+4. **Start narrow, highest-value first.** Build the **focus + lenses shell** and the three core
+   screens — **System Design / add-a-device**, **Programming**, **Connections** — polished, before
+   breadth. The prompt explains why these.
+5. **Extend the API when the UI needs it.** When a screen wants data shaped differently (a batched
+   endpoint, an extra field), read `../api_server/server.py` and the `Project` facade
+   (`../c4proj/project.py`) and add it — or flag it for the backend side. These are cheap and
+   expected; the facade already exposes everything, it's just a matter of endpoint shape. Keep
+   **debug logging** on (`POST /debug {"enabled": true}`) to trace calls.
+6. **Mind the one open constraint.** The API is single-project-per-session and NOT thread-safe by
+   design (see CLAUDE.md) — serialize write calls in the UI; don't fire parallel mutations.
 
 ## Backend status (context for design)
 
