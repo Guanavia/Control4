@@ -256,6 +256,73 @@ class Project:
     def items(self) -> List[Item]:
         return self.model.all_devices()
 
+    def export_slim_dict(self) -> dict:
+        """A compact overview of the project — small enough to load wholesale into a design/AI tool's
+        context (~10x smaller than export_dict). Keeps everything structural and every device's CONFIG
+        properties (what a Properties panel renders), but summarizes the bulky per-device programming
+        vocabulary to counts + a few samples, and omits raw proxy state fields. Use export_dict() for
+        the complete data to look things up in."""
+        items = {}
+        for it in self.items():
+            s = self.surface_of(it.id)
+            items[it.id] = {
+                "id": it.id, "name": it.name, "kind": it.kind.name, "driver": it.driver,
+                "properties": [dataclasses.asdict(pv) for pv in s.properties],
+                "counts": {"commands": len(s.commands), "events": len(s.events),
+                           "conditions": len(s.conditions), "connections": len(s.connections),
+                           "bindings_out": len(s.bindings_out)},
+                "sample_commands": [c.name for c in s.commands[:8]],
+                "sample_events": [e.name for e in s.events[:8]],
+                "network": [dataclasses.asdict(n) for n in s.network],
+                "agent_config_kind": s.agent_config_kind,
+            }
+        return {
+            "project": {"name": self.name, "version": self.version,
+                        "identity": self.identity(), "summary": self.summary()},
+            "tree": self.tree_view(),
+            "items": items,
+            "rules": [dict(r, action_json=self.rule_actions(r["handle"]))
+                      for r in self.rules_view()],
+            "variables": [dataclasses.asdict(v) for v in self.variables()],
+            "bindings": [dataclasses.asdict(b) for b in self.bindings()],
+            "network_bindings": [dataclasses.asdict(n) for n in self.network_bindings()],
+        }
+
+    def export_dict(self, *, include_state_fields: bool = True) -> dict:
+        """A complete, JSON-ready snapshot of the whole project — every shape the UI binds to, in the
+        same form the API returns. Intended for handing real project data to a design/UI tool without
+        the ~125MB of driver binaries a .c4p carries (a 417-device project exports to ~2MB).
+
+        Contains: project identity/summary, the full item tree, per-item editable surfaces (config
+        properties with schema+values, programmable commands/events/conditions, connection points,
+        current bindings, network address) + raw proxy state fields, all programming rules (with
+        their action-JSON), variables, bindings, and network bindings.
+
+        NOTE: this is REAL project data (room/device names, IP addresses). Treat it as private.
+        """
+        items = {}
+        for it in self.items():
+            entry = self.surface_of(it.id).to_dict()
+            if include_state_fields:
+                try:
+                    entry["state_fields"] = self.state_fields(it.id)
+                except Exception:
+                    entry["state_fields"] = {}
+            items[it.id] = entry
+        return {
+            "project": {"name": self.name, "version": self.version,
+                        "identity": self.identity(), "summary": self.summary()},
+            "tree": self.tree_view(),
+            "items": items,
+            "rules": [dict(r, action_json=self.rule_actions(r["handle"]))
+                      for r in self.rules_view()],
+            "variables": [dataclasses.asdict(v) for v in self.variables()],
+            "bindings": [dataclasses.asdict(b) for b in self.bindings()],
+            "network_bindings": [dataclasses.asdict(n) for n in self.network_bindings()],
+            "drivers": {"bundled": self.bundled_driver_files(),
+                        "missing": self.missing_drivers()},
+        }
+
     def tree_view(self) -> List[dict]:
         """JSON-ready nested tree ({id,name,kind,driver,children}) for a UI. The live Item objects
         (from tree()) carry XML elements and parent cycles and can't be serialized directly."""

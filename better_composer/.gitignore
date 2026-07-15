@@ -3,6 +3,10 @@
 *.c4p
 # ...except the tiny blank-project SEED shipped as package data (Project.new()).
 !c4proj/templates/blank.c4p
+# Project JSON exports (`c4proj export`) — REAL client project data: room/device names, IP
+# addresses. This repo is PUBLIC; never commit these.
+exports/
+*.export.json
 # Raw packet captures from the protocol recon.
 *.pcap
 # The controller log snapshot (hundreds of files, large).

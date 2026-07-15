@@ -33,6 +33,31 @@ while you build.
 | **`openapi.json`** | Machine-readable OpenAPI spec of all 33 endpoints (import into a tool, or generate a typed client). | design tool / codegen |
 | `../api_server/README.md` | How to run the live API (`uvicorn api_server.server:app`), the endpoint list, action-JSON for rules, debug logging. | you / whoever runs it |
 
+## Real project data (for cross-referencing the design against Composer)
+
+A real `.c4p` is ~125MB — almost entirely driver binaries — and can't be loaded. Use the **JSON
+export** instead: the same project, same shapes the API returns, without the binaries.
+
+```bash
+cd better_composer
+python -m c4proj export "research/Russell House.c4p" -o exports/russell_house.json          # full ~4MB
+python -m c4proj export "research/Russell House.c4p" -o exports/russell_house_slim.json --slim   # ~1MB
+```
+
+Both contain the **complete** project: every location/room/device/agent, per-item config properties
+(with type/options/current value), programming rules (with action-JSON), bindings, variables, and
+network addresses — for the real 417-device "Russell House" project.
+
+- **`exports/..._slim.json` (~1MB)** — start here. Everything structural + all config properties +
+  all rules/bindings; per-device programming vocab summarized to counts + samples.
+- **`exports/..._.json` (~4MB)** — the complete data (full command/event/condition lists + raw proxy
+  `state_fields`) for looking things up. Read it selectively rather than wholesale.
+- **Just the hierarchy?** The `tree` key in either file (~50KB) is the full location/device tree —
+  ideal for a quick, complete picture of locations and devices.
+
+> **PRIVATE — do not commit.** These exports contain real client project data (room/device names, IP
+> addresses) and this repo is PUBLIC. `exports/` and `*.export.json` are gitignored; keep it that way.
+
 ## Recommended process (best starting point)
 
 1. **Absorb context.** Read `../../CLAUDE.md` (full project context, peer-written) and

@@ -10,6 +10,9 @@ CLI for c4proj.
   python -m c4proj properties <file.c4p> <item_id>   dump an item's <state> config as path=value
   python -m c4proj surface   <file.c4p> <item_id>   unified editable surface (facade): props +
                                                     programmable API + connections
+  python -m c4proj export    <file.c4p> -o out.json  whole project as JSON (every shape the UI/API
+                             uses: tree, per-item surfaces+state, rules, bindings, variables) —
+                             real data WITHOUT the driver binaries. ~2MB vs a 125MB .c4p.
   python -m c4proj roundtrip <file.c4p>              unpack -> repack unchanged; verify integrity
   python -m c4proj identify  <file.c4p>              show the project-version confirmation card
   python -m c4proj diff      <a.c4p> <b.c4p> [--detail]  oracle: what changed A->B; --detail shows
@@ -28,6 +31,7 @@ confirm it's the intended project before writing. Pass --yes to bypass for scrip
 
 from __future__ import annotations
 
+import os
 import sys
 
 from .c4p import C4Package
@@ -401,6 +405,24 @@ def cmd_surface(path: str, item_id: str) -> int:
     return 0
 
 
+def cmd_export(path: str, out: str, slim: bool = False) -> int:
+    """Export the whole project as JSON (every shape the UI/API uses) — real project data without
+    the driver binaries, for handing to a design/UI tool. --slim gives a compact overview."""
+    import json
+    from .project import Project
+    with Project.open(path) as proj:
+        data = proj.export_slim_dict() if slim else proj.export_dict()
+    with open(out, "w") as f:
+        json.dump(data, f, indent=1)
+    size = os.path.getsize(out) / 1e6
+    s = data["project"]["summary"]
+    print(f"exported {data['project']['name']!r} v{data['project']['version']} -> {out}  ({size:.1f} MB)")
+    print(f"  {s['devices_total']} items, {len(data['rules'])} rules, {s['bindings_provider']} bindings, "
+          f"{s['variables']} variables, {len(data['network_bindings'])} network bindings")
+    print("  NOTE: contains real project data (room/device names, IP addresses) — keep it private.")
+    return 0
+
+
 def main(argv: list) -> int:
     if len(argv) < 2:
         print(__doc__)
@@ -425,6 +447,10 @@ def main(argv: list) -> int:
         return cmd_drivers(path)
     if cmd == "device":
         return cmd_device(path, argv[2])
+    if cmd == "export":
+        # export <file.c4p> -o out.json [--slim]
+        out = argv[argv.index("-o") + 1] if "-o" in argv else path + ".export.json"
+        return cmd_export(path, out, slim="--slim" in argv)
     if cmd == "properties":
         # properties <file> <item_id>
         return cmd_properties(path, argv[2])
