@@ -86,6 +86,22 @@ class Device:
         <itemdata> — e.g. 'switch_gen3.c4i'. Empty for structural items (rooms, folders)."""
         return _text(self.el, "c4i")
 
+    @property
+    def icons(self) -> Dict[str, str]:
+        """This item's icons from <itemdata> (small_image/large_image) — what Composer shows in the
+        tree/summary for THIS instance (paths are relative to the driver/Composer image set)."""
+        return {"small": _text(self.el, "itemdata/small_image"),
+                "large": _text(self.el, "itemdata/large_image")}
+
+    @property
+    def created(self) -> str:
+        return _text(self.el, "created_datetime")
+
+    @property
+    def tag(self) -> str:
+        """Site/location tag GUID (shared by the location scaffold items)."""
+        return _text(self.el, "itemdata/tag")
+
     def rename(self, new_name: str) -> None:
         n = self.el.find("name")
         if n is None:

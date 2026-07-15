@@ -163,10 +163,23 @@ Design implications:
 
 ## Data shapes you'll bind to (see sample_data.json for real payloads)
 
-- **Tree:** `{id, name, kind, driver, children[]}`.
-- **Surface:** `{item_id, name, kind, driver, properties[], commands[], events[], conditions[],
-  connections[], bindings_out[], network[], agent_config_kind}`.
+- **Tree:** `{id, name, kind, driver, icons{small,large}, children[]}`.
+- **Surface:** `{item_id, name, kind, driver, icons{small,large}, driver_info{...}, properties[],
+  actions[], tabs[], commands[], events[], conditions[], connections[], bindings_out[], network[],
+  agent_config_kind}`.
+- **`driver_info`** — the device header/summary Composer shows: `{filename, name, manufacturer,
+  model, proxy, control, control_method (ip/serial/ir/zigbee/virtual), version, created, modified,
+  creator, categories[], small_icon, large_icon, combo, minimum_os_version, capabilities[],
+  proxies[], has_documentation, has_script}`.
+- **`actions`** — Composer's **Actions tab** (dealer-invokable driver actions): `{name, command,
+  params[{name, type, items[], multiselect}]}`; `type` may be a rich selector (`DEVICE_SELECTOR`).
+- **`tabs`** — driver-supplied **custom tabs** (embedded HTML), e.g. `{name:"Settings",
+  file:"html/index.html"}` (the file lives inside the driver's `.c4z`).
+- **`icons`** — this ITEM's icons; `driver_info.small_icon/large_icon` are the driver's own.
 - **Property:** `{name, type, value, default, options[], minimum, maximum, readonly}`.
+- **Project settings** (`project.settings` in an export / `Project.settings()`): uuid,
+  project_version, zipcode/latitude/longitude/city/country, timezone, `scale` (FAHRENHEIT/CELSIUS),
+  use_24hour_clock, sslonly, push_settings, custom_colors — Composer's project-level properties.
 - **Rule:** `{handle, trigger_device, trigger_event, actions[]}` where an action is `{id, device,
   type, display, command, children[]}`.
 - **Variable / Binding / NetworkBinding / DriverHit** — see `sample_data.json`.

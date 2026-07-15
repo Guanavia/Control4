@@ -50,8 +50,8 @@ from . import programming as prog
 from ._logging import logger
 from .agents import AgentVocab
 from .c4p import C4Package
-from .drivers import Command, Condition, Connection, Driver, DriverLibrary, Event as DrvEvent, \
-    Property, ResolvedApi
+from .drivers import Action, Command, Condition, Connection, Driver, DriverLibrary, \
+    Event as DrvEvent, Property, ResolvedApi, Tab
 from .model import Binding, Event, Item, ItemKind, NetworkBinding, ProjectModel, Variable
 from .state import StateEditor
 
@@ -132,6 +132,44 @@ class Reference:
 
 
 @dataclass
+class DriverInfo:
+    """Identity/metadata of the item's driver — what Composer shows in a device's header/summary
+    (manufacturer, model, control method, version, category, icons)."""
+    filename: str
+    name: str = ""
+    manufacturer: str = ""
+    model: str = ""
+    proxy: str = ""
+    control: str = ""
+    control_method: str = ""       # ip / serial / ir / zigbee / virtual / other
+    version: str = ""
+    created: str = ""
+    modified: str = ""
+    creator: str = ""
+    categories: List[str] = field(default_factory=list)
+    small_icon: str = ""           # path inside the .c4z
+    large_icon: str = ""
+    combo: bool = False
+    minimum_os_version: str = ""
+    capabilities: List[str] = field(default_factory=list)
+    proxies: List[dict] = field(default_factory=list)
+    has_documentation: bool = False
+    has_script: bool = False
+
+
+def _driver_info(d: Driver) -> DriverInfo:
+    return DriverInfo(
+        filename=d.filename, name=d.name, manufacturer=d.manufacturer, model=d.model,
+        proxy=d.proxy, control=d.control, control_method=d.control_method, version=d.version,
+        created=d.created, modified=d.modified, creator=d.creator, categories=list(d.categories),
+        small_icon=d.small_icon, large_icon=d.large_icon, combo=d.combo,
+        minimum_os_version=d.minimum_os_version, capabilities=list(d.capabilities),
+        proxies=[dataclasses.asdict(p) for p in d.proxies],
+        has_documentation=d.has_documentation, has_script=d.has_script,
+    )
+
+
+@dataclass
 class EditableSurface:
     """The complete editable surface of one selected item — the thing a UI needs to render a
     property/programming/connections panel for a selection, gathered in one place."""
@@ -147,6 +185,10 @@ class EditableSurface:
     bindings_out: List[Binding]              # connections currently made FROM this item
     network: List[NetworkBinding] = field(default_factory=list)  # IP/serial network config
     agent_config_kind: Optional[str] = None  # e.g. "advanced_lighting" if a config helper exists
+    driver_info: Optional[DriverInfo] = None      # manufacturer/model/control/version/icons/...
+    actions: List[Action] = field(default_factory=list)   # driver Actions (Composer's Actions tab)
+    tabs: List[Tab] = field(default_factory=list)         # driver-supplied custom tabs (HTML UIs)
+    icons: Dict[str, str] = field(default_factory=dict)   # THIS item's icons {small,large}
 
     def to_dict(self) -> dict:
         """JSON-ready snapshot for sending across a process boundary (web/design-tool UI)."""
@@ -267,6 +309,10 @@ class Project:
             s = self.surface_of(it.id)
             items[it.id] = {
                 "id": it.id, "name": it.name, "kind": it.kind.name, "driver": it.driver,
+                "icons": it.icons,
+                "driver_info": dataclasses.asdict(s.driver_info) if s.driver_info else None,
+                "actions": [dataclasses.asdict(a) for a in s.actions],
+                "tabs": [dataclasses.asdict(t) for t in s.tabs],
                 "properties": [dataclasses.asdict(pv) for pv in s.properties],
                 "counts": {"commands": len(s.commands), "events": len(s.events),
                            "conditions": len(s.conditions), "connections": len(s.connections),
@@ -278,7 +324,8 @@ class Project:
             }
         return {
             "project": {"name": self.name, "version": self.version,
-                        "identity": self.identity(), "summary": self.summary()},
+                        "identity": self.identity(), "summary": self.summary(),
+                        "settings": self.settings()},
             "tree": self.tree_view(),
             "items": items,
             "rules": [dict(r, action_json=self.rule_actions(r["handle"]))
@@ -311,7 +358,8 @@ class Project:
             items[it.id] = entry
         return {
             "project": {"name": self.name, "version": self.version,
-                        "identity": self.identity(), "summary": self.summary()},
+                        "identity": self.identity(), "summary": self.summary(),
+                        "settings": self.settings()},
             "tree": self.tree_view(),
             "items": items,
             "rules": [dict(r, action_json=self.rule_actions(r["handle"]))
@@ -328,8 +376,21 @@ class Project:
         (from tree()) carry XML elements and parent cycles and can't be serialized directly."""
         def view(it: Item) -> dict:
             return {"id": it.id, "name": it.name, "kind": it.kind.name,
-                    "driver": it.driver, "children": [view(c) for c in it.children]}
+                    "driver": it.driver, "icons": it.icons,
+                    "children": [view(c) for c in it.children]}
         return [view(r) for r in self.tree()]
+
+    def settings(self) -> dict:
+        """Project-level settings Composer exposes (the project root's <itemdata>): uuid, project
+        version, location (zip/lat/long/city/country), timezone, temperature scale, clock format,
+        SSL/push options, custom colors, etc."""
+        root_item = self.model.root.find("./systemitems/item")
+        if root_item is None:
+            return {}
+        idata = root_item.find("itemdata")
+        if idata is None:
+            return {}
+        return {c.tag: (c.text or "").strip() for c in idata if not len(list(c))}
 
     def _idx(self) -> Dict[str, Item]:
         if self._index is None:
@@ -523,6 +584,10 @@ class Project:
             bindings_out=[b for b in self.model.bindings() if b.provider_deviceid == item_id],
             network=[nb for nb in self.model.network_bindings() if nb.deviceid == item_id],
             agent_config_kind=agent_kind,
+            driver_info=_driver_info(drv) if drv else None,
+            actions=drv.actions if drv else [],
+            tabs=drv.tabs if drv else [],
+            icons=it.icons,
         )
 
     # ---- write: state / config ---------------------------------------------

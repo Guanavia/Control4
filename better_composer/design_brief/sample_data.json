@@ -917,5 +917,494 @@
         "485_BUS"
       ]
     }
-  ]
+  ],
+  "surface_of DEVICE \u2014 driver_info + actions + tabs + icons (NEW)": {
+    "item_id": "11",
+    "name": "Color",
+    "kind": "AGENT",
+    "driver": "control4_agent_color.c4z",
+    "properties": [
+      {
+        "name": "LABEL_Log_Settings",
+        "type": "LABEL",
+        "value": "Log Settings",
+        "default": "Log Settings",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Log Level",
+        "type": "LIST",
+        "value": "5 - Trace",
+        "default": "5 - Trace",
+        "options": [
+          "0 - Fatal",
+          "1 - Error",
+          "2 - Warning",
+          "3 - Info",
+          "4 - Debug",
+          "5 - Trace"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Log Mode",
+        "type": "LIST",
+        "value": "Off",
+        "default": "Off",
+        "options": [
+          "Off",
+          "Print",
+          "Log",
+          "Print and Log"
+        ],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "LABEL_General_Information",
+        "type": "LABEL",
+        "value": "General Information",
+        "default": "General Information",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": false
+      },
+      {
+        "name": "Device ID",
+        "type": "STRING",
+        "value": "11",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "Agent Version",
+        "type": "STRING",
+        "value": "30",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      },
+      {
+        "name": "OS Version Status",
+        "type": "STRING",
+        "value": "4.1.0.743847-res (OK)",
+        "default": "--",
+        "options": [],
+        "minimum": null,
+        "maximum": null,
+        "readonly": true
+      }
+    ],
+    "commands": [],
+    "events": [],
+    "conditions": [],
+    "connections": [],
+    "bindings_out": [],
+    "network": [],
+    "agent_config_kind": null,
+    "driver_info": {
+      "filename": "control4_agent_color.c4z",
+      "name": "Color",
+      "manufacturer": "Control4",
+      "model": "Color",
+      "proxy": "",
+      "control": "lua_gen",
+      "control_method": "",
+      "version": "30",
+      "created": "04/12/2021 01:33 PM",
+      "modified": "09/14/2022 01:29 PM",
+      "creator": "Control4",
+      "categories": [],
+      "small_icon": "devices_sm\\c4.gif",
+      "large_icon": "devices_lg\\c4.gif",
+      "combo": true,
+      "minimum_os_version": "3.3.0",
+      "capabilities": [],
+      "proxies": [
+        {
+          "proxy": "control4_agent_color",
+          "name": "",
+          "small_image": "",
+          "large_image": ""
+        }
+      ],
+      "has_documentation": true,
+      "has_script": true
+    },
+    "actions": [
+      {
+        "name": "Reorder Presets by Names",
+        "command": "REORDER_PRESETS_BY_NAMES",
+        "params": [
+          {
+            "name": "NAMES",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Reorder Presets by IDs",
+        "command": "REORDER_PRESETS_BY_IDS",
+        "params": [
+          {
+            "name": "IDS",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Delete Preset",
+        "command": "DELETE_PRESET",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Edit Preset CCT",
+        "command": "EDIT_PRESET_CCT",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_CORRELATED_TEMPERATURE",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Edit Preset RGB",
+        "command": "EDIT_PRESET_RGB",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "RGB",
+            "type": "COLOR_SELECTOR",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Edit Preset XY",
+        "command": "EDIT_PRESET_XY",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_X",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_Y",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Edit Preset HS",
+        "command": "EDIT_PRESET_HS",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "HUE",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "SATURATION",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Edit Preset Name",
+        "command": "EDIT_PRESET_NAME",
+        "params": [
+          {
+            "name": "ID",
+            "type": "RANGED_INTEGER",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "NEW_NAME",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Add Preset CCT",
+        "command": "ADD_PRESET_CCT",
+        "params": [
+          {
+            "name": "NAME",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_CORRELATED_TEMPERATURE",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Add Preset RGB",
+        "command": "ADD_PRESET_RGB",
+        "params": [
+          {
+            "name": "NAME",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          },
+          {
+            "name": "RGB",
+            "type": "COLOR_SELECTOR",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Add Preset XY",
+        "command": "ADD_PRESET_XY",
+        "params": [
+          {
+            "name": "NAME",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_X",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "COLOR_Y",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "Add Preset HS",
+        "command": "ADD_PRESET_HS",
+        "params": [
+          {
+            "name": "NAME",
+            "type": "STRING",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "CATEGORY",
+            "type": "LIST",
+            "items": [
+              "0 - Customer",
+              "1 - Dealer"
+            ],
+            "multiselect": false
+          },
+          {
+            "name": "HUE",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          },
+          {
+            "name": "SATURATION",
+            "type": "RANGED_FLOAT",
+            "items": [],
+            "multiselect": false
+          }
+        ]
+      },
+      {
+        "name": "List Presets",
+        "command": "LIST_PRESETS",
+        "params": []
+      }
+    ],
+    "tabs": [
+      {
+        "name": "Settings",
+        "file": "html/index.html"
+      }
+    ],
+    "icons": {
+      "small": "devices_sm\\c4.gif",
+      "large": "devices_lg\\c4.gif"
+    }
+  },
+  "project settings (Project.settings())": {
+    "uuid": "1860260a-112a-4ae7-98e3-fd9edb355f25",
+    "project_version": "133",
+    "zipcode": "55410",
+    "latitude": "44.9152596",
+    "longitude": "-93.3109533",
+    "timezone": "America/Chicago",
+    "city_name": "Minneapolis",
+    "country_code": "US",
+    "country_name": "United States",
+    "cidr_rules": "",
+    "use_24hour_clock": "True",
+    "push_settings": "True",
+    "sslonly": "False",
+    "scale": "FAHRENHEIT",
+    "custom_colors": "",
+    "din_rail_c4_panel": "True",
+    "din_rail_arc_fault": "True",
+    "nominal_voltage": "120",
+    "keycap_finish": "6",
+    "text_size": "2",
+    "text_alignment": "1",
+    "lux_keycap_finish": "0",
+    "lux_text_size": "4",
+    "lux_text_alignment": "0",
+    "backlight": "ffffff",
+    "top_on": "0000ff",
+    "top_off": "000000",
+    "bottom_on": "000000",
+    "bottom_off": "0000ff",
+    "toggle_on": "0000ff",
+    "toggle_off": "000000",
+    "project_info": ""
+  }
 }

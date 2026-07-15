@@ -82,6 +82,40 @@ class Property:
 
 
 @dataclass
+class ActionParam:
+    """A parameter of a driver Action (Composer's Actions tab). `type` can be a rich selector
+    (e.g. DEVICE_SELECTOR) with `items` constraining the choices."""
+    name: str
+    type: str = ""
+    items: List[str] = field(default_factory=list)
+    multiselect: bool = False
+
+
+@dataclass
+class Action:
+    """A dealer-invokable driver action — what Composer renders as the device's Actions tab."""
+    name: str
+    command: str = ""
+    params: List[ActionParam] = field(default_factory=list)
+
+
+@dataclass
+class Tab:
+    """A driver-supplied custom tab (embedded HTML UI) — Composer shows these per device."""
+    name: str
+    file: str = ""
+
+
+@dataclass
+class ProxyRef:
+    """A proxy this driver instantiates (combo drivers declare several)."""
+    proxy: str                 # proxy type, e.g. "media_service", "light_v2"
+    name: str = ""
+    small_image: str = ""
+    large_image: str = ""
+
+
+@dataclass
 class Connection:
     id: str
     name: str
@@ -103,6 +137,25 @@ class Driver:
     conditions: List[Condition] = field(default_factory=list)
     events: List[Event] = field(default_factory=list)
     properties: List[Property] = field(default_factory=list)
+    # ---- identity / metadata Composer displays ----
+    version: str = ""
+    created: str = ""
+    modified: str = ""
+    creator: str = ""
+    copyright: str = ""
+    control: str = ""                # <control> e.g. "light_v2"
+    control_method: str = ""         # <controlmethod> e.g. ip / serial / ir / zigbee / virtual
+    categories: List[str] = field(default_factory=list)   # <composer_categories>
+    small_icon: str = ""             # path INSIDE the .c4z (e.g. icons/device_sm.png)
+    large_icon: str = ""
+    combo: bool = False
+    minimum_os_version: str = ""
+    proxies: List[ProxyRef] = field(default_factory=list)
+    # ---- the other Composer tabs ----
+    actions: List[Action] = field(default_factory=list)   # Actions tab
+    tabs: List[Tab] = field(default_factory=list)         # driver-supplied custom tabs (HTML)
+    has_documentation: bool = False                       # Documentation tab
+    has_script: bool = False                              # Lua driver (Script/console)
 
     @property
     def stem(self) -> str:
@@ -195,6 +248,47 @@ def _parse_properties(root: ET.Element) -> List["Property"]:
     return out
 
 
+def _parse_actions(root: ET.Element) -> List["Action"]:
+    """<config><actions> — the dealer-invokable actions Composer shows on a device's Actions tab."""
+    out: List[Action] = []
+    c = root.find("config/actions") or root.find("actions")
+    if c is None:
+        return out
+    for a in c.findall("action"):
+        params = []
+        for p in a.findall("params/param"):
+            params.append(ActionParam(
+                name=(p.findtext("name") or "").strip(),
+                type=(p.findtext("type") or "").strip(),
+                items=[(i.text or "").strip() for i in p.findall("items/item")],
+                multiselect=(p.findtext("multiselect") or "").strip().lower() == "true",
+            ))
+        out.append(Action(name=(a.findtext("name") or "").strip(),
+                          command=(a.findtext("command") or "").strip(), params=params))
+    return out
+
+
+def _parse_tabs(root: ET.Element) -> List["Tab"]:
+    """<config><tabs> — driver-supplied custom tabs (embedded HTML UIs)."""
+    c = root.find("config/tabs") or root.find("tabs")
+    if c is None:
+        return []
+    return [Tab(name=t.get("name", ""), file=t.get("file", "")) for t in c.findall("tab")]
+
+
+def _parse_proxies(root: ET.Element) -> List["ProxyRef"]:
+    """<proxies> — the proxy sub-devices this driver instantiates (combo drivers declare several)."""
+    c = root.find("proxies")
+    if c is None:
+        return []
+    out = []
+    for p in c.findall("proxies") + c.findall("proxy"):
+        out.append(ProxyRef(proxy=(p.text or "").strip(), name=p.get("name", ""),
+                            small_image=p.get("small_image", ""),
+                            large_image=p.get("large_image", "")))
+    return out
+
+
 def _parse_connections(root: ET.Element) -> List[Connection]:
     out = []
     c = root.find("connections")
@@ -229,6 +323,25 @@ def load_driver(path: str) -> Optional[Driver]:
         conditions=_parse_conditions(root),
         events=_parse_events(root),
         properties=_parse_properties(root),
+        version=(root.findtext("version") or "").strip(),
+        created=(root.findtext("created") or "").strip(),
+        modified=(root.findtext("modified") or "").strip(),
+        creator=(root.findtext("creator") or "").strip(),
+        copyright=(root.findtext("copyright") or "").strip(),
+        control=(root.findtext("control") or "").strip(),
+        control_method=(root.findtext("controlmethod") or "").strip(),
+        categories=[(c.text or "").strip()
+                    for c in root.findall("composer_categories/category")],
+        small_icon=(root.findtext("small") or "").strip(),
+        large_icon=(root.findtext("large") or "").strip(),
+        combo=(root.findtext("combo") or "").strip().lower() == "true",
+        minimum_os_version=(root.findtext("minimum_os_version") or "").strip(),
+        proxies=_parse_proxies(root),
+        actions=_parse_actions(root),
+        tabs=_parse_tabs(root),
+        has_documentation=(root.find("config/documentation") is not None
+                           or root.find("config/driverdocumentation") is not None),
+        has_script=root.find("config/script") is not None,
     )
 
 
