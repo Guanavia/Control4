@@ -29,6 +29,7 @@ while you build.
 |---|---|---|
 | **`UI_BUILD_PROMPT.md`** | The base prompt: vision, architecture, interaction model, the three programming modes, linkable AI, mobile-forward, OS-4 scope. **The main thing to hand the design tool.** | design tool + you |
 | **`API_REFERENCE.md`** | The backend contract + domain model: the `Project` facade, item kinds, the two config surfaces, the five functional areas, core flows, and the rules to respect. | design tool |
+| **`LABELING.md`** | **Where every visible string comes from.** Which field to display per object type (it differs, and the wrong field yields a blank or an ALL_CAPS wire token), and how to substitute the placeholders inside command/event/condition sentences. **Read before designing any screen that shows driver content.** | design tool |
 | **`sample_data.json`** | **Real** serialized payloads for every API shape (a device surface, an agent with vocab, an IP device, a rule, references, connection candidates, a catalog hit). Build against these — not mocks. | design tool |
 | **`openapi.json`** | Machine-readable OpenAPI spec of all 33 endpoints (import into a tool, or generate a typed client). | design tool / codegen |
 | `../api_server/README.md` | How to run the live API (`uvicorn api_server.server:app`), the endpoint list, action-JSON for rules, debug logging. | you / whoever runs it |
@@ -63,6 +64,8 @@ network addresses — for the real 417-device "Russell House" project.
 1. **Absorb context.** Read `../../CLAUDE.md` (full project context, peer-written) and
    `UI_BUILD_PROMPT.md` (the UI vision + hard constraints). The one layout constraint that's
    non-negotiable: **no persistent tree + detail-pane layout** — that's the thing we're replacing.
+   Then read **`LABELING.md`** before any screen that renders driver content — labels are supplied
+   by the driver data, never invented by the UI, and the field to read differs per object type.
 2. **Dave provides visual direction, collaboratively.** Look-and-feel (color, typography, density,
    brand feel, specific screens) is deliberately open in the brief — work it out with Dave; propose
    directions and iterate. Everything else (architecture, interaction model, flows, data) is settled.

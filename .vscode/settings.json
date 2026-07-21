@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.c4i": "xml",
+    "*.c4z": "xml",
+    "driver.xml": "xml"
+  },
+  "[xml]": {
+    "editor.wordWrap": "on",
+    "editor.foldingStrategy": "indentation"
+  }
+}
