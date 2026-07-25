@@ -1,2 +1,5 @@
 # build artifact (regenerate with ./build.sh)
 *.c4z
+
+# extracted Linkplay client cert/key material (gray-area; regenerate via research doc)
+research/linkplay_keys/
