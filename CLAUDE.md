@@ -4,7 +4,8 @@ Monorepo for all Control4 DriverWorks drivers built by Dave Woychek (david@prope
 
 ## Repo conventions
 
-- **One subfolder per driver.** All of a driver's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`).
+- **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
+- **Per-project context persistence (ALWAYS).** Each Control4 project must be workable independently. For EVERY conversation about a given project, save the conversation's decisions, design threads, and project status **inside that project's own folder** — never mixed with another project's, and never left only in chat/local memory. Practically: durable project status/decisions belong in that folder's docs (its own `CLAUDE.md`/`FINDINGS.md`/notes); the root `CLAUDE.md` keeps only the short per-project pointer under `## Drivers`. When a conversation produces new design thinking, write it to a file in the relevant project folder before ending. This keeps the many Control4 projects from getting confused with each other.
 - A `.c4z` file is just a **zip of the driver folder's contents** (files at zip root, not nested in a folder). `build.bat` / `build.ps1` are Windows scripts currently hardcoded to `nv_shield_tv`.
 - Standard driver folder layout:
   - `driver.lua` — driver logic
