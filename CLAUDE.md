@@ -19,6 +19,18 @@ Monorepo for all Control4 DriverWorks drivers built by Dave Woychek (david@prope
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
+### Yamaha-SoundBar-YAS209 — OPEN, v1 written (not yet hardware-tested)
+Control4 IP driver for the Yamaha YAS-209 sound bar via the Yamaha Extended Control (YXC) HTTP API
+(port 80). Presents as a `receiver` proxy (power/volume/mute/input) + Actions for sound modes, DSP
+toggles, and net transport. Built 2026-07-25 from documentation; `driver.lua` compiles clean
+(`luac -p`) but is **not yet load-tested on a controller or a real unit**. Full protocol map,
+Control4 mapping, and the "must validate on hardware" list are in
+`Yamaha-SoundBar-YAS209/research/DESIGN.md`; folder overview in its `README.md`. `.c4z` is a build
+artifact (`./build.sh`, gitignored). Key facts: the YAS-209 is not marketed as MusicCast but still
+speaks the YXC API; state is polling-primary (UDP push is opt-in/experimental); no JSON-lib
+dependency (flat responses parsed with Lua patterns); exact input/sound-program IDs must be
+confirmed via `getFeatures` and adjusted in `driver.lua`'s `INPUT_MAP`.
+
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)
 Original goal: get a Sonoff SNZB-02P temperature/humidity/battery sensor into Control4 for
 dashboards, programmable threshold notifications, and history over time.

@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\deff0
+{\fonttbl{\f0\fswiss Helvetica;}}
+\f0\fs28\b Yamaha YAS-209 Sound Bar (YXC)\b0\fs20\par
+\par
+IP driver for the Yamaha YAS-209 sound bar using the Yamaha Extended Control (YXC) HTTP API on port 80. Presents to Control4 as a Receiver (power, volume, mute, input selection) plus extra Actions for sound modes and transport.\par
+\par
+\b Requirements\b0\par
+\bullet  YAS-209 on the same network as the controller, reachable by IP.\par
+\bullet  A DHCP reservation for the sound bar (strongly recommended).\par
+\par
+\b Setup\b0\par
+1. Add the driver to the project and place it in the sound bar's room.\par
+2. Set the \b IP Address\b0  property to the sound bar's IP (or assign the Network connection). \par
+3. In Connections, bind the AUDIO/VIDEO OUTPUT end-point to the room, and connect any sources (cable box, Apple TV, etc.) to the HDMI In / Optical / TV inputs as wired.\par
+4. Run Actions \endash  Query Features to log the sound bar's exact input and sound-program IDs. If they differ from the defaults, update the INPUT_MAP table in driver.lua.\par
+\par
+\b Properties\b0\par
+\bullet  IP Address \endash  sound bar address (authoritative if set).\par
+\bullet  Poll Interval Seconds \endash  how often state is refreshed (default 3).\par
+\bullet  Use Push Events \endash  EXPERIMENTAL UDP status push; leave Off unless validated.\par
+\bullet  Volume Ramp Step \endash  step size for volume up/down.\par
+\bullet  Sound Program \endash  selecting a value sends it to the sound bar.\par
+\par
+\b Notes\b0\par
+This driver controls the sound bar over its documented network API; it does not require MusicCast multiroom. Streaming sources (Spotify, Alexa) are driven by their own apps; this driver exposes transport (play/pause/next/previous) as Actions.\par
+\par
+Author: David Woychek (david@propertyrenewal.llc). Not affiliated with or endorsed by Yamaha.\par
+}
