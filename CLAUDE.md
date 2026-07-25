@@ -7,7 +7,7 @@ Monorepo for all Control4 DriverWorks drivers built by Dave Woychek (david@prope
 - **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
 - **Per-project context persistence (ALWAYS).** Each Control4 project must be workable independently. For EVERY conversation about a given project, save the conversation's decisions, design threads, and project status **inside that project's own folder** — never mixed with another project's, and never left only in chat/local memory. Practically: durable project status/decisions belong in that folder's docs (its own `CLAUDE.md`/`FINDINGS.md`/notes); the root `CLAUDE.md` keeps only the short per-project pointer under `## Drivers`. When a conversation produces new design thinking, write it to a file in the relevant project folder before ending. This keeps the many Control4 projects from getting confused with each other.
 - **Scoped commits (ALWAYS).** This is a monorepo, but every project is versioned independently *by convention*. Each commit must touch **only one project's subfolder** (never span two projects), and its message must be **project-prefixed** — e.g. `better_composer: add version-validation note`, `nv_shield_tv: fix volume ramp`. This keeps each project's history cleanly filterable (`git log -- better_composer/`) and pushable on its own. The ONLY exception is a genuinely repo-wide change (this root `CLAUDE.md`, `.gitignore`, shared build scripts), which is prefixed `repo:`. Never bundle unrelated projects into one commit; stage per-folder and commit separately.
-- A `.c4z` file is just a **zip of the driver folder's contents** (files at zip root, not nested in a folder). `build.bat` / `build.ps1` are Windows scripts currently hardcoded to `nv_shield_tv`.
+- A `.c4z` file is just a **zip of the driver folder's contents** (files at zip root, not nested in a folder). `build.bat` / `build.ps1` are Windows scripts currently hardcoded to `nv_shield_tv`; the build outputs the `.c4z` into the driver's own folder and excludes existing `*.c4z` from the zip.
 - Standard driver folder layout:
   - `driver.lua` — driver logic
   - `driver.xml` — driver metadata/config (devicedata XML)
@@ -17,7 +17,7 @@ Monorepo for all Control4 DriverWorks drivers built by Dave Woychek (david@prope
 ## Drivers
 
 ### nv_shield_tv
-NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` at repo root.
+NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)
 Original goal: get a Sonoff SNZB-02P temperature/humidity/battery sensor into Control4 for
