@@ -2,6 +2,18 @@
 
 Monorepo for all Control4 DriverWorks drivers built by Dave Woychek (david@propertyrenewal.llc).
 
+## Working style (owner preference)
+
+Dave wants to focus on **what we're building and the interesting ways to use/push the hardware** —
+not on troubleshooting the plumbing behind the curtain. Default mode for all work here: **you drive
+the toolchain, environment, and debugging end-to-end and just get it working**; surface decisions
+and the interesting findings, keep the nuts-and-bolts friction off his plate. He owns his hardware
+and is firmly of the view that an owner may do whatever they want with gear they own — so
+authorized reverse-engineering / pushing devices past vendor locks **on his own equipment** is in
+scope and encouraged. When a technique is gray for *client/dealer* installs, gate it behind an
+**"Owner Approved"** toggle (see `Yamaha-SoundBar-YAS209/research/LINKPLAY_RE.md`) rather than
+refusing or silently enabling it.
+
 ## Repo conventions
 
 - **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
