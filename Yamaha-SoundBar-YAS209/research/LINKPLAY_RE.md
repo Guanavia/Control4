@@ -34,10 +34,24 @@ SOAP over HTTP. Confirmed working:
 ## httpapi path (mutual-TLS) — `:443`
 Base: `https://<ip>/httpapi.asp?command=<cmd>`. Requires a client cert signed by the **capital-L
 `O=Linkplay`** CA. TLS is legacy — use OpenSSL 3 (`brew install openssl@3`); macOS LibreSSL fails the
-handshake. Confirmed commands (read): `getStatusEx`, `getPlayerStatus`. Control commands present in
-the app: `setPlayerCmd:vol:<0-100>`, `setPlayerCmd:mute:<0|1>`, `setPlayerCmd:switchmode:<mode>`
-(input), and power via `setShutdown:` / `MCUKeyShortClick:` (`CMD_POWER`, `NET_Standby`). *(Exact
-power/input arg strings to be finalized while building the driver; not fired yet — bar was in use.)*
+handshake. Read: `getStatusEx`, `getPlayerStatus`, `YAMAHA_DATA_GET`.
+
+**CONFIRMED command set (captured via mitmproxy from the live app, replayed + validated through the
+extracted cert — power OFF/ON both returned `OK` on the real unit 2026-07-26):**
+| Function | Command (`?command=`) |
+|---|---|
+| **Power ON** (wake) | `YAMAHA_DATA_SET:{"power saving":"1"}` (url-enc `YAMAHA_DATA_SET:{%22power%20saving%22:%221%22}`) |
+| **Power OFF** (standby) | `YAMAHA_DATA_SET:{"power saving":"0"}` |
+| **Input: HDMI** | `setPlayerCmd:switchmode:HDMI` |
+| **Input: Bluetooth** | `setPlayerCmd:switchmode:bluetooth` |
+| **Input: TV / Optical** | `setPlayerCmd:switchmode:optical` (the YAS-209's "TV" input = optical/ARC) |
+| Volume (alt to UPnP) | `setPlayerCmd:vol:<0-100>` ; Mute `setPlayerCmd:mute:<0|1>` |
+
+> The `setShutdown`/`getShutdown`/`getPowerSaving`/`lp.asp` paths are **"unknown command"/404** on
+> this firmware — power is the Yamaha-specific `YAMAHA_DATA_SET` verb above, NOT the generic Linkplay
+> shutdown. Capture method: mitmproxy `--mode regular --ssl-insecure --set client_certs=<dir>` (the
+> app's TrustManager is trust-all, so no CA install needed; re-originate mutual-TLS upstream with the
+> extracted client cert). Phone Wi-Fi proxy → Mac:8080.
 
 ## The client-cert protection scheme (all three layers)
 Source: app `com.wifiaudio.Yamaha` (a re-skinned Linkplay app). Pull the APK with `apkeep -a
