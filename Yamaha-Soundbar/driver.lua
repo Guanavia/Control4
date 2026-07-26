@@ -356,7 +356,7 @@ function ExecuteCommand(strCommand, tParams)
       LogInfo("LUA_ACTION params (need the action key): %s", table.concat(keys, ", "))
     end
   end
-  LogTrace("ExecuteCommand: %s", tostring(strCommand))
+  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-c]", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
   elseif strCommand == "PowerOff"          then SetPower(false)
