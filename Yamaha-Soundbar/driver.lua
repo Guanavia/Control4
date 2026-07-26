@@ -338,6 +338,16 @@ end
 -- ACTIONS / COMMANDS
 -------------------------------------------------
 function ExecuteCommand(strCommand, tParams)
+  -- Composer Actions arrive as "LUA_ACTION" with the real action name in tParams.ACTION.
+  if strCommand == "LUA_ACTION" then
+    if type(tParams) == "table" and tParams["ACTION"] then
+      strCommand = tParams["ACTION"]
+    else
+      local keys = {}
+      if type(tParams) == "table" then for k, v in pairs(tParams) do keys[#keys+1] = tostring(k) .. "=" .. tostring(v) end end
+      LogInfo("LUA_ACTION params (need the action key): %s", table.concat(keys, ", "))
+    end
+  end
   LogTrace("ExecuteCommand: %s", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
