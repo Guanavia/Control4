@@ -148,7 +148,7 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
     ["SOAPACTION"]   = '"' .. service .. '#' .. action .. '"',
     ["Expect"]       = "",   -- suppress libcurl "Expect: 100-continue" (old Boa server 500s on it)
   }
-  LogInfo("SOAP -> POST %s  [%s]  (BUILD 2026-07-26-d)", url, action)
+  LogInfo("SOAP -> POST %s  [%s]  (BUILD 2026-07-26-e)", url, action)
   local ok, req = pcall(function() return C4:url() end)
   if not ok or not req then LogError("C4:url() unavailable: %s", tostring(req)); if cb then cb(false) end return end
   req:OnDone(function(transfer, responses, errCode, errMsg)
@@ -165,8 +165,9 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
     local usable = (rbody ~= nil and rbody ~= "") and (rcode == nil or rcode < 400)
     if cb then cb(usable, rbody) end
   end)
-  pcall(function() req:SetOptions({ headers = headers, fail_on_error = false, timeout = 6, connect_timeout = 4 }) end)
-  local okp, errp = pcall(function() req:Post(url, body) end)
+  pcall(function() req:SetOptions({ fail_on_error = false, timeout = 6, connect_timeout = 4 }) end)
+  -- headers go as the 3rd arg to Post (NOT via SetOptions)
+  local okp, errp = pcall(function() req:Post(url, body, headers) end)
   if not okp then LogError("SOAP req:Post threw: %s", tostring(errp)) end
 end
 
@@ -357,7 +358,7 @@ function ExecuteCommand(strCommand, tParams)
       LogInfo("LUA_ACTION params (need the action key): %s", table.concat(keys, ", "))
     end
   end
-  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-d]", tostring(strCommand))
+  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-e]", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
   elseif strCommand == "PowerOff"          then SetPower(false)
