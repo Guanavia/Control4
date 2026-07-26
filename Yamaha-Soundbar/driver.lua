@@ -157,11 +157,14 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
       local r = responses[#responses] or responses
       if type(r) == "table" then rbody = r.body or r.data; rcode = r.code end
     elseif rt == "string" then rbody = responses end
-    LogInfo("SOAP OnDone %s: err=%s msg=%s respType=%s httpcode=%s bodylen=%s",
-      action, tostring(errCode), tostring(errMsg), rt, tostring(rcode), tostring(rbody and #rbody or "nil"))
-    if cb then cb((errCode == 0 or errCode == nil) and rbody ~= nil, rbody) end
+    LogInfo("SOAP OnDone %s: err=%s msg=%s httpcode=%s bodylen=%s body=%s",
+      action, tostring(errCode), tostring(errMsg), tostring(rcode),
+      tostring(rbody and #rbody or "nil"), tostring(rbody and rbody:sub(1, 400) or ""))
+    -- treat a 2xx OR any body we can parse as usable
+    local usable = (rbody ~= nil and rbody ~= "") and (rcode == nil or rcode < 400)
+    if cb then cb(usable, rbody) end
   end)
-  pcall(function() req:SetOptions({ headers = headers, timeout = 6, connect_timeout = 4 }) end)
+  pcall(function() req:SetOptions({ headers = headers, fail_on_error = false, timeout = 6, connect_timeout = 4 }) end)
   local okp, errp = pcall(function() req:Post(url, body) end)
   if not okp then LogError("SOAP req:Post threw: %s", tostring(errp)) end
 end
