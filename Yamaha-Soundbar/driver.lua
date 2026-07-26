@@ -146,8 +146,9 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
   local headers = {
     ["Content-Type"] = 'text/xml; charset="utf-8"',
     ["SOAPACTION"]   = '"' .. service .. '#' .. action .. '"',
+    ["Expect"]       = "",   -- suppress libcurl "Expect: 100-continue" (old Boa server 500s on it)
   }
-  LogInfo("SOAP -> POST %s  [%s]", url, action)
+  LogInfo("SOAP -> POST %s  [%s]  (BUILD 2026-07-26-d)", url, action)
   local ok, req = pcall(function() return C4:url() end)
   if not ok or not req then LogError("C4:url() unavailable: %s", tostring(req)); if cb then cb(false) end return end
   req:OnDone(function(transfer, responses, errCode, errMsg)
@@ -356,7 +357,7 @@ function ExecuteCommand(strCommand, tParams)
       LogInfo("LUA_ACTION params (need the action key): %s", table.concat(keys, ", "))
     end
   end
-  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-c]", tostring(strCommand))
+  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-d]", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
   elseif strCommand == "PowerOff"          then SetPower(false)
