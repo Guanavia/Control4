@@ -2,11 +2,11 @@
   <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
   <creator>David Woychek</creator>
   <manufacturer>Yamaha</manufacturer>
-  <name>Yamaha YAS-209 Sound Bar (YXC)</name>
-  <model>YAS-209</model>
+  <name>Yamaha Soundbar</name>
+  <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
-  <modified>2026-07-25</modified>
-  <version>1</version>
+  <modified>2026-07-26</modified>
+  <version>2</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -15,7 +15,7 @@
   <combo>false</combo>
 
   <proxies qty="1">
-    <proxy proxybindingid="5001" name="Yamaha YAS-209" image_source="c4z"
+    <proxy proxybindingid="5001" name="Yamaha Soundbar" image_source="c4z"
            small_image="www/icons/device_sm.gif" large_image="www/icons/device_lg.gif">receiver</proxy>
   </proxies>
 
@@ -30,24 +30,19 @@
   </capabilities>
 
   <connections>
-    <!-- Proxy self connection -->
     <connection>
       <id>5001</id>
       <facing>6</facing>
-      <connectionname>Yamaha YAS-209</connectionname>
+      <connectionname>Yamaha Soundbar</connectionname>
       <type>2</type>
       <consumer>False</consumer>
       <audiosource>False</audiosource>
       <videosource>False</videosource>
       <linelevel>False</linelevel>
-      <classes>
-        <class>
-          <classname>RECEIVER</classname>
-        </class>
-      </classes>
+      <classes><class><classname>RECEIVER</classname></class></classes>
     </connection>
 
-    <!-- IP control + online monitoring (dealer assigns address in Network tab) -->
+    <!-- IP + online monitoring (UPnP control port) -->
     <connection>
       <id>6001</id>
       <type>4</type>
@@ -62,7 +57,7 @@
           <classname>NETWORK</classname>
           <ports>
             <port>
-              <number>80</number>
+              <number>49152</number>
               <auto_connect>True</auto_connect>
               <monitor_connection>True</monitor_connection>
               <keep_connection>False</keep_connection>
@@ -72,7 +67,7 @@
       </classes>
     </connection>
 
-    <!-- Room audio/video end-point (this is what binds to the room) -->
+    <!-- Room audio/video end-point -->
     <connection proxybindingid="5001">
       <id>7000</id>
       <type>7</type>
@@ -82,19 +77,13 @@
       <videosource>True</videosource>
       <linelevel>True</linelevel>
       <classes>
-        <class>
-          <classname>VIDEO_SELECTION</classname>
-        </class>
-        <class>
-          <classname>AUDIO_SELECTION</classname>
-        </class>
-        <class>
-          <classname>AUDIO_VOLUME</classname>
-        </class>
+        <class><classname>VIDEO_SELECTION</classname></class>
+        <class><classname>AUDIO_SELECTION</classname></class>
+        <class><classname>AUDIO_VOLUME</classname></class>
       </classes>
     </connection>
 
-    <!-- HDMI Out (passthrough / ARC) to the TV -->
+    <!-- HDMI Out (ARC) to TV -->
     <connection proxybindingid="5001">
       <id>2000</id>
       <type>5</type>
@@ -103,87 +92,49 @@
       <audiosource>False</audiosource>
       <videosource>True</videosource>
       <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>HDMI</classname>
-        </class>
-      </classes>
+      <classes><class><classname>HDMI</classname></class></classes>
     </connection>
 
-    <!-- Input sources. <id> is the InputBindingID carried by SET_INPUT.
-         Lua INPUT_MAP maps each id -> the device's YXC input id. -->
+    <!-- Input sources. <id> = InputBindingID carried by SET_INPUT; Lua INPUT_MAP -> switchmode value -->
     <connection proxybindingid="5001">
       <id>3000</id>
       <type>6</type>
-      <connectionname>TV Audio (ARC / Optical)</connectionname>
+      <connectionname>TV (ARC / Optical)</connectionname>
       <consumer>True</consumer>
-      <audiosource>False</audiosource>
-      <videosource>False</videosource>
-      <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>DIGITAL_OPTICAL</classname>
-        </class>
-        <class>
-          <classname>STEREO</classname>
-        </class>
-      </classes>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>DIGITAL_OPTICAL</classname></class><class><classname>STEREO</classname></class></classes>
     </connection>
     <connection proxybindingid="5001">
       <id>3001</id>
       <type>6</type>
       <connectionname>HDMI In</connectionname>
       <consumer>True</consumer>
-      <audiosource>False</audiosource>
-      <videosource>True</videosource>
-      <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>HDMI</classname>
-        </class>
-      </classes>
+      <audiosource>False</audiosource><videosource>True</videosource><linelevel>True</linelevel>
+      <classes><class><classname>HDMI</classname></class></classes>
     </connection>
     <connection proxybindingid="5001">
       <id>3002</id>
       <type>6</type>
       <connectionname>Optical In</connectionname>
       <consumer>True</consumer>
-      <audiosource>False</audiosource>
-      <videosource>False</videosource>
-      <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>DIGITAL_OPTICAL</classname>
-        </class>
-      </classes>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>DIGITAL_OPTICAL</classname></class></classes>
     </connection>
     <connection proxybindingid="5001">
       <id>3003</id>
       <type>6</type>
       <connectionname>Bluetooth</connectionname>
       <consumer>True</consumer>
-      <audiosource>False</audiosource>
-      <videosource>False</videosource>
-      <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>STEREO</classname>
-        </class>
-      </classes>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>STEREO</classname></class></classes>
     </connection>
     <connection proxybindingid="5001">
       <id>3004</id>
       <type>6</type>
       <connectionname>Network / Streaming</connectionname>
       <consumer>True</consumer>
-      <audiosource>False</audiosource>
-      <videosource>False</videosource>
-      <linelevel>True</linelevel>
-      <classes>
-        <class>
-          <classname>STEREO</classname>
-        </class>
-      </classes>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>STEREO</classname></class></classes>
     </connection>
   </connections>
 
@@ -198,242 +149,78 @@
     <properties>
       <property>
         <name>Driver Version</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>1.0.0</default>
-      </property>
-      <property>
-        <name>IP Address</name>
-        <type>STRING</type>
-        <readonly>false</readonly>
-        <default></default>
-        <tooltip>Optional. Overrides the address from the Network connection. Use a DHCP reservation on the soundbar. Leave blank to use the Network connection binding.</tooltip>
-      </property>
-      <property>
-        <name>Connected</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>false</default>
-      </property>
-      <property>
-        <name>Poll Interval Seconds</name>
-        <type>RANGED_INTEGER</type>
-        <readonly>false</readonly>
-        <default>3</default>
-        <minimum>1</minimum>
-        <maximum>60</maximum>
-      </property>
-      <property>
-        <name>Use Push Events</name>
-        <type>LIST</type>
-        <readonly>false</readonly>
-        <default>Off</default>
-        <items>
-          <item>Off</item>
-          <item>On</item>
-        </items>
-        <tooltip>EXPERIMENTAL. Subscribes to the soundbar's UDP status pushes for lower latency. Polling covers all state without this; validate on hardware before relying on it.</tooltip>
-      </property>
-      <property>
-        <name>Event Listen Port</name>
-        <type>RANGED_INTEGER</type>
-        <readonly>false</readonly>
-        <default>41100</default>
-        <minimum>1024</minimum>
-        <maximum>65535</maximum>
-        <tooltip>UDP port advertised to the soundbar for push events (only used when Use Push Events = On).</tooltip>
-      </property>
-      <property>
-        <name>Volume Ramp Step</name>
-        <type>RANGED_INTEGER</type>
-        <readonly>false</readonly>
-        <default>2</default>
-        <minimum>1</minimum>
-        <maximum>10</maximum>
-        <tooltip>YXC volume step used for volume up/down (ramp/pulse).</tooltip>
-      </property>
-      <property>
-        <name>Sound Program</name>
-        <type>LIST</type>
-        <readonly>false</readonly>
-        <default>(no change)</default>
-        <items>
-          <item>(no change)</item>
-          <item>movie</item>
-          <item>music</item>
-          <item>tv</item>
-          <item>sports</item>
-          <item>game</item>
-          <item>stereo</item>
-        </items>
-        <tooltip>Selecting a value sends setSoundProgram. Exact IDs come from getFeatures (see Actions - Query Features).</tooltip>
-      </property>
-      <property>
-        <name>Power State</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>unknown</default>
-      </property>
-      <property>
-        <name>Current Input</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>unknown</default>
-      </property>
-      <property>
-        <name>Current Volume</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>unknown</default>
-      </property>
-      <property>
-        <name>Muted</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default>unknown</default>
-      </property>
-      <property>
-        <name>Now Playing</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default></default>
+        <type>STRING</type><readonly>true</readonly><default>2.0.0</default>
       </property>
       <property>
         <name>Model</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default></default>
+        <type>LIST</type><readonly>false</readonly><default>YAS-209</default>
+        <items><item>YAS-209</item></items>
+        <tooltip>Soundbar model. (Umbrella driver; more models added over time.)</tooltip>
       </property>
       <property>
-        <name>Firmware Version</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default></default>
+        <name>Control Method</name>
+        <type>LIST</type><readonly>false</readonly><default>IP</default>
+        <items><item>IR</item><item>IP</item><item>Serial</item></items>
+        <tooltip>How Control4 controls the bar. IP is implemented (UPnP + httpapi). IR/Serial are placeholders for later. NOTE: shipping default will be IR once IR is programmed.</tooltip>
       </property>
       <property>
-        <name>Device ID</name>
-        <type>STRING</type>
-        <readonly>true</readonly>
-        <default></default>
+        <name>IP Address</name>
+        <type>STRING</type><readonly>false</readonly><default></default>
+        <tooltip>Soundbar IP (use a DHCP reservation). Required for the IP control method.</tooltip>
+      </property>
+      <property>
+        <name>Owner Approved</name>
+        <type>LIST</type><readonly>false</readonly><default>No</default>
+        <items><item>No</item><item>Yes</item></items>
+        <tooltip>GRAY-AREA GATE. Power and input over IP use a client certificate extracted from Yamaha's app to reach the soundbar's local API. This is the EQUIPMENT OWNER's decision to enable. While "No", the driver still does volume/mute/transport (UPnP) and leaves power/input to IR. Set to "Yes" ONLY with the owner's consent.</tooltip>
+      </property>
+      <property>
+        <name>Connected</name>
+        <type>STRING</type><readonly>true</readonly><default>false</default>
+      </property>
+      <property>
+        <name>Poll Interval Seconds</name>
+        <type>RANGED_INTEGER</type><readonly>false</readonly><default>3</default><minimum>1</minimum><maximum>60</maximum>
+      </property>
+      <property>
+        <name>Power State</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+      </property>
+      <property>
+        <name>Current Input</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+      </property>
+      <property>
+        <name>Current Volume</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+      </property>
+      <property>
+        <name>Muted</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
       </property>
       <property>
         <name>Log Level</name>
-        <type>LIST</type>
-        <readonly>false</readonly>
-        <default>2 - Warning</default>
-        <items>
-          <item>0 - Alert</item>
-          <item>1 - Error</item>
-          <item>2 - Warning</item>
-          <item>3 - Info</item>
-          <item>4 - Trace</item>
-          <item>5 - Debug</item>
-        </items>
+        <type>LIST</type><readonly>false</readonly><default>2 - Warning</default>
+        <items><item>0 - Alert</item><item>1 - Error</item><item>2 - Warning</item><item>3 - Info</item><item>4 - Trace</item><item>5 - Debug</item></items>
       </property>
       <property>
         <name>Log Mode</name>
-        <type>LIST</type>
-        <readonly>false</readonly>
-        <default>Off</default>
-        <items>
-          <item>Off</item>
-          <item>Print</item>
-          <item>Log</item>
-          <item>Print and Log</item>
-        </items>
+        <type>LIST</type><readonly>false</readonly><default>Off</default>
+        <items><item>Off</item><item>Print</item><item>Log</item><item>Print and Log</item></items>
       </property>
     </properties>
 
     <actions>
-      <action>
-        <name>Refresh Now</name>
-        <command>RefreshNow</command>
-      </action>
-      <action>
-        <name>Query Device Info</name>
-        <command>QueryDeviceInfo</command>
-      </action>
-      <action>
-        <name>Query Features (logs inputs and sound programs)</name>
-        <command>QueryFeatures</command>
-      </action>
-      <action>
-        <name>Bass Extension On</name>
-        <command>BassExtensionOn</command>
-      </action>
-      <action>
-        <name>Bass Extension Off</name>
-        <command>BassExtensionOff</command>
-      </action>
-      <action>
-        <name>Clear Voice On</name>
-        <command>ClearVoiceOn</command>
-      </action>
-      <action>
-        <name>Clear Voice Off</name>
-        <command>ClearVoiceOff</command>
-      </action>
-      <action>
-        <name>3D Surround On</name>
-        <command>Surround3DOn</command>
-      </action>
-      <action>
-        <name>3D Surround Off</name>
-        <command>Surround3DOff</command>
-      </action>
-      <action>
-        <name>Play</name>
-        <command>TransportPlay</command>
-      </action>
-      <action>
-        <name>Pause</name>
-        <command>TransportPause</command>
-      </action>
-      <action>
-        <name>Stop</name>
-        <command>TransportStop</command>
-      </action>
-      <action>
-        <name>Next Track</name>
-        <command>TransportNext</command>
-      </action>
-      <action>
-        <name>Previous Track</name>
-        <command>TransportPrevious</command>
-      </action>
+      <action><name>Refresh Now</name><command>RefreshNow</command></action>
+      <action><name>Power On (IP)</name><command>PowerOn</command></action>
+      <action><name>Power Off / Standby (IP)</name><command>PowerOff</command></action>
+      <action><name>Play</name><command>TransportPlay</command></action>
+      <action><name>Pause</name><command>TransportPause</command></action>
+      <action><name>Stop</name><command>TransportStop</command></action>
+      <action><name>Next Track</name><command>TransportNext</command></action>
+      <action><name>Previous Track</name><command>TransportPrevious</command></action>
+      <action><name>Query Device Info (IP)</name><command>QueryDeviceInfo</command></action>
     </actions>
-
-    <commands>
-      <command>
-        <name>Set Sleep Timer</name>
-        <command>SetSleep</command>
-        <params>
-          <param>
-            <name>Minutes</name>
-            <type>LIST</type>
-            <items>
-              <item>0</item>
-              <item>30</item>
-              <item>60</item>
-              <item>90</item>
-              <item>120</item>
-            </items>
-          </param>
-        </params>
-      </command>
-      <command>
-        <name>Set Subwoofer Volume</name>
-        <command>SetSubwooferVolume</command>
-        <params>
-          <param>
-            <name>Level</name>
-            <type>RANGED_INTEGER</type>
-            <minimum>-12</minimum>
-            <maximum>12</maximum>
-          </param>
-        </params>
-      </command>
-    </commands>
   </config>
 
   <composer_categories>

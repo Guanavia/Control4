@@ -31,17 +31,24 @@ refusing or silently enabling it.
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-SoundBar-YAS209 — OPEN, v1 written (not yet hardware-tested)
-Control4 IP driver for the Yamaha YAS-209 sound bar via the Yamaha Extended Control (YXC) HTTP API
-(port 80). Presents as a `receiver` proxy (power/volume/mute/input) + Actions for sound modes, DSP
-toggles, and net transport. Built 2026-07-25 from documentation; `driver.lua` compiles clean
-(`luac -p`) but is **not yet load-tested on a controller or a real unit**. Full protocol map,
-Control4 mapping, and the "must validate on hardware" list are in
-`Yamaha-SoundBar-YAS209/research/DESIGN.md`; folder overview in its `README.md`. `.c4z` is a build
-artifact (`./build.sh`, gitignored). Key facts: the YAS-209 is not marketed as MusicCast but still
-speaks the YXC API; state is polling-primary (UDP push is opt-in/experimental); no JSON-lib
-dependency (flat responses parsed with Lua patterns); exact input/sound-program IDs must be
-confirmed via `getFeatures` and adjusted in `driver.lua`'s `INPUT_MAP`.
+### Yamaha-SoundBar-YAS209 — OPEN, v2 driver built (IP control validated on real hardware)
+**MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
+The original YXC premise (v1) was wrong for this unit (port 80 closed). Reverse-engineered the real
+local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
+playbook (device map, cert-extraction, exact commands, the reusable **Owner-Approved** gray-area
+toggle, and the general method for future locked devices) is in
+`Yamaha-SoundBar-YAS209/research/LINKPLAY_RE.md`. Two control surfaces: **UPnP :49152** (no auth) =
+volume/mute/transport; **Linkplay httpapi :443** (mutual-TLS, client cert extracted from Yamaha's
+app) = power/input. Confirmed commands: power `YAMAHA_DATA_SET:{"power saving":"1"|"0"}` (1=on,
+0=standby), input `setPlayerCmd:switchmode:HDMI|bluetooth|optical` (TV=optical).
+**v2 driver built** (`driver.xml`+`driver.lua`, compiles clean): umbrella "Yamaha Soundbar" (Model +
+Control Method IR/IP/Serial; IP implemented, shipping default will be IR). IP = UPnP for
+volume/mute/transport + httpapi for power/input **gated behind the `Owner Approved` property**
+(default No). **NOT yet load-tested in Composer/virtual-director**; the one on-device unknown is the
+mutual-TLS httpapi transport from C4's Lua (`HttpApiGet` is isolated as THE validation point — C4:url
+client-cert option names may need tuning). The extracted client cert (`linkplay_client.pem`) and the
+`.c4z` are **gitignored** (gray-area; regenerate the cert via LINKPLAY_RE.md, then `./build.sh`).
+`research/DESIGN.md` is the superseded v1 (YXC) design, kept for reference.
 
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)
 Original goal: get a Sonoff SNZB-02P temperature/humidity/battery sensor into Control4 for

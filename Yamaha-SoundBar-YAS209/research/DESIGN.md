@@ -144,4 +144,8 @@ covers all state without it; push only lowers latency for changes made **at the 
 4. **UDP push** binding mechanics (only if `Use Push Events` is enabled).
 5. `setBassExtension` / `setClearVoice` / `set3dSurround` / `setSubwooferVolume` endpoint names
    (present in Advanced spec / getFeatures; confirm on unit).
-6. Icons are **placeholders** — replace with real artwork.
+6. Icons/artwork are **placeholders** (1x1 GIFs). **DEFERRED by decision (2026-07-25):** do not
+   invest in real icons or Navigator artwork until the driver is validated working against a real
+   YAS-209. Revisit only after hardware validation. Applies to `www/icons/device_sm.gif` /
+   `device_lg.gif` (Composer tree) and any optional Navigator display PNGs. `www/documentation.rtf`
+   already has functional content (expand post-validation, not blocking).
