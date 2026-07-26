@@ -11,7 +11,7 @@ and the interesting findings, keep the nuts-and-bolts friction off his plate. He
 and is firmly of the view that an owner may do whatever they want with gear they own — so
 authorized reverse-engineering / pushing devices past vendor locks **on his own equipment** is in
 scope and encouraged. When a technique is gray for *client/dealer* installs, gate it behind an
-**"Owner Approved"** toggle (see `Yamaha-SoundBar-YAS209/research/LINKPLAY_RE.md`) rather than
+**"Owner Approved"** toggle (see `Yamaha-Soundbar/research/LINKPLAY_RE.md`) rather than
 refusing or silently enabling it.
 
 ## Repo conventions
@@ -31,23 +31,34 @@ refusing or silently enabling it.
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-SoundBar-YAS209 — OPEN, v2 driver built (IP control validated on real hardware)
+### Yamaha-Soundbar — OPEN, v2 driver built (IP control validated on real hardware)
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
 The original YXC premise (v1) was wrong for this unit (port 80 closed). Reverse-engineered the real
 local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
 playbook (device map, cert-extraction, exact commands, the reusable **Owner-Approved** gray-area
 toggle, and the general method for future locked devices) is in
-`Yamaha-SoundBar-YAS209/research/LINKPLAY_RE.md`. Two control surfaces: **UPnP :49152** (no auth) =
+`Yamaha-Soundbar/research/LINKPLAY_RE.md`. Two control surfaces: **UPnP :49152** (no auth) =
 volume/mute/transport; **Linkplay httpapi :443** (mutual-TLS, client cert extracted from Yamaha's
 app) = power/input. Confirmed commands: power `YAMAHA_DATA_SET:{"power saving":"1"|"0"}` (1=on,
 0=standby), input `setPlayerCmd:switchmode:HDMI|bluetooth|optical` (TV=optical).
 **v2 driver built** (`driver.xml`+`driver.lua`, compiles clean): umbrella "Yamaha Soundbar" (Model +
 Control Method IR/IP/Serial; IP implemented, shipping default will be IR). IP = UPnP for
 volume/mute/transport + httpapi for power/input **gated behind the `Owner Approved` property**
-(default No). **NOT yet load-tested in Composer/virtual-director**; the one on-device unknown is the
-mutual-TLS httpapi transport from C4's Lua (`HttpApiGet` is isolated as THE validation point — C4:url
-client-cert option names may need tuning). The extracted client cert (`linkplay_client.pem`) and the
-`.c4z` are **gitignored** (gray-area; regenerate the cert via LINKPLAY_RE.md, then `./build.sh`).
+(default No). **ON-CONTROLLER STATUS (2026-07-26, virtual director): UPnP half WORKS** — Connected
+goes true and volume/mute read live (transport is the same layer). Getting there fixed several
+DriverWorks gotchas now baked into the driver: `C4:Log` doesn't exist (use `C4:ErrorLog`); Composer
+Actions arrive via `ExecuteCommand` as `strCommand="LUA_ACTION"` with the real name in
+`tParams.ACTION`; and **`C4:url()` request headers go as the `Get`/`Post` 3rd arg, NOT via
+`SetOptions`** (that was the UPnP 500 — a dropped SOAPACTION header). Also confirm the driver-reload
+cycle: Composer caches by version, so **remove + re-add the driver** (build-tag log line confirms the
+live build). **httpapi power/input DOES NOT WORK yet:** `C4:url()` has **no client-certificate
+support** (confirmed against Control4's own `global/url.lua`), so the mutual-TLS path can't
+authenticate. **NEXT STEP: rework `HttpApiGet` to a raw SSL `network_connection`** like `nv_shield_tv`
+(SSL `<connection>` in driver.xml with certificate + private_key + method tlsv12, then a raw
+`GET /httpapi.asp?command=...` over the socket, parsed in `ReceivedFromNetwork`). OPEN Q: does C4 need
+the private key ENCRYPTED (nv_shield uses `protected="true"`) or does a plain PEM key work? Flagged
+with a `TODO` in `driver.lua`'s `HttpApiGet`. The extracted client cert (`linkplay_client.pem`) and
+the `.c4z` are **gitignored** (gray-area; regenerate the cert via LINKPLAY_RE.md, then `./build.sh`).
 `research/DESIGN.md` is the superseded v1 (YXC) design, kept for reference.
 
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)

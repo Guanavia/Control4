@@ -140,7 +140,7 @@ end
 -- cb(ok, body)   [INSTRUMENTED for on-controller diagnosis]
 local function Soap(ctrlPath, service, action, innerXml, cb)
   local addr = DeviceAddress()
-  if not addr then LogInfo("SOAP %s: NO ADDRESS (gAddress='%s')", action, tostring(gAddress)); if cb then cb(false) end return end
+  if not addr then LogWarning("SOAP %s: no device address (IP Address property empty)", action); if cb then cb(false) end return end
   local url = "http://" .. addr .. ":" .. UPNP_PORT .. ctrlPath
   local body = SoapEnvelope(service, action, innerXml)
   local headers = {
@@ -148,7 +148,7 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
     ["SOAPACTION"]   = '"' .. service .. '#' .. action .. '"',
     ["Expect"]       = "",   -- suppress libcurl "Expect: 100-continue" (old Boa server 500s on it)
   }
-  LogInfo("SOAP -> POST %s  [%s]  (BUILD 2026-07-26-e)", url, action)
+  LogDebug("SOAP -> POST %s  [%s]", url, action)
   local ok, req = pcall(function() return C4:url() end)
   if not ok or not req then LogError("C4:url() unavailable: %s", tostring(req)); if cb then cb(false) end return end
   req:OnDone(function(transfer, responses, errCode, errMsg)
@@ -158,9 +158,8 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
       local r = responses[#responses] or responses
       if type(r) == "table" then rbody = r.body or r.data; rcode = r.code end
     elseif rt == "string" then rbody = responses end
-    LogInfo("SOAP OnDone %s: err=%s msg=%s httpcode=%s bodylen=%s body=%s",
-      action, tostring(errCode), tostring(errMsg), tostring(rcode),
-      tostring(rbody and #rbody or "nil"), tostring(rbody and rbody:sub(1, 400) or ""))
+    LogDebug("SOAP OnDone %s: err=%s httpcode=%s bodylen=%s",
+      action, tostring(errCode), tostring(rcode), tostring(rbody and #rbody or "nil"))
     -- treat a 2xx OR any body we can parse as usable
     local usable = (rbody ~= nil and rbody ~= "") and (rcode == nil or rcode < 400)
     if cb then cb(usable, rbody) end
@@ -197,16 +196,17 @@ local function HttpApiGet(command, cb)
     if not good then LogWarning("httpapi failed for '%s' (err=%s)", command, tostring(errMsg or errCode)) end
     if cb then cb(good, rbody) end
   end)
-  -- Present the bundled Linkplay client cert for the device's mutual-TLS + accept its
-  -- self-signed server cert. Option names may need tuning per OS version (isolated here).
-  pcall(function() req:SetOptions({
-    client_certificate = gClientCertPem,
-    client_key         = gClientKeyPem,
-    ssl_verify_host    = false,
-    ssl_verify_peer    = false,
-    timeout            = 8,
-    connect_timeout    = 5,
-  }) end)
+  -- *** KNOWN LIMITATION (2026-07-26): C4:url() has NO client-certificate support -- confirmed
+  -- against Control4's own global/url.lua (SetOptions handles cookies/fail_on_error/timeouts,
+  -- no cert/ssl-client keys). The device REQUIRES a client cert for mutual-TLS on :443, so this
+  -- C4:url path CANNOT authenticate and WILL fail. Left as scaffolding.
+  -- TODO (next hardware session): rework to a raw SSL network_connection like nv_shield_tv --
+  -- declare an SSL <connection> in driver.xml (certificate + private_key + method tlsv12),
+  -- then send the raw "GET /httpapi.asp?command=... HTTP/1.1" over the socket and parse the
+  -- reply in ReceivedFromNetwork. OPEN Q: does C4 require the private key ENCRYPTED
+  -- (nv_shield uses <private_key protected="true">), or does a plain PEM key work? ***
+  LogWarning("httpapi: C4:url cannot present a client cert -> power/input over IP need the SSL-socket rework (driver TODO). '%s' will not authenticate.", command)
+  pcall(function() req:SetOptions({ ssl_verify_host = false, ssl_verify_peer = false, timeout = 8, connect_timeout = 5 }) end)
   req:Get(url)
 end
 
@@ -358,7 +358,7 @@ function ExecuteCommand(strCommand, tParams)
       LogInfo("LUA_ACTION params (need the action key): %s", table.concat(keys, ", "))
     end
   end
-  LogInfo("ExecuteCommand: %s   [BUILD 2026-07-26-e]", tostring(strCommand))
+  LogTrace("ExecuteCommand: %s", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
   elseif strCommand == "PowerOff"          then SetPower(false)
@@ -380,7 +380,7 @@ end
 function OnDriverInit()  LogInfo("OnDriverInit") end
 
 function OnDriverLateInit()
-  LogInfo("OnDriverLateInit")
+  LogInfo("Yamaha Soundbar driver loaded (build 2026-07-26-e; UPnP validated, httpapi power/input pending SSL-socket rework)")
   UpdateProp("Driver Version", "2.0.0")
   for k, _ in pairs(Properties or {}) do OnPropertyChanged(k) end
   LoadCert()
