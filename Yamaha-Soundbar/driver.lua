@@ -79,7 +79,9 @@ local function Log(level, msg, ...)
   if not ok then s = tostring(msg) end
   local line = string.format("[YAMAHASB][%s] %s", os.date("%H:%M:%S"), s)
   if gLogMode == "Print" or gLogMode == "Print and Log" then print(line) end
-  if gLogMode == "Log"   or gLogMode == "Print and Log" then C4:Log(line) end
+  -- C4:ErrorLog is the DriverWorks director-log fn (C4:Log does not exist); pcall so a
+  -- logging-API mismatch can never crash the driver.
+  if gLogMode == "Log" or gLogMode == "Print and Log" then pcall(function() C4:ErrorLog(line) end) end
 end
 local function LogDebug(m,...)   Log(LOG_LEVEL.DEBUG,m,...) end
 local function LogTrace(m,...)   Log(LOG_LEVEL.TRACE,m,...) end
