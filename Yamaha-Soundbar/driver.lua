@@ -137,28 +137,33 @@ local function SoapEnvelope(service, action, innerXml)
     '</u:' .. action .. '></s:Body></s:Envelope>'
 end
 
--- cb(ok, body)
+-- cb(ok, body)   [INSTRUMENTED for on-controller diagnosis]
 local function Soap(ctrlPath, service, action, innerXml, cb)
   local addr = DeviceAddress()
-  if not addr then if cb then cb(false) end return end
+  if not addr then LogInfo("SOAP %s: NO ADDRESS (gAddress='%s')", action, tostring(gAddress)); if cb then cb(false) end return end
   local url = "http://" .. addr .. ":" .. UPNP_PORT .. ctrlPath
   local body = SoapEnvelope(service, action, innerXml)
   local headers = {
     ["Content-Type"] = 'text/xml; charset="utf-8"',
     ["SOAPACTION"]   = '"' .. service .. '#' .. action .. '"',
   }
+  LogInfo("SOAP -> POST %s  [%s]", url, action)
   local ok, req = pcall(function() return C4:url() end)
-  if not ok or not req then LogError("C4:url() unavailable"); if cb then cb(false) end return end
+  if not ok or not req then LogError("C4:url() unavailable: %s", tostring(req)); if cb then cb(false) end return end
   req:OnDone(function(transfer, responses, errCode, errMsg)
-    local rbody
-    if type(responses) == "table" then
+    local rt = type(responses)
+    local rbody, rcode
+    if rt == "table" then
       local r = responses[#responses] or responses
-      if type(r) == "table" then rbody = r.body or r.data end
-    elseif type(responses) == "string" then rbody = responses end
+      if type(r) == "table" then rbody = r.body or r.data; rcode = r.code end
+    elseif rt == "string" then rbody = responses end
+    LogInfo("SOAP OnDone %s: err=%s msg=%s respType=%s httpcode=%s bodylen=%s",
+      action, tostring(errCode), tostring(errMsg), rt, tostring(rcode), tostring(rbody and #rbody or "nil"))
     if cb then cb((errCode == 0 or errCode == nil) and rbody ~= nil, rbody) end
   end)
   pcall(function() req:SetOptions({ headers = headers, timeout = 6, connect_timeout = 4 }) end)
-  req:Post(url, body)
+  local okp, errp = pcall(function() req:Post(url, body) end)
+  if not okp then LogError("SOAP req:Post threw: %s", tostring(errp)) end
 end
 
 -------------------------------------------------
