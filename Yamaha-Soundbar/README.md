@@ -156,6 +156,11 @@ Actions:
   actually contains, SSL binding state, and queue depth. No network traffic.
 - **Test httpapi (SSL)** — runs the diagnostics, then sends `getStatusEx` over the socket and
   reports pass/fail.
+- **Learn Input Codes** — the one-press way to finish `MODE_TO_CONN`. Selects each input in turn,
+  waits for the bar to settle, reads `getPlayerStatus` back, and prints a paste-ready table, then
+  restores the input it started on. It works because ground truth is whatever *we* just selected:
+  the send side (`switchmode`, a string) is confirmed, so whatever number comes back on the read
+  side belongs to that input. **This physically cycles the bar through its inputs.**
 - **Probe Yamaha Settings** — dumps the raw payloads of every read command (`YAMAHA_DATA_GET`,
   `getPlayerStatus`, `getStatusEx`). Run it once per state you care about — each surround mode,
   each EQ preset, each input — and diff the output. **The fields that move are the ones to

@@ -275,6 +275,7 @@
       <!-- Capability discovery: dumps the raw read-command payloads so the surround/EQ
            key names and the input "mode" codes can be pinned down from a real session. -->
       <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
+      <action><name>Learn Input Codes (cycles every input, then prints the table)</name><command>LearnInputCodes</command></action>
     </actions>
   </config>
 

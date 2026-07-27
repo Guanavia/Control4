@@ -165,9 +165,13 @@ gone rather than merely demoted — a cert warning that fires on a working syste
 warning at all.
 
 **NEXT (in order):**
-1. **One hardware session to close state feedback + surround/EQ:** cycle every input with Debug
-   logging on (completes `MODE_TO_CONN`, esp. HDMI), then run Probe Yamaha Settings across surround
-   modes and EQ presets and diff the payloads. **Use Probe Yamaha Settings, NOT Query Device Info.**
+1. **One hardware session, now mostly one button:** run the new **Learn Input Codes** Action — it
+   selects each input, reads `getPlayerStatus` back, prints a paste-ready `MODE_TO_CONN` table and
+   restores the starting input. (Dave's observation that all inputs select correctly confirmed the
+   SEND side — `switchmode`, a string — but that says nothing about the READ side, which returns a
+   NUMBER; the sweep works precisely because driving a KNOWN input makes the returned number
+   self-identifying.) Then run Probe Yamaha Settings across surround modes and EQ presets and diff.
+   **Use Probe Yamaha Settings / Learn Input Codes, NOT Query Device Info.**
 2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
 3. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to

@@ -554,6 +554,78 @@ local function ProbeSettings()
 end
 
 -------------------------------------------------
+-- LEARN INPUT MODE CODES (closes MODE_TO_CONN without guesswork)
+--
+-- The SEND side (setPlayerCmd:switchmode:<string>) is confirmed working, and the READ side
+-- (getPlayerStatus "mode") returns a NUMBER.  Knowing the string works tells us nothing
+-- about the number -- but driving a KNOWN input and then reading the mode back does, because
+-- ground truth is whatever we just selected.  This walks every input doing exactly that and
+-- prints a paste-ready table, then restores the input it started on.
+--
+-- Physically cycles the bar's inputs.  Deliberate, operator-triggered, ~4 inputs x settle.
+-------------------------------------------------
+local LEARN_SETTLE_MS = 3000
+local gLearn = nil
+
+local function LearnFinish()
+  LogInfo("---- learned input mode codes ----")
+  local any = false
+  for _, r in ipairs(gLearn.results) do
+    LogInfo("  connection %d (%s) -> mode %s", r.conn, r.sw, r.mode and ('"' .. r.mode .. '"') or "NO READING")
+    if r.mode then any = true end
+  end
+  if any then
+    LogInfo("Paste into MODE_TO_CONN in driver.lua:")
+    for _, r in ipairs(gLearn.results) do
+      if r.mode then LogInfo('    ["%s"] = %d,  -- %s', r.mode, r.conn, r.sw) end
+    end
+  else
+    LogWarning("no mode readings at all -- getPlayerStatus may not carry a 'mode' field on " ..
+      "this firmware. Run 'Probe Yamaha Settings' and read its raw payload.")
+  end
+  local restore = gLearn.restore
+  gLearn = nil
+  if restore then
+    LogInfo("[learn] restoring the input that was selected before the sweep (%s)", INPUT_MAP[restore])
+    HttpApiGet("setPlayerCmd:switchmode:" .. INPUT_MAP[restore])
+  end
+  LogInfo("----------------------------------")
+end
+
+local function LearnStep()
+  if not gLearn then return end
+  local connId = INPUT_ORDER[gLearn.idx]
+  if not connId then LearnFinish(); return end
+  local sw = INPUT_MAP[connId]
+  LogInfo("[learn] %d/%d selecting %s (connection %d) ...", gLearn.idx, #INPUT_ORDER, sw, connId)
+  HttpApiGet("setPlayerCmd:switchmode:" .. sw, function(okSet)
+    if not okSet then LogWarning("[learn] switchmode %s FAILED -- reading anyway", sw) end
+    C4:SetTimer(LEARN_SETTLE_MS, function()
+      HttpApiGet("getPlayerStatus", function(okGet, body)
+        local mode = okGet and jsonstr(body, "mode") or nil
+        if okGet then LogDebug("[learn] raw: %s", tostring(body)) end
+        gLearn.results[#gLearn.results + 1] = { conn = connId, sw = sw, mode = mode }
+        LogInfo("[learn] %s -> mode=%s", sw, tostring(mode))
+        gLearn.idx = gLearn.idx + 1
+        LearnStep()
+      end)
+    end, false)
+  end)
+end
+
+local function LearnInputCodes()
+  if not gOwnerOK then
+    LogWarning("Learn Input Codes needs Owner Approved = Yes (it uses httpapi)")
+    return
+  end
+  if gLearn then LogWarning("a learn sweep is already running"); return end
+  local restore = gInputSw and SWITCH_TO_CONN[gInputSw] or nil
+  gLearn = { idx = 1, results = {}, restore = restore }
+  LogInfo("---- learning input mode codes: this WILL cycle the bar through every input ----")
+  LearnStep()
+end
+
+-------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
 -------------------------------------------------
 local ReceiverCommands = {}
@@ -654,6 +726,7 @@ function ExecuteCommand(strCommand, tParams)
     end)
   elseif strCommand == "HttpApiDiag"       then HttpApiDiag()
   elseif strCommand == "ProbeSettings"     then ProbeSettings()
+  elseif strCommand == "LearnInputCodes"   then LearnInputCodes()
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()
