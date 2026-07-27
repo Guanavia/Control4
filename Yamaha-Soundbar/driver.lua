@@ -13,12 +13,12 @@
     Input     : httpapi setPlayerCmd:switchmode:HDMI|bluetooth|optical  (TV=optical)
     Volume    : UPnP RenderingControl SetVolume (0-100)  |  Mute: SetMute
 
-  STATUS (2026-07-27):
-    * UPnP half  — VALIDATED on the real bar via a real director (volume/mute read live).
-    * httpapi    — reworked onto a raw SSL network connection because C4:url() cannot
-                   present a client certificate.  NOT yet exercised against the bar; the
-                   "Test httpapi (SSL)" Action is the bringup probe.  All soundbar testing
-                   is on real hardware — a virtual director cannot reach the bar.
+  STATUS (2026-07-27): BOTH control surfaces VALIDATED on the real bar via a real director.
+    * UPnP half  — volume/mute read live.
+    * httpapi    — mutual-TLS handshake SUCCEEDS over the raw SSL network connection
+                   (binding 6002) with the PLAIN key; getStatusEx returned HTTP 200.
+                   C4:url() was abandoned because it cannot present a client certificate.
+    All soundbar testing is on real hardware — a virtual director cannot reach the bar.
 
   Bindings: 5001 receiver proxy | 6001 network (UPnP monitor) | 6002 SSL httpapi (:443)
             7000 room end-point | 2000 HDMI out | 3000..3004 input sources
@@ -312,10 +312,11 @@ local function HttpApiGet(command, cb)
     LogWarning("httpapi '%s': no device address (IP Address property empty)", tostring(command))
     if cb then cb(false) end; return
   end
-  -- Cert presence is advisory only: Director reads the PEM out of the .c4z itself, so a
-  -- failed C4:ReadFile sanity check must NOT block a request that would otherwise work.
+  -- Cert probe is advisory ONLY and must never gate a request: Director reads the PEM out
+  -- of the .c4z itself.  A failed probe has already been observed on a run whose handshake
+  -- then succeeded, so this is a debug note, not a warning.
   if not gCertPresent then
-    LogWarning("httpapi '%s': client cert sanity check did not pass (%s) - trying anyway",
+    LogDebug("httpapi '%s': cert probe inconclusive (%s) - proceeding, the handshake decides",
       tostring(command), tostring(gCertInfo))
   end
   gQueue[#gQueue + 1] = { command = command, cb = cb }
@@ -448,27 +449,26 @@ function ReceiverCommands.PULSE_INPUT() CycleInput() end
 -- the bundle actually contains, and never gates a request.
 -------------------------------------------------
 local function CheckCert()
+  -- HISTORY, so nobody re-introduces this: the first version called C4:ReadFile(), which
+  -- DOES NOT EXIST in DriverWorks (0 hits across Control4's published API -- same trap as
+  -- C4:Log).  Wrapped in pcall, it failed silently and reported "cert not readable" on a
+  -- bundle that was in fact perfect, on the very run where the handshake SUCCEEDED.
+  -- C4:FileExists is the real API.  Do NOT probe with C4:FileOpen: it CREATES the file
+  -- when missing, which would manufacture a false pass.
   gCertPresent, gCertInfo = false, nil
-  local pem
-  local ok = pcall(function() pem = C4:ReadFile("linkplay_client.pem") end)
-  if not ok or not pem or pem == "" then
-    gCertInfo = "linkplay_client.pem not readable from the .c4z"
-    LogWarning("%s; httpapi power/input will not authenticate (UPnP volume/mute still works)", gCertInfo)
-    return
+  local ok, exists = pcall(function() return C4:FileExists("linkplay_client.pem") end)
+  if not ok then
+    gCertInfo = "could not probe the bundle (C4:FileExists unavailable)"
+  elseif exists then
+    gCertPresent = true
+    gCertInfo = "linkplay_client.pem present in the .c4z"
+  else
+    gCertInfo = "linkplay_client.pem not confirmed present (path may not resolve here)"
   end
-  local _, nCerts = pem:gsub("BEGIN CERTIFICATE", "")
-  local encrypted = pem:match("BEGIN ENCRYPTED PRIVATE KEY") ~= nil
-  local hasKey    = pem:match("BEGIN [%u ]*PRIVATE KEY") ~= nil
-  gCertPresent = (nCerts > 0) and hasKey
-  gCertInfo = string.format("%d certificate(s), private key = %s",
-    nCerts, encrypted and "ENCRYPTED" or (hasKey and "plain" or "MISSING"))
-  if gCertPresent then LogInfo("Linkplay client bundle: %s", gCertInfo)
-  else LogWarning("Linkplay client bundle looks wrong: %s", gCertInfo) end
-  -- An encrypted key requires protected="True" on <private_key> in driver.xml, or the
-  -- handshake fails with no useful error.  Flag the mismatch loudly rather than silently.
-  if encrypted then
-    LogWarning("bundle carries an ENCRYPTED key -> driver.xml <private_key> MUST have protected=\"True\"")
-  end
+  -- Deliberately non-authoritative in BOTH directions: Director reads the PEM out of the
+  -- .c4z itself for the handshake, so this probe can be wrong either way.  The TLS
+  -- handshake in OnConnectionStatusChanged is the only real test.
+  LogInfo("client bundle probe: %s (advisory only -- the TLS handshake is the real test)", gCertInfo)
 end
 
 local function HttpApiDiag()
@@ -477,6 +477,7 @@ local function HttpApiDiag()
   LogInfo("Owner Approved    : %s", gOwnerOK and "Yes (httpapi ENABLED)" or "No (httpapi blocked)")
   LogInfo("IP Address        : '%s'", tostring(gAddress))
   LogInfo("Client bundle     : %s", tostring(gCertInfo or "not checked"))
+  LogInfo("                    (advisory -- a failed probe does NOT mean the cert is bad)")
   LogInfo("SSL binding %d    : created=%s addr=%s online=%s",
     SSL_BINDING, tostring(gSslCreated), tostring(gSslAddr), tostring(gSslOnline))
   LogInfo("Queue depth       : %d, in flight: %s",

@@ -53,6 +53,47 @@ extracted cert — power OFF/ON both returned `OK` on the real unit 2026-07-26):
 > app's TrustManager is trust-all, so no CA install needed; re-originate mutual-TLS upstream with the
 > extracted client cert). Phone Wi-Fi proxy → Mac:8080.
 
+## Validated FROM the Control4 driver (2026-07-27, real director, real bar)
+
+The httpapi path above was originally proven from a Mac with OpenSSL. It is now **proven from
+inside DriverWorks**: the driver's mutual-TLS handshake succeeds and `getStatusEx` returns HTTP 200
+(1598-byte body). Details that only surfaced on the controller:
+
+- **`C4:url()` can never do this.** No client-certificate support at all (verified against
+  Control4's own `global/url.lua`). The working transport is a **raw SSL `network_connection`** —
+  `driver.xml` binding 6002 / port 443, `classname SSL`, `method tlsv12`, `verify_mode none`
+  (the bar's *server* cert is private-CA; verifying it would kill the handshake). The driver then
+  speaks HTTP/1.1 over the socket itself.
+- **The PLAIN private key works.** No `protected="True"` needed. That attribute is not a
+  Control4-owned secret anyway — it merely makes Director call `GetPrivateKeyPassword(Binding,
+  Port)` in the driver for a passphrase *we* choose. Encrypted-key build kept as a fallback
+  (`ENCRYPT_KEY=1 ./build.sh`) but it was not required.
+- **`certificate` / `private_key` / `cacert` may all be the same file** — the one-file
+  `linkplay_client.pem` (leaf + issuing CA + key) serves all three.
+- **A second network binding coexists fine** with the existing 6001 UPnP monitor binding.
+- **`C4:ReadFile()` DOES NOT EXIST** in DriverWorks (0 hits across Control4's published API — the
+  same trap as `C4:Log`). Wrapped in a `pcall` it fails silently; it produced a bogus
+  "cert not readable" line on the very run whose handshake succeeded. Use `C4:FileExists()`.
+  Do **not** probe with `C4:FileOpen()` — it *creates* the file when missing, faking a pass.
+- **Old Boa server behaviour holds:** send `Connection: close`, honour `Content-Length`, and treat
+  the socket close as end-of-body.
+
+### Device fingerprint (`getStatusEx`, this unit)
+| Field | Value | Note |
+|---|---|---|
+| `project` / `priv_prj` | `YAS_109` | **Wrong/shared Linkplay project string** — do NOT use it to identify the model |
+| `yamaha_model_name` | `YAS_209` | the trustworthy model field |
+| `bt_name` | `YAS-209 Yamaha` | |
+| `firmware` | `Linkplay.3.6.418924` | `Release 2022060308` |
+| `mcu_ver` / `mcu_ver_customize` | `531` / `00.87_01.46_3.3.1.4_20.01.29_00.08_3.88.1_3.88.2` | DSP/MCU build stack |
+| `uuid` / `upnp_uuid` | `FFB8F0020E742090E14BCD76` | stable device id, usable for discovery |
+| `eth2` / `ETH_MAC` | `192.168.1.214` / `00:22:6C:FE:5E:DF` | this unit is on **ethernet**, not Wi-Fi |
+| `preset_key` | `6` | 6 hardware presets exist — unexplored |
+| `uart_pass_port` | `8899` | **UART passthrough to the MCU — the most promising unexplored surface** for DSP/sound-mode control that httpapi does not expose |
+| `communication_port` | `8819` | Linkplay internal |
+| `securemode` / `security` | `1` / `https/2.0` | forces the *new* client cert |
+| `streams` / `capability` / `plm_support` | `0x65cb3fc` / `0x200a4000` / `0x4` | capability bitfields, not yet decoded |
+
 ## The client-cert protection scheme (all three layers)
 Source: app `com.wifiaudio.Yamaha` (a re-skinned Linkplay app). Pull the APK with `apkeep -a
 com.wifiaudio.Yamaha -d apk-pure`, unzip the XAPK → base APK → `assets/` + `classes*.dex`; decompile

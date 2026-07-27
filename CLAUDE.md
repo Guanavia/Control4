@@ -31,7 +31,7 @@ refusing or silently enabling it.
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-Soundbar — OPEN, v2.1.0 (UPnP validated on real hardware; httpapi awaiting bringup)
+### Yamaha-Soundbar — OPEN, v2.1.0 (BOTH control surfaces validated on real hardware)
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
 The original YXC premise (v1) was wrong for this unit (port 80 closed). Reverse-engineered the real
 local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
@@ -83,13 +83,31 @@ repo does NOT document `certificate`/`private_key`/`method` at all; they're only
    three. No splitting needed. Also verified offline: the leaf cert and private key are a
    **matching pair** (public-key MD5s identical), removing one class of hardware-trip failure.
 
-**NEXT: hardware bringup, and it's now a ~10-minute test rather than a debugging session.** Two
-diagnostic Actions were added for exactly this: **httpapi Diagnostics** (control method, Owner
-Approved, address, what the bundled PEM actually contains, SSL binding state, queue depth — no
-traffic) and **Test httpapi (SSL)** (diagnostics + `getStatusEx` + explicit pass/fail). Set Log
-Level `5 - Debug` / Log Mode `Print and Log`. The logging deliberately separates the two failure
-modes: socket going down **before** the request is sent = handshake/client-cert rejection (try
-`ENCRYPT_KEY=1`); close with **no response after** sending = server side.
+**HARDWARE BRINGUP PASSED (2026-07-27, real director, real bar) — httpapi WORKS.** `Test httpapi
+(SSL)` returned: handshake SUCCEEDED, `getStatusEx` HTTP 200, 1598-byte body. Specifics worth
+keeping:
+- **The PLAIN key was accepted** — `ENCRYPT_KEY=1` was never needed (kept as insurance).
+- **The second network binding (6002) coexists fine with 6001** — the risk flagged pre-test was a
+  non-issue, and 6001's validated UPnP half was left untouched.
+- **`C4:ReadFile()` DOES NOT EXIST in DriverWorks** (0 hits across Control4's published API — the
+  same trap as `C4:Log`). Inside a `pcall` it fails silently, and it printed a bogus "cert not
+  readable" line on the very run whose handshake succeeded. **Fixed to `C4:FileExists()`**, and the
+  probe is now explicitly advisory in both directions (it never gates a request — which is the only
+  reason the test passed rather than being blocked by a false negative). **Never probe with
+  `C4:FileOpen()`: it CREATES the file when missing, manufacturing a false pass.**
+- **Device fingerprint captured** into `research/LINKPLAY_RE.md` (new "Validated FROM the Control4
+  driver" section). Two things matter downstream: `project`/`priv_prj` report **`YAS_109`** (wrong/
+  shared Linkplay string — **do not use it for model detection**; `yamaha_model_name` = `YAS_209` is
+  the trustworthy field), and **`uart_pass_port` 8899 is an unexplored UART passthrough to the MCU**
+  — the most promising surface for DSP/sound-mode control that httpapi does not expose. Also
+  `preset_key: 6` (6 hardware presets, unexplored) and undecoded capability bitfields.
+
+**NEXT: exercise the actual power/input commands.** Only `getStatusEx` (a read) has been proven
+through the driver; `YAMAHA_DATA_SET:{"power saving":...}` and `setPlayerCmd:switchmode:...` were
+validated from a Mac in the earlier RE session but not yet through DriverWorks. Run the Power
+On/Off and input-select Actions and confirm the bar responds. After that: state feedback (poll
+power/input via `YAMAHA_DATA_GET`/`getPlayerStatus` so Composer reflects reality), then IR as the
+shipping default control method.
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
 regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded

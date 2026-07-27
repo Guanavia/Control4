@@ -16,7 +16,7 @@ for transport and hardware bringup.
 | Layer | Transport | State |
 | --- | --- | --- |
 | Volume / mute / transport | UPnP SOAP on `:49152`, no auth | **Validated on the real bar** (real director, 2026-07-26) |
-| Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Written, not yet exercised on hardware** (v2.1.0, 2026-07-27) |
+| Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Handshake + `getStatusEx` validated** (real director, 2026-07-27). Power/input commands themselves still to be exercised. |
 
 **All testing for this project is on real hardware by necessity** — a virtual director has no path
 to the bar, so there is no VD test loop here.
@@ -73,12 +73,13 @@ A `.c4z` is just a zip of the driver files at the archive root — no `research/
 no README. The build stages into a temp dir, bundles the client cert, and prints what actually
 went into the archive.
 
-### If the plain key is rejected on hardware
+### Encrypted-key fallback (not needed — the plain key works)
 
-Control4 supports an encrypted private key via `protected="True"` on `private_key`, which makes
-Director call `GetPrivateKeyPassword(Binding, Port)` in the driver to obtain the passphrase — so
-the password is entirely ours to choose. `ENCRYPT_KEY=1 ./build.sh` re-encrypts the key **and**
-stamps the attribute onto `driver.xml` in the staged copy; `driver.lua` already returns the
+The plain key was accepted on hardware, so this is only insurance. Control4 supports an encrypted
+private key via `protected="True"` on `private_key`, which makes Director call
+`GetPrivateKeyPassword(Binding, Port)` in the driver to obtain the passphrase — so the password is
+entirely ours to choose, not a Control4 secret. `ENCRYPT_KEY=1 ./build.sh` re-encrypts the key
+**and** stamps the attribute onto `driver.xml` in the staged copy; `driver.lua` already returns the
 matching passphrase, so no Lua edit is needed. Both variants are verified to build.
 
 ## First-time configuration
@@ -110,6 +111,12 @@ Actions:
 The log distinguishes the failure points that matter: socket going down *before* the request is
 sent points at a rejected handshake (client cert), whereas a close with no response after sending
 points at the server side.
+
+> **The bundle probe is advisory and can be wrong in both directions.** Director reads the PEM out
+> of the `.c4z` itself, so the TLS handshake is the only authoritative test. The first version of
+> this check used `C4:ReadFile()` — which **does not exist** in DriverWorks, fails silently inside
+> a `pcall`, and reported "cert not readable" on the very run whose handshake succeeded. It now
+> uses `C4:FileExists()`. Never probe with `C4:FileOpen()`: it *creates* the file when missing.
 
 > **Composer caches drivers by version.** After a rebuild, **remove and re-add** the driver — the
 > build-tag line in `OnDriverLateInit` confirms which build is actually live.
