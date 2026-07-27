@@ -18,9 +18,34 @@ for transport and hardware bringup.
 | Volume / mute / transport | UPnP SOAP on `:49152`, no auth | **Validated on the real bar** (real director, 2026-07-26) |
 | Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Validated on the real bar** (real director, 2026-07-27) — handshake, `getStatusEx`, power on/off and input select all confirmed |
 
-**Full IP control works end to end.** The remaining gap is **state feedback**: power and input are
-write-only, so the driver reports what it last sent rather than what the bar is doing. Change the
-input with the Yamaha remote and Control4's UI drifts out of sync until the next command.
+**Full IP control works end to end.**
+
+## State feedback
+
+Power and input are read back from the bar so the UI stays right when someone uses the Yamaha
+remote or the front panel, on a **separate and much slower timer** than volume/mute
+(**State Poll Seconds**, default 30s; `0` disables it). The two cadences are deliberately
+different: UPnP is cheap plaintext SOAP, but every httpapi read costs a **full mutual-TLS
+handshake**, because each request is one connect with `Connection: close`. Polling power/input at
+the 3-second volume cadence would mean a TLS handshake every three seconds, forever.
+
+Two decode tables are **provisional** and finish themselves from a real session:
+
+- `MODE_TO_CONN` in `driver.lua` maps the Linkplay `mode` code to an input. The streaming,
+  Bluetooth and optical codes are the documented values; **HDMI is unconfirmed on this unit**.
+  Any unrecognised mode is logged once at WARNING with its raw value, so switching through the
+  inputs with Debug logging on completes the table.
+- Power feedback reads `"power saving"` from `YAMAHA_DATA_GET`. If that field isn't in the
+  payload, the driver says so once rather than silently reporting nothing.
+
+## Inputs
+
+TV (ARC / optical), HDMI In, Bluetooth, Network / Streaming.
+
+There is deliberately **no separate "Optical In"**. The bar has one optical/ARC input and the
+Linkplay layer exposes exactly one `switchmode` for it (`optical`) — the same target the TV input
+selects. A second entry was a duplicate control that picked the identical source, so it was
+removed.
 
 **All testing for this project is on real hardware by necessity** — a virtual director has no path
 to the bar, so there is no VD test loop here.
@@ -54,6 +79,26 @@ server, so requests carry `Connection: close` and the socket close is treated as
 
 The connection is bound to the **IP Address** property via `C4:CreateNetworkConnection`, so the
 dealer never enters the address twice.
+
+## Auto-discovery — where this actually stands
+
+**True SDDP is not achievable here, and it isn't a driver-side limitation.** SDDP is a *device-side*
+protocol: the bar itself would have to broadcast SDDP announcements naming the driver to load
+(`driver` and `primary_proxy` are fields in the announcement). Implementing it requires Snap One's
+SDDP SDK under a signed licence agreement, and it would have to live in Yamaha's firmware. Nothing
+a third-party driver can add gets a non-SDDP device into "Discovered Devices" as an SDDP device.
+
+**But Director's discovery is not SDDP-only.** `C4:GetDiscoveryInfo(binding)` documents three
+mechanisms — **SDDP, DDDP and UPNP** — and returns `uuid`/`ip`/`model`/`manufacturer`/`name`/
+`location` for UPnP-discovered devices. This bar *is* a UPnP MediaRenderer with a stable
+`upnp_uuid` (`FFB8F002-0E74-2090-E14B-CD76FFB8F002`), so it is visible to that mechanism.
+
+So the realistic feature is **auto-configuration rather than auto-discovery**: have the driver
+locate the bar itself (SSDP/UPnP, matched on that UUID or the Linkplay model string) and populate
+the IP Address property automatically — which also makes it self-heal when DHCP moves the bar.
+That captures most of the day-to-day value of SDDP without the licensing. **Not built yet**; the
+open question is how far Composer's own "Discovered Devices" list will go toward binding a
+UPnP-discovered device to a custom driver, versus the driver simply self-locating.
 
 ## Layout
 
@@ -111,6 +156,12 @@ Actions:
   actually contains, SSL binding state, and queue depth. No network traffic.
 - **Test httpapi (SSL)** — runs the diagnostics, then sends `getStatusEx` over the socket and
   reports pass/fail.
+- **Probe Yamaha Settings** — dumps the raw payloads of every read command (`YAMAHA_DATA_GET`,
+  `getPlayerStatus`, `getStatusEx`). Run it once per state you care about — each surround mode,
+  each EQ preset, each input — and diff the output. **The fields that move are the ones to
+  drive.** This is how surround/EQ control and the remaining input mode codes get pinned down;
+  none of it can be guessed safely from the docs, because `YAMAHA_DATA_GET`'s response shape has
+  never been captured.
 
 The log distinguishes the failure points that matter: socket going down *before* the request is
 sent points at a rejected handshake (client cert), whereas a close with no response after sending

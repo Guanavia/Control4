@@ -45,16 +45,32 @@ local HTTPAPI_TIMEOUT_MS = 10000
 -- one-attribute XML change (build with ENCRYPT_KEY=1) with no Lua edit.
 local HTTPAPI_KEY_PASSWORD = "yas209-linkplay"
 
--- Control4 input connection id -> Linkplay switchmode value
+-- Control4 input connection id -> Linkplay switchmode value.
+-- There is deliberately no separate "Optical In": the bar has ONE optical/ARC input and
+-- the Linkplay layer exposes ONE switchmode ("optical") for it, which is what the TV
+-- input already selects.  A second entry would have been a duplicate of 3000.
 local INPUT_MAP = {
-  [3000] = "optical",    -- TV (ARC/optical)
+  [3000] = "optical",    -- TV (ARC / optical)
   [3001] = "HDMI",       -- HDMI In
-  [3002] = "optical",    -- Optical In
   [3003] = "bluetooth",  -- Bluetooth
   [3004] = "wifi",       -- Network / streaming
 }
 local INPUT_ORDER = { 3000, 3001, 3003, 3004 }
 local SWITCH_TO_CONN = { optical = 3000, HDMI = 3001, bluetooth = 3003, wifi = 3004 }
+
+-- getPlayerStatus "mode" (Linkplay source code) -> our input connection id.
+-- PROVISIONAL.  The streaming/bluetooth/optical codes are the documented Linkplay values;
+-- HDMI on soundbars varies by firmware and is NOT yet confirmed on this unit.  Any mode we
+-- do not recognise is logged at WARNING with its raw value, so switching through the inputs
+-- once with Debug logging on is enough to complete this table.
+local MODE_TO_CONN = {
+  ["1"]  = 3004,  -- AirPlay      \
+  ["2"]  = 3004,  -- DLNA          |  all "network / streaming" as far as Control4 cares
+  ["10"] = 3004,  -- wiimu playlist|
+  ["31"] = 3004,  -- Spotify      /
+  ["41"] = 3003,  -- Bluetooth
+  ["43"] = 3000,  -- Optical == the YAS-209's TV input
+}
 
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
 local AV = "urn:schemas-upnp-org:service:AVTransport:1"
@@ -76,6 +92,9 @@ local gPollSecs   = 3
 local gConnected  = false
 local gPollFails  = 0
 local gPollTimer  = nil
+local gStatePollSecs  = 30    -- httpapi power/input read-back; 0 = disabled
+local gStatePollTimer = nil
+local gUnknownModes   = {}    -- modes already reported, so the log warns once each
 
 local gPower      = nil      -- boolean (best-effort; only known when httpapi/Owner Approved)
 local gYxcVolume  = nil      -- 0..100 (UPnP)
@@ -431,6 +450,114 @@ local function StartPoll()
 end
 
 -------------------------------------------------
+-- STATE FEEDBACK (power / input, read back over httpapi)
+--
+-- Separate and MUCH slower than the UPnP poll above on purpose.  UPnP is cheap plaintext
+-- SOAP; every httpapi read is a full mutual-TLS handshake, because each request is one
+-- connect with "Connection: close".  Polling this at the volume/mute cadence would mean a
+-- TLS handshake every few seconds, forever.
+--
+-- These apply state WITHOUT re-sending commands -- they reflect what the bar reports, so
+-- the UI stays right when someone uses the Yamaha remote or the front panel.
+-------------------------------------------------
+local gPowerKeyWarned = false
+
+local function pesc(s) return (tostring(s):gsub("(%W)", "%%%1")) end
+local function jsonstr(body, key)
+  if not body then return nil end
+  return body:match('"' .. pesc(key) .. '"%s*:%s*"([^"]*)"')
+end
+
+local function ApplyPowerState(on)
+  if on == gPower then return end
+  gPower = on
+  UpdateProp("Power State", on and "On" or "Standby")
+  NotifyPower(on)
+  LogInfo("power changed at the bar -> %s", on and "On" or "Standby")
+end
+
+local function ApplyInputState(connId)
+  local sw = INPUT_MAP[connId]
+  if not sw or gInputSw == sw then return end
+  gInputSw = sw
+  UpdateProp("Current Input", sw)
+  NotifyInput(connId)
+  LogInfo("input changed at the bar -> %s (connection %d)", sw, connId)
+end
+
+local function PollHttpApiState()
+  if gCtrlMethod ~= "IP" or not gOwnerOK or gStatePollSecs <= 0 then return end
+
+  HttpApiGet("getPlayerStatus", function(ok, body)
+    if not ok or not body then return end
+    LogDebug("getPlayerStatus raw: %s", body)
+    local mode = jsonstr(body, "mode")
+    if not mode then return end
+    local conn = MODE_TO_CONN[mode]
+    if conn then
+      ApplyInputState(conn)
+    elseif not gUnknownModes[mode] then
+      -- Warn once per distinct value, not every poll.
+      gUnknownModes[mode] = true
+      LogWarning("getPlayerStatus mode='%s' is not in MODE_TO_CONN -- note which input is " ..
+        "physically selected right now and add it to that table in driver.lua", mode)
+    end
+  end)
+
+  HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+    if not ok or not body then return end
+    LogDebug("YAMAHA_DATA_GET raw: %s", body)
+    local ps = jsonstr(body, "power saving")
+    if ps == "1" then ApplyPowerState(true)
+    elseif ps == "0" then ApplyPowerState(false)
+    elseif not gPowerKeyWarned then
+      gPowerKeyWarned = true
+      LogWarning("YAMAHA_DATA_GET returned no \"power saving\" field, so power feedback is " ..
+        "unavailable until the right key is identified. Run the 'Probe Yamaha Settings' Action " ..
+        "and read the raw payload.")
+    end
+  end)
+end
+
+local function StopStatePoll()
+  if gStatePollTimer then gStatePollTimer:Cancel(); gStatePollTimer = nil end
+end
+
+local function StartStatePoll()
+  StopStatePoll()
+  if gCtrlMethod ~= "IP" or not gOwnerOK or gStatePollSecs <= 0 then
+    LogDebug("state feedback off (method=%s ownerOK=%s interval=%s)",
+      tostring(gCtrlMethod), tostring(gOwnerOK), tostring(gStatePollSecs))
+    return
+  end
+  -- Deliberately NO immediate poll: OnDriverLateInit walks every property, so firing here
+  -- would touch off a burst of TLS handshakes on load.  First read happens one interval in.
+  gStatePollTimer = C4:SetTimer(gStatePollSecs * 1000, function(timer)
+    PollHttpApiState()
+    if timer and timer.Reset then timer:Reset() end
+  end, false)
+  LogInfo("state feedback on: power/input read back every %ds", gStatePollSecs)
+end
+
+-- On-demand capability discovery.  Dumps the raw payloads of every read command we know,
+-- which is how the surround/EQ field names and the input mode codes get pinned down.
+local function ProbeSettings()
+  if not gOwnerOK then
+    LogWarning("Probe Yamaha Settings needs Owner Approved = Yes (it uses httpapi)")
+    return
+  end
+  LogInfo("---- Yamaha settings probe ----")
+  LogInfo("Run this once per state you care about (each surround mode, each EQ preset, each")
+  LogInfo("input) and diff the payloads -- the fields that move are the ones to drive.")
+  for _, cmd in ipairs({ "YAMAHA_DATA_GET", "getPlayerStatus", "getStatusEx" }) do
+    HttpApiGet(cmd, function(ok, body)
+      if ok then LogInfo("[probe] %s ->\n%s", cmd, tostring(body))
+      else LogWarning("[probe] %s FAILED", cmd) end
+    end)
+  end
+end
+
+-------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
 -------------------------------------------------
 local ReceiverCommands = {}
@@ -524,6 +651,7 @@ function ExecuteCommand(strCommand, tParams)
       if ok and body then LogInfo("getStatusEx: %s", tostring(body)) end
     end)
   elseif strCommand == "HttpApiDiag"       then HttpApiDiag()
+  elseif strCommand == "ProbeSettings"     then ProbeSettings()
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()
@@ -549,11 +677,13 @@ function OnDriverLateInit()
   for k, _ in pairs(Properties or {}) do OnPropertyChanged(k) end
   CheckCert()
   StartPoll()
+  StartStatePoll()
 end
 
 function OnDriverDestroyed()
   LogInfo("OnDriverDestroyed")
   StopPoll()
+  StopStatePoll()
   if gReqTimer then pcall(function() gReqTimer:Cancel() end); gReqTimer = nil end
   if gSslCreated then pcall(function() C4:NetDisconnect(SSL_BINDING, HTTPAPI_PORT) end) end
 end
@@ -568,6 +698,7 @@ function OnPropertyChanged(sProperty)
   elseif sProperty == "Control Method" then
     gCtrlMethod = value or "IP"
     StartPoll()
+    StartStatePoll()
   elseif sProperty == "IP Address" then
     local newAddr = trim(value)
     if newAddr ~= gAddress then
@@ -580,9 +711,13 @@ function OnPropertyChanged(sProperty)
   elseif sProperty == "Owner Approved" then
     gOwnerOK = (value == "Yes")
     LogInfo("Owner Approved = %s (httpapi power/input %s)", tostring(value), gOwnerOK and "ENABLED" or "disabled")
+    StartStatePoll()   -- state feedback rides on httpapi, so it follows this gate
   elseif sProperty == "Poll Interval Seconds" then
     gPollSecs = tonumber(value) or 3
     if gPollTimer then StartPoll() end
+  elseif sProperty == "State Poll Seconds" then
+    gStatePollSecs = tonumber(value) or 30
+    StartStatePoll()
   end
 end
 

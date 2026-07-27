@@ -154,14 +154,10 @@
       <audiosource>False</audiosource><videosource>True</videosource><linelevel>True</linelevel>
       <classes><class><classname>HDMI</classname></class></classes>
     </connection>
-    <connection proxybindingid="5001">
-      <id>3002</id>
-      <type>6</type>
-      <connectionname>Optical In</connectionname>
-      <consumer>True</consumer>
-      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
-      <classes><class><classname>DIGITAL_OPTICAL</classname></class></classes>
-    </connection>
+    <!-- NOTE: there is deliberately NO separate "Optical In" input.  The YAS-209 has one
+         optical/ARC input and the Linkplay layer exposes exactly one switchmode for it
+         ("optical"), which is the same target the TV input uses.  A second connection
+         would have been a duplicate control that selects the identical source. -->
     <connection proxybindingid="5001">
       <id>3003</id>
       <type>6</type>
@@ -223,6 +219,12 @@
       <property>
         <name>Poll Interval Seconds</name>
         <type>RANGED_INTEGER</type><readonly>false</readonly><default>3</default><minimum>1</minimum><maximum>60</maximum>
+        <tooltip>Volume/mute poll over UPnP. Cheap plaintext SOAP, so this can be fast.</tooltip>
+      </property>
+      <property>
+        <name>State Poll Seconds</name>
+        <type>RANGED_INTEGER</type><readonly>false</readonly><default>30</default><minimum>0</minimum><maximum>600</maximum>
+        <tooltip>How often power and input are read BACK from the bar over httpapi, so the UI stays right when someone uses the Yamaha remote or front panel. Each read costs a full mutual-TLS handshake (one connect per request), so keep this well above the volume/mute poll. 0 disables state feedback and leaves power/input write-only. Requires Owner Approved = Yes.</tooltip>
       </property>
       <property>
         <name>Power State</name>
@@ -266,6 +268,9 @@
            and Log Mode = Print and Log, then run these and read the log. -->
       <action><name>Test httpapi (SSL) - getStatusEx</name><command>TestHttpApi</command></action>
       <action><name>httpapi Diagnostics (cert + socket state)</name><command>HttpApiDiag</command></action>
+      <!-- Capability discovery: dumps the raw read-command payloads so the surround/EQ
+           key names and the input "mode" codes can be pinned down from a real session. -->
+      <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
     </actions>
   </config>
 

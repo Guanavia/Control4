@@ -107,21 +107,58 @@ and `setPlayerCmd:switchmode:...` both drive the real hardware from Control4. **
 is now complete and fully validated end to end** — UPnP volume/mute/transport + httpapi
 power/input. The v2 driver does what it was built to do.
 
+**STATE FEEDBACK BUILT (2026-07-27) — needs one hardware session to finish its decode tables.**
+Power/input are no longer write-only. New `State Poll Seconds` property (default **30s**, `0`
+disables) drives a SEPARATE, slower timer from the 3s UPnP volume/mute poll — deliberate, because
+every httpapi read is a **full mutual-TLS handshake** (one connect per request, `Connection:
+close`), so matching the volume cadence would mean a TLS handshake every 3 seconds forever. Reads
+`getPlayerStatus` (`mode` → input) and `YAMAHA_DATA_GET` (`power saving` → power) and applies state
+WITHOUT re-sending commands. No poll fires on `StartStatePoll` itself — OnDriverLateInit walks every
+property, so an immediate poll there would touch off a handshake burst on load.
+**Two decode tables are PROVISIONAL and self-completing:** `MODE_TO_CONN` has the documented
+Linkplay codes (`41`=BT, `43`=optical, `1`/`2`/`10`/`31`=streaming) but **HDMI's code is
+UNCONFIRMED on this unit**; any unknown mode logs once at WARNING with its raw value, so cycling
+the inputs with Debug on completes it. Power feedback assumes `YAMAHA_DATA_GET` returns
+`"power saving"` — **its response shape has never actually been captured** — and warns once if
+absent rather than silently reporting nothing. The JSON field parser was unit-tested against the
+real `getStatusEx` payload incl. the space-containing key and a substring-collision guard.
+
+**OPTICAL IN REMOVED (housekeeping, user-spotted).** The bar has ONE optical/ARC input and Linkplay
+exposes ONE `switchmode` for it (`optical`) — the same target the TV input selects, so the separate
+"Optical In" (conn 3002) was a duplicate control for the identical source. Inputs are now TV
+(ARC/optical) 3000, HDMI In 3001, Bluetooth 3003, Network 3004.
+
+**SURROUND / EQ — cannot be built without a capture; probe action added instead.** `YAMAHA_DATA_GET`
+is a known read command but **its response was never captured**, so the Yamaha-specific key names
+for surround/EQ are unknown and guessing them would ship broken UI. New Action **Probe Yamaha
+Settings** dumps raw payloads of `YAMAHA_DATA_GET` + `getPlayerStatus` + `getStatusEx`; run once per
+surround mode / EQ preset / input and **diff — the fields that move are the ones to drive**. Note
+`getPlayerStatus` already carries an `eq` field, so EQ is likely `setPlayerCmd:equalizer:<n>`.
+
+**SDDP AUTO-DISCOVERY — answered: true SDDP is NOT achievable, and it is not a driver-side
+limitation.** SDDP is *device-side*: the bar itself would have to broadcast announcements naming
+the driver (`driver`/`primary_proxy` are fields IN the announcement), which needs Snap One's SDDP
+SDK under a signed licence and would have to live in Yamaha's firmware. **However, Director's
+discovery is not SDDP-only** — `C4:GetDiscoveryInfo(binding)` documents **SDDP, DDDP and UPNP**,
+returning uuid/ip/model/manufacturer/name/location for UPnP-discovered devices, and this bar IS a
+UPnP MediaRenderer with a stable `upnp_uuid` (`FFB8F002-0E74-2090-E14B-CD76FFB8F002`). **So the
+realistic feature is auto-CONFIGURATION, not auto-discovery:** have the driver self-locate via
+SSDP/UPnP (match on that uuid or the Linkplay model string) and auto-populate the IP Address
+property, which also self-heals when DHCP moves the bar. NOT BUILT. Open question if resumed: how
+far Composer's own "Discovered Devices" list goes toward binding a UPnP-discovered device to a
+custom driver, vs. the driver simply self-locating. Also relevant: `C4:SendBroadcast` exists (UDP
+broadcast, `SO_BROADCAST`) though SSDP M-SEARCH is normally multicast — verify the multicast path
+before committing to a design.
+
 **NEXT (in order):**
-1. **State FEEDBACK — the real remaining gap.** Power and input are currently WRITE-ONLY: the
-   driver updates its properties/proxy from what it just sent, not from the bar. Anything that
-   changes the bar outside Control4 (Yamaha remote, front panel, the app) silently drifts the UI
-   out of sync. Fix = extend the existing 3s poll (which already reads volume/mute over UPnP) to
-   also read power + input over httpapi via `YAMAHA_DATA_GET` / `getPlayerStatus`, and reconcile.
-   Note the cost asymmetry: UPnP polling is a cheap plaintext SOAP call, but each httpapi poll is
-   a fresh mutual-TLS handshake + connect (`Connection: close`, one connect per request) — so
-   poll power/input on a SLOWER cadence than volume/mute, or make it event-ish, rather than
-   hammering a TLS handshake every 3 seconds.
+1. **One hardware session to close state feedback + surround/EQ:** cycle every input with Debug
+   logging on (completes `MODE_TO_CONN`, esp. HDMI), then run Probe Yamaha Settings across surround
+   modes and EQ presets and diff the payloads.
 2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
-3. **Unexplored hardware surfaces**, if the appetite is there: `uart_pass_port` 8899 (UART
-   passthrough to the MCU — the likely route to DSP/sound-mode control that httpapi does not
-   expose) and the 6 hardware presets (`preset_key: 6`).
+3. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
+   the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
+   presets (`preset_key: 6`).
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
 regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
