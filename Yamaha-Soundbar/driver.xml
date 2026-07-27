@@ -263,7 +263,11 @@
       <action><name>Stop</name><command>TransportStop</command></action>
       <action><name>Next Track</name><command>TransportNext</command></action>
       <action><name>Previous Track</name><command>TransportPrevious</command></action>
-      <action><name>Query Device Info (IP)</name><command>QueryDeviceInfo</command></action>
+      <!-- getStatusEx is an IDENTITY/CAPABILITY dump only.  Proven on hardware 2026-07-27:
+           five captures at five different inputs were identical except the clock (65 of 66
+           fields), and it contains no mode/source/input/eq/surround key at all.  Use
+           "Probe Yamaha Settings" for anything state-related. -->
+      <action><name>Query Device Info (identity only — never shows input/state)</name><command>QueryDeviceInfo</command></action>
       <!-- Hardware-bringup diagnostics for the mutual-TLS path.  Set Log Level = 5 - Debug
            and Log Mode = Print and Log, then run these and read the log. -->
       <action><name>Test httpapi (SSL) - getStatusEx</name><command>TestHttpApi</command></action>

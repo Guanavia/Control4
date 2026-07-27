@@ -150,10 +150,24 @@ custom driver, vs. the driver simply self-locating. Also relevant: `C4:SendBroad
 broadcast, `SO_BROADCAST`) though SSDP M-SEARCH is normally multicast — verify the multicast path
 before committing to a design.
 
+**`getStatusEx` RULED OUT FOR STATE (2026-07-27, proven not assumed).** Dave captured it at five
+different physical inputs; programmatic diff = **identical except the clock (65 of 66 fields)**, and
+the payload has NO `mode`/`source`/`input`/`eq`/`surround` key at all. It is an identity/capability
+dump, full stop. Input state is in **`getPlayerStatus` (`mode`)** — which is why the `Probe Yamaha
+Settings` Action exists; `Query Device Info` will never show it. Action renamed to say so, and the
+driver now logs that caveat after every `getStatusEx` dump. **Do not re-test this.**
+
+**CERT PROBE REMOVED ENTIRELY — Lua cannot see inside a `.c4z`, period.** `C4:ReadFile` doesn't
+exist, and `C4:FileExists` **also returns false** for a bundled file; both were observed reporting
+"cert missing" on runs whose handshake SUCCEEDED. Only Director reads the archive (via the
+driver.xml paths). There is no Lua-side probe that can be truthful, so the per-request check is
+gone rather than merely demoted — a cert warning that fires on a working system is worse than no
+warning at all.
+
 **NEXT (in order):**
 1. **One hardware session to close state feedback + surround/EQ:** cycle every input with Debug
    logging on (completes `MODE_TO_CONN`, esp. HDMI), then run Probe Yamaha Settings across surround
-   modes and EQ presets and diff the payloads.
+   modes and EQ presets and diff the payloads. **Use Probe Yamaha Settings, NOT Query Device Info.**
 2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
 3. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to

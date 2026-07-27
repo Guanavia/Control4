@@ -335,13 +335,9 @@ local function HttpApiGet(command, cb)
     LogWarning("httpapi '%s': no device address (IP Address property empty)", tostring(command))
     if cb then cb(false) end; return
   end
-  -- Cert probe is advisory ONLY and must never gate a request: Director reads the PEM out
-  -- of the .c4z itself.  A failed probe has already been observed on a run whose handshake
-  -- then succeeded, so this is a debug note, not a warning.
-  if not gCertPresent then
-    LogDebug("httpapi '%s': cert probe inconclusive (%s) - proceeding, the handshake decides",
-      tostring(command), tostring(gCertInfo))
-  end
+  -- NO per-request cert check.  Lua cannot see inside the .c4z (both C4:ReadFile and
+  -- C4:FileExists fail on bundles whose handshake then succeeds), so any such line is
+  -- noise at best and misleading at worst.  The handshake decides.
   gQueue[#gQueue + 1] = { command = command, cb = cb }
   LogTrace("httpapi queued '%s' (depth %d)", tostring(command), #gQueue)
   PumpQueue()
@@ -586,20 +582,20 @@ local function CheckCert()
   -- bundle that was in fact perfect, on the very run where the handshake SUCCEEDED.
   -- C4:FileExists is the real API.  Do NOT probe with C4:FileOpen: it CREATES the file
   -- when missing, which would manufacture a false pass.
+  -- SECOND FINDING (2026-07-27, on hardware): C4:FileExists ALSO returns false for a
+  -- .c4z-bundled file, on the very runs whose handshake succeeded.  Lua simply cannot see
+  -- inside the archive -- only Director can, and it reads the PEM itself using the paths in
+  -- driver.xml.  So there is NO Lua-side probe that can tell us anything true here, and a
+  -- "missing cert" line would be a lie.  Report the state of knowledge honestly instead.
   gCertPresent, gCertInfo = false, nil
   local ok, exists = pcall(function() return C4:FileExists("linkplay_client.pem") end)
-  if not ok then
-    gCertInfo = "could not probe the bundle (C4:FileExists unavailable)"
-  elseif exists then
-    gCertPresent = true
-    gCertInfo = "linkplay_client.pem present in the .c4z"
+  gCertPresent = (ok and exists) and true or false
+  if gCertPresent then
+    gCertInfo = "linkplay_client.pem visible to Lua"
   else
-    gCertInfo = "linkplay_client.pem not confirmed present (path may not resolve here)"
+    gCertInfo = "not visible to Lua (expected -- .c4z contents are Director's to read)"
   end
-  -- Deliberately non-authoritative in BOTH directions: Director reads the PEM out of the
-  -- .c4z itself for the handshake, so this probe can be wrong either way.  The TLS
-  -- handshake in OnConnectionStatusChanged is the only real test.
-  LogInfo("client bundle probe: %s (advisory only -- the TLS handshake is the real test)", gCertInfo)
+  LogInfo("client bundle: %s; the TLS handshake is the only real test", gCertInfo)
 end
 
 local function HttpApiDiag()
@@ -608,7 +604,7 @@ local function HttpApiDiag()
   LogInfo("Owner Approved    : %s", gOwnerOK and "Yes (httpapi ENABLED)" or "No (httpapi blocked)")
   LogInfo("IP Address        : '%s'", tostring(gAddress))
   LogInfo("Client bundle     : %s", tostring(gCertInfo or "not checked"))
-  LogInfo("                    (advisory -- a failed probe does NOT mean the cert is bad)")
+  LogInfo("                    (Lua cannot read .c4z contents; not-visible is NORMAL)")
   LogInfo("SSL binding %d    : created=%s addr=%s online=%s",
     SSL_BINDING, tostring(gSslCreated), tostring(gSslAddr), tostring(gSslOnline))
   LogInfo("Queue depth       : %d, in flight: %s",
@@ -647,8 +643,14 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "TransportNext"     then Transport("Next")
   elseif strCommand == "TransportPrevious" then Transport("Previous")
   elseif strCommand == "QueryDeviceInfo"   then
+    -- Identity/capabilities only.  Proven on hardware: five captures at five different
+    -- inputs differed ONLY in the clock, and there is no mode/source/input field at all.
     HttpApiGet("getStatusEx", function(ok, body)
-      if ok and body then LogInfo("getStatusEx: %s", tostring(body)) end
+      if ok and body then
+        LogInfo("getStatusEx: %s", tostring(body))
+        LogInfo("(identity/capabilities only -- this command NEVER reflects input or " ..
+          "playback state. Use 'Probe Yamaha Settings' for that.)")
+      end
     end)
   elseif strCommand == "HttpApiDiag"       then HttpApiDiag()
   elseif strCommand == "ProbeSettings"     then ProbeSettings()

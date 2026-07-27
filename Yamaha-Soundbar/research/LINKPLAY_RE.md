@@ -72,10 +72,20 @@ confirmed working on the bar from Control4.** Details that only surfaced on the 
 - **`certificate` / `private_key` / `cacert` may all be the same file** — the one-file
   `linkplay_client.pem` (leaf + issuing CA + key) serves all three.
 - **A second network binding coexists fine** with the existing 6001 UPnP monitor binding.
-- **`C4:ReadFile()` DOES NOT EXIST** in DriverWorks (0 hits across Control4's published API — the
-  same trap as `C4:Log`). Wrapped in a `pcall` it fails silently; it produced a bogus
-  "cert not readable" line on the very run whose handshake succeeded. Use `C4:FileExists()`.
-  Do **not** probe with `C4:FileOpen()` — it *creates* the file when missing, faking a pass.
+- **Lua cannot inspect the bundled cert at all — stop trying.** `C4:ReadFile()` **does not exist**
+  in DriverWorks (0 hits across Control4's published API — the same trap as `C4:Log`); wrapped in a
+  `pcall` it fails silently. `C4:FileExists()` *does* exist but **also returns false** for a
+  `.c4z`-bundled file. Both were observed reporting "cert missing" on runs whose handshake
+  **succeeded**. Only Director can read inside the archive, using the paths in `driver.xml`. There
+  is therefore no Lua-side probe that can tell the truth here — **the TLS handshake is the only
+  real test**, and any cert-presence warning is a lie waiting to send someone down a false trail.
+  Also never probe with `C4:FileOpen()` — it *creates* the file when missing, faking a pass.
+
+- **`getStatusEx` is IDENTITY/CAPABILITY ONLY — it never reflects input or playback state.**
+  Proven, not assumed: five captures taken at five different physical inputs were **identical
+  except the clock** (65 of 66 fields), and the payload contains no `mode`/`source`/`input`/`eq`/
+  `surround` key whatsoever. Input state lives in **`getPlayerStatus`** (`mode`). Don't re-test
+  this.
 - **Old Boa server behaviour holds:** send `Connection: close`, honour `Content-Length`, and treat
   the socket close as end-of-body.
 
