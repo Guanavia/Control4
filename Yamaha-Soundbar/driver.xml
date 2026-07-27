@@ -5,8 +5,8 @@
   <name>Yamaha Soundbar</name>
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
-  <modified>2026-07-26</modified>
-  <version>2</version>
+  <modified>2026-07-27</modified>
+  <version>3</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -61,6 +61,48 @@
               <auto_connect>True</auto_connect>
               <monitor_connection>True</monitor_connection>
               <keep_connection>False</keep_connection>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+
+    <!-- Linkplay httpapi (:443, MUTUAL TLS) - power/input.  Driver-managed:
+         the address comes from the "IP Address" property via C4:CreateNetworkConnection,
+         so the dealer never enters the IP twice.  auto_connect/keep_connection are False
+         because the Boa server on the bar is HTTP/1.0-ish and we send "Connection: close"
+         (one connect per request).  certificate/private_key/cacert may all point at the
+         SAME file (documented), and linkplay_client.pem holds leaf + issuing CA + key.
+         verify_mode=none: the bar's SERVER cert is private-CA, we must not verify it.
+         Key is a plain PEM PRIVATE KEY, so no protected attribute -> GetPrivateKeyPassword
+         is never called.  FALLBACK if the plain key is rejected on hardware: rebuild with
+         ENCRYPT_KEY=1, which re-encrypts the key AND stamps protected="True" on the
+         private_key element below; driver.lua's GetPrivateKeyPassword already returns the
+         matching passphrase, so no Lua edit is needed. -->
+    <connection>
+      <id>6002</id>
+      <type>4</type>
+      <facing>6</facing>
+      <connectionname>Linkplay httpapi (SSL)</connectionname>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SSL</classname>
+          <ports>
+            <port>
+              <name>httpapi</name>
+              <number>443</number>
+              <auto_connect>False</auto_connect>
+              <monitor_connection>False</monitor_connection>
+              <keep_connection>False</keep_connection>
+              <certificate>./linkplay_client.pem</certificate>
+              <private_key>./linkplay_client.pem</private_key>
+              <cacert>./linkplay_client.pem</cacert>
+              <verify_mode>none</verify_mode>
+              <method>tlsv12</method>
             </port>
           </ports>
         </class>
@@ -149,7 +191,7 @@
     <properties>
       <property>
         <name>Driver Version</name>
-        <type>STRING</type><readonly>true</readonly><default>2.0.0</default>
+        <type>STRING</type><readonly>true</readonly><default>2.1.0</default>
       </property>
       <property>
         <name>Model</name>
@@ -220,6 +262,10 @@
       <action><name>Next Track</name><command>TransportNext</command></action>
       <action><name>Previous Track</name><command>TransportPrevious</command></action>
       <action><name>Query Device Info (IP)</name><command>QueryDeviceInfo</command></action>
+      <!-- Hardware-bringup diagnostics for the mutual-TLS path.  Set Log Level = 5 - Debug
+           and Log Mode = Print and Log, then run these and read the log. -->
+      <action><name>Test httpapi (SSL) - getStatusEx</name><command>TestHttpApi</command></action>
+      <action><name>httpapi Diagnostics (cert + socket state)</name><command>HttpApiDiag</command></action>
     </actions>
   </config>
 

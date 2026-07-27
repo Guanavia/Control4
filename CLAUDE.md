@@ -31,7 +31,7 @@ refusing or silently enabling it.
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-Soundbar — OPEN, v2 driver built (IP control validated on real hardware)
+### Yamaha-Soundbar — OPEN, v2.1.0 (UPnP validated on real hardware; httpapi awaiting bringup)
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
 The original YXC premise (v1) was wrong for this unit (port 80 closed). Reverse-engineered the real
 local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
@@ -44,22 +44,58 @@ app) = power/input. Confirmed commands: power `YAMAHA_DATA_SET:{"power saving":"
 **v2 driver built** (`driver.xml`+`driver.lua`, compiles clean): umbrella "Yamaha Soundbar" (Model +
 Control Method IR/IP/Serial; IP implemented, shipping default will be IR). IP = UPnP for
 volume/mute/transport + httpapi for power/input **gated behind the `Owner Approved` property**
-(default No). **ON-CONTROLLER STATUS (2026-07-26, virtual director): UPnP half WORKS** — Connected
-goes true and volume/mute read live (transport is the same layer). Getting there fixed several
+(default No). **ON-CONTROLLER STATUS (2026-07-26, REAL director on Dave's own hardware — NOT a
+virtual director): UPnP half WORKS** — Connected goes true and volume/mute read live against the
+actual bar (transport is the same layer). **All soundbar testing is on real hardware by necessity:**
+a virtual director cannot exercise a live connection to the bar, so there is no VD test loop for
+this project (unlike `better_composer`, where VD *is* the loop — don't carry that habit over). Getting there fixed several
 DriverWorks gotchas now baked into the driver: `C4:Log` doesn't exist (use `C4:ErrorLog`); Composer
 Actions arrive via `ExecuteCommand` as `strCommand="LUA_ACTION"` with the real name in
 `tParams.ACTION`; and **`C4:url()` request headers go as the `Get`/`Post` 3rd arg, NOT via
 `SetOptions`** (that was the UPnP 500 — a dropped SOAPACTION header). Also confirm the driver-reload
 cycle: Composer caches by version, so **remove + re-add the driver** (build-tag log line confirms the
-live build). **httpapi power/input DOES NOT WORK yet:** `C4:url()` has **no client-certificate
-support** (confirmed against Control4's own `global/url.lua`), so the mutual-TLS path can't
-authenticate. **NEXT STEP: rework `HttpApiGet` to a raw SSL `network_connection`** like `nv_shield_tv`
-(SSL `<connection>` in driver.xml with certificate + private_key + method tlsv12, then a raw
-`GET /httpapi.asp?command=...` over the socket, parsed in `ReceivedFromNetwork`). OPEN Q: does C4 need
-the private key ENCRYPTED (nv_shield uses `protected="true"`) or does a plain PEM key work? Flagged
-with a `TODO` in `driver.lua`'s `HttpApiGet`. The extracted client cert (`linkplay_client.pem`) and
-the `.c4z` are **gitignored** (gray-area; regenerate the cert via LINKPLAY_RE.md, then `./build.sh`).
-`research/DESIGN.md` is the superseded v1 (YXC) design, kept for reference.
+live build).
+
+**SSL-SOCKET REWORK DONE (2026-07-27, driver v2.1.0) — written + build-verified, NOT yet run
+against the bar.** `C4:url()` has **no client-certificate support** (confirmed against Control4's
+own `global/url.lua`), so the mutual-TLS path could never authenticate through it. `HttpApiGet` is
+now a **raw SSL `network_connection`**: driver.xml declares binding **6002 / port 443**,
+`classname SSL`, `method tlsv12`, `verify_mode none` (the bar's SERVER cert is private-CA), and the
+driver speaks HTTP/1.1 over the socket itself — request queue, `Connection: close`, Content-Length
+honoured, close-as-end-of-body, 10s timeout, parsed in `ReceivedFromNetwork`. The connection is
+bound to the `IP Address` property via `C4:CreateNetworkConnection` so the dealer never types the
+IP twice.
+
+**BOTH OPEN QUESTIONS FROM LAST SESSION ARE ANSWERED — from Control4's own docs, no hardware trip
+needed** (`snap-one/docs-driverworks-fundamentals` §TLS/SSL Driver Configuration +
+`docs-driverworks-api` §GetPrivateKeyPassword / §SampleSSLConnection — note the *XML* reference
+repo does NOT document `certificate`/`private_key`/`method` at all; they're only in those two):
+1. **`protected="True"` is not a Control4-owned secret** — it just makes Director call
+   `GetPrivateKeyPassword(Binding, Port)` in the driver, which returns whatever passphrase we
+   choose. So an encrypted key is fully in our control, and a **plain key works too** (attribute
+   omitted). Shipping default = plain; `ENCRYPT_KEY=1 ./build.sh` produces the encrypted variant
+   *and* stamps `protected="True"` onto the staged driver.xml, with `driver.lua`'s
+   `GetPrivateKeyPassword` already returning the matching passphrase (`yas209-linkplay`) — so the
+   fallback is a rebuild, not a code edit. Both variants build-verified; the encrypted key was
+   round-tripped through `openssl pkey` with the driver's passphrase.
+2. **`certificate` / `private_key` / `cacert` may all point at the SAME file** (explicitly
+   documented) — so the one-file `linkplay_client.pem` (leaf + issuing CA + key) is used for all
+   three. No splitting needed. Also verified offline: the leaf cert and private key are a
+   **matching pair** (public-key MD5s identical), removing one class of hardware-trip failure.
+
+**NEXT: hardware bringup, and it's now a ~10-minute test rather than a debugging session.** Two
+diagnostic Actions were added for exactly this: **httpapi Diagnostics** (control method, Owner
+Approved, address, what the bundled PEM actually contains, SSL binding state, queue depth — no
+traffic) and **Test httpapi (SSL)** (diagnostics + `getStatusEx` + explicit pass/fail). Set Log
+Level `5 - Debug` / Log Mode `Print and Log`. The logging deliberately separates the two failure
+modes: socket going down **before** the request is sent = handshake/client-cert rejection (try
+`ENCRYPT_KEY=1`); close with **no response after** sending = server side.
+
+The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
+regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
+v1 (YXC) design, kept for reference. `Yamaha-Soundbar/README.md` was rewritten 2026-07-27 (it still
+described the dead v1 YXC premise) and now carries the per-project status, the two-surface
+explanation, the build/fallback procedure, and the bringup checklist.
 
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)
 Original goal: get a Sonoff SNZB-02P temperature/humidity/battery sensor into Control4 for

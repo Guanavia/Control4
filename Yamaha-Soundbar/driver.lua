@@ -13,12 +13,15 @@
     Input     : httpapi setPlayerCmd:switchmode:HDMI|bluetooth|optical  (TV=optical)
     Volume    : UPnP RenderingControl SetVolume (0-100)  |  Mute: SetMute
 
-  ON-DEVICE VALIDATION POINT: the mutual-TLS httpapi transport (HttpApiGet) uses C4:url()
-  client-cert options whose exact form can vary by OS version — it is isolated in ONE
-  function so it can be adjusted in one place when first run on a controller.
+  STATUS (2026-07-27):
+    * UPnP half  — VALIDATED on the real bar via a real director (volume/mute read live).
+    * httpapi    — reworked onto a raw SSL network connection because C4:url() cannot
+                   present a client certificate.  NOT yet exercised against the bar; the
+                   "Test httpapi (SSL)" Action is the bringup probe.  All soundbar testing
+                   is on real hardware — a virtual director cannot reach the bar.
 
-  Bindings: 5001 receiver proxy | 6001 network (monitor) | 7000 room end-point
-            2000 HDMI out | 3000..3004 input sources
+  Bindings: 5001 receiver proxy | 6001 network (UPnP monitor) | 6002 SSL httpapi (:443)
+            7000 room end-point | 2000 HDMI out | 3000..3004 input sources
 ]]
 
 -------------------------------------------------
@@ -26,8 +29,17 @@
 -------------------------------------------------
 local RECEIVER_BINDING = 5001
 local NETWORK_BINDING  = 6001
+local SSL_BINDING      = 6002      -- Linkplay httpapi, mutual-TLS (driver.xml classname SSL)
 local OUTPUT_BINDING   = 7000
 local UPNP_PORT        = 49152
+local HTTPAPI_PORT     = 443
+local HTTPAPI_TIMEOUT_MS = 10000
+
+-- Passphrase for the bundled private key.  Only consulted when driver.xml marks
+-- <private_key protected="True"> -- the shipped build uses a PLAIN key, so Director
+-- never calls GetPrivateKeyPassword.  Kept wired so switching to an encrypted key is a
+-- one-attribute XML change (build with ENCRYPT_KEY=1) with no Lua edit.
+local HTTPAPI_KEY_PASSWORD = "yas209-linkplay"
 
 -- Control4 input connection id -> Linkplay switchmode value
 local INPUT_MAP = {
@@ -66,8 +78,15 @@ local gYxcVolume  = nil      -- 0..100 (UPnP)
 local gMute       = nil      -- boolean
 local gInputSw    = nil      -- switchmode string
 
-local gClientCertPem = nil   -- bundled Linkplay client cert (PEM), loaded at init
-local gClientKeyPem  = nil
+-- httpapi (SSL socket) transport state
+local gCertPresent = false   -- bundled PEM passed its sanity check (advisory only)
+local gCertInfo    = nil     -- human-readable summary for the diagnostics action
+local gSslCreated  = false   -- CreateNetworkConnection has bound 6002 to an address
+local gSslAddr     = nil     -- the address it was bound to (re-bind if IP changes)
+local gSslOnline   = false   -- socket is up and the mutual-TLS handshake succeeded
+local gQueue       = {}      -- pending { command, cb } requests
+local gInFlight    = nil     -- { command, cb, sent, rx } currently on the wire
+local gReqTimer    = nil
 
 -------------------------------------------------
 -- LOGGING
@@ -171,43 +190,137 @@ local function Soap(ctrlPath, service, action, innerXml, cb)
 end
 
 -------------------------------------------------
--- httpapi LAYER (:443 mutual-TLS, bundled client cert) - power/input
--- GATED by Owner Approved.  *** ON-DEVICE VALIDATION POINT ***
+-- httpapi TRANSPORT (:443 mutual-TLS over a raw SSL network connection) - power/input
+-- GATED by Owner Approved.
+--
+-- WHY A RAW SOCKET AND NOT C4:url():  C4:url() has NO client-certificate support
+-- (confirmed against Control4's own global/url.lua -- SetOptions handles cookies /
+-- fail_on_error / timeouts, and nothing else).  The bar REQUIRES a client cert for
+-- mutual TLS on :443, so the url interface can never authenticate.  Instead driver.xml
+-- declares binding 6002 / port 443 with classname SSL + certificate/private_key/cacert;
+-- Director performs the handshake and hands us a plain byte stream, over which we speak
+-- HTTP/1.1 ourselves.
+--
+-- The bar runs an old Boa server (the same one that 500s on "Expect: 100-continue"), so
+-- we send "Connection: close" and treat the socket close as end-of-body.  Content-Length
+-- is honoured when present, which usually completes the request before the close arrives.
+-- One connect per request; power/input are infrequent enough that this is free.
 -------------------------------------------------
+local PumpQueue   -- forward declaration (HttpApiFinish pumps the next request)
+
+-- Split a raw HTTP response.  Returns code, body, contentLength, headerBlock.
+local function ParseHttpResponse(raw)
+  if not raw or raw == "" then return nil end
+  local head, body = raw:match("^(.-)\r\n\r\n(.*)$")
+  if not head then return nil end
+  local code = tonumber(head:match("^HTTP/%d%.%d%s+(%d+)"))
+  local clen = tonumber(head:match("[Cc]ontent%-[Ll]ength:%s*(%d+)"))
+  return code, body, clen, head
+end
+
+local function HttpApiFinish(ok, body, why)
+  local req = gInFlight
+  gInFlight = nil
+  if gReqTimer then pcall(function() gReqTimer:Cancel() end); gReqTimer = nil end
+  -- We always asked for "Connection: close", so the socket is spent either way.
+  pcall(function() C4:NetDisconnect(SSL_BINDING, HTTPAPI_PORT) end)
+  gSslOnline = false
+  if req then
+    if ok then
+      LogDebug("httpapi '%s' OK (%s, %d byte body)", req.command, tostring(why), #(body or ""))
+    else
+      LogWarning("httpapi '%s' FAILED: %s", req.command, tostring(why or "unknown"))
+    end
+    if req.cb then pcall(req.cb, ok, body) end
+  end
+  if PumpQueue then PumpQueue() end
+end
+
+local function SendHttpApiRequest()
+  local req = gInFlight
+  if not req then return end
+  local addr = DeviceAddress()
+  if not addr then HttpApiFinish(false, nil, "IP Address property is empty"); return end
+  local path = "/httpapi.asp?command=" .. UrlEncode(req.command)
+  local wire = table.concat({
+    "GET " .. path .. " HTTP/1.1",
+    "Host: " .. addr,
+    "User-Agent: Control4/DriverWorks",
+    "Accept: */*",
+    "Connection: close",
+    "", "",
+  }, "\r\n")
+  req.sent = true
+  req.rx   = ""
+  LogDebug("httpapi TX -> %s:%d %s", addr, HTTPAPI_PORT, path)
+  local ok, err = pcall(function() C4:SendToNetwork(SSL_BINDING, HTTPAPI_PORT, wire) end)
+  if not ok then HttpApiFinish(false, nil, "SendToNetwork threw: " .. tostring(err)) end
+end
+
+-- Bind the declared SSL connection to the address from the IP Address property, so the
+-- dealer never types the IP twice.  This is the documented pattern for a static SSL
+-- <connection>: CreateNetworkConnection -> (NetPortOptions) -> NetConnect.
+local function EnsureSslConnection()
+  local addr = DeviceAddress()
+  if not addr then return false end
+  if gSslCreated and gSslAddr == addr then return true end
+  local ok, err = pcall(function() C4:CreateNetworkConnection(SSL_BINDING, addr, "SSL") end)
+  if not ok then
+    LogError("CreateNetworkConnection(%d, %s, SSL) threw: %s", SSL_BINDING, addr, tostring(err))
+    return false
+  end
+  -- Belt-and-braces: the XML already declares these, but re-asserting them costs nothing
+  -- and makes the intent explicit if the XML port block is ever edited.
+  pcall(function()
+    C4:NetPortOptions(SSL_BINDING, HTTPAPI_PORT, "SSL", {
+      AUTO_CONNECT = false, KEEP_CONNECTION = false, MONITOR_CONNECTION = false,
+    })
+  end)
+  gSslCreated, gSslAddr = true, addr
+  LogInfo("httpapi SSL connection bound to %s:%d", addr, HTTPAPI_PORT)
+  return true
+end
+
+PumpQueue = function()
+  if gInFlight then return end
+  local req = table.remove(gQueue, 1)
+  if not req then return end
+  gInFlight = req
+  gReqTimer = C4:SetTimer(HTTPAPI_TIMEOUT_MS, function()
+    gReqTimer = nil
+    HttpApiFinish(false, nil, string.format("timeout after %dms", HTTPAPI_TIMEOUT_MS))
+  end, false)
+  if not EnsureSslConnection() then
+    HttpApiFinish(false, nil, "could not bind the SSL connection")
+    return
+  end
+  if gSslOnline then
+    SendHttpApiRequest()
+  else
+    LogDebug("httpapi: connecting %s:%d (mutual-TLS handshake) ...", tostring(gSslAddr), HTTPAPI_PORT)
+    local ok, err = pcall(function() C4:NetConnect(SSL_BINDING, HTTPAPI_PORT) end)
+    if not ok then HttpApiFinish(false, nil, "NetConnect threw: " .. tostring(err)) end
+  end
+end
+
 local function HttpApiGet(command, cb)
   if not gOwnerOK then
     LogWarning("httpapi blocked: Owner Approved = No (power/input over IP disabled)")
     if cb then cb(false) end; return
   end
-  local addr = DeviceAddress()
-  if not addr then if cb then cb(false) end return end
-  if not gClientCertPem then LogError("client cert not loaded; cannot use httpapi"); if cb then cb(false) end return end
-  local url = "https://" .. addr .. "/httpapi.asp?command=" .. UrlEncode(command)
-  LogDebug("httpapi GET %s", url)
-  local ok, req = pcall(function() return C4:url() end)
-  if not ok or not req then if cb then cb(false) end return end
-  req:OnDone(function(transfer, responses, errCode, errMsg)
-    local rbody
-    if type(responses) == "table" then
-      local r = responses[#responses] or responses
-      if type(r) == "table" then rbody = r.body or r.data end
-    elseif type(responses) == "string" then rbody = responses end
-    local good = (errCode == 0 or errCode == nil) and rbody ~= nil
-    if not good then LogWarning("httpapi failed for '%s' (err=%s)", command, tostring(errMsg or errCode)) end
-    if cb then cb(good, rbody) end
-  end)
-  -- *** KNOWN LIMITATION (2026-07-26): C4:url() has NO client-certificate support -- confirmed
-  -- against Control4's own global/url.lua (SetOptions handles cookies/fail_on_error/timeouts,
-  -- no cert/ssl-client keys). The device REQUIRES a client cert for mutual-TLS on :443, so this
-  -- C4:url path CANNOT authenticate and WILL fail. Left as scaffolding.
-  -- TODO (next hardware session): rework to a raw SSL network_connection like nv_shield_tv --
-  -- declare an SSL <connection> in driver.xml (certificate + private_key + method tlsv12),
-  -- then send the raw "GET /httpapi.asp?command=... HTTP/1.1" over the socket and parse the
-  -- reply in ReceivedFromNetwork. OPEN Q: does C4 require the private key ENCRYPTED
-  -- (nv_shield uses <private_key protected="true">), or does a plain PEM key work? ***
-  LogWarning("httpapi: C4:url cannot present a client cert -> power/input over IP need the SSL-socket rework (driver TODO). '%s' will not authenticate.", command)
-  pcall(function() req:SetOptions({ ssl_verify_host = false, ssl_verify_peer = false, timeout = 8, connect_timeout = 5 }) end)
-  req:Get(url)
+  if not DeviceAddress() then
+    LogWarning("httpapi '%s': no device address (IP Address property empty)", tostring(command))
+    if cb then cb(false) end; return
+  end
+  -- Cert presence is advisory only: Director reads the PEM out of the .c4z itself, so a
+  -- failed C4:ReadFile sanity check must NOT block a request that would otherwise work.
+  if not gCertPresent then
+    LogWarning("httpapi '%s': client cert sanity check did not pass (%s) - trying anyway",
+      tostring(command), tostring(gCertInfo))
+  end
+  gQueue[#gQueue + 1] = { command = command, cb = cb }
+  LogTrace("httpapi queued '%s' (depth %d)", tostring(command), #gQueue)
+  PumpQueue()
 end
 
 -------------------------------------------------
@@ -329,19 +442,53 @@ function ReceiverCommands.PULSE_INPUT() CycleInput() end
 
 -------------------------------------------------
 -- CLIENT CERT (bundled; gray-area material, gitignored from repo)
+--
+-- Director itself reads linkplay_client.pem out of the .c4z for the SSL handshake (the
+-- paths are in driver.xml).  This check is purely a bringup aid: it tells the log what
+-- the bundle actually contains, and never gates a request.
 -------------------------------------------------
-local function LoadCert()
-  gClientCertPem, gClientKeyPem = nil, nil
+local function CheckCert()
+  gCertPresent, gCertInfo = false, nil
   local pem
   local ok = pcall(function() pem = C4:ReadFile("linkplay_client.pem") end)
   if not ok or not pem or pem == "" then
-    LogWarning("linkplay_client.pem not bundled; httpapi power/input unavailable (UPnP still works)")
+    gCertInfo = "linkplay_client.pem not readable from the .c4z"
+    LogWarning("%s; httpapi power/input will not authenticate (UPnP volume/mute still works)", gCertInfo)
     return
   end
-  gClientCertPem = pem:match("(%-%-%-%-%-BEGIN CERTIFICATE%-%-%-%-%-.-%-%-%-%-%-END CERTIFICATE%-%-%-%-%-)")
-  gClientKeyPem  = pem:match("(%-%-%-%-%-BEGIN [%u ]*PRIVATE KEY%-%-%-%-%-.-%-%-%-%-%-END [%u ]*PRIVATE KEY%-%-%-%-%-)")
-  if gClientCertPem and gClientKeyPem then LogInfo("Linkplay client cert loaded")
-  else LogWarning("client cert/key parse failed") end
+  local _, nCerts = pem:gsub("BEGIN CERTIFICATE", "")
+  local encrypted = pem:match("BEGIN ENCRYPTED PRIVATE KEY") ~= nil
+  local hasKey    = pem:match("BEGIN [%u ]*PRIVATE KEY") ~= nil
+  gCertPresent = (nCerts > 0) and hasKey
+  gCertInfo = string.format("%d certificate(s), private key = %s",
+    nCerts, encrypted and "ENCRYPTED" or (hasKey and "plain" or "MISSING"))
+  if gCertPresent then LogInfo("Linkplay client bundle: %s", gCertInfo)
+  else LogWarning("Linkplay client bundle looks wrong: %s", gCertInfo) end
+  -- An encrypted key requires protected="True" on <private_key> in driver.xml, or the
+  -- handshake fails with no useful error.  Flag the mismatch loudly rather than silently.
+  if encrypted then
+    LogWarning("bundle carries an ENCRYPTED key -> driver.xml <private_key> MUST have protected=\"True\"")
+  end
+end
+
+local function HttpApiDiag()
+  LogInfo("---- httpapi (SSL) diagnostics ----")
+  LogInfo("Control Method    : %s", tostring(gCtrlMethod))
+  LogInfo("Owner Approved    : %s", gOwnerOK and "Yes (httpapi ENABLED)" or "No (httpapi blocked)")
+  LogInfo("IP Address        : '%s'", tostring(gAddress))
+  LogInfo("Client bundle     : %s", tostring(gCertInfo or "not checked"))
+  LogInfo("SSL binding %d    : created=%s addr=%s online=%s",
+    SSL_BINDING, tostring(gSslCreated), tostring(gSslAddr), tostring(gSslOnline))
+  LogInfo("Queue depth       : %d, in flight: %s",
+    #gQueue, gInFlight and tostring(gInFlight.command) or "none")
+  LogInfo("----------------------------------")
+end
+
+-- Called by Director ONLY when driver.xml marks <private_key protected="True">.
+function GetPrivateKeyPassword(Binding, Port)
+  LogInfo("GetPrivateKeyPassword(%s, %s) -> supplying bundled key passphrase",
+    tostring(Binding), tostring(Port))
+  return HTTPAPI_KEY_PASSWORD
 end
 
 -------------------------------------------------
@@ -371,6 +518,18 @@ function ExecuteCommand(strCommand, tParams)
     HttpApiGet("getStatusEx", function(ok, body)
       if ok and body then LogInfo("getStatusEx: %s", tostring(body)) end
     end)
+  elseif strCommand == "HttpApiDiag"       then HttpApiDiag()
+  elseif strCommand == "TestHttpApi"       then
+    -- Hardware-bringup probe: the single most informative thing to run first.
+    HttpApiDiag()
+    LogInfo("httpapi test: sending getStatusEx over the SSL socket ...")
+    HttpApiGet("getStatusEx", function(ok, body)
+      if ok then
+        LogInfo("httpapi TEST PASSED -- the bar answered over mutual TLS. Body: %s", tostring(body))
+      else
+        LogWarning("httpapi TEST FAILED -- see the preceding lines for the failure point.")
+      end
+    end)
   else LogTrace("Unhandled command: %s", tostring(strCommand)) end
 end
 
@@ -380,14 +539,19 @@ end
 function OnDriverInit()  LogInfo("OnDriverInit") end
 
 function OnDriverLateInit()
-  LogInfo("Yamaha Soundbar driver loaded (build 2026-07-26-e; UPnP validated, httpapi power/input pending SSL-socket rework)")
-  UpdateProp("Driver Version", "2.0.0")
+  LogInfo("Yamaha Soundbar driver loaded (build 2026-07-27-a; UPnP validated on hardware, httpapi now on a raw SSL socket)")
+  UpdateProp("Driver Version", "2.1.0")
   for k, _ in pairs(Properties or {}) do OnPropertyChanged(k) end
-  LoadCert()
+  CheckCert()
   StartPoll()
 end
 
-function OnDriverDestroyed() LogInfo("OnDriverDestroyed"); StopPoll() end
+function OnDriverDestroyed()
+  LogInfo("OnDriverDestroyed")
+  StopPoll()
+  if gReqTimer then pcall(function() gReqTimer:Cancel() end); gReqTimer = nil end
+  if gSslCreated then pcall(function() C4:NetDisconnect(SSL_BINDING, HTTPAPI_PORT) end) end
+end
 
 function OnPropertyChanged(sProperty)
   local value = Properties and Properties[sProperty]
@@ -400,7 +564,13 @@ function OnPropertyChanged(sProperty)
     gCtrlMethod = value or "IP"
     StartPoll()
   elseif sProperty == "IP Address" then
-    gAddress = trim(value)
+    local newAddr = trim(value)
+    if newAddr ~= gAddress then
+      -- Force the SSL binding to be re-bound to the new address on the next request.
+      if gSslCreated then pcall(function() C4:NetDisconnect(SSL_BINDING, HTTPAPI_PORT) end) end
+      gSslCreated, gSslAddr, gSslOnline = false, nil, false
+    end
+    gAddress = newAddr
     if gAddress ~= "" then StartPoll() end
   elseif sProperty == "Owner Approved" then
     gOwnerOK = (value == "Yes")
@@ -412,7 +582,59 @@ function OnPropertyChanged(sProperty)
 end
 
 function OnConnectionStatusChanged(nBinding, nPort, sStatus)
-  if nBinding == NETWORK_BINDING and sStatus == "ONLINE" then SetConnected(true) end
+  LogTrace("OnConnectionStatusChanged: binding=%s port=%s status=%s",
+    tostring(nBinding), tostring(nPort), tostring(sStatus))
+
+  if nBinding == NETWORK_BINDING then
+    if sStatus == "ONLINE" then SetConnected(true) end
+    return
+  end
+
+  if nBinding ~= SSL_BINDING then return end
+
+  if sStatus == "ONLINE" then
+    gSslOnline = true
+    LogInfo("httpapi SSL socket ONLINE -- mutual-TLS handshake SUCCEEDED (client cert accepted)")
+    if gInFlight and not gInFlight.sent then SendHttpApiRequest() end
+    return
+  end
+
+  gSslOnline = false
+  LogDebug("httpapi SSL socket %s", tostring(sStatus))
+  if not (gInFlight and gInFlight.sent) then
+    -- Went down before we sent anything: a handshake rejection looks exactly like this.
+    if gInFlight then
+      HttpApiFinish(false, nil, "socket went " .. tostring(sStatus) ..
+        " before the request was sent (handshake rejected? check the client cert)")
+    end
+    return
+  end
+  -- We asked for "Connection: close", so a close AFTER the request is the normal
+  -- end-of-response, not a failure -- provided we actually received something.
+  local raw = gInFlight.rx or ""
+  if #raw > 0 then
+    local code, body = ParseHttpResponse(raw)
+    if code then HttpApiFinish(code < 400, body, "HTTP " .. code)
+    else HttpApiFinish(false, raw, "unparseable response (" .. #raw .. " bytes)") end
+  else
+    HttpApiFinish(false, nil, "socket closed with no response at all (status=" .. tostring(sStatus) .. ")")
+  end
+end
+
+function ReceivedFromNetwork(nBinding, nPort, sData)
+  if nBinding ~= SSL_BINDING then return end
+  if not gInFlight then
+    LogTrace("httpapi RX with no request in flight (%d bytes discarded)", #(sData or ""))
+    return
+  end
+  gInFlight.rx = (gInFlight.rx or "") .. (sData or "")
+  LogTrace("httpapi RX %d bytes (%d buffered)", #(sData or ""), #gInFlight.rx)
+  -- Complete early when Content-Length says we have the whole body; otherwise wait for
+  -- the close (handled in OnConnectionStatusChanged).
+  local code, body, clen = ParseHttpResponse(gInFlight.rx)
+  if code and clen and body and #body >= clen then
+    HttpApiFinish(code < 400, body, "HTTP " .. code)
+  end
 end
 
 function ReceivedFromProxy(idBinding, sCommand, tParams)
