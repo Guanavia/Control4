@@ -16,8 +16,12 @@
   STATUS (2026-07-27): BOTH control surfaces VALIDATED on the real bar via a real director.
     * UPnP half  — volume/mute read live.
     * httpapi    — mutual-TLS handshake SUCCEEDS over the raw SSL network connection
-                   (binding 6002) with the PLAIN key; getStatusEx returned HTTP 200.
+                   (binding 6002) with the PLAIN key; getStatusEx returned HTTP 200, and
+                   POWER ON/OFF + INPUT SELECT are confirmed working on the bar.
                    C4:url() was abandoned because it cannot present a client certificate.
+    Remaining gap: state FEEDBACK.  Power/input are write-only right now — the driver
+    reports back what it last sent, not what the bar is actually doing, so anything that
+    changes the bar outside Control4 (remote, front panel, app) drifts the UI.
     All soundbar testing is on real hardware — a virtual director cannot reach the bar.
 
   Bindings: 5001 receiver proxy | 6001 network (UPnP monitor) | 6002 SSL httpapi (:443)

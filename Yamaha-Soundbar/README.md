@@ -16,7 +16,11 @@ for transport and hardware bringup.
 | Layer | Transport | State |
 | --- | --- | --- |
 | Volume / mute / transport | UPnP SOAP on `:49152`, no auth | **Validated on the real bar** (real director, 2026-07-26) |
-| Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Handshake + `getStatusEx` validated** (real director, 2026-07-27). Power/input commands themselves still to be exercised. |
+| Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Validated on the real bar** (real director, 2026-07-27) — handshake, `getStatusEx`, power on/off and input select all confirmed |
+
+**Full IP control works end to end.** The remaining gap is **state feedback**: power and input are
+write-only, so the driver reports what it last sent rather than what the bar is doing. Change the
+input with the Yamaha remote and Control4's UI drifts out of sync until the next command.
 
 **All testing for this project is on real hardware by necessity** — a virtual director has no path
 to the bar, so there is no VD test loop here.

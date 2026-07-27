@@ -56,8 +56,9 @@ extracted cert — power OFF/ON both returned `OK` on the real unit 2026-07-26):
 ## Validated FROM the Control4 driver (2026-07-27, real director, real bar)
 
 The httpapi path above was originally proven from a Mac with OpenSSL. It is now **proven from
-inside DriverWorks**: the driver's mutual-TLS handshake succeeds and `getStatusEx` returns HTTP 200
-(1598-byte body). Details that only surfaced on the controller:
+inside DriverWorks**: the mutual-TLS handshake succeeds, `getStatusEx` returns HTTP 200 (1598-byte
+body), and **the full command set in the table above — power on/off and input select — is
+confirmed working on the bar from Control4.** Details that only surfaced on the controller:
 
 - **`C4:url()` can never do this.** No client-certificate support at all (verified against
   Control4's own `global/url.lua`). The working transport is a **raw SSL `network_connection`** —

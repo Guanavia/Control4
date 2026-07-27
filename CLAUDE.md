@@ -102,12 +102,26 @@ keeping:
   — the most promising surface for DSP/sound-mode control that httpapi does not expose. Also
   `preset_key: 6` (6 hardware presets, unexplored) and undecoded capability bitfields.
 
-**NEXT: exercise the actual power/input commands.** Only `getStatusEx` (a read) has been proven
-through the driver; `YAMAHA_DATA_SET:{"power saving":...}` and `setPlayerCmd:switchmode:...` were
-validated from a Mac in the earlier RE session but not yet through DriverWorks. Run the Power
-On/Off and input-select Actions and confirm the bar responds. After that: state feedback (poll
-power/input via `YAMAHA_DATA_GET`/`getPlayerStatus` so Composer reflects reality), then IR as the
-shipping default control method.
+**POWER + INPUT CONFIRMED WORKING ON THE BAR (2026-07-27).** `YAMAHA_DATA_SET:{"power saving":...}`
+and `setPlayerCmd:switchmode:...` both drive the real hardware from Control4. **The IP control path
+is now complete and fully validated end to end** — UPnP volume/mute/transport + httpapi
+power/input. The v2 driver does what it was built to do.
+
+**NEXT (in order):**
+1. **State FEEDBACK — the real remaining gap.** Power and input are currently WRITE-ONLY: the
+   driver updates its properties/proxy from what it just sent, not from the bar. Anything that
+   changes the bar outside Control4 (Yamaha remote, front panel, the app) silently drifts the UI
+   out of sync. Fix = extend the existing 3s poll (which already reads volume/mute over UPnP) to
+   also read power + input over httpapi via `YAMAHA_DATA_GET` / `getPlayerStatus`, and reconcile.
+   Note the cost asymmetry: UPnP polling is a cheap plaintext SOAP call, but each httpapi poll is
+   a fresh mutual-TLS handshake + connect (`Connection: close`, one connect per request) — so
+   poll power/input on a SLOWER cadence than volume/mute, or make it event-ish, rather than
+   hammering a TLS handshake every 3 seconds.
+2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
+   IR is what ships to dealers).
+3. **Unexplored hardware surfaces**, if the appetite is there: `uart_pass_port` 8899 (UART
+   passthrough to the MCU — the likely route to DSP/sound-mode control that httpapi does not
+   expose) and the 6 hardware presets (`preset_key: 6`).
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
 regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
