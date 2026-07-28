@@ -183,7 +183,9 @@ driver project in this repo:
 
 **EQ: BASS NOW REAL, everything else still deliberately absent.** `Learn Subwoofer Range` ran on
 hardware: **range is -4..+4 signed, 0 = flat** (5 and -5 both refused, bar held 4/-4; negative
-control passed). Baked into `SUBWOOFER_RANGE` and wired to the proxy's BASS control
+control passed). **INDEPENDENTLY CONFIRMED** — Dave then opened the Yamaha app and its Subwoofer
+Boost scale is also ±4. Two independent methods agreeing is the strongest validation available
+without vendor docs, and a good sanity check on the learn-by-readback technique generally. Baked into `SUBWOOFER_RANGE` and wired to the proxy's BASS control
 (`has_discrete_bass_control` + `has_up_down_bass_control`, `SET_BASS_LEVEL`, `PULSE_BASS_UP/DOWN`,
 `BASS_LEVEL_CHANGED`). **Treble/balance/loudness stay undeclared — the bar has no such controls**,
 and declaring them would give dealers sliders that silently do nothing.

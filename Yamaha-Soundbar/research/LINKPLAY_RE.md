@@ -138,11 +138,24 @@ Write the same keys back with `YAMAHA_DATA_SET:{"<key>":"<value>"}` (already pro
 | `3D surround` | `0`/`1` | exposed |
 | `clear voice` | `0`/`1` | exposed |
 | `bass extension` | `0`/`1` | exposed |
-| `subwoofer volume` | `0` observed | display only — range unknown |
+| `subwoofer volume` | **−4..+4 signed, 0 = flat** | the app's Subwoofer Boost; drives the proxy's **BASS** control |
 | `Master volume` | `24` observed | display only — **NOT the UPnP 0–100 scale** (same moment showed Linkplay `vol` 63); relationship unresolved |
 | `Audio Stream` | `PCM` | display only |
 | `Model name` | `YAS-209` | **the trustworthy model string** — better than `getStatusEx`'s `project`=`YAS_109` |
 | `NET Standby`, `HDMI Control`, `Auto Power Stby`, `voice control`, `Dimmer` | | not exposed yet — setup-level options |
+
+**`subwoofer volume` range — CONFIRMED TWICE, INDEPENDENTLY (2026-07-27).** The `Learn Subwoofer
+Range` sweep derived **−4..+4** purely from the bar's behaviour (writes of `5` and `-5` were both
+refused, the bar holding `4`/`-4`; the junk-value negative control passed first). Dave then checked
+the Yamaha app, which shows the same ±4 Subwoofer Boost scale. Two independent methods agreeing is
+the strongest evidence available here short of vendor documentation — and it is a good validation of
+the learn-by-readback technique itself, which is the only tool available for the fields nobody
+documents.
+
+> Still open, and a *different* question: what scale **Control4** sends in `SET_BASS_LEVEL`. The
+> proxy declares no bass scale and the command's doc omits its level parameter, so the driver
+> assumes 0–100 (50 = flat) and logs the raw value on the first few calls. One drag of the slider
+> settles it. Confirming the *device* range says nothing about the *proxy* range.
 
 **`sound program` values — all six ACCEPTED (2026-07-27):** `movie`, `music`, `sports`, `game`,
 `tv program`, `stereo`. Each was written and then read back via `YAMAHA_DATA_GET`; the bar reported
