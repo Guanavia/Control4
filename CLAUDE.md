@@ -115,13 +115,26 @@ close`), so matching the volume cadence would mean a TLS handshake every 3 secon
 `getPlayerStatus` (`mode` → input) and `YAMAHA_DATA_GET` (`power saving` → power) and applies state
 WITHOUT re-sending commands. No poll fires on `StartStatePoll` itself — OnDriverLateInit walks every
 property, so an immediate poll there would touch off a handshake burst on load.
-**Two decode tables are PROVISIONAL and self-completing:** `MODE_TO_CONN` has the documented
-Linkplay codes (`41`=BT, `43`=optical, `1`/`2`/`10`/`31`=streaming) but **HDMI's code is
-UNCONFIRMED on this unit**; any unknown mode logs once at WARNING with its raw value, so cycling
-the inputs with Debug on completes it. Power feedback assumes `YAMAHA_DATA_GET` returns
-`"power saving"` — **its response shape has never actually been captured** — and warns once if
-absent rather than silently reporting nothing. The JSON field parser was unit-tested against the
-real `getStatusEx` payload incl. the space-containing key and a substring-collision guard.
+**INPUT MAPPING CLOSED (2026-07-27) — `MODE_TO_CONN` learned on hardware**, via the `Learn Input
+Codes` sweep (selects each input, reads `getPlayerStatus` back, so each number is
+self-identifying): **`43`=optical/TV, `49`=HDMI, `41`=Bluetooth, `0`=network idle.** **HDMI=49 could
+NOT have been guessed** from Linkplay's published codes — worth remembering as the general lesson:
+soundbar-specific codes are not in the public Linkplay vocabulary, so learn them, don't infer them.
+**Caveat on `0`:** it is Linkplay's generic *idle/no-source* value, not a real source id (the bar
+returned it for wifi because playback was stopped). It is the one entry that could appear in
+another idle condition — **standby being the obvious candidate** — so the driver now IGNORES mode 0
+while power is known-off, rather than parking the room on "Network". Per-service streaming codes
+(`1`/`2`/`10`/`31`) remain documentation-sourced, never observed here.
+
+**Power feedback is still UNVERIFIED guesswork:** it assumes `YAMAHA_DATA_GET` returns
+`"power saving"`, and **that response shape has never been captured** — `Probe Yamaha Settings` has
+not been run yet. It warns once if the field is absent rather than silently reporting nothing. The
+JSON field parser was unit-tested against the real `getStatusEx` payload incl. the space-containing
+key and a substring-collision guard.
+
+**EQ lead:** `getPlayerStatus` carries an **`eq`** field (readback), so EQ almost certainly writes
+via `setPlayerCmd:equalizer:<n>`. Surround remains unknown pending the `YAMAHA_DATA_GET` capture.
+`setPlayerCmd:*` writes return a 2-byte `OK` body with HTTP 200.
 
 **OPTICAL IN REMOVED (housekeeping, user-spotted).** The bar has ONE optical/ARC input and Linkplay
 exposes ONE `switchmode` for it (`optical`) — the same target the TV input selects, so the separate
@@ -165,13 +178,10 @@ gone rather than merely demoted — a cert warning that fires on a working syste
 warning at all.
 
 **NEXT (in order):**
-1. **One hardware session, now mostly one button:** run the new **Learn Input Codes** Action — it
-   selects each input, reads `getPlayerStatus` back, prints a paste-ready `MODE_TO_CONN` table and
-   restores the starting input. (Dave's observation that all inputs select correctly confirmed the
-   SEND side — `switchmode`, a string — but that says nothing about the READ side, which returns a
-   NUMBER; the sweep works precisely because driving a KNOWN input makes the returned number
-   self-identifying.) Then run Probe Yamaha Settings across surround modes and EQ presets and diff.
-   **Use Probe Yamaha Settings / Learn Input Codes, NOT Query Device Info.**
+1. **Run `Probe Yamaha Settings`** — the ONLY thing still blocking both power feedback and
+   surround/EQ. Needed: the raw `YAMAHA_DATA_GET` payload (does `"power saving"` actually come
+   back?), plus one capture per surround mode / EQ preset to diff. **NOT `Query Device Info`** —
+   that is identity-only and proven useless for state.
 2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
 3. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to

@@ -59,18 +59,30 @@ local INPUT_ORDER = { 3000, 3001, 3003, 3004 }
 local SWITCH_TO_CONN = { optical = 3000, HDMI = 3001, bluetooth = 3003, wifi = 3004 }
 
 -- getPlayerStatus "mode" (Linkplay source code) -> our input connection id.
--- PROVISIONAL.  The streaming/bluetooth/optical codes are the documented Linkplay values;
--- HDMI on soundbars varies by firmware and is NOT yet confirmed on this unit.  Any mode we
--- do not recognise is logged at WARNING with its raw value, so switching through the inputs
--- once with Debug logging on is enough to complete this table.
+-- LEARNED ON HARDWARE 2026-07-27 via the "Learn Input Codes" sweep (each input was selected
+-- by us, then read back, so each number is self-identifying).  HDMI = 49 was the one value
+-- that could not have been guessed from Linkplay's published codes.
 local MODE_TO_CONN = {
-  ["1"]  = 3004,  -- AirPlay      \
-  ["2"]  = 3004,  -- DLNA          |  all "network / streaming" as far as Control4 cares
-  ["10"] = 3004,  -- wiimu playlist|
-  ["31"] = 3004,  -- Spotify      /
-  ["41"] = 3003,  -- Bluetooth
-  ["43"] = 3000,  -- Optical == the YAS-209's TV input
+  ["43"] = 3000,  -- Optical == the YAS-209's TV input   [LEARNED]
+  ["49"] = 3001,  -- HDMI In                             [LEARNED]
+  ["41"] = 3003,  -- Bluetooth                           [LEARNED]
+  ["0"]  = 3004,  -- Network/wifi selected but IDLE      [LEARNED - see MODE_ZERO note]
+  -- Network/streaming while something is actually playing.  These are Linkplay's documented
+  -- codes and were NOT observed during the sweep, because playback status was "stop"
+  -- throughout -- the bar reported 0 for wifi rather than a per-service code.
+  ["1"]  = 3004,  -- AirPlay
+  ["2"]  = 3004,  -- DLNA
+  ["10"] = 3004,  -- wiimu playlist
+  ["31"] = 3004,  -- Spotify
 }
+
+-- MODE_ZERO: "0" is Linkplay's generic idle/no-source value, not a real source id.  We map
+-- it to Network because that is what the sweep showed when wifi was selected and stopped --
+-- but it is the one entry that could be reported in some OTHER idle condition, standby being
+-- the obvious candidate.  So mode 0 is NOT trusted while the bar is known to be off; see
+-- ApplyInputState's caller.  Anything reporting 0 in standby would otherwise show the room
+-- as sitting on Network, which is worse than showing nothing.
+local MODE_IDLE = "0"
 
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
 local AV = "urn:schemas-upnp-org:service:AVTransport:1"
@@ -489,6 +501,12 @@ local function PollHttpApiState()
     LogDebug("getPlayerStatus raw: %s", body)
     local mode = jsonstr(body, "mode")
     if not mode then return end
+    -- Ignore the generic idle value while the bar is known to be off: 0 is "no source",
+    -- not "Network", and reporting Network in standby is worse than reporting nothing.
+    if mode == MODE_IDLE and gPower == false then
+      LogDebug("ignoring mode 0 (idle) while power is off")
+      return
+    end
     local conn = MODE_TO_CONN[mode]
     if conn then
       ApplyInputState(conn)

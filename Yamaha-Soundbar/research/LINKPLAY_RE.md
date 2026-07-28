@@ -89,6 +89,33 @@ confirmed working on the bar from Control4.** Details that only surfaced on the 
 - **Old Boa server behaviour holds:** send `Connection: close`, honour `Content-Length`, and treat
   the socket close as end-of-body.
 
+### Input state readback — `getPlayerStatus` (LEARNED on hardware 2026-07-27)
+Full payload shape (idle):
+```json
+{"type":"0","ch":"0","mode":"43","loop":"0","eq":"0","status":"stop","curpos":"0",
+ "offset_pts":"0","totlen":"0","alarmflag":"0","plicount":"0","plicurr":"0","vol":"45","mute":"0"}
+```
+`mode` → input, established by selecting each input from Control4 and reading it back (so each
+number is self-identifying), **not** by guessing from Linkplay's published codes:
+
+| `mode` | Input | Note |
+|---|---|---|
+| `43` | Optical / TV (ARC) | matches the published Linkplay value |
+| **`49`** | **HDMI In** | **could NOT have been guessed** — soundbar-specific |
+| `41` | Bluetooth | matches published |
+| `0` | Network / wifi, **idle** | see caveat |
+
+> **Caveat on `0`:** it is Linkplay's generic *idle/no-source* value, not a real source id — the
+> bar reported it for wifi because playback status was `stop` throughout the sweep. It is the one
+> entry that could plausibly appear in some other idle condition, **standby being the obvious
+> candidate**, so the driver ignores mode 0 while power is known-off rather than showing the room
+> parked on Network. The per-service streaming codes (`1` AirPlay, `2` DLNA, `10` playlist, `31`
+> Spotify) were never observed here and remain documentation-sourced.
+
+Also visible in the same payload and useful later: **`eq`** (EQ preset readback — so EQ almost
+certainly sets via `setPlayerCmd:equalizer:<n>`), plus `vol`/`mute`, which cross-check the UPnP
+path. `setPlayerCmd:*` writes return a 2-byte `OK` body with HTTP 200.
+
 ### Device fingerprint (`getStatusEx`, this unit)
 | Field | Value | Note |
 |---|---|---|
