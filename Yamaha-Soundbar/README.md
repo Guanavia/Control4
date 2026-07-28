@@ -215,5 +215,30 @@ points at the server side.
 > a `pcall`, and reported "cert not readable" on the very run whose handshake succeeded. It now
 > uses `C4:FileExists()`. Never probe with `C4:FileOpen()`: it *creates* the file when missing.
 
-> **Composer caches drivers by version.** After a rebuild, **remove and re-add** the driver — the
-> build-tag line in `OnDriverLateInit` confirms which build is actually live.
+### Updating the driver safely — READ THIS FIRST
+
+A project was lost on 2026-07-27 doing this the casual way: the device was deleted from the room,
+then **Add/Update Driver** was run in the same pass, and the project came back empty. It had to be
+restored from an online backup. The update flow expects the device to still exist; deleting first
+and then updating is not a supported sequence.
+
+**Always, before touching this driver on a live project:**
+
+1. **Take a local backup first** (Composer → File → Backup As). Cloud backup saved the day once;
+   don't rely on it. This takes seconds and is specific to the moment before your change.
+2. **Know which kind of change you are installing:**
+   - **Lua only** (`driver.lua`) — hot. Update in place, no restart, no drama. Most work here is
+     this kind.
+   - **`<capabilities>` or `<connections>`** (`driver.xml`) — structural. These are read by the
+     receiver proxy when Director *instantiates* the device, so a running instance cannot absorb
+     them. Composer will prompt for a **Director restart**, and that prompt is legitimate.
+3. **For a structural change, prefer the Director restart** over remove/re-add on a live project.
+   It costs about a minute of no automation and leaves the device, its bindings and its
+   programming intact. Remove/re-add avoids the restart but discards all of that.
+4. **Never delete the device and then run Add/Update Driver.** If you do want a clean re-add:
+   remove the device, *finish* that operation, then add the updated driver as a new device.
+5. **Batch structural changes.** Every `<capabilities>`/`<connections>` edit is another restart, so
+   group them rather than shipping them one at a time.
+
+> **Composer caches drivers by version.** After a rebuild the build-tag line in `OnDriverLateInit`
+> confirms which build is actually live — check it before concluding a change did nothing.

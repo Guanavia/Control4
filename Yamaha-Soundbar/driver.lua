@@ -238,6 +238,26 @@ local function NotifyMute(m)
   C4:SendToProxy(RECEIVER_BINDING, "MUTE_CHANGED",
     { MUTE = tostring(m), OUTPUT = tostring(OUTPUT_BINDING) }, "NOTIFY")
 end
+-- Subwoofer boost (-4..4 native) <-> Control4 bass level (0..100, 50 = flat).
+local function NativeToC4Bass(n)
+  local span = SUBWOOFER_RANGE.max - SUBWOOFER_RANGE.min
+  if span <= 0 then return 0 end
+  return math.floor(((n - SUBWOOFER_RANGE.min) / span) * BASS_SCALE_MAX + 0.5)
+end
+
+local function C4BassToNative(level)
+  local span = SUBWOOFER_RANGE.max - SUBWOOFER_RANGE.min
+  local n = math.floor((level / BASS_SCALE_MAX) * span + 0.5) + SUBWOOFER_RANGE.min
+  if n < SUBWOOFER_RANGE.min then n = SUBWOOFER_RANGE.min end
+  if n > SUBWOOFER_RANGE.max then n = SUBWOOFER_RANGE.max end
+  return n
+end
+
+local function NotifyBassLevel(native)
+  C4:SendToProxy(RECEIVER_BINDING, "BASS_LEVEL_CHANGED",
+    { LEVEL = tostring(NativeToC4Bass(native)), OUTPUT = tostring(OUTPUT_BINDING) }, "NOTIFY")
+end
+
 local function NotifySurroundMode(id)
   -- The proxy docs render this parameter as "SURROUND MODE" (with a space) in the notification
   -- table but "SurroundMode" in the command table, and the docs have already proven unreliable
@@ -657,6 +677,13 @@ local function PollHttpApiState()
       local raw = jsonstr(body, s.key)
       if raw ~= nil then UpdateProp(s.prop, raw) end
     end
+
+    -- Subwoofer boost doubles as the proxy's BASS control.
+    local sub = tonumber(jsonstr(body, SUBWOOFER_KEY))
+    if sub then
+      gDeviceSettings[SUBWOOFER_KEY] = tostring(sub)
+      NotifyBassLevel(sub)
+    end
   end)
 end
 
@@ -882,6 +909,20 @@ end
 -- fewer.  A junk value goes first, as always -- an all-accept result means nothing if the field
 -- is not validated (see SOUND_PROGRAM_CONTROL, and note this bar returns 200 OK on garbage).
 -------------------------------------------------
+-- LEARNED ON HARDWARE 2026-07-27 by the sweep below: writes outside this stick at the limit
+-- (5 and -5 were both refused, the bar holding 4 / -4).  Signed, centred on 0 = flat, matching
+-- the app's Subwoofer Boost.  Re-run Learn Subwoofer Range on other models/firmware.
+local SUBWOOFER_RANGE = { min = -4, max = 4 }
+
+-- Control4's receiver proxy declares NO bass scale (there is no bass_number_of_steps
+-- capability), and the SET_BASS_LEVEL doc omits its level parameter entirely even though
+-- BASS_LEVEL_CHANGED documents LEVEL.  The convention with no steps declared is 0-100, so
+-- that is what we assume, with 50 = flat.  The first few SET_BASS_LEVEL calls log the RAW
+-- incoming value, so one drag of the slider confirms or refutes it -- if it turns out to be
+-- native (-4..4), only C4BassToNative/NativeToC4Bass need to change.
+local BASS_SCALE_MAX = 100
+local gBassLogged = 0
+
 local SUBWOOFER_KEY  = "subwoofer volume"
 local SUB_PROBE_JUNK = "c4junk"
 local SUB_LADDER     = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 24, 30, 50 }
@@ -1042,6 +1083,36 @@ function ReceiverCommands.MUTE_OFF()    SetMute(false) end
 function ReceiverCommands.MUTE_TOGGLE() SetMute(not gMute) end
 function ReceiverCommands.SET_INPUT(p)  local id = ConnIdFromParams(p); if id then SelectInputByConn(id) end end
 function ReceiverCommands.PULSE_INPUT() CycleInput() end
+
+-- EQ section: bass maps to the bar's Subwoofer Boost (-4..4, learned on hardware).
+local function SetBassNative(n)
+  if n < SUBWOOFER_RANGE.min then n = SUBWOOFER_RANGE.min end
+  if n > SUBWOOFER_RANGE.max then n = SUBWOOFER_RANGE.max end
+  UpdateProp("Subwoofer Volume", tostring(n))
+  NotifyBassLevel(n)
+  SetYamahaSetting(SUBWOOFER_KEY, tostring(n))
+end
+
+function ReceiverCommands.SET_BASS_LEVEL(p)
+  local raw = p and (p.LEVEL or p.Level or p.BassLevel or p.BASS_LEVEL)
+  local level = tonumber(raw)
+  if not level then LogWarning("SET_BASS_LEVEL: no usable level in %s", tostring(raw)); return end
+  -- Bringup aid: the proxy's bass scale is undocumented, so record what actually arrives.
+  if gBassLogged < 5 then
+    gBassLogged = gBassLogged + 1
+    LogInfo("SET_BASS_LEVEL raw=%s -> assuming 0-%d scale -> subwoofer %d " ..
+      "(if the slider behaves inverted or clipped, this assumption is wrong)",
+      tostring(raw), BASS_SCALE_MAX, C4BassToNative(level))
+  end
+  SetBassNative(C4BassToNative(level))
+end
+
+local function BassStep(dir)
+  local cur = tonumber(gDeviceSettings[SUBWOOFER_KEY]) or 0
+  SetBassNative(cur + dir)
+end
+function ReceiverCommands.PULSE_BASS_UP()   BassStep(1)  end
+function ReceiverCommands.PULSE_BASS_DOWN() BassStep(-1) end
 
 -- Surround section of the device's control UI.  Accepts every spelling of the parameter the
 -- proxy docs use, for the same reason NotifySurroundMode sends all three.

@@ -165,13 +165,35 @@ before", with no starting value established, making the negative control a coin 
 correct results while silently logging failed writes. Use this harness before every hardware trip;
 each trip costs a rebuild + Composer remove/re-add + a walk to the bar.
 
-**EQ deliberately left EMPTY — this is the honest answer, not an omission.** Composer's EQ section
-needs `has_discrete_bass_control`/`has_up_down_bass_control` + treble/balance/loudness equivalents,
-and **the bar has NONE of them**: only `bass extension` (a toggle) and `subwoofer volume` (level,
-range unknown); no treble or balance exists in hardware. Declaring the capability would give
-dealers sliders that silently do nothing — worse than blank. **Route to a real EQ section if
-wanted:** learn `subwoofer volume`'s range (write/readback sweep + negative control, same as sound
-programs) and map it to BASS; second lead is Linkplay's `eq` field via `setPlayerCmd:equalizer:<n>`.
+**⚠️ PROJECT LOST ONCE (2026-07-27) — DRIVER-UPDATE SAFETY IS NOW A HARD RULE.** Dave deleted the
+device from the room, then ran **Add/Update Driver** in the same pass; the project refreshed EMPTY
+and had to be restored from an online backup. The update flow expects the device to still exist —
+delete-then-update is not a supported sequence. **My "remove + re-add" advice contributed to this:
+it was aimed at dodging a Director restart, and I failed to pair it with "back up first".** Rules
+now in `Yamaha-Soundbar/README.md` ("Updating the driver safely"), and they generalise to EVERY
+driver project in this repo:
+1. **Local backup (File → Backup As) before ANY driver install/update/removal on a live project.**
+2. **Know the change type:** `driver.lua` = hot, update in place. `<capabilities>`/`<connections>`
+   = structural, read by the proxy at INSTANTIATION, so Composer's Director-restart prompt is
+   LEGITIMATE, not a bug.
+3. **For structural changes prefer the RESTART over remove/re-add on a live project** — ~1 min of
+   no automation, but device + bindings + programming survive. Remove/re-add discards all of them.
+4. **NEVER delete the device and then run Add/Update Driver.**
+5. **Batch structural changes** — each one is another restart.
+
+**EQ: BASS NOW REAL, everything else still deliberately absent.** `Learn Subwoofer Range` ran on
+hardware: **range is -4..+4 signed, 0 = flat** (5 and -5 both refused, bar held 4/-4; negative
+control passed). Baked into `SUBWOOFER_RANGE` and wired to the proxy's BASS control
+(`has_discrete_bass_control` + `has_up_down_bass_control`, `SET_BASS_LEVEL`, `PULSE_BASS_UP/DOWN`,
+`BASS_LEVEL_CHANGED`). **Treble/balance/loudness stay undeclared — the bar has no such controls**,
+and declaring them would give dealers sliders that silently do nothing.
+**UNVERIFIED ASSUMPTION in the bass path:** Control4 declares NO bass scale (there is no
+`bass_number_of_steps` capability) and the `SET_BASS_LEVEL` doc omits its level param entirely
+(`BASS_LEVEL_CHANGED` documents `LEVEL`, so it is a doc bug). We assume **0-100 with 50 = flat**,
+the convention when no steps are declared. The first 5 `SET_BASS_LEVEL` calls LOG THE RAW incoming
+value — **one drag of the slider confirms or refutes it**; if it is actually native (-4..4), only
+`C4BassToNative`/`NativeToC4Bass` change. Mapping unit-tested: all 9 native values round-trip, 50
+maps to flat, out-of-range clamps.
 **Echo-loop guard (important if editing this):** reading a setting updates its property, which
 fires `OnPropertyChanged`, which would send it straight back. Two guards: `gInitDone` (Composer
 walks every property on load — without it the driver would push its DEFAULTS onto the bar on every

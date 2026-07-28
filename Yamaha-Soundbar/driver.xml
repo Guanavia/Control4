@@ -43,13 +43,14 @@
       <surround_mode><name>Stereo</name><id>6</id></surround_mode>
     </surround_modes>
 
-    <!-- EQ (bass / treble / balance / loudness) is deliberately NOT declared.  The Composer EQ
-         section is driven by has_discrete_bass_control / has_up_down_bass_control and their
-         treble/balance/loudness equivalents, and this bar exposes NONE of those: YAMAHA_DATA_GET
-         offers only "subwoofer volume" (a level whose valid range is still unknown) and
-         "bass extension" (an on/off toggle).  There is no treble or balance control on the
-         hardware at all.  Declaring the capability would give the dealer sliders that silently
-         do nothing, which is worse than an empty section.  See README "EQ". -->
+    <!-- EQ: BASS ONLY, and only because it is real.  It maps to the bar's Subwoofer Boost
+         ("subwoofer volume"), whose range was LEARNED on hardware 2026-07-27 as -4..+4 signed,
+         0 = flat (5 and -5 were both refused).  Treble, balance and loudness are deliberately
+         NOT declared: this bar has no such controls, and declaring them would give the dealer
+         sliders that silently do nothing, which is worse than their absence.  See README
+         "Surround and EQ". -->
+    <has_discrete_bass_control>True</has_discrete_bass_control>
+    <has_up_down_bass_control>True</has_up_down_bass_control>
   </capabilities>
 
   <connections>
