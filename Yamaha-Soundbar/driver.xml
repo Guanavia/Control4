@@ -43,14 +43,15 @@
       <surround_mode><name>Stereo</name><id>6</id></surround_mode>
     </surround_modes>
 
-    <!-- EQ: BASS ONLY, and only because it is real.  It maps to the bar's Subwoofer Boost
-         ("subwoofer volume"), whose range was LEARNED on hardware 2026-07-27 as -4..+4 signed,
-         0 = flat (5 and -5 were both refused).  Treble, balance and loudness are deliberately
-         NOT declared: this bar has no such controls, and declaring them would give the dealer
-         sliders that silently do nothing, which is worse than their absence.  See README
-         "Surround and EQ". -->
-    <has_discrete_bass_control>True</has_discrete_bass_control>
-    <has_up_down_bass_control>True</has_up_down_bass_control>
+    <!-- EQ IS DELIBERATELY NOT DECLARED, and bass was TRIED AND WITHDRAWN (2026-07-28).
+         The receiver proxy has no way to express a bass RANGE: there is no bass equivalent of
+         volume_number_of_steps anywhere in its capability set.  With has_*_bass_control set,
+         Composer renders an UNBOUNDED number box - Dave held the up arrow past 1000 - while the
+         bar only accepts -4..+4, so the driver silently clamps and the number on screen becomes
+         meaningless.  A control that lies about its own range is worse than no control, so bass
+         now lives in the "Subwoofer Boost" property below, which IS bounded (RANGED_INTEGER
+         -4..4) and renders honestly.  Treble/balance/loudness were never applicable: the bar has
+         no such controls at all.  See README "Surround and EQ". -->
   </capabilities>
 
   <connections>
@@ -291,9 +292,9 @@
         <items><item>Off</item><item>On</item></items>
       </property>
       <property>
-        <name>Subwoofer Volume</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
-        <tooltip>Reported by the bar. Read-only for now: its valid range has not been established, and writing an out-of-range value is not worth guessing at.</tooltip>
+        <name>Subwoofer Boost</name>
+        <type>RANGED_INTEGER</type><readonly>false</readonly><default>0</default><minimum>-4</minimum><maximum>4</maximum>
+        <tooltip>Subwoofer level, matching the Yamaha app's Subwoofer Boost: -4 to +4, 0 = flat. Range learned from the bar itself (writes of 5 and -5 are refused) and independently confirmed against the app. This lives here rather than in the EQ section because the receiver proxy cannot express a bass range, so its EQ box is unbounded and would misrepresent this control.</tooltip>
       </property>
       <property>
         <name>Yamaha Volume</name>

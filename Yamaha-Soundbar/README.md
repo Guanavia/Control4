@@ -60,14 +60,25 @@ EQ-adjacent is either a toggle (`bass extension`) or a level with an unknown val
 capability anyway would hand a dealer sliders that silently do nothing — worse than an empty
 section.
 
-The one realistic route to a populated EQ section is mapping **bass → `subwoofer volume`** — the
-app's Subwoofer Boost, a signed level centred on 0 that moves both ways alongside the bass
-extension toggle. Its limits are unknown, so **Actions → Learn Subwoofer Range** finds them: it
-reads a baseline, writes a junk value as a negative control, then steps outward in each direction
-until the bar either clamps (which reveals the limit in a single write) or refuses. Once the range
-is known it can be mapped to the receiver proxy's BASS control for a real slider. Linkplay's `eq`
-field in `getPlayerStatus` is a second lead, probably written via `setPlayerCmd:equalizer:<n>`,
-untested.
+**Bass was tried through the proxy and withdrawn — the subwoofer lives in a property instead.**
+The bar's Subwoofer Boost is a real, useful control: **−4 to +4, 0 = flat**, a range learned from
+the bar itself by **Actions → Learn Subwoofer Range** (it reads a baseline, writes junk as a
+negative control, then steps outward until the bar clamps or refuses) and independently confirmed
+against the Yamaha app.
+
+Wiring it to the proxy's bass control did not work out, for a structural reason worth recording:
+**the receiver proxy cannot declare a bass range.** There is no bass equivalent of
+`volume_number_of_steps` anywhere in its capabilities. With `has_*_bass_control` set, Composer
+renders an **unbounded number box** — it was driven past 1000 by holding the up arrow — while the
+bar accepts only ±4, so the driver clamps and the number on screen becomes fiction. A control that
+misrepresents its own range is worse than no control.
+
+So the subwoofer is the **Subwoofer Boost** property (`RANGED_INTEGER`, −4..4), which Composer
+bounds correctly, and the EQ section stays empty. Don't re-add `has_discrete_bass_control` without
+first solving the range problem.
+
+Linkplay's `eq` field in `getPlayerStatus` is a separate, untested lead, probably written via
+`setPlayerCmd:equalizer:<n>`.
 
 ## Testing without hardware
 

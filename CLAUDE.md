@@ -181,7 +181,18 @@ driver project in this repo:
 4. **NEVER delete the device and then run Add/Update Driver.**
 5. **Batch structural changes** — each one is another restart.
 
-**EQ: BASS NOW REAL, everything else still deliberately absent.** `Learn Subwoofer Range` ran on
+**EQ: BASS TRIED VIA THE PROXY AND WITHDRAWN (2026-07-28) — subwoofer is a PROPERTY instead.**
+**The receiver proxy cannot declare a bass RANGE** — there is no bass equivalent of
+`volume_number_of_steps` in its capability set. With `has_*_bass_control` declared, Composer renders
+an **UNBOUNDED number box** (Dave held the up arrow past 1000) while the bar accepts only -4..+4, so
+the driver clamps and the on-screen number becomes fiction. A control that misrepresents its own
+range is worse than none, so bass capabilities + `SET_BASS_LEVEL`/`PULSE_BASS_*`/`BASS_LEVEL_CHANGED`
+were REMOVED (not left as dead code), and the subwoofer is now the **`Subwoofer Boost`** property
+(`RANGED_INTEGER` -4..4), which Composer bounds correctly. **Do not re-add
+`has_discrete_bass_control` without solving the range problem.** The 0-100-vs-native scale question
+is moot and gone with it. General lesson: check whether a proxy can express a control's CONSTRAINTS,
+not just its value, before mapping onto it.
+**Superseded note (kept for context):** `Learn Subwoofer Range` ran on
 hardware: **range is -4..+4 signed, 0 = flat** (5 and -5 both refused, bar held 4/-4; negative
 control passed). **INDEPENDENTLY CONFIRMED** — Dave then opened the Yamaha app and its Subwoofer
 Boost scale is also ±4. Two independent methods agreeing is the strongest validation available
