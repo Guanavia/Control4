@@ -211,6 +211,17 @@ local function Log(level, msg, ...)
   -- logging-API mismatch can never crash the driver.
   if gLogMode == "Log" or gLogMode == "Print and Log" then pcall(function() C4:ErrorLog(line) end) end
 end
+-- Misconfiguration must NOT be silenceable.  Log Mode defaults to "Off", which gates every
+-- Log() call above -- so a driver that cannot possibly work (no IP address) said nothing at all
+-- unless someone had already turned logging on.  That is backwards: the louder the problem, the
+-- less likely logging is enabled.  LogCritical bypasses the gate entirely.
+local function LogCritical(msg, ...)
+  local ok, s = pcall(string.format, msg, ...)
+  if not ok then s = tostring(msg) end
+  pcall(function() C4:ErrorLog("[YAMAHASB] " .. s) end)
+  print("[YAMAHASB][CRITICAL] " .. s)
+end
+
 local function LogDebug(m,...)   Log(LOG_LEVEL.DEBUG,m,...) end
 local function LogTrace(m,...)   Log(LOG_LEVEL.TRACE,m,...) end
 local function LogInfo(m,...)    Log(LOG_LEVEL.INFO,m,...) end
@@ -235,6 +246,25 @@ local function SetConnected(c)
   gConnected = c
   UpdateProp("Connected", tostring(c))
   LogInfo("Connected = %s", tostring(c))
+end
+
+-- Surface an unconfigured driver in the ONE place a dealer looks without turning on logging:
+-- the Connected property.  A bare "false" is indistinguishable from "the bar is unplugged",
+-- which is exactly the confusion that cost an evening -- volume silently stopped working after
+-- a remove/re-add reset IP Address to its blank default, and nothing anywhere said so.
+local gUnconfiguredWarned = false
+local function CheckConfigured()
+  if gCtrlMethod ~= "IP" then return true end
+  if DeviceAddress() then gUnconfiguredWarned = false; return true end
+  gConnected = false
+  UpdateProp("Connected", "false - NO IP ADDRESS SET")
+  if not gUnconfiguredWarned then   -- once per unconfigured spell, not once per property change
+    gUnconfiguredWarned = true
+    LogCritical("IP Address property is EMPTY, so nothing can be controlled over IP. " ..
+      "Set it to the soundbar's address (DHCP-reserved). NOTE: removing and re-adding the " ..
+      "driver resets every property to its default, and this one defaults to blank.")
+  end
+  return false
 end
 
 -------------------------------------------------
@@ -1198,6 +1228,7 @@ function OnDriverLateInit()
   UpdateProp("Driver Version", "2.1.0")
   for k, _ in pairs(Properties or {}) do OnPropertyChanged(k) end
   CheckCert()
+  CheckConfigured()
   StartPoll()
   StartStatePoll()
   -- Only now may property edits be treated as user intent (see OnPropertyChanged).
@@ -1231,7 +1262,13 @@ function OnPropertyChanged(sProperty)
       gSslCreated, gSslAddr, gSslOnline = false, nil, false
     end
     gAddress = newAddr
-    if gAddress ~= "" then StartPoll() end
+    if gAddress ~= "" then
+      LogInfo("IP Address set to %s", gAddress)
+      StartPoll()
+      StartStatePoll()
+    else
+      CheckConfigured()
+    end
   elseif sProperty == "Owner Approved" then
     gOwnerOK = (value == "Yes")
     LogInfo("Owner Approved = %s (httpapi power/input %s)", tostring(value), gOwnerOK and "ENABLED" or "disabled")

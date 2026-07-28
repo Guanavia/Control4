@@ -244,8 +244,13 @@ and then updating is not a supported sequence.
      receiver proxy when Director *instantiates* the device, so a running instance cannot absorb
      them. Composer will prompt for a **Director restart**, and that prompt is legitimate.
 3. **For a structural change, prefer the Director restart** over remove/re-add on a live project.
-   It costs about a minute of no automation and leaves the device, its bindings and its
-   programming intact. Remove/re-add avoids the restart but discards all of that.
+   It costs about a minute of no automation and leaves the device, its bindings, its programming
+   **and its property values** intact. Remove/re-add avoids the restart but discards all of that.
+   **This has now cost something twice:** once the project itself, and once a silent loss of
+   volume control — a re-add reset **IP Address** to its blank default, so the driver received
+   every button press and had nowhere to send it. If anything stops working right after a
+   re-add, **check the properties before debugging the code**: IP Address, Owner Approved and
+   the poll intervals are all back at defaults.
 4. **Never delete the device and then run Add/Update Driver.** If you do want a clean re-add:
    remove the device, *finish* that operation, then add the updated driver as a new device.
 5. **Batch structural changes.** Every `<capabilities>`/`<connections>` edit is another restart, so

@@ -179,6 +179,16 @@ driver project in this repo:
 3. **For structural changes prefer the RESTART over remove/re-add on a live project** — ~1 min of
    no automation, but device + bindings + programming survive. Remove/re-add discards all of them.
 4. **NEVER delete the device and then run Add/Update Driver.**
+4b. **A re-add also resets every PROPERTY to its default** — this bit twice: `Owner Approved`
+   fell back to `No` (caught, because the sweep refused loudly and said why) and `IP Address`
+   fell back to BLANK (NOT caught — the driver received every Halo volume press and had nowhere
+   to send it, failing silently while the device UI still worked because that path talks to the
+   device directly). **If anything breaks right after a re-add, check properties BEFORE the
+   code.** Fixed 2026-07-28: `CheckConfigured()` now sets `Connected` to
+   `"false - NO IP ADDRESS SET"` and logs via the new `LogCritical`, which BYPASSES the Log Mode
+   gate. That gate defaulted to `Off`, so the driver's most important message — "I cannot
+   possibly work" — was the one message nobody could see. **General rule: misconfiguration
+   diagnostics must never be silenceable by a log-level setting.**
 5. **Batch structural changes** — each one is another restart.
 
 **EQ: BASS TRIED VIA THE PROXY AND WITHDRAWN (2026-07-28) — subwoofer is a PROPERTY instead.**
