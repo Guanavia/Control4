@@ -126,15 +126,31 @@ another idle condition — **standby being the obvious candidate** — so the dr
 while power is known-off, rather than parking the room on "Network". Per-service streaming codes
 (`1`/`2`/`10`/`31`) remain documentation-sourced, never observed here.
 
-**Power feedback is still UNVERIFIED guesswork:** it assumes `YAMAHA_DATA_GET` returns
-`"power saving"`, and **that response shape has never been captured** — `Probe Yamaha Settings` has
-not been run yet. It warns once if the field is absent rather than silently reporting nothing. The
-JSON field parser was unit-tested against the real `getStatusEx` payload incl. the space-containing
-key and a substring-collision guard.
-
-**EQ lead:** `getPlayerStatus` carries an **`eq`** field (readback), so EQ almost certainly writes
-via `setPlayerCmd:equalizer:<n>`. Surround remains unknown pending the `YAMAHA_DATA_GET` capture.
-`setPlayerCmd:*` writes return a 2-byte `OK` body with HTTP 200.
+**`YAMAHA_DATA_GET` CAPTURED (2026-07-27) — power feedback CONFIRMED + the whole surround/EQ
+surface found.** The command that was listed as "read" but never actually captured turns out to
+hold every Yamaha-specific setting, and `"power saving"` is genuinely there, so the power-feedback
+assumption was right. Full payload + key table in `research/LINKPLAY_RE.md`. Written back via
+`YAMAHA_DATA_SET:{"<key>":"<value>"}` (already proven for power).
+**Now exposed as Composer properties** (all gated on Owner Approved): `Sound Program` (surround),
+`3D Surround`, `Clear Voice`, `Bass Extension` — writable; `Subwoofer Volume`, `Yamaha Volume`,
+`Audio Stream` — display only. The state poll reads them all back.
+**Echo-loop guard (important if editing this):** reading a setting updates its property, which
+fires `OnPropertyChanged`, which would send it straight back. Two guards: `gInitDone` (Composer
+walks every property on load — without it the driver would push its DEFAULTS onto the bar on every
+single load) and a per-key compare against `gDeviceSettings` (the last value the BAR reported), so
+only a genuine user edit writes.
+**Still unverified:** only `movie` is a CONFIRMED `sound program` wire string. The other YAS-209
+modes are what the *product* offers, not necessarily what the *API* accepts — new **Learn Sound
+Programs** Action writes each candidate and reads back to see which stick (same self-identifying
+trick as the input sweep; prune the property's `<items>` afterward).
+**Other finds:** `Model name`=`YAS-209` is the trustworthy model string (vs `getStatusEx`'s bogus
+`project`=`YAS_109`); `Master volume` (24) is NOT the UPnP 0-100 scale (Linkplay `vol` read 63 at
+the same moment) — relationship unresolved, so it is display-only; `NET Standby`/`HDMI Control`/
+`Auto Power Stby`/`voice control`/`Dimmer` exist but are not exposed yet.
+**EQ lead:** `getPlayerStatus` carries an **`eq`** field (readback), so EQ likely writes via
+`setPlayerCmd:equalizer:<n>` — untested. `setPlayerCmd:*` writes return a 2-byte `OK` with HTTP 200.
+The JSON parser is unit-tested against BOTH real payloads (space-containing keys, parenthesised
+keys like `DSP(AC)`, and a substring-collision guard).
 
 **OPTICAL IN REMOVED (housekeeping, user-spotted).** The bar has ONE optical/ARC input and Linkplay
 exposes ONE `switchmode` for it (`optical`) — the same target the TV input selects, so the separate
@@ -178,13 +194,13 @@ gone rather than merely demoted — a cert warning that fires on a working syste
 warning at all.
 
 **NEXT (in order):**
-1. **Run `Probe Yamaha Settings`** — the ONLY thing still blocking both power feedback and
-   surround/EQ. Needed: the raw `YAMAHA_DATA_GET` payload (does `"power saving"` actually come
-   back?), plus one capture per surround mode / EQ preset to diff. **NOT `Query Device Info`** —
-   that is identity-only and proven useless for state.
-2. **IR as the shipping default** control method (per the original design: IP is the owner's path,
+1. **Run `Learn Sound Programs`** — prunes the `Sound Program` property to the values the bar
+   actually accepts. Then spot-check the new settings properties (3D Surround / Clear Voice /
+   Bass Extension) write correctly, and confirm power/input feedback tracks the Yamaha remote.
+2. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
+3. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
-3. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
+4. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
    the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
    presets (`preset_key: 6`).
 

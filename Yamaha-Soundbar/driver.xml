@@ -242,6 +242,47 @@
         <name>Muted</name>
         <type>STRING</type><readonly>true</readonly><default>unknown</default>
       </property>
+      <!-- Yamaha sound settings.  Keys confirmed from a live YAMAHA_DATA_GET capture
+           (2026-07-27); written back as YAMAHA_DATA_SET:{"<key>":"<value>"}.  All require
+           Owner Approved = Yes, since they go over the httpapi path. -->
+      <property>
+        <name>Sound Program</name>
+        <type>LIST</type><readonly>false</readonly><default>movie</default>
+        <items><item>movie</item><item>music</item><item>sports</item><item>game</item><item>tv program</item><item>stereo</item></items>
+        <tooltip>Yamaha sound program (surround mode). Only "movie" is a CONFIRMED wire string — it was the live value in the capture. The others are the YAS-209's documented modes, which is not the same as knowing what the API calls them. Run Actions → Learn Sound Programs to find out which this unit actually accepts, then prune this list.</tooltip>
+      </property>
+      <property>
+        <name>3D Surround</name>
+        <type>LIST</type><readonly>false</readonly><default>Off</default>
+        <items><item>Off</item><item>On</item></items>
+        <tooltip>DTS Virtual:X / 3D surround.</tooltip>
+      </property>
+      <property>
+        <name>Clear Voice</name>
+        <type>LIST</type><readonly>false</readonly><default>Off</default>
+        <items><item>Off</item><item>On</item></items>
+      </property>
+      <property>
+        <name>Bass Extension</name>
+        <type>LIST</type><readonly>false</readonly><default>Off</default>
+        <items><item>Off</item><item>On</item></items>
+      </property>
+      <property>
+        <name>Subwoofer Volume</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <tooltip>Reported by the bar. Read-only for now: its valid range has not been established, and writing an out-of-range value is not worth guessing at.</tooltip>
+      </property>
+      <property>
+        <name>Yamaha Volume</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <tooltip>The bar's own "Master volume" scale, which is NOT the same as the 0-100 UPnP volume Control4 drives. Shown for reference while the relationship between the two is worked out.</tooltip>
+      </property>
+      <property>
+        <name>Audio Stream</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <tooltip>Incoming format the bar reports (PCM, Dolby, DTS ...).</tooltip>
+      </property>
+
       <property>
         <name>Log Level</name>
         <type>LIST</type><readonly>false</readonly><default>2 - Warning</default>
@@ -276,6 +317,7 @@
            key names and the input "mode" codes can be pinned down from a real session. -->
       <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
       <action><name>Learn Input Codes (cycles every input, then prints the table)</name><command>LearnInputCodes</command></action>
+      <action><name>Learn Sound Programs (tries each candidate, reports which stick)</name><command>LearnSoundPrograms</command></action>
     </actions>
   </config>
 

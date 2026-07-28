@@ -84,6 +84,32 @@ local MODE_TO_CONN = {
 -- as sitting on Network, which is worse than showing nothing.
 local MODE_IDLE = "0"
 
+-- Yamaha settings surface, from the YAMAHA_DATA_GET capture (2026-07-27).  Each entry maps a
+-- Composer property to its Yamaha key; writes go out as YAMAHA_DATA_SET:{"<key>":"<value>"}.
+-- enc/dec translate between the Composer-facing wording and the wire value.
+local function OnOffEnc(v) return (v == "On") and "1" or "0" end
+local function OnOffDec(v) return (v == "1") and "On" or "Off" end
+local function Identity(v) return v end
+
+local SETTING_PROPS = {
+  { prop = "Sound Program",  key = "sound program",  enc = Identity, dec = Identity },
+  { prop = "3D Surround",    key = "3D surround",    enc = OnOffEnc, dec = OnOffDec },
+  { prop = "Clear Voice",    key = "clear voice",    enc = OnOffEnc, dec = OnOffDec },
+  { prop = "Bass Extension", key = "bass extension", enc = OnOffEnc, dec = OnOffDec },
+}
+
+-- Reported by the bar but not written by us (range / vocabulary unknown) -- display only.
+local READONLY_SETTINGS = {
+  { prop = "Subwoofer Volume", key = "subwoofer volume" },
+  { prop = "Audio Stream",     key = "Audio Stream" },
+  { prop = "Yamaha Volume",    key = "Master volume" },
+}
+
+-- CANDIDATES for "sound program".  Only "movie" is confirmed (it was the live value in the
+-- capture); the rest are the YAS-209's documented modes and are UNVERIFIED as wire strings.
+-- The "Learn Sound Programs" Action writes each one and reads back to see which stick.
+local SOUND_PROGRAM_CANDIDATES = { "movie", "music", "sports", "game", "tv program", "stereo" }
+
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
 local AV = "urn:schemas-upnp-org:service:AVTransport:1"
 local RC_CTRL = "/upnp/control/rendercontrol1"
@@ -107,6 +133,12 @@ local gPollTimer  = nil
 local gStatePollSecs  = 30    -- httpapi power/input read-back; 0 = disabled
 local gStatePollTimer = nil
 local gUnknownModes   = {}    -- modes already reported, so the log warns once each
+-- Last value the BAR reported for each Yamaha setting key.  This is what stops an echo loop:
+-- reading a setting updates its Composer property, which fires OnPropertyChanged, which would
+-- otherwise send the value straight back.  A write only goes out when the new property value
+-- differs from what the device last told us.
+local gDeviceSettings = {}
+local gInitDone       = false  -- suppresses writes during the initial property sweep
 
 local gPower      = nil      -- boolean (best-effort; only known when httpapi/Owner Approved)
 local gYxcVolume  = nil      -- 0..100 (UPnP)
@@ -521,16 +553,40 @@ local function PollHttpApiState()
   HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
     if not ok or not body then return end
     LogDebug("YAMAHA_DATA_GET raw: %s", body)
+
+    -- Power.  CONFIRMED on hardware: the payload really does carry "power saving".
     local ps = jsonstr(body, "power saving")
     if ps == "1" then ApplyPowerState(true)
     elseif ps == "0" then ApplyPowerState(false)
     elseif not gPowerKeyWarned then
       gPowerKeyWarned = true
-      LogWarning("YAMAHA_DATA_GET returned no \"power saving\" field, so power feedback is " ..
-        "unavailable until the right key is identified. Run the 'Probe Yamaha Settings' Action " ..
-        "and read the raw payload.")
+      LogWarning("YAMAHA_DATA_GET returned no \"power saving\" field on this firmware, so " ..
+        "power feedback is unavailable. Run 'Probe Yamaha Settings' and read the raw payload.")
+    end
+
+    -- Writable settings: remember what the bar said BEFORE touching the property, so the
+    -- resulting OnPropertyChanged is recognised as an echo and not sent back.
+    for _, s in ipairs(SETTING_PROPS) do
+      local raw = jsonstr(body, s.key)
+      if raw ~= nil then
+        gDeviceSettings[s.key] = raw
+        UpdateProp(s.prop, s.dec(raw))
+      end
+    end
+    for _, s in ipairs(READONLY_SETTINGS) do
+      local raw = jsonstr(body, s.key)
+      if raw ~= nil then UpdateProp(s.prop, raw) end
     end
   end)
+end
+
+-- Write one Yamaha setting.  Optimistically records the value as the device's, so the
+-- property echo this causes does not bounce straight back out again.
+local function SetYamahaSetting(key, wireValue, cb)
+  gDeviceSettings[key] = wireValue
+  local cmd = string.format('YAMAHA_DATA_SET:{"%s":"%s"}', key, wireValue)
+  LogInfo("setting %s = %s", key, wireValue)
+  HttpApiGet(cmd, cb)
 end
 
 local function StopStatePoll()
@@ -644,6 +700,72 @@ local function LearnInputCodes()
 end
 
 -------------------------------------------------
+-- LEARN SOUND PROGRAMS
+--
+-- Only "movie" is a CONFIRMED wire string (it was the live value in the capture).  The rest
+-- of SOUND_PROGRAM_CANDIDATES are the YAS-209's documented modes, which is not the same thing
+-- as knowing what the API calls them.  Same trick as the input sweep: write a candidate, read
+-- YAMAHA_DATA_GET back, and keep only the ones the bar actually adopted.
+-------------------------------------------------
+local gProgLearn = nil
+
+local function ProgLearnFinish()
+  LogInfo("---- learned sound programs ----")
+  local good, bad = {}, {}
+  for _, r in ipairs(gProgLearn.results) do
+    if r.ok then good[#good + 1] = r.tried else bad[#bad + 1] = r.tried end
+    LogInfo("  %-12s -> %s", r.tried, r.ok and "ACCEPTED" or ("rejected (bar reports '" ..
+      tostring(r.got) .. "')"))
+  end
+  LogInfo("ACCEPTED: %s", #good > 0 and table.concat(good, ", ") or "(none)")
+  if #bad > 0 then
+    LogInfo("REJECTED: %s -- remove these from the Sound Program property's <items> in driver.xml",
+      table.concat(bad, ", "))
+  end
+  local restore = gProgLearn.restore
+  gProgLearn = nil
+  if restore then
+    LogInfo("[proglearn] restoring '%s'", restore)
+    SetYamahaSetting("sound program", restore)
+  end
+  LogInfo("--------------------------------")
+end
+
+local function ProgLearnStep()
+  if not gProgLearn then return end
+  local cand = SOUND_PROGRAM_CANDIDATES[gProgLearn.idx]
+  if not cand then ProgLearnFinish(); return end
+  LogInfo("[proglearn] %d/%d trying '%s' ...", gProgLearn.idx, #SOUND_PROGRAM_CANDIDATES, cand)
+  SetYamahaSetting("sound program", cand, function()
+    C4:SetTimer(LEARN_SETTLE_MS, function()
+      HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+        local got = ok and jsonstr(body, "sound program") or nil
+        gProgLearn.results[#gProgLearn.results + 1] =
+          { tried = cand, got = got, ok = (got == cand) }
+        LogInfo("[proglearn] '%s' -> bar reports '%s'", cand, tostring(got))
+        gProgLearn.idx = gProgLearn.idx + 1
+        ProgLearnStep()
+      end)
+    end, false)
+  end)
+end
+
+local function LearnSoundPrograms()
+  if not gOwnerOK then
+    LogWarning("Learn Sound Programs needs Owner Approved = Yes (it uses httpapi)")
+    return
+  end
+  if gProgLearn then LogWarning("a sound-program sweep is already running"); return end
+  gProgLearn = { idx = 1, results = {}, restore = gDeviceSettings["sound program"] }
+  LogInfo("---- learning sound programs: this WILL change the bar's sound mode ----")
+  if not gProgLearn.restore then
+    LogWarning("no known current sound program to restore afterwards (state poll has not run " ..
+      "yet) -- set it manually when the sweep finishes")
+  end
+  ProgLearnStep()
+end
+
+-------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
 -------------------------------------------------
 local ReceiverCommands = {}
@@ -745,6 +867,7 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "HttpApiDiag"       then HttpApiDiag()
   elseif strCommand == "ProbeSettings"     then ProbeSettings()
   elseif strCommand == "LearnInputCodes"   then LearnInputCodes()
+  elseif strCommand == "LearnSoundPrograms" then LearnSoundPrograms()
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()
@@ -771,6 +894,8 @@ function OnDriverLateInit()
   CheckCert()
   StartPoll()
   StartStatePoll()
+  -- Only now may property edits be treated as user intent (see OnPropertyChanged).
+  gInitDone = true
 end
 
 function OnDriverDestroyed()
@@ -811,6 +936,29 @@ function OnPropertyChanged(sProperty)
   elseif sProperty == "State Poll Seconds" then
     gStatePollSecs = tonumber(value) or 30
     StartStatePoll()
+  else
+    -- Yamaha settings.  Two guards keep this from writing when it shouldn't:
+    --  1. gInitDone -- OnDriverLateInit walks every property, which would otherwise push the
+    --     driver's defaults onto the bar on every single load.
+    --  2. echo check -- reading a setting updates its property, which lands right back here;
+    --     only a value that differs from what the device last reported is a real user edit.
+    for _, s in ipairs(SETTING_PROPS) do
+      if sProperty == s.prop then
+        if not gInitDone then
+          LogDebug("ignoring %s during init (not a user edit)", sProperty)
+        elseif not gOwnerOK then
+          LogWarning("%s needs Owner Approved = Yes (it writes over httpapi)", sProperty)
+        else
+          local wire = s.enc(value)
+          if wire == gDeviceSettings[s.key] then
+            LogDebug("%s echo (%s already current) - not sending", sProperty, tostring(value))
+          else
+            SetYamahaSetting(s.key, wire)
+          end
+        end
+        return
+      end
+    end
   end
 end
 

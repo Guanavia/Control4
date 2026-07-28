@@ -116,6 +116,40 @@ Also visible in the same payload and useful later: **`eq`** (EQ preset readback 
 certainly sets via `setPlayerCmd:equalizer:<n>`), plus `vol`/`mute`, which cross-check the UPnP
 path. `setPlayerCmd:*` writes return a 2-byte `OK` body with HTTP 200.
 
+### `YAMAHA_DATA_GET` — the Yamaha settings surface (CAPTURED 2026-07-27)
+This is the command that was listed as "read" but never actually captured. It is where every
+Yamaha-specific setting lives, and it **confirms `"power saving"` is real**, which the driver's
+power feedback had been assuming on faith:
+```json
+{"power saving":"1","Model name":"YAS-209","System Version":"05.31","A118":"3.6.418924",
+ "MCU":"00.87","DSP(AC)":"01.46","DSP(FW)":"3.3.1.4","HDMI":"20.01.29","TOUCH":"00.08",
+ "SW(TX)":"3.88.1","SW(RX)":"3.88.2","Destination":"U","mute":"0","subwoofer volume":"0",
+ "Master volume":"24","Audio Stream":"PCM","sound program":"movie","3D surround":"1",
+ "clear voice":"0","bass extension":"0","NET Standby":"1","HDMI Control":"1",
+ "Auto Power Stby":"0","voice control":"1","Dimmer":"Dark"}
+```
+Write the same keys back with `YAMAHA_DATA_SET:{"<key>":"<value>"}` (already proven for
+`power saving`).
+
+| Key | Values | Driver status |
+|---|---|---|
+| `power saving` | `1` on / `0` standby | power control **and** feedback |
+| `sound program` | `movie` observed | **surround** — exposed as a property; other values unverified, see below |
+| `3D surround` | `0`/`1` | exposed |
+| `clear voice` | `0`/`1` | exposed |
+| `bass extension` | `0`/`1` | exposed |
+| `subwoofer volume` | `0` observed | display only — range unknown |
+| `Master volume` | `24` observed | display only — **NOT the UPnP 0–100 scale** (same moment showed Linkplay `vol` 63); relationship unresolved |
+| `Audio Stream` | `PCM` | display only |
+| `Model name` | `YAS-209` | **the trustworthy model string** — better than `getStatusEx`'s `project`=`YAS_109` |
+| `NET Standby`, `HDMI Control`, `Auto Power Stby`, `voice control`, `Dimmer` | | not exposed yet — setup-level options |
+
+> **Only `movie` is a confirmed `sound program` wire string.** The YAS-209's documented modes
+> (music, sports, game, tv program, stereo) are what the *product* offers, which is not the same as
+> what the *API* accepts. The `Learn Sound Programs` Action writes each candidate and reads back to
+> see which the bar adopts — same self-identifying trick that settled the input codes, where
+> HDMI=49 proved that guessing from published vocabulary would have been wrong.
+
 ### Device fingerprint (`getStatusEx`, this unit)
 | Field | Value | Note |
 |---|---|---|
