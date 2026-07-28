@@ -289,20 +289,27 @@ warning at all.
 2. **Spot-check the settings properties** (Sound Program / 3D Surround / Clear Voice / Bass
    Extension) write correctly from Composer, and confirm power/input feedback tracks an EXTERNAL
    change — the whole point of the state poll, still never observed working.
-   **NOTE: the physical Yamaha remote is LOST (confirmed by Dave 2026-07-27).** Use one of these
-   instead as the external-change source: (a) the **Yamaha/Linkplay phone app** — already installed,
-   it is where the client cert was extracted from (`com.wifiaudio.Yamaha`), so it is the easiest
-   option; (b) the bar's **top-panel touch buttons** (power / input / volume / Bluetooth); or
-   (c) **HDMI-CEC from the TV**. Any of them proves the poll reconciles state it did not originate.
+   **REMOTE FOUND (2026-07-28) — but its battery is on order, so it is not usable yet.** Until it
+   arrives, use any of: (a) the **Yamaha/Linkplay phone app** — already installed, it is where the
+   client cert came from (`com.wifiaudio.Yamaha`), so it is the easiest; (b) the bar's **top-panel
+   touch buttons**; or (c) **HDMI-CEC from the TV**. Any of them proves the poll reconciles state
+   it did not originate. (Partial evidence already exists: during the subwoofer sweep the poll
+   logged `input changed at the bar -> optical` and `power changed at the bar -> On`, i.e. it
+   picked up state the driver had not set — but that was reconciling from *unknown*, not tracking
+   a genuine external change.)
 3. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
 4. **IR as the shipping default** control method (per the original design: IP is the owner's path,
-   IR is what ships to dealers). **PLANNING CHANGE — the physical remote is LOST, so IR codes
-   CANNOT be learned by capture on this unit.** IR must therefore come from a code database:
-   Control4's own IR database (search the driver catalog / Composer's IR code sets for YAS-209 or a
-   sibling Yamaha bar), or a public set (Global Caché IR database, iRule/JP1). Verify by firing at
-   the bar and watching the httpapi state poll confirm the effect — **the IP path we just built is
-   now the test instrument for the IR path**, which is a genuinely nice side-effect: send IR, read
-   state back over TLS, and see whether it landed. Without a remote there is no other ground truth.
+   IR is what ships to dealers). **REMOTE FOUND 2026-07-28 (battery on order), so learning codes
+   by CAPTURE is back on the table** — this supersedes the earlier "remote is lost, database only"
+   plan. Two sources now, and they check each other: (a) **capture from the real remote** once the
+   battery arrives (authoritative for THIS unit, and the only way to get codes for buttons no
+   database happens to list); (b) a **code database** — Control4's own IR sets for YAS-209 or a
+   sibling Yamaha bar, or a public set (Global Caché, iRule/JP1) — which is faster to try first and
+   may simply work.
+   **Either way, verification is the same and is the nice part: the IP path is the test instrument
+   for the IR path.** Fire an IR code, then read state back over mutual TLS and see whether it
+   actually landed — objective ground truth per button, no listening-by-ear required. Building IP
+   first turned out to be the right order.
 5. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
    the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
    presets (`preset_key: 6`).
