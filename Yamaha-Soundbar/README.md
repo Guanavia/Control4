@@ -38,6 +38,34 @@ Two decode tables are **provisional** and finish themselves from a real session:
 - Power feedback reads `"power saving"` from `YAMAHA_DATA_GET`. If that field isn't in the
   payload, the driver says so once rather than silently reporting nothing.
 
+## Surround and EQ (the device control UI)
+
+**Surround now works.** The Surround section of the device's control UI in Composer is driven
+entirely by `<capabilities>`: it needs `has_discrete_surround_mode_select` plus a
+`<surround_modes>` list of `{name, id}`. The driver declared neither, which is exactly why that
+section was blank — nothing to do with the bar. It now declares all six confirmed modes (Movie,
+Music, Sports, Game, TV Program, Stereo), handles `SET_SURROUND_MODE`, and reports
+`SURROUND_MODE_CHANGED` when the mode changes at the bar.
+
+Because surround is a proxy concept, **Sound Program is no longer a property** — it belongs in the
+control UI, not the properties list. The `3D Surround`, `Clear Voice` and `Bass Extension` toggles
+stay as properties: the receiver proxy models surround as a single mode list and has no concept of
+independent DSP toggles, so there is nowhere else for them to go.
+
+**EQ is deliberately left empty, and that is the honest answer.** Composer's EQ section is driven
+by `has_discrete_bass_control` / `has_up_down_bass_control` and their treble, balance and loudness
+equivalents. **This bar has none of them.** Everything `YAMAHA_DATA_GET` exposes that is
+EQ-adjacent is either a toggle (`bass extension`) or a level with an unknown valid range
+(`subwoofer volume`); there is no treble or balance control on the hardware at all. Declaring the
+capability anyway would hand a dealer sliders that silently do nothing — worse than an empty
+section.
+
+The one realistic route to a populated EQ section is mapping **bass → `subwoofer volume`**, which
+needs its range established first. That is a learnable thing (write values, read back, keep what
+sticks — with a negative control, as the sound-program sweep does), just not yet done. Linkplay's
+`eq` field in `getPlayerStatus` is a second lead, probably written via
+`setPlayerCmd:equalizer:<n>`, also untested.
+
 ## Inputs
 
 TV (ARC / optical), HDMI In, Bluetooth, Network / Streaming.

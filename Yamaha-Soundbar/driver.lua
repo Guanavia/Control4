@@ -91,8 +91,12 @@ local function OnOffEnc(v) return (v == "On") and "1" or "0" end
 local function OnOffDec(v) return (v == "1") and "On" or "Off" end
 local function Identity(v) return v end
 
+-- NOTE: "sound program" is deliberately NOT here.  It is the receiver proxy's SURROUND mode,
+-- so it belongs in the device's control UI (Surround section), not in the properties list --
+-- see SURROUND_MODES.  These three have no home in the receiver proxy (it models surround as a
+-- single mode list, with no concept of independent DSP toggles), so properties are the right
+-- place for them.
 local SETTING_PROPS = {
-  { prop = "Sound Program",  key = "sound program",  enc = Identity, dec = Identity },
   { prop = "3D Surround",    key = "3D surround",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Clear Voice",    key = "clear voice",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Bass Extension", key = "bass extension", enc = OnOffEnc, dec = OnOffDec },
@@ -115,6 +119,24 @@ local SOUND_PROGRAM_CANDIDATES = { "movie", "music", "sports", "game", "tv progr
 -- this deliberate nonsense value: it MUST come back rejected.  If the bar echoes it too, the
 -- readback is worthless as evidence and the whole sweep is reported as INCONCLUSIVE.
 local SOUND_PROGRAM_CONTROL = "c4_not_a_real_program"
+
+-- SURROUND, as the receiver proxy models it: a list of {name, id} declared in driver.xml's
+-- <capabilities><surround_modes>, selected by SET_SURROUND_MODE(SurroundMode=<id>) and reported
+-- back with SURROUND_MODE_CHANGED.  The ids here MUST match driver.xml exactly.  Underneath,
+-- each one is just a Yamaha "sound program" string -- all six confirmed on hardware.
+local SURROUND_MODES = {
+  { id = 1, name = "Movie",      program = "movie" },
+  { id = 2, name = "Music",      program = "music" },
+  { id = 3, name = "Sports",     program = "sports" },
+  { id = 4, name = "Game",       program = "game" },
+  { id = 5, name = "TV Program", program = "tv program" },
+  { id = 6, name = "Stereo",     program = "stereo" },
+}
+local PROGRAM_TO_SURROUND_ID, SURROUND_ID_TO_PROGRAM = {}, {}
+for _, m in ipairs(SURROUND_MODES) do
+  PROGRAM_TO_SURROUND_ID[m.program] = m.id
+  SURROUND_ID_TO_PROGRAM[m.id] = m.program
+end
 
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
 local AV = "urn:schemas-upnp-org:service:AVTransport:1"
@@ -213,6 +235,19 @@ local function NotifyMute(m)
   C4:SendToProxy(RECEIVER_BINDING, "MUTE_CHANGED",
     { MUTE = tostring(m), OUTPUT = tostring(OUTPUT_BINDING) }, "NOTIFY")
 end
+local function NotifySurroundMode(id)
+  -- The proxy docs render this parameter as "SURROUND MODE" (with a space) in the notification
+  -- table but "SurroundMode" in the command table, and the docs have already proven unreliable
+  -- on naming.  Sending all three spellings costs nothing and avoids a hardware round trip to
+  -- find out which one the proxy actually reads.
+  C4:SendToProxy(RECEIVER_BINDING, "SURROUND_MODE_CHANGED", {
+    OUTPUT                = tostring(OUTPUT_BINDING),
+    SURROUND_MODE         = tostring(id),
+    ["SURROUND MODE"]     = tostring(id),
+    SurroundMode          = tostring(id),
+  }, "NOTIFY")
+end
+
 local function NotifyInput(connId)
   C4:SendToProxy(RECEIVER_BINDING, "INPUT_OUTPUT_CHANGED",
     { INPUT = tostring(connId), OUTPUT = tostring(OUTPUT_BINDING) }, "NOTIFY")
@@ -570,6 +605,23 @@ local function PollHttpApiState()
         "power feedback is unavailable. Run 'Probe Yamaha Settings' and read the raw payload.")
     end
 
+    -- Surround mode: reported to the receiver proxy, not to a property.
+    local prog = jsonstr(body, "sound program")
+    if prog then
+      if prog ~= gDeviceSettings["sound program"] then
+        LogInfo("sound program changed at the bar -> %s", prog)
+      end
+      gDeviceSettings["sound program"] = prog
+      local id = PROGRAM_TO_SURROUND_ID[prog]
+      if id then
+        NotifySurroundMode(id)
+      elseif not gUnknownModes["prog:" .. prog] then
+        gUnknownModes["prog:" .. prog] = true
+        LogWarning("bar reports sound program '%s', which is not in SURROUND_MODES -- add it " ..
+          "there AND to <surround_modes> in driver.xml (the ids must match)", prog)
+      end
+    end
+
     -- Writable settings: remember what the bar said BEFORE touching the property, so the
     -- resulting OnPropertyChanged is recognised as an echo and not sent back.
     for _, s in ipairs(SETTING_PROPS) do
@@ -808,6 +860,22 @@ function ReceiverCommands.MUTE_OFF()    SetMute(false) end
 function ReceiverCommands.MUTE_TOGGLE() SetMute(not gMute) end
 function ReceiverCommands.SET_INPUT(p)  local id = ConnIdFromParams(p); if id then SelectInputByConn(id) end end
 function ReceiverCommands.PULSE_INPUT() CycleInput() end
+
+-- Surround section of the device's control UI.  Accepts every spelling of the parameter the
+-- proxy docs use, for the same reason NotifySurroundMode sends all three.
+function ReceiverCommands.SET_SURROUND_MODE(p)
+  local raw = p and (p.SurroundMode or p.SURROUND_MODE or p["SURROUND MODE"] or p.MODE)
+  local id = tonumber(raw)
+  local prog = id and SURROUND_ID_TO_PROGRAM[id]
+  if not prog then
+    LogWarning("SET_SURROUND_MODE: unrecognised mode %s (expected one of the ids in " ..
+      "<surround_modes>)", tostring(raw))
+    return
+  end
+  gDeviceSettings["sound program"] = prog
+  NotifySurroundMode(id)
+  SetYamahaSetting("sound program", prog)
+end
 
 -------------------------------------------------
 -- CLIENT CERT (bundled; gray-area material, gitignored from repo)

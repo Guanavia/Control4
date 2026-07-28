@@ -27,6 +27,29 @@
     <has_discrete_input_select>True</has_discrete_input_select>
     <allow_audio_pathing>True</allow_audio_pathing>
     <volume_number_of_steps>100</volume_number_of_steps>
+
+    <!-- SURROUND.  These populate the Surround section of the device's control UI in Composer;
+         without has_discrete_surround_mode_select + this list, that section is simply empty,
+         which is why it was blank before.  Each id maps to a Yamaha "sound program" string in
+         driver.lua's SURROUND_MODES - THE IDS MUST MATCH THAT TABLE.  All six were confirmed
+         on hardware 2026-07-27 (written, read back, with a negative control). -->
+    <has_discrete_surround_mode_select>True</has_discrete_surround_mode_select>
+    <surround_modes>
+      <surround_mode><name>Movie</name><id>1</id></surround_mode>
+      <surround_mode><name>Music</name><id>2</id></surround_mode>
+      <surround_mode><name>Sports</name><id>3</id></surround_mode>
+      <surround_mode><name>Game</name><id>4</id></surround_mode>
+      <surround_mode><name>TV Program</name><id>5</id></surround_mode>
+      <surround_mode><name>Stereo</name><id>6</id></surround_mode>
+    </surround_modes>
+
+    <!-- EQ (bass / treble / balance / loudness) is deliberately NOT declared.  The Composer EQ
+         section is driven by has_discrete_bass_control / has_up_down_bass_control and their
+         treble/balance/loudness equivalents, and this bar exposes NONE of those: YAMAHA_DATA_GET
+         offers only "subwoofer volume" (a level whose valid range is still unknown) and
+         "bass extension" (an on/off toggle).  There is no treble or balance control on the
+         hardware at all.  Declaring the capability would give the dealer sliders that silently
+         do nothing, which is worse than an empty section.  See README "EQ". -->
   </capabilities>
 
   <connections>
@@ -245,12 +268,11 @@
       <!-- Yamaha sound settings.  Keys confirmed from a live YAMAHA_DATA_GET capture
            (2026-07-27); written back as YAMAHA_DATA_SET:{"<key>":"<value>"}.  All require
            Owner Approved = Yes, since they go over the httpapi path. -->
-      <property>
-        <name>Sound Program</name>
-        <type>LIST</type><readonly>false</readonly><default>movie</default>
-        <items><item>movie</item><item>music</item><item>sports</item><item>game</item><item>tv program</item><item>stereo</item></items>
-        <tooltip>Yamaha sound program (surround mode). All six values were accepted by a YAS-209 on 2026-07-27 (written, then read back). Re-run Actions → Learn Sound Programs on a different model or firmware to re-verify — it leads with a deliberate nonsense value as a negative control, because an all-pass result only means something if the bar rejects something.</tooltip>
-      </property>
+      <!-- Sound Program is NOT a property: it is the receiver proxy's surround mode, so it
+           lives in the device's control UI (Surround section) via <surround_modes> above.
+           The three toggles below have no equivalent in the receiver proxy - it models
+           surround as one mode list, with no notion of independent DSP toggles - so a
+           property is the only place they can live. -->
       <property>
         <name>3D Surround</name>
         <type>LIST</type><readonly>false</readonly><default>Off</default>

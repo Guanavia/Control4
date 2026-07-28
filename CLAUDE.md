@@ -131,9 +131,29 @@ surface found.** The command that was listed as "read" but never actually captur
 hold every Yamaha-specific setting, and `"power saving"` is genuinely there, so the power-feedback
 assumption was right. Full payload + key table in `research/LINKPLAY_RE.md`. Written back via
 `YAMAHA_DATA_SET:{"<key>":"<value>"}` (already proven for power).
-**Now exposed as Composer properties** (all gated on Owner Approved): `Sound Program` (surround),
-`3D Surround`, `Clear Voice`, `Bass Extension` — writable; `Subwoofer Volume`, `Yamaha Volume`,
-`Audio Stream` — display only. The state poll reads them all back.
+**Now exposed** (all gated on Owner Approved): surround via the RECEIVER PROXY (see below);
+`3D Surround`, `Clear Voice`, `Bass Extension` as writable properties; `Subwoofer Volume`,
+`Yamaha Volume`, `Audio Stream` as display-only properties. The state poll reads them all back.
+
+**SURROUND/EQ UI FIXED (2026-07-27, Dave spotted the empty sections).** The Surround + EQ sections
+of a receiver's control UI in Composer are driven ENTIRELY by `<capabilities>`, not by properties.
+Surround needs `<has_discrete_surround_mode_select>` **plus** a `<surround_modes>` list of
+`{<name>,<id>}`; we declared neither, hence blank. Now declares all 6 confirmed modes (ids 1-6),
+handles proxy cmd `SET_SURROUND_MODE`, and sends `SURROUND_MODE_CHANGED` on external change.
+**`Sound Program` was REMOVED as a property** — it is a proxy concept and belongs in the control
+UI. The 3 DSP toggles stay properties because the receiver proxy models surround as ONE mode list
+with no notion of independent toggles. **IDs must match between `driver.xml` `<surround_modes>` and
+`driver.lua` `SURROUND_MODES`** — there is a cross-check script pattern in the commit; re-verify if
+either is edited. Docs render the notification param inconsistently (`SURROUND MODE` with a space
+vs `SurroundMode`), and DriverWorks docs have already proven unreliable on naming, so the driver
+sends/accepts all spellings rather than burning a hardware trip to find out which.
+**EQ deliberately left EMPTY — this is the honest answer, not an omission.** Composer's EQ section
+needs `has_discrete_bass_control`/`has_up_down_bass_control` + treble/balance/loudness equivalents,
+and **the bar has NONE of them**: only `bass extension` (a toggle) and `subwoofer volume` (level,
+range unknown); no treble or balance exists in hardware. Declaring the capability would give
+dealers sliders that silently do nothing — worse than blank. **Route to a real EQ section if
+wanted:** learn `subwoofer volume`'s range (write/readback sweep + negative control, same as sound
+programs) and map it to BASS; second lead is Linkplay's `eq` field via `setPlayerCmd:equalizer:<n>`.
 **Echo-loop guard (important if editing this):** reading a setting updates its property, which
 fires `OnPropertyChanged`, which would send it straight back. Two guards: `gInitDone` (Composer
 walks every property on load — without it the driver would push its DEFAULTS onto the bar on every
