@@ -147,6 +147,24 @@ with no notion of independent toggles. **IDs must match between `driver.xml` `<s
 either is edited. Docs render the notification param inconsistently (`SURROUND MODE` with a space
 vs `SurroundMode`), and DriverWorks docs have already proven unreliable on naming, so the driver
 sends/accepts all spellings rather than burning a hardware trip to find out which.
+**OFFLINE TEST HARNESS BUILT — `Yamaha-Soundbar/test/simharness.lua` (2026-07-27).** Runs
+`driver.lua` with NO controller and NO bar: stubs the `C4` API and simulates the SSL socket end to
+end (`NetConnect`→`ONLINE`→`SendToNetwork`→`ReceivedFromNetwork`→`OFFLINE`), so it exercises the
+real httpapi transport, HTTP parsing and queue. `lua test/simharness.lua driver.lua <clamp|reject|
+acceptall> <ActionName>`. The `acceptall` archetype exists to prove the negative controls still
+fire — if `acceptall LearnSoundPrograms` ever reports a clean all-pass, the control is broken and
+every sweep result is unfalsifiable. **Found THREE real bugs hardware testing had not:**
+(1) **stale-OFFLINE race** — the previous socket's close was attributed to the NEXT request,
+failing it moments before its reply landed (fixed: `PUMP_GAP_MS` settling gap);
+(2) **cooldown raised too late** — the gap was set AFTER the completion callback, and every sweep
+issues its next request from inside that callback, so the one request the gap existed to protect
+skipped it (fixed: raise `gCooldown` before invoking the callback);
+(3) **unreliable baseline** in the subwoofer sweep — probes are classified by "did it change from
+before", with no starting value established, making the negative control a coin flip.
+**(1) and (2) are LATENT ON HARDWARE** — timing happened to work on the bar, so sweeps returned
+correct results while silently logging failed writes. Use this harness before every hardware trip;
+each trip costs a rebuild + Composer remove/re-add + a walk to the bar.
+
 **EQ deliberately left EMPTY — this is the honest answer, not an omission.** Composer's EQ section
 needs `has_discrete_bass_control`/`has_up_down_bass_control` + treble/balance/loudness equivalents,
 and **the bar has NONE of them**: only `bass extension` (a toggle) and `subwoofer volume` (level,

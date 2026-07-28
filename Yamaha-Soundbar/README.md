@@ -60,11 +60,20 @@ EQ-adjacent is either a toggle (`bass extension`) or a level with an unknown val
 capability anyway would hand a dealer sliders that silently do nothing — worse than an empty
 section.
 
-The one realistic route to a populated EQ section is mapping **bass → `subwoofer volume`**, which
-needs its range established first. That is a learnable thing (write values, read back, keep what
-sticks — with a negative control, as the sound-program sweep does), just not yet done. Linkplay's
-`eq` field in `getPlayerStatus` is a second lead, probably written via
-`setPlayerCmd:equalizer:<n>`, also untested.
+The one realistic route to a populated EQ section is mapping **bass → `subwoofer volume`** — the
+app's Subwoofer Boost, a signed level centred on 0 that moves both ways alongside the bass
+extension toggle. Its limits are unknown, so **Actions → Learn Subwoofer Range** finds them: it
+reads a baseline, writes a junk value as a negative control, then steps outward in each direction
+until the bar either clamps (which reveals the limit in a single write) or refuses. Once the range
+is known it can be mapped to the receiver proxy's BASS control for a real slider. Linkplay's `eq`
+field in `getPlayerStatus` is a second lead, probably written via `setPlayerCmd:equalizer:<n>`,
+untested.
+
+## Testing without hardware
+
+`test/simharness.lua` runs the driver against a simulated bar — see [test/README.md](test/README.md).
+It has already caught three transport bugs that hardware testing missed, two of which were silently
+latent on the real device. Run it before any hardware trip.
 
 ## Inputs
 

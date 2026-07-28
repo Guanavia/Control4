@@ -38,6 +38,8 @@ local OUTPUT_BINDING   = 7000
 local UPNP_PORT        = 49152
 local HTTPAPI_PORT     = 443
 local HTTPAPI_TIMEOUT_MS = 10000
+-- Settling gap between one httpapi request finishing and the next starting; see HttpApiFinish.
+local PUMP_GAP_MS = 250
 
 -- Passphrase for the bundled private key.  Only consulted when driver.xml marks
 -- <private_key protected="True"> -- the shipped build uses a PLAIN key, so Director
@@ -182,6 +184,7 @@ local gSslOnline   = false   -- socket is up and the mutual-TLS handshake succee
 local gQueue       = {}      -- pending { command, cb } requests
 local gInFlight    = nil     -- { command, cb, sent, rx } currently on the wire
 local gReqTimer    = nil
+local gCooldown    = false   -- settling gap after a request; see HttpApiFinish
 
 -------------------------------------------------
 -- LOGGING
@@ -333,6 +336,11 @@ local function HttpApiFinish(ok, body, why)
   -- We always asked for "Connection: close", so the socket is spent either way.
   pcall(function() C4:NetDisconnect(SSL_BINDING, HTTPAPI_PORT) end)
   gSslOnline = false
+  -- Raise the cooldown BEFORE running the callback, not after.  Every sweep issues its next
+  -- request from inside that callback, so setting the flag afterwards lets exactly the request
+  -- we are trying to protect slip out early and collide with the trailing OFFLINE.
+  gCooldown = true
+
   if req then
     if ok then
       LogDebug("httpapi '%s' OK (%s, %d byte body)", req.command, tostring(why), #(body or ""))
@@ -341,7 +349,19 @@ local function HttpApiFinish(ok, body, why)
     end
     if req.cb then pcall(req.cb, ok, body) end
   end
-  if PumpQueue then PumpQueue() end
+  -- Do NOT start the next request immediately.  We just called NetDisconnect, and the OFFLINE
+  -- notification for THAT socket is still in flight; if the next request has already connected
+  -- by the time it lands, the stale OFFLINE is attributed to the NEW request and kills it
+  -- ("socket closed with no response at all") even though its reply arrives moments later.
+  -- The offline harness reproduces this deterministically.
+  --
+  -- gCooldown (raised above, before the callback) is what makes the gap actually hold: every
+  -- sweep issues its next request from inside that callback, and HttpApiGet pumps the queue
+  -- directly, so without the flag the new request would start instantly and skip the gap.
+  C4:SetTimer(PUMP_GAP_MS, function()
+    gCooldown = false
+    if PumpQueue then PumpQueue() end
+  end, false)
 end
 
 local function SendHttpApiRequest()
@@ -425,7 +445,9 @@ local function HttpApiGet(command, cb)
   -- noise at best and misleading at worst.  The handshake decides.
   gQueue[#gQueue + 1] = { command = command, cb = cb }
   LogTrace("httpapi queued '%s' (depth %d)", tostring(command), #gQueue)
-  PumpQueue()
+  -- During the post-request cooldown the timer in HttpApiFinish owns the pump; starting here
+  -- would race the previous socket's trailing OFFLINE (see there).
+  if not gCooldown then PumpQueue() end
 end
 
 -------------------------------------------------
@@ -847,6 +869,166 @@ local function LearnSoundPrograms()
 end
 
 -------------------------------------------------
+-- LEARN SUBWOOFER RANGE
+--
+-- "subwoofer volume" is the app's Subwoofer Boost: SIGNED, centred on 0, moving both ways
+-- (confirmed by Dave from the app UI).  Its limits are unknown, and writing an out-of-range
+-- value blind is exactly the guesswork this driver has avoided everywhere else -- so learn it.
+--
+-- The sweep exploits a useful asymmetry: a device that CLAMPS tells you its limit in a single
+-- write (send 99, read back 6, the max is 6), whereas one that REJECTS holds its previous
+-- value and has to be walked up a ladder.  Each direction therefore steps outward and stops at
+-- the first informative answer, whichever kind it is.  Worst case ~30 probes; usually far
+-- fewer.  A junk value goes first, as always -- an all-accept result means nothing if the field
+-- is not validated (see SOUND_PROGRAM_CONTROL, and note this bar returns 200 OK on garbage).
+-------------------------------------------------
+local SUBWOOFER_KEY  = "subwoofer volume"
+local SUB_PROBE_JUNK = "c4junk"
+local SUB_LADDER     = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 24, 30, 50 }
+
+local gSubLearn = nil
+
+local function SubLearnReport()
+  local L = gSubLearn
+  LogInfo("---- learned subwoofer range ----")
+  if L.aborted then
+    LogWarning("INCONCLUSIVE: %s", L.aborted)
+  else
+    LogInfo("  maximum: %s   (%s)", tostring(L.max), tostring(L.maxHow))
+    LogInfo("  minimum: %s   (%s)", tostring(L.min), tostring(L.minHow))
+    if L.max and L.min then
+      LogInfo("Range is %s..%s. Paste into driver.lua SUBWOOFER_RANGE and declare bass in",
+        tostring(L.min), tostring(L.max))
+      LogInfo("driver.xml <capabilities> to give the EQ section a real bass slider.")
+    else
+      LogWarning("could not establish one or both limits -- see the per-probe lines above")
+    end
+  end
+  local restore = L.restore
+  gSubLearn = nil
+  if restore then
+    LogInfo("[sublearn] restoring %s = %s", SUBWOOFER_KEY, restore)
+    SetYamahaSetting(SUBWOOFER_KEY, restore)
+  end
+  LogInfo("---------------------------------")
+end
+
+local SubLearnStep
+
+-- Classify one probe: did the value stick, get clamped, or get refused?
+local function SubLearnClassify(wrote, got, before)
+  if got == wrote then return "accepted" end
+  if got == before then return "rejected" end
+  return "clamped"
+end
+
+local function SubLearnNext()
+  local L = gSubLearn
+  if L.stage == "baseline" then
+    L.stage, L.idx = "control", 1
+  elseif L.stage == "control" then
+    L.stage, L.idx = "up", 1
+  elseif L.stage == "up" then
+    L.idx = L.idx + 1
+    if not SUB_LADDER[L.idx] then L.stage, L.idx = "down", 1 end
+  elseif L.stage == "down" then
+    L.idx = L.idx + 1
+    if not SUB_LADDER[L.idx] then L.stage = "done" end
+  end
+  SubLearnStep()
+end
+
+SubLearnStep = function()
+  local L = gSubLearn
+  if not L then return end
+  if L.stage == "done" or L.aborted then SubLearnReport(); return end
+
+  -- Establish the starting value FIRST.  Every later verdict is "did it change from what was
+  -- there before", so without a known baseline the very first classification -- the negative
+  -- control, which gates the whole sweep -- is a coin flip.  (Caught by the offline harness:
+  -- with no baseline a refused junk write was being reported as "clamped".)
+  if L.stage == "baseline" then
+    HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+      local got = ok and jsonstr(body, SUBWOOFER_KEY) or nil
+      if not got then
+        L.aborted = "could not read a starting subwoofer value from YAMAHA_DATA_GET"
+        SubLearnReport(); return
+      end
+      L.current, L.restore = got, (L.restore or got)
+      gDeviceSettings[SUBWOOFER_KEY] = got
+      LogInfo("[sublearn] baseline: subwoofer is currently '%s'", got)
+      SubLearnNext()
+    end)
+    return
+  end
+
+  local wrote
+  if L.stage == "control" then wrote = SUB_PROBE_JUNK
+  elseif L.stage == "up"   then wrote = tostring(SUB_LADDER[L.idx])
+  else                          wrote = tostring(-SUB_LADDER[L.idx]) end
+
+  local before = L.current
+  LogInfo("[sublearn] %s: writing '%s' (device currently '%s')", L.stage, wrote, tostring(before))
+  SetYamahaSetting(SUBWOOFER_KEY, wrote, function()
+    C4:SetTimer(LEARN_SETTLE_MS, function()
+      HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+        local got = ok and jsonstr(body, SUBWOOFER_KEY) or nil
+        if not got then
+          L.aborted = "no subwoofer reading came back from YAMAHA_DATA_GET"
+          SubLearnReport(); return
+        end
+        local verdict = SubLearnClassify(wrote, got, before)
+        L.current = got
+        gDeviceSettings[SUBWOOFER_KEY] = got
+        LogInfo("[sublearn]   -> bar reports '%s'  (%s)", got, verdict)
+
+        if L.stage == "control" then
+          if verdict == "accepted" then
+            L.aborted = "the bar accepted the junk value '" .. SUB_PROBE_JUNK ..
+              "', so it does not validate this field and no limit can be trusted"
+            SubLearnReport(); return
+          end
+          LogInfo("[sublearn] negative control OK (junk %s) -- probing limits", verdict)
+        elseif verdict == "accepted" then
+          if L.stage == "up" then L.max, L.maxHow = tonumber(got), "highest value accepted"
+          else                    L.min, L.minHow = tonumber(got), "lowest value accepted" end
+        elseif verdict == "clamped" then
+          -- The single most informative outcome: the bar just told us its limit.
+          if L.stage == "up" then
+            L.max, L.maxHow = tonumber(got), "clamped from " .. wrote
+            L.idx = #SUB_LADDER   -- limit found, stop climbing
+          else
+            L.min, L.minHow = tonumber(got), "clamped from " .. wrote
+            L.idx = #SUB_LADDER
+          end
+        else -- rejected: previous value held, so we have already passed the limit
+          if L.stage == "up" then
+            L.maxHow = L.max and "last accepted before " .. wrote .. " was refused" or nil
+            L.idx = #SUB_LADDER
+          else
+            L.minHow = L.min and "last accepted before " .. wrote .. " was refused" or nil
+            L.idx = #SUB_LADDER
+          end
+        end
+        SubLearnNext()
+      end)
+    end, false)
+  end)
+end
+
+local function LearnSubwooferRange()
+  if not gOwnerOK then
+    LogWarning("Learn Subwoofer Range needs Owner Approved = Yes (it uses httpapi)")
+    return
+  end
+  if gSubLearn then LogWarning("a subwoofer sweep is already running"); return end
+  local cur = gDeviceSettings[SUBWOOFER_KEY]
+  gSubLearn = { stage = "baseline", idx = 1, restore = cur, current = cur }
+  LogInfo("---- learning subwoofer range: this WILL move the subwoofer level ----")
+  SubLearnStep()
+end
+
+-------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
 -------------------------------------------------
 local ReceiverCommands = {}
@@ -965,6 +1147,7 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "ProbeSettings"     then ProbeSettings()
   elseif strCommand == "LearnInputCodes"   then LearnInputCodes()
   elseif strCommand == "LearnSoundPrograms" then LearnSoundPrograms()
+  elseif strCommand == "LearnSubwooferRange" then LearnSubwooferRange()
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()

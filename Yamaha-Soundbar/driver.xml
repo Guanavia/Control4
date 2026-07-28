@@ -340,6 +340,7 @@
       <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
       <action><name>Learn Input Codes (cycles every input, then prints the table)</name><command>LearnInputCodes</command></action>
       <action><name>Learn Sound Programs (tries each candidate, reports which stick)</name><command>LearnSoundPrograms</command></action>
+      <action><name>Learn Subwoofer Range (finds the boost limits, for a real bass slider)</name><command>LearnSubwooferRange</command></action>
     </actions>
   </config>
 
