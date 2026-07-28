@@ -144,11 +144,16 @@ Write the same keys back with `YAMAHA_DATA_SET:{"<key>":"<value>"}` (already pro
 | `Model name` | `YAS-209` | **the trustworthy model string** — better than `getStatusEx`'s `project`=`YAS_109` |
 | `NET Standby`, `HDMI Control`, `Auto Power Stby`, `voice control`, `Dimmer` | | not exposed yet — setup-level options |
 
-> **Only `movie` is a confirmed `sound program` wire string.** The YAS-209's documented modes
-> (music, sports, game, tv program, stereo) are what the *product* offers, which is not the same as
-> what the *API* accepts. The `Learn Sound Programs` Action writes each candidate and reads back to
-> see which the bar adopts — same self-identifying trick that settled the input codes, where
-> HDMI=49 proved that guessing from published vocabulary would have been wrong.
+**`sound program` values — all six ACCEPTED (2026-07-27):** `movie`, `music`, `sports`, `game`,
+`tv program`, `stereo`. Each was written and then read back via `YAMAHA_DATA_GET`; the bar reported
+every one correctly. Note the wire strings are **lowercase, with a space** in `tv program`.
+
+> **Caveat, and the reason the sweep now leads with a negative control:** an all-pass result only
+> proves the values are real if the bar *validates* this field. A device that blindly stores and
+> echoes any string would produce an identical all-pass and tell us nothing. `Learn Sound Programs`
+> therefore writes `c4_not_a_real_program` first — that MUST come back rejected. If the bar echoes
+> it too, the sweep is reported INCONCLUSIVE and the modes need verifying by ear. This control was
+> added *after* the first sweep, so **the all-pass result above has not yet been validated by it**.
 
 ### Device fingerprint (`getStatusEx`, this unit)
 | Field | Value | Note |

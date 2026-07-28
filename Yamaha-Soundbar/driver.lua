@@ -105,10 +105,16 @@ local READONLY_SETTINGS = {
   { prop = "Yamaha Volume",    key = "Master volume" },
 }
 
--- CANDIDATES for "sound program".  Only "movie" is confirmed (it was the live value in the
--- capture); the rest are the YAS-209's documented modes and are UNVERIFIED as wire strings.
--- The "Learn Sound Programs" Action writes each one and reads back to see which stick.
+-- "sound program" values.  ALL SIX CONFIRMED on hardware 2026-07-27 via Learn Sound Programs
+-- (written, then read back).  See SOUND_PROGRAM_CONTROL for why the sweep also writes junk.
 local SOUND_PROGRAM_CANDIDATES = { "movie", "music", "sports", "game", "tv program", "stereo" }
+
+-- NEGATIVE CONTROL.  A sweep where everything is "accepted" only proves something if the bar
+-- actually VALIDATES what it is given -- a device that blindly stores and echoes any string
+-- would produce an identical all-pass result and tell us nothing.  So the sweep also writes
+-- this deliberate nonsense value: it MUST come back rejected.  If the bar echoes it too, the
+-- readback is worthless as evidence and the whole sweep is reported as INCONCLUSIVE.
+local SOUND_PROGRAM_CONTROL = "c4_not_a_real_program"
 
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
 local AV = "urn:schemas-upnp-org:service:AVTransport:1"
@@ -702,21 +708,39 @@ end
 -------------------------------------------------
 -- LEARN SOUND PROGRAMS
 --
--- Only "movie" is a CONFIRMED wire string (it was the live value in the capture).  The rest
--- of SOUND_PROGRAM_CANDIDATES are the YAS-209's documented modes, which is not the same thing
--- as knowing what the API calls them.  Same trick as the input sweep: write a candidate, read
--- YAMAHA_DATA_GET back, and keep only the ones the bar actually adopted.
+-- All six values in SOUND_PROGRAM_CANDIDATES came back ACCEPTED on 2026-07-27.  The sweep is
+-- kept for re-running on other models/firmware, and now leads with a negative control, because
+-- an all-pass result is only meaningful if the bar rejects something -- see
+-- SOUND_PROGRAM_CONTROL.
 -------------------------------------------------
 local gProgLearn = nil
 
 local function ProgLearnFinish()
   LogInfo("---- learned sound programs ----")
-  local good, bad = {}, {}
+  local good, bad, control = {}, {}, nil
   for _, r in ipairs(gProgLearn.results) do
-    if r.ok then good[#good + 1] = r.tried else bad[#bad + 1] = r.tried end
-    LogInfo("  %-12s -> %s", r.tried, r.ok and "ACCEPTED" or ("rejected (bar reports '" ..
-      tostring(r.got) .. "')"))
+    if r.control then
+      control = r
+    else
+      if r.ok then good[#good + 1] = r.tried else bad[#bad + 1] = r.tried end
+      LogInfo("  %-12s -> %s", r.tried, r.ok and "ACCEPTED" or ("rejected (bar reports '" ..
+        tostring(r.got) .. "')"))
+    end
   end
+
+  -- Interpret the negative control BEFORE reporting anything as confirmed.
+  if control and control.ok then
+    LogWarning("NEGATIVE CONTROL FAILED: the bar echoed back the nonsense value '%s'.",
+      SOUND_PROGRAM_CONTROL)
+    LogWarning("That means it stores whatever string it is given WITHOUT validating, so the")
+    LogWarning("readback proves nothing and this sweep is INCONCLUSIVE -- an 'accepted' value")
+    LogWarning("may still do nothing audible. Verify the modes by ear instead.")
+  elseif control then
+    LogInfo("negative control OK: nonsense value was rejected (bar reports '%s'), so the bar",
+      tostring(control.got))
+    LogInfo("does validate this field and the results below are real.")
+  end
+
   LogInfo("ACCEPTED: %s", #good > 0 and table.concat(good, ", ") or "(none)")
   if #bad > 0 then
     LogInfo("REJECTED: %s -- remove these from the Sound Program property's <items> in driver.xml",
@@ -733,16 +757,17 @@ end
 
 local function ProgLearnStep()
   if not gProgLearn then return end
-  local cand = SOUND_PROGRAM_CANDIDATES[gProgLearn.idx]
-  if not cand then ProgLearnFinish(); return end
-  LogInfo("[proglearn] %d/%d trying '%s' ...", gProgLearn.idx, #SOUND_PROGRAM_CANDIDATES, cand)
-  SetYamahaSetting("sound program", cand, function()
+  local item = gProgLearn.work[gProgLearn.idx]
+  if not item then ProgLearnFinish(); return end
+  LogInfo("[proglearn] %d/%d trying '%s'%s ...", gProgLearn.idx, #gProgLearn.work, item.value,
+    item.control and "  (NEGATIVE CONTROL - this one MUST be rejected)" or "")
+  SetYamahaSetting("sound program", item.value, function()
     C4:SetTimer(LEARN_SETTLE_MS, function()
       HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
         local got = ok and jsonstr(body, "sound program") or nil
         gProgLearn.results[#gProgLearn.results + 1] =
-          { tried = cand, got = got, ok = (got == cand) }
-        LogInfo("[proglearn] '%s' -> bar reports '%s'", cand, tostring(got))
+          { tried = item.value, got = got, ok = (got == item.value), control = item.control }
+        LogInfo("[proglearn] '%s' -> bar reports '%s'", item.value, tostring(got))
         gProgLearn.idx = gProgLearn.idx + 1
         ProgLearnStep()
       end)
@@ -756,7 +781,11 @@ local function LearnSoundPrograms()
     return
   end
   if gProgLearn then LogWarning("a sound-program sweep is already running"); return end
-  gProgLearn = { idx = 1, results = {}, restore = gDeviceSettings["sound program"] }
+  -- Control first, so an all-pass result can never be reported before we know whether the
+  -- bar validates this field at all.
+  local work = { { value = SOUND_PROGRAM_CONTROL, control = true } }
+  for _, c in ipairs(SOUND_PROGRAM_CANDIDATES) do work[#work + 1] = { value = c } end
+  gProgLearn = { idx = 1, work = work, results = {}, restore = gDeviceSettings["sound program"] }
   LogInfo("---- learning sound programs: this WILL change the bar's sound mode ----")
   if not gProgLearn.restore then
     LogWarning("no known current sound program to restore afterwards (state poll has not run " ..

@@ -139,10 +139,16 @@ fires `OnPropertyChanged`, which would send it straight back. Two guards: `gInit
 walks every property on load — without it the driver would push its DEFAULTS onto the bar on every
 single load) and a per-key compare against `gDeviceSettings` (the last value the BAR reported), so
 only a genuine user edit writes.
-**Still unverified:** only `movie` is a CONFIRMED `sound program` wire string. The other YAS-209
-modes are what the *product* offers, not necessarily what the *API* accepts — new **Learn Sound
-Programs** Action writes each candidate and reads back to see which stick (same self-identifying
-trick as the input sweep; prune the property's `<items>` afterward).
+**SOUND PROGRAMS — all six ACCEPTED (2026-07-27):** `movie`, `music`, `sports`, `game`,
+`tv program`, `stereo` (lowercase, space in `tv program`). Written then read back; the bar reported
+each correctly, so no pruning was needed.
+**BUT the sweep now leads with a NEGATIVE CONTROL, and the above predates it.** An all-pass result
+only proves anything if the bar *validates* the field — a device that blindly stores and echoes any
+string produces an identical all-pass and tells us nothing. `Learn Sound Programs` now writes
+`c4_not_a_real_program` FIRST; it must come back rejected, and if the bar echoes it the sweep is
+reported **INCONCLUSIVE** with a pointer to verify by ear. **Re-run once to validate the all-pass.**
+Generalise this: every learn-by-readback sweep in this repo should carry a negative control, or an
+all-pass is unfalsifiable.
 **Other finds:** `Model name`=`YAS-209` is the trustworthy model string (vs `getStatusEx`'s bogus
 `project`=`YAS_109`); `Master volume` (24) is NOT the UPnP 0-100 scale (Linkplay `vol` read 63 at
 the same moment) — relationship unresolved, so it is display-only; `NET Standby`/`HDMI Control`/
@@ -194,13 +200,16 @@ gone rather than merely demoted — a cert warning that fires on a working syste
 warning at all.
 
 **NEXT (in order):**
-1. **Run `Learn Sound Programs`** — prunes the `Sound Program` property to the values the bar
-   actually accepts. Then spot-check the new settings properties (3D Surround / Clear Voice /
-   Bass Extension) write correctly, and confirm power/input feedback tracks the Yamaha remote.
-2. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
-3. **IR as the shipping default** control method (per the original design: IP is the owner's path,
+1. **Re-run `Learn Sound Programs`** — only to see the negative control land (should print
+   "negative control OK: nonsense value was rejected"). If it instead prints NEGATIVE CONTROL
+   FAILED, the all-pass above is meaningless and the modes need checking by ear.
+2. **Spot-check the settings properties** (Sound Program / 3D Surround / Clear Voice / Bass
+   Extension) write correctly from Composer, and confirm power/input feedback tracks the Yamaha
+   remote — that is the whole point of the state poll and it has not been observed working yet.
+3. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
+4. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers).
-4. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
+5. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
    the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
    presets (`preset_key: 6`).
 

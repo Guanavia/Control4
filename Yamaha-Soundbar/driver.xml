@@ -249,7 +249,7 @@
         <name>Sound Program</name>
         <type>LIST</type><readonly>false</readonly><default>movie</default>
         <items><item>movie</item><item>music</item><item>sports</item><item>game</item><item>tv program</item><item>stereo</item></items>
-        <tooltip>Yamaha sound program (surround mode). Only "movie" is a CONFIRMED wire string — it was the live value in the capture. The others are the YAS-209's documented modes, which is not the same as knowing what the API calls them. Run Actions → Learn Sound Programs to find out which this unit actually accepts, then prune this list.</tooltip>
+        <tooltip>Yamaha sound program (surround mode). All six values were accepted by a YAS-209 on 2026-07-27 (written, then read back). Re-run Actions → Learn Sound Programs on a different model or firmware to re-verify — it leads with a deliberate nonsense value as a negative control, because an all-pass result only means something if the bar rejects something.</tooltip>
       </property>
       <property>
         <name>3D Surround</name>
