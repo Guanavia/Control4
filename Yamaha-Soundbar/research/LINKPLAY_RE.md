@@ -148,12 +148,15 @@ Write the same keys back with `YAMAHA_DATA_SET:{"<key>":"<value>"}` (already pro
 `tv program`, `stereo`. Each was written and then read back via `YAMAHA_DATA_GET`; the bar reported
 every one correctly. Note the wire strings are **lowercase, with a space** in `tv program`.
 
-> **Caveat, and the reason the sweep now leads with a negative control:** an all-pass result only
-> proves the values are real if the bar *validates* this field. A device that blindly stores and
-> echoes any string would produce an identical all-pass and tell us nothing. `Learn Sound Programs`
-> therefore writes `c4_not_a_real_program` first — that MUST come back rejected. If the bar echoes
-> it too, the sweep is reported INCONCLUSIVE and the modes need verifying by ear. This control was
-> added *after* the first sweep, so **the all-pass result above has not yet been validated by it**.
+**NEGATIVE CONTROL PASSED (re-run 2026-07-27).** Writing `c4_not_a_real_program` returned HTTP 200
+`OK` — the *write* is always acknowledged — but the bar then reported `movie`, i.e. it **kept its
+previous value and silently discarded the junk**. So this field is genuinely validated device-side,
+which is what makes the all-pass above real evidence rather than an echo.
+
+> Two lessons worth carrying to the next device: **(1)** a `200 OK` on the write means nothing here
+> — the bar acknowledges garbage just as readily as a valid value, so only the *readback*
+> distinguishes them. **(2)** an all-pass sweep with no negative control is unfalsifiable; every
+> learn-by-readback sweep should write one deliberate junk value.
 
 ### Device fingerprint (`getStatusEx`, this unit)
 | Field | Value | Note |

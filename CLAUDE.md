@@ -142,13 +142,13 @@ only a genuine user edit writes.
 **SOUND PROGRAMS — all six ACCEPTED (2026-07-27):** `movie`, `music`, `sports`, `game`,
 `tv program`, `stereo` (lowercase, space in `tv program`). Written then read back; the bar reported
 each correctly, so no pruning was needed.
-**BUT the sweep now leads with a NEGATIVE CONTROL, and the above predates it.** An all-pass result
-only proves anything if the bar *validates* the field — a device that blindly stores and echoes any
-string produces an identical all-pass and tells us nothing. `Learn Sound Programs` now writes
-`c4_not_a_real_program` FIRST; it must come back rejected, and if the bar echoes it the sweep is
-reported **INCONCLUSIVE** with a pointer to verify by ear. **Re-run once to validate the all-pass.**
-Generalise this: every learn-by-readback sweep in this repo should carry a negative control, or an
-all-pass is unfalsifiable.
+**NEGATIVE CONTROL PASSED (re-run, same day) — so the all-pass is REAL evidence, not an echo.**
+Writing `c4_not_a_real_program` returned HTTP 200 `OK` (the write is always acknowledged) but the
+bar then reported `movie` — it kept its previous value and silently discarded the junk. The field
+is validated device-side. **Two transferable lessons: (1) a `200 OK` on a write means NOTHING on
+this device — garbage is acknowledged exactly like a valid value, so only the READBACK
+distinguishes them; (2) every learn-by-readback sweep needs a deliberate junk value or an all-pass
+is unfalsifiable.** Apply both to the next locked device.
 **Other finds:** `Model name`=`YAS-209` is the trustworthy model string (vs `getStatusEx`'s bogus
 `project`=`YAS_109`); `Master volume` (24) is NOT the UPnP 0-100 scale (Linkplay `vol` read 63 at
 the same moment) — relationship unresolved, so it is display-only; `NET Standby`/`HDMI Control`/
@@ -204,11 +204,22 @@ warning at all.
    "negative control OK: nonsense value was rejected"). If it instead prints NEGATIVE CONTROL
    FAILED, the all-pass above is meaningless and the modes need checking by ear.
 2. **Spot-check the settings properties** (Sound Program / 3D Surround / Clear Voice / Bass
-   Extension) write correctly from Composer, and confirm power/input feedback tracks the Yamaha
-   remote — that is the whole point of the state poll and it has not been observed working yet.
+   Extension) write correctly from Composer, and confirm power/input feedback tracks an EXTERNAL
+   change — the whole point of the state poll, still never observed working.
+   **NOTE: the physical Yamaha remote is LOST (confirmed by Dave 2026-07-27).** Use one of these
+   instead as the external-change source: (a) the **Yamaha/Linkplay phone app** — already installed,
+   it is where the client cert was extracted from (`com.wifiaudio.Yamaha`), so it is the easiest
+   option; (b) the bar's **top-panel touch buttons** (power / input / volume / Bluetooth); or
+   (c) **HDMI-CEC from the TV**. Any of them proves the poll reconciles state it did not originate.
 3. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
 4. **IR as the shipping default** control method (per the original design: IP is the owner's path,
-   IR is what ships to dealers).
+   IR is what ships to dealers). **PLANNING CHANGE — the physical remote is LOST, so IR codes
+   CANNOT be learned by capture on this unit.** IR must therefore come from a code database:
+   Control4's own IR database (search the driver catalog / Composer's IR code sets for YAS-209 or a
+   sibling Yamaha bar), or a public set (Global Caché IR database, iRule/JP1). Verify by firing at
+   the bar and watching the httpapi state poll confirm the effect — **the IP path we just built is
+   now the test instrument for the IR path**, which is a genuinely nice side-effect: send IR, read
+   state back over TLS, and see whether it landed. Without a remote there is no other ground truth.
 5. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
    the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
    presets (`preset_key: 6`).
