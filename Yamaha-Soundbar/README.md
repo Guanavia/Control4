@@ -5,11 +5,12 @@ Presents to Control4 as a **Receiver** proxy (power / volume / mute / input sele
 for transport and hardware bringup.
 
 > **The YAS-209 is not a MusicCast/YXC device.** It is a **Linkplay (WiiMu)** module — port 80 is
-> closed and there is no YXC API on it. The v1 driver was written against the YXC docs and was
-> wrong for this unit; the whole control layer was reverse-engineered from scratch. Full playbook,
-> including cert extraction and the general method for other locked devices:
-> [`research/LINKPLAY_RE.md`](research/LINKPLAY_RE.md). `research/DESIGN.md` is the superseded v1
-> design, kept only for reference.
+> closed and there is no YXC API on it. The FIRST architecture was written against the YXC docs
+> and was wrong for this unit; the whole control layer was then reverse-engineered from scratch.
+> Full playbook, including cert extraction and the general method for other locked devices:
+> [`research/LINKPLAY_RE.md`](research/LINKPLAY_RE.md). `research/DESIGN.md` is that superseded
+> first design, kept only for reference. *(Those "first/second architecture" generations are not
+> product versions — the product version is in [`VERSION`](VERSION) and is semantic.)*
 
 ## Status
 
@@ -19,6 +20,10 @@ for transport and hardware bringup.
 | Power / input select | Linkplay httpapi on `:443`, mutual TLS | **Validated on the real bar** (real director, 2026-07-27) — handshake, `getStatusEx`, power on/off and input select all confirmed |
 
 **Full IP control works end to end.**
+
+**Product version: `0.9.0`** (see [`VERSION`](VERSION)) — pre-release. It becomes **`1.0.0`** at
+first release, once IR is verified on the bar. Per repo convention, `1.0.0` means shipped; `0.x`
+means still in the pipeline.
 
 ## State feedback
 
@@ -83,8 +88,65 @@ Linkplay's `eq` field in `getPlayerStatus` is a separate, untested lead, probabl
 ## Testing without hardware
 
 `test/simharness.lua` runs the driver against a simulated bar — see [test/README.md](test/README.md).
-It has already caught three transport bugs that hardware testing missed, two of which were silently
+It has already caught five bugs that hardware testing missed, two of which were silently
 latent on the real device. Run it before any hardware trip.
+
+## IR bringup — start here if IR "does nothing"
+
+IR is one-way. The driver gets no acknowledgement, so **a wrong code, an unbound connection, a
+missing emitter and a command the driver never routed to IR all look identical** — total silence.
+The only way through is to eliminate them in order, and the actions below exist to do exactly that.
+
+**1. `IR Emitter Test: Power On`.** Fires one code with nothing else in the path: no proxy, no
+capabilities, no Control Method check, no `Owner Approved`, no IP address. Its output goes through
+the unsilenceable log path, so it reports even with `Log Mode = Off`.
+
+- **Emitter blinks** → the binding and emitter are fine. Any remaining failure is the code set or
+  the routing; go to step 2.
+- **No blink** → stop. It is physical: the IR output is not bound to this driver's IR connection,
+  the emitter is not in the port, or it is not over the bar's IR window. No code change helps.
+
+**2. `Verify IR Codes`.** Fires each code and scores it by reading the bar back over the IP path,
+so every code gets an objective verdict. It needs `Owner Approved = Yes` and an `IP Address` —
+without the readback there is no ground truth at all. It refuses loudly if either is missing.
+
+**Control Method does not gate this.** `Verify IR Codes` and the emitter tests call `C4:SendIR`
+directly, so they work with Control Method = IP. That is deliberate: IP is the measuring
+instrument for the IR path, and you want both at once.
+
+Each code is scored against a **prepared** baseline — the bar is first driven to the *opposite*
+state over IP, and if that fails the code is reported `INCONCLUSIVE` rather than passed. Without
+this, `POWER_ON` "passes" whenever the bar is already on, i.e. with no emitter connected at all.
+The offline harness caught exactly that false pass; `lua test/simharness.lua driver.lua noemitter
+VerifyIrCodes` is the standing negative control (must report nothing working) and `... irworks
+VerifyIrCodes` the positive one (must report everything working).
+
+### What IR can and cannot drive
+
+| Control | Over IR | Note |
+|---|---|---|
+| Power on/off | yes | |
+| Mute on/off/toggle | yes | |
+| Volume up/down (press) | yes | one pulse per press |
+| Volume (slider / absolute) | approximated | pulses toward the target from the last assumed level; drifts, since nothing confirms it |
+| Volume press-and-hold | yes | `C4:SendIRStart`/`Stop`, falls back to a single pulse |
+| Input select | **no** | refuses with a message — the seeded YSP-1000 set has TV/DVD/VCR/AUX, not this bar's inputs |
+| Surround / EQ / subwoofer | **no** | IP only |
+
+`<capabilities>` is **not per-control-method** — `has_discrete_volume_control` applies in IR mode
+too, so Navigator and Halo send `SET_VOLUME_LEVEL` regardless. Every proxy command therefore needs
+an IR branch or an explicit refusal; a command with neither falls through to the IP path and
+silently emits nothing. Unimplemented proxy commands are now reported once each through the
+unsilenceable path for this reason.
+
+### Code provenance
+
+Patterns are **candidates** seeded from Control4's Yamaha YSP-1000 driver (a 2005 soundbar).
+Yamaha reuses system codes, so power/volume/mute have a fair chance; nothing is confirmed on the
+YAS-209. `transmit` must be `PULSE` — the seed marks volume as `SUSTAIN`, which is an `av_gen`
+convention where the *proxy* drives `SendIRStart`/`Stop` for you. A DriverWorks driver calls
+`C4:SendIR` itself, and every shipping `lua_gen` IR driver checked (Pioneer VSX-LX503, 433 codes)
+uses `PULSE` exclusively. The volume codes were converted on that basis.
 
 ## Inputs
 
@@ -169,6 +231,32 @@ ENCRYPT_KEY=1 ./build.sh   # encrypted key + protected="True"  (fallback, see be
 A `.c4z` is just a zip of the driver files at the archive root — no `research/`, no build script,
 no README. The build stages into a temp dir, bundles the client cert, and prints what actually
 went into the archive.
+
+### Versioning — two different versions, only one of which Composer compares
+
+A Control4 driver carries **two unrelated version strings**, and confusing them costs a session:
+
+| | Where | What it does |
+|---|---|---|
+| **Product version** | `./VERSION`, semantic | What we call the driver. **Pre-release is `0.x`; the first RELEASE is `1.0.0`.** Edit by hand when the product moves. |
+| **`<version>`** | `driver.xml`, a plain **integer** | A build counter, auto-bumped by `build.sh`. **The only one Composer compares** on Add/Update Driver — equal versions → *"versions are equal"* and your new code never loads. Not human-facing; the catalog agrees (Pioneer VSX-LX503 = 117, Onkyo TX-NR747 = 104). |
+| **"Driver Version"** | a readonly property | **What Composer displays** — the stamped combination of the two above. |
+
+The display property was maintained by hand and drifted: it read `2.1.0` for four builds while
+`<version>` climbed 3→4→5. So "Composer says 2.1.0" and "the package is version 6" were both
+true and neither answered the question.
+
+All of it now comes from **one stamp**. The token `@BUILD@` appears in the property default, the
+`UpdateProp` call and the load-line log; `build.sh` replaces all three at package time with
+`v<product> (build <n>, <sha8>)` and **fails the build if the token is missing** — a version display
+that can lie is worse than none. `build.sh` also **auto-bumps `<version>`** when the content
+changed but the version did not (an unchanged rebuild keeps its number, so iterating doesn't
+churn it). Never hardcode a version string here again.
+
+The build prints the version, fingerprint and package sha; the driver logs the same string on
+load through the unsilenceable path. **If the controller logs a different build than the one you
+just built, Composer did not take your file** — check which file it opened (a stale copy that
+hasn't synced to the Composer machine is the usual cause) before suspecting the code.
 
 ### Encrypted-key fallback (not needed — the plain key works)
 

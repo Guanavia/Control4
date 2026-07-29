@@ -47,6 +47,42 @@ except Exception as e:
 print('driver.xml OK')
 PYEOF
 
+# Composer caches drivers BY VERSION: install a .c4z whose <version> matches the one already in
+# the project and it refuses with "versions are equal" -- the new code never loads. Bumping by
+# hand is the step that gets forgotten, so the build does it: if the driver content changed but
+# the version did not, increment it. An unchanged rebuild keeps its version, so this does not
+# churn the number while iterating.
+python3 - <<'PYEOF' || exit 1
+import re, sys, zipfile, os
+OUT = "Yamaha-Soundbar.c4z"
+src = open('driver.xml').read()
+cur = int(re.search(r'<version>(\d+)</version>', src).group(1))
+if not os.path.exists(OUT):
+    print("version %d (no previous build to compare)" % cur); sys.exit(0)
+try:
+    with zipfile.ZipFile(OUT) as z:
+        old_xml = z.read('driver.xml').decode()
+        old_lua = z.read('driver.lua').decode()
+except Exception as e:
+    print("could not read previous %s (%s) - leaving version %d" % (OUT, e, cur)); sys.exit(0)
+old = int(re.search(r'<version>(\d+)</version>', old_xml).group(1))
+# Compare like for like. The PACKAGED copies have @BUILD@ already replaced by the stamp, so a raw
+# comparison against the tokenised source always differs and the counter would climb on every
+# build -- including builds where only a README changed. Un-stamp the packaged copies first.
+UNSTAMP = re.compile(r'v[\d.]+ \(build \d+, [0-9a-f]{8}\)')
+norm = lambda s: UNSTAMP.sub('@BUILD@', re.sub(r'<version>\d+</version>', '', s))
+changed = (norm(old_xml) != norm(src)) or (norm(old_lua) != norm(open('driver.lua').read()))
+if changed and cur <= old:
+    new = old + 1
+    open('driver.xml', 'w').write(
+        re.sub(r'<version>\d+</version>', '<version>%d</version>' % new, src, count=1))
+    print("driver changed but version was %d (same as the last build) - BUMPED to %d" % (cur, new))
+elif changed:
+    print("version %d (previous build was %d)" % (cur, old))
+else:
+    print("version %d (content identical to the last build)" % cur)
+PYEOF
+
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 
@@ -78,7 +114,48 @@ else
   echo "      Volume/mute/transport (UPnP) will work; power/input over IP will not."
 fi
 
+# Stamp the packaged version and a content fingerprint into the driver's load line, which logs
+# through the unsilenceable path. That line is the ONLY way to confirm which build a controller
+# is actually running -- "I updated the driver" and "Composer kept the old one" look identical
+# from Composer, and this project has already lost a session to that.
+# TWO different versions, deliberately kept apart:
+#   * PRODUCT version (./VERSION) - semantic, human-facing, what we call the driver. Pre-release
+#     is 0.x; the FIRST RELEASE is 1.0.0. Edit ./VERSION by hand when the product moves.
+#   * <version> in driver.xml - a plain INTEGER build counter, auto-bumped above. It exists only
+#     so Composer can tell one package from the next; the catalog confirms nobody puts a semantic
+#     version here (Pioneer VSX-LX503 = 117, Onkyo TX-NR747 = 104). Not human-facing.
+PRODUCT_VERSION="$(tr -d '[:space:]' < VERSION)"
+BUILDNO="$(grep -o '<version>[0-9]*</version>' "$STAGE/driver.xml" | head -1 | tr -cd '0-9')"
+FINGERPRINT="$(cat driver.lua driver.xml | shasum -a 256 | cut -c1-8)"
+python3 - "$STAGE" "$PRODUCT_VERSION" "$BUILDNO" "$FINGERPRINT" <<'PYEOF'
+import sys, os
+stage, product, buildno, fp = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+stamp = 'v%s (build %s, %s)' % (product, buildno, fp)
+total = 0
+for name in ('driver.lua', 'driver.xml'):
+    path = os.path.join(stage, name)
+    s = open(path).read()
+    n = s.count('@BUILD@')
+    if n:
+        open(path, 'w').write(s.replace('@BUILD@', stamp))
+    total += n
+if total == 0:
+    print('ERROR: no @BUILD@ token found to stamp - the version display would be a lie')
+    sys.exit(1)
+print('stamped "%s" into %d place(s)' % (stamp, total))
+PYEOF
+
 rm -f "$OUT"
 ( cd "$STAGE" && zip -r "$OLDPWD/$OUT" . -x '*.DS_Store' -x '__MACOSX*' >/dev/null )
-echo "Built $OUT"
 unzip -l "$OUT"
+echo
+echo "================================================================"
+echo "  Built $OUT"
+echo "  product version  : $PRODUCT_VERSION   <- what we call it (./VERSION; 1.0.0 = first release)"
+echo "  driver <version> : $BUILDNO          <- integer build counter; Composer compares THIS"
+echo "  fingerprint      : $FINGERPRINT"
+echo "  package sha256   : $(shasum -a 256 "$OUT" | cut -c1-16)"
+echo
+echo "  On load the driver logs: \"Yamaha Soundbar v$PRODUCT_VERSION (build $BUILDNO, $FINGERPRINT)\""
+echo "  If the controller logs a different build, Composer did not take this file."
+echo "================================================================"

@@ -62,13 +62,31 @@ local IR = {
 -- What "Verify IR Codes" fires, and how it tells whether the code actually landed.  The check
 -- reads the bar over the IP path, which is why verification needs Owner Approved even though IR
 -- itself does not: IR is one-way, so without the IP readback there is no ground truth at all.
+--
+-- `prep` is what makes the result mean anything.  Scoring a state code purely as
+-- "field == want after firing" passes whenever the bar was ALREADY in the wanted state -- so
+-- with the bar on and unmuted, POWER_ON and MUTE_OFF both score WORKS with no emitter
+-- connected at all.  The offline harness caught exactly that.  So every state code first
+-- drives the bar to the OPPOSITE state over IP; if the field does not actually start opposite,
+-- the code is scored INCONCLUSIVE rather than passed.  Same lesson as the subwoofer sweep:
+-- a probe with no established baseline is a coin flip.
+--
+-- Order matters: the mute and volume codes need the bar awake, so the power codes run last.
 local IR_VERIFY = {
-  { code = IR.POWER_ON,    label = "POWER_ON",    key = "power saving", want = "1" },
-  { code = IR.POWER_OFF,   label = "POWER_OFF",   key = "power saving", want = "0" },
-  { code = IR.MUTE_ON,     label = "MUTE_ON",     key = "mute",         want = "1" },
-  { code = IR.MUTE_OFF,    label = "MUTE_OFF",    key = "mute",         want = "0" },
-  { code = IR.VOLUME_UP,   label = "VOLUME_UP",   key = "Master volume", delta = "up" },
-  { code = IR.VOLUME_DOWN, label = "VOLUME_DOWN", key = "Master volume", delta = "down" },
+  { code = IR.MUTE_ON,     label = "MUTE_ON",     key = "mute",          want = "1",
+    prep = { 'YAMAHA_DATA_SET:{"power saving":"1"}', "setPlayerCmd:mute:0" } },
+  { code = IR.MUTE_OFF,    label = "MUTE_OFF",    key = "mute",          want = "0",
+    prep = { "setPlayerCmd:mute:1" } },
+  -- Volume is scored by direction of change, so its baseline is whatever the bar reads now.
+  -- Pulled off the rails only if the bar is at an endpoint, hence the mid-scale nudge.
+  { code = IR.VOLUME_UP,   label = "VOLUME_UP",   key = "Master volume", delta = "up",
+    prep = { "setPlayerCmd:mute:0", "setPlayerCmd:vol:40" } },
+  { code = IR.VOLUME_DOWN, label = "VOLUME_DOWN", key = "Master volume", delta = "down",
+    prep = { "setPlayerCmd:vol:40" } },
+  { code = IR.POWER_OFF,   label = "POWER_OFF",   key = "power saving",  want = "0",
+    prep = { 'YAMAHA_DATA_SET:{"power saving":"1"}' } },
+  { code = IR.POWER_ON,    label = "POWER_ON",    key = "power saving",  want = "1",
+    prep = { 'YAMAHA_DATA_SET:{"power saving":"0"}' } },
 }
 
 -- Control4 input connection id -> Linkplay switchmode value.
@@ -205,6 +223,7 @@ local gPollTimer  = nil
 local gStatePollSecs  = 30    -- httpapi power/input read-back; 0 = disabled
 local gStatePollTimer = nil
 local gUnknownModes   = {}    -- modes already reported, so the log warns once each
+local gUnhandledProxyCmds = {}  -- proxy commands already reported as unimplemented (once each)
 -- Last value the BAR reported for each Yamaha setting key.  This is what stops an echo loop:
 -- reading a setting updates its Composer property, which fires OnPropertyChanged, which would
 -- otherwise send the value straight back.  A write only goes out when the new property value
@@ -530,15 +549,59 @@ end
 -- the reason IP stays the better option for an owner who can use it.  IR exists because it is
 -- what ships to dealers, needs no client certificate, and works on any unit.
 -------------------------------------------------
+-- When true, every IR send also reports through the UNSILENCEABLE path.  Set during the
+-- IR test/verify Actions.  Bringup taught this the hard way: the whole IR layer was landing
+-- on a driver whose Log Mode had reset to "Off", so a fired code and a refused one were
+-- indistinguishable -- both produced total silence.  A diagnostic you have to remember to
+-- enable is not a diagnostic during bringup.
+local gIrLoud = false
+
 local function SendIR(code, label)
   if not code then return false end
+  local name = tostring(label or "?")
+  -- The docs say C4:SendIR(idBinding, idIRCode) takes the numeric id, but Control4's own
+  -- shipping lua_gen drivers (c4_ir_connection template) pass it as a STRING.  Only one of
+  -- those is verified working, and it is not the documented one -- so try the documented
+  -- form and fall back, rather than spending a hardware trip deciding which is right.
   local ok, err = pcall(function() C4:SendIR(IR_BINDING, code) end)
+  if not ok then
+    local ok2, err2 = pcall(function() C4:SendIR(IR_BINDING, tostring(code)) end)
+    if ok2 then
+      LogCritical("C4:SendIR needed the STRING code form (numeric threw: %s) -- worth baking in.",
+        tostring(err))
+      ok, err = true, nil
+    else
+      err = tostring(err) .. " / string form: " .. tostring(err2)
+    end
+  end
   if ok then
-    LogDebug("IR -> %s (code %d)", tostring(label or "?"), code)
+    LogDebug("IR -> %s (code %d) on binding %d", name, code, IR_BINDING)
+    if gIrLoud then
+      LogCritical("IR fired: %s (code %d) on binding %d. C4:SendIR did not error -- if the " ..
+        "emitter did not blink, the problem is the binding or the emitter, NOT this code.",
+        name, code, IR_BINDING)
+    end
   else
-    LogError("C4:SendIR(%d, %d) threw: %s", IR_BINDING, code, tostring(err))
+    -- A throw here means the API call itself is wrong (the C4:Log / C4:ReadFile trap again).
+    -- That can never be gated behind a log level: it means IR cannot work at all.
+    LogCritical("C4:SendIR(%d, %s) THREW: %s -- IR output is not functional.",
+      IR_BINDING, tostring(code), tostring(err))
   end
   return ok
+end
+
+-- Fire exactly one code with no other machinery in the way: no proxy, no capabilities, no
+-- Control Method check, no Owner Approved, no IP address.  This is the instrument that
+-- separates "the emitter/binding is dead" from "the code is wrong" -- the two failures that
+-- look identical from the driver's side, because IR is one-way.
+local function IrFireOne(codeName)
+  local code = IR[codeName]
+  if not code then LogCritical("IR test: no such code %s", tostring(codeName)); return end
+  LogCritical("---- IR emitter test: firing %s (code %d) on binding %d ----", codeName, code, IR_BINDING)
+  LogCritical("Watch the emitter LED. This bypasses Control Method, Owner Approved and the IP path.")
+  gIrLoud = true
+  SendIR(code, codeName)
+  gIrLoud = false
 end
 
 -- True when this command should go out as IR rather than over IP.
@@ -549,9 +612,46 @@ local function UsingIR() return gCtrlMethod == "IR" end
 -------------------------------------------------
 local function xmlval(body, tag) return body and body:match("<" .. tag .. ">(.-)</" .. tag .. ">") end
 
+-- Absolute volume over IR.  There is no "set to 40" IR code, so the only way to honour a
+-- discrete request is to pulse toward it from the level we last believed.  That drifts,
+-- because nothing confirms it -- hence the cap and the honest log line.
+--
+-- This path exists because <capabilities> is NOT per-control-method: has_discrete_volume_control
+-- is declared once and applies in IR mode too, so Navigator's slider and Halo BOTH send
+-- SET_VOLUME_LEVEL regardless of Control Method.  Before this branch existed, that command fell
+-- straight through to UPnP SOAP and fired NO IR at all -- the single biggest reason "IR mode did
+-- nothing" when the volume control was the thing being pressed.
+local IR_VOL_STEP_PCT  = 2    -- assumed change per VOLUME_UP/DOWN pulse
+local IR_VOL_MAX_PULSE = 20   -- never machine-gun the emitter on a big jump
+
+local function SetVolumeLevelIR(level)
+  local from  = gYxcVolume or 20
+  local delta = level - from
+  local n     = math.floor(math.abs(delta) / IR_VOL_STEP_PCT + 0.5)
+  if n > IR_VOL_MAX_PULSE then n = IR_VOL_MAX_PULSE end
+  if n < 1 then
+    LogDebug("IR volume: %d -> %d is under one step, nothing sent", from, level)
+    return
+  end
+  local up   = delta > 0
+  local code = up and IR.VOLUME_UP or IR.VOLUME_DOWN
+  LogDebug("IR volume: %d -> %d = %d %s pulse(s) (assumed %d%%/pulse; NOT confirmed by the bar)",
+    from, level, n, up and "up" or "down", IR_VOL_STEP_PCT)
+  for _ = 1, n do SendIR(code, up and "VOLUME_UP" or "VOLUME_DOWN") end
+  gYxcVolume = from + (up and 1 or -1) * n * IR_VOL_STEP_PCT
+end
+
 local function SetVolumeLevel(level)
   if not level then return end
   if level < 0 then level = 0 elseif level > 100 then level = 100 end
+  if UsingIR() then
+    SetVolumeLevelIR(level)
+    -- Report the level we were ASKED for, not the one we inferred: the UI slider has to track
+    -- the user's own drag or it fights them. The inferred value stays internal (gYxcVolume).
+    UpdateProp("Current Volume", tostring(level))
+    NotifyVolume(level)
+    return
+  end
   gYxcVolume = level
   UpdateProp("Current Volume", tostring(level))
   NotifyVolume(level)
@@ -568,6 +668,26 @@ local function VolStep(dir)
   end
   local base = gYxcVolume or 20
   SetVolumeLevel(base + (dir == "up" and 3 or -3))
+end
+
+-- Held volume (Navigator/Halo press-and-hold).  SUSTAIN-style ramping is what C4:SendIRStart /
+-- C4:SendIRStop are for; plain C4:SendIR only ever emits a single burst.  If the proxy sends
+-- these at all they must be handled, or a held button does nothing.
+local function VolRamp(dir, start)
+  if not UsingIR() then
+    if start then VolStep(dir) end
+    return
+  end
+  local code = (dir == "up") and IR.VOLUME_UP or IR.VOLUME_DOWN
+  local fn   = start and "SendIRStart" or "SendIRStop"
+  local ok, err = pcall(function() C4[fn](C4, IR_BINDING, code) end)
+  if not ok then
+    LogCritical("C4:%s(%d, %d) threw: %s -- falling back to a single pulse.",
+      fn, IR_BINDING, code, tostring(err))
+    if start then SendIR(code, "VOLUME_" .. string.upper(dir)) end
+  else
+    LogDebug("IR ramp %s: %s", fn, dir)
+  end
 end
 
 local function SetMute(m)
@@ -1170,25 +1290,36 @@ local gIrVerify = nil
 
 local function IrVerifyReport()
   local V = gIrVerify
-  LogInfo("---- IR code verification ----")
-  local pass, fail = {}, {}
+  LogCritical("---- IR code verification ----")
+  local pass, fail, skip = {}, {}, {}
   for _, r in ipairs(V.results) do
-    LogInfo("  %-12s %s   (%s)", r.label, r.ok and "WORKS" or "no effect", r.detail)
-    if r.ok then pass[#pass + 1] = r.label else fail[#fail + 1] = r.label end
+    local verdict = r.inconclusive and "INCONCLUSIVE" or (r.ok and "WORKS" or "no effect")
+    LogCritical("  %-12s %s   (%s)", r.label, verdict, r.detail)
+    if r.inconclusive then skip[#skip + 1] = r.label
+    elseif r.ok         then pass[#pass + 1] = r.label
+    else                     fail[#fail + 1] = r.label end
   end
-  LogInfo("WORKING: %s", #pass > 0 and table.concat(pass, ", ") or "(none)")
+  LogCritical("WORKING: %s", #pass > 0 and table.concat(pass, ", ") or "(none)")
   if #fail > 0 then
-    LogInfo("NOT WORKING: %s", table.concat(fail, ", "))
-    LogInfo("Those need capturing from the real Yamaha remote; the seeded patterns are from a")
-    LogInfo("2005 YSP-1000 and evidently do not match this bar for those functions.")
+    LogCritical("NOT WORKING: %s", table.concat(fail, ", "))
+    LogCritical("Those need capturing from the real Yamaha remote; the seeded patterns are from a")
+    LogCritical("2005 YSP-1000 and evidently do not match this bar for those functions.")
+  end
+  if #skip > 0 then
+    LogCritical("INCONCLUSIVE (not scored): %s", table.concat(skip, ", "))
+    LogCritical("The bar could not be put into the opposite state over IP first, so firing the")
+    LogCritical("code would have 'passed' even with no emitter. Re-run once the IP path is well.")
   end
   if #pass == 0 then
-    LogWarning("NOTHING worked. Before concluding the codes are wrong, check the physical side:")
-    LogWarning("is an IR emitter bound to the IR connection AND stuck over the bar's IR window?")
-    LogWarning("A missing emitter looks exactly like a wrong code set from here.")
+    LogCritical("NOTHING worked. Before concluding the codes are wrong, check the physical side:")
+    LogCritical("is an IR emitter bound to the IR connection AND stuck over the bar's IR window?")
+    LogCritical("A missing emitter looks exactly like a wrong code set from here.")
+    LogCritical("Run 'IR Emitter Test: Power On' first -- it fires one code with nothing else in")
+    LogCritical("the path, so a blink there clears the emitter and blames the code set instead.")
   end
   gIrVerify = nil
-  LogInfo("------------------------------")
+  gIrLoud = false
+  LogCritical("------------------------------")
 end
 
 local IrVerifyStep
@@ -1212,10 +1343,27 @@ local function IrVerifyMeasure(before, item)
     end
     gIrVerify.results[#gIrVerify.results + 1] =
       { label = item.label, ok = good, detail = detail }
-    LogInfo("[irverify] %s -> %s (%s)", item.label, good and "WORKS" or "no effect", detail)
+    LogCritical("[irverify] %s -> %s (%s)", item.label, good and "WORKS" or "no effect", detail)
     gIrVerify.idx = gIrVerify.idx + 1
     IrVerifyStep()
   end)
+end
+
+-- Drive the bar to the state that makes the upcoming code's result meaningful, then continue.
+local function IrVerifyPrep(item, done)
+  local cmds = item.prep or {}
+  local i = 0
+  local function next_()
+    i = i + 1
+    if not cmds[i] then
+      -- Let the bar settle before the baseline read, so we measure the prepped state and not
+      -- the one it is still leaving.
+      C4:SetTimer(IR_SETTLE_MS, done, false)
+      return
+    end
+    HttpApiGet(cmds[i], function() next_() end)
+  end
+  next_()
 end
 
 IrVerifyStep = function()
@@ -1223,28 +1371,55 @@ IrVerifyStep = function()
   if not V then return end
   local item = IR_VERIFY[V.idx]
   if not item then IrVerifyReport(); return end
-  -- Read the field BEFORE firing, so the comparison is against known state rather than an
-  -- assumption -- the same baseline lesson the subwoofer sweep taught.
-  HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
-    local before = ok and jsonstr(body, item.key) or nil
-    LogInfo("[irverify] %d/%d firing %s (%s currently %s)",
-      V.idx, #IR_VERIFY, item.label, item.key, tostring(before))
-    SendIR(item.code, item.label)
-    C4:SetTimer(IR_SETTLE_MS, function() IrVerifyMeasure(before, item) end, false)
+  LogCritical("[irverify] %d/%d %s: preparing the bar over IP ...", V.idx, #IR_VERIFY, item.label)
+  IrVerifyPrep(item, function()
+    -- Read the field BEFORE firing, so the comparison is against known state rather than an
+    -- assumption -- the same baseline lesson the subwoofer sweep taught.
+    HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+      local before = ok and jsonstr(body, item.key) or nil
+      -- If the baseline is ALREADY what the code is supposed to produce, firing proves nothing:
+      -- the code would "pass" with the emitter unplugged. Refuse to score it.
+      if item.want and before == item.want then
+        local detail = string.format("baseline is already %s=%s; prep did not move it",
+          item.key, tostring(before))
+        gIrVerify.results[#gIrVerify.results + 1] =
+          { label = item.label, ok = false, inconclusive = true, detail = detail }
+        LogCritical("[irverify] %s -> INCONCLUSIVE (%s)", item.label, detail)
+        gIrVerify.idx = gIrVerify.idx + 1
+        IrVerifyStep()
+        return
+      end
+      LogCritical("[irverify] %d/%d firing %s (%s currently %s)",
+        V.idx, #IR_VERIFY, item.label, item.key, tostring(before))
+      SendIR(item.code, item.label)
+      C4:SetTimer(IR_SETTLE_MS, function() IrVerifyMeasure(before, item) end, false)
+    end)
   end)
 end
 
 local function VerifyIrCodes()
+  -- Every refusal below is LogCritical, not LogWarning.  This action refused silently once:
+  -- adding the IR connection required re-adding the driver, a re-add resets Owner Approved to
+  -- "No" AND Log Mode to "Off", so the guard fired and explained itself down a channel the same
+  -- reset had just switched off.  The result was indistinguishable from a dead emitter.
   if not gOwnerOK then
-    LogWarning("Verify IR Codes needs Owner Approved = Yes: IR is one-way, so the check reads " ..
-      "the result back over the IP path. Without it there is no way to tell a working code " ..
-      "from a missing emitter.")
+    LogCritical("Verify IR Codes REFUSED: Owner Approved = No. IR is one-way, so this check " ..
+      "reads the result back over the IP path -- without it there is no way to tell a working " ..
+      "code from a missing emitter. Set Owner Approved = Yes. (Re-adding the driver resets " ..
+      "this property to No -- check it before the code.)")
     return
   end
-  if gIrVerify then LogWarning("an IR verification is already running"); return end
+  if not DeviceAddress() then
+    LogCritical("Verify IR Codes REFUSED: IP Address is blank, so there is no readback path " ..
+      "and no way to score a code. (A re-add also blanks this property.)")
+    return
+  end
+  if gIrVerify then LogCritical("an IR verification is already running"); return end
   gIrVerify = { idx = 1, results = {} }
-  LogInfo("---- verifying IR codes: this WILL power the bar off and on, and change volume ----")
-  LogInfo("Requires an IR emitter bound to the IR connection and aimed at the bar.")
+  gIrLoud = true
+  LogCritical("---- verifying IR codes: this WILL power the bar off and on, and change volume ----")
+  LogCritical("Requires an IR emitter bound to the IR connection and aimed at the bar.")
+  LogCritical("Control Method does NOT gate this: it calls SendIR directly, so it works in IP mode.")
   IrVerifyStep()
 end
 
@@ -1257,6 +1432,17 @@ function ReceiverCommands.OFF() SetPower(false) end
 function ReceiverCommands.SET_VOLUME_LEVEL(p) SetVolumeLevel(tonumber(p and p.LEVEL)) end
 function ReceiverCommands.PULSE_VOL_UP()   VolStep("up")   end
 function ReceiverCommands.PULSE_VOL_DOWN() VolStep("down") end
+-- Press-and-hold ramping.  Which of these the proxy actually emits is unconfirmed, so all the
+-- spellings seen in the receiver-proxy docs are accepted -- same reasoning as the surround-mode
+-- parameter names: cheaper than spending a hardware trip finding out which one is real.
+function ReceiverCommands.START_VOL_UP()   VolRamp("up",   true)  end
+function ReceiverCommands.STOP_VOL_UP()    VolRamp("up",   false) end
+function ReceiverCommands.START_VOL_DOWN() VolRamp("down", true)  end
+function ReceiverCommands.STOP_VOL_DOWN()  VolRamp("down", false) end
+ReceiverCommands.STARTVOLUMEUP    = ReceiverCommands.START_VOL_UP
+ReceiverCommands.STOPVOLUMEUP     = ReceiverCommands.STOP_VOL_UP
+ReceiverCommands.STARTVOLUMEDOWN  = ReceiverCommands.START_VOL_DOWN
+ReceiverCommands.STOPVOLUMEDOWN   = ReceiverCommands.STOP_VOL_DOWN
 function ReceiverCommands.MUTE_ON()     SetMute(true)  end
 function ReceiverCommands.MUTE_OFF()    SetMute(false) end
 function ReceiverCommands.MUTE_TOGGLE() SetMute(not gMute) end
@@ -1369,6 +1555,9 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "LearnSoundPrograms" then LearnSoundPrograms()
   elseif strCommand == "LearnSubwooferRange" then LearnSubwooferRange()
   elseif strCommand == "VerifyIrCodes"     then VerifyIrCodes()
+  elseif strCommand == "IrTestPowerOn"     then IrFireOne("POWER_ON")
+  elseif strCommand == "IrTestVolumeUp"    then IrFireOne("VOLUME_UP")
+  elseif strCommand == "IrTestMuteOn"      then IrFireOne("MUTE_ON")
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()
@@ -1390,7 +1579,7 @@ function OnDriverInit()  LogInfo("OnDriverInit") end
 
 function OnDriverLateInit()
   LogInfo("Yamaha Soundbar driver loaded (build 2026-07-27-a; UPnP validated on hardware, httpapi now on a raw SSL socket)")
-  UpdateProp("Driver Version", "2.1.0")
+  UpdateProp("Driver Version", "@BUILD@")
   for k, _ in pairs(Properties or {}) do OnPropertyChanged(k) end
   CheckCert()
   CheckConfigured()
@@ -1530,10 +1719,22 @@ function ReceivedFromProxy(idBinding, sCommand, tParams)
   LogTrace("ReceivedFromProxy: binding=%s cmd=%s", tostring(idBinding), tostring(sCommand))
   if idBinding == RECEIVER_BINDING then
     local h = ReceiverCommands[sCommand]
-    if h then h(tParams) else LogWarning("Unhandled receiver command: %s", tostring(sCommand)) end
+    if h then
+      h(tParams)
+    else
+      -- Unsilenceable, once per command name per load.  "The UI button did nothing" and "the
+      -- driver never implemented that button" are the same experience from the outside, and
+      -- the default Log Mode = Off made the difference invisible.  Deduped so a proxy that
+      -- repeats an unknown command cannot flood the director log.
+      if not gUnhandledProxyCmds[sCommand] then
+        gUnhandledProxyCmds[sCommand] = true
+        LogCritical("Receiver proxy sent '%s', which this driver does not implement -- that " ..
+          "button will do nothing. (Reported once per driver load.)", tostring(sCommand))
+      end
+    end
   else
     LogWarning("ReceivedFromProxy: unknown binding %s", tostring(idBinding))
   end
 end
 
-LogInfo("driver.lua loaded (Yamaha Soundbar / Linkplay IP)")
+LogCritical("driver.lua loaded: Yamaha Soundbar @BUILD@")

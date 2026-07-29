@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>5</version>
+  <version>11</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -277,8 +277,8 @@
         <ircode>
           <id>106</id>
           <name>VOLUME_UP</name>
-          <transmit>SUSTAIN</transmit>
-          <repeatcount>1</repeatcount>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
           <delayafter>0</delayafter>
           <pattern>0000 006c 0024 0002 015a 00af 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0014 0043 0014 0043 0014 0017 0015 0042 0015 0042 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0015 0042 0015 0016 0015 0042 0015 0042 0015 0042 0015 0042 0015 0016 0015 0016 0015 0016 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0015 0042 0015 0600 015a 0058 0015 0e76 015a 0058 0014 0e77</pattern>
           <altpattern />
@@ -286,8 +286,8 @@
         <ircode>
           <id>107</id>
           <name>VOLUME_DOWN</name>
-          <transmit>SUSTAIN</transmit>
-          <repeatcount>1</repeatcount>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
           <delayafter>0</delayafter>
           <pattern>0000 006c 0024 0002 015a 00af 0014 0017 0015 0016 0015 0016 0014 0043 0014 0043 0014 0043 0016 0041 0016 0015 0014 0043 0016 0041 0016 0041 0016 0015 0016 0015 0015 0016 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0014 0017 0016 0015 0015 0016 0014 0017 0016 0015 0014 0017 0015 0016 0014 0043 0016 0041 0016 0041 0016 05ff 015a 0058 0014 0e77 015a 0058 0015 0e76</pattern>
           <altpattern />
@@ -326,9 +326,14 @@
     <script file="driver.lua" jit="1" />
 
     <properties>
+      <!-- The default below is a build token, replaced at package time with the real packaged
+           <version> plus a content fingerprint. It used to be a hand-maintained "2.1.0" that
+           drifted out of step with the <version> Composer actually compares on update, so this
+           property displayed one number while the driver was another. Never hardcode a version
+           here again: this property, the load-line log and <version> all come from one stamp. -->
       <property>
         <name>Driver Version</name>
-        <type>STRING</type><readonly>true</readonly><default>2.1.0</default>
+        <type>STRING</type><readonly>true</readonly><default>@BUILD@</default>
       </property>
       <property>
         <name>Model</name>
@@ -460,6 +465,14 @@
       <action><name>Learn Sound Programs (tries each candidate, reports which stick)</name><command>LearnSoundPrograms</command></action>
       <action><name>Learn Subwoofer Range (finds the boost limits)</name><command>LearnSubwooferRange</command></action>
       <action><name>Verify IR Codes (fires each, confirms the effect over IP)</name><command>VerifyIrCodes</command></action>
+      <!-- Emitter tests: fire ONE code with nothing else in the path. No proxy, no
+           capabilities, no Control Method check, no Owner Approved, no IP address. IR is
+           one-way, so "wrong code" and "dead emitter" look identical from the driver; these
+           separate them. Output goes through the unsilenceable log path, so they still report
+           with Log Mode = Off. -->
+      <action><name>IR Emitter Test: Power On</name><command>IrTestPowerOn</command></action>
+      <action><name>IR Emitter Test: Volume Up</name><command>IrTestVolumeUp</command></action>
+      <action><name>IR Emitter Test: Mute On</name><command>IrTestMuteOn</command></action>
     </actions>
   </config>
 

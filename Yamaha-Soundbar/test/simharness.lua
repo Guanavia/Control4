@@ -4,14 +4,32 @@
 -- real httpapi transport and HTTP parsing, not just the learn logic.
 
 local DRIVER = arg[1]
-local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall
+local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall | noemitter | irworks
 local ACTION = arg[3] or "LearnSubwooferRange"
+
+------------------------------------------------------------------ declared IR codes
+-- Read straight out of driver.xml so the sim rejects any id the driver would send but the
+-- package does not declare. That mismatch is invisible on hardware (IR is one-way, so a bad
+-- id and a dead emitter both produce silence) and it is exactly the class of bug this
+-- harness exists to catch before a trip to the bar.
+local IRCODES = {}
+do
+  local xml = io.open((DRIVER or "driver.lua"):gsub("%.lua$", ".xml"), "r")
+  if xml then
+    local text = xml:read("*a"); xml:close()
+    for block in text:gmatch("<ircode>(.-)</ircode>") do
+      local id   = block:match("<id>%s*(%d+)%s*</id>")
+      local name = block:match("<name>%s*(.-)%s*</name>")
+      if id then IRCODES[id] = name or "?" end
+    end
+  end
+end
 
 ------------------------------------------------------------------ simulated bar
 local dev = {
   ["power saving"] = "1", ["sound program"] = "movie", ["3D surround"] = "1",
   ["clear voice"] = "0", ["bass extension"] = "0", ["subwoofer volume"] = "0",
-  ["Master volume"] = "24", ["Audio Stream"] = "PCM",
+  ["Master volume"] = "24", ["Audio Stream"] = "PCM", ["mute"] = "0",
 }
 local SUB_MIN, SUB_MAX = -6, 6
 local writes = {}
@@ -51,6 +69,10 @@ local function handle(command)
   end
   if command:match("^getPlayerStatus") then return '{"mode":"43","eq":"0","vol":"45","mute":"0"}' end
   if command:match("^getStatusEx") then return '{"yamaha_model_name":"YAS_209"}' end
+  local m = command:match("^setPlayerCmd:mute:(%d)")
+  if m then dev["mute"] = m; return "OK" end
+  local v = command:match("^setPlayerCmd:vol:(%d+)")
+  if v then dev["Master volume"] = v; return "OK" end
   if command:match("^setPlayerCmd") then return "OK" end
   return "unknown command"
 end
@@ -76,6 +98,9 @@ end
 
 ------------------------------------------------------------------ C4 stub
 local props, proxied = {}, {}
+-- Fired IR codes, in order. Recording these is the point: IR is one-way on real hardware, so
+-- the ONLY place the driver's own IR decisions can be observed is here.
+local irFired = {}
 local sslOnline = false
 C4 = {}
 function C4:ErrorLog(s) end
@@ -83,6 +108,37 @@ function C4:UpdateProperty(n, v) props[n] = v end
 function C4:SendToProxy(b, cmd, params, kind) proxied[#proxied+1] = { cmd = cmd, params = params } end
 function C4:SetTimer(ms, fn, rep) schedule(ms, fn); return { Cancel = function() end, Reset = function() end } end
 function C4:FileExists() return true end
+-- What a bar that OBEYS these codes would do. Used by the "irworks" archetype as the positive
+-- control: the sweep must report WORKS here. Without it, a sweep broken in the always-fail
+-- direction is indistinguishable from a genuinely wrong code set -- which is the exact
+-- conclusion the real run is meant to draw, so it has to be earned.
+local IR_EFFECT = {
+  ["101"] = function() dev["power saving"] = "1" end,
+  ["102"] = function() dev["power saving"] = "0" end,
+  ["137"] = function() dev["mute"] = "1" end,
+  ["138"] = function() dev["mute"] = "0" end,
+  ["106"] = function() dev["Master volume"] = tostring((tonumber(dev["Master volume"]) or 24) + 1) end,
+  ["107"] = function() dev["Master volume"] = tostring((tonumber(dev["Master volume"]) or 24) - 1) end,
+}
+
+function C4:SendIR(binding, code)
+  if ARCHETYPE == "noemitter" then
+    irFired[#irFired+1] = { binding = binding, code = tostring(code), dead = true }
+    return
+  end
+  -- Real Director accepts the id of an <ircode> declared in driver.xml. Mirror that: an
+  -- undeclared id is a driver bug that must not pass silently in the sim either.
+  if not IRCODES[tostring(code)] then
+    error(("no <ircode> with id %s in driver.xml"):format(tostring(code)))
+  end
+  irFired[#irFired+1] = { binding = binding, code = tostring(code) }
+  if ARCHETYPE == "irworks" then
+    local fx = IR_EFFECT[tostring(code)]
+    if fx then fx() end
+  end
+end
+function C4:SendIRStart(binding, code) irFired[#irFired+1] = { binding = binding, code = tostring(code), start = true } end
+function C4:SendIRStop(binding, code)  irFired[#irFired+1] = { binding = binding, code = tostring(code), stop = true } end
 function C4:CreateNetworkConnection() end
 function C4:NetPortOptions() end
 function C4:NetDisconnect() sslOnline = false end
@@ -109,8 +165,17 @@ function C4:url()
 end
 
 ------------------------------------------------------------------ run
+-- "PROXY:<CMD>" drives a receiver-proxy command instead of a Composer Action, and "IR:<CMD>"
+-- does the same with Control Method = IR. That second form is what a Navigator/Halo button
+-- press actually looks like to the driver, and it is the only way to check offline that a
+-- given button reaches the emitter at all -- the failure that looked identical to a dead
+-- emitter on real hardware.
+local PROXY_CMD  = ACTION:match("^IR:(.+)$") or ACTION:match("^PROXY:(.+)$")
+local PROXY_IR   = ACTION:match("^IR:") ~= nil
+
 Properties = {
-  ["Control Method"] = "IP", ["IP Address"] = "192.168.1.214", ["Owner Approved"] = "Yes",
+  ["Control Method"] = PROXY_IR and "IR" or "IP",
+  ["IP Address"] = "192.168.1.214", ["Owner Approved"] = "Yes",
   ["State Poll Seconds"] = "0", ["Poll Interval Seconds"] = "3",
   ["Log Level"] = "5 - Debug", ["Log Mode"] = "Print",
   ["3D Surround"] = "Off", ["Clear Voice"] = "Off", ["Bass Extension"] = "Off",
@@ -120,9 +185,28 @@ OnDriverInit(); OnDriverLateInit()
 drain()
 
 print(("==== archetype=%s action=%s ===="):format(ARCHETYPE, ACTION))
-ExecuteCommand("LUA_ACTION", { ACTION = ACTION })
+if PROXY_CMD then
+  local name, arg1 = PROXY_CMD:match("^([^=]+)=(.+)$")
+  name = name or PROXY_CMD
+  ReceivedFromProxy(5001, name, arg1 and { LEVEL = arg1 } or {})
+else
+  ExecuteCommand("LUA_ACTION", { ACTION = ACTION })
+end
 local ticks = drain()
 
+if #irFired > 0 then
+  local parts = {}
+  for _, f in ipairs(irFired) do
+    parts[#parts+1] = (IRCODES[f.code] or "?") .. "(" .. f.code .. ")" ..
+      (f.start and "[start]" or f.stop and "[stop]" or "")
+  end
+  print(("-- IR fired (%d): %s"):format(#irFired, table.concat(parts, " ")))
+  for _, f in ipairs(irFired) do
+    if f.binding ~= 2 then print(("-- !! IR on binding %s, expected 2"):format(tostring(f.binding))) end
+  end
+else
+  print("-- IR fired: none")
+end
 print(("-- simulated bar: subwoofer now '%s', %d commands sent, %d timer ticks")
   :format(dev["subwoofer volume"], #writes, ticks))
 print(("-- surround notifications sent: %d"):format((function()
