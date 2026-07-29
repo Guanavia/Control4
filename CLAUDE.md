@@ -14,11 +14,27 @@ scope and encouraged. When a technique is gray for *client/dealer* installs, gat
 **"Owner Approved"** toggle (see `Yamaha-Soundbar/research/LINKPLAY_RE.md`) rather than
 refusing or silently enabling it.
 
+**Dave is a working Control4 dealer — do not explain Composer to him.** Skip walkthroughs of
+updating/adding drivers, Manage Drivers, syncing, backups, navigating views: he does this for a
+living. Say "update the driver and run X"; give the findings, the decisions and what to watch
+for, not the click path. Surface a Composer mechanism ONLY when it is itself the finding (e.g.
+"the local driver DB and the controller hold separate copies, which is why the version lagged").
+
 ## Repo conventions
 
 - **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
 - **Per-project context persistence (ALWAYS).** Each Control4 project must be workable independently. For EVERY conversation about a given project, save the conversation's decisions, design threads, and project status **inside that project's own folder** — never mixed with another project's, and never left only in chat/local memory. Practically: durable project status/decisions belong in that folder's docs (its own `CLAUDE.md`/`FINDINGS.md`/notes); the root `CLAUDE.md` keeps only the short per-project pointer under `## Drivers`. When a conversation produces new design thinking, write it to a file in the relevant project folder before ending. This keeps the many Control4 projects from getting confused with each other.
 - **Scoped commits (ALWAYS).** This is a monorepo, but every project is versioned independently *by convention*. Each commit must touch **only one project's subfolder** (never span two projects), and its message must be **project-prefixed** — e.g. `better_composer: add version-validation note`, `nv_shield_tv: fix volume ramp`. This keeps each project's history cleanly filterable (`git log -- better_composer/`) and pushable on its own. The ONLY exception is a genuinely repo-wide change (this root `CLAUDE.md`, `.gitignore`, shared build scripts), which is prefixed `repo:`. Never bundle unrelated projects into one commit; stage per-folder and commit separately.
+- **Versioning (ALWAYS, every project — owner's rule, 2026-07-29).** Product versions are
+  **semantic**, and the **first RELEASE is `1.0.0`**. Anything still in the development pipeline is
+  **`0.x`** — Dave explicitly dislikes a pre-release product carrying a high version number, so
+  never let a build counter masquerade as the product version. Where a vendor format imposes its
+  own version field, **keep the two separate**: e.g. Control4's `driver.xml` `<version>` must be a
+  plain **integer** (verified across the catalog: Pioneer VSX-LX503 = 117, Onkyo TX-NR747 = 104) and
+  is only a cache-buster Composer compares on update — it is NOT the product version and is not
+  human-facing. Pattern to copy (`Yamaha-Soundbar/`): a `VERSION` file holds the semantic version,
+  the build script auto-increments the vendor integer, and both are stamped into one displayed
+  string via a `@BUILD@` token so the number a user sees can never drift from the package.
 - A `.c4z` file is just a **zip of the driver folder's contents** (files at zip root, not nested in a folder). `build.bat` / `build.ps1` are Windows scripts currently hardcoded to `nv_shield_tv`; the build outputs the `.c4z` into the driver's own folder and excludes existing `*.c4z` from the zip.
 - Standard driver folder layout:
   - `driver.lua` — driver logic
@@ -31,9 +47,12 @@ refusing or silently enabling it.
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-Soundbar — OPEN, v2.1.0 (BOTH control surfaces validated on real hardware)
+### Yamaha-Soundbar — OPEN, v0.9.0 (BOTH control surfaces validated on real hardware)
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
-The original YXC premise (v1) was wrong for this unit (port 80 closed). Reverse-engineered the real
+*(Note on wording: "v1"/"v2" in this section historically meant the two ARCHITECTURES — YXC then
+Linkplay — not product releases. Product version now lives in `Yamaha-Soundbar/VERSION`, is
+semantic, and is pre-release `0.x` until IR is verified and it ships as 1.0.0.)*
+The original YXC premise (the FIRST architecture) was wrong for this unit (port 80 closed). Reverse-engineered the real
 local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
 playbook (device map, cert-extraction, exact commands, the reusable **Owner-Approved** gray-area
 toggle, and the general method for future locked devices) is in
@@ -41,7 +60,7 @@ toggle, and the general method for future locked devices) is in
 volume/mute/transport; **Linkplay httpapi :443** (mutual-TLS, client cert extracted from Yamaha's
 app) = power/input. Confirmed commands: power `YAMAHA_DATA_SET:{"power saving":"1"|"0"}` (1=on,
 0=standby), input `setPlayerCmd:switchmode:HDMI|bluetooth|optical` (TV=optical).
-**v2 driver built** (`driver.xml`+`driver.lua`, compiles clean): umbrella "Yamaha Soundbar" (Model +
+**Second-architecture driver built** (`driver.xml`+`driver.lua`, compiles clean): umbrella "Yamaha Soundbar" (Model +
 Control Method IR/IP/Serial; IP implemented, shipping default will be IR). IP = UPnP for
 volume/mute/transport + httpapi for power/input **gated behind the `Owner Approved` property**
 (default No). **ON-CONTROLLER STATUS (2026-07-26, REAL director on Dave's own hardware — NOT a
@@ -56,7 +75,7 @@ Actions arrive via `ExecuteCommand` as `strCommand="LUA_ACTION"` with the real n
 cycle: Composer caches by version, so **remove + re-add the driver** (build-tag log line confirms the
 live build).
 
-**SSL-SOCKET REWORK DONE (2026-07-27, driver v2.1.0) — written + build-verified, NOT yet run
+**SSL-SOCKET REWORK DONE (2026-07-27) — written + build-verified, NOT yet run
 against the bar.** `C4:url()` has **no client-certificate support** (confirmed against Control4's
 own `global/url.lua`), so the mutual-TLS path could never authenticate through it. `HttpApiGet` is
 now a **raw SSL `network_connection`**: driver.xml declares binding **6002 / port 443**,
@@ -105,7 +124,7 @@ keeping:
 **POWER + INPUT CONFIRMED WORKING ON THE BAR (2026-07-27).** `YAMAHA_DATA_SET:{"power saving":...}`
 and `setPlayerCmd:switchmode:...` both drive the real hardware from Control4. **The IP control path
 is now complete and fully validated end to end** — UPnP volume/mute/transport + httpapi
-power/input. The v2 driver does what it was built to do.
+power/input. The Linkplay-architecture driver does what it was built to do.
 
 **STATE FEEDBACK BUILT (2026-07-27) — needs one hardware session to finish its decode tables.**
 Power/input are no longer write-only. New `State Poll Seconds` property (default **30s**, `0`
@@ -196,8 +215,11 @@ driver project in this repo:
 137/138/139 mute) - identical across every receiver IR driver in the catalog, so do not invent
 ids. **The IR connection class MUST be `IR_OUT`, NOT `IR`** - "IR" is not a class Composer
 recognises, so the connection never appeared as bindable (Dave hit this immediately). Correct
-shape, verified against THREE catalog drivers rather than assumed: `id=1`, `type=1` (Control),
-`consumer=True`, `connectionname` "IR Sensor", class `IR_OUT`.
+shape: `type=1` (Control), `consumer=True`, `linelevel=True`, class `IR_OUT`. **The id must be 2,
+not 1, in a DriverWorks (lua_gen) driver** - id 1 is the reserved serial binding. Pure `av_gen`
+IR drivers DO use id 1, which is the trap when copying them; re-confirmed 2026-07-29 against
+Pioneer VSX-LX503 (a real lua_gen IR driver), which uses id 2. An earlier version of this note
+said `id=1` and "IR Sensor" - it was wrong and contradicted the driver's own comment.
 **Patterns are CANDIDATES seeded from Control4's Yamaha YSP-1000 driver** (2005 soundbar vs our
 2019 bar; Yamaha reuses system codes so power/volume/mute have a fair chance, nothing confirmed).
 **`Verify IR Codes` Action** reads the field over IP, fires the code, waits, reads again =
@@ -208,6 +230,84 @@ a message (the YSP set has TV/DVD/VCR/AUX, not this bar's inputs) rather than fa
 **`build.sh` now validates driver.xml before packaging** - luac compile + well-formedness + a
 specific check for **`--` inside XML comments**, which is illegal and broke the file THREE times
 in one day.
+
+**IR BRINGUP FAILED, DIAGNOSED OFFLINE, THREE REAL BUGS FIXED (2026-07-29).** The
+IR connection bound fine in Composer, but `Verify IR Codes` did nothing and no emitter blink was
+ever seen. Dave's hypothesis was that Composer will not send IR while Control Method = IP.
+**That was not it** - `Verify IR Codes` calls `C4:SendIR` directly and never consults
+`UsingIR()`, so it is control-method-independent by design. The actual causes, found with the
+offline harness plus Control4's own catalog, no hardware trip:
+1. **The whole IR layer was invisible.** `Log Mode` defaults to **Off**, which gates every
+   `Log()` call, and `Log Level` defaults to Warning while all the `[irverify]` progress is
+   `LogInfo`. Adding the IR connection required re-adding the driver, and **a re-add resets
+   properties** - so `Owner Approved` fell back to `No`, `Verify IR Codes` refused at its first
+   guard, and it explained itself down a channel the same reset had just switched off. The
+   refusal and a dead emitter produced byte-identical output: nothing. **This is the THIRD time
+   the property-reset-on-re-add trap has bitten, and the second time a guard explained itself
+   through a silenced channel.** All IR bringup output is now `LogCritical` (bypasses the gate).
+2. **`SET_VOLUME_LEVEL` had no IR branch** - it fell straight through to UPnP SOAP and emitted
+   ZERO IR. **`<capabilities>` is not per-control-method**: `has_discrete_volume_control` is
+   declared once and applies in IR mode too, so Navigator/Halo send `SET_VOLUME_LEVEL` regardless
+   of Control Method. Reproduced objectively against the pre-fix driver (`-- IR fired: none`).
+   General rule now in the README: **every proxy command needs an IR branch or an explicit
+   refusal**; one with neither is silently a no-op.
+3. **Volume codes were `<transmit>SUSTAIN</transmit>`**, copied verbatim from the YSP-1000 seed.
+   SUSTAIN is an **av_gen** convention where the PROXY drives `SendIRStart`/`Stop` for you; a
+   DriverWorks driver calls `C4:SendIR` itself. Checked Control4's own shipping lua_gen IR driver
+   (Pioneer VSX-LX503): **433 codes, all PULSE, `SendIRStart` never called**. Converted to PULSE
+   rpt 5. **Lesson: do not copy IR metadata across driver families - `av_gen` and `lua_gen` split
+   the work differently.** (Also confirmed while there: `<irsection>` belongs under `<config>`,
+   which ours already was, and `C4:SendIR(idBinding, idIRCode)` is real. Control4's template
+   passes the id as a **string** though the docs say numeric, so `SendIR` now tries numeric and
+   falls back to string, logging which one worked - that removes a hypothesis for free.)
+**A FOURTH bug the harness caught, and the nastiest**: `Verify IR Codes` scored a state code as
+"field == want after firing", which **passes whenever the bar is already in the wanted state** -
+so with the bar on and unmuted, POWER_ON and MUTE_OFF both reported WORKS **with no emitter
+connected**. It would have produced confidently wrong conclusions, worse than a hang. Every code
+now PREPARES the bar to the opposite state over IP first and reports `INCONCLUSIVE` if that
+fails. **This is the same unreliable-baseline bug the subwoofer sweep had - it recurred in new
+code, so treat "did you establish the baseline" as a standing review question for any
+learn-by-readback sweep.**
+**HARNESS EXTENDED** (`test/simharness.lua`): stubs `C4:SendIR`/`SendIRStart`/`SendIRStop`,
+parses the declared `<ircode>` ids out of driver.xml and REJECTS any undeclared id, prints every
+code the driver emitted, and adds `PROXY:<CMD>` / `IR:<CMD>` to drive the receiver proxy directly
+(what a Navigator/Halo press really looks like). Two new archetypes give the IR sweep a control
+in BOTH directions: **`noemitter`** (must report nothing working) and **`irworks`** (must report
+everything working) - the positive one matters because "all codes failed" is the conclusion the
+real run is meant to draw, so it has to be earned.
+**NEW ACTIONS: `IR Emitter Test: Power On / Volume Up / Mute On`** - fire ONE code with nothing
+else in the path (no proxy, no capabilities, no Control Method, no Owner Approved, no IP) and
+report unsilenceably. **This is the instrument that was missing**: it splits "dead emitter or
+unbound connection" from "wrong code", the two failures IR cannot tell apart. Run it FIRST next
+hardware session; a blink clears the physical side, no blink means stop and fix the binding.
+**Still unverified on hardware:** whether any seeded code actually drives the YAS-209.
+
+**"VERSIONS ARE EQUAL" ON UPDATE — TWO DIFFERENT VERSIONS, AND THEY HAD DRIFTED (2026-07-29).**
+Dave hit "versions are equal" updating the driver, and reported Composer showing **2.1.0** while
+the package said 6. Both observations were right, because a Control4 driver carries **two
+unrelated version strings**:
+1. **`<version>` in driver.xml** - a plain INTEGER (was 5, now stamped automatically). **This is
+   the only one Composer compares on Add/Update Driver**, and the only one that decides whether
+   new code loads.
+2. **A "Driver Version" PROPERTY** - our own cosmetic readonly string, hardcoded `2.1.0` in BOTH
+   driver.xml (default) and driver.lua (`UpdateProp`). **This is what Composer DISPLAYS**, and it
+   was hand-maintained, so it froze at 2.1.0 while `<version>` climbed 3->4->5 and the code moved
+   on. The number on screen had not tracked reality for four builds.
+**So "Composer is reading 2.1.0" is the display property, not the update comparison.** If the
+update still refuses, the .c4z Composer opened is genuinely still `<version>` 5 - i.e. a stale
+copy (OneDrive not yet synced into the Windows VM, or an older file transferred earlier). **The
+Mac's built artifact was verified as the new version at the time; check WHICH FILE the VM is
+opening before touching code.**
+**FIXED SO IT CANNOT DRIFT AGAIN — one stamp, three places.** driver.xml's property default,
+driver.lua's `UpdateProp`, and the load-line log are now all the token **`@BUILD@`**, replaced at
+package time by `build.sh` with `v<version> build <sha8>` (fingerprint over driver.lua+driver.xml).
+The build FAILS if the token is missing, because a version display that can lie is worse than
+none. `build.sh` also **auto-bumps `<version>`**: if the driver content changed but the version
+did not, it increments (an unchanged rebuild keeps its number, so iterating does not churn it) -
+the forgotten manual bump was the root cause. The build now prints the version, fingerprint and
+package sha, and the driver logs the same string through the unsilenceable path on load, so
+**"did Composer actually take my file" is answerable in one glance** instead of being guessed at.
+**Never hardcode a version string in this driver again.**
 
 **EQ: BASS TRIED VIA THE PROXY AND WITHDRAWN (2026-07-28) — subwoofer is a PROPERTY instead.**
 **The receiver proxy cannot declare a bass RANGE** — there is no bass equivalent of
@@ -301,6 +401,16 @@ gone rather than merely demoted — a cert warning that fires on a working syste
 warning at all.
 
 **NEXT (in order):**
+0. **IR bringup, in this exact order** (all four fixes above are written + harness-verified but
+   NOT yet run against the bar). Back up the project first. **Before touching code, check the
+   PROPERTIES** — the re-add that added the IR connection reset them: `Owner Approved` must be
+   `Yes`, `IP Address` must be set, `Log Mode` = `Print and Log`, `Log Level` = `3 - Info` or
+   higher. (The new bringup output no longer needs the log settings, but everything else does.)
+   Then: (a) run **`IR Emitter Test: Power On`** and watch the emitter — a blink clears the
+   physical side, no blink means the binding/emitter is the problem and no code change will help;
+   (b) only if it blinks, run **`Verify IR Codes`** (Control Method can stay IP) for an objective
+   per-code verdict; (c) if codes fail, that is now trustworthy evidence the YSP-1000 patterns do
+   not match this bar → capture from the real remote (item 4).
 1. **Re-run `Learn Sound Programs`** — only to see the negative control land (should print
    "negative control OK: nonsense value was rejected"). If it instead prints NEGATIVE CONTROL
    FAILED, the all-pass above is meaningless and the modes need checking by ear.
@@ -334,7 +444,7 @@ warning at all.
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
 regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
-v1 (YXC) design, kept for reference. `Yamaha-Soundbar/README.md` was rewritten 2026-07-27 (it still
+superseded FIRST-architecture (YXC) design, kept for reference. `Yamaha-Soundbar/README.md` was rewritten 2026-07-27 (it still
 described the dead v1 YXC premise) and now carries the per-project status, the two-surface
 explanation, the build/fallback procedure, and the bringup checklist.
 
