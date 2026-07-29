@@ -6,13 +6,12 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>4</version>
+  <version>5</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
   <controlmethod>ip</controlmethod>
   <driver>DriverWorks</driver>
-  <combo>false</combo>
 
   <proxies qty="1">
     <proxy proxybindingid="5001" name="Yamaha Soundbar" image_source="c4z"
@@ -81,14 +80,18 @@
          consumer=True, class IR_OUT, and keeps controlmethod as ip/serial. -->
     <connection>
       <id>2</id>
-      <facing>6</facing>
+      <facing>1</facing>
       <connectionname>IR</connectionname>
       <type>1</type>
       <consumer>True</consumer>
       <audiosource>False</audiosource>
       <videosource>False</videosource>
-      <linelevel>False</linelevel>
-      <classes><class><classname>IR_OUT</classname></class></classes>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
     </connection>
 
     <!-- IP + online monitoring (UPnP control port) -->
