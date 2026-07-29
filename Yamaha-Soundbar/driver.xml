@@ -67,18 +67,24 @@
       <classes><class><classname>RECEIVER</classname></class></classes>
     </connection>
 
-    <!-- IR output.  Bind this to an IR emitter port on a controller, with the emitter
-         physically placed over the bar's IR receiver window.  Used when Control Method = IR. -->
+    <!-- IR.  Bind a controller's IR output to this, with the emitter physically placed over the
+         bar's IR sensor window.  Used when Control Method = IR.
+
+         The class MUST be IR_OUT, not IR.  "IR" is not a class Composer recognises as an IR
+         endpoint, so declaring it produced a connection that simply never appeared as bindable.
+         id=1 / type=1 (Control) / consumer=True / name "IR Sensor" is the exact shape every IR
+         driver in Control4's catalog uses; verified against three of them (Yamaha YSP-1000,
+         YSP-4000 and RX-V559) rather than assumed. -->
     <connection>
       <id>1</id>
       <facing>6</facing>
-      <connectionname>IR</connectionname>
+      <connectionname>IR Sensor</connectionname>
       <type>1</type>
       <consumer>True</consumer>
       <audiosource>False</audiosource>
       <videosource>False</videosource>
       <linelevel>False</linelevel>
-      <classes><class><classname>IR</classname></class></classes>
+      <classes><class><classname>IR_OUT</classname></class></classes>
     </connection>
 
     <!-- IP + online monitoring (UPnP control port) -->

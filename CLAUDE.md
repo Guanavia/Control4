@@ -191,6 +191,24 @@ driver project in this repo:
    diagnostics must never be silenceable by a log-level setting.**
 5. **Batch structural changes** — each one is another restart.
 
+**IR LAYER ADDED (2026-07-29).** IR output binding + `<irsection>` + routing when Control Method
+= IR. Uses Control4's **conventional receiver IR code ids** (101/102/103 power, 106/107 volume,
+137/138/139 mute) - identical across every receiver IR driver in the catalog, so do not invent
+ids. **The IR connection class MUST be `IR_OUT`, NOT `IR`** - "IR" is not a class Composer
+recognises, so the connection never appeared as bindable (Dave hit this immediately). Correct
+shape, verified against THREE catalog drivers rather than assumed: `id=1`, `type=1` (Control),
+`consumer=True`, `connectionname` "IR Sensor", class `IR_OUT`.
+**Patterns are CANDIDATES seeded from Control4's Yamaha YSP-1000 driver** (2005 soundbar vs our
+2019 bar; Yamaha reuses system codes so power/volume/mute have a fair chance, nothing confirmed).
+**`Verify IR Codes` Action** reads the field over IP, fires the code, waits, reads again =
+objective per-code pass/fail. **IR is one-way, so the IP path is what makes IR testable at all.**
+If nothing passes, the report says to check for a bound+placed emitter FIRST, since a missing
+emitter is indistinguishable from a wrong code set. Input-select over IR deliberately REFUSES with
+a message (the YSP set has TV/DVD/VCR/AUX, not this bar's inputs) rather than failing silently.
+**`build.sh` now validates driver.xml before packaging** - luac compile + well-formedness + a
+specific check for **`--` inside XML comments**, which is illegal and broke the file THREE times
+in one day.
+
 **EQ: BASS TRIED VIA THE PROXY AND WITHDRAWN (2026-07-28) — subwoofer is a PROPERTY instead.**
 **The receiver proxy cannot declare a bass RANGE** — there is no bass equivalent of
 `volume_number_of_steps` in its capability set. With `has_*_bass_control` declared, Composer renders
