@@ -31,7 +31,9 @@
 -------------------------------------------------
 -- CONSTANTS
 -------------------------------------------------
-local IR_BINDING       = 1         -- IR emitter output (driver.xml connection id 1)
+-- IR emitter output.  MUST be 2, not 1: in a DriverWorks driver id 1 is the reserved serial
+-- binding, and an IR connection placed there never appears in Composer's Connections view.
+local IR_BINDING       = 2
 local RECEIVER_BINDING = 5001
 local NETWORK_BINDING  = 6001
 local SSL_BINDING      = 6002      -- Linkplay httpapi, mutual-TLS (driver.xml classname SSL)

@@ -5,8 +5,8 @@
   <name>Yamaha Soundbar</name>
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
-  <modified>2026-07-27</modified>
-  <version>3</version>
+  <modified>2026-07-29</modified>
+  <version>4</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -70,15 +70,19 @@
     <!-- IR.  Bind a controller's IR output to this, with the emitter physically placed over the
          bar's IR sensor window.  Used when Control Method = IR.
 
-         The class MUST be IR_OUT, not IR.  "IR" is not a class Composer recognises as an IR
-         endpoint, so declaring it produced a connection that simply never appeared as bindable.
-         id=1 / type=1 (Control) / consumer=True / name "IR Sensor" is the exact shape every IR
-         driver in Control4's catalog uses; verified against three of them (Yamaha YSP-1000,
-         YSP-4000 and RX-V559) rather than assumed. -->
+         TWO things here are load-bearing and were each got wrong once:
+           * The class MUST be IR_OUT, not IR.  "IR" is not a class Composer recognises as an IR
+             endpoint, so it produced a connection that never appeared as bindable.
+           * The id MUST be 2, not 1, in a DriverWorks (lua_gen) driver.  id 1 is reserved for
+             the serial binding, so an IR connection placed there also never renders.  Pure IR
+             drivers (av_gen, e.g. Yamaha YSP-1000) DO use id 1 - copying them is the trap.
+         Verified empirically against 15 lua_gen drivers in Control4's catalog that ship IR codes
+         (Onkyo TX-NR747, Pioneer VSX-LX503, Integra DRX-5, ...): every one uses id=2, type=1,
+         consumer=True, class IR_OUT, and keeps controlmethod as ip/serial. -->
     <connection>
-      <id>1</id>
+      <id>2</id>
       <facing>6</facing>
-      <connectionname>IR Sensor</connectionname>
+      <connectionname>IR</connectionname>
       <type>1</type>
       <consumer>True</consumer>
       <audiosource>False</audiosource>
