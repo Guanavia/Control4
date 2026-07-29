@@ -26,6 +26,27 @@ ENCRYPT_KEY="${ENCRYPT_KEY:-0}"
 # MUST match HTTPAPI_KEY_PASSWORD in driver.lua.
 KEY_PASSWORD="yas209-linkplay"
 
+# Validate before packaging.  Both of these have shipped broken at least once:
+#   * driver.lua failing to compile,
+#   * driver.xml containing "--" INSIDE an XML comment, which is illegal and makes Director
+#     reject the whole file.  Easy to write by accident when using -- as a dash in prose.
+command -v luac >/dev/null && { luac -p driver.lua || { echo "ERROR: driver.lua does not compile"; exit 1; }; }
+python3 - <<'PYEOF' || exit 1
+import re, sys, xml.dom.minidom as dom
+src = open('driver.xml').read()
+bad = [c for c in re.findall(r'<!--.*?-->', src, re.S) if '--' in c[4:-3]]
+if bad:
+    print('ERROR: illegal "--" inside an XML comment (%d):' % len(bad))
+    for c in bad[:5]:
+        print('   ', ' '.join(c[:120].split()))
+    sys.exit(1)
+try:
+    dom.parseString(src)
+except Exception as e:
+    print('ERROR: driver.xml is not well-formed:', e); sys.exit(1)
+print('driver.xml OK')
+PYEOF
+
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 

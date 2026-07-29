@@ -67,6 +67,20 @@
       <classes><class><classname>RECEIVER</classname></class></classes>
     </connection>
 
+    <!-- IR output.  Bind this to an IR emitter port on a controller, with the emitter
+         physically placed over the bar's IR receiver window.  Used when Control Method = IR. -->
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>IR</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes><class><classname>IR</classname></class></classes>
+    </connection>
+
     <!-- IP + online monitoring (UPnP control port) -->
     <connection>
       <id>6001</id>
@@ -206,6 +220,95 @@
     <power_command_delay>0</power_command_delay>
     <power_delay>0</power_delay>
     <power_command_needed>False</power_command_needed>
+    <!-- IR CODES.  Ids 101/102/103/106/107/137/138/139 are Control4's CONVENTIONAL receiver
+         IR code ids, identical across every receiver IR driver in the catalog, so they are used
+         here rather than invented ones.
+
+         PROVENANCE, AND WHY THESE ARE CANDIDATES: the patterns below were taken from Control4's
+         own Yamaha YSP-1000 IR driver (receiver_ir_yamaha_ysp-1000.c4i).  That is a 2005 soundbar
+         and this is a 2019 YAS-209 - Yamaha reuses system codes across its line, so power /
+         volume / mute have a fair chance of working, but NOTHING here is confirmed on the YAS-209.
+         Run Actions -> Verify IR Codes: it fires each code and reads the result back over the IP
+         path, so every code gets an objective pass/fail instead of a guess.
+         Codes the YAS-209 has and these do not (input select, sound programs, subwoofer trim)
+         must be learned from the real remote. See README "IR". -->
+    <irsection>
+      <ircodes>
+        <ircode>
+          <id>101</id>
+          <name>POWER_ON</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>102</id>
+          <name>POWER_OFF</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>103</id>
+          <name>POWER_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>106</id>
+          <name>VOLUME_UP</name>
+          <transmit>SUSTAIN</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0024 0002 015a 00af 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0014 0043 0014 0043 0014 0017 0015 0042 0015 0042 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0015 0042 0015 0016 0015 0042 0015 0042 0015 0042 0015 0042 0015 0016 0015 0016 0015 0016 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0015 0042 0015 0600 015a 0058 0015 0e76 015a 0058 0014 0e77</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>107</id>
+          <name>VOLUME_DOWN</name>
+          <transmit>SUSTAIN</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0024 0002 015a 00af 0014 0017 0015 0016 0015 0016 0014 0043 0014 0043 0014 0043 0016 0041 0016 0015 0014 0043 0016 0041 0016 0041 0016 0015 0016 0015 0015 0016 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0014 0017 0016 0015 0015 0016 0014 0017 0016 0015 0014 0017 0015 0016 0014 0043 0016 0041 0016 0041 0016 05ff 015a 0058 0014 0e77 015a 0058 0015 0e76</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>137</id>
+          <name>MUTE_ON</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>138</id>
+          <name>MUTE_OFF</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>139</id>
+          <name>MUTE_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
+          <altpattern />
+        </ircode>
+      </ircodes>
+    </irsection>
+
     <documentation file="www/documentation.rtf" />
     <script file="driver.lua" jit="1" />
 
@@ -342,7 +445,8 @@
       <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
       <action><name>Learn Input Codes (cycles every input, then prints the table)</name><command>LearnInputCodes</command></action>
       <action><name>Learn Sound Programs (tries each candidate, reports which stick)</name><command>LearnSoundPrograms</command></action>
-      <action><name>Learn Subwoofer Range (finds the boost limits, for a real bass slider)</name><command>LearnSubwooferRange</command></action>
+      <action><name>Learn Subwoofer Range (finds the boost limits)</name><command>LearnSubwooferRange</command></action>
+      <action><name>Verify IR Codes (fires each, confirms the effect over IP)</name><command>VerifyIrCodes</command></action>
     </actions>
   </config>
 

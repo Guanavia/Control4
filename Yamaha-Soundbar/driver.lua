@@ -31,6 +31,7 @@
 -------------------------------------------------
 -- CONSTANTS
 -------------------------------------------------
+local IR_BINDING       = 1         -- IR emitter output (driver.xml connection id 1)
 local RECEIVER_BINDING = 5001
 local NETWORK_BINDING  = 6001
 local SSL_BINDING      = 6002      -- Linkplay httpapi, mutual-TLS (driver.xml classname SSL)
@@ -46,6 +47,27 @@ local PUMP_GAP_MS = 250
 -- never calls GetPrivateKeyPassword.  Kept wired so switching to an encrypted key is a
 -- one-attribute XML change (build with ENCRYPT_KEY=1) with no Lua edit.
 local HTTPAPI_KEY_PASSWORD = "yas209-linkplay"
+
+-- IR code ids.  These are Control4's CONVENTIONAL receiver ir-code ids, identical across every
+-- receiver IR driver in the catalog, so they are reused here rather than invented.  They must
+-- match <irsection> in driver.xml.
+local IR = {
+  POWER_ON = 101, POWER_OFF = 102, POWER_TOGGLE = 103,
+  VOLUME_UP = 106, VOLUME_DOWN = 107,
+  MUTE_ON = 137, MUTE_OFF = 138, MUTE_TOGGLE = 139,
+}
+
+-- What "Verify IR Codes" fires, and how it tells whether the code actually landed.  The check
+-- reads the bar over the IP path, which is why verification needs Owner Approved even though IR
+-- itself does not: IR is one-way, so without the IP readback there is no ground truth at all.
+local IR_VERIFY = {
+  { code = IR.POWER_ON,    label = "POWER_ON",    key = "power saving", want = "1" },
+  { code = IR.POWER_OFF,   label = "POWER_OFF",   key = "power saving", want = "0" },
+  { code = IR.MUTE_ON,     label = "MUTE_ON",     key = "mute",         want = "1" },
+  { code = IR.MUTE_OFF,    label = "MUTE_OFF",    key = "mute",         want = "0" },
+  { code = IR.VOLUME_UP,   label = "VOLUME_UP",   key = "Master volume", delta = "up" },
+  { code = IR.VOLUME_DOWN, label = "VOLUME_DOWN", key = "Master volume", delta = "down" },
+}
 
 -- Control4 input connection id -> Linkplay switchmode value.
 -- There is deliberately no separate "Optical In": the bar has ONE optical/ARC input and
@@ -98,6 +120,13 @@ local function Identity(v) return v end
 -- see SURROUND_MODES.  These three have no home in the receiver proxy (it models surround as a
 -- single mode list, with no concept of independent DSP toggles), so properties are the right
 -- place for them.
+-- Subwoofer Boost limits.  LEARNED ON HARDWARE 2026-07-27 (writes of 5 and -5 were both
+-- refused, the bar holding 4 / -4) and independently confirmed against the Yamaha app.  Signed,
+-- centred on 0 = flat.  Declared HERE, above its first use in SubEnc: it previously lived down
+-- beside the learn sweep, which made it a nil GLOBAL at this point and would have thrown the
+-- moment anyone set the property.  Re-run Learn Subwoofer Range for other models/firmware.
+local SUBWOOFER_RANGE = { min = -4, max = 4 }
+
 -- Clamp to the learned subwoofer range on the way OUT.  Composer's RANGED_INTEGER already
 -- bounds the UI, but programming and Actions can set a property to anything, and the bar
 -- silently refuses out-of-range writes rather than erroring -- so an unclamped value would
@@ -492,6 +521,28 @@ local function HttpApiGet(command, cb)
 end
 
 -------------------------------------------------
+-- IR LAYER (Control Method = IR)
+--
+-- IR is one-way and stateless: nothing comes back, so the driver cannot know whether a code
+-- landed, or what the bar's state is.  That is the fundamental difference from the IP path and
+-- the reason IP stays the better option for an owner who can use it.  IR exists because it is
+-- what ships to dealers, needs no client certificate, and works on any unit.
+-------------------------------------------------
+local function SendIR(code, label)
+  if not code then return false end
+  local ok, err = pcall(function() C4:SendIR(IR_BINDING, code) end)
+  if ok then
+    LogDebug("IR -> %s (code %d)", tostring(label or "?"), code)
+  else
+    LogError("C4:SendIR(%d, %d) threw: %s", IR_BINDING, code, tostring(err))
+  end
+  return ok
+end
+
+-- True when this command should go out as IR rather than over IP.
+local function UsingIR() return gCtrlMethod == "IR" end
+
+-------------------------------------------------
 -- SETTERS
 -------------------------------------------------
 local function xmlval(body, tag) return body and body:match("<" .. tag .. ">(.-)</" .. tag .. ">") end
@@ -507,6 +558,12 @@ local function SetVolumeLevel(level)
 end
 
 local function VolStep(dir)
+  if UsingIR() then
+    -- One IR pulse per press.  We cannot track absolute level over IR, so no property update:
+    -- claiming a number we have not verified would be worse than showing the last known one.
+    SendIR(dir == "up" and IR.VOLUME_UP or IR.VOLUME_DOWN, "VOLUME_" .. string.upper(dir))
+    return
+  end
   local base = gYxcVolume or 20
   SetVolumeLevel(base + (dir == "up" and 3 or -3))
 end
@@ -515,6 +572,10 @@ local function SetMute(m)
   gMute = m
   UpdateProp("Muted", tostring(m))
   NotifyMute(m)
+  if UsingIR() then
+    SendIR(m and IR.MUTE_ON or IR.MUTE_OFF, m and "MUTE_ON" or "MUTE_OFF")
+    return
+  end
   Soap(RC_CTRL, RC, "SetMute",
     "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredMute>" .. (m and "1" or "0") .. "</DesiredMute>")
 end
@@ -523,6 +584,10 @@ local function SetPower(on)
   gPower = on
   UpdateProp("Power State", on and "On" or "Standby")
   NotifyPower(on)
+  if UsingIR() then
+    SendIR(on and IR.POWER_ON or IR.POWER_OFF, on and "POWER_ON" or "POWER_OFF")
+    return
+  end
   -- Power over IP is httpapi (mutual-TLS), gated by Owner Approved.
   HttpApiGet('YAMAHA_DATA_SET:{"power saving":"' .. (on and "1" or "0") .. '"}')
 end
@@ -533,6 +598,14 @@ local function SelectInputByConn(connId)
   gInputSw = sw
   UpdateProp("Current Input", sw)
   NotifyInput(connId)
+  if UsingIR() then
+    -- No input-select IR codes exist yet: the YSP-1000 set we seeded from has TV/DVD/VCR/AUX,
+    -- which are not this bar's inputs.  These must be learned from the real remote.  Say so
+    -- rather than silently doing nothing.
+    LogCritical("Input select over IR is not available: no IR codes for this bar's inputs have " ..
+      "been learned yet. Use Control Method = IP for input, or capture the codes (README 'IR').")
+    return
+  end
   HttpApiGet("setPlayerCmd:switchmode:" .. sw)
 end
 
@@ -924,11 +997,6 @@ end
 -- fewer.  A junk value goes first, as always -- an all-accept result means nothing if the field
 -- is not validated (see SOUND_PROGRAM_CONTROL, and note this bar returns 200 OK on garbage).
 -------------------------------------------------
--- LEARNED ON HARDWARE 2026-07-27 by the sweep below: writes outside this stick at the limit
--- (5 and -5 were both refused, the bar holding 4 / -4).  Signed, centred on 0 = flat, matching
--- the app's Subwoofer Boost.  Re-run Learn Subwoofer Range on other models/firmware.
-local SUBWOOFER_RANGE = { min = -4, max = 4 }
-
 -- WHY THIS IS NOT THE PROXY'S BASS CONTROL (tried 2026-07-28, withdrawn):
 -- the receiver proxy has no way to declare a bass RANGE -- there is no bass equivalent of
 -- volume_number_of_steps.  With has_*_bass_control declared, Composer renders an UNBOUNDED
@@ -1085,6 +1153,100 @@ local function LearnSubwooferRange()
 end
 
 -------------------------------------------------
+-- VERIFY IR CODES
+--
+-- The seeded patterns come from Control4's Yamaha YSP-1000 driver (2005) and are unverified on
+-- this 2019 bar.  IR gives no feedback, so the only way to know whether a code landed is to
+-- watch the bar over the IP path: fire the code, then read YAMAHA_DATA_GET and see whether the
+-- expected field actually moved.  That makes the IP work we already did the test instrument for
+-- IR, and gives an objective per-code pass/fail instead of judging by ear.
+--
+-- Needs BOTH an IR emitter aimed at the bar AND Owner Approved (for the readback).
+-------------------------------------------------
+local IR_SETTLE_MS = 2500
+local gIrVerify = nil
+
+local function IrVerifyReport()
+  local V = gIrVerify
+  LogInfo("---- IR code verification ----")
+  local pass, fail = {}, {}
+  for _, r in ipairs(V.results) do
+    LogInfo("  %-12s %s   (%s)", r.label, r.ok and "WORKS" or "no effect", r.detail)
+    if r.ok then pass[#pass + 1] = r.label else fail[#fail + 1] = r.label end
+  end
+  LogInfo("WORKING: %s", #pass > 0 and table.concat(pass, ", ") or "(none)")
+  if #fail > 0 then
+    LogInfo("NOT WORKING: %s", table.concat(fail, ", "))
+    LogInfo("Those need capturing from the real Yamaha remote; the seeded patterns are from a")
+    LogInfo("2005 YSP-1000 and evidently do not match this bar for those functions.")
+  end
+  if #pass == 0 then
+    LogWarning("NOTHING worked. Before concluding the codes are wrong, check the physical side:")
+    LogWarning("is an IR emitter bound to the IR connection AND stuck over the bar's IR window?")
+    LogWarning("A missing emitter looks exactly like a wrong code set from here.")
+  end
+  gIrVerify = nil
+  LogInfo("------------------------------")
+end
+
+local IrVerifyStep
+
+local function IrVerifyMeasure(before, item)
+  HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+    local after = ok and jsonstr(body, item.key) or nil
+    local good, detail
+    if not after then
+      good, detail = false, "no readback"
+    elseif item.delta then
+      local b, a = tonumber(before), tonumber(after)
+      if not b or not a then good, detail = false, "unreadable level"
+      else
+        good = (item.delta == "up") and (a > b) or (item.delta == "down") and (a < b)
+        detail = string.format("%s %s -> %s", item.key, tostring(b), tostring(a))
+      end
+    else
+      good = (after == item.want)
+      detail = string.format("%s = %s (wanted %s)", item.key, tostring(after), item.want)
+    end
+    gIrVerify.results[#gIrVerify.results + 1] =
+      { label = item.label, ok = good, detail = detail }
+    LogInfo("[irverify] %s -> %s (%s)", item.label, good and "WORKS" or "no effect", detail)
+    gIrVerify.idx = gIrVerify.idx + 1
+    IrVerifyStep()
+  end)
+end
+
+IrVerifyStep = function()
+  local V = gIrVerify
+  if not V then return end
+  local item = IR_VERIFY[V.idx]
+  if not item then IrVerifyReport(); return end
+  -- Read the field BEFORE firing, so the comparison is against known state rather than an
+  -- assumption -- the same baseline lesson the subwoofer sweep taught.
+  HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+    local before = ok and jsonstr(body, item.key) or nil
+    LogInfo("[irverify] %d/%d firing %s (%s currently %s)",
+      V.idx, #IR_VERIFY, item.label, item.key, tostring(before))
+    SendIR(item.code, item.label)
+    C4:SetTimer(IR_SETTLE_MS, function() IrVerifyMeasure(before, item) end, false)
+  end)
+end
+
+local function VerifyIrCodes()
+  if not gOwnerOK then
+    LogWarning("Verify IR Codes needs Owner Approved = Yes: IR is one-way, so the check reads " ..
+      "the result back over the IP path. Without it there is no way to tell a working code " ..
+      "from a missing emitter.")
+    return
+  end
+  if gIrVerify then LogWarning("an IR verification is already running"); return end
+  gIrVerify = { idx = 1, results = {} }
+  LogInfo("---- verifying IR codes: this WILL power the bar off and on, and change volume ----")
+  LogInfo("Requires an IR emitter bound to the IR connection and aimed at the bar.")
+  IrVerifyStep()
+end
+
+-------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
 -------------------------------------------------
 local ReceiverCommands = {}
@@ -1204,6 +1366,7 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "LearnInputCodes"   then LearnInputCodes()
   elseif strCommand == "LearnSoundPrograms" then LearnSoundPrograms()
   elseif strCommand == "LearnSubwooferRange" then LearnSubwooferRange()
+  elseif strCommand == "VerifyIrCodes"     then VerifyIrCodes()
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()
