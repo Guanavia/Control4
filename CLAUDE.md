@@ -317,7 +317,16 @@ sessions of instrumentation found four real bugs but none of them were the no-bl
 control with a KNOWN-GOOD component.** Two drivers failing on one emitter, and one driver working
 on another, isolates hardware in three tests. Reach for that earlier next time — the driver had
 been instrumented well past the point of diminishing returns before this was tried.
-**Open confound (cheap to close): emitter vs PORT.** If the working emitter sits in a different IR
+**CONFOUND CLOSED — IT WAS THE PORT, NOT THE EMITTER (2026-07-30).** A second replacement emitter
+ALSO failed on **IR OUT 1** and works perfectly on **IR OUT 3**. So the original "brand-new emitter
+is faulty" call was WRONG — two emitters were blamed for a dead port. **IR OUT 1 is not registering
+as an IR output on this controller**, even though Composer's Connections view shows it bound to the
+driver's IR connection AND correctly greys out the serial connection as mutually exclusive, and the
+controller's config page offers no serial/IR mode switch. Cause unknown. **NOT our problem to
+solve** (owner's call) — using IR OUT 3. Worth remembering as a general trap: **an IR output can be
+bound, displayed as correct, and still not transmit**, so when isolating IR faults, swap the PORT as
+well as the emitter. The earlier note below kept the possibility open; this is the answer.
+**Superseded (kept for the reasoning): emitter vs PORT.** If the working emitter sits in a different IR
 output than the dead one did, the fault could be the port, not the emitter. Plug the known-good
 emitter into the suspect port to separate them.
 **There is NO IR feedback mechanism to add, and this is settled, not assumed:** DriverWorks exposes
