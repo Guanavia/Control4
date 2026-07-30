@@ -603,25 +603,38 @@ local function IrBindingReport()
   local myId = select(2, pcall(function() return C4:GetDeviceID() end))
   LogCritical("IR binding %d diagnostics (this driver's device id: %s):", IR_BINDING, tostring(myId))
 
+  -- NOT evidence of anything on its own. OnBindingChanged fires only when a binding CHANGES,
+  -- so a binding that was already bound when the driver loaded never fires it. An earlier
+  -- version of this line read that silence as "nothing is attached", which was flatly wrong and
+  -- contradicted GetBoundProviderDevice in the same block. GetBoundProviderDevice is the
+  -- authority here; this line is only useful for spotting a bind/unbind DURING the session.
   if gBindings[IR_BINDING] == nil then
-    LogCritical("  OnBindingChanged: Director has NEVER reported binding %d. It fires on bind " ..
-      "and unbind, so silence since load means nothing is attached to it.", IR_BINDING)
+    LogCritical("  OnBindingChanged: not seen this session (normal -- it only fires on a CHANGE, " ..
+      "so a binding already bound at load never reports. Trust GetBoundProviderDevice below.)")
   else
     LogCritical("  OnBindingChanged: last reported bIsBound = %s (class %s)",
       tostring(gBindings[IR_BINDING]), tostring(gBindingClass[IR_BINDING]))
   end
 
+  -- THE authoritative check: which device is driving our IR input binding right now.
   local ok, prov = pcall(function() return C4:GetBoundProviderDevice(myId, IR_BINDING) end)
-  LogCritical("  GetBoundProviderDevice -> %s%s", ok and tostring(prov) or "unavailable",
-    (ok and (prov == nil or prov == 0)) and "   <-- NOTHING IS DRIVING THIS BINDING" or "")
-
-  local ok2, cons = pcall(function() return C4:GetBoundConsumerDevices(myId, IR_BINDING) end)
-  if ok2 and type(cons) == "table" then
-    local n = 0
-    for id, name in pairs(cons) do n = n + 1; LogCritical("  bound consumer: %s (%s)", tostring(id), tostring(name)) end
-    if n == 0 then LogCritical("  bound consumers: none") end
+  if ok and prov and prov ~= 0 then
+    LogCritical("  GetBoundProviderDevice -> %s   (BOUND: device %s is the IR output feeding us)",
+      tostring(prov), tostring(prov))
   else
-    LogCritical("  GetBoundConsumerDevices -> %s", ok2 and tostring(cons) or "unavailable")
+    LogCritical("  GetBoundProviderDevice -> %s   <-- NOTHING IS DRIVING THIS BINDING",
+      ok and tostring(prov) or "unavailable")
+  end
+
+  -- Expected to be empty/nil: our IR connection is a CONSUMER, so it has no bound consumers of
+  -- its own. Logged only so its emptiness is not mistaken for a fault.
+  local ok2, cons = pcall(function() return C4:GetBoundConsumerDevices(myId, IR_BINDING) end)
+  local n = 0
+  if ok2 and type(cons) == "table" then
+    for id, name in pairs(cons) do n = n + 1; LogCritical("  bound consumer: %s (%s)", tostring(id), tostring(name)) end
+  end
+  if n == 0 then
+    LogCritical("  bound consumers: none (EXPECTED -- this is a consumer connection, not a provider)")
   end
 end
 
