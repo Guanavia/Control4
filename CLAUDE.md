@@ -485,6 +485,30 @@ sat at its last value and kept claiming a live link to a bar the driver had stop
 now reads `n/a - IR control (one-way, nothing is polled)`. Under IR the status dump also states up
 front that the values are **what the driver last SENT, not what the bar reports**.
 
+**MUTE TOGGLE RESOLVED AGAINST A CACHE — FIRST PRESS DID NOTHING (2026-07-30, Dave hit it, and
+his diagnosis was right).** The Control4 remote's mute button has no discrete on/off; it sends
+`MUTE_TOGGLE`. The handler was `SetMute(not gMute)` — it inverted the driver's BELIEF about the
+bar. Whenever that belief was stale or unknown (`nil`, so `not nil` = true = MUTE_ON) it commanded
+the state the bar was already in, so nothing happened and the SECOND press worked because the
+belief had flipped. **The status line looked correct while nothing changed**, which is the tell.
+**Fixed differently per path, and the IR half is the more interesting one:**
+- **IP:** read `GetMute` from the bar first, then command the opposite discretely. Cannot be wrong,
+  because nothing cached is consulted. If the read fails it falls back to the belief and SAYS so.
+- **IR:** send the remote's own captured `MUTE_TOGGLE` code (139). **State-independent by
+  construction — the BAR decides what to flip** — so it is correct even though IR gives nothing to
+  read back. Strictly better than choosing a discrete code from a guess, which is what it did
+  before (verified: the old build fired `MUTE_ON`, the new one fires `MUTE_TOGGLE`).
+**GENERAL RULE: never resolve a toggle against cached state.** Either read the device first, or use
+a device-side toggle that does not need to know the current value. **`CycleInput` (PULSE_INPUT) has
+the same shape** — it picks the next input from `gInputSw` — but it is far less harmful, since
+cycling from a wrong position still moves and the user simply presses again.
+**Honest limit on the testing:** the offline harness could NOT reproduce Dave's exact failure,
+because its 3s poll refreshes the belief before the action runs, so both old and new builds
+happened to land correctly there. What is verified is the behaviour change itself — the new build
+issues a `GetMute` before commanding (log: "bar reports muted=..., commanding ...") and the old one
+commands straight from cache, and the IR path now sends the toggle code instead of a guessed
+discrete one.
+
 **PROPERTY REMOVED: `Yamaha Volume`.** It surfaced `YAMAHA_DATA_GET`'s `Master volume`, which is
 **proven not to track** — it read 24 across IP volume writes and IR presses alike, and is what made
 the IR verification score working codes as failures. A readonly number that silently stops matching
