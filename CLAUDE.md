@@ -11,7 +11,7 @@ and the interesting findings, keep the nuts-and-bolts friction off his plate. He
 and is firmly of the view that an owner may do whatever they want with gear they own — so
 authorized reverse-engineering / pushing devices past vendor locks **on his own equipment** is in
 scope and encouraged. When a technique is gray for *client/dealer* installs, gate it behind an
-**"Owner Approved"** toggle (see `Yamaha-Soundbar/research/LINKPLAY_RE.md`) rather than
+**"Owner Approved"** toggle (see `Yamaha-YAS209/research/LINKPLAY_RE.md`) rather than
 refusing or silently enabling it.
 
 **Dave is a working Control4 dealer — do not explain Composer to him.** Skip walkthroughs of
@@ -32,7 +32,7 @@ for, not the click path. Surface a Composer mechanism ONLY when it is itself the
   own version field, **keep the two separate**: e.g. Control4's `driver.xml` `<version>` must be a
   plain **integer** (verified across the catalog: Pioneer VSX-LX503 = 117, Onkyo TX-NR747 = 104) and
   is only a cache-buster Composer compares on update — it is NOT the product version and is not
-  human-facing. Pattern to copy (`Yamaha-Soundbar/`): a `VERSION` file holds the semantic version,
+  human-facing. Pattern to copy (`Yamaha-YAS209/`): a `VERSION` file holds the semantic version,
   the build script auto-increments the vendor integer, and both are stamped into one displayed
   string via a `@BUILD@` token so the number a user sees can never drift from the package.
 - A `.c4z` file is just a **zip of the driver folder's contents** (files at zip root, not nested in a folder). `build.bat` / `build.ps1` are Windows scripts currently hardcoded to `nv_shield_tv`; the build outputs the `.c4z` into the driver's own folder and excludes existing `*.c4z` from the zip.
@@ -47,16 +47,41 @@ for, not the click path. Surface a Composer mechanism ONLY when it is itself the
 ### nv_shield_tv
 NVIDIA Shield TV IP driver. Pre-existing, working. Built artifacts `nv_shield_tv-dmw.c4z` (own build) and `nv_shield_tv-fordev.c4z` live in the `nv_shield_tv/` folder (moved from repo root 2026-07-25 to keep the project self-contained). `build.ps1` outputs `-dmw.c4z` into that folder and excludes `*.c4z` from the zip so artifacts never nest into a build.
 
-### Yamaha-Soundbar — OPEN, v0.9.0 (BOTH control surfaces validated on real hardware)
+### Yamaha-YAS108 — OPEN, v0.9.0 (IR only, built 2026-07-30, NOT yet hardware-tested)
+Second Yamaha soundbar. **Its own driver, not a second model on the 209's umbrella.** The umbrella
+died on contact with a real second model: **`<connections>` and `<capabilities>` are STRUCTURAL**
+(Director reads them at instantiation) so one driver cannot vary its surround-mode list or input
+set per model — a YAS-108 would have shown six sound programs where it has two. Dave's call after
+seeing the trade-off: **one driver per model.**
+**No network interface AT ALL** (no wifi, no ethernet, no local API), so there is no feedback path
+and everything follows from that: status properties are named **`Assumed …`** not `Current …`;
+`<capabilities>` deliberately **omits discrete volume and discrete mute** because nothing could
+ever correct an estimate; **power and mute are TOGGLE-ONLY** (the discrete codes in the capture are
+empty) so discrete commands are synthesised from an assumed state, with **Resync actions** to fix
+the assumption without sending IR. Mute uses the device-side toggle code (state-independent).
+**18 codes captured from the real remote, RENUMBERED** into this driver's range — the capture's ids
+collide semantically with the 209's (`1000` = Bass Extension there, HDMI here). Connections checked
+against the owner's manual, not assumed: the YAS-108 **does** have a SUBWOOFER OUT jack.
+**Nothing fired at real hardware yet.** IR-only harness covers every control path and fails hard on
+any code id not declared in driver.xml.
+
+### Yamaha-YAS209 — OPEN, v0.9.0 (BOTH control surfaces validated on real hardware)
+**Renamed from `Yamaha-Soundbar/` and de-umbrella'd 2026-07-30** (Model property removed).
+**ICONS: there is no soundbar icon to reuse anywhere** — Control4's own YSP-1000 driver just
+references the generic built-in `devices_sm/receiver.gif`, Composer's built-in library has 168
+icons with nothing closer than a receiver, and the Bose soundbar drivers ship their own brand
+logos. Both drivers now use a **drawn** soundbar icon (body, two grilles, status LED) generated
+by a script into 16/32/70/90/300px PNGs; the previous icons were **1x1 transparent GIF
+placeholders**, i.e. the driver displayed nothing.
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
 *(Note on wording: "v1"/"v2" in this section historically meant the two ARCHITECTURES — YXC then
-Linkplay — not product releases. Product version now lives in `Yamaha-Soundbar/VERSION`, is
+Linkplay — not product releases. Product version now lives in `Yamaha-YAS209/VERSION`, is
 semantic, and is pre-release `0.x` until IR is verified and it ships as 1.0.0.)*
 The original YXC premise (the FIRST architecture) was wrong for this unit (port 80 closed). Reverse-engineered the real
 local control end-to-end and **validated power/input/volume live on the actual bar** — full RE
 playbook (device map, cert-extraction, exact commands, the reusable **Owner-Approved** gray-area
 toggle, and the general method for future locked devices) is in
-`Yamaha-Soundbar/research/LINKPLAY_RE.md`. Two control surfaces: **UPnP :49152** (no auth) =
+`Yamaha-YAS209/research/LINKPLAY_RE.md`. Two control surfaces: **UPnP :49152** (no auth) =
 volume/mute/transport; **Linkplay httpapi :443** (mutual-TLS, client cert extracted from Yamaha's
 app) = power/input. Confirmed commands: power `YAMAHA_DATA_SET:{"power saving":"1"|"0"}` (1=on,
 0=standby), input `setPlayerCmd:switchmode:HDMI|bluetooth|optical` (TV=optical).
@@ -166,7 +191,7 @@ with no notion of independent toggles. **IDs must match between `driver.xml` `<s
 either is edited. Docs render the notification param inconsistently (`SURROUND MODE` with a space
 vs `SurroundMode`), and DriverWorks docs have already proven unreliable on naming, so the driver
 sends/accepts all spellings rather than burning a hardware trip to find out which.
-**OFFLINE TEST HARNESS BUILT — `Yamaha-Soundbar/test/simharness.lua` (2026-07-27).** Runs
+**OFFLINE TEST HARNESS BUILT — `Yamaha-YAS209/test/simharness.lua` (2026-07-27).** Runs
 `driver.lua` with NO controller and NO bar: stubs the `C4` API and simulates the SSL socket end to
 end (`NetConnect`→`ONLINE`→`SendToNetwork`→`ReceivedFromNetwork`→`OFFLINE`), so it exercises the
 real httpapi transport, HTTP parsing and queue. `lua test/simharness.lua driver.lua <clamp|reject|
@@ -189,7 +214,7 @@ device from the room, then ran **Add/Update Driver** in the same pass; the proje
 and had to be restored from an online backup. The update flow expects the device to still exist —
 delete-then-update is not a supported sequence. **My "remove + re-add" advice contributed to this:
 it was aimed at dodging a Director restart, and I failed to pair it with "back up first".** Rules
-now in `Yamaha-Soundbar/README.md` ("Updating the driver safely"), and they generalise to EVERY
+now in `Yamaha-YAS209/README.md` ("Updating the driver safely"), and they generalise to EVERY
 driver project in this repo:
 1. **Local backup (File → Backup As) before ANY driver install/update/removal on a live project.**
 2. **Know the change type:** `driver.lua` = hot, update in place. `<capabilities>`/`<connections>`
@@ -807,7 +832,7 @@ warning at all.
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
 regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
-superseded FIRST-architecture (YXC) design, kept for reference. `Yamaha-Soundbar/README.md` was rewritten 2026-07-27 (it still
+superseded FIRST-architecture (YXC) design, kept for reference. `Yamaha-YAS209/README.md` was rewritten 2026-07-27 (it still
 described the dead v1 YXC premise) and now carries the per-project status, the two-surface
 explanation, the build/fallback procedure, and the bringup checklist.
 
