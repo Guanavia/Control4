@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>16</version>
+  <version>18</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -247,6 +247,196 @@
          must be learned from the real remote. See README "IR". -->
     <irsection>
       <ircodes>
+        <!-- CAPTURED FROM THE REAL YAS-209 REMOTE (2026-07-30) via Composer's IR
+             learning, and therefore authoritative for THIS bar. These REPLACE the
+             YSP-1000 guesses: where both had the same id the patterns differ by 21 to
+             72 of 72 words, so the donor codes were only ever working on receiver
+             tolerance. Everything the 2005 set could not express is here: the four real
+             inputs, all six sound programs, the three DSP toggles and subwoofer trim. -->
+        <ircode>
+          <id>103</id>
+          <name>POWER_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 05f3 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>106</id>
+          <name>VOLUME_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 05f3 0156 0055 0016 0e4b</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>107</id>
+          <name>VOLUME_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 05f3 0156 0055 0016 0e4b</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>139</id>
+          <name>MUTE_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 05f2 0156 0055 0016 0e4b</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>120</id>
+          <name>INFO</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 05f3 0156 0055 0016 0e4b</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1002</id>
+          <name>TV_INPUT</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e49</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1001</id>
+          <name>HDMI</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 05f2 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1003</id>
+          <name>BLUETOOTH</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 05f2 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1004</id>
+          <name>NET</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 05f3 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1007</id>
+          <name>MOVIE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e48</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1009</id>
+          <name>MUSIC</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e49</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1010</id>
+          <name>SPORTS</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e49</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1011</id>
+          <name>GAME</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1008</id>
+          <name>TV_SURROUND</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 05f2 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1012</id>
+          <name>STEREO</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 05f2 0156 0055 0016 0e49</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1006</id>
+          <name>SURROUND_3D</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 05f3 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1005</id>
+          <name>CLEAR_VOICE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 05f3 0156 0055 0016 0e4a</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>1000</id>
+          <name>BASS_EXTENSION</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 05f2 0156 0055 0016 0e49</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>143</id>
+          <name>BASS_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 05f3 0156 0055 0016 0e4b</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>144</id>
+          <name>BASS_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006d 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 003f 0016 05f3 0156 0055 0016 0e4c</pattern>
+          <altpattern />
+        </ircode>
+        <!-- FROM THE YSP-1000 DONOR, KEPT DELIBERATELY. The remote has no discrete
+             power or mute keys, only toggles, but these four are hardware-confirmed
+             working on this bar and discrete is what the receiver proxy and any sane
+             automation want: a toggle desyncs as soon as anything else changes state. -->
         <ircode>
           <id>101</id>
           <name>POWER_ON</name>
@@ -266,33 +456,6 @@
           <altpattern />
         </ircode>
         <ircode>
-          <id>103</id>
-          <name>POWER_TOGGLE</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>106</id>
-          <name>VOLUME_UP</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 006c 0024 0002 015a 00af 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0014 0043 0014 0043 0014 0017 0015 0042 0015 0042 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0015 0042 0015 0016 0015 0042 0015 0042 0015 0042 0015 0042 0015 0016 0015 0016 0015 0016 0014 0043 0014 0017 0015 0016 0014 0017 0015 0016 0014 0043 0015 0042 0015 0042 0015 0600 015a 0058 0015 0e76 015a 0058 0014 0e77</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>107</id>
-          <name>VOLUME_DOWN</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 006c 0024 0002 015a 00af 0014 0017 0015 0016 0015 0016 0014 0043 0014 0043 0014 0043 0016 0041 0016 0015 0014 0043 0016 0041 0016 0041 0016 0015 0016 0015 0015 0016 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0014 0017 0016 0015 0015 0016 0014 0017 0016 0015 0014 0017 0015 0016 0014 0043 0016 0041 0016 0041 0016 05ff 015a 0058 0014 0e77 015a 0058 0015 0e76</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
           <id>137</id>
           <name>MUTE_ON</name>
           <transmit>PULSE</transmit>
@@ -308,123 +471,6 @@
           <repeatcount>5</repeatcount>
           <delayafter>0</delayafter>
           <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>139</id>
-          <name>MUTE_TOGGLE</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <!-- CANDIDATES, ported verbatim from the same YSP-1000 driver, ids and patterns
-             unchanged so provenance stays traceable. These are that bar's functions, not this
-             one's: its inputs are DVD/VCR/AUX and its programs are PLII/Neo:6, none of which the
-             YAS-209 has. They are here only because power, volume and mute DID carry over, so
-             the shared Yamaha system code makes a few worth one press each. Anything that misses
-             goes on the capture list for the real remote, the only source that can provide codes
-             for the functions this bar actually has (its six sound programs, HDMI/Bluetooth/
-             Network inputs, subwoofer trim). TEST MODE was deliberately NOT ported: it can leave
-             the bar emitting test tones with no documented way out. -->
-        <ircode>
-          <id>25243</id>
-          <name>INPUT_TV</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25246</id>
-          <name>INPUT_AUX</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25270</id>
-          <name>INPUT_MODE_AUTO</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25278</id>
-          <name>NIGHT_ON</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25279</id>
-          <name>NIGHT_OFF</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25252</id>
-          <name>NIGHT_TOGGLE</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25250</id>
-          <name>SLEEP</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25273</id>
-          <name>SLEEP_OFF</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25258</id>
-          <name>BEAM_STEREO</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25281</id>
-          <name>PROGRAM_PLII_MOVIE</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 0016 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
-          <altpattern />
-        </ircode>
-        <ircode>
-          <id>25253</id>
-          <name>LEVEL</name>
-          <transmit>PULSE</transmit>
-          <repeatcount>5</repeatcount>
-          <delayafter>0</delayafter>
-          <pattern>0000 0067 0022 0002 0156 00ab 0016 0016 0016 0016 0016 0016 0016 003f 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 0016 0016 003f 0016 0016 0016 0016 0016 003f 0016 0016 0016 003f 0016 003f 0016 003f 0016 0016 0016 003f 0016 003f 0016 0016 0016 003f 0016 0593 0160 0058 0016 0dc0</pattern>
           <altpattern />
         </ircode>
       </ircodes>
@@ -578,27 +624,36 @@
            one-way, so "wrong code" and "dead emitter" look identical from the driver; these
            separate them. Output goes through the unsilenceable log path, so they still report
            with Log Mode = Off. -->
+      <!-- Power -->
       <action><name>IR: Power On</name><command>IrFire_POWER_ON</command></action>
       <action><name>IR: Power Off</name><command>IrFire_POWER_OFF</command></action>
       <action><name>IR: Power Toggle</name><command>IrFire_POWER_TOGGLE</command></action>
+      <!-- Volume / mute -->
       <action><name>IR: Volume Up</name><command>IrFire_VOLUME_UP</command></action>
       <action><name>IR: Volume Down</name><command>IrFire_VOLUME_DOWN</command></action>
       <action><name>IR: Mute On</name><command>IrFire_MUTE_ON</command></action>
       <action><name>IR: Mute Off</name><command>IrFire_MUTE_OFF</command></action>
       <action><name>IR: Mute Toggle</name><command>IrFire_MUTE_TOGGLE</command></action>
-      <!-- Unconfirmed candidates, prefixed "IR?" rather than "IR:" so the proven
-           set stays visually distinct from the guesses. -->
-      <action><name>IR? Input Tv</name><command>IrFire_INPUT_TV</command></action>
-      <action><name>IR? Input Aux</name><command>IrFire_INPUT_AUX</command></action>
-      <action><name>IR? Input Mode Auto</name><command>IrFire_INPUT_MODE_AUTO</command></action>
-      <action><name>IR? Night On</name><command>IrFire_NIGHT_ON</command></action>
-      <action><name>IR? Night Off</name><command>IrFire_NIGHT_OFF</command></action>
-      <action><name>IR? Night Toggle</name><command>IrFire_NIGHT_TOGGLE</command></action>
-      <action><name>IR? Sleep</name><command>IrFire_SLEEP</command></action>
-      <action><name>IR? Sleep Off</name><command>IrFire_SLEEP_OFF</command></action>
-      <action><name>IR? Beam Stereo</name><command>IrFire_BEAM_STEREO</command></action>
-      <action><name>IR? Program Plii Movie</name><command>IrFire_PROGRAM_PLII_MOVIE</command></action>
-      <action><name>IR? Level</name><command>IrFire_LEVEL</command></action>
+      <!-- Inputs -->
+      <action><name>IR: Tv Input</name><command>IrFire_TV_INPUT</command></action>
+      <action><name>IR: Hdmi</name><command>IrFire_HDMI</command></action>
+      <action><name>IR: Bluetooth</name><command>IrFire_BLUETOOTH</command></action>
+      <action><name>IR: Net</name><command>IrFire_NET</command></action>
+      <!-- Sound programs -->
+      <action><name>IR: Movie</name><command>IrFire_MOVIE</command></action>
+      <action><name>IR: Music</name><command>IrFire_MUSIC</command></action>
+      <action><name>IR: Sports</name><command>IrFire_SPORTS</command></action>
+      <action><name>IR: Game</name><command>IrFire_GAME</command></action>
+      <action><name>IR: Tv Surround</name><command>IrFire_TV_SURROUND</command></action>
+      <action><name>IR: Stereo</name><command>IrFire_STEREO</command></action>
+      <!-- DSP / bass -->
+      <action><name>IR: Surround 3D</name><command>IrFire_SURROUND_3D</command></action>
+      <action><name>IR: Clear Voice</name><command>IrFire_CLEAR_VOICE</command></action>
+      <action><name>IR: Bass Extension</name><command>IrFire_BASS_EXTENSION</command></action>
+      <action><name>IR: Bass Up</name><command>IrFire_BASS_UP</command></action>
+      <action><name>IR: Bass Down</name><command>IrFire_BASS_DOWN</command></action>
+      <!-- Other -->
+      <action><name>IR: Info</name><command>IrFire_INFO</command></action>
     </actions>
   </config>
 

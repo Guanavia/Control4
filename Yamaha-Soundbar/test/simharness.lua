@@ -194,6 +194,11 @@ end
 -- emitter on real hardware.
 local PROXY_CMD  = ACTION:match("^IR:(.+)$") or ACTION:match("^PROXY:(.+)$")
 local PROXY_IR   = ACTION:match("^IR:") ~= nil
+-- "IRPROP:Name=Value" changes a Composer PROPERTY with Control Method = IR. That is how the
+-- DSP toggles and the subwoofer trim are actually driven, and neither path is reachable
+-- through a proxy command, so without this they would ship unexercised.
+local PROP_NAME, PROP_VALUE = ACTION:match("^IRPROP:([^=]+)=(.+)$")
+if PROP_NAME then PROXY_IR = true end
 
 Properties = {
   ["Control Method"] = PROXY_IR and "IR" or "IP",
@@ -208,10 +213,16 @@ if BOUND_IR and OnBindingChanged then OnBindingChanged(2, "IR_OUT", true) end
 drain()
 
 print(("==== archetype=%s action=%s ===="):format(ARCHETYPE, ACTION))
-if PROXY_CMD then
+if PROP_NAME then
+  Properties[PROP_NAME] = PROP_VALUE
+  OnPropertyChanged(PROP_NAME)
+elseif PROXY_CMD then
   local name, arg1 = PROXY_CMD:match("^([^=]+)=(.+)$")
   name = name or PROXY_CMD
-  ReceivedFromProxy(5001, name, arg1 and { LEVEL = arg1 } or {})
+  -- Proxy commands take differently-named params (LEVEL, INPUT, SurroundMode...). Set the
+  -- common ones to the same value so "CMD=value" works for any of them.
+  ReceivedFromProxy(5001, name, arg1 and
+    { LEVEL = arg1, INPUT = arg1, SurroundMode = arg1, MODE = arg1 } or {})
 else
   ExecuteCommand("LUA_ACTION", { ACTION = ACTION })
 end

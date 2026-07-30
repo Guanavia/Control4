@@ -54,24 +54,17 @@ local HTTPAPI_KEY_PASSWORD = "yas209-linkplay"
 -- receiver IR driver in the catalog, so they are reused here rather than invented.  They must
 -- match <irsection> in driver.xml.
 local IR = {
-  POWER_ON = 101, POWER_OFF = 102, POWER_TOGGLE = 103,
-  VOLUME_UP = 106, VOLUME_DOWN = 107,
-  MUTE_ON = 137, MUTE_OFF = 138, MUTE_TOGGLE = 139,
-  -- Unconfirmed candidates from the same YSP-1000 set; ids are that driver's, kept
-  -- unchanged for traceability. Nothing in the driver ROUTES to these; they exist
-  -- purely as test buttons until something proves out on the bar.
-  INPUT_TV = 25243,
-  INPUT_AUX = 25246,
-  INPUT_MODE_AUTO = 25270,
-  NIGHT_ON = 25278,
-  NIGHT_OFF = 25279,
-  NIGHT_TOGGLE = 25252,
-  SLEEP = 25250,
-  SLEEP_OFF = 25273,
-  BEAM_STEREO = 25258,
-  PROGRAM_PLII_MOVIE = 25281,
-  LEVEL = 25253,
+  -- CAPTURED from the real YAS-209 remote (2026-07-30) -- authoritative for this bar.
+  POWER_TOGGLE = 103, VOLUME_UP = 106, VOLUME_DOWN = 107, MUTE_TOGGLE = 139, INFO = 120,
+  TV_INPUT = 1002, HDMI = 1001, BLUETOOTH = 1003, NET = 1004,
+  MOVIE = 1007, MUSIC = 1009, SPORTS = 1010, GAME = 1011, TV_SURROUND = 1008, STEREO = 1012,
+  SURROUND_3D = 1006, CLEAR_VOICE = 1005, BASS_EXTENSION = 1000,
+  BASS_UP = 143, BASS_DOWN = 144,
+  -- From the YSP-1000 donor, kept: the remote has only toggles for these, but discrete is what
+  -- the proxy and automation need, and all four are hardware-confirmed on this bar.
+  POWER_ON = 101, POWER_OFF = 102, MUTE_ON = 137, MUTE_OFF = 138,
 }
+
 
 -- What "Verify IR Codes" fires, and how it tells whether the code actually landed.  The check
 -- reads the bar over the IP path, which is why verification needs Owner Approved even though IR
@@ -112,6 +105,12 @@ local IR_VERIFY = {
     prep_expect = "1", prep = { { http = 'YAMAHA_DATA_SET:{"power saving":"1"}' } } },
   { code = IR.POWER_ON,    label = "POWER_ON",    src = "yamaha", field = "power saving", key = "power saving", want = "1",
     prep_expect = "0", prep = { { http = 'YAMAHA_DATA_SET:{"power saving":"0"}' } } },
+}
+
+-- Control4 input connection id -> captured IR code. Every one of this bar's four inputs has a
+-- discrete key on the remote, so IR input select is exact rather than a cycle.
+local INPUT_IR = {
+  [3000] = IR.TV_INPUT, [3001] = IR.HDMI, [3003] = IR.BLUETOOTH, [3004] = IR.NET,
 }
 
 -- Control4 input connection id -> Linkplay switchmode value.
@@ -219,6 +218,13 @@ local SURROUND_MODES = {
   { id = 5, name = "TV Program", program = "tv program" },
   { id = 6, name = "Stereo",     program = "stereo" },
 }
+-- Each of the six programs has its OWN key on the remote, so IR selects a program directly
+-- rather than cycling -- the same exactness the IP path has.
+local PROGRAM_IR = {
+  ["movie"] = "MOVIE", ["music"] = "MUSIC", ["sports"] = "SPORTS",
+  ["game"] = "GAME", ["tv program"] = "TV_SURROUND", ["stereo"] = "STEREO",
+}
+
 local PROGRAM_TO_SURROUND_ID, SURROUND_ID_TO_PROGRAM = {}, {}
 for _, m in ipairs(SURROUND_MODES) do
   PROGRAM_TO_SURROUND_ID[m.program] = m.id
@@ -798,11 +804,14 @@ local function SelectInputByConn(connId)
   UpdateProp("Current Input", sw)
   NotifyInput(connId)
   if UsingIR() then
-    -- No input-select IR codes exist yet: the YSP-1000 set we seeded from has TV/DVD/VCR/AUX,
-    -- which are not this bar's inputs.  These must be learned from the real remote.  Say so
-    -- rather than silently doing nothing.
-    LogCritical("Input select over IR is not available: no IR codes for this bar's inputs have " ..
-      "been learned yet. Use Control Method = IP for input, or capture the codes (README 'IR').")
+    -- Was a hard refusal until the remote was captured (2026-07-30): the donor set had
+    -- TV/DVD/VCR/AUX, none of which are this bar's inputs. All four now have discrete keys.
+    local code = INPUT_IR[connId]
+    if not code then
+      LogCritical("IR: no captured input code for connection %s -- not sent.", tostring(connId))
+      return
+    end
+    SendIR(code, "INPUT " .. tostring(sw))
     return
   end
   HttpApiGet("setPlayerCmd:switchmode:" .. sw)
@@ -816,6 +825,13 @@ local function CycleInput()
 end
 
 local function Transport(action)
+  if UsingIR() then
+    -- No transport codes were captured from the remote, so this cannot be faked. Refuse loudly
+    -- rather than appearing to work -- the same call as input select before the capture.
+    LogCritical("IR: transport (%s) has no captured code -- not sent. Transport is IP-only.",
+      tostring(action))
+    return
+  end
   Soap(AV_CTRL, AV, action, "<InstanceID>0</InstanceID>" .. (action == "Play" and "<Speed>1</Speed>" or ""))
 end
 
@@ -976,7 +992,55 @@ end
 
 -- Write one Yamaha setting.  Optimistically records the value as the device's, so the
 -- property echo this causes does not bounce straight back out again.
+-- Yamaha settings that IR can reach, and how. The three DSP switches have TOGGLE-only keys on
+-- the remote, so over IR the driver can flip them but cannot assert an absolute state: with no
+-- readback there is nothing to reconcile against. It sends the toggle and says so, rather than
+-- pretending the requested value was applied.
+local SETTING_IR_TOGGLE = {
+  ["3D surround"]    = "SURROUND_3D",
+  ["clear voice"]    = "CLEAR_VOICE",
+  ["bass extension"] = "BASS_EXTENSION",
+}
+
 local function SetYamahaSetting(key, wireValue, cb)
+  if UsingIR() then
+    local sub = (key == "subwoofer volume")
+    if sub then
+      -- Subwoofer trim has discrete Up/Down keys; step from the last value the BAR reported.
+      local from = tonumber(gDeviceSettings[key]) or 0
+      local to   = tonumber(wireValue) or from
+      local n    = math.abs(to - from)
+      if n == 0 then if cb then cb(true) end return end
+      local code = (to > from) and IR.BASS_UP or IR.BASS_DOWN
+      LogDebug("IR subwoofer: %d -> %d = %d %s press(es)", from, to, n, to > from and "up" or "down")
+      for _ = 1, n do SendIR(code, to > from and "BASS_UP" or "BASS_DOWN") end
+      gDeviceSettings[key] = wireValue
+      if cb then cb(true) end
+      return
+    end
+    local toggle = SETTING_IR_TOGGLE[key]
+    if toggle then
+      SendIR(IR[toggle], toggle)
+      LogCritical("IR '%s': the remote has only a TOGGLE for this, so the driver flipped it " ..
+        "rather than setting it to '%s'. Over IR there is no readback to correct against.",
+        key, tostring(wireValue))
+      gDeviceSettings[key] = wireValue
+      if cb then cb(true) end
+      return
+    end
+    if key == "sound program" then
+      local name = PROGRAM_IR[wireValue]
+      if name then
+        SendIR(IR[name], name)
+        gDeviceSettings[key] = wireValue
+        if cb then cb(true) end
+        return
+      end
+    end
+    LogCritical("IR: no captured code for setting '%s' -- not sent. Use Control Method = IP.", key)
+    if cb then cb(false) end
+    return
+  end
   gDeviceSettings[key] = wireValue
   local cmd = string.format('YAMAHA_DATA_SET:{"%s":"%s"}', key, wireValue)
   LogInfo("setting %s = %s", key, wireValue)
