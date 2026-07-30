@@ -57,6 +57,20 @@ local IR = {
   POWER_ON = 101, POWER_OFF = 102, POWER_TOGGLE = 103,
   VOLUME_UP = 106, VOLUME_DOWN = 107,
   MUTE_ON = 137, MUTE_OFF = 138, MUTE_TOGGLE = 139,
+  -- Unconfirmed candidates from the same YSP-1000 set; ids are that driver's, kept
+  -- unchanged for traceability. Nothing in the driver ROUTES to these; they exist
+  -- purely as test buttons until something proves out on the bar.
+  INPUT_TV = 25243,
+  INPUT_AUX = 25246,
+  INPUT_MODE_AUTO = 25270,
+  NIGHT_ON = 25278,
+  NIGHT_OFF = 25279,
+  NIGHT_TOGGLE = 25252,
+  SLEEP = 25250,
+  SLEEP_OFF = 25273,
+  BEAM_STEREO = 25258,
+  PROGRAM_PLII_MOVIE = 25281,
+  LEVEL = 25253,
 }
 
 -- What "Verify IR Codes" fires, and how it tells whether the code actually landed.  The check
