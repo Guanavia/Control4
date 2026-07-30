@@ -361,7 +361,35 @@ numeric form is now hardware-confirmed and a second burst would move volume twic
 back. Judge by ear, one button at a time; clean up the buttons later. `Verify IR Codes` stays for
 the automated pass but is no longer the primary instrument.
 
-**REMAINING: whether the YSP-1000 codes drive the YAS-209 —** Untested, because the only
+**PER-CODE BUTTON RESULTS (2026-07-30): 7 of 8 WORK.** POWER_ON, POWER_OFF, VOLUME_UP,
+VOLUME_DOWN, MUTE_ON, MUTE_OFF, MUTE_TOGGLE all drive the bar. **Only POWER_TOGGLE (103) fails, and
+it does not matter** — nothing in the driver routes to it (`SetPower` sends discrete ON/OFF, and
+the receiver proxy is discrete too), so it exists purely as a declared code. Discrete is the right
+model anyway: a toggle desyncs the moment anything else changes the bar.
+**I UNDER-PORTED THE SEED SET AND SAID SO WRONGLY.** Dave challenged "you said these were the only
+codes available?" — correct challenge. The YSP-1000 driver has **72 codes; only 8 were ported**,
+and driver.xml carried a comment claiming input select and sound programs "must be learned from the
+real remote". They were in the file all along. **48 unported codes have real patterns:** inputs
+(TV/DVD/VCR/AUX), programs (PLII Movie/Music/Game, Neo:6 Cinema/Music, ProLogic), beam modes, night
+mode, sleep timers, memory presets, menu navigation. **Lesson: when seeding from a donor driver,
+inventory the WHOLE set and say what was left out and why — do not describe the subset you chose as
+the set that exists.**
+**11 CANDIDATES NOW PORTED as `IR?`-prefixed buttons** (distinct from the proven `IR:` set):
+INPUT_TV, INPUT_AUX, INPUT_MODE_AUTO, NIGHT_ON/OFF/TOGGLE, SLEEP, SLEEP_OFF, BEAM_STEREO,
+PROGRAM_PLII_MOVIE, LEVEL — ids and patterns verbatim from the YSP file for traceability. Chosen
+because the YAS-209 plausibly has the FUNCTION even though the label differs; most will likely
+miss, since the YSP's inputs and programs are not this bar's. **TEST MODE deliberately NOT ported:
+it can leave the bar emitting test tones with no documented exit — not something to ship as a
+one-click button.** A cross-check script confirms every declared `<ircode>` has exactly one Action
+and one `IR` table entry, in both directions (19/19, no orphans) — same discipline as the
+`surround_modes` id cross-check.
+**Note the YSP file declares 16 ids TWICE, the second time with an EMPTY pattern**, so keying codes
+by id naively picks the useless duplicate. Take the entry that carries a pattern.
+**STILL THE AUTHORITATIVE PATH: capture from the real remote.** No amount of porting from a 2005
+bar can produce codes for functions the YAS-209 has and the YSP-1000 did not — its six sound
+programs, HDMI/Bluetooth/Network inputs, subwoofer trim.
+
+**SUPERSEDED: whether the YSP-1000 codes drive the YAS-209 —** Untested, because the only
 working emitter is at the TV and not aimed at the bar. **A working emitter must be physically at
 the bar's IR window before `Verify IR Codes` means anything** — an unaimed emitter fails every code
 and is indistinguishable from a wrong code set (exactly what the report's "check the emitter FIRST"
