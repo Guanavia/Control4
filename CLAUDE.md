@@ -411,8 +411,14 @@ is unfalsifiable.** Apply both to the next locked device.
 `project`=`YAS_109`); `Master volume` (24) is NOT the UPnP 0-100 scale (Linkplay `vol` read 63 at
 the same moment) — relationship unresolved, so it is display-only; `NET Standby`/`HDMI Control`/
 `Auto Power Stby`/`voice control`/`Dimmer` exist but are not exposed yet.
-**EQ lead:** `getPlayerStatus` carries an **`eq`** field (readback), so EQ likely writes via
-`setPlayerCmd:equalizer:<n>` — untested. `setPlayerCmd:*` writes return a 2-byte `OK` with HTTP 200.
+**EQ — CLOSED, NOT PURSUING (owner's call, 2026-07-29). Do not re-raise.** `getPlayerStatus`
+carries an **`eq`** field (reads `0`) and Linkplay's generic API would write it via
+`setPlayerCmd:equalizer:<n>`. But that is the LINKPLAY layer, not the Yamaha one: **Yamaha does not
+expose any EQ**, in the app or in `YAMAHA_DATA_GET`, and the odds were that it is either inert or
+affects only the network-streaming path (the Linkplay module handles only that chain, so HDMI/
+optical would likely be unaffected). Dave's call: **Subwoofer Boost already covers the need and the
+bar sounds good as-is — not worth digging further.** The field stays documented in case it ever
+matters; it is not a TODO. `setPlayerCmd:*` writes return a 2-byte `OK` with HTTP 200.
 The JSON parser is unit-tested against BOTH real payloads (space-containing keys, parenthesised
 keys like `DSP(AC)`, and a substring-collision guard).
 
@@ -482,7 +488,6 @@ warning at all.
    logged `input changed at the bar -> optical` and `power changed at the bar -> On`, i.e. it
    picked up state the driver had not set — but that was reconciling from *unknown*, not tracking
    a genuine external change.)
-3. **EQ** — try `setPlayerCmd:equalizer:<n>` and watch `getPlayerStatus`'s `eq` field.
 4. **IR as the shipping default** control method (per the original design: IP is the owner's path,
    IR is what ships to dealers). **REMOTE FOUND 2026-07-28 (battery on order), so learning codes
    by CAPTURE is back on the table** — this supersedes the earlier "remote is lost, database only"
