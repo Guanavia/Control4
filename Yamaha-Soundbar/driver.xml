@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>18</version>
+  <version>20</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -510,7 +510,7 @@
         <name>Owner Approved</name>
         <type>LIST</type><readonly>false</readonly><default>No</default>
         <items><item>No</item><item>Yes</item></items>
-        <tooltip>GRAY-AREA GATE. Power and input over IP use a client certificate extracted from Yamaha's app to reach the soundbar's local API. This is the EQUIPMENT OWNER's decision to enable. While "No", the driver still does volume/mute/transport (UPnP) and leaves power/input to IR. Set to "Yes" ONLY with the owner's consent.</tooltip>
+        <tooltip>GRAY-AREA GATE. Power and input over IP use a client certificate extracted from Yamaha's app to reach the soundbar's local API. This is the EQUIPMENT OWNER's decision to enable. While "No", the driver still does volume/mute (UPnP) and leaves power/input to IR. Set to "Yes" ONLY with the owner's consent.</tooltip>
       </property>
       <property>
         <name>Connected</name>
@@ -598,11 +598,6 @@
       <action><name>Refresh Now</name><command>RefreshNow</command></action>
       <action><name>Power On (IP)</name><command>PowerOn</command></action>
       <action><name>Power Off / Standby (IP)</name><command>PowerOff</command></action>
-      <action><name>Play</name><command>TransportPlay</command></action>
-      <action><name>Pause</name><command>TransportPause</command></action>
-      <action><name>Stop</name><command>TransportStop</command></action>
-      <action><name>Next Track</name><command>TransportNext</command></action>
-      <action><name>Previous Track</name><command>TransportPrevious</command></action>
       <!-- getStatusEx is an IDENTITY/CAPABILITY dump only.  Proven on hardware 2026-07-27:
            five captures at five different inputs were identical except the clock (65 of 66
            fields), and it contains no mode/source/input/eq/surround key at all.  Use

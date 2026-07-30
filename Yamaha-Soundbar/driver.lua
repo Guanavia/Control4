@@ -3,7 +3,7 @@
   Model: YAS-209 (Linkplay/WiiMu module).  See research/LINKPLAY_RE.md.
 
   Control methods (Control Method property): IR / IP / Serial.  IP is implemented:
-    * Volume / mute / transport  -> UPnP SOAP on :49152 (no auth).
+    * Volume / mute              -> UPnP SOAP on :49152 (no auth).
     * Power / input select        -> Linkplay httpapi on :443 (mutual-TLS, bundled
                                      client cert), GATED by the "Owner Approved" property.
 
@@ -232,9 +232,7 @@ for _, m in ipairs(SURROUND_MODES) do
 end
 
 local RC = "urn:schemas-upnp-org:service:RenderingControl:1"
-local AV = "urn:schemas-upnp-org:service:AVTransport:1"
 local RC_CTRL = "/upnp/control/rendercontrol1"
-local AV_CTRL = "/upnp/control/rendertransport1"
 
 local LOG_LEVEL = { ALERT=0, ERROR=1, WARNING=2, INFO=3, TRACE=4, DEBUG=5 }
 
@@ -383,7 +381,7 @@ local function NotifyInput(connId)
 end
 
 -------------------------------------------------
--- UPnP SOAP LAYER (:49152, plain HTTP, no auth) - volume/mute/transport
+-- UPnP SOAP LAYER (:49152, plain HTTP, no auth) - volume/mute
 -------------------------------------------------
 local function SoapEnvelope(service, action, innerXml)
   return '<?xml version="1.0" encoding="utf-8"?>' ..
@@ -824,16 +822,6 @@ local function CycleInput()
   SelectInputByConn(INPUT_ORDER[(idx % #INPUT_ORDER) + 1])
 end
 
-local function Transport(action)
-  if UsingIR() then
-    -- No transport codes were captured from the remote, so this cannot be faked. Refuse loudly
-    -- rather than appearing to work -- the same call as input select before the capture.
-    LogCritical("IR: transport (%s) has no captured code -- not sent. Transport is IP-only.",
-      tostring(action))
-    return
-  end
-  Soap(AV_CTRL, AV, action, "<InstanceID>0</InstanceID>" .. (action == "Play" and "<Speed>1</Speed>" or ""))
-end
 
 local function ConnIdFromParams(t)
   if type(t) ~= "table" then return nil end
@@ -873,7 +861,12 @@ end
 local function StopPoll() if gPollTimer then gPollTimer:Cancel(); gPollTimer = nil end end
 local function StartPoll()
   StopPoll()
-  if gCtrlMethod ~= "IP" then return end
+  -- NOT gated on Control Method: see the note on StartStatePoll. UPnP volume/mute is plain
+  -- HTTP with no auth, so it costs nothing to run alongside IR control.
+  if not DeviceAddress() then
+    LogDebug("volume/mute feedback off: no IP Address set")
+    return
+  end
   Poll()
   gPollTimer = C4:SetTimer(gPollSecs * 1000, function(timer)
     Poll()
@@ -918,7 +911,7 @@ local function ApplyInputState(connId)
 end
 
 local function PollHttpApiState()
-  if gCtrlMethod ~= "IP" or not gOwnerOK or gStatePollSecs <= 0 then return end
+  if not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then return end
 
   HttpApiGet("getPlayerStatus", function(ok, body)
     if not ok or not body then return end
@@ -1053,9 +1046,13 @@ end
 
 local function StartStatePoll()
   StopStatePoll()
-  if gCtrlMethod ~= "IP" or not gOwnerOK or gStatePollSecs <= 0 then
-    LogDebug("state feedback off (method=%s ownerOK=%s interval=%s)",
-      tostring(gCtrlMethod), tostring(gOwnerOK), tostring(gStatePollSecs))
+  -- Deliberately NOT gated on Control Method. Feedback is about whether the IP path is
+  -- REACHABLE, not about how commands leave the driver, and conflating the two meant an IR
+  -- install got no state at all even with the bar on the network and a working certificate.
+  -- IR out + IP back is the better hybrid for an owner: dealer-friendly control, real feedback.
+  if not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then
+    LogDebug("state feedback off (addr=%s ownerOK=%s interval=%s)",
+      tostring(DeviceAddress()), tostring(gOwnerOK), tostring(gStatePollSecs))
     return
   end
   -- Deliberately NO immediate poll: OnDriverLateInit walks every property, so firing here
@@ -1720,11 +1717,6 @@ function ExecuteCommand(strCommand, tParams)
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "PowerOn"           then SetPower(true)
   elseif strCommand == "PowerOff"          then SetPower(false)
-  elseif strCommand == "TransportPlay"     then Transport("Play")
-  elseif strCommand == "TransportPause"    then Transport("Pause")
-  elseif strCommand == "TransportStop"     then Transport("Stop")
-  elseif strCommand == "TransportNext"     then Transport("Next")
-  elseif strCommand == "TransportPrevious" then Transport("Previous")
   elseif strCommand == "QueryDeviceInfo"   then
     -- Identity/capabilities only.  Proven on hardware: five captures at five different
     -- inputs differed ONLY in the clock, and there is no mode/source/input field at all.

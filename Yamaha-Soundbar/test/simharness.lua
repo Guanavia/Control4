@@ -198,7 +198,8 @@ local PROXY_IR   = ACTION:match("^IR:") ~= nil
 -- DSP toggles and the subwoofer trim are actually driven, and neither path is reachable
 -- through a proxy command, so without this they would ship unexercised.
 local PROP_NAME, PROP_VALUE = ACTION:match("^IRPROP:([^=]+)=(.+)$")
-if PROP_NAME then PROXY_IR = true end
+if PROP_NAME then PROXY_IR = true
+else PROP_NAME, PROP_VALUE = ACTION:match("^PROP:([^=]+)=(.+)$") end
 
 Properties = {
   ["Control Method"] = PROXY_IR and "IR" or "IP",
@@ -240,6 +241,14 @@ if #irFired > 0 then
   end
 else
   print("-- IR fired: none")
+end
+do
+  local reads = 0
+  for _, w in ipairs(writes) do
+    if w:match("^YAMAHA_DATA_GET") or w:match("^getPlayerStatus") then reads = reads + 1 end
+  end
+  print(("-- state-feedback reads issued: %d (Control Method = %s)")
+    :format(reads, tostring(Properties["Control Method"])))
 end
 print(("-- simulated bar: subwoofer now '%s', %d commands sent, %d timer ticks")
   :format(dev["subwoofer volume"], #writes, ticks))
