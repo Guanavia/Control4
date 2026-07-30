@@ -82,8 +82,9 @@ So the subwoofer is the **Subwoofer Boost** property (`RANGED_INTEGER`, −4..4)
 bounds correctly, and the EQ section stays empty. Don't re-add `has_discrete_bass_control` without
 first solving the range problem.
 
-Linkplay's `eq` field in `getPlayerStatus` is a separate, untested lead, probably written via
-`setPlayerCmd:equalizer:<n>`.
+Linkplay's `eq` field in `getPlayerStatus` belongs to the Linkplay layer, not the Yamaha one, and
+is **deliberately not pursued**: Yamaha exposes no EQ anywhere, and if the field is live at all it
+most likely affects only the network-streaming path. Subwoofer Boost covers the real need.
 
 ## Testing without hardware
 
