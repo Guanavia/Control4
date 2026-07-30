@@ -117,6 +117,20 @@ local INPUT_IR = {
 -- There is deliberately no separate "Optical In": the bar has ONE optical/ARC input and
 -- the Linkplay layer exposes ONE switchmode ("optical") for it, which is what the TV
 -- input already selects.  A second entry would have been a duplicate of 3000.
+-- What the "Current Input" PROPERTY shows. These are the user-facing names and MUST match the
+-- <connectionname> values in driver.xml. The property used to display INPUT_MAP's value instead,
+-- which is the Linkplay WIRE string -- so selecting TV reported "optical". That is an internal
+-- protocol token, and worse, it names a physically separate input this bar does not have: the
+-- optical jack is part of the TV input, not a selectable source of its own (which is exactly why
+-- the standalone "Optical In" connection was removed earlier). Never surface a wire value in a
+-- property a dealer reads.
+local INPUT_NAME = {
+  [3000] = "TV (ARC / Optical)",
+  [3001] = "HDMI In",
+  [3003] = "Bluetooth",
+  [3004] = "Network / Streaming",
+}
+
 local INPUT_MAP = {
   [3000] = "optical",    -- TV (ARC / optical)
   [3001] = "HDMI",       -- HDMI In
@@ -801,7 +815,7 @@ local function SelectInputByConn(connId)
   local sw = INPUT_MAP[connId]
   if not sw then LogWarning("unknown input connection id %s", tostring(connId)); return end
   gInputSw = sw
-  UpdateProp("Current Input", sw)
+  UpdateProp("Current Input", INPUT_NAME[connId] or sw)
   NotifyInput(connId)
   if UsingIR() then
     -- Was a hard refusal until the remote was captured (2026-07-30): the donor set had
@@ -914,9 +928,12 @@ local function ApplyInputState(connId)
   local sw = INPUT_MAP[connId]
   if not sw or gInputSw == sw then return end
   gInputSw = sw
-  UpdateProp("Current Input", sw)
+  UpdateProp("Current Input", INPUT_NAME[connId] or sw)
   NotifyInput(connId)
-  LogInfo("input changed at the bar -> %s (connection %d)", sw, connId)
+  -- Log keeps the wire value too: it is what the bar actually reported and what any protocol
+  -- debugging needs, even though it must not be what the property shows.
+  LogInfo("input changed at the bar -> %s (connection %d, mode '%s')",
+    INPUT_NAME[connId] or sw, connId, sw)
 end
 
 local function PollHttpApiState()

@@ -247,7 +247,15 @@ do
   for _, w in ipairs(writes) do
     if w:match("^YAMAHA_DATA_GET") or w:match("^getPlayerStatus") then reads = reads + 1 end
   end
-  print(("-- state-feedback reads issued: %d (Control Method = %s)")
+  do
+  local wire = { optical = true, HDMI = true, bluetooth = true, wifi = true }
+  local shown = props["Current Input"]
+  if shown then
+    print(("-- Current Input property: %q%s"):format(shown,
+      wire[shown] and "   <-- BUG: that is a Linkplay wire value, not an input name" or ""))
+  end
+end
+print(("-- state-feedback reads issued: %d (Control Method = %s)")
     :format(reads, tostring(Properties["Control Method"])))
 end
 print(("-- simulated bar: subwoofer now '%s', %d commands sent, %d timer ticks")
