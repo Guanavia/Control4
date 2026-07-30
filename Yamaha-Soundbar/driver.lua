@@ -159,13 +159,22 @@ local SETTING_PROPS = {
   { prop = "Bass Extension", key = "bass extension", enc = OnOffEnc, dec = OnOffDec },
 }
 
--- Reported by the bar but not written by us (range / vocabulary unknown) -- display only.
--- "Master volume" was here as a "Yamaha Volume" property and was REMOVED (2026-07-30): it does
+-- Read from the bar and recorded, but NOT surfaced as properties. These are diagnostics, and a
+-- diagnostic belongs in "Get Device Status", not in the configuration surface: as a property it
+-- only refreshed on the 30s poll, was visible only if someone opened the Properties tab, and
+-- could not drive programming (this driver declares no property-changed events).
+--
+-- "Audio Stream" is the format the bar is decoding (PCM / Dolby / DTS). It answers exactly one
+-- useful question -- is the TV bitstreaming over ARC or downmixing everything to PCM, which is
+-- the usual reason surround "does not work" -- and nothing else. UNVERIFIED: every capture so
+-- far has read "PCM"; whether it ever changes has not been tested on this bar.
+--
+-- "Master volume" was a "Yamaha Volume" property and was REMOVED entirely (2026-07-30): it does
 -- not track. It read 24 across IP volume writes and IR presses alike, which is how the IR
--- verification came to score working codes as failures. A readonly number that silently stops
--- matching reality is worse than no number -- same call as withdrawing proxy bass control.
-local READONLY_SETTINGS = {
-  { prop = "Audio Stream",     key = "Audio Stream" },
+-- verification came to score working codes as failures. It is not even kept here, because a
+-- number that silently stops matching reality is worse than no number.
+local STATUS_ONLY = {
+  { label = "Audio Stream", key = "Audio Stream" },
 }
 
 
@@ -964,12 +973,9 @@ local function PollHttpApiState(manual)
         UpdateProp(s.prop, s.dec(raw))
       end
     end
-    for _, s in ipairs(READONLY_SETTINGS) do
+    for _, s in ipairs(STATUS_ONLY) do
       local raw = jsonstr(body, s.key)
-      if raw ~= nil then
-        gDeviceSettings[s.key] = raw   -- recorded, not just displayed, so status can report it
-        UpdateProp(s.prop, raw)
-      end
+      if raw ~= nil then gDeviceSettings[s.key] = raw end   -- recorded; reported by Get Device Status
     end
 
   end)
@@ -1238,7 +1244,7 @@ local function GetDeviceStatus()
       local raw = gDeviceSettings[s.key]
       show(s.prop, raw ~= nil and s.dec(raw) or nil)
     end
-    for _, s in ipairs(READONLY_SETTINGS) do show(s.prop, gDeviceSettings[s.key]) end
+    for _, s in ipairs(STATUS_ONLY) do show(s.label, gDeviceSettings[s.key]) end
     LogCritical("----------------------")
   end, false)
 end
