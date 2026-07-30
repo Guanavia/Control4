@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>24</version>
+  <version>28</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -610,6 +610,11 @@
       <!-- DSP / bass -->
       <!-- Forces an immediate volume/mute read instead of waiting for the poll. -->
       <action><name>Refresh Now</name><command>RefreshNow</command></action>
+      <!-- Reads everything available right now and prints what the driver ended up knowing,
+           so nobody has to shorten "State Poll Seconds" just to see current values. That
+           interval is slow by default because every httpapi read is a full mutual-TLS
+           handshake, so temporarily speeding it up is exactly the wrong fix. -->
+      <action><name>Get Device Status</name><command>GetDeviceStatus</command></action>
       <!-- IR install check. Fires ONE code with nothing else in the path (no proxy, no
            Control Method, no Owner Approved, no IP) and reports what Director says is bound to
            the IR output. IR is one-way, so without this a wrong code and a dead emitter or

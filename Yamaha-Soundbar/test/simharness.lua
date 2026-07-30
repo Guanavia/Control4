@@ -197,6 +197,7 @@ local PROXY_IR   = ACTION:match("^IR:") ~= nil
 -- "IRPROP:Name=Value" changes a Composer PROPERTY with Control Method = IR. That is how the
 -- DSP toggles and the subwoofer trim are actually driven, and neither path is reachable
 -- through a proxy command, so without this they would ship unexercised.
+if ACTION:match("^IRACTION:") then PROXY_IR = true; ACTION = ACTION:gsub("^IRACTION:","") end
 local PROP_NAME, PROP_VALUE = ACTION:match("^IRPROP:([^=]+)=(.+)$")
 if PROP_NAME then PROXY_IR = true
 else PROP_NAME, PROP_VALUE = ACTION:match("^PROP:([^=]+)=(.+)$") end

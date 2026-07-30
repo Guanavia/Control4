@@ -834,6 +834,12 @@ local function StartPoll()
   -- last command it sent is the honest model. A hybrid (IR out, IP back) was proposed and
   -- REJECTED -- do not re-decouple this without asking.
   if gCtrlMethod ~= "IP" then
+    -- Say so on the property too. "Connected" is set by this poll, so leaving it at its last
+    -- value would keep claiming a live link to a bar the driver has stopped talking to -- the
+    -- same failure as any other stale display, and misleading precisely when someone is
+    -- debugging an IR install.
+    gConnected = false
+    UpdateProp("Connected", "n/a - IR control (one-way, nothing is polled)")
     LogDebug("volume/mute feedback off: Control Method = %s", tostring(gCtrlMethod))
     return
   end
@@ -887,8 +893,14 @@ local function ApplyInputState(connId)
     INPUT_NAME[connId] or sw, connId, sw)
 end
 
-local function PollHttpApiState()
-  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then return end
+-- `manual` = triggered by the Get Device Status action rather than the timer. It skips the
+-- interval check ONLY: "State Poll Seconds = 0" means "do not poll on a timer", not "never read",
+-- and someone who turned automatic polling off to avoid a TLS handshake every 30s is exactly the
+-- person who wants a button. The Control Method, address and Owner Approved gates still apply --
+-- those are about whether reading is permitted at all, not how often.
+local function PollHttpApiState(manual)
+  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK then return end
+  if not manual and gStatePollSecs <= 0 then return end
 
   HttpApiGet("getPlayerStatus", function(ok, body)
     if not ok or not body then return end
@@ -954,7 +966,10 @@ local function PollHttpApiState()
     end
     for _, s in ipairs(READONLY_SETTINGS) do
       local raw = jsonstr(body, s.key)
-      if raw ~= nil then UpdateProp(s.prop, raw) end
+      if raw ~= nil then
+        gDeviceSettings[s.key] = raw   -- recorded, not just displayed, so status can report it
+        UpdateProp(s.prop, raw)
+      end
     end
 
   end)
@@ -1147,6 +1162,52 @@ end
 -------------------------------------------------
 -- ACTIONS / COMMANDS
 -------------------------------------------------
+-- Read everything the driver can read, right now, and print what it ended up knowing.
+-- Exists so nobody has to shorten "State Poll Seconds" just to see current values and then
+-- remember to put it back -- and because every httpapi read is a full mutual-TLS handshake,
+-- which is exactly why that interval is slow by default.
+--
+-- The summary is unsilenceable: an action whose entire purpose is to SHOW you the status is
+-- useless if its output lands behind a Log Mode that defaults to Off.
+local function GetDeviceStatus()
+  LogCritical("---- device status ----")
+  if gCtrlMethod ~= "IP" then
+    LogCritical("Control Method is %s, so the driver does not read state from the bar " ..
+      "(IR is one-way). Values below are what the driver last SENT, not what the bar reports.",
+      tostring(gCtrlMethod))
+  elseif not DeviceAddress() then
+    LogCritical("No IP Address set -- nothing can be read. Values below are last-sent only.")
+  elseif not gOwnerOK then
+    LogCritical("Owner Approved = No, so power/input/settings cannot be read (that path needs " ..
+      "the client certificate). Volume and mute below are live; the rest is last-sent.")
+  end
+
+  Poll()               -- UPnP volume/mute
+  PollHttpApiState(true)   -- power / input / surround / DSP settings
+
+  -- Let the reads land before reporting; both are async and the httpapi half is a handshake
+  -- per request. Reporting immediately would print the PREVIOUS values and look like a bug.
+  C4:SetTimer(3000, function()
+    local function show(label, v)
+      LogCritical("  %-18s %s", label, (v == nil or v == "") and "unknown" or tostring(v))
+    end
+    show("Connected",   (gCtrlMethod == "IP") and tostring(gConnected)
+                        or "n/a - IR control (one-way, nothing is polled)")
+    show("Control Method", gCtrlMethod)
+    show("Power",       gPower == nil and nil or (gPower and "On" or "Standby"))
+    show("Input",       gInputSw and (INPUT_NAME[SWITCH_TO_CONN[gInputSw]] or gInputSw) or nil)
+    show("Volume",      gYxcVolume)
+    show("Muted",       gMute == nil and nil or tostring(gMute))
+    show("Sound Program", gDeviceSettings["sound program"])
+    for _, s in ipairs(SETTING_PROPS) do
+      local raw = gDeviceSettings[s.key]
+      show(s.prop, raw ~= nil and s.dec(raw) or nil)
+    end
+    for _, s in ipairs(READONLY_SETTINGS) do show(s.prop, gDeviceSettings[s.key]) end
+    LogCritical("----------------------")
+  end, false)
+end
+
 function ExecuteCommand(strCommand, tParams)
   -- Composer Actions arrive as "LUA_ACTION" with the real action name in tParams.ACTION.
   if strCommand == "LUA_ACTION" then
@@ -1160,6 +1221,7 @@ function ExecuteCommand(strCommand, tParams)
   end
   LogTrace("ExecuteCommand: %s", tostring(strCommand))
   if     strCommand == "RefreshNow"        then Poll()
+  elseif strCommand == "GetDeviceStatus"   then GetDeviceStatus()
   elseif strCommand == "TestIrEmitter" then IrFireOne("POWER_ON")
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
