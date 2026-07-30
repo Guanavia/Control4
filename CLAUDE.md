@@ -282,6 +282,38 @@ unbound connection" from "wrong code", the two failures IR cannot tell apart. Ru
 hardware session; a blink clears the physical side, no blink means stop and fix the binding.
 **Still unverified on hardware:** whether any seeded code actually drives the YAS-209.
 
+**IR STILL DOES NOT TRANSMIT — narrowed to the controller-side IR path, NOT the driver
+(2026-07-29, hardware).** `IR Emitter Test` fired every code with a brand-new emitter and correct
+Composer connections: **no blink, ever, on any code, in either argument form.** What the on-driver
+diagnostics established:
+- **The binding IS bound.** `GetBoundProviderDevice(myId, 2) -> 85`. So Director agrees something
+  (device 85) drives binding 2.
+- **`C4:SendIR` never errors** — numeric id and string id both "sent without error". So the call
+  is accepted and simply produces no RF/IR.
+- **MY DIAGNOSTIC LIED AND I CORRECTED IT.** The first version printed "OnBindingChanged: Director
+  has NEVER reported binding 2 ... nothing is attached to it" — **wrong**: `OnBindingChanged` fires
+  only on a CHANGE, so a binding already bound at driver load never fires it. It contradicted
+  `GetBoundProviderDevice` **in the same output block**. Now reworded to say absence is normal and
+  to trust `GetBoundProviderDevice`. **Lesson (third time on this project): a diagnostic that can
+  assert a false negative is worse than no diagnostic** — and the tell was that two lines of the
+  same block disagreed.
+**Everything driver-side is now ruled out by direct comparison with Control4's own shipping
+lua_gen IR driver (Pioneer VSX-LX503), not by assumption:** `<irsection>` placement under
+`<config>`, its attrs and `<ircode>` field set, the IR connection block (id 2 / type 1 / facing 1 /
+consumer True / linelevel True / IR_OUT), `<control>lua_gen`, `<controlmethod>ip`, `IR_BINDING_ID
+= 2`, and the `C4:SendIR(binding, code)` call shape — **all identical**. The 8 IR **patterns are
+byte-identical** to Control4's YSP-1000 source (verified word-for-word). Note the emitter LED
+blinks whenever Director transmits ANYTHING, right code or wrong — so **no blink proves Director
+is not transmitting at all, which cannot be a code-data problem.**
+**NEXT AND DECISIVE — a positive control with a Control4-authored driver.** Add the stock **Yamaha
+YSP-1000** IR driver (`receiver_ir_yamaha_ysp-1000.c4i`, av_gen, from the online database), bind it
+to the SAME IR output, fire its Power. Blink = the controller's IR path is fine and the fault is in
+our lua_gen SendIR path. No blink = the controller port/emitter is the fault and our driver is
+exonerated. It also happens to test the SAME code ids (101/102/...) our set was seeded from, so a
+working blink would answer the code-validity question in the same step. **Do this before writing
+any more driver instrumentation** — the driver has now been instrumented past the point of
+diminishing returns, and the remaining unknown is outside it.
+
 **"VERSIONS ARE EQUAL" ON UPDATE — TWO DIFFERENT VERSIONS, AND THEY HAD DRIFTED (2026-07-29).**
 Dave hit "versions are equal" updating the driver, and reported Composer showing **2.1.0** while
 the package said 6. Both observations were right, because a Control4 driver carries **two
