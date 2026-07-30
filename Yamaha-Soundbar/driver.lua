@@ -714,6 +714,8 @@ local function SetVolumeLevelIR(level)
     LogDebug("IR volume: %d -> %d is under one step, nothing sent", from, level)
     return
   end
+  -- Nothing corrects this afterwards: state feedback is off in IR mode by design, so the
+  -- inferred level is the only level the driver has.
   local up   = delta > 0
   local code = up and IR.VOLUME_UP or IR.VOLUME_DOWN
   LogDebug("IR volume: %d -> %d = %d %s pulse(s) (assumed %d%%/pulse; NOT confirmed by the bar)",
@@ -861,8 +863,15 @@ end
 local function StopPoll() if gPollTimer then gPollTimer:Cancel(); gPollTimer = nil end end
 local function StartPoll()
   StopPoll()
-  -- NOT gated on Control Method: see the note on StartStatePoll. UPnP volume/mute is plain
-  -- HTTP with no auth, so it costs nothing to run alongside IR control.
+  -- Gated on Control Method BY DESIGN (owner's decision, 2026-07-30). A driver set to IR is
+  -- controlling a device it is not talking to over the network, and it should not quietly go
+  -- reading state behind that choice: an IR install is one-way, and the driver knowing only the
+  -- last command it sent is the honest model. A hybrid (IR out, IP back) was proposed and
+  -- REJECTED -- do not re-decouple this without asking.
+  if gCtrlMethod ~= "IP" then
+    LogDebug("volume/mute feedback off: Control Method = %s", tostring(gCtrlMethod))
+    return
+  end
   if not DeviceAddress() then
     LogDebug("volume/mute feedback off: no IP Address set")
     return
@@ -911,7 +920,7 @@ local function ApplyInputState(connId)
 end
 
 local function PollHttpApiState()
-  if not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then return end
+  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then return end
 
   HttpApiGet("getPlayerStatus", function(ok, body)
     if not ok or not body then return end
@@ -1046,13 +1055,11 @@ end
 
 local function StartStatePoll()
   StopStatePoll()
-  -- Deliberately NOT gated on Control Method. Feedback is about whether the IP path is
-  -- REACHABLE, not about how commands leave the driver, and conflating the two meant an IR
-  -- install got no state at all even with the bar on the network and a working certificate.
-  -- IR out + IP back is the better hybrid for an owner: dealer-friendly control, real feedback.
-  if not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then
-    LogDebug("state feedback off (addr=%s ownerOK=%s interval=%s)",
-      tostring(DeviceAddress()), tostring(gOwnerOK), tostring(gStatePollSecs))
+  -- Same gate as the volume/mute poll, and for the same reason: state feedback belongs to IP
+  -- control. See StartPoll.
+  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then
+    LogDebug("state feedback off (method=%s addr=%s ownerOK=%s interval=%s)",
+      tostring(gCtrlMethod), tostring(DeviceAddress()), tostring(gOwnerOK), tostring(gStatePollSecs))
     return
   end
   -- Deliberately NO immediate poll: OnDriverLateInit walks every property, so firing here

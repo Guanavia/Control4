@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>20</version>
+  <version>21</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
