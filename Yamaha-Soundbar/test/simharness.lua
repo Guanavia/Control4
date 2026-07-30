@@ -166,9 +166,13 @@ end
 -- UPnP RenderingControl, simulated. The IR verification reads volume/mute from HERE (not from
 -- YAMAHA_DATA_GET, whose "mute"/"Master volume" were shown on hardware not to track), so the sim
 -- has to answer these or the reworked sweep cannot be tested offline at all.
-upnpVol, upnpMute = 20, "0"
+-- "premuted" starts the simulated bar MUTED while the driver's belief is still unknown, which
+-- is the exact mismatch that made the first press of the remote's mute button do nothing.
+upnpVol, upnpMute = 20, (ARCHETYPE == "premuted") and "1" or "0" 
+upnpSeq = {}
 local function upnpHandle(body)
   local action = body and body:match("<u:(%a+) xmlns") or ""
+  upnpSeq[#upnpSeq+1] = action
   if action == "SetVolume" then upnpVol = tonumber(body:match("<DesiredVolume>(%d+)")) or upnpVol
   elseif action == "SetMute" then upnpMute = body:match("<DesiredMute>(%d)") or upnpMute
   elseif action == "GetVolume" then return "<CurrentVolume>" .. upnpVol .. "</CurrentVolume>"
@@ -256,6 +260,13 @@ do
       wire[shown] and "   <-- BUG: that is a Linkplay wire value, not an input name" or ""))
   end
 end
+do
+  local seq = {}
+  for _, a in ipairs(upnpSeq) do if a:match("Mute") then seq[#seq+1] = a end end
+  print("-- UPnP mute calls, in order: " .. (table.concat(seq, " -> ")))
+end
+print(("-- bar mute after run: %s   (driver property Muted=%s)")
+  :format(tostring(upnpMute), tostring(props["Muted"])))
 print(("-- state-feedback reads issued: %d (Control Method = %s)")
     :format(reads, tostring(Properties["Control Method"])))
 end

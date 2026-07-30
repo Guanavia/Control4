@@ -1088,7 +1088,42 @@ ReceiverCommands.STARTVOLUMEDOWN  = ReceiverCommands.START_VOL_DOWN
 ReceiverCommands.STOPVOLUMEDOWN   = ReceiverCommands.STOP_VOL_DOWN
 function ReceiverCommands.MUTE_ON()     SetMute(true)  end
 function ReceiverCommands.MUTE_OFF()    SetMute(false) end
-function ReceiverCommands.MUTE_TOGGLE() SetMute(not gMute) end
+-- MUTE_TOGGLE is what the Control4 remote's mute button sends -- it has no discrete on/off.
+-- This used to be SetMute(not gMute), i.e. it inverted the driver's BELIEF about the bar. When
+-- that belief was stale or unknown (nil -> "not nil" is true -> MUTE_ON) it commanded the state
+-- the bar was already in, so the first press did nothing and the second worked. Observed on
+-- hardware 2026-07-30. A toggle must never be resolved against a cached value.
+function ReceiverCommands.MUTE_TOGGLE()
+  if UsingIR() then
+    -- The remote's own toggle code. State-independent by construction: the BAR decides what to
+    -- flip, so this is correct even though IR gives us nothing to read. Strictly better here
+    -- than picking a discrete code from a guess.
+    SendIR(IR.MUTE_TOGGLE, "MUTE_TOGGLE")
+    -- Best-effort local tracking; nothing can confirm it over IR.
+    if gMute ~= nil then
+      gMute = not gMute
+      UpdateProp("Muted", tostring(gMute))
+      NotifyMute(gMute)
+    end
+    return
+  end
+  -- Over IP, ask the bar what it is actually doing, then command the opposite discretely.
+  Soap(RC_CTRL, RC, "GetMute", "<InstanceID>0</InstanceID><Channel>Master</Channel>",
+    function(ok, body)
+      local cur = ok and body and xmlval(body, "CurrentMute") or nil
+      if cur == nil then
+        -- No readback: fall back to the belief rather than doing nothing, and say so, because
+        -- this is the exact condition that makes a toggle land wrong.
+        LogWarning("MUTE_TOGGLE: could not read current mute state, toggling from the last " ..
+          "known value (%s) -- may need a second press if that was stale", tostring(gMute))
+        SetMute(not gMute)
+        return
+      end
+      local muted = (cur == "1" or cur == "true")
+      LogDebug("MUTE_TOGGLE: bar reports muted=%s, commanding %s", tostring(muted), tostring(not muted))
+      SetMute(not muted)
+    end)
+end
 function ReceiverCommands.SET_INPUT(p)  local id = ConnIdFromParams(p); if id then SelectInputByConn(id) end end
 function ReceiverCommands.PULSE_INPUT() CycleInput() end
 
