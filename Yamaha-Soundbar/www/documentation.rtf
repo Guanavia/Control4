@@ -1,12 +1,24 @@
 {\rtf1\ansi\ansicpg1252\deff0
 {\fonttbl{\f0\fswiss Helvetica;}}
+{\colortbl ;\red0\green0\blue0;\red0\green0\blue238;}
 \f0\fs28\b Yamaha Soundbar\b0\fs20\par
 \par
 DriverWorks driver for Yamaha soundbars built on the Linkplay platform. Currently supports the \b YAS-209\b0 . Presents to Control4 as a \b Receiver\b0  proxy: power, volume, mute, input select and surround mode.\par
 \par
 Two control methods are available. \b IR is the default and needs no configuration.\b0  IP adds state feedback and exact control, and is described under \b IP Control\b0  below.\par
 \par
-\fs24\b Quick start\b0\fs20\par
+\fs24\b Contents\b0\fs20\par
+\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Quickstart"}}{\fldrslt{\cf2\ul Quick start}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Connections"}}{\fldrslt{\cf2\ul Connections}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "ControlMethod"}}{\fldrslt{\cf2\ul Control Method}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "IRControl"}}{\fldrslt{\cf2\ul IR Control}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "IPControl"}}{\fldrslt{\cf2\ul IP Control}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Properties"}}{\fldrslt{\cf2\ul Properties}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Actions"}}{\fldrslt{\cf2\ul Actions}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Troubleshooting"}}{\fldrslt{\cf2\ul Troubleshooting}}}\par
+\par
+\fs24\b {\*\bkmkstart Quickstart}Quick start{\*\bkmkend Quickstart}\b0\fs20\par
 \par
 1. Add the driver and place it in the soundbar's room.\par
 2. In \b Connections\b0 , bind \b AUDIO/VIDEO OUTPUT\b0  to the room, and bind a controller \b IR output\b0  to the driver's \b IR\b0  connection. Place the emitter over the soundbar's IR window.\par
@@ -14,7 +26,7 @@ Two control methods are available. \b IR is the default and needs no configurati
 4. Run \b Actions \endash  Test IR Emitter\b0 . The emitter should blink and the soundbar should power on.\par
 5. Optional: for state feedback, see \b IP Control\b0 .\par
 \par
-\fs24\b Connections\b0\fs20\par
+\fs24\b {\*\bkmkstart Connections}Connections{\*\bkmkend Connections}\b0\fs20\par
 \par
 \bullet  \b Yamaha Soundbar\b0  (Receiver) \endash  bind to the room. This is the control proxy.\par
 \bullet  \b AUDIO/VIDEO OUTPUT\b0  \endash  bind to the room's audio end point.\par
@@ -25,14 +37,14 @@ Two control methods are available. \b IR is the default and needs no configurati
 \par
 There is one optical input and it is part of the TV input, not a separate source.\par
 \par
-\fs24\b Control Method\b0\fs20\par
+\fs24\b {\*\bkmkstart ControlMethod}Control Method{\*\bkmkend ControlMethod}\b0\fs20\par
 \par
 \bullet  \b IR\b0  \endash  the default. Works out of the box with an emitter. No network, no certificate.\par
 \bullet  \b IP - See Documentation for Usage\b0  \endash  adds state feedback and exact control. Read \b IP Control\b0  before selecting it.\par
 \par
 There is no Serial option: the soundbar has no serial port.\par
 \par
-\fs24\b IR Control\b0\fs20\par
+\fs24\b {\*\bkmkstart IRControl}IR Control{\*\bkmkend IRControl}\b0\fs20\par
 \par
 \bullet  All IR codes were captured from the genuine YAS-209 remote, so they are correct for this model.\par
 \bullet  Power, volume, mute, all four inputs and all six sound programs work over IR.\par
@@ -40,7 +52,7 @@ There is no Serial option: the soundbar has no serial port.\par
 \bullet  \b IR is one-way.\b0  The driver receives nothing back, so it knows only what it last sent. Volume is estimated and will drift if the soundbar is changed by anything else. \b The status properties therefore read "IP Control Only" under IR\b0  rather than showing a value that is really a guess.\par
 \bullet  Use \b Test IR Emitter\b0  during installation. It fires a single code with nothing else in the path and reports what Director believes is bound to the IR output. If the emitter does not blink, the fault is the binding, the emitter or the controller IR port \endash  not the code.\par
 \par
-\fs24\b IP Control\b0\fs20\par
+\fs24\b {\*\bkmkstart IPControl}IP Control{\*\bkmkend IPControl}\b0\fs20\par
 \par
 The soundbar's local API requires a client certificate for mutual TLS. That certificate was extracted from the Yamaha mobile app; it is a single shared Linkplay credential rather than anything issued to an individual soundbar, so it is expected to work on any unit of this model. It ships with the driver, so no setup is needed beyond entering the IP address. \b Be aware that a soundbar firmware update could stop this certificate being accepted, which would end IP control on that unit.\b0  The driver cannot repair itself if that happens \endash  replacing the certificate means rebuilding the driver \endash  so switch Control Method back to IR, which is unaffected.\par
 \par
@@ -54,7 +66,7 @@ The soundbar's local API requires a client certificate for mutual TLS. That cert
 \par
 To enable: set \b IP Address\b0  (use a DHCP reservation), set \b Control Method\b0  to the IP option, then run \b Test IP Control Compatibility\b0 .\par
 \par
-\fs24\b Properties\b0\fs20\par
+\fs24\b {\*\bkmkstart Properties}Properties{\*\bkmkend Properties}\b0\fs20\par
 \par
 \b Setup\b0\par
 \bullet  \b Model\b0  \endash  soundbar model. YAS-209.\par
@@ -87,14 +99,14 @@ Under IR these read "IP Control Only" because the driver has no way to know the 
 \par
 The four Actions always print to the Lua output window regardless of these settings, so diagnostics are never hidden by a logging preference.\par
 \par
-\fs24\b Actions\b0\fs20\par
+\fs24\b {\*\bkmkstart Actions}Actions{\*\bkmkend Actions}\b0\fs20\par
 \par
 \bullet  \b Refresh Now\b0  \endash  immediate volume/mute read (IP).\par
 \bullet  \b Get Device Status\b0  \endash  reads everything available and prints it, so there is no need to shorten the poll interval to see current values.\par
 \bullet  \b Test IR Emitter\b0  \endash  fires one IR code and reports the IR binding state.\par
 \bullet  \b Test IP Control Compatibility\b0  \endash  verifies this soundbar accepts the driver's certificate.\par
 \par
-\fs24\b Troubleshooting\b0\fs20\par
+\fs24\b {\*\bkmkstart Troubleshooting}Troubleshooting{\*\bkmkend Troubleshooting}\b0\fs20\par
 \par
 \bullet  \b Nothing happens over IR\b0  \endash  run Test IR Emitter. No blink means the binding, the emitter or the controller IR port, not the codes. Try a different IR output; a port can be bound and appear correct in Connections and still not transmit.\par
 \bullet  \b IP control stopped working\b0  \endash  run Test IP Control Compatibility. NOT COMPATIBLE after a soundbar firmware update means the certificate is no longer accepted; switch to IR.\par
