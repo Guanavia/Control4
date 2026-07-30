@@ -453,6 +453,29 @@ value is still logged, because protocol debugging needs it — it just must neve
 **General rule: never surface a protocol token in a user-visible property.** The harness now
 asserts the property is not one of the four wire strings, so this cannot come back silently.
 
+**SHIPPING CLEANUP DONE (2026-07-30) — 36 Actions down to 3, ~600 lines of Lua removed.** Every
+discovery and verification tool is gone from the driver now that what it discovered is baked in:
+`Learn Input Codes`, `Learn Sound Programs`, `Learn Subwoofer Range`, `Probe Yamaha Settings`,
+`Query Device Info`, `Verify IR Codes`, the 24 per-code `IR:` buttons, the duplicate `Power On/Off
+(IP)` actions and `httpapi Diagnostics` (still called internally by the IP test). **The FINDINGS
+survive in the driver — the six sound programs, the -4..+4 subwoofer range, `MODE_TO_CONN`, the IR
+code set — only the machinery that found them is deleted, and that is recoverable from git plus the
+method notes here.**
+**KEPT, deliberately, three Actions:** `Refresh Now`; **`Test IR Emitter`** (fires one code with
+nothing else in the path and dumps the IR binding state — keep this, working out that IR OUT 1 was
+dead cost three sessions and it is the only tool that separates a wrong code from a dead
+emitter/port on a one-way bus); and **`Test IP Connection`** (exercises cert, handshake, request and
+parse in one press, the fastest way to tell a certificate problem from a network one).
+**PROPERTY REMOVED: `Yamaha Volume`.** It surfaced `YAMAHA_DATA_GET`'s `Master volume`, which is
+**proven not to track** — it read 24 across IP volume writes and IR presses alike, and is what made
+the IR verification score working codes as failures. A readonly number that silently stops matching
+reality is worse than no number; same call as withdrawing proxy bass. **`Audio Stream` stays** (no
+evidence it is stale, and the rest of that payload does track).
+**Harness note:** the archetypes that existed for the sweeps (`clamp`/`reject`/`acceptall`/
+`irworks`/`noemitter`) now have no target and are kept only because the sweep code would need them
+again if another model joins this umbrella driver. The harness still covers IR routing, property
+control, the httpapi transport, the feedback gate, and the `Current Input` wire-value assertion.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
