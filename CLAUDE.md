@@ -333,7 +333,35 @@ emitter into the suspect port to separate them.
 exactly three IR functions — `SendIR`, `SendIRStart`, `SendIRStop` — all fire-and-forget with no
 status or query call, because IR out is electrically one-way. The IP readback in `Verify IR Codes`
 IS the substitute feedback loop and is already built.
-**STILL UNANSWERED: whether the YSP-1000 codes drive the YAS-209.** Untested, because the only
+**IR CODES CONFIRMED WORKING ON THE YAS-209 (2026-07-30, by ear + IP readback).** With a working
+emitter on **IR OUT 3**, Dave confirmed **power, mute and volume all drive the bar**. So the
+YSP-1000 seed set (2005 soundbar) DOES carry over to the 2019 YAS-209 — Yamaha's system-code reuse
+held.
+**BUT THE AUTOMATED VERIFY SCORED THREE OF THEM "no effect" — A FALSE NEGATIVE, AND MY BUG.**
+`Verify IR Codes` read mute and volume from **`YAMAHA_DATA_GET`'s `mute` / `Master volume`, and
+NEITHER TRACKS.** The proof was already in its own log and had nothing to do with IR: the PREP
+steps `setPlayerCmd:mute:1` and `setPlayerCmd:vol:40` are plain IP writes, and those fields did not
+move for them either. Power scored correctly throughout because `power saving` genuinely tracks.
+**Fixes:** volume/mute now read over **UPnP RenderingControl** (`GetVolume`/`GetMute`) — the
+surface the driver already polls every 3s and the one validated on this bar — and the prep writes
+go over that SAME surface, so a prep can no longer "succeed" against a field the check cannot see.
+Added **`prep_expect`**: if the baseline is not where the prep aimed it, the code is reported
+INCONCLUSIVE instead of scored. That guard is the generalisation of the one that DID fire (on
+MUTE_OFF) and was the tell that exposed the whole thing.
+**Lessons, both general:** (1) **verify the READBACK FIELD tracks before trusting any sweep built
+on it** — an unverified instrument produces confident wrong answers, which is worse than no
+answer; (2) **when a sweep disagrees with the owner's ears, suspect the sweep.** Also note the
+harness could not have caught this: its simulated bar answered every field, so only real hardware
+could show that `Master volume` and `mute` are inert. The offline harness proves LOGIC, not that
+the chosen fields mean anything.
+**PIVOT (Dave's call): per-code Action BUTTONS, not one automated routine.** Every code in
+`<irsection>` now has its own Action (`IR: Power On/Off/Toggle`, `Volume Up/Down`, `Mute On/Off/
+Toggle`) firing **exactly one** code — the number-then-string double fire was removed, since the
+numeric form is now hardware-confirmed and a second burst would move volume twice or toggle mute
+back. Judge by ear, one button at a time; clean up the buttons later. `Verify IR Codes` stays for
+the automated pass but is no longer the primary instrument.
+
+**REMAINING: whether the YSP-1000 codes drive the YAS-209 —** Untested, because the only
 working emitter is at the TV and not aimed at the bar. **A working emitter must be physically at
 the bar's IR window before `Verify IR Codes` means anything** — an unaimed emitter fails every code
 and is indistinguishable from a wrong code set (exactly what the report's "check the emitter FIRST"
