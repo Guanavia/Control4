@@ -440,6 +440,19 @@ has not been checked.
 target estimate in `SetVolumeLevelIR` is the only level the driver has while Control Method = IR.
 Verified in the harness: IR mode issues 0 UPnP polls and 0 state reads; IP mode issues 8 and 2.
 
+**"Current Input" SHOWED A WIRE VALUE, NOT AN INPUT NAME (2026-07-30, Dave spotted it).** With the
+bar on TV, the property read **`optical`**. `UpdateProp("Current Input", sw)` was writing
+`INPUT_MAP`'s value — the **Linkplay protocol token** — instead of the input's user-facing name.
+Two things wrong with that: it exposes an internal wire string in a property a dealer reads, and
+`optical` **names a physically separate input this bar does not have** — the optical jack is part
+of the TV input, not a selectable source, which is precisely why the standalone "Optical In"
+connection was removed earlier. Fixed with an `INPUT_NAME` table (TV (ARC / Optical) / HDMI In /
+Bluetooth / Network / Streaming) whose entries are **cross-checked against driver.xml's
+`<connectionname>` values**, since they are two hand-maintained lists that must agree. The wire
+value is still logged, because protocol debugging needs it — it just must never be the thing shown.
+**General rule: never surface a protocol token in a user-visible property.** The harness now
+asserts the property is not one of the four wire strings, so this cannot come back silently.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
