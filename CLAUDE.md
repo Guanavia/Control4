@@ -305,7 +305,32 @@ consumer True / linelevel True / IR_OUT), `<control>lua_gen`, `<controlmethod>ip
 byte-identical** to Control4's YSP-1000 source (verified word-for-word). Note the emitter LED
 blinks whenever Director transmits ANYTHING, right code or wrong — so **no blink proves Director
 is not transmitting at all, which cannot be a code-data problem.**
-**NEXT AND DECISIVE — a positive control with a Control4-authored driver.** Add the stock **Yamaha
+**RESOLVED — THE DRIVER'S IR PATH WORKS; THE NEW EMITTER IS DEAD (2026-07-29, hardware).** The
+positive control settled it in one pass. Dave ran three tests: (1) our `IR Emitter Test` on the
+brand-new emitter — no blink; (2) the stock **YSP-1000 av_gen** driver on the same emitter — **also
+no blink** (a Control4-authored driver on Director's own IR engine, i.e. a completely different
+code path); (3) our driver against the **known-working emitter** already serving the family-room
+TV — **its LED FIRED.** So `C4:SendIR` from this driver genuinely transmits, and the fault was
+hardware all along. **Everything the driver could contribute was already correct** — the two
+sessions of instrumentation found four real bugs but none of them were the no-blink cause.
+**Method note worth keeping: the decisive move was not more instrumentation, it was a positive
+control with a KNOWN-GOOD component.** Two drivers failing on one emitter, and one driver working
+on another, isolates hardware in three tests. Reach for that earlier next time — the driver had
+been instrumented well past the point of diminishing returns before this was tried.
+**Open confound (cheap to close): emitter vs PORT.** If the working emitter sits in a different IR
+output than the dead one did, the fault could be the port, not the emitter. Plug the known-good
+emitter into the suspect port to separate them.
+**There is NO IR feedback mechanism to add, and this is settled, not assumed:** DriverWorks exposes
+exactly three IR functions — `SendIR`, `SendIRStart`, `SendIRStop` — all fire-and-forget with no
+status or query call, because IR out is electrically one-way. The IP readback in `Verify IR Codes`
+IS the substitute feedback loop and is already built.
+**STILL UNANSWERED: whether the YSP-1000 codes drive the YAS-209.** Untested, because the only
+working emitter is at the TV and not aimed at the bar. **A working emitter must be physically at
+the bar's IR window before `Verify IR Codes` means anything** — an unaimed emitter fails every code
+and is indistinguishable from a wrong code set (exactly what the report's "check the emitter FIRST"
+warning exists for). Borrowing the TV's emitter for one run is enough; it need not be stuck down.
+
+**SUPERSEDED (kept for the reasoning) — a positive control with a Control4-authored driver.** Add the stock **Yamaha
 YSP-1000** IR driver (`receiver_ir_yamaha_ysp-1000.c4i`, av_gen, from the online database), bind it
 to the SAME IR output, fire its Power. Blink = the controller's IR path is fine and the fault is in
 our lua_gen SendIR path. No blink = the controller port/emitter is the fault and our driver is
