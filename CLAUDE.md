@@ -385,7 +385,40 @@ and one `IR` table entry, in both directions (19/19, no orphans) — same discip
 `surround_modes` id cross-check.
 **Note the YSP file declares 16 ids TWICE, the second time with an EMPTY pattern**, so keying codes
 by id naively picks the useless duplicate. Take the entry that carries a pattern.
-**STILL THE AUTHORITATIVE PATH: capture from the real remote.** No amount of porting from a 2005
+**CAPTURED — IR IS NOW AT NEAR-PARITY WITH IP (2026-07-30). This supersedes every donor-code
+guess below.** The 11 ported candidates were a **waste of Dave's time and I should not have shipped
+them** — I predicted most would miss, and they all did (`SLEEP` turned out to be the same key as
+power; the bar has no night mode). Dave captured the real remote by building a driver in Composer:
+`research/receiver_YSP-209-IRtest_Receiver.c4i`, **22 codes, 20 with patterns** (Menu and Cancel
+came back empty).
+**The capture covers everything the 2005 donor structurally could not:** all four real inputs
+(`HDMI` 1001, `TV-INPUT` 1002, `BLUETOOTH` 1003, `NET` 1004), **all six sound programs** (MOVIE
+1007, TV-SURROUND 1008, MUSIC 1009, SPORTS 1010, GAME 1011, STEREO 1012), the three DSP switches
+(3D SURROUND 1006, CLEAR VOICE 1005, BASS EXTENSION 1000) and **subwoofer trim** (Bass Up 143 /
+Down 144).
+**Donor codes were only ever working on receiver tolerance.** Where both sets share an id, the
+patterns differ by **21 to 72 of 72 words** (103/106/107/139) — same command, different measured
+timing. Captured patterns now replace them wholesale.
+**KEPT FROM THE DONOR ON PURPOSE (Dave's call): the four DISCRETE codes.** The remote has only
+`Power Toggle` and `Mute Toggle`; `POWER_ON` 101 / `POWER_OFF` 102 / `MUTE_ON` 137 / `MUTE_OFF` 138
+have no key on it but are hardware-confirmed working, and discrete is what the receiver proxy and
+any sane automation need — **a toggle desyncs the moment anything else touches the bar.** So the
+driver ships BOTH: discrete for control, captured toggles as buttons. **General rule: where a
+verified extended command exists beyond what the remote exposes, keep it.**
+**WIRED, not just declared** — IR now drives: input select (was a hard REFUSAL before this),
+sound-program select, the three DSP toggles, subwoofer trim by stepping from the last known value,
+volume, mute and power. **Cross-check enforced in both directions: 24 `<ircode>` = 24 Actions = 24
+`IR` table entries, no orphans.**
+**PARITY GAPS, and both are inherent:** (1) **transport** (play/pause/stop/next/prev) has NO
+captured code — the driver REFUSES loudly rather than appearing to work; if the remote has those
+keys they can be captured later; (2) **state feedback** — IR is one-way, so there is none, which is
+exactly why IP remains the owner's path. Two soft limits: absolute volume is approximated by
+pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
+the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
+**`INFO` (120), `POWER_TOGGLE` and `MUTE_TOGGLE` are declared and buttoned but deliberately routed
+to nothing** — they exist for manual use, not for control paths that need determinism.
+
+**SUPERSEDED: capture from the real remote.** No amount of porting from a 2005
 bar can produce codes for functions the YAS-209 has and the YSP-1000 did not — its six sound
 programs, HDMI/Bluetooth/Network inputs, subwoofer trim.
 
