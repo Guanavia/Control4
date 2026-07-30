@@ -512,8 +512,16 @@ discrete one.
 **PROPERTY REMOVED: `Yamaha Volume`.** It surfaced `YAMAHA_DATA_GET`'s `Master volume`, which is
 **proven not to track** — it read 24 across IP volume writes and IR presses alike, and is what made
 the IR verification score working codes as failures. A readonly number that silently stops matching
-reality is worse than no number; same call as withdrawing proxy bass. **`Audio Stream` stays** (no
-evidence it is stale, and the rest of that payload does track).
+reality is worse than no number; same call as withdrawing proxy bass. **`Audio Stream` MOVED, not kept as a property (2026-07-30, Dave: "it seems to have no purpose").**
+He was right that it earns nothing in the Properties tab: it refreshed only on the 30s poll, was
+visible only if someone opened that tab, and cannot drive programming since this driver declares no
+property-changed events. **What it actually reports is the format the bar is decoding (PCM / Dolby
+/ DTS)**, which answers exactly one useful question — is the TV bitstreaming over ARC or downmixing
+everything to PCM, the usual reason surround "does not work" — so the VALUE is worth keeping. It is
+now read into `gDeviceSettings` and reported by **Get Device Status** only, which is where a
+diagnostic belongs. **UNVERIFIED: every capture so far reads `PCM`; whether the field ever changes
+has never been tested.** One hardware check settles it — play genuine Dolby content over ARC and
+run Get Device Status. If it still says PCM the field is inert and should go entirely.
 **Harness note:** the archetypes that existed for the sweeps (`clamp`/`reject`/`acceptall`/
 `irworks`/`noemitter`) now have no target and are kept only because the sweep code would need them
 again if another model joins this umbrella driver. The harness still covers IR routing, property
