@@ -4,7 +4,7 @@
 -- real httpapi transport and HTTP parsing, not just the learn logic.
 
 local DRIVER = arg[1]
-local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall | noemitter | irworks
+local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall | noemitter | irworks | unbound
 local ACTION = arg[3] or "LearnSubwooferRange"
 
 ------------------------------------------------------------------ declared IR codes
@@ -12,6 +12,7 @@ local ACTION = arg[3] or "LearnSubwooferRange"
 -- package does not declare. That mismatch is invisible on hardware (IR is one-way, so a bad
 -- id and a dead emitter both produce silence) and it is exactly the class of bug this
 -- harness exists to catch before a trip to the bar.
+BOUND_IR = (ARCHETYPE ~= "unbound")
 local IRCODES = {}
 do
   local xml = io.open((DRIVER or "driver.lua"):gsub("%.lua$", ".xml"), "r")
@@ -108,6 +109,11 @@ function C4:UpdateProperty(n, v) props[n] = v end
 function C4:SendToProxy(b, cmd, params, kind) proxied[#proxied+1] = { cmd = cmd, params = params } end
 function C4:SetTimer(ms, fn, rep) schedule(ms, fn); return { Cancel = function() end, Reset = function() end } end
 function C4:FileExists() return true end
+function C4:GetDeviceID() return 999 end
+-- BOUND_IR controls whether the sim pretends the IR binding is attached, so the new binding
+-- diagnostics can be exercised in both states without a controller.
+function C4:GetBoundProviderDevice(dev, binding) return BOUND_IR and 42 or nil end
+function C4:GetBoundConsumerDevices(dev, binding) return BOUND_IR and { [42] = "Controller IR Out 1" } or {} end
 -- What a bar that OBEYS these codes would do. Used by the "irworks" archetype as the positive
 -- control: the sweep must report WORKS here. Without it, a sweep broken in the always-fail
 -- direction is indistinguishable from a genuinely wrong code set -- which is the exact
@@ -182,6 +188,7 @@ Properties = {
 }
 dofile(DRIVER)
 OnDriverInit(); OnDriverLateInit()
+if BOUND_IR and OnBindingChanged then OnBindingChanged(2, "IR_OUT", true) end
 drain()
 
 print(("==== archetype=%s action=%s ===="):format(ARCHETYPE, ACTION))

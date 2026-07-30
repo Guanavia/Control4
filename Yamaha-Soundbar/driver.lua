@@ -224,6 +224,10 @@ local gStatePollSecs  = 30    -- httpapi power/input read-back; 0 = disabled
 local gStatePollTimer = nil
 local gUnknownModes   = {}    -- modes already reported, so the log warns once each
 local gUnhandledProxyCmds = {}  -- proxy commands already reported as unimplemented (once each)
+-- What Director says is bound, per binding id. nil = never reported, which for the IR binding is
+-- itself the diagnosis: OnBindingChanged fires on bind AND unbind, so silence means unattached.
+local gBindings     = {}
+local gBindingClass = {}
 -- Last value the BAR reported for each Yamaha setting key.  This is what stops an echo loop:
 -- reading a setting updates its Composer property, which fires OnPropertyChanged, which would
 -- otherwise send the value straight back.  A write only goes out when the new property value
@@ -590,6 +594,37 @@ local function SendIR(code, label)
   return ok
 end
 
+-- Ask Director, at the moment of use, what it thinks is attached to the IR binding.  Composer's
+-- Connections view showing a wire is NOT proof Director agrees: the view is the project's
+-- intent, this is the runtime's opinion, and only the second one can transmit.  Every call is
+-- pcall'd because an API that does not exist must degrade to "unknown", never take the driver
+-- down (C4:Log and C4:ReadFile were both learned that way).
+local function IrBindingReport()
+  local myId = select(2, pcall(function() return C4:GetDeviceID() end))
+  LogCritical("IR binding %d diagnostics (this driver's device id: %s):", IR_BINDING, tostring(myId))
+
+  if gBindings[IR_BINDING] == nil then
+    LogCritical("  OnBindingChanged: Director has NEVER reported binding %d. It fires on bind " ..
+      "and unbind, so silence since load means nothing is attached to it.", IR_BINDING)
+  else
+    LogCritical("  OnBindingChanged: last reported bIsBound = %s (class %s)",
+      tostring(gBindings[IR_BINDING]), tostring(gBindingClass[IR_BINDING]))
+  end
+
+  local ok, prov = pcall(function() return C4:GetBoundProviderDevice(myId, IR_BINDING) end)
+  LogCritical("  GetBoundProviderDevice -> %s%s", ok and tostring(prov) or "unavailable",
+    (ok and (prov == nil or prov == 0)) and "   <-- NOTHING IS DRIVING THIS BINDING" or "")
+
+  local ok2, cons = pcall(function() return C4:GetBoundConsumerDevices(myId, IR_BINDING) end)
+  if ok2 and type(cons) == "table" then
+    local n = 0
+    for id, name in pairs(cons) do n = n + 1; LogCritical("  bound consumer: %s (%s)", tostring(id), tostring(name)) end
+    if n == 0 then LogCritical("  bound consumers: none") end
+  else
+    LogCritical("  GetBoundConsumerDevices -> %s", ok2 and tostring(cons) or "unavailable")
+  end
+end
+
 -- Fire exactly one code with no other machinery in the way: no proxy, no capabilities, no
 -- Control Method check, no Owner Approved, no IP address.  This is the instrument that
 -- separates "the emitter/binding is dead" from "the code is wrong" -- the two failures that
@@ -597,11 +632,26 @@ end
 local function IrFireOne(codeName)
   local code = IR[codeName]
   if not code then LogCritical("IR test: no such code %s", tostring(codeName)); return end
-  LogCritical("---- IR emitter test: firing %s (code %d) on binding %d ----", codeName, code, IR_BINDING)
+  LogCritical("---- IR emitter test: %s (code %d) on binding %d ----", codeName, code, IR_BINDING)
+  IrBindingReport()
   LogCritical("Watch the emitter LED. This bypasses Control Method, Owner Approved and the IP path.")
   gIrLoud = true
+  -- Fire the id BOTH ways, four seconds apart.  The docs say C4:SendIR takes the numeric id;
+  -- Control4's own shipping lua_gen drivers pass it as a STRING ("51314").  Only one of those is
+  -- observed working and it is not the documented one, and a wrong-typed id would be IGNORED
+  -- rather than throw -- which looks exactly like a dead emitter.  Firing both in one run costs
+  -- nothing and removes the ambiguity: if the LED blinks on the second burst only, the string
+  -- form is required and SendIR should be changed to use it unconditionally.
+  LogCritical("  [1/2] firing with the code as a NUMBER (%d) ...", code)
   SendIR(code, codeName)
-  gIrLoud = false
+  C4:SetTimer(4000, function()
+    LogCritical("  [2/2] firing with the code as a STRING (%q) ...", tostring(code))
+    local ok, err = pcall(function() C4:SendIR(IR_BINDING, tostring(code)) end)
+    LogCritical("  string form: %s", ok and "sent without error" or ("threw: " .. tostring(err)))
+    LogCritical("Result: no blink on EITHER burst = the binding or emitter, not the code. " ..
+      "Blink on the second only = C4:SendIR needs the string form.")
+    gIrLoud = false
+  end, false)
 end
 
 -- True when this command should go out as IR rather than over IP.
@@ -1712,6 +1762,23 @@ function ReceivedFromNetwork(nBinding, nPort, sData)
   local code, body, clen = ParseHttpResponse(gInFlight.rx)
   if code and clen and body and #body >= clen then
     HttpApiFinish(code < 400, body, "HTTP " .. code)
+  end
+end
+
+-- Director calls this whenever a binding is bound or unbound.  The driver had no way to know
+-- whether its IR output was actually attached, which is precisely the question a silent emitter
+-- raises -- and Composer's Connections view cannot answer it, because that view is the project's
+-- intent while this is the runtime's state.
+function OnBindingChanged(idBinding, class, bIsBound)
+  gBindings[idBinding]     = bIsBound
+  gBindingClass[idBinding] = class
+  LogDebug("OnBindingChanged: binding=%s class=%s bound=%s",
+    tostring(idBinding), tostring(class), tostring(bIsBound))
+  if idBinding == IR_BINDING then
+    -- Unsilenceable: if the IR binding drops, every IR command silently stops working, and
+    -- there is no other symptom to notice.
+    LogCritical("IR binding %s is now %s (class %s).", tostring(idBinding),
+      bIsBound and "BOUND" or "UNBOUND", tostring(class))
   end
 end
 
