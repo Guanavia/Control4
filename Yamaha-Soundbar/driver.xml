@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>13</version>
+  <version>15</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -470,9 +470,14 @@
            one-way, so "wrong code" and "dead emitter" look identical from the driver; these
            separate them. Output goes through the unsilenceable log path, so they still report
            with Log Mode = Off. -->
-      <action><name>IR Emitter Test: Power On</name><command>IrTestPowerOn</command></action>
-      <action><name>IR Emitter Test: Volume Up</name><command>IrTestVolumeUp</command></action>
-      <action><name>IR Emitter Test: Mute On</name><command>IrTestMuteOn</command></action>
+      <action><name>IR: Power On</name><command>IrFire_POWER_ON</command></action>
+      <action><name>IR: Power Off</name><command>IrFire_POWER_OFF</command></action>
+      <action><name>IR: Power Toggle</name><command>IrFire_POWER_TOGGLE</command></action>
+      <action><name>IR: Volume Up</name><command>IrFire_VOLUME_UP</command></action>
+      <action><name>IR: Volume Down</name><command>IrFire_VOLUME_DOWN</command></action>
+      <action><name>IR: Mute On</name><command>IrFire_MUTE_ON</command></action>
+      <action><name>IR: Mute Off</name><command>IrFire_MUTE_OFF</command></action>
+      <action><name>IR: Mute Toggle</name><command>IrFire_MUTE_TOGGLE</command></action>
     </actions>
   </config>
 

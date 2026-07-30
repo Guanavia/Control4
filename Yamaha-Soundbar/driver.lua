@@ -72,21 +72,32 @@ local IR = {
 -- a probe with no established baseline is a coin flip.
 --
 -- Order matters: the mute and volume codes need the bar awake, so the power codes run last.
+-- `src` picks WHICH surface to read back, and getting this wrong produced confident false
+-- negatives on real hardware (2026-07-30): mute and volume were read from YAMAHA_DATA_GET's
+-- "mute" / "Master volume", and NEITHER tracks. The proof is in the prep, not the verdict --
+-- `setPlayerCmd:mute:1` and `setPlayerCmd:vol:40` are IP writes with no IR involved, and the
+-- fields did not move for those either. Meanwhile the codes demonstrably worked by ear.
+-- Volume and mute are read over UPnP RenderingControl instead: that is the surface the driver
+-- already polls every 3s, and the one validated on this bar. Power stays on YAMAHA_DATA_GET,
+-- where "power saving" tracked correctly and scored both power codes right.
+--
+-- `prep_expect`, where given, is the value the prep is supposed to leave behind. If the baseline
+-- does not match it the prep did not take, and the code is reported INCONCLUSIVE rather than
+-- scored -- the generalisation of the guard that caught this bug on MUTE_OFF.
 local IR_VERIFY = {
-  { code = IR.MUTE_ON,     label = "MUTE_ON",     key = "mute",          want = "1",
-    prep = { 'YAMAHA_DATA_SET:{"power saving":"1"}', "setPlayerCmd:mute:0" } },
-  { code = IR.MUTE_OFF,    label = "MUTE_OFF",    key = "mute",          want = "0",
-    prep = { "setPlayerCmd:mute:1" } },
-  -- Volume is scored by direction of change, so its baseline is whatever the bar reads now.
-  -- Pulled off the rails only if the bar is at an endpoint, hence the mid-scale nudge.
-  { code = IR.VOLUME_UP,   label = "VOLUME_UP",   key = "Master volume", delta = "up",
-    prep = { "setPlayerCmd:mute:0", "setPlayerCmd:vol:40" } },
-  { code = IR.VOLUME_DOWN, label = "VOLUME_DOWN", key = "Master volume", delta = "down",
-    prep = { "setPlayerCmd:vol:40" } },
-  { code = IR.POWER_OFF,   label = "POWER_OFF",   key = "power saving",  want = "0",
-    prep = { 'YAMAHA_DATA_SET:{"power saving":"1"}' } },
-  { code = IR.POWER_ON,    label = "POWER_ON",    key = "power saving",  want = "1",
-    prep = { 'YAMAHA_DATA_SET:{"power saving":"0"}' } },
+  { code = IR.MUTE_ON,     label = "MUTE_ON",     field = "mute (UPnP)", src = "upnp_mute", want = "1", prep_expect = "0",
+    prep = { { http = 'YAMAHA_DATA_SET:{"power saving":"1"}' }, { mute = "0" } } },
+  { code = IR.MUTE_OFF,    label = "MUTE_OFF",    field = "mute (UPnP)", src = "upnp_mute", want = "0", prep_expect = "1",
+    prep = { { mute = "1" } } },
+  -- Volume is scored by direction of change; the mid-scale nudge keeps it off the endpoints.
+  { code = IR.VOLUME_UP,   label = "VOLUME_UP",   field = "volume (UPnP)", src = "upnp_vol", delta = "up", prep_expect = "40",
+    prep = { { mute = "0" }, { vol = "40" } } },
+  { code = IR.VOLUME_DOWN, label = "VOLUME_DOWN", field = "volume (UPnP)", src = "upnp_vol", delta = "down", prep_expect = "40",
+    prep = { { vol = "40" } } },
+  { code = IR.POWER_OFF,   label = "POWER_OFF",   src = "yamaha", field = "power saving", key = "power saving", want = "0",
+    prep_expect = "1", prep = { { http = 'YAMAHA_DATA_SET:{"power saving":"1"}' } } },
+  { code = IR.POWER_ON,    label = "POWER_ON",    src = "yamaha", field = "power saving", key = "power saving", want = "1",
+    prep_expect = "0", prep = { { http = 'YAMAHA_DATA_SET:{"power saving":"0"}' } } },
 }
 
 -- Control4 input connection id -> Linkplay switchmode value.
@@ -648,23 +659,12 @@ local function IrFireOne(codeName)
   LogCritical("---- IR emitter test: %s (code %d) on binding %d ----", codeName, code, IR_BINDING)
   IrBindingReport()
   LogCritical("Watch the emitter LED. This bypasses Control Method, Owner Approved and the IP path.")
+  -- Exactly ONE code per press. The numeric id form is confirmed working on hardware
+  -- (POWER_ON/POWER_OFF both scored WORKS with it), so the old number-then-string double fire
+  -- is gone: for by-ear testing a second burst would move the volume twice or toggle mute back.
   gIrLoud = true
-  -- Fire the id BOTH ways, four seconds apart.  The docs say C4:SendIR takes the numeric id;
-  -- Control4's own shipping lua_gen drivers pass it as a STRING ("51314").  Only one of those is
-  -- observed working and it is not the documented one, and a wrong-typed id would be IGNORED
-  -- rather than throw -- which looks exactly like a dead emitter.  Firing both in one run costs
-  -- nothing and removes the ambiguity: if the LED blinks on the second burst only, the string
-  -- form is required and SendIR should be changed to use it unconditionally.
-  LogCritical("  [1/2] firing with the code as a NUMBER (%d) ...", code)
   SendIR(code, codeName)
-  C4:SetTimer(4000, function()
-    LogCritical("  [2/2] firing with the code as a STRING (%q) ...", tostring(code))
-    local ok, err = pcall(function() C4:SendIR(IR_BINDING, tostring(code)) end)
-    LogCritical("  string form: %s", ok and "sent without error" or ("threw: " .. tostring(err)))
-    LogCritical("Result: no blink on EITHER burst = the binding or emitter, not the code. " ..
-      "Blink on the second only = C4:SendIR needs the string form.")
-    gIrLoud = false
-  end, false)
+  gIrLoud = false
 end
 
 -- True when this command should go out as IR rather than over IP.
@@ -1387,9 +1387,61 @@ end
 
 local IrVerifyStep
 
+-- Read the field this code is scored on, from whichever surface actually tracks it.
+local function IrVerifyRead(item, cb)
+  if item.src == "upnp_vol" then
+    Soap(RC_CTRL, RC, "GetVolume", "<InstanceID>0</InstanceID><Channel>Master</Channel>",
+      function(ok, body) cb(ok and body and xmlval(body, "CurrentVolume") or nil) end)
+  elseif item.src == "upnp_mute" then
+    Soap(RC_CTRL, RC, "GetMute", "<InstanceID>0</InstanceID><Channel>Master</Channel>",
+      function(ok, body)
+        local m = ok and body and xmlval(body, "CurrentMute") or nil
+        -- UPnP reports mute as 0/1 or false/true depending on the stack; normalise so the
+        -- comparison against `want` is not silently always-false.
+        if m == "true" then m = "1" elseif m == "false" then m = "0" end
+        cb(m)
+      end)
+  else
+    HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
+      cb(ok and jsonstr(body, item.key) or nil)
+    end)
+  end
+end
+
+-- Drive the bar to the state that makes the upcoming code's result meaningful, then continue.
+-- Prep steps go over the SAME surface the readback uses, so a prep that "succeeds" against a
+-- field the check cannot see is no longer possible.
+local function IrVerifyPrep(item, done)
+  local steps = item.prep or {}
+  local i = 0
+  local function next_()
+    i = i + 1
+    local step = steps[i]
+    if not step then
+      -- Let the bar settle before the baseline read, so we measure the prepped state and not
+      -- the one it is still leaving.
+      C4:SetTimer(IR_SETTLE_MS, done, false)
+      return
+    end
+    if step.http then
+      HttpApiGet(step.http, function() next_() end)
+    elseif step.mute then
+      Soap(RC_CTRL, RC, "SetMute",
+        "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredMute>" .. step.mute .. "</DesiredMute>",
+        function() next_() end)
+    elseif step.vol then
+      Soap(RC_CTRL, RC, "SetVolume",
+        "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredVolume>" .. step.vol .. "</DesiredVolume>",
+        function() next_() end)
+    else
+      next_()
+    end
+  end
+  next_()
+end
+
 local function IrVerifyMeasure(before, item)
-  HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
-    local after = ok and jsonstr(body, item.key) or nil
+  IrVerifyRead(item, function(after)
     local good, detail
     if not after then
       good, detail = false, "no readback"
@@ -1398,11 +1450,13 @@ local function IrVerifyMeasure(before, item)
       if not b or not a then good, detail = false, "unreadable level"
       else
         good = (item.delta == "up") and (a > b) or (item.delta == "down") and (a < b)
-        detail = string.format("%s %s -> %s", item.key, tostring(b), tostring(a))
+        detail = string.format("%s %s -> %s", item.field or item.key or "value",
+          tostring(b), tostring(a))
       end
     else
       good = (after == item.want)
-      detail = string.format("%s = %s (wanted %s)", item.key, tostring(after), item.want)
+      detail = string.format("%s = %s (wanted %s)", item.field or item.key or "value",
+        tostring(after), item.want)
     end
     gIrVerify.results[#gIrVerify.results + 1] =
       { label = item.label, ok = good, detail = detail }
@@ -1410,23 +1464,6 @@ local function IrVerifyMeasure(before, item)
     gIrVerify.idx = gIrVerify.idx + 1
     IrVerifyStep()
   end)
-end
-
--- Drive the bar to the state that makes the upcoming code's result meaningful, then continue.
-local function IrVerifyPrep(item, done)
-  local cmds = item.prep or {}
-  local i = 0
-  local function next_()
-    i = i + 1
-    if not cmds[i] then
-      -- Let the bar settle before the baseline read, so we measure the prepped state and not
-      -- the one it is still leaving.
-      C4:SetTimer(IR_SETTLE_MS, done, false)
-      return
-    end
-    HttpApiGet(cmds[i], function() next_() end)
-  end
-  next_()
 end
 
 IrVerifyStep = function()
@@ -1437,14 +1474,22 @@ IrVerifyStep = function()
   LogCritical("[irverify] %d/%d %s: preparing the bar over IP ...", V.idx, #IR_VERIFY, item.label)
   IrVerifyPrep(item, function()
     -- Read the field BEFORE firing, so the comparison is against known state rather than an
-    -- assumption -- the same baseline lesson the subwoofer sweep taught.
-    HttpApiGet("YAMAHA_DATA_GET", function(ok, body)
-      local before = ok and jsonstr(body, item.key) or nil
+    -- assumption -- the same baseline lesson the subwoofer sweep taught.  Must go through
+    -- IrVerifyRead, the SAME path the after-reading uses: reading the baseline from a different
+    -- surface than the result is how the volume and mute entries ended up compared against a
+    -- field that was always nil.
+    IrVerifyRead(item, function(before)
       -- If the baseline is ALREADY what the code is supposed to produce, firing proves nothing:
       -- the code would "pass" with the emitter unplugged. Refuse to score it.
-      if item.want and before == item.want then
-        local detail = string.format("baseline is already %s=%s; prep did not move it",
-          item.key, tostring(before))
+      local fieldname = item.field or item.key or "value"
+      local prep_failed = item.prep_expect and tostring(before) ~= item.prep_expect
+      if prep_failed or (item.want and before == item.want) then
+        local detail = prep_failed
+          and string.format("prep aimed %s at %s but it reads %s -- this field does not track " ..
+                "that write, so the code cannot be scored on it",
+                fieldname, item.prep_expect, tostring(before))
+          or string.format("baseline is already %s=%s; prep did not move it",
+                fieldname, tostring(before))
         gIrVerify.results[#gIrVerify.results + 1] =
           { label = item.label, ok = false, inconclusive = true, detail = detail }
         LogCritical("[irverify] %s -> INCONCLUSIVE (%s)", item.label, detail)
@@ -1618,9 +1663,11 @@ function ExecuteCommand(strCommand, tParams)
   elseif strCommand == "LearnSoundPrograms" then LearnSoundPrograms()
   elseif strCommand == "LearnSubwooferRange" then LearnSubwooferRange()
   elseif strCommand == "VerifyIrCodes"     then VerifyIrCodes()
-  elseif strCommand == "IrTestPowerOn"     then IrFireOne("POWER_ON")
-  elseif strCommand == "IrTestVolumeUp"    then IrFireOne("VOLUME_UP")
-  elseif strCommand == "IrTestMuteOn"      then IrFireOne("MUTE_ON")
+  elseif strCommand:match("^IrFire_") then
+    -- One Action per IR code: "IrFire_<CODE NAME>". Judging by ear beats any readback the driver
+    -- can pick -- proven 2026-07-30, when volume and mute were scored "no effect" against fields
+    -- that do not track, while the codes audibly worked.
+    IrFireOne(strCommand:match("^IrFire_(.+)$"))
   elseif strCommand == "TestHttpApi"       then
     -- Hardware-bringup probe: the single most informative thing to run first.
     HttpApiDiag()

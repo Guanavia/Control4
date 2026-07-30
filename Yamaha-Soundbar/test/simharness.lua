@@ -121,10 +121,10 @@ function C4:GetBoundConsumerDevices(dev, binding) return BOUND_IR and { [42] = "
 local IR_EFFECT = {
   ["101"] = function() dev["power saving"] = "1" end,
   ["102"] = function() dev["power saving"] = "0" end,
-  ["137"] = function() dev["mute"] = "1" end,
-  ["138"] = function() dev["mute"] = "0" end,
-  ["106"] = function() dev["Master volume"] = tostring((tonumber(dev["Master volume"]) or 24) + 1) end,
-  ["107"] = function() dev["Master volume"] = tostring((tonumber(dev["Master volume"]) or 24) - 1) end,
+  ["137"] = function() dev["mute"] = "1"; upnpMute = "1" end,
+  ["138"] = function() dev["mute"] = "0"; upnpMute = "0" end,
+  ["106"] = function() upnpVol = upnpVol + 2 end,
+  ["107"] = function() upnpVol = upnpVol - 2 end,
 }
 
 function C4:SendIR(binding, code)
@@ -163,10 +163,26 @@ function C4:SendToNetwork(binding, port, data)
     schedule(1, function() OnConnectionStatusChanged(binding, port, "OFFLINE") end)
   end)
 end
+-- UPnP RenderingControl, simulated. The IR verification reads volume/mute from HERE (not from
+-- YAMAHA_DATA_GET, whose "mute"/"Master volume" were shown on hardware not to track), so the sim
+-- has to answer these or the reworked sweep cannot be tested offline at all.
+upnpVol, upnpMute = 20, "0"
+local function upnpHandle(body)
+  local action = body and body:match("<u:(%a+) xmlns") or ""
+  if action == "SetVolume" then upnpVol = tonumber(body:match("<DesiredVolume>(%d+)")) or upnpVol
+  elseif action == "SetMute" then upnpMute = body:match("<DesiredMute>(%d)") or upnpMute
+  elseif action == "GetVolume" then return "<CurrentVolume>" .. upnpVol .. "</CurrentVolume>"
+  elseif action == "GetMute" then return "<CurrentMute>" .. upnpMute .. "</CurrentMute>" end
+  return "<ok/>"
+end
 function C4:url()
   return { OnDone = function(s, cb) s._cb = cb; return s end,
            SetOptions = function(s) return s end,
-           Post = function(s) schedule(1, function() if s._cb then s._cb(nil, nil, 1, "sim: no UPnP") end end) end,
+           Post = function(s, url, body)
+             local resp = upnpHandle(body)
+             -- IR that the sim's bar obeys also moves these, so irworks can score them.
+             schedule(1, function() if s._cb then s._cb(nil, resp, 0, "") end end)
+           end,
            Get  = function(s) schedule(1, function() if s._cb then s._cb(nil, nil, 1, "sim: no UPnP") end end) end }
 end
 
