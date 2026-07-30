@@ -527,6 +527,75 @@ run Get Device Status. If it still says PCM the field is inert and should go ent
 again if another model joins this umbrella driver. The harness still covers IR routing, property
 control, the httpapi transport, the feedback gate, and the `Current Input` wire-value assertion.
 
+**SHIPPING CONFIGURATION SETTLED (2026-07-30, Dave's decisions).** Six changes that together move
+this from "owner's experiment" to something an integrator could install:
+1. **IR is the DEFAULT and standard control method.** It needs no certificate, no network and no
+   documentation.
+2. **Serial REMOVED from the dropdown** — the bar has no serial port, so offering it only invited
+   mis-configuration.
+3. **The IP option is relabelled `IP - See Documentation for Usage`.** LIST items are free text, so
+   a dropdown entry can carry its own signpost. `driver.lua` now normalises on the leading `IP`/`IR`
+   token rather than matching the whole label, so the wording can change without a code edit —
+   comparing full labels is exactly how a UI text tweak silently disables a control path.
+4. **`Test IP Control Compatibility`** replaces the old httpapi test and answers ONE question in the
+   Lua window: does THIS unit accept the certificate this driver ships? `COMPATIBLE` prints the
+   model and firmware; `NOT COMPATIBLE` says the cert is no longer accepted and to use IR. All three
+   verdicts (compatible / rejected / no address) are harness-tested, via a new `certfail` archetype
+   — the failure branch is the one that matters and it would otherwise have shipped unexercised.
+5. **Documentation fully rewritten**, including `www/documentation.rtf`, which is the dealer-facing
+   doc Composer shows and which the new dropdown label points at. It has an **IP Control** section:
+   a short paragraph on where the cert came from and the firmware risk, then a bulleted list of the
+   test button and everything IP gives that IR cannot.
+6. **`Owner Approved` REMOVED ENTIRELY.** It gated the gray-area IP path behind a consent toggle,
+   but — Dave's reasoning — it is unlike anything in any other driver, easy to forget even for the
+   person who built it, and its silent refusal was a repeat cause of "the driver does nothing".
+   **The consent it represented is now carried by documentation**: the dropdown names the document,
+   the document explains what IP control involves. **This is a deliberate departure from the repo's
+   general "gate gray-area behind Owner Approved" convention** — the convention still stands
+   elsewhere, but where a control method can be self-documenting in its own label, that is better
+   than a toggle nobody expects.
+
+**CERTIFICATE PROVENANCE — SETTLED BY INSPECTION (2026-07-30).** `subject = C=CN, ST=Shanghai,
+O=Linkplay, CN=www.linkplay.com`, **self-signed**, `serial=01`, **no X509v3 extensions**, valid
+2018-11-15 → **2046-04-01**. **Nothing device-specific** — no MAC, no serial, no per-unit id — and
+the identity is **Linkplay's, not Yamaha's**. So it is one shared credential baked into the Linkplay
+stack: **it should work on any YAS-209 with no re-extraction, and plausibly on other Linkplay-based
+products** (WiiM, Arylic, Audio Pro and similar — unverified). Consequence: **time is not the
+threat, only a deliberate rotation is** — and a rotation would break every device at once, not one.
+**RE-AUTHENTICATION FROM INSIDE THE DRIVER IS IMPOSSIBLE, checked not assumed:** `NetPortOptions`
+carries only `return_encoding`/`key_encoding`/`iv_encoding`/`data_encoding`/`padding`; **no
+DriverWorks API supplies a client certificate at runtime**; Director reads the cert from the
+driver.xml paths; the `.c4z` is read-only; and mutual TLS means the bar demands a cert, never issues
+one. The Encryption Interface (`LoadPKCS12`/`GenerateCSR_*`) manipulates cert DATA but cannot bind
+it to a connection. **Open question worth one test if it ever matters:** whether `<certificate>` can
+point at a writable Director filesystem path rather than one inside the archive — if it can, a
+paste-a-PEM-into-a-property flow becomes possible. Recovery today = re-extract, rebuild, update.
+
+**FIRMWARE UPDATE OVER httpapi — POSSIBLE, DELIBERATELY NOT BUILT.** Linkplay exposes the whole
+flow on the same transport: `getMvRemoteUpdateStartCheck`, `getMvRemoteUpdateStart` (download AND
+burn), `getMvRemoteUpdateStatus` (40 new version / 10 checking / 21-23 failures / 25 downloading /
+27,30 burning), `getMvRomBurnPrecent` (`{"status":"0","progress":"50"}`). **Not shipping the burn:**
+a failed burn can brick the bar and an Action invites clicking it and walking away; **firmware
+update is the single most likely thing to rotate the certificate**, so building it without a
+recovery path is building the hazard without the mitigation; and this firmware has prior RCE
+scrutiny (WithSecure advisory). **Check-only is the safe half** and is the agreed direction if
+revisited.
+
+**COMPOSER POPUPS: NOT POSSIBLE, and the better answer is events.** No DriverWorks API displays a
+dialog in Composer — only `SendDataToUI`/`SendUIRequest`, which target Navigator. Verified against
+the catalog: no shipping driver does it. **The idiomatic mechanism is a declared `<event>` fired
+with `C4:FireEvent`/`C4:FireEventByID`** — confirmed on a shipping third-party driver (Venstar
+declares `Error` and `Thermostat Offline`) — which appears in Programming as a trigger, so the
+owner can wire a push notification, a Navigator announcement popup, an email, anything. **Our driver
+declares ZERO events; that is a real gap.** For THIS project Dave's call is that a user-facing
+notification is not wanted and the **Lua/log window is the target**, so events are not being built
+now — but the mechanism is recorded because it is the answer whenever driver-originated alerting is
+needed.
+**`build.sh` gap found and fixed:** version auto-bump compared only `driver.lua`/`driver.xml`, so a
+**documentation-only change shipped without a version bump** and Composer would refuse it as
+"versions are equal" while the dealer kept reading the old docs. It now compares packaged `www/`
+content too.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
