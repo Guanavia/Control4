@@ -1,0 +1,431 @@
+<devicedata>
+  <version>2</version>
+  <config>
+    <irsettings />
+    <power_command_delay>0</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_management_method>DiscreteCodes</power_management_method>
+    <irsection>
+      <ircodes>
+        <ircode verified="False" controlrating="0">
+          <id>1010</id>
+          <name>BASS EXTENSION</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1008</id>
+          <name>BLUETOOTH STANDBY</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1004</id>
+          <name>SURROUND</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1006</id>
+          <name>3D SURROUND</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1005</id>
+          <name>STEREO</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>144</id>
+          <name>Bass Down</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>143</id>
+          <name>Bass Up</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>139</id>
+          <name>Mute Toggle</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>138</id>
+          <name>Mute Off</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern />
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>137</id>
+          <name>Mute On</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern />
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1003</id>
+          <name>BLUETOOTH</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1009</id>
+          <name>DIMMER</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>103</id>
+          <name>Power Toggle</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>120</id>
+          <name>Info</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1002</id>
+          <name>ANALOG</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1007</id>
+          <name>CLEAR VOICE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1000</id>
+          <name>HDMI</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>102</id>
+          <name>Power Off</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern />
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>107</id>
+          <name>Volume Down</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 003f 0016 05d7 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>106</id>
+          <name>Volume Up</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 05d7 0156 0055 0016 0e33</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>101</id>
+          <name>Power On</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>1</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern />
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1001</id>
+          <name>TV-INPUT</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 05d7 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+      </ircodes>
+      <ircodemacros>
+        <ircodemacro verified="False" id="0">
+          <commandname>SET_OUTPUT_SURROUND_1_2</commandname>
+          <displayname>Set output Subwoofer Out surround mode to Clear Voice</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>OUTPUT_BASS_UP_1</commandname>
+          <displayname>Pulse Subwoofer Out bass up</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>CONNECT_OUTPUT_0</commandname>
+          <displayname>Connect output HDMI/ARC</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>OUTPUT_BASS_DOWN_1</commandname>
+          <displayname>Pulse Subwoofer Out bass down</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>SET_OUTPUT_SURROUND_1_4</commandname>
+          <displayname>Set output Subwoofer Out surround mode to Surround</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>DISCONNECT_OUTPUT_1</commandname>
+          <displayname>Disconnect output Subwoofer Out</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>PULSE_SUR_UP_1</commandname>
+          <displayname>Pulse Subwoofer Out surround mode</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>OUTPUT_MUTE_TOGGLE_1</commandname>
+          <displayname>Toggle Subwoofer Out mute</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>SET_OUTPUT_SURROUND_1_3</commandname>
+          <displayname>Set output Subwoofer Out surround mode to Stereo</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>SET_OUTPUT_VOLUME_1</commandname>
+          <displayname>Set Subwoofer Out volume</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>CONNECT_OUTPUT_1</commandname>
+          <displayname>Connect output Subwoofer Out</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>DISCONNECT_OUTPUT_0</commandname>
+          <displayname>Disconnect output HDMI/ARC</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>OUTPUT_VOLUME_DOWN_1</commandname>
+          <displayname>Pulse Subwoofer Out volume down</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>OUTPUT_VOLUME_UP_1</commandname>
+          <displayname>Pulse Subwoofer Out volume up</displayname>
+        </ircodemacro>
+        <ircodemacro verified="False" id="0">
+          <commandname>SET_OUTPUT_SURROUND_1_1</commandname>
+          <displayname>Set output Subwoofer Out surround mode to 3D Surround</displayname>
+        </ircodemacro>
+      </ircodemacros>
+    </irsection>
+  </config>
+  <name>YAS-108-IRCodesTest Receiver IR</name>
+  <small>devices_sm/receiver.gif</small>
+  <large>devices_lg/receiver.gif</large>
+  <control>av_gen</control>
+  <controlmethod>ir</controlmethod>
+  <proxies>
+    <proxy proxybindingid="5001">receiver</proxy>
+  </proxies>
+  <driver>100050</driver>
+  <manufacturer>YAS-108-IRCodesTest</manufacturer>
+  <created>7/30/2026 2:20:45 PM</created>
+  <modified>7/30/2026 2:20:46 PM</modified>
+  <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <model>Receiver</model>
+  <search_type>c4:av_gen</search_type>
+  <states />
+  <connections>
+    <connection>
+      <id>1000</id>
+      <type>5</type>
+      <connectionname>HDMII</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3001</id>
+      <type>6</type>
+      <connectionname>TV-Optical</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3002</id>
+      <type>6</type>
+      <connectionname>Analog</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7001</id>
+      <type>7</type>
+      <connectionname>Subwoofer Out Audio/Video End-Point</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>7000</id>
+      <type>7</type>
+      <connectionname>HDMI/ARC Video End-Point</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <type>2</type>
+      <connectionname>Receiver</connectionname>
+      <consumer>False</consumer>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>RECEIVER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>4001</id>
+      <type>6</type>
+      <connectionname>Subwoofer Out</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>SPEAKER</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2000</id>
+      <type>5</type>
+      <connectionname>HDMI/ARC</connectionname>
+      <consumer>False</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>1</id>
+      <type>1</type>
+      <connectionname>IR Sensor</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <capabilities>
+    <audio_consumer_count>2</audio_consumer_count>
+    <audio_provider_count>1</audio_provider_count>
+    <can_downclass>True</can_downclass>
+    <can_upclass>True</can_upclass>
+    <has_audio>True</has_audio>
+    <has_discrete_surround_mode_select>True</has_discrete_surround_mode_select>
+    <has_discrete_volume_control>True</has_discrete_volume_control>
+    <has_toad_input_select>False</has_toad_input_select>
+    <has_toad_surround_mode_select>True</has_toad_surround_mode_select>
+    <has_toggle_mute_control>True</has_toggle_mute_control>
+    <has_up_down_bass_control>True</has_up_down_bass_control>
+    <has_up_down_volume_control>True</has_up_down_volume_control>
+    <surround_modes><surround_mode>
+<name>3D Surround</name>
+<id>1</id></surround_mode><surround_mode>
+<name>Clear Voice</name>
+<id>2</id></surround_mode><surround_mode>
+<name>Stereo</name>
+<id>3</id></surround_mode><surround_mode>
+<name>Surround</name>
+<id>4</id></surround_mode></surround_modes>
+    <video_consumer_count>1</video_consumer_count>
+    <video_provider_count>1</video_provider_count>
+  </capabilities>
+  <commands />
+  <conditionals />
+  <events />
+</devicedata>

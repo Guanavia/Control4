@@ -1,0 +1,398 @@
+<devicedata>
+  <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <manufacturer>Yamaha</manufacturer>
+  <name>Yamaha YAS-108</name>
+  <model>YAS-108</model>
+  <created>2026-07-30</created>
+  <modified>2026-07-30</modified>
+  <version>2</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
+  <control>lua_gen</control>
+  <controlmethod>ir</controlmethod>
+  <driver>DriverWorks</driver>
+
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="Yamaha YAS-108" image_source="c4z"
+           small_image="www/icons/device_sm.png" large_image="www/icons/device_lg.png">receiver</proxy>
+  </proxies>
+
+  <capabilities>
+    <!-- IR ONLY, and the capability list is written to match that honestly.
+         has_discrete_volume_control is NOT declared: the remote has only up/down keys, there is
+         no network on this model, and so nothing could ever correct an estimated absolute level.
+         Declaring it would make Navigator send SET_VOLUME_LEVEL and force the driver to guess
+         forever. Up/down is what the hardware actually offers.
+         has_discrete_mute_control is NOT declared for the same reason - the remote has a mute
+         TOGGLE only, and the captured discrete codes came back empty. -->
+    <has_up_down_volume_control>True</has_up_down_volume_control>
+    <has_toggle_mute_control>True</has_toggle_mute_control>
+    <has_discrete_input_select>True</has_discrete_input_select>
+    <allow_audio_pathing>True</allow_audio_pathing>
+
+    <!-- The YAS-108's two real listening modes. DTS Virtual:X is a separate toggle on the
+         remote, not a mode, so it is a property rather than an entry here. -->
+    <has_discrete_surround_mode_select>True</has_discrete_surround_mode_select>
+    <surround_modes>
+      <surround_mode><name>Surround</name><id>1</id></surround_mode>
+      <surround_mode><name>Stereo</name><id>2</id></surround_mode>
+    </surround_modes>
+  </capabilities>
+
+  <connections>
+    <connection>
+      <id>5001</id><facing>6</facing><connectionname>Yamaha YAS-108</connectionname>
+      <type>2</type><consumer>False</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>False</linelevel>
+      <classes><class><classname>RECEIVER</classname></class></classes>
+    </connection>
+
+    <!-- IR output. id MUST be 2 in a lua_gen driver (id 1 is the reserved serial binding) and the
+         class MUST be IR_OUT. Both were got wrong once on the YAS-209 driver. -->
+    <connection>
+      <id>2</id><facing>1</facing><connectionname>IR</connectionname>
+      <type>1</type><consumer>True</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>IR_OUT</classname></class></classes>
+    </connection>
+
+    <connection>
+      <id>2000</id><facing>0</facing><connectionname>HDMI OUT (to TV / ARC)</connectionname>
+      <type>6</type><consumer>False</consumer>
+      <audiosource>True</audiosource><videosource>True</videosource><linelevel>False</linelevel>
+      <classes><class><classname>HDMI</classname></class></classes>
+    </connection>
+
+    <!-- Confirmed against the owner's manual: the YAS-108 has dual BUILT-IN subwoofers AND a
+         SUBWOOFER OUT jack for an external powered sub. -->
+    <connection>
+      <id>4001</id><facing>0</facing><connectionname>Subwoofer Out</connectionname>
+      <type>6</type><consumer>False</consumer>
+      <audiosource>True</audiosource><videosource>False</videosource><linelevel>True</linelevel>
+      <classes><class><classname>SPEAKER</classname></class></classes>
+    </connection>
+
+    <connection>
+      <id>7000</id><facing>0</facing><connectionname>AUDIO/VIDEO OUTPUT (to Room)</connectionname>
+      <type>6</type><consumer>False</consumer>
+      <audiosource>True</audiosource><videosource>True</videosource><linelevel>False</linelevel>
+      <classes>
+        <class><classname>VIDEO_SELECTION</classname></class>
+        <class><classname>AUDIO_SELECTION</classname></class>
+        <class><classname>AUDIO_VOLUME</classname></class>
+      </classes>
+    </connection>
+
+    <!-- Inputs. There is one optical jack and it is the TV input, not a separate source. -->
+    <connection>
+      <id>3000</id><facing>1</facing><connectionname>TV (ARC / Optical)</connectionname>
+      <type>6</type><consumer>True</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>False</linelevel>
+      <classes>
+        <class><classname>DIGITAL_OPTICAL</classname></class>
+        <class><classname>STEREO</classname></class>
+      </classes>
+    </connection>
+    <connection>
+      <id>3001</id><facing>1</facing><connectionname>HDMI In</connectionname>
+      <type>6</type><consumer>True</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>False</linelevel>
+      <classes><class><classname>HDMI</classname></class></classes>
+    </connection>
+    <connection>
+      <id>3002</id><facing>1</facing><connectionname>Analog In (3.5mm)</connectionname>
+      <type>6</type><consumer>True</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>False</linelevel>
+      <classes><class><classname>STEREO</classname></class></classes>
+    </connection>
+    <connection>
+      <id>3003</id><facing>1</facing><connectionname>Bluetooth</connectionname>
+      <type>6</type><consumer>True</consumer>
+      <audiosource>False</audiosource><videosource>False</videosource><linelevel>False</linelevel>
+      <classes><class><classname>STEREO</classname></class></classes>
+    </connection>
+  </connections>
+
+  <config>
+    <power_management_method>none</power_management_method>
+    <power_command_delay>0</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_command_needed>False</power_command_needed>
+
+    <!-- CAPTURED FROM THE GENUINE YAS-108 REMOTE via Composer IR learning, so these are correct
+         for this model. Renumbered into this driver's own range: the capture's ids collide
+         semantically with the YAS-209 driver's (its id 1000 is Bass Extension, this one's was
+         HDMI), which would be a trap for anyone comparing the two.
+         NOT PRESENT, because the remote has no key for them: discrete power on/off and discrete
+         mute on/off. The capture declares them with EMPTY patterns; they are deliberately not
+         carried here rather than shipped as codes that transmit nothing. -->
+    <irsection>
+      <ircodes>
+        <ircode>
+          <id>101</id>
+          <name>POWER_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>106</id>
+          <name>VOLUME_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 05d7 0156 0055 0016 0e33</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>107</id>
+          <name>VOLUME_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00ab 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 003f 0016 05d7 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>139</id>
+          <name>MUTE_TOGGLE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>120</id>
+          <name>INFO</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>201</id>
+          <name>TV_INPUT</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 05d7 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>202</id>
+          <name>HDMI</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e32</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>203</id>
+          <name>ANALOG</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>204</id>
+          <name>BLUETOOTH</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>301</id>
+          <name>SURROUND</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>302</id>
+          <name>STEREO</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>401</id>
+          <name>SURROUND_3D</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>402</id>
+          <name>CLEAR_VOICE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>403</id>
+          <name>BASS_EXTENSION</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>404</id>
+          <name>BLUETOOTH_STANDBY</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 003f 0016 05d6 0156 0055 0016 0e30</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>405</id>
+          <name>DIMMER</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>143</id>
+          <name>BASS_UP</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e31</pattern>
+          <altpattern />
+        </ircode>
+        <ircode>
+          <id>144</id>
+          <name>BASS_DOWN</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 006c 0022 0002 0157 00aa 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0015 0016 003f 0016 05d6 0156 0055 0016 0e2f</pattern>
+          <altpattern />
+        </ircode>
+      </ircodes>
+    </irsection>
+
+    <documentation file="www/documentation.rtf" />
+    <script file="driver.lua" jit="1" />
+
+    <properties>
+      <property>
+        <name>Driver Version</name>
+        <type>STRING</type><readonly>true</readonly><default>@BUILD@</default>
+      </property>
+
+      <!-- ASSUMED state. Deliberately named "Assumed" rather than "Current": the YAS-108 has no
+           network interface, so the driver cannot read anything back and every value here is
+           what it last COMMANDED. Naming them "Current" would put the lie in the label. -->
+      <property>
+        <name>Assumed Power</name>
+        <type>STRING</type><readonly>true</readonly><default>Standby</default>
+        <tooltip>What the driver believes. Not read from the bar - this model has no feedback path. Use the Resync actions if it has drifted.</tooltip>
+      </property>
+      <property>
+        <name>Assumed Input</name>
+        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+      </property>
+      <property>
+        <name>Assumed Volume</name>
+        <type>STRING</type><readonly>true</readonly><default>20</default>
+        <tooltip>Estimated percentage. IR volume is relative, so this drifts if the bar is changed by its own remote.</tooltip>
+      </property>
+      <property>
+        <name>Assumed Mute</name>
+        <type>STRING</type><readonly>true</readonly><default>false</default>
+      </property>
+
+      <!-- Sound settings. All three are TOGGLE-only on the remote, so the driver flips them and
+           says so; with no network on this model there is no readback to correct against. -->
+      <property>
+        <name>DTS Virtual:X (3D Surround)</name>
+        <type>LIST</type><items><item>Off</item><item>On</item></items>
+        <default>Off</default><readonly>false</readonly>
+        <tooltip>Virtual surround. The remote has a toggle only, so the driver flips this rather than setting it to an exact state.</tooltip>
+      </property>
+      <property>
+        <name>Clear Voice</name>
+        <type>LIST</type><items><item>Off</item><item>On</item></items>
+        <default>Off</default><readonly>false</readonly>
+        <tooltip>Dialogue enhancement. Toggle only - see DTS Virtual:X.</tooltip>
+      </property>
+      <property>
+        <name>Bass Extension</name>
+        <type>LIST</type><items><item>Off</item><item>On</item></items>
+        <default>Off</default><readonly>false</readonly>
+        <tooltip>Bass enhancement. Toggle only - see DTS Virtual:X.</tooltip>
+      </property>
+      <property>
+        <name>Bluetooth Standby</name>
+        <type>LIST</type><items><item>Off</item><item>On</item></items>
+        <default>Off</default><readonly>false</readonly>
+        <tooltip>Lets a paired device wake the soundbar over Bluetooth. Toggle only.</tooltip>
+      </property>
+
+      <property>
+        <name>Subwoofer Level</name>
+        <type>RANGED_INTEGER</type><minimum>-4</minimum><maximum>4</maximum>
+        <default>0</default><readonly>false</readonly>
+        <tooltip>Built-in subwoofer level, -4 to +4 with 0 flat. Sent as up/down steps from the last value the driver set. IR gives no confirmation, so this can drift if the remote is also used.</tooltip>
+      </property>
+
+      <property>
+        <name>Log Level</name>
+        <type>LIST</type>
+        <items><item>0 - Alert</item><item>1 - Error</item><item>2 - Warning</item><item>3 - Info</item><item>4 - Trace</item><item>5 - Debug</item></items>
+        <default>2 - Warning</default><readonly>false</readonly>
+      </property>
+      <property>
+        <name>Log Mode</name>
+        <type>LIST</type>
+        <items><item>Off</item><item>Print</item><item>Log</item><item>Print and Log</item></items>
+        <default>Off</default><readonly>false</readonly>
+      </property>
+    </properties>
+
+    <actions>
+      <!-- IR install check. Fires ONE code with nothing else in the path and reports what
+           Director says is bound to the IR output. IR is one-way, so without this a wrong code
+           and a dead emitter or unbound port are indistinguishable. -->
+      <action><name>Test IR Emitter (fires Power Toggle)</name><command>TestIrEmitter</command></action>
+      <action><name>Show Assumed State</name><command>ShowAssumedState</command></action>
+      <!-- Power is TOGGLE-ONLY on this remote, so the driver synthesises discrete on/off from an
+           assumed state. If someone uses the bar's own remote that assumption inverts and every
+           later power command is backwards. These correct it WITHOUT sending IR. -->
+      <action><name>Resync: bar is actually ON</name><command>ResyncPowerOn</command></action>
+      <action><name>Resync: bar is actually OFF</name><command>ResyncPowerOff</command></action>
+      <action><name>IR: Dimmer</name><command>IrFire_DIMMER</command></action>
+      <action><name>IR: Info</name><command>IrFire_INFO</command></action>
+    </actions>
+  </config>
+
+  <composer_categories>
+    <category>Receivers</category>
+  </composer_categories>
+  <search_types>
+    <search_type>Receiver</search_type>
+  </search_types>
+</devicedata>

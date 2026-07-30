@@ -1,0 +1,97 @@
+{\rtf1\ansi\ansicpg1252\deff0
+{\fonttbl{\f0\fswiss Helvetica;}}
+{\colortbl ;\red0\green0\blue0;\red0\green0\blue238;}
+\f0\fs28\b Yamaha YAS-108\b0\fs20\par
+\par
+DriverWorks driver for the Yamaha \b YAS-108\b0  soundbar. Presents to Control4 as a \b Receiver\b0  proxy: power, volume, mute, input select and surround mode.\par
+\par
+\b This driver is IR only, and that is a property of the hardware, not a limitation of the driver.\b0  The YAS-108 has no network interface \endash  no wifi, no ethernet, no local API \endash  so there is no way for any driver to read anything back from it. Everything the driver reports is what it last commanded. Read \b Assumed state\b0  below before programming against it.\par
+\par
+\fs24\b Contents\b0\fs20\par
+\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Quickstart"}}{\fldrslt{\cf2\ul Quick start}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Connections"}}{\fldrslt{\cf2\ul Connections}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Assumedstate"}}{\fldrslt{\cf2\ul Assumed state}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Whatworks"}}{\fldrslt{\cf2\ul What works over IR}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Properties"}}{\fldrslt{\cf2\ul Properties}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Actions"}}{\fldrslt{\cf2\ul Actions}}}\par
+\bullet  {\field{\*\fldinst{HYPERLINK \\l "Troubleshooting"}}{\fldrslt{\cf2\ul Troubleshooting}}}\par
+\par
+\fs24\b {\*\bkmkstart Quickstart}Quick start{\*\bkmkend Quickstart}\b0\fs20\par
+\par
+1. Add the driver and place it in the soundbar's room.\par
+2. In \b Connections\b0 , bind \b AUDIO/VIDEO OUTPUT\b0  to the room, and bind a controller \b IR output\b0  to the driver's \b IR\b0  connection. Place the emitter over the soundbar's IR window.\par
+3. Wire your sources to the inputs (HDMI In, TV, Analog In, Bluetooth).\par
+4. Run \b Actions \endash  Test IR Emitter\b0 . The emitter should blink and the soundbar should change power state.\par
+5. Set the soundbar to standby, then run \b Resync: bar is actually OFF\b0  so the driver's assumption matches reality.\par
+\par
+\fs24\b {\*\bkmkstart Connections}Connections{\*\bkmkend Connections}\b0\fs20\par
+\par
+\bullet  \b Yamaha YAS-108\b0  (Receiver) \endash  bind to the room. This is the control proxy.\par
+\bullet  \b AUDIO/VIDEO OUTPUT\b0  \endash  bind to the room's audio end point.\par
+\bullet  \b IR\b0  \endash  bind a controller IR output here. Required; nothing works without it.\par
+\bullet  \b HDMI OUT (to TV / ARC)\b0  \endash  the soundbar's output to the television.\par
+\bullet  \b Subwoofer Out\b0  \endash  for an external powered subwoofer. The YAS-108 also has dual built-in subwoofers, so this is optional.\par
+\bullet  \b Inputs:\b0  TV (ARC / Optical), HDMI In, Analog In (3.5mm), Bluetooth.\par
+\par
+There is one optical jack and it is part of the TV input, not a separate source.\par
+\par
+\fs24\b {\*\bkmkstart Assumedstate}Assumed state{\*\bkmkend Assumedstate}\b0\fs20\par
+\par
+IR is one-way. The driver sends codes and receives nothing, so it cannot know what the soundbar is doing. The status properties are therefore named \b Assumed\b0  rather than Current, and they show what the driver last commanded.\par
+\par
+Two consequences worth planning around:\par
+\par
+\bullet  \b Power and mute are toggle-only on this remote.\b0  There are no discrete on/off codes for either, so the driver synthesises them: it sends a toggle only when its assumption differs from what was asked. If someone uses the soundbar's own remote, that assumption inverts and every later power command is backwards. \b Use the Resync actions to correct it\b0  \endash  they fix the assumption without sending IR.\par
+\bullet  \b Volume is estimated\b0  at roughly 2 percent per press and will drift. Because of this the driver deliberately does not offer absolute volume; Control4 sends volume up and down, which is what the hardware actually does.\par
+\par
+\b Show Assumed State\b0  (Action) prints everything the driver believes, clearly labelled as belief. Use it when behaviour looks inverted.\par
+\par
+\fs24\b {\*\bkmkstart Whatworks}What works over IR{\*\bkmkend Whatworks}\b0\fs20\par
+\par
+All codes were captured from the genuine YAS-108 remote, so they are correct for this model.\par
+\par
+\bullet  \b Power\b0  \endash  on and off, synthesised from a toggle.\par
+\bullet  \b Volume\b0  \endash  up and down. \b Mute\b0  \endash  toggle.\par
+\bullet  \b Inputs\b0  \endash  all four, each with its own discrete code, so input select is exact.\par
+\bullet  \b Surround modes\b0  \endash  Surround and Stereo, the two listening modes this model has.\par
+\bullet  \b DTS Virtual:X, Clear Voice, Bass Extension, Bluetooth Standby\b0  \endash  toggle-only, exposed as properties.\par
+\bullet  \b Subwoofer Level\b0  \endash  -4 to +4, sent as up/down steps.\par
+\bullet  \b Dimmer\b0  and \b Info\b0  \endash  available as Actions.\par
+\par
+\fs24\b {\*\bkmkstart Properties}Properties{\*\bkmkend Properties}\b0\fs20\par
+\par
+\b Assumed state\b0  (read-only \endash  see above)\par
+\bullet  \b Assumed Power\b0 , \b Assumed Input\b0 , \b Assumed Volume\b0 , \b Assumed Mute\b0 .\par
+\par
+\b Sound settings\b0  (toggle-only on the remote, so the driver flips rather than sets)\par
+\bullet  \b DTS Virtual:X (3D Surround)\b0  \endash  On / Off, default Off. Virtual surround.\par
+\bullet  \b Clear Voice\b0  \endash  On / Off, default Off. Dialogue enhancement.\par
+\bullet  \b Bass Extension\b0  \endash  On / Off, default Off.\par
+\bullet  \b Bluetooth Standby\b0  \endash  On / Off, default Off. Lets a paired device wake the soundbar.\par
+\bullet  \b Subwoofer Level\b0  \endash  -4 to +4, default 0 (flat).\par
+\par
+\b Other\b0\par
+\bullet  \b Driver Version\b0  \endash  read-only. Product version, build number and content fingerprint. If this does not match the build you installed, Composer did not take your file.\par
+\bullet  \b Log Mode\b0  \endash  Off (default), Print, Log, Print and Log. \b Log Level\b0  \endash  0 Alert to 5 Debug, default 2 Warning.\par
+\par
+The Actions always print to the Lua output window regardless of these settings, so diagnostics are never hidden by a logging preference.\par
+\par
+\fs24\b {\*\bkmkstart Actions}Actions{\*\bkmkend Actions}\b0\fs20\par
+\par
+\bullet  \b Test IR Emitter (fires Power Toggle)\b0  \endash  fires one code with nothing else in the path and reports what Director believes is bound to the IR output.\par
+\bullet  \b Show Assumed State\b0  \endash  prints everything the driver believes.\par
+\bullet  \b Resync: bar is actually ON\b0  / \b Resync: bar is actually OFF\b0  \endash  correct the power assumption without sending IR.\par
+\bullet  \b IR: Dimmer\b0  \endash  cycles the front panel display brightness.\par
+\bullet  \b IR: Info\b0  \endash  the remote's info key.\par
+\par
+\fs24\b {\*\bkmkstart Troubleshooting}Troubleshooting{\*\bkmkend Troubleshooting}\b0\fs20\par
+\par
+\bullet  \b Nothing happens\b0  \endash  run Test IR Emitter. No blink means the binding, the emitter or the controller IR port, not the codes. Try a different IR output; a port can be bound, appear correct in Connections, and still not transmit.\par
+\bullet  \b Power is backwards\b0  \endash  the assumption has inverted, usually because the soundbar's own remote was used. Run the matching Resync action.\par
+\bullet  \b Volume does not match the display\b0  \endash  expected. IR volume is relative and estimated; there is no feedback on this model to correct it.\par
+\bullet  \b A sound setting is inverted\b0  \endash  those codes are toggles, so the property tracks what the driver flipped, not the soundbar. Set it twice to resynchronise.\par
+\bullet  \b Nothing works after an update\b0  \endash  re-adding a driver resets every property. Check the properties before debugging anything else.\par
+\par
+Author: David Woychek (david@propertyrenewal.llc). Not affiliated with or endorsed by Yamaha.\par
+}
