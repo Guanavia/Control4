@@ -596,6 +596,25 @@ needed.
 "versions are equal" while the dealer kept reading the old docs. It now compares packaged `www/`
 content too.
 
+**STATUS PROPERTIES NOW GATED ON IP (2026-07-30, Dave spotted the confusion IR-by-default would
+cause).** With IR the default, the five read-only status fields (`Connected`, `Power State`,
+`Current Input`, `Current Volume`, `Muted`) would have shown the last value the driver SENT — a
+guess wearing the clothes of a status field, and the first thing a new installer would see. They
+now read **"IP Control Only - see documentation"** under IR (that is also their driver.xml default,
+so a fresh install shows it immediately) and are populated only under IP. `UpdateStatus()` replaces
+the direct `UpdateProp` calls for those five, and `ResetStatusProps()` runs on every Control Method
+change so switching modes never leaves yesterday's text sitting there. Same principle as removing
+`Yamaha Volume` and fixing `Current Input`: **do not display something the driver cannot stand
+behind.**
+**DOCUMENTATION IS NOW THE FULL REFERENCE, not just an IP note.** `www/documentation.rtf` (the
+dealer-facing doc Composer shows) rewritten end to end: Quick start, Connections, Control Method,
+IR Control, IP Control, **every one of the 17 properties grouped by purpose**, all 4 Actions, and
+Troubleshooting. **`build.sh` now WARNS when a property or Action is missing from it** — verified
+by adding a dummy property and watching it flag, then removing it. Documentation drifting from the
+driver surface was a recurring failure this session (the RTF still described transport, Owner
+Approved and "IR/Serial placeholders" long after all three were gone), so the check exists to make
+that drift visible at build time rather than at install time.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
