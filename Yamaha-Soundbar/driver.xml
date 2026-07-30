@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>22</version>
+  <version>24</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -572,11 +572,6 @@
         <tooltip>Subwoofer level, matching the Yamaha app's Subwoofer Boost: -4 to +4, 0 = flat. Range learned from the bar itself (writes of 5 and -5 are refused) and independently confirmed against the app. This lives here rather than in the EQ section because the receiver proxy cannot express a bass range, so its EQ box is unbounded and would misrepresent this control.</tooltip>
       </property>
       <property>
-        <name>Yamaha Volume</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
-        <tooltip>The bar's own "Master volume" scale, which is NOT the same as the 0-100 UPnP volume Control4 drives. Shown for reference while the relationship between the two is worked out.</tooltip>
-      </property>
-      <property>
         <name>Audio Stream</name>
         <type>STRING</type><readonly>true</readonly><default>unknown</default>
         <tooltip>Incoming format the bar reports (PCM, Dolby, DTS ...).</tooltip>
@@ -595,60 +590,35 @@
     </properties>
 
     <actions>
-      <action><name>Refresh Now</name><command>RefreshNow</command></action>
-      <action><name>Power On (IP)</name><command>PowerOn</command></action>
-      <action><name>Power Off / Standby (IP)</name><command>PowerOff</command></action>
       <!-- getStatusEx is an IDENTITY/CAPABILITY dump only.  Proven on hardware 2026-07-27:
            five captures at five different inputs were identical except the clock (65 of 66
            fields), and it contains no mode/source/input/eq/surround key at all.  Use
            "Probe Yamaha Settings" for anything state-related. -->
-      <action><name>Query Device Info (identity only — never shows input/state)</name><command>QueryDeviceInfo</command></action>
       <!-- Hardware-bringup diagnostics for the mutual-TLS path.  Set Log Level = 5 - Debug
            and Log Mode = Print and Log, then run these and read the log. -->
-      <action><name>Test httpapi (SSL) - getStatusEx</name><command>TestHttpApi</command></action>
-      <action><name>httpapi Diagnostics (cert + socket state)</name><command>HttpApiDiag</command></action>
       <!-- Capability discovery: dumps the raw read-command payloads so the surround/EQ
            key names and the input "mode" codes can be pinned down from a real session. -->
-      <action><name>Probe Yamaha Settings (surround / EQ discovery)</name><command>ProbeSettings</command></action>
-      <action><name>Learn Input Codes (cycles every input, then prints the table)</name><command>LearnInputCodes</command></action>
-      <action><name>Learn Sound Programs (tries each candidate, reports which stick)</name><command>LearnSoundPrograms</command></action>
-      <action><name>Learn Subwoofer Range (finds the boost limits)</name><command>LearnSubwooferRange</command></action>
-      <action><name>Verify IR Codes (fires each, confirms the effect over IP)</name><command>VerifyIrCodes</command></action>
       <!-- Emitter tests: fire ONE code with nothing else in the path. No proxy, no
            capabilities, no Control Method check, no Owner Approved, no IP address. IR is
            one-way, so "wrong code" and "dead emitter" look identical from the driver; these
            separate them. Output goes through the unsilenceable log path, so they still report
            with Log Mode = Off. -->
       <!-- Power -->
-      <action><name>IR: Power On</name><command>IrFire_POWER_ON</command></action>
-      <action><name>IR: Power Off</name><command>IrFire_POWER_OFF</command></action>
-      <action><name>IR: Power Toggle</name><command>IrFire_POWER_TOGGLE</command></action>
       <!-- Volume / mute -->
-      <action><name>IR: Volume Up</name><command>IrFire_VOLUME_UP</command></action>
-      <action><name>IR: Volume Down</name><command>IrFire_VOLUME_DOWN</command></action>
-      <action><name>IR: Mute On</name><command>IrFire_MUTE_ON</command></action>
-      <action><name>IR: Mute Off</name><command>IrFire_MUTE_OFF</command></action>
-      <action><name>IR: Mute Toggle</name><command>IrFire_MUTE_TOGGLE</command></action>
       <!-- Inputs -->
-      <action><name>IR: Tv Input</name><command>IrFire_TV_INPUT</command></action>
-      <action><name>IR: Hdmi</name><command>IrFire_HDMI</command></action>
-      <action><name>IR: Bluetooth</name><command>IrFire_BLUETOOTH</command></action>
-      <action><name>IR: Net</name><command>IrFire_NET</command></action>
       <!-- Sound programs -->
-      <action><name>IR: Movie</name><command>IrFire_MOVIE</command></action>
-      <action><name>IR: Music</name><command>IrFire_MUSIC</command></action>
-      <action><name>IR: Sports</name><command>IrFire_SPORTS</command></action>
-      <action><name>IR: Game</name><command>IrFire_GAME</command></action>
-      <action><name>IR: Tv Surround</name><command>IrFire_TV_SURROUND</command></action>
-      <action><name>IR: Stereo</name><command>IrFire_STEREO</command></action>
       <!-- DSP / bass -->
-      <action><name>IR: Surround 3D</name><command>IrFire_SURROUND_3D</command></action>
-      <action><name>IR: Clear Voice</name><command>IrFire_CLEAR_VOICE</command></action>
-      <action><name>IR: Bass Extension</name><command>IrFire_BASS_EXTENSION</command></action>
-      <action><name>IR: Bass Up</name><command>IrFire_BASS_UP</command></action>
-      <action><name>IR: Bass Down</name><command>IrFire_BASS_DOWN</command></action>
-      <!-- Other -->
-      <action><name>IR: Info</name><command>IrFire_INFO</command></action>
+      <!-- Forces an immediate volume/mute read instead of waiting for the poll. -->
+      <action><name>Refresh Now</name><command>RefreshNow</command></action>
+      <!-- IR install check. Fires ONE code with nothing else in the path (no proxy, no
+           Control Method, no Owner Approved, no IP) and reports what Director says is bound to
+           the IR output. IR is one-way, so without this a wrong code and a dead emitter or
+           unbound port are indistinguishable. Keep it: diagnosing that took three sessions and
+           a dead controller port to unpick. -->
+      <action><name>Test IR Emitter (fires Power On)</name><command>TestIrEmitter</command></action>
+      <!-- IP install check: exercises the whole mutual-TLS path (cert, handshake, request,
+           parse) in one press, and is the fastest way to tell a cert problem from a network one. -->
+      <action><name>Test IP Connection (mutual TLS)</name><command>TestHttpApi</command></action>
     </actions>
   </config>
 

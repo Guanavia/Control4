@@ -98,9 +98,10 @@ IR is one-way. The driver gets no acknowledgement, so **a wrong code, an unbound
 missing emitter and a command the driver never routed to IR all look identical** — total silence.
 The only way through is to eliminate them in order, and the actions below exist to do exactly that.
 
-**1. `IR Emitter Test: Power On`.** Fires one code with nothing else in the path: no proxy, no
-capabilities, no Control Method check, no `Owner Approved`, no IP address. Its output goes through
-the unsilenceable log path, so it reports even with `Log Mode = Off`.
+**1. `Test IR Emitter (fires Power On)`.** Fires one code with nothing else in the path: no proxy,
+no capabilities, no Control Method check, no `Owner Approved`, no IP address, and reports what
+Director says is bound to the IR output. Its output goes through the unsilenceable log path, so it
+reports even with `Log Mode = Off`.
 
 - **Emitter blinks** → the binding and emitter are fine. Any remaining failure is the code set or
   the routing; go to step 2.

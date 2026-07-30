@@ -26,6 +26,14 @@ lua test/simharness.lua driver.lua <archetype> <action>
   `driver.xml`. This is the only offline way to see whether a given button reaches the emitter
   at all.
 
+**Note (2026-07-30): the learn sweeps and `Verify IR Codes` were removed from the shipping
+driver**, so the archetypes that existed to test them (`clamp`, `reject`, `acceptall`, `irworks`,
+`noemitter`) currently have no target action. They are kept rather than deleted because the sweep
+code is recoverable from git and would need them again if a new soundbar model is added to this
+umbrella driver. What the harness still exercises: the IR routing tables, property-driven control
+(`IRPROP:`/`PROP:`), the httpapi transport and HTTP parsing, the state-feedback gate, and an
+assertion that `Current Input` never shows a Linkplay wire value.
+
 The `acceptall` archetype exists to prove the negative controls fire. Running
 `acceptall LearnSoundPrograms` must report **NEGATIVE CONTROL FAILED / INCONCLUSIVE** — if it ever
 reports a clean all-pass, the control has stopped working and every sweep result is
