@@ -409,10 +409,29 @@ verified extended command exists beyond what the remote exposes, keep it.**
 sound-program select, the three DSP toggles, subwoofer trim by stepping from the last known value,
 volume, mute and power. **Cross-check enforced in both directions: 24 `<ircode>` = 24 Actions = 24
 `IR` table entries, no orphans.**
-**PARITY GAPS, and both are inherent:** (1) **transport** (play/pause/stop/next/prev) has NO
-captured code — the driver REFUSES loudly rather than appearing to work; if the remote has those
-keys they can be captured later; (2) **state feedback** — IR is one-way, so there is none, which is
-exactly why IP remains the owner's path. Two soft limits: absolute volume is approximated by
+**TRANSPORT REMOVED ENTIRELY (2026-07-30, Dave's call — correct).** Play/pause/stop/next/previous
+are gone from the driver: **the bar has no transport keys on the remote or the front panel**, they
+exist only in the Android app for the bar's own built-in streaming, and **anything Control4 (or any
+automation system) is controlling has its own transport on the SOURCE device** — the soundbar is
+downstream of it. So the control was superfluous by construction, not merely unimplemented over IR.
+UPnP `AVTransport` service, `Transport()`, the five Actions and the IR refusal all deleted rather
+than left as dead code. **General lesson: before building a control, ask whether the DEVICE is the
+right thing to aim it at** — a receiver sitting downstream of a source should not be growing
+transport controls.
+
+**STATE FEEDBACK FIXED — IT WAS GATED ON THE WRONG THING (2026-07-30).** "Make sure state feedback
+works" turned up a real design fault: **both polls were gated on `Control Method == "IP"`**, so
+selecting IR — the SHIPPING DEFAULT — silently killed all feedback, including the **UPnP volume/mute
+poll that needs no certificate, no Owner Approved and no gray-area anything.** It was free the whole
+time and switched off for no reason. Verified against HEAD in the harness: IR mode issued **2** UPnP
+polls (just the one at load, before the property walk turned it off) versus **12** after the fix.
+**Feedback now depends on whether the IP path is REACHABLE, not on how commands leave the driver:**
+UPnP volume/mute runs whenever an IP Address is set; the httpapi state poll additionally needs Owner
+Approved. **This makes IR + IP the best hybrid for an owner** — dealer-friendly one-way control out,
+real state back — and it means **IR volume now self-corrects**: the driver guesses a level when it
+pulses, and the 3s poll replaces the guess with the truth, which removes the drift caveat whenever
+the bar is on the network.
+**REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
 **`INFO` (120), `POWER_TOGGLE` and `MUTE_TOGGLE` are declared and buttoned but deliberately routed
