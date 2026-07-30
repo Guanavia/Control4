@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Yamaha-Soundbar.c4z (zip of driver files at archive root).
+# Build Yamaha-YAS209.c4z (zip of driver files at archive root).
 #
 # Bundles the Linkplay client cert (gray-area, local-only, gitignored) so the IP
 # power/input path works when Control Method = IP. Regenerate the cert per
@@ -20,7 +20,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-OUT="Yamaha-Soundbar.c4z"
+OUT="Yamaha-YAS209.c4z"
 CERT_SRC="research/linkplay_keys/linkplay_client.pem"
 ENCRYPT_KEY="${ENCRYPT_KEY:-0}"
 # MUST match HTTPAPI_KEY_PASSWORD in driver.lua.
@@ -54,7 +54,7 @@ PYEOF
 # churn the number while iterating.
 python3 - <<'PYEOF' || exit 1
 import re, sys, zipfile, os
-OUT = "Yamaha-Soundbar.c4z"
+OUT = "Yamaha-YAS209.c4z"
 src = open('driver.xml').read()
 cur = int(re.search(r'<version>(\d+)</version>', src).group(1))
 if not os.path.exists(OUT):
@@ -190,6 +190,6 @@ echo "  driver <version> : $BUILDNO          <- integer build counter; Composer 
 echo "  fingerprint      : $FINGERPRINT"
 echo "  package sha256   : $(shasum -a 256 "$OUT" | cut -c1-16)"
 echo
-echo "  On load the driver logs: \"Yamaha Soundbar v$PRODUCT_VERSION (build $BUILDNO, $FINGERPRINT)\""
+echo "  On load the driver logs: \"v$PRODUCT_VERSION (build $BUILDNO, $FINGERPRINT)\""
 echo "  If the controller logs a different build, Composer did not take this file."
 echo "================================================================"

@@ -1499,4 +1499,4 @@ function ReceivedFromProxy(idBinding, sCommand, tParams)
   end
 end
 
-LogCritical("driver.lua loaded: Yamaha Soundbar @BUILD@")
+LogCritical("driver.lua loaded: Yamaha YAS-209 @BUILD@")

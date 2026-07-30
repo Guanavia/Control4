@@ -2,20 +2,20 @@
   <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
   <creator>David Woychek</creator>
   <manufacturer>Yamaha</manufacturer>
-  <name>Yamaha Soundbar</name>
-  <model>Yamaha Soundbar (umbrella)</model>
+  <name>Yamaha YAS-209</name>
+  <model>YAS-209</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>38</version>
-  <small image_source="c4z">www/icons/device_sm.gif</small>
-  <large image_source="c4z">www/icons/device_lg.gif</large>
+  <version>41</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
   <controlmethod>ip</controlmethod>
   <driver>DriverWorks</driver>
 
   <proxies qty="1">
-    <proxy proxybindingid="5001" name="Yamaha Soundbar" image_source="c4z"
-           small_image="www/icons/device_sm.gif" large_image="www/icons/device_lg.gif">receiver</proxy>
+    <proxy proxybindingid="5001" name="Yamaha YAS-209" image_source="c4z"
+           small_image="www/icons/device_sm.png" large_image="www/icons/device_lg.png">receiver</proxy>
   </proxies>
 
   <capabilities>
@@ -57,7 +57,7 @@
     <connection>
       <id>5001</id>
       <facing>6</facing>
-      <connectionname>Yamaha Soundbar</connectionname>
+      <connectionname>Yamaha YAS-209</connectionname>
       <type>2</type>
       <consumer>False</consumer>
       <audiosource>False</audiosource>
@@ -488,12 +488,6 @@
       <property>
         <name>Driver Version</name>
         <type>STRING</type><readonly>true</readonly><default>@BUILD@</default>
-      </property>
-      <property>
-        <name>Model</name>
-        <type>LIST</type><readonly>false</readonly><default>YAS-209</default>
-        <items><item>YAS-209</item></items>
-        <tooltip>Soundbar model. (Umbrella driver; more models added over time.)</tooltip>
       </property>
       <!-- IR is the DEFAULT and the standard method for this driver: it needs no certificate,
            no network and no documentation to use. IP is the owner's path and is signposted in
