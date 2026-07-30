@@ -419,18 +419,27 @@ than left as dead code. **General lesson: before building a control, ask whether
 right thing to aim it at** — a receiver sitting downstream of a source should not be growing
 transport controls.
 
-**STATE FEEDBACK FIXED — IT WAS GATED ON THE WRONG THING (2026-07-30).** "Make sure state feedback
-works" turned up a real design fault: **both polls were gated on `Control Method == "IP"`**, so
-selecting IR — the SHIPPING DEFAULT — silently killed all feedback, including the **UPnP volume/mute
-poll that needs no certificate, no Owner Approved and no gray-area anything.** It was free the whole
-time and switched off for no reason. Verified against HEAD in the harness: IR mode issued **2** UPnP
-polls (just the one at load, before the property walk turned it off) versus **12** after the fix.
-**Feedback now depends on whether the IP path is REACHABLE, not on how commands leave the driver:**
-UPnP volume/mute runs whenever an IP Address is set; the httpapi state poll additionally needs Owner
-Approved. **This makes IR + IP the best hybrid for an owner** — dealer-friendly one-way control out,
-real state back — and it means **IR volume now self-corrects**: the driver guesses a level when it
-pulses, and the 3s poll replaces the guess with the truth, which removes the drift caveat whenever
-the bar is on the network.
+**STATE FEEDBACK FOLLOWS CONTROL METHOD — SETTLED BY THE OWNER (2026-07-30). DO NOT RE-DECOUPLE.**
+Investigating "make sure state feedback works" found both polls gated on `Control Method == "IP"`,
+so selecting IR switched off all feedback including the UPnP volume/mute poll (which needs no
+certificate and no Owner Approved). **I proposed decoupling it** — feedback keyed on whether the IP
+path is REACHABLE rather than on how commands leave — and briefly shipped that, arguing IR-out /
+IP-back was a better hybrid. **Dave rejected it: "if the user is controlling it over IP, whether
+wifi or ethernet, have state feedback. If controlling over IR, disable state feedback."** Reverted;
+both polls are gated on Control Method again, plus the added `DeviceAddress()` guard.
+**His reasoning, which is right:** a driver set to IR is controlling a device it is not talking to
+over the network, and it should not quietly read state behind that choice. **An IR install is
+one-way and the honest model is that the driver knows only the last command it sent.** A dealer
+choosing IR is not running a cable to the bar, so no IP gets entered and there would be nothing to
+poll anyway.
+**I also got a fact wrong here and was corrected:** I asserted the YAS-209 is WiFi-only with no
+ethernet port. **It has one and Dave is using it.** The claim never reached these docs, but the
+lesson does: do not state a hardware fact about the owner's own equipment as established when it
+has not been checked.
+**Consequence to keep in mind:** IR volume is inferred and NOTHING corrects it — the pulse-toward-
+target estimate in `SetVolumeLevelIR` is the only level the driver has while Control Method = IR.
+Verified in the harness: IR mode issues 0 UPnP polls and 0 state reads; IP mode issues 8 and 2.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
