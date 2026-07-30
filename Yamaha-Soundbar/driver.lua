@@ -297,10 +297,32 @@ local function UrlEncode(s)
   end))
 end
 
+-- The five read-only STATUS properties. Over IR the driver has no readback at all, so anything
+-- shown here would be the last value it SENT, not the bar's state -- a guess wearing the clothes
+-- of a status field. With IR now the default, that would be the first thing a new installer saw.
+-- So under IR they read a placeholder that names the reason, and they are only populated when
+-- Control Method = IP.
+local STATUS_PROPS = { "Connected", "Power State", "Current Input", "Current Volume", "Muted" }
+local STATUS_IR_TEXT = "IP Control Only - see documentation"
+
+-- Write a status property, but only when it can mean something.
+local function UpdateStatus(name, value)
+  if gCtrlMethod ~= "IP" then return end
+  UpdateProp(name, value)
+end
+
+-- Called whenever Control Method changes: park them under IR, blank them for IP so the polls
+-- fill them with real values rather than leaving yesterday's text sitting there.
+local function ResetStatusProps()
+  for _, name in ipairs(STATUS_PROPS) do
+    UpdateProp(name, (gCtrlMethod == "IP") and "unknown" or STATUS_IR_TEXT)
+  end
+end
+
 local function SetConnected(c)
   if gConnected == c then return end
   gConnected = c
-  UpdateProp("Connected", tostring(c))
+  UpdateStatus("Connected", tostring(c))
   LogInfo("Connected = %s", tostring(c))
 end
 
@@ -313,7 +335,7 @@ local function CheckConfigured()
   if gCtrlMethod ~= "IP" then return true end
   if DeviceAddress() then gUnconfiguredWarned = false; return true end
   gConnected = false
-  UpdateProp("Connected", "false - NO IP ADDRESS SET")
+  UpdateStatus("Connected", "false - NO IP ADDRESS SET")
   if not gUnconfiguredWarned then   -- once per unconfigured spell, not once per property change
     gUnconfiguredWarned = true
     LogCritical("IP Address property is EMPTY, so nothing can be controlled over IP. " ..
@@ -700,12 +722,12 @@ local function SetVolumeLevel(level)
     SetVolumeLevelIR(level)
     -- Report the level we were ASKED for, not the one we inferred: the UI slider has to track
     -- the user's own drag or it fights them. The inferred value stays internal (gYxcVolume).
-    UpdateProp("Current Volume", tostring(level))
+    UpdateStatus("Current Volume", tostring(level))
     NotifyVolume(level)
     return
   end
   gYxcVolume = level
-  UpdateProp("Current Volume", tostring(level))
+  UpdateStatus("Current Volume", tostring(level))
   NotifyVolume(level)
   Soap(RC_CTRL, RC, "SetVolume",
     "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredVolume>" .. level .. "</DesiredVolume>")
@@ -744,7 +766,7 @@ end
 
 local function SetMute(m)
   gMute = m
-  UpdateProp("Muted", tostring(m))
+  UpdateStatus("Muted", tostring(m))
   NotifyMute(m)
   if UsingIR() then
     SendIR(m and IR.MUTE_ON or IR.MUTE_OFF, m and "MUTE_ON" or "MUTE_OFF")
@@ -756,7 +778,7 @@ end
 
 local function SetPower(on)
   gPower = on
-  UpdateProp("Power State", on and "On" or "Standby")
+  UpdateStatus("Power State", on and "On" or "Standby")
   NotifyPower(on)
   if UsingIR() then
     SendIR(on and IR.POWER_ON or IR.POWER_OFF, on and "POWER_ON" or "POWER_OFF")
@@ -770,7 +792,7 @@ local function SelectInputByConn(connId)
   local sw = INPUT_MAP[connId]
   if not sw then LogWarning("unknown input connection id %s", tostring(connId)); return end
   gInputSw = sw
-  UpdateProp("Current Input", INPUT_NAME[connId] or sw)
+  UpdateStatus("Current Input", INPUT_NAME[connId] or sw)
   NotifyInput(connId)
   if UsingIR() then
     -- Was a hard refusal until the remote was captured (2026-07-30): the donor set had
@@ -816,7 +838,7 @@ local function Poll()
     gPollFails = 0; SetConnected(true)
     local v = tonumber(xmlval(body, "CurrentVolume"))
     if v and v ~= gYxcVolume then
-      gYxcVolume = v; UpdateProp("Current Volume", tostring(v)); NotifyVolume(v)
+      gYxcVolume = v; UpdateStatus("Current Volume", tostring(v)); NotifyVolume(v)
     end
   end)
   Soap(RC_CTRL, RC, "GetMute", "<InstanceID>0</InstanceID><Channel>Master</Channel>", function(ok, body)
@@ -824,7 +846,7 @@ local function Poll()
     local m = xmlval(body, "CurrentMute")
     if m then
       local mb = (m == "1" or m == "true")
-      if mb ~= gMute then gMute = mb; UpdateProp("Muted", tostring(mb)); NotifyMute(mb) end
+      if mb ~= gMute then gMute = mb; UpdateStatus("Muted", tostring(mb)); NotifyMute(mb) end
     end
   end)
 end
@@ -843,7 +865,7 @@ local function StartPoll()
     -- same failure as any other stale display, and misleading precisely when someone is
     -- debugging an IR install.
     gConnected = false
-    UpdateProp("Connected", "n/a - IR control (one-way, nothing is polled)")
+    -- ResetStatusProps has already parked every status field with the reason.
     LogDebug("volume/mute feedback off: Control Method = %s", tostring(gCtrlMethod))
     return
   end
@@ -880,7 +902,7 @@ end
 local function ApplyPowerState(on)
   if on == gPower then return end
   gPower = on
-  UpdateProp("Power State", on and "On" or "Standby")
+  UpdateStatus("Power State", on and "On" or "Standby")
   NotifyPower(on)
   LogInfo("power changed at the bar -> %s", on and "On" or "Standby")
 end
@@ -889,7 +911,7 @@ local function ApplyInputState(connId)
   local sw = INPUT_MAP[connId]
   if not sw or gInputSw == sw then return end
   gInputSw = sw
-  UpdateProp("Current Input", INPUT_NAME[connId] or sw)
+  UpdateStatus("Current Input", INPUT_NAME[connId] or sw)
   NotifyInput(connId)
   -- Log keeps the wire value too: it is what the bar actually reported and what any protocol
   -- debugging needs, even though it must not be what the property shows.
@@ -1103,7 +1125,7 @@ function ReceiverCommands.MUTE_TOGGLE()
     -- Best-effort local tracking; nothing can confirm it over IR.
     if gMute ~= nil then
       gMute = not gMute
-      UpdateProp("Muted", tostring(gMute))
+      UpdateStatus("Muted", tostring(gMute))
       NotifyMute(gMute)
     end
     return
@@ -1223,8 +1245,7 @@ local function GetDeviceStatus()
     local function show(label, v)
       LogCritical("  %-18s %s", label, (v == nil or v == "") and "unknown" or tostring(v))
     end
-    show("Connected",   (gCtrlMethod == "IP") and tostring(gConnected)
-                        or "n/a - IR control (one-way, nothing is polled)")
+    show("Connected",   (gCtrlMethod == "IP") and tostring(gConnected) or STATUS_IR_TEXT)
     show("Control Method", gCtrlMethod)
     show("Power",       gPower == nil and nil or (gPower and "On" or "Standby"))
     show("Input",       gInputSw and (INPUT_NAME[SWITCH_TO_CONN[gInputSw]] or gInputSw) or nil)
@@ -1335,6 +1356,7 @@ function OnPropertyChanged(sProperty)
   elseif sProperty == "Control Method" then
     -- Match the leading token only: the visible label carries a pointer to the documentation.
     gCtrlMethod = (tostring(value or ""):upper():match("^(I[PR])")) or "IR"
+    ResetStatusProps()
     StartPoll()
     StartStatePoll()
   elseif sProperty == "IP Address" then

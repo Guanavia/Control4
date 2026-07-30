@@ -272,6 +272,13 @@ do
   for _, a in ipairs(upnpSeq) do if a:match("Mute") then seq[#seq+1] = a end end
   print("-- UPnP mute calls, in order: " .. (table.concat(seq, " -> ")))
 end
+do
+  local st = {}
+  for _, n in ipairs({"Connected","Power State","Current Input","Current Volume","Muted"}) do
+    st[#st+1] = ("%s=%s"):format(n, tostring(props[n]))
+  end
+  print("-- status props: " .. table.concat(st, "  "))
+end
 print(("-- bar mute after run: %s   (driver property Muted=%s)")
   :format(tostring(upnpMute), tostring(props["Muted"])))
 print(("-- state-feedback reads issued: %d (Control Method = %s)")

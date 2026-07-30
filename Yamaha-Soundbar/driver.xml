@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>33</version>
+  <version>37</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -519,7 +519,7 @@
       </property>
       <property>
         <name>Connected</name>
-        <type>STRING</type><readonly>true</readonly><default>false</default>
+        <type>STRING</type><readonly>true</readonly><default>IP Control Only - see documentation</default>
       </property>
       <property>
         <name>Poll Interval Seconds</name>
@@ -533,19 +533,19 @@
       </property>
       <property>
         <name>Power State</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <type>STRING</type><readonly>true</readonly><default>IP Control Only - see documentation</default>
       </property>
       <property>
         <name>Current Input</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <type>STRING</type><readonly>true</readonly><default>IP Control Only - see documentation</default>
       </property>
       <property>
         <name>Current Volume</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <type>STRING</type><readonly>true</readonly><default>IP Control Only - see documentation</default>
       </property>
       <property>
         <name>Muted</name>
-        <type>STRING</type><readonly>true</readonly><default>unknown</default>
+        <type>STRING</type><readonly>true</readonly><default>IP Control Only - see documentation</default>
       </property>
       <!-- Yamaha sound settings.  Keys confirmed from a live YAMAHA_DATA_GET capture
            (2026-07-27); written back as YAMAHA_DATA_SET:{"<key>":"<value>"}.  All require

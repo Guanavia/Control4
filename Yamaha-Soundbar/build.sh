@@ -96,6 +96,27 @@ else:
     print("version %d (content identical to the last build)" % cur)
 PYEOF
 
+# Documentation drift check (WARNING, not fatal). www/documentation.rtf is the reference an
+# installer relies on, and a reference that silently omits a property is worse than none because
+# the reader trusts it to be complete. Every property and Action must appear by name. This is a
+# warning rather than an error so a work-in-progress build is never blocked.
+python3 - <<'PYEOF'
+import xml.etree.ElementTree as ET, sys, os
+doc = 'www/documentation.rtf'
+if not os.path.exists(doc):
+    print('NOTE: no documentation.rtf to check'); sys.exit(0)
+text = open(doc, encoding='utf-8', errors='replace').read()
+r = ET.parse('driver.xml').getroot()
+names  = [p.findtext('name') for p in r.find('config/properties')]
+# Action names carry parenthetical hints; match on the part before the bracket.
+names += [a.findtext('name').split(' (')[0] for a in r.find('config/actions')]
+missing = [n for n in names if n and n not in text]
+if missing:
+    print('WARNING: not documented in www/documentation.rtf: ' + ', '.join(missing))
+else:
+    print('documentation covers all %d properties and actions' % len(names))
+PYEOF
+
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 
