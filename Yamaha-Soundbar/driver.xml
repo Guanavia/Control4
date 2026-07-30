@@ -6,7 +6,7 @@
   <model>Yamaha Soundbar (umbrella)</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>30</version>
+  <version>33</version>
   <small image_source="c4z">www/icons/device_sm.gif</small>
   <large image_source="c4z">www/icons/device_lg.gif</large>
   <control>lua_gen</control>
@@ -495,22 +495,27 @@
         <items><item>YAS-209</item></items>
         <tooltip>Soundbar model. (Umbrella driver; more models added over time.)</tooltip>
       </property>
+      <!-- IR is the DEFAULT and the standard method for this driver: it needs no certificate,
+           no network and no documentation to use. IP is the owner's path and is signposted in
+           its own label because it cannot be made self-explanatory in a dropdown.
+           SERIAL WAS REMOVED: the YAS-209 has no serial port and never will, so offering it was
+           an invitation to mis-configure. Labels are free text - driver.lua matches the leading
+           "IP"/"IR" only, so this wording can change without a code edit. -->
       <property>
         <name>Control Method</name>
-        <type>LIST</type><readonly>false</readonly><default>IP</default>
-        <items><item>IR</item><item>IP</item><item>Serial</item></items>
-        <tooltip>How Control4 controls the bar. IP is implemented (UPnP + httpapi). IR/Serial are placeholders for later. NOTE: shipping default will be IR once IR is programmed.</tooltip>
+        <type>LIST</type>
+        <items>
+          <item>IR</item>
+          <item>IP - See Documentation for Usage</item>
+        </items>
+        <default>IR</default>
+        <readonly>false</readonly>
+        <tooltip>IR is standard and works out of the box. IP adds state feedback and discrete control but requires setup - read the driver documentation before selecting it.</tooltip>
       </property>
       <property>
         <name>IP Address</name>
         <type>STRING</type><readonly>false</readonly><default></default>
         <tooltip>Soundbar IP (use a DHCP reservation). Required for the IP control method.</tooltip>
-      </property>
-      <property>
-        <name>Owner Approved</name>
-        <type>LIST</type><readonly>false</readonly><default>No</default>
-        <items><item>No</item><item>Yes</item></items>
-        <tooltip>GRAY-AREA GATE. Power and input over IP use a client certificate extracted from Yamaha's app to reach the soundbar's local API. This is the EQUIPMENT OWNER's decision to enable. While "No", the driver still does volume/mute (UPnP) and leaves power/input to IR. Set to "Yes" ONLY with the owner's consent.</tooltip>
       </property>
       <property>
         <name>Connected</name>
@@ -524,7 +529,7 @@
       <property>
         <name>State Poll Seconds</name>
         <type>RANGED_INTEGER</type><readonly>false</readonly><default>30</default><minimum>0</minimum><maximum>600</maximum>
-        <tooltip>How often power and input are read BACK from the bar over httpapi, so the UI stays right when someone uses the Yamaha remote or front panel. Each read costs a full mutual-TLS handshake (one connect per request), so keep this well above the volume/mute poll. 0 disables state feedback and leaves power/input write-only. Requires Owner Approved = Yes.</tooltip>
+        <tooltip>How often power and input are read BACK from the bar over httpapi, so the UI stays right when someone uses the Yamaha remote or front panel. Each read costs a full mutual-TLS handshake (one connect per request), so keep this well above the volume/mute poll. 0 disables state feedback and leaves power/input write-only. Requires Control Method = IP.</tooltip>
       </property>
       <property>
         <name>Power State</name>
@@ -544,7 +549,7 @@
       </property>
       <!-- Yamaha sound settings.  Keys confirmed from a live YAMAHA_DATA_GET capture
            (2026-07-27); written back as YAMAHA_DATA_SET:{"<key>":"<value>"}.  All require
-           Owner Approved = Yes, since they go over the httpapi path. -->
+           Control Method = IP, since they go over the httpapi path. -->
       <!-- Sound Program is NOT a property: it is the receiver proxy's surround mode, so it
            lives in the device's control UI (Surround section) via <surround_modes> above.
            The three toggles below have no equivalent in the receiver proxy - it models
@@ -594,7 +599,7 @@
       <!-- Capability discovery: dumps the raw read-command payloads so the surround/EQ
            key names and the input "mode" codes can be pinned down from a real session. -->
       <!-- Emitter tests: fire ONE code with nothing else in the path. No proxy, no
-           capabilities, no Control Method check, no Owner Approved, no IP address. IR is
+           capabilities, no Control Method check and no IP address. IR is
            one-way, so "wrong code" and "dead emitter" look identical from the driver; these
            separate them. Output goes through the unsilenceable log path, so they still report
            with Log Mode = Off. -->
@@ -611,14 +616,14 @@
            handshake, so temporarily speeding it up is exactly the wrong fix. -->
       <action><name>Get Device Status</name><command>GetDeviceStatus</command></action>
       <!-- IR install check. Fires ONE code with nothing else in the path (no proxy, no
-           Control Method, no Owner Approved, no IP) and reports what Director says is bound to
+           Control Method, no IP address) and reports what Director says is bound to
            the IR output. IR is one-way, so without this a wrong code and a dead emitter or
            unbound port are indistinguishable. Keep it: diagnosing that took three sessions and
            a dead controller port to unpick. -->
       <action><name>Test IR Emitter (fires Power On)</name><command>TestIrEmitter</command></action>
       <!-- IP install check: exercises the whole mutual-TLS path (cert, handshake, request,
            parse) in one press, and is the fastest way to tell a cert problem from a network one. -->
-      <action><name>Test IP Connection (mutual TLS)</name><command>TestHttpApi</command></action>
+      <action><name>Test IP Control Compatibility</name><command>TestHttpApi</command></action>
     </actions>
   </config>
 

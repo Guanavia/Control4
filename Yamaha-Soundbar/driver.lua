@@ -5,7 +5,7 @@
   Control methods (Control Method property): IR / IP / Serial.  IP is implemented:
     * Volume / mute              -> UPnP SOAP on :49152 (no auth).
     * Power / input select        -> Linkplay httpapi on :443 (mutual-TLS, bundled
-                                     client cert), GATED by the "Owner Approved" property.
+                                     client cert).  Requires Control Method = IP.
 
   Confirmed commands (captured + validated on real hardware, research/LINKPLAY_RE.md):
     Power ON  : httpapi YAMAHA_DATA_SET:{"power saving":"1"}
@@ -215,9 +215,8 @@ local LOG_LEVEL = { ALERT=0, ERROR=1, WARNING=2, INFO=3, TRACE=4, DEBUG=5 }
 -------------------------------------------------
 local gLogLevel   = LOG_LEVEL.WARNING
 local gLogMode    = "Off"
-local gCtrlMethod = "IP"
+local gCtrlMethod = "IR"   -- normalised to "IR" or "IP"; see OnPropertyChanged
 local gAddress    = ""
-local gOwnerOK    = false
 local gPollSecs   = 3
 
 local gConnected  = false
@@ -238,7 +237,7 @@ local gBindingClass = {}
 local gDeviceSettings = {}
 local gInitDone       = false  -- suppresses writes during the initial property sweep
 
-local gPower      = nil      -- boolean (best-effort; only known when httpapi/Owner Approved)
+local gPower      = nil      -- boolean (best-effort; only known over IP)
 local gYxcVolume  = nil      -- 0..100 (UPnP)
 local gMute       = nil      -- boolean
 local gInputSw    = nil      -- switchmode string
@@ -400,7 +399,7 @@ end
 
 -------------------------------------------------
 -- httpapi TRANSPORT (:443 mutual-TLS over a raw SSL network connection) - power/input
--- GATED by Owner Approved.
+-- Requires Control Method = IP.
 --
 -- WHY A RAW SOCKET AND NOT C4:url():  C4:url() has NO client-certificate support
 -- (confirmed against Control4's own global/url.lua -- SetOptions handles cookies /
@@ -530,10 +529,6 @@ PumpQueue = function()
 end
 
 local function HttpApiGet(command, cb)
-  if not gOwnerOK then
-    LogWarning("httpapi blocked: Owner Approved = No (power/input over IP disabled)")
-    if cb then cb(false) end; return
-  end
   if not DeviceAddress() then
     LogWarning("httpapi '%s': no device address (IP Address property empty)", tostring(command))
     if cb then cb(false) end; return
@@ -642,7 +637,7 @@ local function IrBindingReport()
 end
 
 -- Fire exactly one code with no other machinery in the way: no proxy, no capabilities, no
--- Control Method check, no Owner Approved, no IP address.  This is the instrument that
+-- Control Method check and no IP address.  This is the instrument that
 -- separates "the emitter/binding is dead" from "the code is wrong" -- the two failures that
 -- look identical from the driver's side, because IR is one-way.
 local function IrFireOne(codeName)
@@ -650,7 +645,7 @@ local function IrFireOne(codeName)
   if not code then LogCritical("IR test: no such code %s", tostring(codeName)); return end
   LogCritical("---- IR emitter test: %s (code %d) on binding %d ----", codeName, code, IR_BINDING)
   IrBindingReport()
-  LogCritical("Watch the emitter LED. This bypasses Control Method, Owner Approved and the IP path.")
+  LogCritical("Watch the emitter LED. This bypasses Control Method and the IP path.")
   -- Exactly ONE code per press. The numeric id form is confirmed working on hardware
   -- (POWER_ON/POWER_OFF both scored WORKS with it), so the old number-then-string double fire
   -- is gone: for by-ear testing a second burst would move the volume twice or toggle mute back.
@@ -767,7 +762,7 @@ local function SetPower(on)
     SendIR(on and IR.POWER_ON or IR.POWER_OFF, on and "POWER_ON" or "POWER_OFF")
     return
   end
-  -- Power over IP is httpapi (mutual-TLS), gated by Owner Approved.
+  -- Power over IP is httpapi (mutual-TLS).
   HttpApiGet('YAMAHA_DATA_SET:{"power saving":"' .. (on and "1" or "0") .. '"}')
 end
 
@@ -905,10 +900,10 @@ end
 -- `manual` = triggered by the Get Device Status action rather than the timer. It skips the
 -- interval check ONLY: "State Poll Seconds = 0" means "do not poll on a timer", not "never read",
 -- and someone who turned automatic polling off to avoid a TLS handshake every 30s is exactly the
--- person who wants a button. The Control Method, address and Owner Approved gates still apply --
+-- person who wants a button. The Control Method and address gates still apply --
 -- those are about whether reading is permitted at all, not how often.
 local function PollHttpApiState(manual)
-  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK then return end
+  if gCtrlMethod ~= "IP" or not DeviceAddress() then return end
   if not manual and gStatePollSecs <= 0 then return end
 
   HttpApiGet("getPlayerStatus", function(ok, body)
@@ -1046,9 +1041,9 @@ local function StartStatePoll()
   StopStatePoll()
   -- Same gate as the volume/mute poll, and for the same reason: state feedback belongs to IP
   -- control. See StartPoll.
-  if gCtrlMethod ~= "IP" or not DeviceAddress() or not gOwnerOK or gStatePollSecs <= 0 then
-    LogDebug("state feedback off (method=%s addr=%s ownerOK=%s interval=%s)",
-      tostring(gCtrlMethod), tostring(DeviceAddress()), tostring(gOwnerOK), tostring(gStatePollSecs))
+  if gCtrlMethod ~= "IP" or not DeviceAddress() or gStatePollSecs <= 0 then
+    LogDebug("state feedback off (method=%s addr=%s interval=%s)",
+      tostring(gCtrlMethod), tostring(DeviceAddress()), tostring(gStatePollSecs))
     return
   end
   -- Deliberately NO immediate poll: OnDriverLateInit walks every property, so firing here
@@ -1070,7 +1065,7 @@ end
 -- expected field actually moved.  That makes the IP work we already did the test instrument for
 -- IR, and gives an objective per-code pass/fail instead of judging by ear.
 --
--- Needs BOTH an IR emitter aimed at the bar AND Owner Approved (for the readback).
+-- Needs an IR emitter aimed at the bar AND Control Method = IP (for the readback).
 -------------------------------------------------
 -------------------------------------------------
 -- RECEIVER PROXY COMMANDS (5001)
@@ -1182,7 +1177,6 @@ end
 local function HttpApiDiag()
   LogInfo("---- httpapi (SSL) diagnostics ----")
   LogInfo("Control Method    : %s", tostring(gCtrlMethod))
-  LogInfo("Owner Approved    : %s", gOwnerOK and "Yes (httpapi ENABLED)" or "No (httpapi blocked)")
   LogInfo("IP Address        : '%s'", tostring(gAddress))
   LogInfo("Client bundle     : %s", tostring(gCertInfo or "not checked"))
   LogInfo("                    (Lua cannot read .c4z contents; not-visible is NORMAL)")
@@ -1218,9 +1212,6 @@ local function GetDeviceStatus()
       tostring(gCtrlMethod))
   elseif not DeviceAddress() then
     LogCritical("No IP Address set -- nothing can be read. Values below are last-sent only.")
-  elseif not gOwnerOK then
-    LogCritical("Owner Approved = No, so power/input/settings cannot be read (that path needs " ..
-      "the client certificate). Volume and mute below are live; the rest is last-sent.")
   end
 
   Poll()               -- UPnP volume/mute
@@ -1249,6 +1240,47 @@ local function GetDeviceStatus()
   end, false)
 end
 
+-- Answers ONE question: is this particular unit compatible with the certificate this driver
+-- ships? The certificate is a single shared Linkplay credential extracted from the vendor app,
+-- not something issued to a device, so it either works on a given bar or it does not -- and a
+-- firmware update is the one thing likely to change that answer. There is no way to
+-- re-authenticate from inside the driver (no DriverWorks API supplies a client certificate at
+-- runtime; the paths are read from driver.xml by Director), so replacing it means a rebuild.
+-- That is well outside what an integrator would attempt, which is exactly why the verdict has
+-- to be stated plainly rather than left to be inferred from a stack of log lines.
+local function TestIpControl()
+  LogCritical("---- IP control compatibility test ----")
+  if gCtrlMethod ~= "IP" then
+    LogCritical("NOTE: Control Method is IR, so this test only checks whether IP control COULD")
+    LogCritical("work. Nothing here changes how the driver controls the bar.")
+  end
+  if not DeviceAddress() then
+    LogCritical("RESULT: CANNOT TEST -- no IP Address set. Enter the bar's address first.")
+    LogCritical("---------------------------------------")
+    return
+  end
+  LogCritical("Bar address      : %s:%d", tostring(DeviceAddress()), HTTPAPI_PORT)
+  LogCritical("Testing          : mutual-TLS handshake, then a getStatusEx read")
+
+  HttpApiGet("getStatusEx", function(ok, body)
+    if ok and body then
+      local model = jsonstr(body, "yamaha_model_name") or jsonstr(body, "project") or "unknown"
+      local fw    = jsonstr(body, "firmware") or "unknown"
+      LogCritical("RESULT: COMPATIBLE -- this device accepts the driver's certificate.")
+      LogCritical("  model reported : %s", tostring(model))
+      LogCritical("  firmware       : %s", tostring(fw))
+      LogCritical("  IP control, state feedback and the IP-only properties are all available.")
+    else
+      LogCritical("RESULT: NOT COMPATIBLE -- the device did not answer over mutual TLS.")
+      LogCritical("  Either the certificate was rejected, or the bar is unreachable at this")
+      LogCritical("  address. Check the address first; if that is right, this firmware no longer")
+      LogCritical("  accepts the certificate this driver ships and IP control is unavailable")
+      LogCritical("  until the driver is rebuilt with a new one. Use Control Method = IR.")
+    end
+    LogCritical("---------------------------------------")
+  end)
+end
+
 function ExecuteCommand(strCommand, tParams)
   -- Composer Actions arrive as "LUA_ACTION" with the real action name in tParams.ACTION.
   if strCommand == "LUA_ACTION" then
@@ -1264,17 +1296,7 @@ function ExecuteCommand(strCommand, tParams)
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "GetDeviceStatus"   then GetDeviceStatus()
   elseif strCommand == "TestIrEmitter" then IrFireOne("POWER_ON")
-  elseif strCommand == "TestHttpApi"       then
-    -- Hardware-bringup probe: the single most informative thing to run first.
-    HttpApiDiag()
-    LogInfo("httpapi test: sending getStatusEx over the SSL socket ...")
-    HttpApiGet("getStatusEx", function(ok, body)
-      if ok then
-        LogInfo("httpapi TEST PASSED -- the bar answered over mutual TLS. Body: %s", tostring(body))
-      else
-        LogWarning("httpapi TEST FAILED -- see the preceding lines for the failure point.")
-      end
-    end)
+  elseif strCommand == "TestHttpApi"       then TestIpControl()
   else LogTrace("Unhandled command: %s", tostring(strCommand)) end
 end
 
@@ -1311,7 +1333,8 @@ function OnPropertyChanged(sProperty)
   elseif sProperty == "Log Mode" then
     gLogMode = value or "Off"
   elseif sProperty == "Control Method" then
-    gCtrlMethod = value or "IP"
+    -- Match the leading token only: the visible label carries a pointer to the documentation.
+    gCtrlMethod = (tostring(value or ""):upper():match("^(I[PR])")) or "IR"
     StartPoll()
     StartStatePoll()
   elseif sProperty == "IP Address" then
@@ -1329,10 +1352,6 @@ function OnPropertyChanged(sProperty)
     else
       CheckConfigured()
     end
-  elseif sProperty == "Owner Approved" then
-    gOwnerOK = (value == "Yes")
-    LogInfo("Owner Approved = %s (httpapi power/input %s)", tostring(value), gOwnerOK and "ENABLED" or "disabled")
-    StartStatePoll()   -- state feedback rides on httpapi, so it follows this gate
   elseif sProperty == "Poll Interval Seconds" then
     gPollSecs = tonumber(value) or 3
     if gPollTimer then StartPoll() end
@@ -1349,8 +1368,6 @@ function OnPropertyChanged(sProperty)
       if sProperty == s.prop then
         if not gInitDone then
           LogDebug("ignoring %s during init (not a user edit)", sProperty)
-        elseif not gOwnerOK then
-          LogWarning("%s needs Owner Approved = Yes (it writes over httpapi)", sProperty)
         else
           local wire = s.enc(value)
           if wire == gDeviceSettings[s.key] then

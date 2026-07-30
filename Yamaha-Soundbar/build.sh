@@ -2,7 +2,7 @@
 # Build Yamaha-Soundbar.c4z (zip of driver files at archive root).
 #
 # Bundles the Linkplay client cert (gray-area, local-only, gitignored) so the IP
-# power/input path works when Owner Approved = Yes. Regenerate the cert per
+# power/input path works when Control Method = IP. Regenerate the cert per
 # research/LINKPLAY_RE.md if missing.
 #
 # The bundled PEM is referenced by driver.xml's SSL connection (binding 6002 / port 443)
@@ -72,6 +72,19 @@ old = int(re.search(r'<version>(\d+)</version>', old_xml).group(1))
 UNSTAMP = re.compile(r'v[\d.]+ \(build \d+, [0-9a-f]{8}\)')
 norm = lambda s: UNSTAMP.sub('@BUILD@', re.sub(r'<version>\d+</version>', '', s))
 changed = (norm(old_xml) != norm(src)) or (norm(old_lua) != norm(open('driver.lua').read()))
+# Also compare the packaged www/ content. A documentation-only edit is still a change Composer
+# has to be told about: without a version bump it refuses the update as "versions are equal" and
+# the dealer keeps reading the old docs. Caught when the rewritten documentation.rtf shipped
+# without bumping.
+if not changed:
+    with zipfile.ZipFile(OUT) as z:
+        packaged = {n: z.read(n) for n in z.namelist() if n.startswith('www/') and not n.endswith('/')}
+    current = {}
+    for root, _, files in os.walk('www'):
+        for f in files:
+            path = os.path.join(root, f)
+            current[path.replace(os.sep, '/')] = open(path, 'rb').read()
+    changed = packaged != current
 if changed and cur <= old:
     new = old + 1
     open('driver.xml', 'w').write(
@@ -111,7 +124,7 @@ if [ -f "$CERT_SRC" ]; then
       || { grep -q 'PRIVATE KEY' "$STAGE/linkplay_client.pem" && echo plain || echo MISSING; })"
 else
   echo "NOTE: $CERT_SRC not found - building WITHOUT the client cert."
-  echo "      Volume/mute/transport (UPnP) will work; power/input over IP will not."
+  echo "      Volume/mute (UPnP) will work; power/input over IP will not."
 fi
 
 # Stamp the packaged version and a content fingerprint into the driver's load line, which logs

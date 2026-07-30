@@ -4,7 +4,7 @@
 -- real httpapi transport and HTTP parsing, not just the learn logic.
 
 local DRIVER = arg[1]
-local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall | noemitter | irworks | unbound
+local ARCHETYPE = arg[2] or "clamp"   -- clamp | reject | acceptall | noemitter | irworks | unbound | certfail | premuted | desync
 local ACTION = arg[3] or "LearnSubwooferRange"
 
 ------------------------------------------------------------------ declared IR codes
@@ -149,6 +149,13 @@ function C4:CreateNetworkConnection() end
 function C4:NetPortOptions() end
 function C4:NetDisconnect() sslOnline = false end
 function C4:NetConnect(binding, port)
+  -- "certfail" simulates a bar that refuses the client certificate: the socket closes without
+  -- ever coming ONLINE, which is what a rotated cert would look like. The compatibility test's
+  -- FAILURE verdict is the branch that actually matters, so it has to be exercised.
+  if ARCHETYPE == "certfail" then
+    schedule(1, function() OnConnectionStatusChanged(binding, port, "OFFLINE") end)
+    return
+  end
   schedule(1, function() sslOnline = true; OnConnectionStatusChanged(binding, port, "ONLINE") end)
 end
 function C4:SendToNetwork(binding, port, data)
@@ -207,8 +214,8 @@ if PROP_NAME then PROXY_IR = true
 else PROP_NAME, PROP_VALUE = ACTION:match("^PROP:([^=]+)=(.+)$") end
 
 Properties = {
-  ["Control Method"] = PROXY_IR and "IR" or "IP",
-  ["IP Address"] = "192.168.1.214", ["Owner Approved"] = "Yes",
+  ["Control Method"] = PROXY_IR and "IR" or "IP - See Documentation for Usage",
+  ["IP Address"] = (ARCHETYPE == "noaddr") and "" or "192.168.1.214", ["Owner Approved"] = "Yes",
   ["State Poll Seconds"] = "0", ["Poll Interval Seconds"] = "3",
   ["Log Level"] = "5 - Debug", ["Log Mode"] = "Print",
   ["3D Surround"] = "Off", ["Clear Voice"] = "Off", ["Bass Extension"] = "Off",

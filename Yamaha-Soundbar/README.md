@@ -99,7 +99,7 @@ missing emitter and a command the driver never routed to IR all look identical**
 The only way through is to eliminate them in order, and the actions below exist to do exactly that.
 
 **1. `Test IR Emitter (fires Power On)`.** Fires one code with nothing else in the path: no proxy,
-no capabilities, no Control Method check, no `Owner Approved`, no IP address, and reports what
+no capabilities, no Control Method check and no IP address, and reports what
 Director says is bound to the IR output. Its output goes through the unsilenceable log path, so it
 reports even with `Log Mode = Off`.
 
@@ -109,7 +109,7 @@ reports even with `Log Mode = Off`.
   the emitter is not in the port, or it is not over the bar's IR window. No code change helps.
 
 **2. `Verify IR Codes`.** Fires each code and scores it by reading the bar back over the IP path,
-so every code gets an objective verdict. It needs `Owner Approved = Yes` and an `IP Address` —
+so every code gets an objective verdict. It needs Control Method = IP` and an `IP Address` —
 without the readback there is no ground truth at all. It refuses loudly if either is missing.
 
 **Control Method does not gate this.** `Verify IR Codes` and the emitter tests call `C4:SendIR`
@@ -166,7 +166,7 @@ to the bar, so there is no VD test loop here.
 
 - **UPnP `:49152`** — no authentication. Volume, mute, transport. Polled for live state.
 - **Linkplay httpapi `:443`** — **mutual TLS**, requires a client certificate extracted from
-  Yamaha's app. Power and input only. Gated behind the **Owner Approved** property.
+  Yamaha's app. Power and input only. Requires **Control Method = IP**.
 
 Confirmed commands (captured and validated against the bar):
 
@@ -274,25 +274,64 @@ matching passphrase, so no Lua edit is needed. Both variants are verified to bui
 1. Add the driver, place it in the soundbar's room.
 2. Set the **IP Address** property (DHCP-reserve the bar).
 3. Bind the **AUDIO/VIDEO OUTPUT** end-point to the room; wire real sources to the HDMI/Optical/TV inputs.
-4. Leave **Owner Approved** at `No` unless the equipment owner has consented — see below.
-5. For power/input, set **Owner Approved** to `Yes`, then run **Actions → Test httpapi (SSL)**.
+4. For IP control, set **Control Method** to the IP option, then run
+   **Actions → Test IP Control Compatibility**.
 
-### Owner Approved
+### IP Control
 
-Power and input rely on a client certificate extracted from Yamaha's own app. That is the
-**equipment owner's** call to make, so it is gated behind a property that defaults to `No`. While
-it is `No`, the driver still does volume, mute and transport over UPnP and leaves power/input to
-IR. The same pattern should be reused for any future gray-area capability — see
-`research/LINKPLAY_RE.md`.
+The soundbar's local API requires a **client certificate** for mutual TLS. It was extracted from
+the Yamaha mobile app, and inspecting it settles what it is:
+
+```
+subject = C=CN, ST=Shanghai, O=Linkplay, CN=www.linkplay.com   (self-signed)
+serial  = 01        valid 2018-11-15 -> 2046-04-01
+X509v3 extensions: none
+```
+
+Nothing in it is device-specific — no MAC, no serial, no per-unit identifier — and the identity is
+**Linkplay's, not Yamaha's**. So it is a single shared credential baked into the Linkplay stack,
+which means it should work on any YAS-209 without re-extraction, and plausibly on other
+Linkplay-based products too (unverified). It ships inside the `.c4z`, so IP control needs no setup
+beyond an IP address.
+
+**The risk that follows from it being shared: a firmware update could rotate it, and would do so on
+every device at once.** Time is not the threat — it runs to 2046 — only a deliberate rotation is.
+
+**The driver cannot recover from that by itself.** There is no DriverWorks API that supplies a
+client certificate at runtime: `NetPortOptions` carries only encoding/padding keys, and Director
+reads the cert from the `driver.xml` paths at connection setup. The `.c4z` is a read-only archive,
+and mutual TLS means the bar demands a certificate rather than issuing one. Replacing it means
+extracting from the updated app and rebuilding. That is well outside what an integrator would
+attempt, which is why the driver's job is to **state the verdict plainly** rather than leave it to
+be inferred.
+
+- **`Test IP Control Compatibility`** — attempts the handshake and a status read, then reports
+  `COMPATIBLE` or `NOT COMPATIBLE` with the model and firmware the bar returned. Run it at install
+  and after any soundbar firmware update. Safe to run under IR; it only tests whether IP *could*
+  work.
+- **State feedback** — IP only. Power, input, volume, mute, sound program and DSP settings are read
+  back, so the UI stays right when someone uses the Yamaha remote, the panel or the app.
+- **Exact volume** — IP only. Absolute level instead of the IR estimate, which drifts.
+- **3D Surround / Clear Voice / Bass Extension** — IP sets the exact state; IR can only toggle.
+- **Subwoofer Boost** — both methods, but only IP confirms what applied.
+- **`Poll Interval Seconds` / `State Poll Seconds`** — IP only. Each state read is a full TLS
+  handshake, which is why that timer is slow; `0` disables it in favour of `Get Device Status`.
+
+**There is no `Owner Approved` property.** It was removed (2026-07-30): it gated the gray-area IP
+path behind a consent toggle, but it was unlike anything in any other driver, easy to forget even
+for the person who wrote it, and its refusal was the second-most-common cause of "the driver does
+nothing". The consent it represented is now carried by documentation — the dropdown itself reads
+**"IP - See Documentation for Usage"**, and this section is what it points at.
+
 
 ## Hardware bringup
 
 Set **Log Level** to `5 - Debug` and **Log Mode** to `Print and Log`, then use the two diagnostic
 Actions:
 
-- **httpapi Diagnostics** — dumps control method, Owner Approved, address, what the bundled PEM
+- **httpapi Diagnostics** — dumps control method, address, what the bundled PEM
   actually contains, SSL binding state, and queue depth. No network traffic.
-- **Test httpapi (SSL)** — runs the diagnostics, then sends `getStatusEx` over the socket and
+- **Test IP Control Compatibility** — runs the diagnostics, then sends `getStatusEx` over the socket and
   reports pass/fail.
 - **Learn Input Codes** — the one-press way to finish `MODE_TO_CONN`. Selects each input in turn,
   waits for the bar to settle, reads `getPlayerStatus` back, and prints a paste-ready table, then
@@ -339,7 +378,7 @@ and then updating is not a supported sequence.
    **This has now cost something twice:** once the project itself, and once a silent loss of
    volume control — a re-add reset **IP Address** to its blank default, so the driver received
    every button press and had nowhere to send it. If anything stops working right after a
-   re-add, **check the properties before debugging the code**: IP Address, Owner Approved and
+   re-add, **check the properties before debugging the code**: IP Address, Control Method and
    the poll intervals are all back at defaults.
 4. **Never delete the device and then run Add/Update Driver.** If you do want a clean re-add:
    remove the device, *finish* that operation, then add the updated driver as a new device.
