@@ -466,6 +466,25 @@ nothing else in the path and dumps the IR binding state — keep this, working o
 dead cost three sessions and it is the only tool that separates a wrong code from a dead
 emitter/port on a one-way bus); and **`Test IP Connection`** (exercises cert, handshake, request and
 parse in one press, the fastest way to tell a certificate problem from a network one).
+**FOURTH ACTION ADDED: `Get Device Status` (Dave's ask).** Reads everything available right now
+and prints what the driver ended up knowing, so nobody has to shorten `State Poll Seconds` to see
+current values and then remember to put it back — that interval is slow BECAUSE every httpapi read
+is a full mutual-TLS handshake, so temporarily speeding it up is the wrong fix. Three bugs were
+caught building it, all the same family as ones already fixed here:
+1. **It inherited the `State Poll Seconds <= 0` gate**, so it did nothing for exactly the user it
+   was for — someone who disabled automatic polling. `PollHttpApiState(manual)` now skips the
+   INTERVAL check only; Control Method / address / Owner Approved still apply, because those are
+   about whether reading is permitted at all, not how often.
+2. **It printed the DSP switches as `1`/`0`** — the wire value — instead of the On/Off the property
+   shows. Same bug as `Current Input` showing `optical`, reintroduced within a day of fixing it.
+   Now decoded through the table's own `dec`, so dump and property cannot disagree.
+3. **`READONLY_SETTINGS` was pushed to the property but never recorded**, so `Audio Stream` read
+   back as "unknown". Now stored in `gDeviceSettings` like every other setting.
+**Also made `Connected` honest:** it is set by the UPnP poll, which does not run under IR, so it
+sat at its last value and kept claiming a live link to a bar the driver had stopped talking to. It
+now reads `n/a - IR control (one-way, nothing is polled)`. Under IR the status dump also states up
+front that the values are **what the driver last SENT, not what the bar reports**.
+
 **PROPERTY REMOVED: `Yamaha Volume`.** It surfaced `YAMAHA_DATA_GET`'s `Master volume`, which is
 **proven not to track** — it read 24 across IP volume writes and IR presses alike, and is what made
 the IR verification score working codes as failures. A readonly number that silently stops matching
