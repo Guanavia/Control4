@@ -785,7 +785,25 @@ local function SetPower(on)
     return
   end
   -- Power over IP is httpapi (mutual-TLS).
-  HttpApiGet('YAMAHA_DATA_SET:{"power saving":"' .. (on and "1" or "0") .. '"}')
+  --
+  -- VERIFIED, not fire-and-forget. This used to send with no callback, so a power command that
+  -- never reached the bar was completely silent while the driver had ALREADY reported the new
+  -- state - which is exactly what "the soundbar did not come on with the system" looks like from
+  -- Composer. A command that fails must say so, and must not leave the UI claiming it worked.
+  local want = on and "1" or "0"
+  HttpApiGet('YAMAHA_DATA_SET:{"power saving":"' .. want .. '"}', function(ok, body)
+    if ok then
+      LogDebug("power %s acknowledged by the bar", on and "on" or "off")
+      return
+    end
+    -- Roll the reported state back to unknown rather than leave a claim nothing supports.
+    gPower = nil
+    UpdateStatus("Power State", "unknown - last command failed")
+    LogCritical("POWER %s FAILED: the bar did not answer over mutual TLS. It is either " ..
+      "unreachable at %s or in a standby deep enough that its network is asleep. Nothing was " ..
+      "changed; the reported power state has been cleared rather than left claiming success.",
+      on and "ON" or "OFF", tostring(DeviceAddress()))
+  end)
 end
 
 local function SelectInputByConn(connId)
