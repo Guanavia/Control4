@@ -72,7 +72,9 @@ references the generic built-in `devices_sm/receiver.gif`, Composer's built-in l
 icons with nothing closer than a receiver, and the Bose soundbar drivers ship their own brand
 logos. Both drivers now use a **drawn** soundbar icon (body, two grilles, status LED) generated
 by a script into 16/32/70/90/300px PNGs; the previous icons were **1x1 transparent GIF
-placeholders**, i.e. the driver displayed nothing.
+placeholders**, i.e. the driver displayed nothing. **CONFIRMED IN COMPOSER 2026-07-30** — both
+drivers load and render correctly, including the icon at tree size and the documentation's
+hyperlinked table of contents (so Composer's RTF viewer does handle `\l` bookmark fields).
 **MAJOR PIVOT (2026-07-26): the YAS-209 is NOT YXC/MusicCast — it's a Linkplay (WiiMu) module.**
 *(Note on wording: "v1"/"v2" in this section historically meant the two ARCHITECTURES — YXC then
 Linkplay — not product releases. Product version now lives in `Yamaha-YAS209/VERSION`, is
