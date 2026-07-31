@@ -776,7 +776,8 @@ local function SetMute(m)
     "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredMute>" .. (m and "1" or "0") .. "</DesiredMute>")
 end
 
-local function SetPower(on)
+local SetPower   -- forward declaration; CONNECT_OUTPUT / DISCONNECT_OUTPUT call it
+SetPower = function(on)
   gPower = on
   UpdateStatus("Power State", on and "On" or "Standby")
   NotifyPower(on)
@@ -806,7 +807,45 @@ local function SetPower(on)
   end)
 end
 
-local function SelectInputByConn(connId)
+-- Readback schedule: check at 3s, and if it did not take, resend once and check again at 5s.
+--
+-- SCOPE, deliberately modest. Hardware (2026-07-31) showed the bar switching input correctly even
+-- straight out of a 3-hour standby, so a retry storm would be solving a problem that has not been
+-- observed. What IS established about this device is that a 200 OK means nothing - it acknowledges
+-- junk exactly as it acknowledges a valid value - so a single verification that can SAY the input
+-- did not take is worth one readback. Two attempts, then it reports and stops.
+local INPUT_VERIFY_MS  = { 3000, 5000 }
+
+local VerifyInput   -- forward declaration; SelectInputByConn calls it
+local SelectInputByConn
+
+-- Read the bar's actual input back and re-send if it did not take.
+VerifyInput = function(connId, sw, attempt)
+  local wait = INPUT_VERIFY_MS[attempt]
+  if not wait then
+    LogCritical("INPUT: asked for %s %d times and the bar never reported it. It may have been " ..
+      "waking from standby, or this input cannot be selected in its current state. The room may " ..
+      "be showing the wrong source.", tostring(sw), #INPUT_VERIFY_MS)
+    return
+  end
+  C4:SetTimer(wait, function()
+    HttpApiGet("getPlayerStatus", function(ok, body)
+      local mode = ok and jsonstr(body, "mode") or nil
+      local got  = mode and MODE_TO_CONN[mode] or nil
+      if got == connId then
+        LogDebug("input confirmed: bar reports mode %s = connection %d", tostring(mode), connId)
+        return
+      end
+      LogInfo("input not taken yet (bar reports mode %s, wanted connection %d) -- resending (%d/%d)",
+        tostring(mode), connId, attempt, #INPUT_VERIFY_MS)
+      HttpApiGet("setPlayerCmd:switchmode:" .. sw, function()
+        VerifyInput(connId, sw, attempt + 1)
+      end)
+    end)
+  end, false)
+end
+
+SelectInputByConn = function(connId)
   local sw = INPUT_MAP[connId]
   if not sw then LogWarning("unknown input connection id %s", tostring(connId)); return end
   gInputSw = sw
@@ -823,7 +862,18 @@ local function SelectInputByConn(connId)
     SendIR(code, "INPUT " .. tostring(sw))
     return
   end
-  HttpApiGet("setPlayerCmd:switchmode:" .. sw)
+  -- VERIFY, then RETRY. A 200 OK from this bar means NOTHING - proven on this device during the
+  -- sound-program work, where it acknowledged a junk value exactly as it acknowledged a valid
+  -- one. Only the readback distinguishes them.
+  --
+  -- That matters most on room-on, when the proxy issues ON, CONNECT_OUTPUT, SET_INPUT and
+  -- SET_VOLUME_LEVEL inside the SAME SECOND while the bar is still waking from standby. The
+  -- input command is accepted, acknowledged and discarded, so the bar powers up on whatever
+  -- input it was last on and the room shows a black screen - which is exactly the fault Dave
+  -- hit. Firing once and trusting the 200 cannot detect that.
+  HttpApiGet("setPlayerCmd:switchmode:" .. sw, function()
+    VerifyInput(connId, sw, 1)
+  end)
 end
 
 local function CycleInput()
@@ -1167,6 +1217,27 @@ function ReceiverCommands.MUTE_TOGGLE()
 end
 function ReceiverCommands.SET_INPUT(p)  local id = ConnIdFromParams(p); if id then SelectInputByConn(id) end end
 function ReceiverCommands.PULSE_INPUT() CycleInput() end
+
+-- Output routing. Control4's OWN receiver driver makes ON/OFF no-ops and does the real work in
+-- CONNECT_OUTPUT / DISCONNECT_OUTPUT ("--Handled by CONNECT_OUTPUT" is literally the body of its
+-- PRX_CMD.ON). This driver had it the other way round and ignored both, which is why they showed
+-- up as unimplemented on every room-on. Implemented here as power, guarded so that the ON that
+-- arrives alongside them does not send a second, redundant power command.
+function ReceiverCommands.CONNECT_OUTPUT(p)
+  LogDebug("CONNECT_OUTPUT (output %s)", tostring(p and p.OUTPUT))
+  if gPower ~= true then SetPower(true) end
+end
+
+function ReceiverCommands.DISCONNECT_OUTPUT(p)
+  LogDebug("DISCONNECT_OUTPUT (output %s)", tostring(p and p.OUTPUT))
+  if gPower ~= false then SetPower(false) end
+end
+
+-- The proxy ASKS for state; answering is how the UI stays right. Unanswered, it simply keeps
+-- whatever it last assumed.
+function ReceiverCommands.GET_IS_MUTED()
+  NotifyMute(gMute and true or false)
+end
 
 -- Surround section of the device's control UI.  Accepts every spelling of the parameter the
 -- proxy docs use, for the same reason NotifySurroundMode sends all three.
