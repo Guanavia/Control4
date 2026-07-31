@@ -642,6 +642,17 @@ driver surface was a recurring failure this session (the RTF still described tra
 Approved and "IR/Serial placeholders" long after all three were gone), so the check exists to make
 that drift visible at build time rather than at install time.
 
+**OPEN, UNTESTABLE FOR NOW: are the DONOR discrete power codes valid from DEEP standby?** The
+YAS-209's remote has no discrete power key, so `POWER_ON` 101 / `POWER_OFF` 102 / `MUTE_ON` 137 /
+`MUTE_OFF` 138 are the four codes kept from the 2005 YSP-1000 donor. They are hardware-verified,
+but **only ever from NORMAL standby** — never from a cold bar. If the cold-start fault (below)
+turns out to be reproducible over IR too, a donor code that does not reach deep standby is a prime
+suspect, and the captured `POWER_TOGGLE` 103 would be the fix. **Cannot be tested at present: Dave
+has removed the IR emitter from the bar** and is running IP. Three single-code power Actions were
+added for this and then REMOVED again the same day, because shipping diagnostics for a hypothesis
+nobody can currently test is exactly the clutter the cleanup existed to prevent. Recorded here so
+the question is not lost.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
