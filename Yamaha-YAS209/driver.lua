@@ -1335,7 +1335,6 @@ function ExecuteCommand(strCommand, tParams)
   if     strCommand == "RefreshNow"        then Poll()
   elseif strCommand == "GetDeviceStatus"   then GetDeviceStatus()
   elseif strCommand == "TestIrEmitter" then IrFireOne("POWER_ON")
-  elseif strCommand:match("^IrFire_") then IrFireOne(strCommand:match("^IrFire_(.+)$"))
   elseif strCommand == "TestHttpApi"       then TestIpControl()
   else LogTrace("Unhandled command: %s", tostring(strCommand)) end
 end
