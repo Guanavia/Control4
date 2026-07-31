@@ -107,7 +107,26 @@ C4 = {}
 function C4:ErrorLog(s) end
 function C4:UpdateProperty(n, v) props[n] = v end
 function C4:SendToProxy(b, cmd, params, kind) proxied[#proxied+1] = { cmd = cmd, params = params } end
-function C4:SetTimer(ms, fn, rep) schedule(ms, fn); return { Cancel = function() end, Reset = function() end } end
+-- HONOURS bRepeat. The stub used to ignore it and fire every timer exactly once, which meant a
+-- polling timer that never repeated on real hardware would still look fine here - and that is
+-- precisely the bug this failed to catch. Repeats are capped so the sim terminates.
+local REPEAT_CAP = 4
+function C4:SetTimer(ms, fn, rep)
+  local t = { cancelled = false, fired = 0 }
+  t.Cancel = function() t.cancelled = true end
+  t.Reset  = function() end   -- deliberately a NO-OP: whether Reset restarts a fired one-shot
+                              -- on real Director is undocumented, so the sim must not assume it does
+  local function arm()
+    schedule(ms, function()
+      if t.cancelled then return end
+      t.fired = t.fired + 1
+      fn(t)
+      if rep and t.fired < REPEAT_CAP and not t.cancelled then arm() end
+    end)
+  end
+  arm()
+  return t
+end
 function C4:FileExists() return true end
 function C4:GetDeviceID() return 999 end
 -- BOUND_IR controls whether the sim pretends the IR binding is attached, so the new binding

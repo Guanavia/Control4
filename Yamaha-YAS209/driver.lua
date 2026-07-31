@@ -956,10 +956,9 @@ local function StartPoll()
     return
   end
   Poll()
-  gPollTimer = C4:SetTimer(gPollSecs * 1000, function(timer)
-    Poll()
-    if timer and timer.Reset then timer:Reset() end
-  end, false)
+  -- bRepeat = TRUE. Do not go back to a one-shot plus timer:Reset(): that pattern fired exactly
+  -- once and left the UI showing stale values forever (2026-07-31).
+  gPollTimer = C4:SetTimer(gPollSecs * 1000, function() Poll() end, true)
 end
 
 -------------------------------------------------
@@ -1152,10 +1151,8 @@ local function StartStatePoll()
   end
   -- Deliberately NO immediate poll: OnDriverLateInit walks every property, so firing here
   -- would touch off a burst of TLS handshakes on load.  First read happens one interval in.
-  gStatePollTimer = C4:SetTimer(gStatePollSecs * 1000, function(timer)
-    PollHttpApiState()
-    if timer and timer.Reset then timer:Reset() end
-  end, false)
+  -- bRepeat = TRUE; see StartPoll.
+  gStatePollTimer = C4:SetTimer(gStatePollSecs * 1000, function() PollHttpApiState() end, true)
   LogInfo("state feedback on: power/input read back every %ds", gStatePollSecs)
 end
 
