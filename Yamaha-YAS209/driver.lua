@@ -157,6 +157,14 @@ local SETTING_PROPS = {
   { prop = "3D Surround",    key = "3D surround",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Clear Voice",    key = "clear voice",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Bass Extension", key = "bass extension", enc = OnOffEnc, dec = OnOffDec },
+  -- HDMI-CEC. Exposed 2026-07-31 to test whether the bar's CEC is fighting the TV's input
+  -- selection: it sits on the TV's ARC port, and CEC One Touch Play lets a waking device pull
+  -- the TV to its own input. There is no setting for this in the Yamaha app, so the driver is
+  -- the only way to reach it.
+  -- READ is confirmed (the bar reports "HDMI Control":"1"). WRITE IS UNPROVEN - every other
+  -- Yamaha setting writes through this same verb, but this key has never been written. If it
+  -- does not stick, the readback in the state poll will show it reverting.
+  { prop = "HDMI Control (CEC)", key = "HDMI Control", enc = OnOffEnc, dec = OnOffDec },
 }
 
 -- Read from the bar and recorded, but NOT surfaced as properties. These are diagnostics, and a
@@ -175,6 +183,12 @@ local SETTING_PROPS = {
 -- number that silently stops matching reality is worse than no number.
 local STATUS_ONLY = {
   { label = "Audio Stream", key = "Audio Stream" },
+  -- Read-only ON PURPOSE. Relevant to the "does it wake after a long idle" question, but its
+  -- VOCABULARY is unknown - it reads "0" and nothing establishes whether that is a boolean or a
+  -- duration index. Writing a value we have not decoded is the guesswork this driver avoids, so
+  -- it is reported and not written until someone learns the range by readback.
+  { label = "Auto Power Standby", key = "Auto Power Stby" },
+  { label = "Network Standby",    key = "NET Standby" },
 }
 
 
