@@ -653,6 +653,25 @@ added for this and then REMOVED again the same day, because shipping diagnostics
 nobody can currently test is exactly the clutter the cleanup existed to prevent. Recorded here so
 the question is not lost.
 
+**STATE FEEDBACK NEVER REPEATED — THE POLL TIMERS WERE ONE-SHOT (2026-07-31). This is why state
+feedback was "never observed working".** Both polls did
+`C4:SetTimer(ms, fn, false)` and re-armed themselves by calling `timer:Reset()` from inside their
+own callback. **`bRepeat` defaults to false, and whether `Reset` restarts an ALREADY-FIRED one-shot
+is undocumented — the evidence says it does not.** So each poll ran once at startup and then stopped
+forever. Measured in the harness: the old build issues 2 state reads (a single cycle) and no
+repeats; fixed, it issues 8. Both now pass **`bRepeat = true`**, which is what Control4's own
+drivers do (Pioneer uses `C4:AddTimer(interval, units, repeating)` with an explicit flag).
+**Symptom that exposed it:** Dave watched `Current Input` sit on "HDMI In" while the bar had
+physically switched to TV/ARC, and it only corrected when he ran `Get Device Status` by hand — i.e.
+the only remaining code path that reads the bar. It also explains the long-standing "power/input
+feedback has never been seen tracking an external change", and quite possibly the volume drift.
+**THE HARNESS COULD NOT HAVE CAUGHT THIS AND THAT WAS MY BUG:** its `C4:SetTimer` stub ignored
+`bRepeat` and fired every timer exactly once, so a timer that never repeated on hardware looked
+identical to one that did. The stub now honours `bRepeat` (capped so the sim terminates) and its
+`Reset` is deliberately a **no-op**, so the sim can never again assume behaviour the docs do not
+promise. **General lesson: a stub that is more forgiving than the real API converts a real bug into
+a passing test.**
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
