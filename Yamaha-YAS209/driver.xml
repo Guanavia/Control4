@@ -6,7 +6,7 @@
   <model>YAS-209</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>42</version>
+  <version>44</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -618,6 +618,19 @@
       <!-- IP install check: exercises the whole mutual-TLS path (cert, handshake, request,
            parse) in one press, and is the fastest way to tell a cert problem from a network one. -->
       <action><name>Test IP Control Compatibility</name><command>TestHttpApi</command></action>
+      <!-- Cold-wake diagnostics (2026-07-31). The bar does not come on with the system after an
+           overnight idle, but behaves normally once woken by hand, which points at a deeper
+           standby that the normal power path does not reach. These fire ONE code each so the
+           three candidates can be compared from a genuinely cold bar:
+             Power On     = id 101, a DONOR code from the 2005 YSP-1000. Verified from NORMAL
+                            standby only - it has never been tried from a cold bar.
+             Power Toggle = id 103, captured from THIS bar's own remote, so it is the code the
+                            real remote sends and the one most likely to wake it.
+           If Power Toggle wakes it and Power On does not, the donor discrete code is the fault
+           and the IR power path should move to the captured toggle. -->
+      <action><name>IR: Power On (donor code 101)</name><command>IrFire_POWER_ON</command></action>
+      <action><name>IR: Power Off (donor code 102)</name><command>IrFire_POWER_OFF</command></action>
+      <action><name>IR: Power Toggle (captured code 103)</name><command>IrFire_POWER_TOGGLE</command></action>
     </actions>
   </config>
 
