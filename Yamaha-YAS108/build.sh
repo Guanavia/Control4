@@ -15,6 +15,11 @@ CERT_SRC=""   # none: the YAS-108 has no network interface
 #   * driver.xml containing "--" INSIDE an XML comment, which is illegal and makes Director
 #     reject the whole file.  Easy to write by accident when using -- as a dash in prose.
 command -v luac >/dev/null && { luac -p driver.lua || { echo "ERROR: driver.lua does not compile"; exit 1; }; }
+# luac -p does NOT catch a local used before its declaration: Lua compiles that to a global
+# lookup, which is nil at runtime and blows up only when the code path runs. This project has
+# been bitten by it three times (C4:Log, C4:ReadFile, and jsonstr silently killing the input
+# verification), so it is checked statically.
+python3 scopecheck.py driver.lua || exit 1
 python3 - <<'PYEOF' || exit 1
 import re, sys, xml.dom.minidom as dom
 src = open('driver.xml').read()
