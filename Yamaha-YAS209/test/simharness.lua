@@ -245,7 +245,19 @@ if BOUND_IR and OnBindingChanged then OnBindingChanged(2, "IR_OUT", true) end
 drain()
 
 print(("==== archetype=%s action=%s ===="):format(ARCHETYPE, ACTION))
-if PROP_NAME then
+local SEQ = ACTION:match("^SEQ:(.+)$")
+if SEQ then
+  -- A whole room interaction, one command per step, exactly as the proxy sends them. Added after
+  -- DISCONNECT_OUTPUT was wired to power and made the bar switch itself off when the user picked
+  -- a source that bypasses it: single-command tests all passed while the SEQUENCE was broken.
+  for cmd in SEQ:gmatch("[^,]+") do
+    local name, arg1 = cmd:match("^([^=]+)=(.+)$")
+    name = name or cmd
+    ReceivedFromProxy(5001, name, arg1 and
+      { LEVEL = arg1, INPUT = arg1, SurroundMode = arg1, MODE = arg1, OUTPUT = arg1 } or {})
+    drain()
+  end
+elseif PROP_NAME then
   Properties[PROP_NAME] = PROP_VALUE
   OnPropertyChanged(PROP_NAME)
 elseif PROXY_CMD then
@@ -300,6 +312,14 @@ do
 end
 print(("-- bar mute after run: %s   (driver property Muted=%s)")
   :format(tostring(upnpMute), tostring(props["Muted"])))
+do
+  local pw = {}
+  for _, w in ipairs(writes) do
+    local v = w:match('power saving"?:"?(%d)')
+    if v then pw[#pw+1] = (v == "1") and "ON" or "OFF" end
+  end
+  print("-- power commands sent: " .. (#pw > 0 and table.concat(pw, " -> ") or "none"))
+end
 print(("-- state-feedback reads issued: %d (Control Method = %s)")
     :format(reads, tostring(Properties["Control Method"])))
 end

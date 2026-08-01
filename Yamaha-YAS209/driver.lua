@@ -1235,19 +1235,27 @@ end
 function ReceiverCommands.SET_INPUT(p)  local id = ConnIdFromParams(p); if id then SelectInputByConn(id) end end
 function ReceiverCommands.PULSE_INPUT() CycleInput() end
 
--- Output routing. Control4's OWN receiver driver makes ON/OFF no-ops and does the real work in
--- CONNECT_OUTPUT / DISCONNECT_OUTPUT ("--Handled by CONNECT_OUTPUT" is literally the body of its
--- PRX_CMD.ON). This driver had it the other way round and ignored both, which is why they showed
--- up as unimplemented on every room-on. Implemented here as power, guarded so that the ON that
--- arrives alongside them does not send a second, redundant power command.
+-- Output routing. These report which of the driver's OUTPUTS is currently part of the room's
+-- active path. They are NOT power commands, and wiring them to power was a regression that made
+-- the bar switch itself off (2026-08-01).
+--
+-- WHY IT BROKE: this bar is only in the VIDEO path for sources plugged into it. Selecting a
+-- source wired straight to the television takes the bar's HDMI output out of that path, so
+-- Control4 sends DISCONNECT_OUTPUT -- with no OFF -- while the bar must stay ON to keep playing
+-- that source's audio back over ARC. Powering off there is exactly wrong.
+--
+-- Control4's own receiver driver DOES drive power from these, but it is a multi-zone AVR that
+-- every source passes through, so its outputs only disconnect when the zone genuinely shuts
+-- down. That assumption does not hold for a soundbar sitting beside the TV rather than in front
+-- of it. Power belongs to ON/OFF alone, which is how this driver worked before and what the logs
+-- show actually arriving.
 function ReceiverCommands.CONNECT_OUTPUT(p)
-  LogDebug("CONNECT_OUTPUT (output %s)", tostring(p and p.OUTPUT))
-  if gPower ~= true then SetPower(true) end
+  LogDebug("CONNECT_OUTPUT (output %s) -- path info only, power is ON/OFF", tostring(p and p.OUTPUT))
 end
 
 function ReceiverCommands.DISCONNECT_OUTPUT(p)
-  LogDebug("DISCONNECT_OUTPUT (output %s)", tostring(p and p.OUTPUT))
-  if gPower ~= false then SetPower(false) end
+  LogDebug("DISCONNECT_OUTPUT (output %s) -- path info only, NOT a power command",
+    tostring(p and p.OUTPUT))
 end
 
 -- The proxy ASKS for state; answering is how the UI stays right. Unanswered, it simply keeps
