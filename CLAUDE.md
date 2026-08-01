@@ -672,6 +672,29 @@ identical to one that did. The stub now honours `bRepeat` (capped so the sim ter
 promise. **General lesson: a stub that is more forgiving than the real API converts a real bug into
 a passing test.**
 
+**INPUT-ON-WAKE: THE TIMING THEORY IS CONFIRMED, AND THE CHECK MEANT TO CATCH IT WAS DEAD CODE
+(2026-08-01).** Room-on log: at 07:32:35 the driver sent `switchmode:HDMI` about one second after
+power-on; the bar answered **200**; the poll at 07:32:59 reported **`mode 43` (optical)**. A second
+attempt at 07:33:15 with the bar already awake gave `mode 49` (HDMI). **So the input command IS
+discarded while the bar wakes, and the 200 hides it** — the "a 200 OK means nothing on this device"
+rule, now demonstrated on the input path too.
+**The verification added to catch exactly this never executed.** `VerifyInput` calls `jsonstr`,
+declared 140 lines later; **a local used before its declaration compiles to a GLOBAL lookup, nil at
+runtime**, so the readback fired, the reply arrived, and the callback died before logging a verdict
+or resending. Fixed by moving it after `jsonstr` with real forward declarations.
+**THIRD OCCURRENCE of nil-at-runtime names in this project** (`C4:Log`, `C4:ReadFile`, now
+`jsonstr`) and **`luac -p` cannot see any of them**, so `build.sh` now runs `scopecheck.py`, a
+static check for file-level locals used before declaration. Validated against the broken build
+(correctly reports `jsonstr` used line 847, declared line 978). **Two bugs in the CHECKER itself
+were found and fixed before trusting it:** block-scoped locals produced false positives, and a
+string-stripping regex that could span newlines silently renumbered the file so it reported
+nothing. **Never adopt a checker without running it against a known-bad input.**
+**STILL OPEN — and probably not ours:** the TV does not switch to HDMI 1 on wake, and a plausible
+mechanism now is that **the bar AUTO-FOLLOWS the active signal**: with the TV sitting on HDMI 4
+(Shield) its ARC output keeps the bar on optical, so the bar reverts no matter what we command.
+That makes the TV's input the root cause and the bar's behaviour a symptom. The retry will now say
+so out loud rather than failing silently.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
