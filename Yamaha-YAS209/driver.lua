@@ -157,14 +157,6 @@ local SETTING_PROPS = {
   { prop = "3D Surround",    key = "3D surround",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Clear Voice",    key = "clear voice",    enc = OnOffEnc, dec = OnOffDec },
   { prop = "Bass Extension", key = "bass extension", enc = OnOffEnc, dec = OnOffDec },
-  -- HDMI-CEC. Exposed 2026-07-31 to test whether the bar's CEC is fighting the TV's input
-  -- selection: it sits on the TV's ARC port, and CEC One Touch Play lets a waking device pull
-  -- the TV to its own input. There is no setting for this in the Yamaha app, so the driver is
-  -- the only way to reach it.
-  -- READ is confirmed (the bar reports "HDMI Control":"1"). WRITE IS UNPROVEN - every other
-  -- Yamaha setting writes through this same verb, but this key has never been written. If it
-  -- does not stick, the readback in the state poll will show it reverting.
-  { prop = "HDMI Control (CEC)", key = "HDMI Control", enc = OnOffEnc, dec = OnOffDec },
 }
 
 -- Read from the bar and recorded, but NOT surfaced as properties. These are diagnostics, and a
@@ -187,6 +179,12 @@ local STATUS_ONLY = {
   -- VOCABULARY is unknown - it reads "0" and nothing establishes whether that is a boolean or a
   -- duration index. Writing a value we have not decoded is the guesswork this driver avoids, so
   -- it is reported and not written until someone learns the range by readback.
+  -- HDMI-CEC. WRITE TESTED AND REFUSED (2026-08-01): setting it Off made the bar turn it back
+  -- on by itself, so the key is reportable but not settable on this firmware. It was briefly a
+  -- writable property and has been demoted rather than left as a control that does nothing.
+  -- Still worth REPORTING: with no ARC class in Control4, CEC is what actually carries TV audio
+  -- to the bar, so "is CEC still on" is a real question when audio goes missing.
+  { label = "HDMI Control (CEC)", key = "HDMI Control" },
   { label = "Auto Power Standby", key = "Auto Power Stby" },
   { label = "Network Standby",    key = "NET Standby" },
 }

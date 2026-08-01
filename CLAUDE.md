@@ -746,6 +746,23 @@ arriving and **`OFF`** when none is - both values appear in this log. The earlie
 only ever read `PCM` is superseded; it tracks, and it is a genuine "is audio actually reaching the
 bar" indicator.
 
+**`HDMI Control` IS READ-ONLY ON THIS FIRMWARE (2026-08-01).** Exposed as a writable property the
+day before to test the CEC theory; Dave set it Off and **the bar turned it straight back on**. So
+the key is reportable but not settable. Demoted to a read-only line in `Get Device Status` rather
+than left as a control that silently does nothing. **The caution paid off** - it shipped labelled
+"writing this setting is unverified", so the failure was expected rather than mysterious.
+**Still worth REPORTING, and more so now:** with no ARC class in Control4, **CEC is what actually
+carries TV audio to the bar**, so "is CEC still on" is a real question whenever audio goes missing.
+**TOPOLOGY CHANGE (Dave, 2026-08-01):** controller output moves off the soundbar's HDMI input and
+goes **straight to the TV**, leaving CEC to carry audio back. **This should dissolve the input-sync
+fault rather than fix it** - the bar stops being a video-path element entirely and only ever needs
+ONE input (TV/ARC), so there is nothing left to desync. The 15-year-old TV's optical downmix made
+the patched-driver route unattractive, and the set is due for replacement anyway.
+**How to check whether the TV is downmixing, now that the field is known live:** run
+`Get Device Status` while playing genuine Dolby content. **`Audio Stream`** reports what the bar is
+actually decoding - if it says `PCM` while Dolby is playing, the TV is downmixing; `OFF` means no
+audio is arriving at all.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.

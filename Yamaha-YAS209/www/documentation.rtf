@@ -77,7 +77,6 @@ To enable: set \b IP Address\b0  (use a DHCP reservation), set \b Control Method
 \bullet  \b 3D Surround\b0  \endash  On / Off. Default Off.\par
 \bullet  \b Clear Voice\b0  \endash  On / Off. Default Off. Dialogue enhancement.\par
 \bullet  \b Bass Extension\b0  \endash  On / Off. Default Off.\par
-\bullet  \b HDMI Control (CEC)\b0  \endash  On / Off. HDMI-CEC on the soundbar, which the Yamaha app does not expose. Turn it off if the soundbar appears to be competing with Control4 over the television's input selection: CEC lets a waking device pull the TV to its own input, which can undo an input change the system just made. Writing this setting is unverified \endash  confirm it held with Get Device Status.\par
 \bullet  \b Subwoofer Boost\b0  \endash  -4 to +4, default 0 (flat). This is the same scale the Yamaha app shows.\par
 \par
 Sound programs (Movie, Music, Sports, Game, TV Program, Stereo) are not properties \endash  they are the \b Surround\b0  modes in the device's control page, because that is where the Receiver proxy expects them.\par
@@ -102,7 +101,7 @@ The four Actions always print to the Lua output window regardless of these setti
 \fs24\b {\*\bkmkstart Actions}Actions{\*\bkmkend Actions}\b0\fs20\par
 \par
 \bullet  \b Refresh Now\b0  \endash  immediate volume/mute read (IP).\par
-\bullet  \b Get Device Status\b0  \endash  reads everything available and prints it, so there is no need to shorten the poll interval to see current values.\par
+\bullet  \b Get Device Status\b0  \endash  reads everything available and prints it, so there is no need to shorten the poll interval to see current values. It also reports three settings the driver does not change: \b HDMI Control (CEC)\b0 , \b Auto Power Standby\b0  and \b Network Standby\b0 . CEC is reported because Control4 has no HDMI ARC connection type, so CEC is what actually carries television audio to the soundbar \endash  worth checking when audio goes missing. It cannot be switched off from here: the soundbar turns it back on by itself.\par
 \bullet  \b Test IR Emitter\b0  \endash  fires one IR code and reports the IR binding state.\par
 \bullet  \b Test IP Control Compatibility\b0  \endash  verifies this soundbar accepts the driver's certificate.\par
 \par

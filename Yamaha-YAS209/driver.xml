@@ -6,7 +6,7 @@
   <model>YAS-209</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>55</version>
+  <version>57</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -559,15 +559,6 @@
         <name>Clear Voice</name>
         <type>LIST</type><readonly>false</readonly><default>Off</default>
         <items><item>Off</item><item>On</item></items>
-      </property>
-      <!-- HDMI-CEC on the soundbar. Not exposed in the Yamaha app, so this is the only way to
-           reach it. Added to test whether the bar's CEC is interfering with TV input selection.
-           Reading it is confirmed; writing it has never been tried. -->
-      <property>
-        <name>HDMI Control (CEC)</name>
-        <type>LIST</type><items><item>Off</item><item>On</item></items>
-        <default>On</default><readonly>false</readonly>
-        <tooltip>HDMI-CEC on the soundbar. Turning this off stops the bar taking part in CEC, which is worth trying if it is competing with Control4 over the TV's input. Requires Control Method = IP. Writing this setting is unverified - check it held with Get Device Status.</tooltip>
       </property>
       <property>
         <name>Bass Extension</name>
