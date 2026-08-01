@@ -716,6 +716,36 @@ commands actually sent. Verified: build 54 emits `ON -> OFF`, the fix emits `ON`
 still emits `ON -> OFF`. **General lesson: proxy commands arrive as sequences, so testing them
 individually can pass while the interaction is broken.**
 
+**ROOT CAUSE OF THE INPUT-SYNC FAULT FOUND, AND IT IS NOT THIS DRIVER (2026-08-01).** Build 55
+log, same room, two sources:
+- **Navigator selected** -> proxy sends `ON`, `CONNECT_OUTPUT`, `SET_INPUT(HDMI)`, `SET_VOLUME_LEVEL`.
+  Driver switches the bar, the verify confirms `mode 49`. **Works.**
+- **Shield selected** -> proxy sends **`GET_IS_MUTED` and `SET_VOLUME_LEVEL` ONLY.** No `ON`, no
+  `SET_INPUT`. The bar therefore stays on whatever input it was last on. **This is the fault.**
+**Why:** the bar is only in the VIDEO path for sources plugged into it. The Shield is wired
+straight to the TV, so Control4 routes Shield -> TV and the bar is merely the room's volume device.
+For Control4 to also switch the bar to TV/ARC it would need an AUDIO path TV -> bar, and
+**the Sharp TV driver cannot express one**: `tv_ir_sharp_LC-52LE64OU [IR].c4i` declares
+**`audio_provider_count = 0`** and its only provider-side connection is `7000 Room Selection -
+Output` (the room end point). **There is no ARC, optical or analog audio OUTPUT connection on that
+driver at all**, so no wire can be drawn from the TV's audio out to the bar's `TV (ARC / Optical)`
+input 3000. The path physically exists; Control4 has no way to know about it.
+**So the reddit "use optical instead of ARC" advice was directionally right for the wrong reason** -
+it is not that ARC is flaky, it is that this TV driver exposes no audio output of ANY kind, so
+neither ARC nor optical can be bound.
+**Three fixes, none in this driver:** (a) add an audio-output connection to the Sharp `.c4i` and
+bind it to input 3000; (b) Composer programming - on selecting the Shield, command the bar to
+`TV (ARC / Optical)`; (c) **rewire so the SHIELD owns the bar's single HDMI input** and the
+controller goes direct to the TV, which puts the source that actually has audio inside the bar's
+path and needs no driver edits or programming at all.
+**DRIVER IS CORRECT HERE - resist "fixing" it.** After two regressions caused by changing driver
+behaviour on an assumption (DISCONNECT_OUTPUT as power, the dead input verify), the right call when
+the proxy simply does not send a command is to say so, not to synthesise one.
+**BONUS, closes an open question: `Audio Stream` is NOT inert.** It reads `PCM` when audio is
+arriving and **`OFF`** when none is - both values appear in this log. The earlier note that it had
+only ever read `PCM` is superseded; it tracks, and it is a genuine "is audio actually reaching the
+bar" indicator.
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
