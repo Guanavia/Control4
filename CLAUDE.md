@@ -695,6 +695,27 @@ mechanism now is that **the bar AUTO-FOLLOWS the active signal**: with the TV si
 That makes the TV's input the root cause and the bar's behaviour a symptom. The retry will now say
 so out loud rather than failing silently.
 
+**REGRESSION I INTRODUCED AND THEN FIXED: DISCONNECT_OUTPUT IS NOT A POWER COMMAND (2026-08-01).**
+Wiring `CONNECT_OUTPUT`/`DISCONNECT_OUTPUT` to power (build 49) made the bar **switch itself off**
+whenever the user selected a source that bypasses it. Dave's report was blunt and correct: the
+driver worked WORSE than before.
+**Why:** this bar is only in the VIDEO path for sources plugged INTO it. Choosing the Shield --
+wired straight to the TV -- takes the bar's HDMI output out of that path, so Control4 sends
+`DISCONNECT_OUTPUT` **with no `OFF`**, while the bar must stay ON to keep playing that source's
+audio back over ARC. Visible in his log at 07:33:07: `cmd=DISCONNECT_OUTPUT` followed immediately
+by `power saving:0`, with no `OFF` anywhere.
+**Where my reasoning went wrong:** I copied the pattern from Control4's own receiver driver, which
+genuinely does drive power from these. But that is a **multi-zone AVR that every source passes
+through**, so its outputs only disconnect when the zone truly shuts down. **A soundbar sits BESIDE
+the TV, not in front of it** -- the topology assumption silently failed to transfer. Power belongs
+to `ON`/`OFF` alone.
+**Why the harness missed it:** every test drove ONE command. The bug only exists in a SEQUENCE
+(`ON -> CONNECT_OUTPUT -> DISCONNECT_OUTPUT`), and each command in isolation looked right. The
+harness now takes `SEQ:CMD,CMD,CMD` to replay a whole room interaction and prints the power
+commands actually sent. Verified: build 54 emits `ON -> OFF`, the fix emits `ON`; a real room-off
+still emits `ON -> OFF`. **General lesson: proxy commands arrive as sequences, so testing them
+individually can pass while the interaction is broken.**
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
