@@ -763,6 +763,24 @@ the patched-driver route unattractive, and the set is due for replacement anyway
 actually decoding - if it says `PCM` while Dolby is playing, the TV is downmixing; `OFF` means no
 audio is arriving at all.
 
+**RESOLVED (2026-08-03): THE TV INPUT FAULT WAS THE TV'S POWER-ON DELAY, NOT THIS DRIVER.** Dave
+fixed it by **lengthening the wait before the IR input command** - the Sharp driver declares
+`power_delay = 12` and even that was too short, so the input code was landing while the set was
+still waking and being discarded.
+**The shape of that answer was the FIRST hypothesis** ("the command arrives while the device is
+still waking, and the acknowledgement hides it"), raised when the bar returned 200 to
+`switchmode:HDMI` and ignored it. **I kept aiming it at the soundbar because that was the driver I
+could instrument**, then dropped it when the bar exonerated itself - instead of carrying the same
+shape across to the other device in the chain. **Lesson: when a failure pattern is ruled out for
+the component you can see, test it against the ones you cannot before discarding it.**
+**ARC still carries the audio** TV -> bar and works fine; Control4 simply cannot see or sequence
+it, which is why the TV had to become the room's audio endpoint. Everything Control4 needs to
+route is expressible; the ARC leg just happens outside its knowledge.
+**STATUS: the YAS-209 driver is functionally complete for the owner's use** - Dave's assessment is
+that it "provides all the control that is necessary for a good experience". Both control surfaces
+are hardware-validated, state feedback works, and the remaining open items are minor or currently
+untestable (see below).
+
 **REMAINING IR LIMITS, both inherent to one-way IR and neither now costing feedback:** absolute volume is approximated by
 pulsing (no absolute IR code exists), and the three DSP switches are **toggle-only over IR**, so
 the driver flips them and SAYS it flipped rather than claiming it set an absolute state.
