@@ -74,6 +74,17 @@ if not changed:
             path = os.path.join(root, f)
             current[path.replace(os.sep, '/')] = open(path, 'rb').read()
     changed = packaged != current
+# The PRODUCT version is stamped into the package, so changing ./VERSION changes what ships even
+# when driver.lua and driver.xml are untouched. The comparison above un-stamps both sides, which
+# makes a version-only change invisible to it - and Composer would then refuse the update as
+# "versions are equal". Caught going 0.9.0 -> 1.0.0.
+if not changed:
+    m_old = re.search(r'v([\d.]+) \(build \d+, [0-9a-f]{8}\)', old_xml)
+    cur_product = open('VERSION').read().strip() if os.path.exists('VERSION') else None
+    if m_old and cur_product and m_old.group(1) != cur_product:
+        print("product version changed %s -> %s" % (m_old.group(1), cur_product))
+        changed = True
+
 if changed and cur <= old:
     new = old + 1
     open('driver.xml', 'w').write(

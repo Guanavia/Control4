@@ -21,9 +21,15 @@ for transport and hardware bringup.
 
 **Full IP control works end to end.**
 
-**Product version: `0.9.0`** (see [`VERSION`](VERSION)) — pre-release. It becomes **`1.0.0`** at
-first release, once IR is verified on the bar. Per repo convention, `1.0.0` means shipped; `0.x`
-means still in the pipeline.
+**Product version: `1.0.0`** (see [`VERSION`](VERSION)) — **shipped 2026-08-03**. Both control
+methods are hardware-validated: IR codes captured from the genuine remote and confirmed on the bar,
+and the IP path validated end to end including state feedback tracking changes the driver did not
+originate.
+
+Deferred to a future version, none of them blocking: deep-standby wake (never reproduced — a
+3-hour idle left the bar fully reachable); whether the four donor discrete power/mute codes work
+from cold standby (untestable while the emitter is off the bar); the `uart_pass_port` 8899 UART
+passthrough to the MCU; and UPnP self-location for auto-IP.
 
 ## State feedback
 

@@ -65,7 +65,7 @@ against the owner's manual, not assumed: the YAS-108 **does** have a SUBWOOFER O
 **Nothing fired at real hardware yet.** IR-only harness covers every control path and fails hard on
 any code id not declared in driver.xml.
 
-### Yamaha-YAS209 — OPEN, v0.9.0 (BOTH control surfaces validated on real hardware)
+### Yamaha-YAS209 — SHIPPED v1.0.0 (2026-08-03; both control surfaces hardware-validated)
 **Renamed from `Yamaha-Soundbar/` and de-umbrella'd 2026-07-30** (Model property removed).
 **ICONS: there is no soundbar icon to reuse anywhere** — Control4's own YSP-1000 driver just
 references the generic built-in `devices_sm/receiver.gif`, Composer's built-in library has 168
@@ -930,50 +930,39 @@ driver.xml paths). There is no Lua-side probe that can be truthful, so the per-r
 gone rather than merely demoted — a cert warning that fires on a working system is worse than no
 warning at all.
 
-**NEXT (in order):**
-0. **IR bringup, in this exact order** (all four fixes above are written + harness-verified but
-   NOT yet run against the bar). Back up the project first. **Before touching code, check the
-   PROPERTIES** — the re-add that added the IR connection reset them: `Owner Approved` must be
-   `Yes`, `IP Address` must be set, `Log Mode` = `Print and Log`, `Log Level` = `3 - Info` or
-   higher. (The new bringup output no longer needs the log settings, but everything else does.)
-   Then: (a) run **`IR Emitter Test: Power On`** and watch the emitter — a blink clears the
-   physical side, no blink means the binding/emitter is the problem and no code change will help;
-   (b) only if it blinks, run **`Verify IR Codes`** (Control Method can stay IP) for an objective
-   per-code verdict; (c) if codes fail, that is now trustworthy evidence the YSP-1000 patterns do
-   not match this bar → capture from the real remote (item 4).
-1. **Re-run `Learn Sound Programs`** — only to see the negative control land (should print
-   "negative control OK: nonsense value was rejected"). If it instead prints NEGATIVE CONTROL
-   FAILED, the all-pass above is meaningless and the modes need checking by ear.
-2. **Spot-check the settings properties** (Sound Program / 3D Surround / Clear Voice / Bass
-   Extension) write correctly from Composer, and confirm power/input feedback tracks an EXTERNAL
-   change — the whole point of the state poll, still never observed working.
-   **REMOTE FOUND (2026-07-28) — but its battery is on order, so it is not usable yet.** Until it
-   arrives, use any of: (a) the **Yamaha/Linkplay phone app** — already installed, it is where the
-   client cert came from (`com.wifiaudio.Yamaha`), so it is the easiest; (b) the bar's **top-panel
-   touch buttons**; or (c) **HDMI-CEC from the TV**. Any of them proves the poll reconciles state
-   it did not originate. (Partial evidence already exists: during the subwoofer sweep the poll
-   logged `input changed at the bar -> optical` and `power changed at the bar -> On`, i.e. it
-   picked up state the driver had not set — but that was reconciling from *unknown*, not tracking
-   a genuine external change.)
-4. **IR as the shipping default** control method (per the original design: IP is the owner's path,
-   IR is what ships to dealers). **REMOTE FOUND 2026-07-28 (battery on order), so learning codes
-   by CAPTURE is back on the table** — this supersedes the earlier "remote is lost, database only"
-   plan. Two sources now, and they check each other: (a) **capture from the real remote** once the
-   battery arrives (authoritative for THIS unit, and the only way to get codes for buttons no
-   database happens to list); (b) a **code database** — Control4's own IR sets for YAS-209 or a
-   sibling Yamaha bar, or a public set (Global Caché, iRule/JP1) — which is faster to try first and
-   may simply work.
-   **Either way, verification is the same and is the nice part: the IP path is the test instrument
-   for the IR path.** Fire an IR code, then read state back over mutual TLS and see whether it
-   actually landed — objective ground truth per button, no listening-by-ear required. Building IP
-   first turned out to be the right order.
-5. **Optional:** UPnP self-location for auto-IP (above); `uart_pass_port` 8899 (UART passthrough to
-   the MCU — the likely route to DSP/sound-mode control httpapi does not expose); the 6 hardware
-   presets (`preset_key: 6`).
+**SHIPPED 1.0.0 (2026-08-03).** Everything the old NEXT list contained is done: IR bringup
+completed, codes captured from the real remote and confirmed on the bar, sound programs validated
+with a negative control, IR made the shipping default, and **state feedback confirmed tracking
+GENUINE external changes** (the logs show `input changed at the bar -> TV (ARC / Optical)` and
+`power changed at the bar -> On` from CEC activity the driver did not originate — the thing that
+had "never been observed working").
+**What 1.0.0 is:** a receiver-proxy driver for the YAS-209 with two control methods. **IR** is the
+default and needs nothing but an emitter; all 18 codes were captured from the genuine remote.
+**IP** adds absolute volume, exact input select, the DSP settings and state feedback, over UPnP
+plus a mutual-TLS Linkplay API. Four actions, 16 properties, complete dealer documentation.
+
+**DEFERRED TO A FUTURE VERSION — not blocking, deliberately not built:**
+1. **Deep-standby wake.** Never reproduced. A 3-hour idle left the bar fully reachable
+   (`Test IP Control Compatibility` passed with the bar off), so if the fault exists it needs a
+   much longer idle. Re-open only if it recurs.
+2. **Do the DONOR discrete power/mute codes work from cold standby?** `POWER_ON` 101 / `POWER_OFF`
+   102 / `MUTE_ON` 137 / `MUTE_OFF` 138 come from the 2005 YSP-1000 because this remote has only
+   toggles. Hardware-verified from NORMAL standby only. **Untestable while the IR emitter is off
+   the bar.**
+3. **`uart_pass_port` 8899** — UART passthrough to the MCU, still unexplored and still the most
+   likely route to anything httpapi does not expose (DSP internals, the 6 hardware presets).
+4. **UPnP self-location for auto-IP.** `C4:GetDiscoveryInfo` covers UPNP and the bar has a stable
+   `upnp_uuid`, so the driver could find its own address and self-heal across DHCP moves.
+5. **EQ — CLOSED, not deferred.** See above; owner's call, do not re-raise.
+
+**Environment notes that outlived the fault-finding:** ARC carries TV audio to the bar and works,
+but **Control4 cannot see or sequence ARC at all** (0 of 24,000+ catalog drivers declare any ARC
+class), so the TV has to be the room's audio endpoint. The TV-input desync that dominated late
+testing was **the television's power-on delay**, not this driver. See `sharp_tv_optical/` for a
+patched TV driver with a real audio output, and why its optical route costs surround.
 
 The extracted client cert (`linkplay_client.pem`) and the `.c4z` are **gitignored** (gray-area;
-regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded
-superseded FIRST-architecture (YXC) design, kept for reference. `Yamaha-YAS209/README.md` was rewritten 2026-07-27 (it still
+regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md` is the superseded FIRST-architecture (YXC) design, kept for reference. `Yamaha-YAS209/README.md` was rewritten 2026-07-27 (it still
 described the dead v1 YXC premise) and now carries the per-project status, the two-surface
 explanation, the build/fallback procedure, and the bringup checklist.
 
