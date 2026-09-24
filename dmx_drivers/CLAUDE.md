@@ -40,13 +40,22 @@ Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate universe from Control4's own
   ArtDmx, drive proxy commands as SEQUENCES, stubs no more forgiving than the real API.
 
 **Design issues to settle**
-1. **Positions load side effects.** A light_v2 that reports level = slot N stays "on" forever,
-   so the room's lights-on indicator never clears and "all lights off" / Room Off touch it.
-   The brief handles Room Off (level 0 = no-op) but still reports N afterwards. Options: hide it
-   from Navigator (does a hidden load still work in AL scenes? — verify), or report 0 on Room
-   Off and accept the scene LED dropping. Needs Dave's call.
-2. **HTP on overlap** is wrong for pan/tilt/macro channels. Since overlap is a config error
-   anyway: last-registered-wins or refuse the second fixture, plus the warning.
+1. **Positions load side effects — OPEN, deliberately deferred (Dave, 2026-09-24).** A
+   light_v2 that reports level = slot N stays "on" forever (room lights-on indicator, Room Off,
+   "all lights"). Dave is not yet sure position even needs to be its own part of a scene —
+   Control4 was not designed for this kind of lighting. Decision: build the rest, let the right
+   answer show itself during bring-up; do not lock the 5003 proxy in until then.
+2. **Overlap policy — DECIDED (Dave, 2026-09-24): depends on fixture kind.**
+   - `dmx_light` <-> `dmx_light`: **allowed**, merged HTP. Sharing channels between static
+     fixtures is a legitimate control choice, not an error. Reported in the node's Patch as
+     shared, not flagged as a conflict.
+   - Anything involving a `dmx_mover`: **hard error**. Movers must be fully independent to work.
+     The node refuses the later registration, both drivers show why, the refused mover outputs
+     nothing.
+   - Needs a `KIND` (light|mover) param on `DMX_REGISTER`.
+   - Watch: HTP is right for intensity/color but on stepped channels (program, strobe, macro)
+     the higher value wins, so one par in a program mode drags a sharing par into it. Also two
+     sharing pars with different layouts is almost certainly a mistake — warn on that.
 3. **Frame timer only while fades are active**; 1 Hz keepalive otherwise; cache the 512-slot
    frame string rather than rebuilding it every tick.
 4. Add to Phase 0: what the CR011R outputs when Art-Net stops (hold last look vs blackout).
