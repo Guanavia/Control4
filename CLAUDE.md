@@ -966,6 +966,12 @@ regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md`
 described the dead v1 YXC premise) and now carries the per-project status, the two-surface
 explanation, the build/fallback procedure, and the bringup checklist.
 
+### dmx_drivers — OPEN, design reviewed 2026-09-24, nothing built
+Art-Net DMX driver set (`artnet_node` gateway + `dmx_light` + `dmx_mover`) for theatrical
+fixtures via a Pknight CR011R, separate from Control4's own Vibrant DMX. Spec is Dave's
+`dmx_drivers/dmx-artnet-driver-set-brief.md`; status, review amendments and decisions live in
+`dmx_drivers/CLAUDE.md`. Next: Phase 0 verification spike.
+
 ### sonoff_snzb02p — CLOSED, no custom driver (research-only folder)
 Original goal: get a Sonoff SNZB-02P temperature/humidity/battery sensor into Control4 for
 dashboards, programmable threshold notifications, and history over time.
