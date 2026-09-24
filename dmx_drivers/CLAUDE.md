@@ -40,11 +40,24 @@ Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate universe from Control4's own
   ArtDmx, drive proxy commands as SEQUENCES, stubs no more forgiving than the real API.
 
 **Design issues to settle**
-1. **Positions load side effects — OPEN, deliberately deferred (Dave, 2026-09-24).** A
-   light_v2 that reports level = slot N stays "on" forever (room lights-on indicator, Room Off,
-   "all lights"). Dave is not yet sure position even needs to be its own part of a scene —
-   Control4 was not designed for this kind of lighting. Decision: build the rest, let the right
-   answer show itself during bring-up; do not lock the 5003 proxy in until then.
+1. **ONE fixture = ONE load — DECIDED (Dave, 2026-09-24). The brief's second light_v2
+   "Positions" proxy (5003) is DROPPED.** A multi-proxy driver shows each proxy as its own item
+   in the room, so a mover would appear as a "color" load plus a "position" load — exactly what
+   Dave does not want. The mover is a single light_v2 load, augmented through light_v2's own
+   extension points (Extras tab, programming commands), not a second proxy. We cannot modify
+   the light_v2 proxy itself (Director-owned); "augmenting" means the driver behind it.
+   **How position gets into scenes without a second load — proposed, needs Phase 0 proof:**
+   declare `advanced_scene_support=true` (full ALS) on the mover instead of reduced. Advanced
+   Lighting then pushes each scene to the driver and sends `ACTIVATE_SCENE <id>`, so the driver
+   KNOWS which scene fired and can recall a position preset linked to that scene id. Workflow:
+   activate a scene, jog the head where you want it, press "Link position to active scene".
+   Scene LED tracking still works (AL tracks level/color as normal). Cost: full ALS means the
+   driver executes scene elements itself (the node already does fades, so mostly plumbing).
+   Verify on hardware that PUSH_SCENE/ACTIVATE_SCENE carry the scene id as documented.
+   Keypads/programming without scenes: `Recall Preset` command, as in the brief.
+   **OPEN: the `uibutton` "Controls" web view (5002) is ALSO a second visible item** under the
+   same rule. Alternative is the brief's own fallback: everything on the light's Extras tab
+   (sliders, lists, tap-to-nudge buttons instead of a hold-to-move d-pad). Needs Dave's call.
 2. **Overlap policy — DECIDED (Dave, 2026-09-24): depends on fixture kind.**
    - `dmx_light` <-> `dmx_light`: **allowed**, merged HTP. Sharing channels between static
      fixtures is a legitimate control choice, not an error. Reported in the node's Patch as
@@ -61,6 +74,11 @@ Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate universe from Control4's own
 4. Add to Phase 0: what the CR011R outputs when Art-Net stops (hold last look vs blackout).
    Matters for controller reboots and the "no jump on restore" criterion.
 5. Target is Dave's 4.x director; 3.3.2 stays as the API floor only.
+6. **Node IP: static, stated in the documentation (Dave, 2026-09-24)** — same as any Control4
+   IP driver, so a DHCP renew can't silently break the rig. Note Art-Net is UDP: sends
+   "succeed" whether or not the node exists, so the driver cannot know it is talking to nothing.
+   Proposed: a unicast ArtPoll every ~10 s as a health check (the CR011R answers with
+   ArtPollReply), driving Status online/offline. Small; not the out-of-scope discovery feature.
 
 ## Next
 Phase 0 (brief §11). Offline half can start immediately: `common/artnet.lua` + byte-exact tests
