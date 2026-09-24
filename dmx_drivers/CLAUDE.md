@@ -55,9 +55,16 @@ Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate universe from Control4's own
    driver executes scene elements itself (the node already does fades, so mostly plumbing).
    Verify on hardware that PUSH_SCENE/ACTIVATE_SCENE carry the scene id as documented.
    Keypads/programming without scenes: `Recall Preset` command, as in the brief.
-   **OPEN: the `uibutton` "Controls" web view (5002) is ALSO a second visible item** under the
-   same rule. Alternative is the brief's own fallback: everything on the light's Extras tab
-   (sliders, lists, tap-to-nudge buttons instead of a hold-to-move d-pad). Needs Dave's call.
+   **Mover controls go on the light's EXTRAS TAB — DECIDED (Dave, 2026-09-24).** The `uibutton`
+   web view (5002), `www/contents/index.html`, the JS bridge and the hold-to-move d-pad are all
+   DROPPED. The mover driver has exactly one proxy: light_v2. Consequences:
+   - Position = **Pan and Tilt sliders** (absolute, soft-limited) plus **nudge buttons** for fine
+     aiming. Absolute sliders beat a d-pad on a tab that can only send taps.
+   - The jog engine shrinks to nudge steps: no keepalive, no dead-man timer, no 20 Hz stream.
+   - Presets on Extras: a list to recall, "Save to slot N" and "Link position to active scene"
+     buttons. Naming/scope/delete move to Composer properties unless Extras turns out to accept
+     text input (verify — assume it does not).
+   - Every Extras command still owes an `EXTRAS_STATE_CHANGED` within 10 s or the UI reverts.
 2. **Overlap policy — DECIDED (Dave, 2026-09-24): depends on fixture kind.**
    - `dmx_light` <-> `dmx_light`: **allowed**, merged HTP. Sharing channels between static
      fixtures is a legitimate control choice, not an error. Reported in the node's Patch as
