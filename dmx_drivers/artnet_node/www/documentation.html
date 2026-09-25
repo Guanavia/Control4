@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Art-Net Node</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.45; margin: 16px; color: #222; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 22px; border-bottom: 1px solid #ccc; } h3 { font-size: 14px; }
+table { border-collapse: collapse; margin: 6px 0 12px; } td, th { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; text-align: left; }
+th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn { background: #fff4d6; padding: 6px 10px; border-left: 3px solid #e0a800; }
+</style>
+</head>
+<body>
+<h1>Art-Net Node</h1>
+<p>Part of the <b>DMX over Art-Net</b> driver set: <b>Art-Net Node</b> (this driver), <b>DMX Light (Art-Net)</b> and <b>DMX Moving Head (Art-Net)</b>.</p>
+<p>One Art-Net Node driver owns <b>one DMX universe on one Art-Net node</b> (for example a Pknight CR011R). Fixture drivers bind to it in Connections. The node driver merges every fixture's channels into a single 512-channel frame, runs all fades, and sends it to the node as Art-Net (ArtDmx, unicast, UDP 6454).</p>
+<p>This set is independent of Control4's own DMX system (Vibrant DALI/DMX gateway + DMX Light Driver). Use a separate universe.</p>
+
+<h2>Quick start</h2>
+<ol>
+<li>On the node, set <b>Art-Net &rarr; DMX output</b> mode, a <b>static IP</b> on the Control4 LAN, and its Net / Sub-Net / Universe.</li>
+<li>Add this driver and set <b>Node IP Address</b>, <b>Art-Net Net</b>, <b>Art-Net Sub-Net</b> and <b>Art-Net Universe</b> to match the node exactly.</li>
+<li>Add a <b>DMX Light (Art-Net)</b> or <b>DMX Moving Head (Art-Net)</b> per fixture circuit and, in Connections, bind each fixture's <b>Art-Net Node</b> input to this driver's <b>Fixtures</b> output.</li>
+<li>Check <b>Status</b> and <b>Patch</b>.</li>
+</ol>
+<p class="warn"><b>Use a static IP (or a DHCP reservation) for the node.</b> Art-Net is sent unicast to the address in Node IP Address. If the node's address changes, the lights stop responding and nothing else will tell you why.</p>
+
+<h2>Connections</h2>
+<table>
+<tr><th>Connection</th><th>Purpose</th></tr>
+<tr><td>Fixtures</td><td>Control output. Bind every DMX Light / DMX Moving Head on this universe to it.</td></tr>
+</table>
+
+<h2>Properties</h2>
+<table>
+<tr><th>Property</th><th>Description</th></tr>
+<tr><td>Driver Version</td><td>Product version, build number and a content fingerprint. The same string is logged when the driver loads, so you can confirm which build a controller is running.</td></tr>
+<tr><td>Status</td><td>Where frames are going, whether the node answers ping, how many fixtures are patched and how many were refused, blackout state, and any duplicate-driver warning.</td></tr>
+<tr><td>Patch</td><td>Every registered fixture with its DMX range, layout and state: OK, shared (lights sharing channels) or REFUSED with the reason.</td></tr>
+<tr><td>Node IP Address</td><td>The node's static IP. Broadcast addresses (last octet 0 or 255) are refused; Art-Net 4 does not allow broadcast ArtDmx.</td></tr>
+<tr><td>Art-Net Net</td><td>Port-address Net, 0-127, as set on the node.</td></tr>
+<tr><td>Art-Net Sub-Net</td><td>Port-address Sub-Net, 0-15, as set on the node.</td></tr>
+<tr><td>Art-Net Universe</td><td>Port-address Universe, 0-15, as set on the node. Same numbering as the node: there is no "universe 0 vs 1" translation.</td></tr>
+<tr><td>Keepalive (ms)</td><td>How often the frame is re-sent when nothing changes (default 1000). Nodes expect a refresh about once a second.</td></tr>
+<tr><td>Max Frame Rate (fps)</td><td>Upper limit on frames per second while fades run (default 30). Idle output is only the keepalive.</td></tr>
+<tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Configuration problems are always logged, whatever this is set to.</td></tr>
+</table>
+
+<h2>Actions</h2>
+<table>
+<tr><th>Action</th><th>What it does</th></tr>
+<tr><td>Resend Frame</td><td>Sends the current frame immediately.</td></tr>
+<tr><td>Blackout Universe</td><td>Outputs zero on every channel until any fixture changes. Temporary: nothing is lost.</td></tr>
+<tr><td>Test Channel</td><td>Sets one DMX channel to a value for 5 seconds, on top of whatever the fixtures output. Use it to find a fixture's address or prove the node is receiving.</td></tr>
+<tr><td>Re-sync Fixtures</td><td>Asks every bound fixture to register again and resend all of its channels.</td></tr>
+</table>
+
+<h2>How fixtures share the universe</h2>
+<ul>
+<li><b>Lights may share channels.</b> Two DMX Lights on the same addresses are a legitimate choice. Shared channels merge highest-takes-precedence, and both fixtures show that they share. If the two have different start addresses or layouts, a warning says it is almost certainly a patching mistake.</li>
+<li><b>Moving heads may not.</b> A moving head that overlaps any other fixture, or any fixture that overlaps a moving head, is <b>refused</b>: it outputs nothing and its Status says what it collides with. The fixture that registered first keeps running. Fix the address and the refused fixture is accepted automatically.</li>
+<li>Only <b>one</b> Art-Net Node driver may send to a given node IP and Net / Sub-Net / Universe. A node merges at most two sources, and two drivers would fight. Both drivers warn if they find each other.</li>
+</ul>
+
+<h2>Troubleshooting</h2>
+<table>
+<tr><th>Symptom</th><th>Check</th></tr>
+<tr><td>Status: NOT SENDING</td><td>Node IP Address is empty or not a valid unicast address.</td></tr>
+<tr><td>Status: NODE NOT REACHABLE</td><td>The node did not answer ping. Check its IP, power and network. Art-Net is UDP, so without ping the driver could not tell whether anything is listening.</td></tr>
+<tr><td>Sending, reachable, but lights dark</td><td>Net / Sub-Net / Universe differ from the node; the node is not in Art-Net-to-DMX output mode; DMX cable or fixture address. Use Test Channel on the fixture's first channel.</td></tr>
+<tr><td>A fixture is missing from Patch</td><td>Its Art-Net Node input is not bound to Fixtures, or it has a layout error. Check that fixture's Status. Re-sync Fixtures asks every bound fixture to register.</td></tr>
+<tr><td>Lights flicker between two looks</td><td>Another Art-Net source (another driver, QLC+, a console) is sending to the same universe.</td></tr>
+</table>
+</body>
+</html>

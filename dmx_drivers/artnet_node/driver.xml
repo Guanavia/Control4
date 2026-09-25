@@ -1,0 +1,167 @@
+<devicedata>
+  <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <manufacturer>Art-Net</manufacturer>
+  <name>Art-Net Node</name>
+  <model>Art-Net Node (1 universe)</model>
+  <created>2026-09-24</created>
+  <modified>2026-09-24</modified>
+  <version>3</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
+  <control>lua_gen</control>
+  <controlmethod>ip</controlmethod>
+  <driver>DriverWorks</driver>
+  <minimum_os_version>3.3.2</minimum_os_version>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <connections>
+    <!-- Fixtures bind here. Custom class ARTNET_DMX so only dmx_light / dmx_mover can connect.
+         One output, many fixtures: whether Director lets ONE provider binding carry many
+         consumers is Phase 0 item 4. If it does not, this becomes 24 numbered outputs. -->
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Fixtures</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ARTNET_DMX</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <documentation file="www/documentation.html" />
+    <script file="driver.lua" jit="1" />
+    <properties>
+      <property>
+        <name>Driver Version</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>@BUILD@</default>
+      </property>
+      <property>
+        <name>Status</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>Starting</default>
+      </property>
+      <property>
+        <name>Patch</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>No fixtures registered.</default>
+      </property>
+      <property>
+        <name>Node</name>
+        <type>LABEL</type>
+        <default>Art-Net Node</default>
+      </property>
+      <property>
+        <name>Node IP Address</name>
+        <type>STRING</type>
+        <default></default>
+        <tooltip>The node's STATIC IP address on the Control4 LAN. Art-Net output is unicast to this address; a DHCP address that changes will silently stop the lights.</tooltip>
+      </property>
+      <property>
+        <name>Art-Net Net</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>127</maximum>
+        <default>0</default>
+        <tooltip>Port-address Net, exactly as set on the node (0-127).</tooltip>
+      </property>
+      <property>
+        <name>Art-Net Sub-Net</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>15</maximum>
+        <default>0</default>
+        <tooltip>Port-address Sub-Net, exactly as set on the node (0-15).</tooltip>
+      </property>
+      <property>
+        <name>Art-Net Universe</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>15</maximum>
+        <default>0</default>
+        <tooltip>Port-address Universe, exactly as set on the node (0-15). Same numbering as the node: no "universe 0 vs 1" translation.</tooltip>
+      </property>
+      <property>
+        <name>Timing</name>
+        <type>LABEL</type>
+        <default>Timing</default>
+      </property>
+      <property>
+        <name>Keepalive (ms)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>500</minimum>
+        <maximum>4000</maximum>
+        <default>1000</default>
+        <tooltip>How often the frame is re-sent when nothing changes. Art-Net nodes expect a refresh roughly every second.</tooltip>
+      </property>
+      <property>
+        <name>Max Frame Rate (fps)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>10</minimum>
+        <maximum>44</maximum>
+        <default>30</default>
+        <tooltip>Cap on frames per second while fades are running.</tooltip>
+      </property>
+      <property>
+        <name>Diagnostics</name>
+        <type>LABEL</type>
+        <default>Diagnostics</default>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>On</item>
+        </items>
+        <default>Off</default>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Resend Frame</name>
+        <command>RESEND</command>
+      </action>
+      <action>
+        <name>Blackout Universe</name>
+        <command>BLACKOUT</command>
+      </action>
+      <action>
+        <name>Test Channel</name>
+        <command>TEST_CHANNEL</command>
+        <params>
+          <param>
+            <name>Channel</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>1</minimum>
+            <maximum>512</maximum>
+            <default>1</default>
+          </param>
+          <param>
+            <name>Value</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>255</maximum>
+            <default>255</default>
+          </param>
+        </params>
+      </action>
+      <action>
+        <name>Re-sync Fixtures</name>
+        <command>RESYNC</command>
+      </action>
+    </actions>
+  </config>
+</devicedata>

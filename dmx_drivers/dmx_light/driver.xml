@@ -1,0 +1,304 @@
+<devicedata>
+  <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <manufacturer>DMX</manufacturer>
+  <name>DMX Light (Art-Net)</name>
+  <model>DMX Light</model>
+  <created>2026-09-24</created>
+  <modified>2026-09-24</modified>
+  <version>2</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
+  <control>lua_gen</control>
+  <controlmethod></controlmethod>
+  <driver>DriverWorks</driver>
+  <minimum_os_version>3.3.2</minimum_os_version>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="DMX Light" image_source="c4z"
+           small_image="www/icons/device_sm.png" large_image="www/icons/device_lg.png">light_v2</proxy>
+  </proxies>
+  <!-- Capabilities below are the STATIC baseline. The fixture's layout decides the real set at
+       runtime through DYNAMIC_CAPABILITIES_CHANGED (dimmer, supports_color, CCT range,
+       has_extras). reduced_als_support / advanced_scene_support are NOT dynamic before OS 4.2.1:
+       this driver is reduced ALS, the mover is full ALS. -->
+  <capabilities>
+    <dimmer>True</dimmer>
+    <set_level>True</set_level>
+    <supports_target>True</supports_target>
+    <supports_brightness_stop>True</supports_brightness_stop>
+    <supports_color>True</supports_color>
+    <supports_color_correlated_temperature>True</supports_color_correlated_temperature>
+    <color_correlated_temperature_min>2700</color_correlated_temperature_min>
+    <color_correlated_temperature_max>6500</color_correlated_temperature_max>
+    <color_rate_min>0</color_rate_min>
+    <color_rate_max>6553500</color_rate_max>
+    <brightness_rate_min>0</brightness_rate_min>
+    <brightness_rate_max>6553500</brightness_rate_max>
+    <click_rates>True</click_rates>
+    <click_rate_min>0</click_rate_min>
+    <click_rate_max>6553500</click_rate_max>
+    <hold_rates>True</hold_rates>
+    <hold_rate_min>1000</hold_rate_min>
+    <hold_rate_max>6553500</hold_rate_max>
+    <cold_start>False</cold_start>
+    <has_leds>True</has_leds>
+    <has_button_events>False</has_button_events>
+    <load_group_support>False</load_group_support>
+    <reduced_als_support>True</reduced_als_support>
+    <advanced_scene_support>False</advanced_scene_support>
+    <has_extras>False</has_extras>
+  </capabilities>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>LIGHT_V2</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>LIGHT_V2</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- The link to the Art-Net Node driver. Same shape as Control4's own DMX Light (a control
+         consumer on binding 1), with a custom class so it only accepts an artnet_node. -->
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Art-Net Node</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ARTNET_DMX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>300</id>
+      <facing>6</facing>
+      <connectionname>On Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>301</id>
+      <facing>6</facing>
+      <connectionname>Off Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>302</id>
+      <facing>6</facing>
+      <connectionname>Toggle Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <documentation file="www/documentation.html" />
+    <script file="driver.lua" jit="1" />
+    <properties>
+      <property>
+        <name>Driver Version</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>@BUILD@</default>
+      </property>
+      <property>
+        <name>Status</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>Starting</default>
+      </property>
+      <property>
+        <name>Fixture</name>
+        <type>LABEL</type>
+        <default>Fixture</default>
+      </property>
+      <property>
+        <name>Fixture Type</name>
+        <type>LIST</type>
+        <items>
+          <item>Dimmer</item>
+          <item>Tunable White</item>
+          <item>Color Par / Wash</item>
+          <item>Strobe / Effect</item>
+        </items>
+        <default>Color Par / Wash</default>
+      </property>
+      <property>
+        <name>Layout</name>
+        <type>DYNAMIC_LIST</type>
+        <default>Generic RGBW (4ch)</default>
+        <tooltip>A built-in channel stack for this fixture type, or Custom. Choosing Custom starts from the layout that was selected.</tooltip>
+      </property>
+      <property>
+        <name>Start Address</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>512</maximum>
+        <default>1</default>
+      </property>
+      <property>
+        <name>Footprint</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default></default>
+      </property>
+      <property>
+        <name>Channel Map</name>
+        <type>STRING</type>
+        <default></default>
+        <tooltip>The layout as text, e.g. red,green,blue,white or dimmer,red,green,blue,strobe:8. Paste to copy a layout between fixtures. Editing it switches the Layout to Custom.</tooltip>
+      </property>
+      <property>
+        <name>Output</name>
+        <type>LABEL</type>
+        <default>Output</default>
+      </property>
+      <property>
+        <name>Default Fade (ms)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>10000</maximum>
+        <default>0</default>
+        <tooltip>Fade used by the Set Control programming command.</tooltip>
+      </property>
+      <property>
+        <name>Dimming Curve</name>
+        <type>LIST</type>
+        <items>
+          <item>Auto</item>
+          <item>1.0 (linear)</item>
+          <item>1.8</item>
+          <item>2.2</item>
+          <item>2.6</item>
+        </items>
+        <default>Auto</default>
+        <tooltip>Auto = 2.2 when the fixture has no dimmer channel (brightness scales the color channels), linear when it has one.</tooltip>
+      </property>
+      <property>
+        <name>White Mix (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>100</default>
+        <tooltip>How much of the common R/G/B part is moved to the White emitter. 0 = never use White for colors.</tooltip>
+      </property>
+      <property>
+        <name>CCT Min (K)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1000</minimum>
+        <maximum>10000</maximum>
+        <default>2700</default>
+      </property>
+      <property>
+        <name>CCT Max (K)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1000</minimum>
+        <maximum>10000</maximum>
+        <default>6500</default>
+      </property>
+      <property>
+        <name>Custom Layout</name>
+        <type>LABEL</type>
+        <default>Custom Layout</default>
+      </property>
+      <property>
+        <name>Channel Count</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>32</maximum>
+        <default>4</default>
+      </property>
+      <!-- @CUSTOM_CHANNELS@ -->
+      <property>
+        <name>Diagnostics</name>
+        <type>LABEL</type>
+        <default>Diagnostics</default>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>On</item>
+        </items>
+        <default>Off</default>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Identify</name>
+        <command>IDENTIFY</command>
+      </action>
+      <action>
+        <name>Re-register with Node</name>
+        <command>REREGISTER</command>
+      </action>
+    </actions>
+    <commands>
+      <command>
+        <name>Set Control</name>
+        <description>Set NAME PARAM1 to PARAM2</description>
+        <params>
+          <param>
+            <name>Control</name>
+            <type>DYNAMIC_LIST</type>
+          </param>
+          <param>
+            <name>Value</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>255</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Restore Control Defaults</name>
+        <description>Restore NAME controls to their defaults</description>
+      </command>
+      <command>
+        <name>Identify</name>
+        <description>Flash NAME three times</description>
+      </command>
+    </commands>
+  </config>
+</devicedata>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DMX Moving Head (Art-Net)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.45; margin: 16px; color: #222; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 22px; border-bottom: 1px solid #ccc; } h3 { font-size: 14px; }
+table { border-collapse: collapse; margin: 6px 0 12px; } td, th { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; text-align: left; }
+th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn { background: #fff4d6; padding: 6px 10px; border-left: 3px solid #e0a800; }
+</style>
+</head>
+<body>
+<h1>DMX Moving Head (Art-Net)</h1>
+<p>A moving head as <b>one Control4 light</b>: one driver, one load. Intensity and color are the native light (slider, color picker, scenes, keypads, voice, Room Off). Position, beam, effects and presets are on the light's <b>Extras</b> tab and in Composer programming. There is no separate "position" load.</p>
+<p>It outputs through an <b>Art-Net Node</b> driver (same driver set).</p>
+
+<h2>Quick start</h2>
+<ol>
+<li>Add an <b>Art-Net Node</b> driver for the universe first.</li>
+<li>Add this driver, choose the <b>Fixture Type</b> and <b>Layout</b>, and set the <b>Start Address</b> set on the fixture.</li>
+<li>In Connections, bind this driver's <b>Art-Net Node</b> input to the node driver's <b>Fixtures</b> output.</li>
+<li>Set the <b>Pan/Tilt Min/Max</b> soft limits so the head cannot point anywhere it should not (into eyes, at a wall).</li>
+<li>Aim the head from the Extras tab and save presets.</li>
+</ol>
+<p class="warn">A moving head needs its channels to itself. If any other fixture overlaps it, the later one is <b>refused</b> and outputs nothing; Status says what it collides with.</p>
+
+<h2>Connections</h2>
+<table>
+<tr><th>Connection</th><th>Purpose</th></tr>
+<tr><td>Art-Net Node</td><td>Control input. Bind to an Art-Net Node driver's Fixtures output.</td></tr>
+<tr><td>On / Off / Toggle Button Link</td><td>Standard light button links for keypad buttons.</td></tr>
+</table>
+
+<h2>Fixture types and layouts</h2>
+<table>
+<tr><th>Fixture Type</th><th>Channel functions available</th></tr>
+<tr><td>Moving Head Wash</td><td>Everything a Color Par / Wash has (Dimmer, Dimmer Fine, Red, Green, Blue, White, Amber, UV, Lime, Cyan, CCT, Strobe/Shutter, Zoom, Color Macro, Macro Speed, Program/Auto, Sound Sensitivity) plus Pan, Pan Fine, Tilt, Tilt Fine, Pan/Tilt Speed, Movement Macro, Reset/Control</td></tr>
+<tr><td>Moving Head Spot/Beam</td><td>Everything a Wash has, plus Color Wheel, Gobo Wheel, Gobo Rotation, Prism, Focus, Iris, Frost</td></tr>
+</table>
+<p>Every type can also use <b>Fixed Value</b> and <b>Unused</b>.</p>
+<table>
+<tr><th>Built-in layout</th><th>Channels</th></tr>
+<tr><td>ColorKey MiniWash Quad 4 MKII (16ch) (unverified)</td><td>Pan, Pan Fine, Tilt, Tilt Fine, Speed, Dimmer, Strobe, R, G, B, W, Movement Macro, Sound Sensitivity, Color Macro, Macro Speed, Reset. Use this one: the fine channels give smooth moves.</td></tr>
+<tr><td>ColorKey MiniWash Quad 4 MKII (14ch) (unverified)</td><td>The same without Pan Fine and Tilt Fine.</td></tr>
+</table>
+<p>"(unverified)" means the layout comes from the manual and has not been checked against the fixture. Three points in particular: whether Strobe 0 means "no strobe", which way Speed runs, and how long Reset must be held.</p>
+<h3>Custom layouts</h3>
+<p>As for the DMX Light: set Layout to <b>Custom</b> (it starts from the running layout) and edit <b>Channel Count</b> / <b>Channel N Function</b> / <b>Channel N Default</b>, or the <b>Channel Map</b>, e.g. <code>pan,pan_fine,tilt,tilt_fine,pt_speed,dimmer,strobe,red,green,blue,white,reset</code>. With a Reset/Control channel, set <b>Reset Value</b> and <b>Reset Hold (ms)</b> from the fixture manual. A layout needs at least a Pan or a Tilt channel.</p>
+
+<h2>Extras tab</h2>
+<table>
+<tr><th>Section</th><th>Controls</th></tr>
+<tr><td>Position</td><td><b>Pan</b> and <b>Tilt</b> sliders (percent of full travel, clamped to the soft limits), <b>Nudge Size</b> (Fine 0.5%, Medium 2%, Coarse 5%), <b>Nudge Left / Right / Up / Down</b>, <b>Home</b> (centre of the soft limits), and the layout's Pan/Tilt Speed.</td></tr>
+<tr><td>Color / Beam / Effects</td><td>Every other channel in the layout: Amber/UV sliders, strobe, zoom, gobo, macros, programs. Built-in layouts show named steps.</td></tr>
+<tr><td>Presets</td><td>Pick a <b>Preset</b> slot, <b>Recall</b>; type a <b>Name</b>, choose what to <b>Save</b> (Position only / Position + Color / Everything), <b>Save</b>; <b>Link Preset to Last Scene</b> / <b>Unlink Last Scene</b>.</td></tr>
+<tr><td>Maintenance</td><td>Reset Motors, Restore Defaults.</td></tr>
+</table>
+<p>Positioning is by sliders and nudges. There is no press-and-hold joystick: the Extras tab can only send taps.</p>
+
+<h2>Presets</h2>
+<p>Up to 32 presets, saved on the controller and kept across reboots. A preset stores, depending on what was chosen at Save:</p>
+<ul>
+<li><b>Position</b>: pan, tilt and pan/tilt speed.</li>
+<li><b>Color</b>: brightness and color. Recall goes through the normal light path, so Navigator shows the right level and color.</li>
+<li><b>Everything</b>: also beam and effect channels.</li>
+</ul>
+<p>Reset is never stored. A preset saved with a different layout still recalls: channels the current layout lacks are skipped.</p>
+
+<h3>Positions in lighting scenes</h3>
+<p>Advanced Lighting scenes carry brightness and color only. To make a scene also move the head, link a preset to the scene:</p>
+<ol>
+<li>Put this light in the scene as normal (its brightness and color come from the scene).</li>
+<li>Activate the scene once (from Navigator, a keypad, anywhere).</li>
+<li>On the Extras tab, aim the head, select a Preset slot and <b>Save</b> (Position only is usual).</li>
+<li>Press <b>Link Preset to Last Scene</b>.</li>
+</ol>
+<p>From then on, every time that scene activates, the head also moves to the preset. The scene still owns intensity and color, and keypad LED tracking for the scene works as normal. Linked scenes are listed in <b>Scene Links</b>. Unlink by activating the scene and pressing <b>Unlink Last Scene</b>.</p>
+<p>For a keypad button without a scene, use the <b>Recall Preset</b> programming command.</p>
+
+<h2>Properties</h2>
+<table>
+<tr><th>Property</th><th>Description</th></tr>
+<tr><td>Driver Version</td><td>Product version, build number and content fingerprint (also logged on load).</td></tr>
+<tr><td>Status</td><td>OK with the DMX range and node, or exactly why the fixture is not outputting.</td></tr>
+<tr><td>Fixture Type</td><td>Moving Head Wash or Spot/Beam.</td></tr>
+<tr><td>Layout</td><td>A built-in channel stack or Custom.</td></tr>
+<tr><td>Start Address</td><td>The fixture's DMX start address. A value that runs past 512 is refused and reverted.</td></tr>
+<tr><td>Footprint</td><td>The channels the fixture occupies.</td></tr>
+<tr><td>Channel Map</td><td>The layout as text; editing switches to Custom.</td></tr>
+<tr><td>Default Fade (ms)</td><td>Fade for Set Control, Home Position and new presets.</td></tr>
+<tr><td>Dimming Curve</td><td>Auto (linear with a dimmer channel, 2.2 without), or fixed.</td></tr>
+<tr><td>White Mix (%)</td><td>How much of the common R/G/B part moves to the White channel.</td></tr>
+<tr><td>CCT Min (K) / CCT Max (K)</td><td>Color-temperature range for CCT and Warm/Cool White layouts.</td></tr>
+<tr><td>Channel Count</td><td>Custom layouts: number of channels, 1-32.</td></tr>
+<tr><td>Channel N Function / Channel N Default</td><td>Custom layouts: function and resting value of each channel.</td></tr>
+<tr><td>Reset Value / Reset Hold (ms)</td><td>Custom layouts with a Reset/Control channel: the value Reset Motors sends and how long it holds it.</td></tr>
+<tr><td>Pan Min (%) / Pan Max (%) / Tilt Min (%) / Tilt Max (%)</td><td>Soft limits in percent of full travel. Every move (sliders, nudges, presets, programming) is clamped to them. Home is the centre of the window.</td></tr>
+<tr><td>Invert Pan / Invert Tilt</td><td>Reverse an axis, e.g. for a head hung upside down.</td></tr>
+<tr><td>Selected Preset</td><td>The slot the preset Actions work on.</td></tr>
+<tr><td>Preset Name</td><td>Name used by the Save and Rename Actions (cleared after use).</td></tr>
+<tr><td>Scene Links</td><td>Which lighting scenes (by id) recall which preset.</td></tr>
+<tr><td>Presets Export/Import</td><td>Export Presets writes this fixture's presets here as text. Paste that text into another moving head's field to copy them (replaces its presets).</td></tr>
+<tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Problems are always logged.</td></tr>
+</table>
+
+<h2>Actions</h2>
+<table>
+<tr><th>Action</th><th>What it does</th></tr>
+<tr><td>Identify</td><td>Flashes the fixture three times, then restores it.</td></tr>
+<tr><td>Re-register with Node</td><td>Registers again with the node and resends every channel.</td></tr>
+<tr><td>Home Position</td><td>Moves to the centre of the soft limits.</td></tr>
+<tr><td>Reset Motors</td><td>Sends the layout's reset value for its hold time, then returns to normal. Fires Reset Started / Reset Finished.</td></tr>
+<tr><td>Recall Selected Preset</td><td>Recalls the Selected Preset.</td></tr>
+<tr><td>Save Current Look to Selected Preset</td><td>Saves everything (position, color, beam, effects) to the Selected Preset, named from Preset Name.</td></tr>
+<tr><td>Rename Selected Preset</td><td>Renames the Selected Preset to Preset Name.</td></tr>
+<tr><td>Delete Selected Preset</td><td>Deletes it and any scene links to it.</td></tr>
+<tr><td>Export Presets</td><td>Writes all presets into Presets Export/Import.</td></tr>
+</table>
+
+<h2>Programming</h2>
+<p>All normal light programming works. Additional commands:</p>
+<table>
+<tr><th>Command</th><th>Parameters</th></tr>
+<tr><td>Recall Preset</td><td>Preset; Fade (s), -1 = the preset's own fade.</td></tr>
+<tr><td>Home Position</td><td>none</td></tr>
+<tr><td>Nudge Position</td><td>Direction (Left/Right/Up/Down), Amount % (1-25).</td></tr>
+<tr><td>Set Position</td><td>Pan %, Tilt % (of full travel, clamped to the soft limits), Fade (s).</td></tr>
+<tr><td>Reset Motors</td><td>none</td></tr>
+<tr><td>Set Control</td><td>Control (any Extras channel), Value 0-255.</td></tr>
+<tr><td>Restore Control Defaults</td><td>none</td></tr>
+<tr><td>Identify</td><td>none</td></tr>
+</table>
+<p>Events: <b>Preset Recalled</b>, <b>Reset Started</b>, <b>Reset Finished</b>. Variables: <b>CURRENT_PRESET</b>, <b>CURRENT_PRESET_NAME</b>.</p>
+
+<h2>Troubleshooting</h2>
+<table>
+<tr><th>Symptom</th><th>Check</th></tr>
+<tr><td>Status: REFUSED: overlaps ...</td><td>Another fixture uses some of this head's channels. Move one of them.</td></tr>
+<tr><td>Head moves the wrong way</td><td>Invert Pan / Invert Tilt.</td></tr>
+<tr><td>Head will not reach a position</td><td>The soft limits clamp it; check Pan/Tilt Min/Max.</td></tr>
+<tr><td>Moves are steppy</td><td>Use a layout with Pan Fine and Tilt Fine (the 16ch ColorKey layout).</td></tr>
+<tr><td>Speed runs backwards</td><td>Some fixtures run speed fast-to-slow. Use Custom and adjust, or set the speed slider to the other end.</td></tr>
+<tr><td>A linked scene does not move the head</td><td>Check Scene Links. The link is to the scene that was activated last before pressing Link.</td></tr>
+</table>
+</body>
+</html>

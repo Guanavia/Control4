@@ -1,0 +1,513 @@
+<devicedata>
+  <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <manufacturer>DMX</manufacturer>
+  <name>DMX Moving Head (Art-Net)</name>
+  <model>DMX Moving Head</model>
+  <created>2026-09-24</created>
+  <modified>2026-09-24</modified>
+  <version>3</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
+  <control>lua_gen</control>
+  <controlmethod></controlmethod>
+  <driver>DriverWorks</driver>
+  <minimum_os_version>3.3.2</minimum_os_version>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="DMX Moving Head" image_source="c4z"
+           small_image="www/icons/device_sm.png" large_image="www/icons/device_lg.png">light_v2</proxy>
+  </proxies>
+  <!-- Capabilities below are the STATIC baseline; the layout sets the real ones at runtime
+       through DYNAMIC_CAPABILITIES_CHANGED. FULL advanced lighting scene support (not reduced):
+       ACTIVATE_SCENE carries the scene id, which is how a position preset is linked to a
+       lighting scene without a second load. Not a dynamic capability before OS 4.2.1. -->
+  <capabilities>
+    <dimmer>True</dimmer>
+    <set_level>True</set_level>
+    <supports_target>True</supports_target>
+    <supports_brightness_stop>True</supports_brightness_stop>
+    <supports_color>True</supports_color>
+    <supports_color_correlated_temperature>True</supports_color_correlated_temperature>
+    <color_correlated_temperature_min>2700</color_correlated_temperature_min>
+    <color_correlated_temperature_max>6500</color_correlated_temperature_max>
+    <color_rate_min>0</color_rate_min>
+    <color_rate_max>6553500</color_rate_max>
+    <brightness_rate_min>0</brightness_rate_min>
+    <brightness_rate_max>6553500</brightness_rate_max>
+    <click_rates>True</click_rates>
+    <click_rate_min>0</click_rate_min>
+    <click_rate_max>6553500</click_rate_max>
+    <hold_rates>True</hold_rates>
+    <hold_rate_min>1000</hold_rate_min>
+    <hold_rate_max>6553500</hold_rate_max>
+    <cold_start>False</cold_start>
+    <has_leds>True</has_leds>
+    <has_button_events>False</has_button_events>
+    <load_group_support>False</load_group_support>
+    <reduced_als_support>False</reduced_als_support>
+    <advanced_scene_support>True</advanced_scene_support>
+    <has_extras>True</has_extras>
+  </capabilities>
+  <events>
+    <event>
+      <id>1</id>
+      <name>Preset Recalled</name>
+      <description>When NAME recalls a preset</description>
+    </event>
+    <event>
+      <id>2</id>
+      <name>Reset Started</name>
+      <description>When NAME starts a motor reset</description>
+    </event>
+    <event>
+      <id>3</id>
+      <name>Reset Finished</name>
+      <description>When NAME finishes a motor reset</description>
+    </event>
+  </events>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>LIGHT_V2</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>LIGHT_V2</classname>
+        </class>
+      </classes>
+    </connection>
+    <!-- The link to the Art-Net Node driver. Same shape as Control4's own DMX Light (a control
+         consumer on binding 1), with a custom class so it only accepts an artnet_node. -->
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Art-Net Node</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>ARTNET_DMX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>300</id>
+      <facing>6</facing>
+      <connectionname>On Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>301</id>
+      <facing>6</facing>
+      <connectionname>Off Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>302</id>
+      <facing>6</facing>
+      <connectionname>Toggle Button Link</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>BUTTON_LINK</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <documentation file="www/documentation.html" />
+    <script file="driver.lua" jit="1" />
+    <properties>
+      <property>
+        <name>Driver Version</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>@BUILD@</default>
+      </property>
+      <property>
+        <name>Status</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>Starting</default>
+      </property>
+      <property>
+        <name>Fixture</name>
+        <type>LABEL</type>
+        <default>Fixture</default>
+      </property>
+      <property>
+        <name>Fixture Type</name>
+        <type>LIST</type>
+        <items>
+          <item>Moving Head Wash</item>
+          <item>Moving Head Spot/Beam</item>
+        </items>
+        <default>Moving Head Wash</default>
+      </property>
+      <property>
+        <name>Layout</name>
+        <type>DYNAMIC_LIST</type>
+        <default>ColorKey MiniWash Quad 4 MKII (16ch) (unverified)</default>
+        <tooltip>A built-in channel stack for this fixture type, or Custom. Choosing Custom starts from the layout that was selected.</tooltip>
+      </property>
+      <property>
+        <name>Start Address</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>512</maximum>
+        <default>1</default>
+      </property>
+      <property>
+        <name>Footprint</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default></default>
+      </property>
+      <property>
+        <name>Channel Map</name>
+        <type>STRING</type>
+        <default></default>
+        <tooltip>The layout as text, e.g. red,green,blue,white or dimmer,red,green,blue,strobe:8. Paste to copy a layout between fixtures. Editing it switches the Layout to Custom.</tooltip>
+      </property>
+      <property>
+        <name>Output</name>
+        <type>LABEL</type>
+        <default>Output</default>
+      </property>
+      <property>
+        <name>Default Fade (ms)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>10000</maximum>
+        <default>0</default>
+        <tooltip>Fade used by the Set Control programming command.</tooltip>
+      </property>
+      <property>
+        <name>Dimming Curve</name>
+        <type>LIST</type>
+        <items>
+          <item>Auto</item>
+          <item>1.0 (linear)</item>
+          <item>1.8</item>
+          <item>2.2</item>
+          <item>2.6</item>
+        </items>
+        <default>Auto</default>
+        <tooltip>Auto = 2.2 when the fixture has no dimmer channel (brightness scales the color channels), linear when it has one.</tooltip>
+      </property>
+      <property>
+        <name>White Mix (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>100</default>
+        <tooltip>How much of the common R/G/B part is moved to the White emitter. 0 = never use White for colors.</tooltip>
+      </property>
+      <property>
+        <name>CCT Min (K)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1000</minimum>
+        <maximum>10000</maximum>
+        <default>2700</default>
+      </property>
+      <property>
+        <name>CCT Max (K)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1000</minimum>
+        <maximum>10000</maximum>
+        <default>6500</default>
+      </property>
+      <property>
+        <name>Custom Layout</name>
+        <type>LABEL</type>
+        <default>Custom Layout</default>
+      </property>
+      <property>
+        <name>Channel Count</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>32</maximum>
+        <default>16</default>
+      </property>
+      <property>
+        <name>Reset Value</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>255</default>
+        <tooltip>Custom layouts: the value the Reset/Control channel is set to for Reset Motors.</tooltip>
+      </property>
+      <property>
+        <name>Reset Hold (ms)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>500</minimum>
+        <maximum>20000</maximum>
+        <default>5000</default>
+        <tooltip>Custom layouts: how long Reset Motors holds the reset value before returning to the channel default.</tooltip>
+      </property>
+      <!-- @CUSTOM_CHANNELS@ -->
+      <property>
+        <name>Movement</name>
+        <type>LABEL</type>
+        <default>Movement</default>
+      </property>
+      <property>
+        <name>Pan Min (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>0</default>
+        <tooltip>Soft limit, percent of full pan travel. Every move (sliders, nudges, presets, programming) is clamped to it.</tooltip>
+      </property>
+      <property>
+        <name>Pan Max (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>100</default>
+      </property>
+      <property>
+        <name>Tilt Min (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Tilt Max (%)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>100</default>
+      </property>
+      <property>
+        <name>Invert Pan</name>
+        <type>LIST</type>
+        <items>
+          <item>No</item>
+          <item>Yes</item>
+        </items>
+        <default>No</default>
+      </property>
+      <property>
+        <name>Invert Tilt</name>
+        <type>LIST</type>
+        <items>
+          <item>No</item>
+          <item>Yes</item>
+        </items>
+        <default>No</default>
+      </property>
+      <property>
+        <name>Presets</name>
+        <type>LABEL</type>
+        <default>Presets</default>
+      </property>
+      <property>
+        <name>Selected Preset</name>
+        <type>DYNAMIC_LIST</type>
+        <tooltip>The slot the preset Actions (Recall / Save / Rename / Delete) work on.</tooltip>
+      </property>
+      <property>
+        <name>Preset Name</name>
+        <type>STRING</type>
+        <default></default>
+        <tooltip>Name used by the Save and Rename Actions. Cleared after use.</tooltip>
+      </property>
+      <property>
+        <name>Scene Links</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>No scenes linked.</default>
+      </property>
+      <property>
+        <name>Presets Export/Import</name>
+        <type>STRING</type>
+        <default></default>
+        <tooltip>Export Presets writes this fixture's presets here as JSON. Paste JSON here to import (replaces all presets).</tooltip>
+      </property>
+      <property>
+        <name>Diagnostics</name>
+        <type>LABEL</type>
+        <default>Diagnostics</default>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>On</item>
+        </items>
+        <default>Off</default>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Identify</name>
+        <command>IDENTIFY</command>
+      </action>
+      <action>
+        <name>Re-register with Node</name>
+        <command>REREGISTER</command>
+      </action>
+      <action>
+        <name>Home Position</name>
+        <command>HOME</command>
+      </action>
+      <action>
+        <name>Reset Motors</name>
+        <command>RESET_MOTORS</command>
+      </action>
+      <action>
+        <name>Recall Selected Preset</name>
+        <command>RECALL_PRESET</command>
+      </action>
+      <action>
+        <name>Save Current Look to Selected Preset</name>
+        <command>SAVE_PRESET</command>
+      </action>
+      <action>
+        <name>Rename Selected Preset</name>
+        <command>RENAME_PRESET</command>
+      </action>
+      <action>
+        <name>Delete Selected Preset</name>
+        <command>DELETE_PRESET</command>
+      </action>
+      <action>
+        <name>Export Presets</name>
+        <command>EXPORT_PRESETS</command>
+      </action>
+    </actions>
+    <commands>
+      <command>
+        <name>Set Control</name>
+        <description>Set NAME PARAM1 to PARAM2</description>
+        <params>
+          <param>
+            <name>Control</name>
+            <type>DYNAMIC_LIST</type>
+          </param>
+          <param>
+            <name>Value</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>255</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Restore Control Defaults</name>
+        <description>Restore NAME controls to their defaults</description>
+      </command>
+      <command>
+        <name>Identify</name>
+        <description>Flash NAME three times</description>
+      </command>
+      <command>
+        <name>Recall Preset</name>
+        <description>Recall NAME preset PARAM1 (fade PARAM2 s, -1 = the preset's own)</description>
+        <params>
+          <param>
+            <name>Preset</name>
+            <type>DYNAMIC_LIST</type>
+          </param>
+          <param>
+            <name>Fade (s)</name>
+            <type>RANGED_FLOAT</type>
+            <minimum>-1</minimum>
+            <maximum>30</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Home Position</name>
+        <description>Move NAME to the centre of its movement limits</description>
+      </command>
+      <command>
+        <name>Nudge Position</name>
+        <description>Nudge NAME PARAM1 by PARAM2 percent</description>
+        <params>
+          <param>
+            <name>Direction</name>
+            <type>LIST</type>
+            <items>
+              <item>Left</item>
+              <item>Right</item>
+              <item>Up</item>
+              <item>Down</item>
+            </items>
+          </param>
+          <param>
+            <name>Amount %</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>1</minimum>
+            <maximum>25</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Set Position</name>
+        <description>Move NAME to pan PARAM1 percent, tilt PARAM2 percent over PARAM3 s</description>
+        <params>
+          <param>
+            <name>Pan %</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>100</maximum>
+          </param>
+          <param>
+            <name>Tilt %</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>100</maximum>
+          </param>
+          <param>
+            <name>Fade (s)</name>
+            <type>RANGED_FLOAT</type>
+            <minimum>0</minimum>
+            <maximum>30</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Reset Motors</name>
+        <description>Reset NAME motors</description>
+      </command>
+    </commands>
+  </config>
+</devicedata>

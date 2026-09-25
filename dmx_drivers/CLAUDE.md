@@ -1,93 +1,136 @@
 # dmx_drivers — Art-Net DMX driver set for Control4
 
-**Status: OPEN, v0.0.0 — design reviewed (2026-09-24), nothing built yet.**
-Spec: `dmx-artnet-driver-set-brief.md` (v2, Dave's brief). This file holds status, decisions
-and review findings; where it and the brief disagree, this file records the decision.
+**Status: OPEN, v0.1.0 — BUILT AND OFFLINE-TESTED (2026-09-24). Nothing has run on a controller
+or touched a fixture yet.** Next step is the bench session below, when the hardware is on site.
 
-Three c4z's from one shared codebase: `artnet_node` (gateway, owns one universe, all fades,
-UDP 6454 unicast), `dmx_light` (light_v2 + Extras), `dmx_mover` (light_v2 + uibutton web view
-+ a second light_v2 "Positions" preset selector). Hardware: Pknight CR011R, ColorKey MiniWash
-Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate universe from Control4's own Vibrant DMX.
+Spec: `dmx-artnet-driver-set-brief.md` (Dave's brief, v2). This file records status and every
+decision; where it and the brief disagree, **this file wins** (several brief items were changed
+by Dave's calls, listed below).
 
-## Review findings (2026-09-24) — amendments to the brief
+Three c4z's from one shared codebase:
+- **`artnet_node`**: one universe on one node. Merges fixtures, runs every fade, sends ArtDmx
+  unicast on UDP 6454, 1 Hz keepalive, frame-rate cap, ping health check, patch display.
+- **`dmx_light`**: any non-moving fixture as ONE light_v2 load; non-light channels on Extras.
+- **`dmx_mover`**: a moving head as ONE light_v2 load; position, beam, effects and presets on
+  Extras; presets linkable to lighting scenes.
 
-**Repo-convention corrections**
-- Layout is `dmx_drivers/` (one project folder), not `drivers/dmx_artnet/`; research notes go
-  in `dmx_drivers/research/`, not `tools/pcap_notes/`. One project = one commit prefix
-  (`dmx_drivers:`) even though it ships three c4z's.
-- There is no "squish" convention. Build = a `build.sh` per the YAS209 pattern, run per driver:
-  stage `common/*.lua` into each c4z, luac + `scopecheck.py` + XML `--`-in-comment check +
-  docs-coverage warning, `VERSION` (0.x) + auto-bumped integer `<version>` + `@BUILD@` stamp.
-  The brief's "Driver Version" property must be the `@BUILD@` token, never hardcoded.
-- **c4z filenames are load-bearing** (`web_view_url controller://driver/dmx_mover/...` and
-  `GetDevicesByC4iName("artnet_node.c4z")`), so the build must output exactly
-  `artnet_node.c4z` / `dmx_light.c4z` / `dmx_mover.c4z` — no `-dmw` style suffix.
+Hardware: Pknight CR011R, ColorKey MiniWash Quad 4 MKII, DazzlingStage 4x8W RGBW pars. Separate
+universe from Control4's own Vibrant DMX.
 
-**Carried-over DriverWorks lessons that apply directly**
-- Every repeating timer (frame scheduler, keepalive, jog 50 ms) passes `bRepeat=true`; never
-  rely on `timer:Reset()` restarting a fired one-shot (YAS209 state poll died this way).
-- Every `C4:` call gets checked against the published API before code depends on it
-  (`C4:Log`, `C4:ReadFile` were both nil). Unverified in this brief so far:
-  `GetDevicesByC4iName`, `ColorXYtoRGB`, `SetPropertyAttribs`, `SendToDevice` from a non-proxy
-  driver, `UpdatePropertyList` for DYNAMIC_LIST.
-- Misconfiguration (no node bound, no IP, footprint overflow, overlap) reports through an
-  unsilenceable path, since a re-add resets Debug Mode/properties.
-- Channel Map text <-> per-channel properties is a two-way mirror: needs the init guard +
-  compare-before-write echo-loop guard, or editing one rewrites the other forever.
-- Proxies/connections are STRUCTURAL: freeze all three driver.xml structures in Phase 0 before
-  installing into Dave's live project; batch structural changes; back up before every update.
-- Offline harness (simharness pattern) from day one: capture UDP payloads and decode them as
-  ArtDmx, drive proxy commands as SEQUENCES, stubs no more forgiving than the real API.
+## Layout and tooling
 
-**Design issues to settle**
-1. **ONE fixture = ONE load — DECIDED (Dave, 2026-09-24). The brief's second light_v2
-   "Positions" proxy (5003) is DROPPED.** A multi-proxy driver shows each proxy as its own item
-   in the room, so a mover would appear as a "color" load plus a "position" load — exactly what
-   Dave does not want. The mover is a single light_v2 load, augmented through light_v2's own
-   extension points (Extras tab, programming commands), not a second proxy. We cannot modify
-   the light_v2 proxy itself (Director-owned); "augmenting" means the driver behind it.
-   **How position gets into scenes without a second load — proposed, needs Phase 0 proof:**
-   declare `advanced_scene_support=true` (full ALS) on the mover instead of reduced. Advanced
-   Lighting then pushes each scene to the driver and sends `ACTIVATE_SCENE <id>`, so the driver
-   KNOWS which scene fired and can recall a position preset linked to that scene id. Workflow:
-   activate a scene, jog the head where you want it, press "Link position to active scene".
-   Scene LED tracking still works (AL tracks level/color as normal). Cost: full ALS means the
-   driver executes scene elements itself (the node already does fades, so mostly plumbing).
-   Verify on hardware that PUSH_SCENE/ACTIVATE_SCENE carry the scene id as documented.
-   Keypads/programming without scenes: `Recall Preset` command, as in the brief.
-   **Mover controls go on the light's EXTRAS TAB — DECIDED (Dave, 2026-09-24).** The `uibutton`
-   web view (5002), `www/contents/index.html`, the JS bridge and the hold-to-move d-pad are all
-   DROPPED. The mover driver has exactly one proxy: light_v2. Consequences:
-   - Position = **Pan and Tilt sliders** (absolute, soft-limited) plus **nudge buttons** for fine
-     aiming. Absolute sliders beat a d-pad on a tab that can only send taps.
-   - The jog engine shrinks to nudge steps: no keepalive, no dead-man timer, no 20 Hz stream.
-   - Presets on Extras: a list to recall, "Save to slot N" and "Link position to active scene"
-     buttons. Naming/scope/delete move to Composer properties unless Extras turns out to accept
-     text input (verify — assume it does not).
-   - Every Extras command still owes an `EXTRAS_STATE_CHANGED` within 10 s or the UI reverts.
-2. **Overlap policy — DECIDED (Dave, 2026-09-24): depends on fixture kind.**
-   - `dmx_light` <-> `dmx_light`: **allowed**, merged HTP. Sharing channels between static
-     fixtures is a legitimate control choice, not an error. Reported in the node's Patch as
-     shared, not flagged as a conflict.
-   - Anything involving a `dmx_mover`: **hard error**. Movers must be fully independent to work.
-     The node refuses the later registration, both drivers show why, the refused mover outputs
-     nothing.
-   - Needs a `KIND` (light|mover) param on `DMX_REGISTER`.
-   - Watch: HTP is right for intensity/color but on stepped channels (program, strobe, macro)
-     the higher value wins, so one par in a program mode drags a sharing par into it. Also two
-     sharing pars with different layouts is almost certainly a mistake — warn on that.
-3. **Frame timer only while fades are active**; 1 Hz keepalive otherwise; cache the 512-slot
-   frame string rather than rebuilding it every tick.
-4. Add to Phase 0: what the CR011R outputs when Art-Net stops (hold last look vs blackout).
-   Matters for controller reboots and the "no jump on restore" criterion.
-5. Target is Dave's 4.x director; 3.3.2 stays as the API floor only.
-6. **Node IP: static, stated in the documentation (Dave, 2026-09-24)** — same as any Control4
-   IP driver, so a DHCP renew can't silently break the rig. Note Art-Net is UDP: sends
-   "succeed" whether or not the node exists, so the driver cannot know it is talking to nothing.
-   Proposed: a unicast ArtPoll every ~10 s as a health check (the CR011R answers with
-   ArtPollReply), driving Status online/offline. Small; not the out-of-scope discovery feature.
+```
+common/      util, artnet (packet), layouts (roles/types/built-ins/compiler), color (xy/CCT ->
+             emitters), protocol (node<->fixture), extras (Extras XML), light (light_v2), fixture
+             (the shared fixture engine)
+artnet_node/ main.lua, universe.lua (slices, fades, overlap policy, frame), driver.xml, www/
+dmx_light/   main.lua (thin), driver.xml, www/
+dmx_mover/   main.lua, position.lua, presets.lua, driver.xml, www/
+tools/       bundle.py, checks.py, scopecheck.py (from YAS209), make_icons.py
+test/        unit.lua, scenarios.lua, c4sim.lua (offline Director), testlib.lua
+build.sh     -> build/<name>/ (staged) and dist/<name>.c4z (both gitignored)
+```
+- `./build.sh` builds all three, then runs both test suites. **Needs `luajit`** (`brew install
+  luajit`): Director runs drivers with `jit="1"` (confirmed in Control4's own DMX Light
+  driver.xml), so tests run under LuaJIT for 5.1 semantics. `luac` 5.5 would accept 5.3+ syntax
+  the controller rejects.
+- **`bundle.py`** inlines `main.lua` + required modules into one driver.lua behind a LOCAL
+  `require`, so the drivers never depend on Director's package system.
+- **`checks.py`** fails the build if the Lua reads a property driver.xml does not declare, or if an
+  Action's command is never handled. Both fail silently on a controller. Negative-controlled (a
+  typo'd property and a renamed action command were both caught). Shared code that reads a
+  mover-only property declares it with `-- @optional-properties:`.
+- The 64 Custom channel properties are expanded from `<!-- @CUSTOM_CHANNELS@ -->` at build time.
+- Versioning per repo rule: `VERSION` = product (0.x until release), integer `<version>`
+  auto-bumped per driver only when its package changes (rebuild is idempotent, verified), both
+  stamped into `@BUILD@` and logged unsilenceably on load.
+- c4z names are load-bearing (`GetDevicesByC4iName("artnet_node.c4z")`): never suffix them.
 
-## Next
-Phase 0 (brief §11). Offline half can start immediately: `common/artnet.lua` + byte-exact tests
-against the Art-Net 4 spec, the harness, and minimal node + fixture drivers. Hardware half needs
-the CR011R on the LAN with a static IP and one par patched.
+## Decisions (all Dave's calls unless noted)
+
+1. **One fixture = one driver = one load.** The brief's second light_v2 "Positions" proxy and the
+   `uibutton` web-view "Controls" proxy are DROPPED: each proxy shows as its own room item.
+   The mover has exactly one proxy, light_v2.
+2. **Mover controls on the light's Extras tab.** No web page, no hold-to-move d-pad. Position is
+   **Pan/Tilt sliders** (absolute % of travel) plus nudge buttons (Fine/Medium/Coarse) and Home.
+   Presets: slot list, Recall, Name, Save mode (Position only / Position + Color / Everything),
+   Save, Link to Last Scene, Unlink.
+3. **Positions in scenes (my design, Dave to judge on the bench):** the mover declares
+   `advanced_scene_support=true` (FULL ALS), so ACTIVATE_SCENE carries the scene id. A preset
+   linked to a scene id is recalled whenever that scene fires (position/beam/effects only: the
+   scene owns intensity and color). `dmx_light` stays reduced ALS. Dave was unsure whether
+   position needs to be in scenes at all: let the bench decide.
+4. **Overlap policy:** light<->light shares channels (HTP, both told, mismatched layouts warned);
+   anything touching a mover is REFUSED, the incumbent (earlier registration, kept across
+   re-registers while the node runs) keeps running. After a node restart, registration order
+   decides the incumbent again: in practice stable, noted in case it ever is not.
+5. **Node IP must be static**, stated in the documentation and the property tooltip.
+6. **Health check is ICMP ping** (`C4:CreatePingClient`, OS 3.3.1), not ArtPoll as first
+   proposed: Art-Net nodes reply to ArtPoll on port 6454, which a Control4 UDP connection may
+   not be listening on, so ArtPoll could have produced a false "offline". Ping cannot. If ping
+   is unavailable the state stays "unknown": never reported as a failure without evidence.
+7. **Snap One's light template is NOT used (my call, forced by its licence).** The template repo
+   is licensed confidential, needs a Control4 licence to use, and assigns derivative works to
+   Control4. This repo is PUBLIC. `common/light.lua` is our own light_v2 implementation, written
+   from the public Light V2 protocol docs. Reading the template to learn protocol facts (param
+   names, the PUSH_SCENE element XML) is fine; copying its code is not.
+8. The brief's `Default Position` property and the Positions level mapping (1-32 = slot,
+   33-100 = default) went with the Positions proxy. Home = centre of the soft limits.
+
+## What the offline tests prove (282 checks: 125 unit + 157 scenario)
+
+`test/c4sim.lua` runs the **built** drivers together (node + 2 pars + mover), one Lua environment
+each, and reads the Art-Net bytes off the wire. Its C4 stub only has doc-verified APIs (anything
+else raises), honours `bRepeat` (a one-shot fires once, no `Reset()`), queues SendToDevice with
+string params, and does not fire OnPropertyChanged on UpdateProperty. Every section also fails
+if any driver logged a thrown handler error.
+Covered: both boot orders, color/CCT/white extraction/virtual-dimmer gamma on the wire, fades
+(no level streaming, one CHANGING + one CHANGED), frame cap, 1 Hz keepalive, hold-to-ramp
+buttons, 8ch Extras, every config refusal/revert, Custom mirror both ways, overlap policy all
+ways, mover position/limits/invert/16-bit fades, reset + events, presets (exact restore,
+position-only, cross-layout, export/import, bad import), scene links, blackout, test channel,
+ping failure/recovery, duplicate node drivers, node reload, controller reboot with **no frame
+differing from the restored look**.
+**Mutation-tested:** disabling the overlap policy, dropping persistence restore, keepalive every
+tick, removing white extraction, a one-shot frame engine, ignoring scene links and dropping the
+button echo are EACH caught.
+**Found by the harness, fixed:** a `nudge` field shadowing the `Pos:nudge` method (the driver
+logged the error and did nothing; the new no-failures guard exists because of it); no frame
+sent until the first keepalive on an all-dark rig.
+**What it cannot prove:** anything about Director itself. That is the bench list below.
+
+## Bench session (brief Phase 0), in order. Back up the project first.
+
+1. **Node output:** set the IP, watch Status reach "node answers ping", Test Channel a par's
+   first channel. If nothing arrives: CreateNetworkConnection is called with no type argument,
+   then `NetConnect(6001, 6454, "UDP")`. Try `"UDP"` as the third CreateNetworkConnection arg,
+   or a static `<connection>` in driver.xml. Confirm Net/Sub-Net/Universe mapping on the CR011R.
+2. **Binding:** one node output with several fixtures bound (Director may allow only one consumer
+   per provider; if so, 24 numbered outputs). Confirm `GetBoundProviderDevice` / OnBindingChanged
+   give the node's device id and SendToDevice round-trips (Patch fills in).
+3. **light_v2 on a par:** color picker, brightness, CCT, scene, keypad link, Room Off, voice.
+   Watch that DYNAMIC_CAPABILITIES_CHANGED is honoured (a Dimmer-type layout must hide color).
+4. **Extras tab:** the slider (`min`/`max`/`resolution`/`value`) and button (`buttontext`)
+   ATTRIBUTE NAMES are from documented field names, not a captured sample: UNVERIFIED. Also
+   whether `textfield` (preset name) renders. All in `extras.lua` `object_xml()`, one place.
+   Also confirm Extras commands arrive with a `value` param (a shipping driver says yes).
+5. **Mover full ALS:** put the mover in a scene; confirm PUSH_SCENE arrives, ACTIVATE_SCENE fires
+   with the id, the scene applies, and a linked preset moves the head. Keypad LED tracking.
+6. **Fixture facts** (then set `verified=true` in `layouts.lua`): ColorKey strobe 0 = no strobe?
+   speed direction? reset hold time? DazzlingStage 4/8ch channel order from the paper manual.
+7. **What the CR011R does when Art-Net stops** (hold vs blackout): reboot the controller and
+   watch for a jump.
+8. Reboot restore, keepalive ~1 Hz (Wireshark/DMX-Workshop), frame-rate cap, overlap warning.
+
+## Carried-over lessons applied (from YAS209)
+
+Repeating timers pass `bRepeat=true`; every C4 call used was checked against Snap One's published
+API; misconfiguration logs through `C4:ErrorLog` regardless of Debug Mode; the Channel Map mirror
+cannot echo-loop (UpdateProperty does not fire OnPropertyChanged, and init reads properties once);
+structural changes (proxies/connections) must be batched and backed up before install.
+
+## Out of scope (brief 13)
+
+QLC+ link, sACN, ArtPoll discovery, multi-element scenes beyond what full ALS gives the mover,
+Amber/Lime/Cyan in color mixing (they are Extras sliders), pixel mapping, Control4-generated
+chases.

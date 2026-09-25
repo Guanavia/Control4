@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DMX Light (Art-Net)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.45; margin: 16px; color: #222; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 22px; border-bottom: 1px solid #ccc; } h3 { font-size: 14px; }
+table { border-collapse: collapse; margin: 6px 0 12px; } td, th { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; text-align: left; }
+th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn { background: #fff4d6; padding: 6px 10px; border-left: 3px solid #e0a800; }
+</style>
+</head>
+<body>
+<h1>DMX Light (Art-Net)</h1>
+<p>Any DMX fixture that does not move (a dimmer, tunable-white fixture, color par or wash, strobe or effect) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and puts the fixture's other channels (strobe, programs, macros, UV...) on the light's <b>Extras</b> tab.</p>
+<p>It outputs through an <b>Art-Net Node</b> driver (same driver set). One DMX Light controls one circuit: several physical fixtures set to the same DMX address are one circuit.</p>
+
+<h2>Quick start</h2>
+<ol>
+<li>Add an <b>Art-Net Node</b> driver for the universe first.</li>
+<li>Add this driver, choose the <b>Fixture Type</b>, then a <b>Layout</b> (a built-in channel stack or Custom), then the <b>Start Address</b> set on the fixture.</li>
+<li>In Connections, bind this driver's <b>Art-Net Node</b> input to the node driver's <b>Fixtures</b> output.</li>
+<li>Status should read <code>OK: DMX 1-4 on 'Node name'</code>. Use <b>Identify</b> to flash the fixture.</li>
+</ol>
+
+<h2>Connections</h2>
+<table>
+<tr><th>Connection</th><th>Purpose</th></tr>
+<tr><td>Art-Net Node</td><td>Control input. Bind to an Art-Net Node driver's Fixtures output.</td></tr>
+<tr><td>On / Off / Toggle Button Link</td><td>Standard light button links for keypad buttons.</td></tr>
+</table>
+
+<h2>Fixture types and layouts</h2>
+<p>Choose the fixture by what it <b>is</b>, then its channel layout. The type decides which channel functions are allowed.</p>
+<table>
+<tr><th>Fixture Type</th><th>Channel functions available</th></tr>
+<tr><td>Dimmer</td><td>Dimmer, Dimmer Fine</td></tr>
+<tr><td>Tunable White</td><td>Dimmer, Dimmer Fine, Warm White, Cool White, CCT, Strobe/Shutter</td></tr>
+<tr><td>Color Par / Wash</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, White, Amber, UV, Lime, Cyan, CCT, Strobe/Shutter, Zoom, Color Macro, Macro Speed, Program/Auto, Sound Sensitivity</td></tr>
+<tr><td>Strobe / Effect</td><td>Dimmer, Dimmer Fine, Strobe/Shutter, Strobe Duration, Program/Auto, Macro Speed, Sound Sensitivity, Red, Green, Blue, White, Amber, UV</td></tr>
+</table>
+<p>Every type can also use <b>Fixed Value</b> (always outputs its Default) and <b>Unused</b>.</p>
+<p>Built-in layouts marked <b>(unverified)</b> were read from a manual or listing and have not been checked against the real fixture yet. They work, but if the fixture misbehaves, compare its manual with the layout and use Custom.</p>
+<table>
+<tr><th>Built-in layout</th><th>Channels</th></tr>
+<tr><td>Generic Dimmer (1ch) / 16-bit (2ch)</td><td>Dimmer / Dimmer, Dimmer Fine</td></tr>
+<tr><td>Generic Tunable White WW/CW (2ch) / Dim/WW/CW (3ch)</td><td>Warm, Cool / Dimmer, Warm, Cool</td></tr>
+<tr><td>Generic RGB (3ch), RGBW (4ch), Dimmer+RGBW (5ch)</td><td>as named</td></tr>
+<tr><td>DazzlingStage Mini Par RGBW (4ch) (unverified)</td><td>Red, Green, Blue, White</td></tr>
+<tr><td>DazzlingStage Mini Par RGBW (8ch) (unverified)</td><td>Dimmer, Red, Green, Blue, White, Strobe, Program, Program Speed. Channel order varies between batches of these pars: check the paper manual.</td></tr>
+</table>
+
+<h3>Custom layouts</h3>
+<p>Set <b>Layout</b> to <b>Custom</b>. Selecting Custom starts from the layout that was running, so a built-in can be tweaked. Then either:</p>
+<ul>
+<li>set <b>Channel Count</b> and each <b>Channel N Function</b> / <b>Channel N Default</b>, or</li>
+<li>type or paste the <b>Channel Map</b>, e.g. <code>dimmer,red,green,blue,white,strobe:8,fixed:255</code>. Each entry is a function, optionally <code>:default</code>. Function names or their labels both work. Editing the Channel Map switches the layout to Custom.</li>
+</ul>
+<p>The two forms mirror each other. Paste the Channel Map into another fixture to copy a layout.</p>
+<p><b>Channel N Default</b> is the value a channel rests at. Set Strobe/Shutter's Default to the fixture's "open / no strobe" value. Fixed Value channels always output their Default. Custom Extras controls are raw 0-255 sliders, because the driver cannot know a custom fixture's program ranges.</p>
+<p class="warn">An invalid change is refused and explained in Status, and the fixture keeps running its previous layout. A <b>Start Address</b> that would run past channel 512 is reverted to the last good address.</p>
+
+<h2>Brightness and color</h2>
+<ul>
+<li>With a <b>Dimmer</b> channel, brightness drives the dimmer and the color channels stay at full color.</li>
+<li>With <b>no Dimmer</b> channel (e.g. a 4-channel RGBW par), brightness scales the color channels (a virtual dimmer), with a 2.2 curve so low levels are usable.</li>
+<li>Colors from the picker are mixed into Red/Green/Blue. The part common to all three moves to <b>White</b> when the fixture has one (see White Mix).</li>
+<li>Color temperature uses a CCT channel, or mixes Warm/Cool White, or makes the white from the color channels.</li>
+<li>Amber, UV, Lime and Cyan have no place in the color picker. They are sliders on the Extras tab.</li>
+<li>All fades run on the Art-Net Node, so scenes across many fixtures stay in step.</li>
+</ul>
+
+<h2>Properties</h2>
+<table>
+<tr><th>Property</th><th>Description</th></tr>
+<tr><td>Driver Version</td><td>Product version, build number and content fingerprint (also logged on load).</td></tr>
+<tr><td>Status</td><td>OK with the DMX range and node, or exactly why the fixture is not outputting (no node bound, refused for overlapping a moving head, configuration error). Also notes channel sharing and unverified layouts.</td></tr>
+<tr><td>Fixture Type</td><td>What the fixture is. It decides which channel functions and layouts are offered.</td></tr>
+<tr><td>Layout</td><td>A built-in channel stack for the type, or Custom.</td></tr>
+<tr><td>Start Address</td><td>The fixture's DMX start address, 1-512.</td></tr>
+<tr><td>Footprint</td><td>The channels the fixture occupies, e.g. <code>DMX 17-24 (8 ch)</code>.</td></tr>
+<tr><td>Channel Map</td><td>The layout as text (see Custom layouts).</td></tr>
+<tr><td>Default Fade (ms)</td><td>Fade used by the Set Control programming command.</td></tr>
+<tr><td>Dimming Curve</td><td>Auto (2.2 without a dimmer channel, linear with one), or a fixed curve.</td></tr>
+<tr><td>White Mix (%)</td><td>How much of the common R/G/B part moves to the White channel. 100 = maximum white use; 0 = never use White for colors. Shown when the layout has RGB and White.</td></tr>
+<tr><td>CCT Min (K) / CCT Max (K)</td><td>The fixture's color-temperature range, for CCT and Warm/Cool White layouts. Also the range offered in Navigator.</td></tr>
+<tr><td>Channel Count</td><td>Custom layouts: number of channels, 1-32.</td></tr>
+<tr><td>Channel N Function / Channel N Default</td><td>Custom layouts: each channel's function and resting value. Only the channels in use are shown.</td></tr>
+<tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Problems are always logged, whatever this is set to.</td></tr>
+</table>
+
+<h2>Extras tab</h2>
+<p>Every non-light channel in the layout appears on the light's Extras tab in Navigator. Built-in layouts show program and macro channels as named steps. Custom layouts show raw 0-255 sliders. <b>Restore Defaults</b> returns every Extras control to its channel default.</p>
+
+<h2>Actions</h2>
+<table>
+<tr><th>Action</th><th>What it does</th></tr>
+<tr><td>Identify</td><td>Flashes the fixture three times, then restores it.</td></tr>
+<tr><td>Re-register with Node</td><td>Registers again with the bound node and resends every channel.</td></tr>
+</table>
+
+<h2>Programming</h2>
+<p>All normal light programming works (on, off, ramp, color, scenes). Additional commands:</p>
+<table>
+<tr><th>Command</th><th>Parameters</th></tr>
+<tr><td>Set Control</td><td>Control (any Extras channel in the layout), Value 0-255. Fades over Default Fade (ms).</td></tr>
+<tr><td>Restore Control Defaults</td><td>Returns every Extras control to its default.</td></tr>
+<tr><td>Identify</td><td>Flashes the fixture three times.</td></tr>
+</table>
+
+<h2>Sharing channels</h2>
+<p>Two DMX Lights may use the same channels (for example the same address on purpose). Shared channels merge highest-takes-precedence and both Status fields say so. Program and strobe channels merge the same way, so one light in a program mode pulls the other into it. A DMX Light that overlaps a <b>moving head</b> is refused.</p>
+
+<h2>Troubleshooting</h2>
+<table>
+<tr><th>Symptom</th><th>Check</th></tr>
+<tr><td>Status: no Art-Net node bound</td><td>Bind the Art-Net Node input in Connections.</td></tr>
+<tr><td>Status: REFUSED: overlaps moving fixture</td><td>Change this fixture's or the moving head's Start Address.</td></tr>
+<tr><td>Wrong colors</td><td>Channel order differs from the layout. Compare with the fixture manual and use Custom. Use the node's Test Channel action to check each channel.</td></tr>
+<tr><td>Color changes but brightness does nothing</td><td>The fixture has a Dimmer channel the layout does not have (it sits at 0).</td></tr>
+<tr><td>The light shows offline in Navigator</td><td>It is not bound, not accepted by the node, or has no valid layout. Status says which.</td></tr>
+</table>
+</body>
+</html>
