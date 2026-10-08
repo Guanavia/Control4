@@ -118,6 +118,14 @@ slider**; Composer's slider types are `SCROLL` (continuous) and `TRACK` (discret
 documented since OS 2.10 (fundamentals, Advanced Properties). Test Ch now `SCROLL` (build 11),
 UNVERIFIED: no shipping driver sample uses either type. If it renders well, consider it for the
 fixture drivers' level-type properties too.
+**Property edits always need Composer's Set** (no driver can make the Properties tab live), so the
+node's test can never be drag-live. Live sliders are only plausible on a fixture's Extras tab
+(light_v2 only; the node has no light proxy, and adding one would put a fake light in the room).
+Possible later: a per-fixture channel test on Extras, once the Extras tab is bench-verified.
+**Bench item 1 DONE (2026-10-08):** node lists, Status reads "node answers ping" (ICMP health check
+works on the controller), and the channel test drives the par through the CR011R, so UDP output,
+IP and Net/Sub-Net/Universe are confirmed. Node items still open: binding (several fixtures on ONE
+output), reboot behaviour, keepalive holding the look; all need a fixture driver bound.
 
 1. **Node output:** set the IP, watch Status reach "node answers ping", Test Channel a par's
    first channel. If nothing arrives: CreateNetworkConnection is called with no type argument,
