@@ -122,6 +122,26 @@ sent until the first keepalive on an all-dark rig.
    watch for a jump.
 8. Reboot restore, keepalive ~1 Hz (Wireshark/DMX-Workshop), frame-rate cap, overlap warning.
 
+## Control4's "Artnet DMX via Enttec" driver set — evaluated as a master, NOT adopted (2026-10-08)
+
+Dave got the CR011R + a par working with Control4's own catalog set (`ExtraVeg_ArtNet_IP_Cloud.c4i`
+master + `light_ExtraVeg_ArtNet_*` children, Control4/ExtraVeg, last modified 2016). That proves
+the node, network and Net/Universe config independently of our drivers. Question: reuse their master
+and only write light drivers? Findings from the catalog files (all `.c4i`, XML readable):
+- **Master and every child have ENCRYPTED Lua** (`<script>` is ciphertext). Their binding class
+  `ArtNet_DMX_CIRCUIT` (master id 1 provider, child id 1 consumer) and properties are visible; the
+  **messages over that binding are not**, and are documented nowhere.
+- Children: Dimmer/Relay (light), Dimmer V2/Relay V2 (light_v2, single channel), RGB and RGB-M
+  (**four `light` v1 proxies**, i.e. the master + R + G + B sub-lights Dave saw). No white, no CCT,
+  no color picker: the set predates light_v2 color.
+- Master: one universe, `Fade Interval` 20-500 ms (default 500, 20/50 "use at your own risk"),
+  universe entered as one number with Sub-Net as the high nibble (Sub-Net 1 Uni 0 = 16).
+**Why not adopted:** using it means reverse-engineering an encrypted, undocumented, abandoned
+protocol we can never fix or extend (16-bit pan/tilt, mover overlap refusal, color cross-fades as one
+fade, keepalive/reboot restore all depend on the master), and our `artnet_node` is already built
+and tested, so it saves no work. If ever wanted, the cheap way in is a spy driver: declare an
+`ArtNet_DMX_CIRCUIT` provider, bind their Dimmer V2 to it, and log what arrives.
+
 ## Carried-over lessons applied (from YAS209)
 
 Repeating timers pass `bRepeat=true`; every C4 call used was checked against Snap One's published
