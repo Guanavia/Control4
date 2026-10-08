@@ -108,6 +108,13 @@ Fixed in build 5: `<proxy name="Art-Net Node">artnet_node</proxy>`, category `Ot
 master declares none and lands in Other). `checks.py` now fails any driver with no proxy
 (negative-controlled). The CR011R itself is proven: Control4's Enttec set drives a par through it.
 Remove/unbind that master before testing ours, or two senders fight over the universe.
+**Test Channel Action REPLACED by live Channel Test properties (Dave's ask, 2026-10-08):** one
+channel for 5 s could not drive a fixture with master on 1 + RGBW on 2-5. Now: `Test Channels`
+(Off/1-16), `Test Start Channel`, `Test Ch 1..16` sliders (shown/hidden to match the count),
+`Test Addresses` readout. Properties, not an Action, because an Action dialog is a fixed form that
+applies only on OK. Overrides fixtures (not HTP), holds until Off, forced Off on every load,
+flagged in Status. UNVERIFIED on the controller: whether show/hide refreshes the open Properties
+tab live (it may need a click away and back).
 
 1. **Node output:** set the IP, watch Status reach "node answers ping", Test Channel a par's
    first channel. If nothing arrives: CreateNetworkConnection is called with no type argument,

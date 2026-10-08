@@ -43,6 +43,10 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Art-Net Universe</td><td>Port-address Universe, 0-15, as set on the node. Same numbering as the node: there is no "universe 0 vs 1" translation.</td></tr>
 <tr><td>Keepalive (ms)</td><td>How often the frame is re-sent when nothing changes (default 1000). Nodes expect a refresh about once a second.</td></tr>
 <tr><td>Max Frame Rate (fps)</td><td>Upper limit on frames per second while fades run (default 30). Idle output is only the keepalive.</td></tr>
+<tr><td>Test Channels</td><td>Channel Test: how many consecutive DMX channels to drive by hand (Off, or 1-16). While not Off, those channels hold their slider values and <b>override</b> every fixture, so a channel can be pulled down as well as up. Status says CHANNEL TEST ACTIVE until it is Off again. Always returns to Off when the driver reloads.</td></tr>
+<tr><td>Test Start Channel</td><td>DMX address driven by Test Ch 1; Test Ch 2 is the next address, and so on. Shown only while a test is on.</td></tr>
+<tr><td>Test Addresses</td><td>Which DMX address each Test Ch slider is driving, e.g. "Ch 1 = DMX 1, Ch 2 = DMX 2".</td></tr>
+<tr><td>Test Ch 1 - Test Ch 16</td><td>One 0-255 slider per test channel; the value goes out as the slider moves. Only as many are shown as Test Channels asks for. Example: a fixture with master dimmer on 1 and R, G, B, W on 2-5 is Test Channels 5, Test Start Channel 1.</td></tr>
 <tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Configuration problems are always logged, whatever this is set to.</td></tr>
 </table>
 
@@ -51,7 +55,6 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th>Action</th><th>What it does</th></tr>
 <tr><td>Resend Frame</td><td>Sends the current frame immediately.</td></tr>
 <tr><td>Blackout Universe</td><td>Outputs zero on every channel until any fixture changes. Temporary: nothing is lost.</td></tr>
-<tr><td>Test Channel</td><td>Sets one DMX channel to a value for 5 seconds, on top of whatever the fixtures output. Use it to find a fixture's address or prove the node is receiving.</td></tr>
 <tr><td>Re-sync Fixtures</td><td>Asks every bound fixture to register again and resend all of its channels.</td></tr>
 </table>
 
@@ -67,7 +70,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th>Symptom</th><th>Check</th></tr>
 <tr><td>Status: NOT SENDING</td><td>Node IP Address is empty or not a valid unicast address.</td></tr>
 <tr><td>Status: NODE NOT REACHABLE</td><td>The node did not answer ping. Check its IP, power and network. Art-Net is UDP, so without ping the driver could not tell whether anything is listening.</td></tr>
-<tr><td>Sending, reachable, but lights dark</td><td>Net / Sub-Net / Universe differ from the node; the node is not in Art-Net-to-DMX output mode; DMX cable or fixture address. Use Test Channel on the fixture's first channel.</td></tr>
+<tr><td>Sending, reachable, but lights dark</td><td>Net / Sub-Net / Universe differ from the node; the node is not in Art-Net-to-DMX output mode; DMX cable or fixture address. Use the Channel Test properties on the fixture's channels.</td></tr>
 <tr><td>A fixture is missing from Patch</td><td>Its Art-Net Node input is not bound to Fixtures, or it has a layout error. Check that fixture's Status. Re-sync Fixtures asks every bound fixture to register.</td></tr>
 <tr><td>Lights flicker between two looks</td><td>Another Art-Net source (another driver, QLC+, a console) is sending to the same universe.</td></tr>
 </table>

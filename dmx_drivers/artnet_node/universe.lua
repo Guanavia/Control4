@@ -22,7 +22,7 @@ function Universe.new()
   self.next_seq = 1
   self.frame = string.rep("\0", 512)
   self.blackout = false
-  self.test = nil           -- { slot, value, until_ms }
+  self.test = nil           -- slot -> value, held until cleared (Channel Test properties)
   return self
 end
 
@@ -203,8 +203,7 @@ function Universe:tick(now)
       f.cur[coarse], f.cur[pf.fine] = math.floor(v / 256), v % 256
     end
   end
-  if self.test and now >= self.test.until_ms then self.test = nil end
-  return active or self.test ~= nil
+  return active
 end
 
 -- Compose the 512-slot frame. Returns the data string and whether it differs from the last one.
@@ -222,7 +221,7 @@ function Universe:compose()
       end
     end
   end
-  if self.test then out[self.test.slot] = self.test.value end
+  if self.test then for slot, v in pairs(self.test) do out[slot] = v end end
   local data = A.slots_to_string(out)
   local changed = data ~= self.frame
   self.frame = data

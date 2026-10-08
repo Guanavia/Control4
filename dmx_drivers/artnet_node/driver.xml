@@ -6,7 +6,7 @@
   <model>Art-Net Node (1 universe)</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>5</version>
+  <version>10</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -120,6 +120,167 @@
         <default>30</default>
         <tooltip>Cap on frames per second while fades are running.</tooltip>
       </property>
+      <!-- CHANNEL TEST. Live properties rather than an Action: an Action dialog is a fixed form
+           (cannot add a slider per channel as the count changes) and only applies on OK, while a
+           RANGED_INTEGER property is a slider that takes effect as it moves. The driver shows only
+           as many Test Ch sliders as Test Channels asks for, and forces Test Channels back to Off
+           on every load so a forgotten test can never override the fixtures after a reboot. -->
+      <property>
+        <name>Channel Test</name>
+        <type>LABEL</type>
+        <default>Channel Test</default>
+      </property>
+      <property>
+        <name>Test Channels</name>
+        <type>LIST</type>
+        <items>
+            <item>Off</item>
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+            <item>4</item>
+            <item>5</item>
+            <item>6</item>
+            <item>7</item>
+            <item>8</item>
+            <item>9</item>
+            <item>10</item>
+            <item>11</item>
+            <item>12</item>
+            <item>13</item>
+            <item>14</item>
+            <item>15</item>
+            <item>16</item>
+        </items>
+        <default>Off</default>
+        <tooltip>How many consecutive DMX channels to drive by hand, starting at Test Start Channel. While not Off, these channels hold the slider values and override every fixture. Returns to Off when the driver reloads.</tooltip>
+      </property>
+      <property>
+        <name>Test Start Channel</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>512</maximum>
+        <default>1</default>
+        <tooltip>DMX address driven by Test Ch 1. Test Ch 2 is the next address, and so on.</tooltip>
+      </property>
+      <property>
+        <name>Test Addresses</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>Test off</default>
+      </property>
+      <property>
+        <name>Test Ch 1</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 2</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 3</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 4</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 5</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 6</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 7</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 8</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 9</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 10</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 11</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 12</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 13</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 14</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 15</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
+      <property>
+        <name>Test Ch 16</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+      </property>
       <property>
         <name>Diagnostics</name>
         <type>LABEL</type>
@@ -143,26 +304,6 @@
       <action>
         <name>Blackout Universe</name>
         <command>BLACKOUT</command>
-      </action>
-      <action>
-        <name>Test Channel</name>
-        <command>TEST_CHANNEL</command>
-        <params>
-          <param>
-            <name>Channel</name>
-            <type>RANGED_INTEGER</type>
-            <minimum>1</minimum>
-            <maximum>512</maximum>
-            <default>1</default>
-          </param>
-          <param>
-            <name>Value</name>
-            <type>RANGED_INTEGER</type>
-            <minimum>0</minimum>
-            <maximum>255</maximum>
-            <default>255</default>
-          </param>
-        </params>
       </action>
       <action>
         <name>Re-sync Fixtures</name>

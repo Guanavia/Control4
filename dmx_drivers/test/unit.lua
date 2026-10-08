@@ -219,10 +219,13 @@ do
   T.eq(v:compose():byte(1), 50, "any update ends blackout")
 
   -- Test channel override.
-  v.test = { slot = 300, value = 77, until_ms = 7000 }
+  v.test = { [300] = 77, [301] = 5 }
   T.eq(v:compose():byte(300), 77, "test channel")
-  v:tick(7000)
-  T.eq(v:compose():byte(300), 0, "test channel expires")
+  T.eq(v:compose():byte(301), 5, "second test channel")
+  v:tick(60000)
+  T.eq(v:compose():byte(300), 77, "test channel holds")
+  v.test = nil
+  T.eq(v:compose():byte(300), 0, "test channel released")
 
   local _, ch = v:compose()
   T.ok(not ch, "unchanged frame reports no change")

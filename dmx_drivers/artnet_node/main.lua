@@ -89,14 +89,64 @@ function N.update_status()
   local ok, refused = N.universe:counts()
   parts[#parts + 1] = string.format("%d fixture(s)%s", ok, refused > 0 and string.format(", %d REFUSED", refused) or "")
   if N.universe.blackout then parts[#parts + 1] = "BLACKOUT (until any fixture changes)" end
+  local t = N.test_text()
+  if t then parts[#parts + 1] = t end
   if N.peers_clash then parts[#parts + 1] = "WARNING: " .. N.peers_clash end
   local text = table.concat(parts, " | ")
   if text ~= N.last_status then
     N.last_status = text
     set_prop("Status", text)
-    if text:find("NOT") or text:find("REFUSED") or text:find("WARNING") then critical("%s", text) else debug("%s", text) end
+    if text:find("NOT") or text:find("REFUSED") or text:find("WARNING") or text:find("TEST ACTIVE") then critical("%s", text) else debug("%s", text) end
   end
   set_prop("Patch", N.universe:patch_text())
+end
+
+---------------------------------------------------------------------------------------------
+-- Channel Test: drive N consecutive channels by hand from live sliders. Overrides fixtures (not
+-- HTP) so a channel can be pulled DOWN as well as up, and holds until Test Channels is Off.
+---------------------------------------------------------------------------------------------
+N.TEST_MAX = 16
+
+local function test_count()
+  return U.clamp(tonumber(Properties["Test Channels"]) or 0, 0, N.TEST_MAX)
+end
+
+function N.apply_test()
+  local count = test_count()
+  local start = U.clamp(tonumber(Properties["Test Start Channel"]) or 1, 1, 512)
+  for i = 1, N.TEST_MAX do
+    C4:SetPropertyAttribs("Test Ch " .. i, i <= count and 0 or 1)
+  end
+  C4:SetPropertyAttribs("Test Start Channel", count > 0 and 0 or 1)
+  if count == 0 then
+    N.universe.test = nil
+    set_prop("Test Addresses", "Test off")
+  else
+    local test, names = {}, {}
+    for i = 1, count do
+      local slot = start + i - 1
+      if slot <= 512 then
+        test[slot] = U.clamp(tonumber(Properties["Test Ch " .. i]) or 0, 0, 255)
+        names[#names + 1] = string.format("Ch %d = DMX %d", i, slot)
+      else
+        names[#names + 1] = string.format("Ch %d = past 512, ignored", i)
+      end
+    end
+    N.universe.test = test
+    set_prop("Test Addresses", table.concat(names, ", "))
+  end
+  N.universe:compose()
+  N.send_frame("channel test")
+  N.update_status()
+end
+
+function N.test_text()
+  local count = test_count()
+  if count == 0 or not N.universe.test then return nil end
+  local start = U.clamp(tonumber(Properties["Test Start Channel"]) or 1, 1, 512)
+  local last = math.min(start + count - 1, 512)
+  return string.format("CHANNEL TEST ACTIVE on DMX %d%s (overrides fixtures; set Test Channels to Off)",
+    start, last > start and ("-" .. last) or "")
 end
 
 ---------------------------------------------------------------------------------------------
@@ -347,7 +397,10 @@ end
 function OnDriverLateInit()
   critical("loaded %s", "@BUILD@")
   N.init_done = true
+  -- A channel test never survives a reload: it would silently override the fixtures.
+  set_prop("Test Channels", "Off")
   N.connect()
+  N.apply_test()
   N.start_keepalive()
   N.check_peers()
   N.update_status()
@@ -370,6 +423,9 @@ function OnPropertyChanged(name)
     N.broadcast_state()
   elseif name == "Keepalive (ms)" then
     N.start_keepalive()
+  elseif name == "Test Channels" or name == "Test Start Channel" or name:match("^Test Ch %d+$") then
+    N.apply_test()
+    return
   elseif name == "Max Frame Rate (fps)" then
     if N.engine then N.engine:Cancel(); N.engine = nil end
     N.pump()
@@ -419,12 +475,6 @@ function ExecuteCommand(strCommand, tParams)
         N.pump()
         N.send_frame("blackout")
         N.update_status()
-      elseif action == "TEST_CHANNEL" then
-        local slot = U.clamp(tonumber(tParams["Channel"]) or 1, 1, 512)
-        local value = U.clamp(tonumber(tParams["Value"]) or 255, 0, 255)
-        N.universe.test = { slot = slot, value = value, until_ms = now() + 5000 }
-        N.pump()
-        critical("Test Channel: DMX %d = %d for 5 s", slot, value)
       elseif action == "RESYNC" then
         N.resync_all("Re-sync action")
       end
