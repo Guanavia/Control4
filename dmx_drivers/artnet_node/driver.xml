@@ -6,7 +6,7 @@
   <model>Art-Net Node (1 universe)</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>10</version>
+  <version>11</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -122,7 +122,8 @@
       </property>
       <!-- CHANNEL TEST. Live properties rather than an Action: an Action dialog is a fixed form
            (cannot add a slider per channel as the count changes) and only applies on OK, while a
-           RANGED_INTEGER property is a slider that takes effect as it moves. The driver shows only
+           SCROLL property is a slider that takes effect as it moves (RANGED_INTEGER is only a
+           numeric box in Composer; SCROLL is documented since OS 2.10, no shipping sample seen). The driver shows only
            as many Test Ch sliders as Test Channels asks for, and forces Test Channels back to Off
            on every load so a forgotten test can never override the fixtures after a reboot. -->
       <property>
@@ -171,112 +172,112 @@
       </property>
       <property>
         <name>Test Ch 1</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 2</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 3</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 4</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 5</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 6</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 7</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 8</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 9</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 10</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 11</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 12</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 13</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 14</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 15</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>
       </property>
       <property>
         <name>Test Ch 16</name>
-        <type>RANGED_INTEGER</type>
+        <type>SCROLL</type>
         <minimum>0</minimum>
         <maximum>255</maximum>
         <default>0</default>

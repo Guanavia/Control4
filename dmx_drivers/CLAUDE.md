@@ -113,8 +113,11 @@ channel for 5 s could not drive a fixture with master on 1 + RGBW on 2-5. Now: `
 (Off/1-16), `Test Start Channel`, `Test Ch 1..16` sliders (shown/hidden to match the count),
 `Test Addresses` readout. Properties, not an Action, because an Action dialog is a fixed form that
 applies only on OK. Overrides fixtures (not HTP), holds until Off, forced Off on every load,
-flagged in Status. UNVERIFIED on the controller: whether show/hide refreshes the open Properties
-tab live (it may need a click away and back).
+flagged in Status. Bench-confirmed working. **`RANGED_INTEGER` renders as a numeric box, not a
+slider**; Composer's slider types are `SCROLL` (continuous) and `TRACK` (discrete ticks), both
+documented since OS 2.10 (fundamentals, Advanced Properties). Test Ch now `SCROLL` (build 11),
+UNVERIFIED: no shipping driver sample uses either type. If it renders well, consider it for the
+fixture drivers' level-type properties too.
 
 1. **Node output:** set the IP, watch Status reach "node answers ping", Test Channel a par's
    first channel. If nothing arrives: CreateNetworkConnection is called with no type argument,
