@@ -8,6 +8,8 @@ Errors (exit 1):
   * a property name the Lua reads/writes by literal string that driver.xml does not declare
     (Director hands back nil for an unknown property: the feature silently does nothing)
   * an Action whose <command> the Lua never mentions (the button would do nothing)
+  * no proxy declared, neither <proxies><proxy> nor a self <proxy> (Composer reports the driver
+    as added and then never lists it: artnet_node, 2026-10-08)
 Warnings:
   * a property or Action missing from www/documentation.html
 """
@@ -29,6 +31,10 @@ try:
 except ET.ParseError as e:
     print('ERROR: driver.xml is not well-formed:', e)
     sys.exit(1)
+
+if not (root.findall('proxy') or root.findall('proxies/proxy')):
+    errors.append('no proxy declared: add <proxy>%s</proxy> (self-proxy) or <proxies>'
+                  % os.path.basename(os.path.normpath(source)))
 
 props = {p.findtext('name') for p in root.iter('property')}
 actions = [(a.findtext('name'), a.findtext('command')) for a in root.iter('action')]

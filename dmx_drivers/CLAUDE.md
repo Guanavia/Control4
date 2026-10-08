@@ -101,6 +101,14 @@ sent until the first keepalive on an all-dark rig.
 
 ## Bench session (brief Phase 0), in order. Back up the project first.
 
+**Bench found (2026-10-08): `artnet_node` was "added" but never listed; `dmx_light` listed fine.**
+The node declared NO proxy. Every driver without a standard proxy still names a SELF-proxy
+(ButtonTimer, LEDWizard, Chowmain, Control4's own Enttec master `ExtraVeg_ArtNet_IP_Cloud`).
+Fixed in build 5: `<proxy name="Art-Net Node">artnet_node</proxy>`, category `Others` (the Enttec
+master declares none and lands in Other). `checks.py` now fails any driver with no proxy
+(negative-controlled). The CR011R itself is proven: Control4's Enttec set drives a par through it.
+Remove/unbind that master before testing ours, or two senders fight over the universe.
+
 1. **Node output:** set the IP, watch Status reach "node answers ping", Test Channel a par's
    first channel. If nothing arrives: CreateNetworkConnection is called with no type argument,
    then `NetConnect(6001, 6454, "UDP")`. Try `"UDP"` as the third CreateNetworkConnection arg,

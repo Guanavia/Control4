@@ -6,15 +6,21 @@
   <model>Art-Net Node (1 universe)</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>3</version>
+  <version>5</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
   <controlmethod>ip</controlmethod>
   <driver>DriverWorks</driver>
+  <!-- SELF-PROXY. A driver with no standard proxy must still name one, itself, or Composer says
+       "driver added" and then never lists it (2026-10-08, bench). Same shape as Control4's
+       ButtonTimer, LEDWizard and the Enttec master ExtraVeg_ArtNet_IP_Cloud. checks.py enforces. -->
+  <proxy name="Art-Net Node">artnet_node</proxy>
   <minimum_os_version>3.3.2</minimum_os_version>
   <composer_categories>
-    <category>Lights</category>
+    <!-- Others, not Lights: the node has no light proxy. Control4's own Enttec Art-Net master
+         (self-proxy, no category) lands in "Other"; matching that proven shape exactly. -->
+    <category>Others</category>
   </composer_categories>
   <connections>
     <!-- Fixtures bind here. Custom class ARTNET_DMX so only dmx_light / dmx_mover can connect.
