@@ -11,8 +11,14 @@ local Sim = require "c4sim"
 local C = require "color"
 
 local IP = "192.168.1.50"
-local PAR4 = "DazzlingStage Mini Par RGBW (4ch) (unverified)"
-local PAR8 = "DazzlingStage Mini Par RGBW (8ch) (unverified)"
+-- The bench pars, as a light is now configured: a Fixture Type plus a channel map.
+local MAP4 = "red,green,blue,white"
+local MAP8 = "dimmer,red,green,blue,white,strobe,program,macro_speed"
+local function par(map, extra)
+  local p = { ["Fixture Type"] = "RGBW", ["Channel Map"] = map }
+  for k, v in pairs(extra or {}) do p[k] = v end
+  return p
+end
 local CK16 = "ColorKey MiniWash Quad 4 MKII (16ch) (unverified)"
 local CK14 = "ColorKey MiniWash Quad 4 MKII (14ch) (unverified)"
 
@@ -20,8 +26,8 @@ local function rig(opts)
   opts = opts or {}
   local sim = Sim.new({ persist = opts.persist })
   local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
-  local par1 = sim:load("dmx_light", 201, "Par Left", { ["Layout"] = PAR4, ["Start Address"] = "1" })
-  local par2 = sim:load("dmx_light", 202, "Par Right", { ["Layout"] = PAR8, ["Start Address"] = "5" })
+  local par1 = sim:load("dmx_light", 201, "Par Left", par(MAP4, { ["Start Address"] = "1" }))
+  local par2 = sim:load("dmx_light", 202, "Par Right", par(MAP8, { ["Start Address"] = "5" }))
   local mover = sim:load("dmx_mover", 301, "Mover", { ["Layout"] = CK16, ["Start Address"] = "20" })
   if opts.props then for dev, p in pairs(opts.props) do for k, v in pairs(p) do ({ par1 = par1, par2 = par2, mover = mover, node = node })[dev].env.Properties[k] = v end end end
   -- Bindings already exist when the project loads: OnBindingChanged does NOT fire for them.
@@ -237,6 +243,91 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+T.section("fixture types: how a light maps onto Control4's controls")
+do
+  local function caps(dev) return dev.env and nil end
+  local function lastcaps(sim, dev)
+    local n = sim:last_notify(dev, "DYNAMIC_CAPABILITIES_CHANGED")
+    return n and n.params or {}
+  end
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
+  local function light(id, props, start)
+    props["Start Address"] = tostring(start)
+    local d = sim:load("dmx_light", id, "L" .. id, props)
+    sim:bind(d, 1, node, 1, true)
+    return d
+  end
+  -- An installed project from before the redesign: old type label, map in the Channel Map text.
+  local old = light(501, { ["Fixture Type"] = "Color Par / Wash", ["Channel Map"] = "dimmer,red,green,blue,white" }, 1)
+  local olddim = light(502, { ["Fixture Type"] = "Dimmer", ["Channel Map"] = "dimmer" }, 10)
+  -- A brand-new fixture: nothing set.
+  local fresh = light(503, {}, 20)
+  local manual = light(504, { ["Fixture Type"] = "Manual Color", ["Channel Map"] = "dimmer,red,green,blue,white,amber" }, 30)
+  local onoff = light(505, { ["Fixture Type"] = "Single Color (On/Off)", ["Channel Map"] = "dimmer" }, 40)
+  for _, d in ipairs({ old, olddim, fresh, manual, onoff }) do sim:init(d) end
+  sim:init(node)
+  sim:advance(100)
+
+  T.eq(old.env.Properties["Fixture Type"], "RGBW", "old 'Color Par / Wash' with a white channel becomes RGBW")
+  T.eq(old.env.Properties["Channel Map"], "dimmer,red,green,blue,white", "...and keeps its channel map")
+  T.like(status(old), "^OK", "...and still outputs")
+  T.eq(olddim.env.Properties["Fixture Type"], "Single Color Dimmable", "old 'Dimmer' becomes Single Color Dimmable")
+  T.eq(fresh.env.Properties["Fixture Type"], "RGBW", "new fixture defaults to RGBW")
+  T.eq(fresh.env.Properties["Channel Map"], "red,green,blue,white", "...with the RGBW starting map")
+
+  -- RGBW keeps BOTH the color picker and the color temperature slider (Dave's par, 2026-10-10).
+  local c = lastcaps(sim, old)
+  T.eq(c.supports_color, true, "RGBW: color picker")
+  T.eq(c.supports_color_correlated_temperature, true, "RGBW: color temperature slider kept")
+  sim:proxy(old, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.4578, LIGHT_COLOR_TARGET_Y = 0.4101, LIGHT_COLOR_TARGET_MODE = 1 })
+  sim:proxy(old, "SET_LEVEL", { LEVEL = 100 })
+  sim:advance(200)
+  local w = sim:slots(1, 5)
+  T.ok(w[1] == 255 and w[5] > 0, "RGBW: a 2700K request drives the dimmer and the white emitter")
+
+  -- Manual Color: no picker; brightness drives only the Dimmer; color channels are Extras.
+  c = lastcaps(sim, manual)
+  T.eq(c.supports_color, false, "Manual Color: no color picker")
+  T.eq(c.supports_color_correlated_temperature, false, "Manual Color: no temperature slider")
+  T.eq(c.has_extras, true, "Manual Color: Extras tab")
+  sim:proxy(manual, "SET_LEVEL", { LEVEL = 100 })
+  sim:advance(200)
+  T.eq(table.concat(sim:slots(30, 35), ","), "255,0,0,0,0,0", "brightness moves the Dimmer only")
+  sim:command(manual, "Set Control", { Control = "Red", Value = 200 })
+  sim:command(manual, "Set Control", { Control = "Amber", Value = 90 })
+  sim:advance(100)
+  T.eq(table.concat(sim:slots(30, 35), ","), "255,200,0,0,0,90", "color channels set by hand, as Extras")
+  sim:set_property(manual, "Channel Map", "red,green,blue")
+  T.like(status(manual), "Manual Color needs a Dimmer channel", "Manual Color without a Dimmer is refused")
+
+  -- On/Off: a switch. Any level is full, nothing fades.
+  c = lastcaps(sim, onoff)
+  T.eq(c.dimmer, false, "On/Off: no dimmer slider")
+  sim:proxy(onoff, "RAMP_TO_LEVEL", { LEVEL = 30, TIME = 5000 })
+  sim:advance(100)
+  T.eq(sim:slots(40, 40)[1], 255, "On/Off: any level is full, immediately")
+  sim:proxy(onoff, "OFF")
+  sim:advance(100)
+  T.eq(sim:slots(40, 40)[1], 0, "On/Off: off")
+
+  -- Changing type: keep the map when it fits, else start from the new type's map.
+  sim:set_property(old, "Fixture Type", "Manual Color")
+  T.eq(old.env.Properties["Channel Map"], "dimmer,red,green,blue,white", "map kept when it fits the new type")
+  sim:set_property(fresh, "Fixture Type", "Manual Color")
+  T.eq(fresh.env.Properties["Channel Map"], "dimmer,red,green,blue,white", "RGBW map with no Dimmer -> Manual Color's starting map")
+  sim:set_property(fresh, "Fixture Type", "Tunable White")
+  T.eq(fresh.env.Properties["Channel Map"], "warm_white,cool_white", "incompatible map -> Tunable White's starting map")
+  c = lastcaps(sim, fresh)
+  T.eq(c.supports_color, false, "Tunable White: no color picker")
+  T.eq(c.supports_color_correlated_temperature, true, "Tunable White: temperature slider")
+  sim:set_property(fresh, "Fixture Type", "RGB + Tunable White")
+  T.eq(fresh.env.Properties["Channel Map"], "red,green,blue,warm_white,cool_white", "RGB + Tunable White starting map")
+  c = lastcaps(sim, fresh)
+  T.eq(c.supports_color and c.supports_color_correlated_temperature, true, "RGB + Tunable White: picker and temperature")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("configuration errors: refused, reverted, explained")
 do
   local sim, node, par1, par2 = rig()
@@ -248,19 +339,17 @@ do
 
   sim:set_property(par1, "Channel Map", "dimmer,red,green,bogus")
   T.like(status(par1), "unknown function 'bogus'", "bad channel map explained")
-  T.eq(par1.env.Properties["Layout"], PAR4, "layout untouched by a bad map")
+  T.eq(par1.env.Properties["Channel Map"], MAP4, "map reverted after a bad edit")
 
   sim:set_property(par1, "Channel Map", "dimmer,red,green,blue,white")
-  T.eq(par1.env.Properties["Layout"], "Custom", "editing the map switches to Custom")
   T.eq(par1.env.Properties["Channel Count"], "5", "custom channel count written")
   T.eq(par1.env.Properties["Channel 5 Function"], "White", "custom channel 5 written")
   T.eq(par1.env.Properties["Footprint"], "DMX 1-5 (5 ch)", "footprint updated")
   T.like(node.env.Properties["Patch"], "DMX 1%-5  Par Left", "node re-registered the new footprint")
   T.like(status(par1), "^OK", "custom layout running")
 
-  -- Switching a built-in to Custom starts from the built-in.
-  sim:set_property(par2, "Layout", "Custom")
-  T.eq(par2.env.Properties["Channel Map"], "dimmer,red,green,blue,white,strobe,program,macro_speed", "Custom seeded from the built-in")
+  -- The Channel Map a fixture loaded with fills in the per-channel settings.
+  T.eq(par2.env.Properties["Channel Count"], "8", "channel count from the loaded map")
   T.eq(par2.env.Properties["Channel 6 Function"], "Strobe/Shutter", "per-channel property seeded")
   T.ok(not par2.hidden["Channel 8 Function"] and par2.hidden["Channel 9 Function"], "only the used channel properties are shown")
 
@@ -270,11 +359,11 @@ do
 
   -- A pan channel is not available on a par; the running layout stays.
   sim:set_property(par2, "Channel Map", "dimmer,pan")
-  T.like(status(par2), "'Pan' is not available for a Color Par", "type restrictions enforced")
+  T.like(status(par2), "'Pan' is not available for Fixture Type RGBW", "type restrictions enforced")
 
   -- No node bound.
   local sim2 = Sim.new()
-  local lonely = sim2:load("dmx_light", 400, "Lonely Par", { ["Layout"] = PAR4 })
+  local lonely = sim2:load("dmx_light", 400, "Lonely Par", par(MAP4))
   sim2:init(lonely)
   T.like(status(lonely), "no Art%-Net node bound", "unbound fixture says so")
   T.like(lonely.errorlog[#lonely.errorlog], "no Art%-Net node bound", "...unsilenceably")
@@ -287,7 +376,7 @@ end
 T.section("overlap policy")
 do
   local sim, node, par1, par2, mover = rig()
-  local par3 = sim:load("dmx_light", 203, "Par Twin", { ["Layout"] = PAR4, ["Start Address"] = "1" })
+  local par3 = sim:load("dmx_light", 203, "Par Twin", par(MAP4, { ["Start Address"] = "1" }))
   sim:init(par3)
   sim:bind(par3, 1, node, 1)
   sim:advance(50)
@@ -315,7 +404,7 @@ do
   T.like(node.env.Properties["Status"], "1 REFUSED", "node status counts the refusal")
 
   -- A par that lands on the mover is refused too.
-  local par4 = sim:load("dmx_light", 204, "Stray Par", { ["Layout"] = PAR4, ["Start Address"] = "22" })
+  local par4 = sim:load("dmx_light", 204, "Stray Par", par(MAP4, { ["Start Address"] = "22" }))
   sim:init(par4)
   sim:bind(par4, 1, node, 1)
   sim:advance(50)

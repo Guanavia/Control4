@@ -74,9 +74,6 @@ L.ROLE_ORDER = {
 -- Fixture types. `driver` is which c4z offers the type: a par must never be able to become a
 -- mover, because the mover's extra controls only exist in dmx_mover.
 ---------------------------------------------------------------------------------------------
-local COLOR_ROLES = { "dimmer", "dimmer_fine", "red", "green", "blue", "white", "amber", "uv", "lime",
-  "cyan", "cct", "strobe", "zoom", "color_macro", "macro_speed", "program", "sound_sens" }
-
 local function concat(...)
   local out = {}
   for _, list in ipairs({ ... }) do
@@ -85,25 +82,98 @@ local function concat(...)
   return out
 end
 
+-- dmx_light types say HOW a fixture maps onto Control4's controls, not which product it is
+-- (Dave, 2026-10-10). Capabilities still come from the channels actually present, so the color
+-- engine is unchanged; a type only filters the channel functions offered, supplies the starting
+-- map, and flags the two special cases (On/Off, Manual Color).
+--   mix_as   the id the color engine sees (color.lua special-cases "dimmer"; reusing it keeps that
+--            file untouched for both single-color types)
+--   switch   on/off only: light_v2 dimmer=false, any level > 0 outputs full, no fades
+--   manual   brightness drives the Dimmer only; every color channel is an Extras slider, no picker
+--   default  starting channel map when the type is chosen on a fresh or incompatible map
+local INTENSITY = { "dimmer", "dimmer_fine" }
+local EXTENDED = { "strobe", "strobe_duration", "zoom", "focus", "iris", "frost", "color_macro",
+  "macro_speed", "program", "sound_sens" }
+local EXTRA_EMITTERS = { "amber", "uv", "lime", "cyan" }
+local COLOR_ROLES = concat(INTENSITY, { "red", "green", "blue", "white", "cct" }, EXTRA_EMITTERS,
+  EXTENDED)   -- the movers' color set (unchanged)
+
 local MOVER_WASH_ROLES = concat(COLOR_ROLES, { "pan", "pan_fine", "tilt", "tilt_fine", "pt_speed",
   "movement_macro", "reset" })
 
 L.TYPES = {
-  { id = "dimmer",        label = "Dimmer",                driver = "light",
-    roles = { "dimmer", "dimmer_fine" } },
+  { id = "onoff",         label = "Single Color (On/Off)", driver = "light", mix_as = "dimmer", switch = true,
+    roles = concat(INTENSITY, EXTENDED), default = { "dimmer" } },
+  { id = "dimmer",        label = "Single Color Dimmable", driver = "light",
+    roles = concat(INTENSITY, EXTENDED), default = { "dimmer" } },
   { id = "tunable_white", label = "Tunable White",         driver = "light",
-    roles = { "dimmer", "dimmer_fine", "warm_white", "cool_white", "cct", "strobe" } },
-  { id = "color",         label = "Color Par / Wash",      driver = "light",
-    roles = COLOR_ROLES },
-  { id = "strobe",        label = "Strobe / Effect",       driver = "light",
-    roles = { "dimmer", "dimmer_fine", "strobe", "strobe_duration", "program", "macro_speed",
-      "sound_sens", "red", "green", "blue", "white", "amber", "uv" } },
+    roles = concat(INTENSITY, { "warm_white", "cool_white", "cct" }, EXTENDED),
+    default = { "warm_white", "cool_white" } },
+  { id = "rgb",           label = "RGB",                   driver = "light",
+    roles = concat(INTENSITY, { "red", "green", "blue" }, EXTRA_EMITTERS, EXTENDED),
+    default = { "red", "green", "blue" } },
+  { id = "rgbw",          label = "RGBW",                  driver = "light",
+    roles = concat(INTENSITY, { "red", "green", "blue", "white" }, EXTRA_EMITTERS, EXTENDED),
+    default = { "red", "green", "blue", "white" } },
+  { id = "rgb_tw",        label = "RGB + Tunable White",   driver = "light",
+    roles = concat(INTENSITY, { "red", "green", "blue", "warm_white", "cool_white", "white", "cct" },
+      EXTRA_EMITTERS, EXTENDED),
+    default = { "red", "green", "blue", "warm_white", "cool_white" } },
+  { id = "manual",        label = "Manual Color",          driver = "light", manual = true,
+    roles = concat(INTENSITY, { "red", "green", "blue", "white", "warm_white", "cool_white", "cct" },
+      EXTRA_EMITTERS, EXTENDED),
+    default = { "dimmer", "red", "green", "blue", "white" } },
   { id = "mover_wash",    label = "Moving Head Wash",      driver = "mover",
     roles = MOVER_WASH_ROLES },
   { id = "mover_spot",    label = "Moving Head Spot/Beam", driver = "mover",
     roles = concat(MOVER_WASH_ROLES, { "color_wheel", "gobo_wheel", "gobo_rotation", "prism",
       "focus", "iris", "frost" }) },
 }
+
+-- Types from before the 2026-10-10 redesign, still stored in installed projects. Resolved from
+-- the channels the fixture already has, so an update never changes what a fixture outputs.
+function L.legacy_type(label, channels)
+  if label == "Dimmer" then return L.type_by_id("dimmer") end
+  if label ~= "Color Par / Wash" and label ~= "Strobe / Effect" then return nil end
+  local has = {}
+  for _, ch in ipairs(channels or {}) do has[ch.role] = true end
+  local rgb = has.red and has.green and has.blue
+  if rgb and (has.warm_white or has.cool_white) then return L.type_by_id("rgb_tw") end
+  if rgb and has.white then return L.type_by_id("rgbw") end
+  if rgb then return L.type_by_id("rgb") end
+  return L.type_by_id("rgbw")
+end
+
+-- The channels a type actually depends on: without them its Control4 controls have nothing to
+-- drive (an "RGB + Tunable White" map with no RGB would show no color picker).
+local NEEDS = {
+  onoff = function(h) return h.dimmer end,
+  dimmer = function(h) return h.dimmer end,
+  tunable_white = function(h) return (h.warm_white and h.cool_white) or h.cct end,
+  rgb = function(h) return h.red and h.green and h.blue end,
+  rgbw = function(h) return h.red and h.green and h.blue and h.white end,
+  rgb_tw = function(h) return h.red and h.green and h.blue and ((h.warm_white and h.cool_white) or h.cct) end,
+  manual = function(h) return h.dimmer end,
+}
+
+-- Does a map suit type t: every channel allowed, and the channels the type depends on present?
+-- Used to keep a map across a type change.
+function L.map_fits(t, channels)
+  if not channels or #channels == 0 then return false end
+  local h = {}
+  for _, ch in ipairs(channels) do
+    if not t.allowed[ch.role] then return false end
+    h[ch.role] = true
+  end
+  local need = NEEDS[t.id]
+  return need == nil or need(h) and true or false
+end
+
+function L.default_channels(t)
+  local out = {}
+  for i, role in ipairs(t.default or { "dimmer" }) do out[i] = { role = role } end
+  return out
+end
 
 for _, t in ipairs(L.TYPES) do
   t.roles[#t.roles + 1] = "fixed"
@@ -142,33 +212,8 @@ local function builtin(id, def)
   L.BUILTIN_ORDER[#L.BUILTIN_ORDER + 1] = id
 end
 
-builtin("generic_dimmer_8", { label = "Generic Dimmer (1ch)", type = "dimmer", generic = true,
-  channels = { { role = "dimmer" } } })
-builtin("generic_dimmer_16", { label = "Generic Dimmer 16-bit (2ch)", type = "dimmer", generic = true,
-  channels = { { role = "dimmer" }, { role = "dimmer_fine" } } })
-builtin("generic_tw_2", { label = "Generic Tunable White WW/CW (2ch)", type = "tunable_white", generic = true,
-  channels = { { role = "warm_white" }, { role = "cool_white" } } })
-builtin("generic_tw_3", { label = "Generic Tunable White Dim/WW/CW (3ch)", type = "tunable_white", generic = true,
-  channels = { { role = "dimmer" }, { role = "warm_white" }, { role = "cool_white" } } })
-builtin("generic_rgb_3", { label = "Generic RGB (3ch)", type = "color", generic = true,
-  channels = { { role = "red" }, { role = "green" }, { role = "blue" } } })
-builtin("generic_rgbw_4", { label = "Generic RGBW (4ch)", type = "color", generic = true,
-  channels = { { role = "red" }, { role = "green" }, { role = "blue" }, { role = "white" } } })
-builtin("generic_drgbw_5", { label = "Generic Dimmer+RGBW (5ch)", type = "color", generic = true,
-  channels = { { role = "dimmer" }, { role = "red" }, { role = "green" }, { role = "blue" }, { role = "white" } } })
-
--- DazzlingStage mini par 4x8W RGBW. The listing only says "4/8 CH" and no public chart exists.
--- These are the TYPICAL layouts for this OEM family and MUST be checked against the paper manual
--- that ships with the lights (brief 6.2). Custom covers any difference immediately.
-builtin("dazzlingstage_rgbw_4", { label = "DazzlingStage Mini Par RGBW (4ch)", type = "color", verified = false,
-  channels = { { role = "red" }, { role = "green" }, { role = "blue" }, { role = "white" } } })
-builtin("dazzlingstage_rgbw_8", { label = "DazzlingStage Mini Par RGBW (8ch)", type = "color", verified = false,
-  channels = {
-    { role = "dimmer" }, { role = "red" }, { role = "green" }, { role = "blue" }, { role = "white" },
-    { role = "strobe", default = 0 },
-    { role = "program", steps = { { "Manual (DMX)", 0 } } },
-    { role = "macro_speed" },
-  } })
+-- dmx_light has no built-in layouts any more: a light is a Fixture Type plus a channel map
+-- (Dave, 2026-10-10). Known maps for the bench fixtures are in the light's documentation.
 
 -- ColorKey Mover MiniWash Quad 4 MKII. Source: ColorKey MKII manual (B&H copy). Unverified points
 -- (brief 11 #9): does strobe 0 mean "no strobe"; which way does speed run; how long must reset be
@@ -290,7 +335,10 @@ function L.compile(def, type_id, opts)
   local layout = {
     id = def.id or L.CUSTOM_ID,
     label = def.label or L.CUSTOM_LABEL,
-    type = t.id,
+    type = t.mix_as or t.id,       -- what the color engine sees (see L.TYPES)
+    type_id = t.id,
+    switch = t.switch or false,
+    manual = t.manual or false,
     driver = t.driver,
     verified = def.verified or def.generic or false,
     channels = {},
@@ -307,7 +355,7 @@ function L.compile(def, type_id, opts)
     local r = L.ROLES[role]
     if not r then return nil, string.format("channel %d: unknown function '%s'", i, tostring(role)) end
     if not t.allowed[role] then
-      return nil, string.format("channel %d: '%s' is not available for a %s", i, r.label, t.label)
+      return nil, string.format("channel %d: '%s' is not available for Fixture Type %s", i, r.label, t.label)
     end
     if layout.roles[role] and not r.repeatable then
       return nil, string.format("channel %d: '%s' is already on channel %d", i, r.label, layout.roles[role] + 1)
@@ -353,19 +401,24 @@ function L.compile(def, type_id, opts)
   layout.has_cct = has("cct")
   layout.supports_color = layout.has_rgb
   layout.supports_cct = layout.has_cct or layout.has_ww_cw or layout.has_rgb or layout.has_white
-  if t.id == "dimmer" then
+  if t.id == "dimmer" or t.switch or t.manual then
     layout.supports_color = false
     layout.supports_cct = false
+  end
+  if t.manual and not layout.has_dimmer then
+    return nil, "Manual Color needs a Dimmer channel: it is the only channel the brightness controls drive"
   end
   -- A fixture with only a white emitter and no dimmer still dims: the white channel IS the dimmer.
   layout.controllable = layout.has_dimmer or layout.has_rgb or layout.has_white or layout.has_ww_cw
     or has("red") or has("green") or has("blue")
+  if t.manual then layout.controllable = layout.has_dimmer end
 
   -- Roles controlled on the Extras tab (dmx_light) or the mover's Extras.
   layout.extras = {}
   for _, ch in ipairs(layout.channels) do
     local g = ch.group
     if (g == "beam" or g == "effects" or g == "maintenance" or g == "color_extra"
+        or (layout.manual and g == "color")
         or (g == "position" and ch.role == "pt_speed")) and layout.roles[ch.role] == ch.offset then
       layout.extras[#layout.extras + 1] = ch
     end

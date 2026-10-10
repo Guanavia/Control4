@@ -6,7 +6,7 @@
   <model>DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>7</version>
+  <version>11</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -156,18 +156,16 @@
         <name>Fixture Type</name>
         <type>LIST</type>
         <items>
-          <item>Dimmer</item>
+          <item>Single Color (On/Off)</item>
+          <item>Single Color Dimmable</item>
           <item>Tunable White</item>
-          <item>Color Par / Wash</item>
-          <item>Strobe / Effect</item>
+          <item>RGB</item>
+          <item>RGBW</item>
+          <item>RGB + Tunable White</item>
+          <item>Manual Color</item>
         </items>
-        <default>Color Par / Wash</default>
-      </property>
-      <property>
-        <name>Layout</name>
-        <type>DYNAMIC_LIST</type>
-        <default>Generic RGBW (4ch)</default>
-        <tooltip>A built-in channel stack for this fixture type, or Custom. Choosing Custom starts from the layout that was selected.</tooltip>
+        <default>RGBW</default>
+        <tooltip>How the fixture maps onto Control4's lighting controls. RGB, RGBW and RGB + Tunable White use the color picker and the color temperature slider; Tunable White uses the temperature slider; Manual Color puts every color channel on the Extras tab and the brightness slider drives only the Dimmer channel. Changing type keeps the channel map if it still fits, otherwise starts from the type's usual map.</tooltip>
       </property>
       <property>
         <name>Start Address</name>
@@ -183,11 +181,20 @@
         <default></default>
       </property>
       <property>
+        <name>Channel Count</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>32</maximum>
+        <default>4</default>
+        <tooltip>How many DMX channels the fixture uses in its current mode. One Channel N Function appears per channel.</tooltip>
+      </property>
+      <property>
         <name>Channel Map</name>
         <type>STRING</type>
         <default></default>
-        <tooltip>The layout as text, e.g. red,green,blue,white or dimmer,red,green,blue,strobe:8. Paste to copy a layout between fixtures. Editing it switches the Layout to Custom.</tooltip>
+        <tooltip>The channel functions as text, e.g. red,green,blue,white or dimmer,red,green,blue,white,strobe:8 (function:default). Paste to copy a fixture between projects. Kept in step with the Channel N Function settings.</tooltip>
       </property>
+      <!-- @CUSTOM_CHANNELS@ -->
       <property>
         <name>Output</name>
         <type>LABEL</type>
@@ -236,19 +243,6 @@
         <maximum>10000</maximum>
         <default>6500</default>
       </property>
-      <property>
-        <name>Custom Layout</name>
-        <type>LABEL</type>
-        <default>Custom Layout</default>
-      </property>
-      <property>
-        <name>Channel Count</name>
-        <type>RANGED_INTEGER</type>
-        <minimum>1</minimum>
-        <maximum>32</maximum>
-        <default>4</default>
-      </property>
-      <!-- @CUSTOM_CHANNELS@ -->
       <property>
         <name>Diagnostics</name>
         <type>LABEL</type>

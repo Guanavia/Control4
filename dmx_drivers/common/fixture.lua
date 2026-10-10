@@ -17,7 +17,7 @@ local X = require "extras"
 local Light = require "light"
 
 -- Declared only by dmx_mover's driver.xml; nil (and defaulted) in dmx_light:
--- @optional-properties: Reset Value, Reset Hold (ms)
+-- @optional-properties: Reset Value, Reset Hold (ms), Layout
 
 local F = {
   kind = "light",
@@ -77,6 +77,16 @@ local function type_from_props()
   return L.type_by_label(Properties["Fixture Type"]) or L.types_for_driver(F.kind)[1]
 end
 
+-- dmx_light declares no Layout property: a light is always its channel map. dmx_mover keeps the
+-- built-in model list.
+local function has_layout_prop()
+  return Properties["Layout"] ~= nil
+end
+
+local function custom_mode()
+  return not has_layout_prop() or Properties["Layout"] == L.CUSTOM_LABEL
+end
+
 local function custom_channels_from_props()
   local count = U.clamp(tonumber(Properties["Channel Count"]) or 1, 1, L.MAX_CHANNELS)
   local channels = {}
@@ -92,7 +102,7 @@ end
 local function layout_def_from_props()
   local t = type_from_props()
   local choice = Properties["Layout"] or L.CUSTOM_LABEL
-  if choice ~= L.CUSTOM_LABEL then
+  if has_layout_prop() and choice ~= L.CUSTOM_LABEL then
     local def = L.builtin_by_display_label(choice)
     if def and def.type == t.id then return def, t end
   end
@@ -124,15 +134,17 @@ end
 -- Rebuild every DYNAMIC_LIST (they are not persisted by Director) and fix up visibility.
 function F.refresh_lists()
   local t = type_from_props()
-  local items = F.layout_items(t)
-  local current = Properties["Layout"]
-  local found = false
-  for _, it in ipairs(items) do if it == current then found = true end end
-  if not found then
-    current = items[1]
-    Properties["Layout"] = current
+  if has_layout_prop() then
+    local items = F.layout_items(t)
+    local current = Properties["Layout"]
+    local found = false
+    for _, it in ipairs(items) do if it == current then found = true end end
+    if not found then
+      current = items[1]
+      Properties["Layout"] = current
+    end
+    C4:UpdatePropertyList("Layout", table.concat(items, ","), current)
   end
-  C4:UpdatePropertyList("Layout", table.concat(items, ","), current)
   local roles = F.role_items(t)
   local role_list = table.concat(roles, ",")
   for i = 1, L.MAX_CHANNELS do
@@ -149,7 +161,7 @@ function F.refresh_lists()
 end
 
 function F.refresh_visibility()
-  local custom = Properties["Layout"] == L.CUSTOM_LABEL
+  local custom = custom_mode()
   local count = tonumber(Properties["Channel Count"]) or 1
   F.show_prop("Channel Count", custom)
   for i = 1, L.MAX_CHANNELS do
@@ -176,6 +188,32 @@ function F.write_custom_props(channels)
     F.set_prop("Channel " .. i .. " Default", U.int(ch and ch.default or 0))
   end
   F.set_prop("Channel Map", L.format_map(channels))
+end
+
+-- On load, for a driver without a Layout property (dmx_light):
+--   * a Fixture Type from before the 2026-10-10 redesign is mapped to its new type, from the
+--     channels the fixture already has, so an update never changes the output;
+--   * the Channel Map text is the source of truth when it parses (it was the only record of a
+--     built-in layout, whose property no longer exists);
+--   * a brand-new fixture (every channel Unused) starts from its type's default map.
+function F.reconcile_config()
+  if has_layout_prop() then return end
+  local channels = L.parse_map(Properties["Channel Map"] or "")
+  if not channels then
+    channels = custom_channels_from_props()
+    local any = false
+    for _, ch in ipairs(channels) do if ch.role ~= "unused" then any = true end end
+    if not any then channels = nil end
+  end
+  local label = Properties["Fixture Type"]
+  local t = L.type_by_label(label)
+  if not t or t.driver ~= F.kind then
+    t = L.legacy_type(label, channels) or L.types_for_driver(F.kind)[1]
+    F.critical("Fixture Type '%s' is from an older version: now '%s'", tostring(label), t.label)
+    F.set_prop("Fixture Type", t.label)
+  end
+  if not channels then channels = L.default_channels(t) end
+  F.write_custom_props(channels)
 end
 
 ---------------------------------------------------------------------------------------------
@@ -287,7 +325,7 @@ function F.push_capabilities()
   local lay = F.layout
   if not lay or not F.light then return end
   local caps = {
-    dimmer = lay.controllable,
+    dimmer = lay.controllable and not lay.switch,   -- On/Off shows a switch, not a slider
     supports_target = true,
     supports_brightness_stop = true,
     supports_color = lay.supports_color,
@@ -319,6 +357,9 @@ function F.compute()
   if F.overrides.level then
     state = { level = F.overrides.level, x = state.x, y = state.y, mode = state.mode }
   end
+  if lay.switch and (state.level or 0) > 0 then
+    state = { level = 100, x = state.x, y = state.y, mode = state.mode }
+  end
   local mix = C.mix(lay, state, {
     white_mix = (tonumber(Properties["White Mix (%)"]) or 100) / 100,
     gamma = F.gamma(),
@@ -332,7 +373,7 @@ function F.compute()
       v = C.to_16(mix.dimmer or 0)
     elseif role == "dimmer_fine" then
       v = select(2, C.to_16(mix.dimmer or 0))
-    elseif mix[role] ~= nil and (L.MIXED_EMITTERS[role] or role == "dimmer" or role == "cct") then
+    elseif mix[role] ~= nil and (role == "dimmer" or (not lay.manual and (L.MIXED_EMITTERS[role] or role == "cct"))) then
       v = C.to_byte(mix[role])
     elseif F.overrides[role] ~= nil then
       v = F.overrides[role]
@@ -351,6 +392,7 @@ end
 -- Send the offsets that differ from what the node holds. fade_ms applies to all of them.
 function F.refresh(fade_ms, force_all)
   if not F.layout then return end
+  if F.layout.switch then fade_ms = 0 end
   local out = F.compute()
   local offsets, values = {}, {}
   for off = 0, F.layout.count - 1 do
@@ -633,8 +675,18 @@ function F.on_property(name)
   if name == "Debug Mode" or name == "Status" or name == "Footprint" or name == "Driver Version" then
     return
   elseif name == "Fixture Type" then
+    if not has_layout_prop() then
+      -- Keep the map if the new type allows every channel on it, else start from the type's
+      -- default (Dave: picking a type fills in a sensible starting map).
+      local t = type_from_props()
+      local channels = custom_channels_from_props()
+      if not (L.map_fits(t, channels) and L.compile({ channels = channels }, t.id)) then
+        channels = L.default_channels(t)
+      end
+      F.write_custom_props(channels)
+    end
     F.refresh_lists()
-    if Properties["Layout"] == L.CUSTOM_LABEL then F.write_custom_props(custom_channels_from_props()) end
+    if has_layout_prop() and Properties["Layout"] == L.CUSTOM_LABEL then F.write_custom_props(custom_channels_from_props()) end
     F.apply_config("fixture type changed")
   elseif name == "Layout" then
     if value == L.CUSTOM_LABEL and F.layout and F.layout.id ~= L.CUSTOM_ID then
@@ -742,6 +794,7 @@ function F.install(opts)
       persist = F.schedule_persist,
     })
     F.restore()
+    F.reconcile_config()
     F.refresh_lists()
     F.init_done = true
     F.find_node()

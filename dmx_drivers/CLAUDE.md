@@ -182,9 +182,31 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
   `SET_BUTTON_COLOR` / `REQUEST_BUTTON_COLORS`, persists colors, reports both ways. Defaults: On and
   Toggle blue-when-on, Off blue-when-off. Param names read from Snap One's template (facts only,
   decision 7). UNVERIFIED on hardware: that the black buttons were these, and keypad follow.
-- **Fixture section redesign: proposed, awaiting Dave** (see conversation 2026-10-10): Fixture Type
-  becomes how the fixture maps onto Control4's controls, not a model; per-channel functions stay;
-  non-color channels already go to Extras.
+- **Fixture section REDESIGNED (Dave's call, 2026-10-10; light build 11).** Fixture Type now says
+  HOW a light maps onto Control4's controls, never which product: Single Color (On/Off), Single
+  Color Dimmable, Tunable White, RGB, RGBW, RGB + Tunable White, Manual Color. **The Layout dropdown
+  and every light model preset are GONE**: a light is Fixture Type + Start Address + Channel Count +
+  per-channel Function (Channel Map mirrors them). Known maps live in the light's documentation.
+  Rules worth keeping:
+  * **Capabilities still come from the channels present**, never the type, so the color engine is
+    untouched; `color.lua` was not edited. Single-color types use `mix_as = "dimmer"` for the one
+    type check color.lua has. **RGB/RGBW/RGB+TW all keep the color TEMPERATURE slider**: Dave's
+    RGBW par does CCT beautifully by mixing (one white LED), and that must not be lost.
+  * **Proven unchanged: old build vs new build, byte-identical on the wire** for a dimmer+RGBW par
+    across primaries, a pastel, D65, two CCTs, dim and fade; and identical for an OLD project
+    migrated on load. Re-run that A/B (scratch worktree of the previous commit + a fixed command
+    script) before any change near color.
+  * On/Off: light_v2 `dimmer=false`, any level outputs full, fades forced to 0.
+  * Manual Color: no picker, no CCT; brightness drives ONLY the Dimmer channel (refused without one);
+    every color channel is an Extras slider.
+  * Type change keeps the map only if it FITS: every channel allowed AND the channels the type
+    depends on are present (an RGB+TW "fit" with no RGB would show no picker); else the type's
+    starting map. First version kept a white-only map on RGB+TW: caught by the new scenarios.
+  * Migration on load: old type labels ("Color Par / Wash", "Strobe / Effect", "Dimmer") resolve
+    from the existing channels; the Channel Map text is the source of truth (it was the only record
+    of a chosen built-in); a brand-new fixture starts from RGBW's map.
+  * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
+    Revisit when the mover reaches the bench.
 
 ## Carried-over lessons applied (from YAS209)
 

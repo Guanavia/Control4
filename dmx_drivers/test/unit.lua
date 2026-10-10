@@ -9,6 +9,12 @@ local U = require "util"
 local A = require "artnet"
 local L = require "layouts"
 local C = require "color"
+
+-- A light layout from a channel map, the way a light is configured since 2026-10-10. The maps are
+-- exactly the old generic/par built-ins, so the color checks below test the same layouts.
+local function lay(map, type_id)
+  return assert(L.compile({ channels = assert(L.parse_map(map)) }, type_id))
+end
 local Universe = require "universe"
 
 ---------------------------------------------------------------------------------------------
@@ -56,7 +62,7 @@ do
   T.eq(ck16.driver, "mover", "mover driver")
   T.ok(not ck16.verified, "unverified until bench-tested")
   T.eq(L.display_label(L.BUILTIN.colorkey_miniwash_quad4_mk2_16), "ColorKey MiniWash Quad 4 MKII (16ch) (unverified)", "unverified label")
-  T.eq(L.display_label(L.BUILTIN.generic_rgb_3), "Generic RGB (3ch)", "generic has no suffix")
+  T.eq(L.display_label({ label = "Generic", generic = true }), "Generic", "generic has no suffix")
 
   local ck14 = L.compile(L.BUILTIN.colorkey_miniwash_quad4_mk2_14)
   T.eq(ck14.count, 14, "14ch")
@@ -79,13 +85,13 @@ do
   T.like(err, "unknown function 'bogus'", "unknown role reported")
   _, err = L.parse_map("red,strobe:300")
   T.like(err, "not 0%-255", "bad default reported")
-  _, err = L.compile({ channels = { { role = "pan" } } }, "color")
-  T.like(err, "not available for a Color Par", "pan refused on a par")
-  _, err = L.compile({ channels = { { role = "red" }, { role = "red" } } }, "color")
+  _, err = L.compile({ channels = { { role = "pan" } } }, "rgbw")
+  T.like(err, "not available for Fixture Type RGBW", "pan refused on a par")
+  _, err = L.compile({ channels = { { role = "red" }, { role = "red" } } }, "rgbw")
   T.like(err, "already on channel 1", "duplicate role refused")
   _, err = L.compile({ channels = { { role = "dimmer_fine" } } }, "dimmer")
   T.like(err, "needs a 'Dimmer' channel", "fine without coarse refused")
-  local fx = L.compile({ channels = { { role = "fixed", default = 1 }, { role = "fixed", default = 2 }, { role = "red" } } }, "color")
+  local fx = L.compile({ channels = { { role = "fixed", default = 1 }, { role = "fixed", default = 2 }, { role = "red" } } }, "rgbw")
   T.ok(fx, "fixed may repeat")
   _, err = L.compile({ channels = { { role = "red" } } }, "mover_wash")
   T.like(err, "needs at least a Pan or Tilt", "mover without pan/tilt refused")
@@ -96,23 +102,32 @@ do
   T.like(why, "would end at 513", "overflow explained")
   T.eq(L.footprint_text(17, 16), "DMX 17-32 (16 ch)", "footprint text")
 
-  local par4 = L.compile(L.BUILTIN.dazzlingstage_rgbw_4)
+  local par4 = lay("red,green,blue,white", "rgbw")
   T.ok(not par4.has_dimmer, "4ch par has no dimmer (virtual dimmer applies)")
   T.eq(#par4.extras, 0, "4ch par has no Extras")
-  local par8 = L.compile(L.BUILTIN.dazzlingstage_rgbw_8)
+  local par8 = lay("dimmer,red,green,blue,white,strobe,program,macro_speed", "rgbw")
   T.eq(#par8.extras, 3, "8ch par extras: strobe, program, speed")
   T.ok(par8.supports_color and par8.supports_cct, "par supports color + CCT")
-  local dim = L.compile(L.BUILTIN.generic_dimmer_8)
+  local dim = lay("dimmer", "dimmer")
   T.ok(not dim.supports_color and not dim.supports_cct, "dimmer type has no color")
   T.eq(L.types_for_driver("mover")[1].id, "mover_wash", "mover types filtered")
-  T.eq(#L.types_for_driver("light"), 4, "light types")
+  T.eq(#L.types_for_driver("light"), 7, "light types")
+  -- Type fit: what keeps a map across a type change.
+  T.ok(L.map_fits(L.type_by_id("rgbw"), L.parse_map("dimmer,red,green,blue,white,strobe")), "RGBW map fits RGBW")
+  T.ok(not L.map_fits(L.type_by_id("rgb_tw"), L.parse_map("warm_white,cool_white")), "white-only map does not fit RGB + TW")
+  T.ok(not L.map_fits(L.type_by_id("rgb"), L.parse_map("red,green,blue,white")), "white channel not allowed on RGB")
+  T.ok(L.map_fits(L.type_by_id("tunable_white"), L.parse_map("dimmer,cct")), "dimmer + CCT channel is Tunable White")
+  T.eq(L.legacy_type("Color Par / Wash", L.parse_map("red,green,blue")).id, "rgb", "legacy color par without white -> RGB")
+  T.eq(L.legacy_type("Color Par / Wash", L.parse_map("red,green,blue,warm_white,cool_white")).id, "rgb_tw", "legacy -> RGB + TW")
+  T.eq(L.legacy_type("Strobe / Effect", nil).id, "rgbw", "legacy strobe/effect with no map -> RGBW")
+  T.eq(L.legacy_type("RGBW", nil), nil, "current labels are not legacy")
 end
 
 ---------------------------------------------------------------------------------------------
 T.section("color")
 do
-  local rgbw = L.compile(L.BUILTIN.generic_rgbw_4)
-  local drgbw = L.compile(L.BUILTIN.generic_drgbw_5)
+  local rgbw = lay("red,green,blue,white", "rgbw")
+  local drgbw = lay("dimmer,red,green,blue,white", "rgbw")
   -- sRGB primaries land on their own emitter.
   local r = C.mix(rgbw, { level = 100, x = 0.64, y = 0.33, mode = C.MODE_FULL })
   T.near(r.red, 1, 0.02, "red primary -> red"); T.near(r.green, 0, 0.02, "red primary: no green")
@@ -136,7 +151,7 @@ do
   local off = C.mix(rgbw, { level = 0, x = 0.64, y = 0.33, mode = C.MODE_FULL })
   T.near(off.red, 0, 0, "level 0 -> dark")
 
-  local tw = L.compile(L.BUILTIN.generic_tw_2)
+  local tw = lay("warm_white,cool_white", "tunable_white")
   local warm = C.mix(tw, { level = 100, x = select(1, C.kelvin_to_xy(2700)), y = select(2, C.kelvin_to_xy(2700)), mode = C.MODE_CCT })
   T.near(warm.warm_white, 1, 0.03, "2700K -> all warm"); T.near(warm.cool_white, 0, 0.03, "2700K -> no cool")
   local cx, cy = C.kelvin_to_xy(6500)
