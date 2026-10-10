@@ -278,6 +278,13 @@ do
 
   -- RGBW keeps BOTH the color picker and the color temperature slider (Dave's par, 2026-10-10).
   local c = lastcaps(sim, old)
+  -- Every capability update restates the rate ranges (proxy defaults are a 0-0 range, which made
+  -- Composer throw "default color rate out of range").
+  for _, d in ipairs({ old, olddim, fresh, manual, onoff }) do
+    local k = lastcaps(sim, d)
+    T.ok(k.color_rate_behavior == 2 and k.color_rate_max == 6553500 and k.brightness_rate_max == 6553500,
+      d.name .. ": rate ranges sent with capabilities")
+  end
   T.eq(c.supports_color, true, "RGBW: color picker")
   T.eq(c.supports_color_correlated_temperature, true, "RGBW: color temperature slider kept")
   sim:proxy(old, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.4578, LIGHT_COLOR_TARGET_Y = 0.4101, LIGHT_COLOR_TARGET_MODE = 1 })

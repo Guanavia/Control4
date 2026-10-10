@@ -331,6 +331,14 @@ function F.push_capabilities()
     supports_color = lay.supports_color,
     supports_color_correlated_temperature = lay.supports_cct,
     has_extras = (#lay.extras > 0) or (F.ext.has_extras and F.ext.has_extras()) or false,
+    -- ALWAYS restate the rate ranges: the proxy's own defaults are behavior 0 with a 0-0 range,
+    -- and Composer's rate controls throw out-of-range when a default rate exceeds that
+    -- (bench, 2026-10-10). Must match driver.xml.
+    color_rate_behavior = 2,
+    color_rate_min = 0,
+    color_rate_max = 6553500,
+    brightness_rate_min = 0,
+    brightness_rate_max = 6553500,
   }
   if lay.supports_cct then
     caps.color_correlated_temperature_min = lay.cct_min

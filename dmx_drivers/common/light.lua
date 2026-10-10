@@ -504,7 +504,7 @@ function Light:handle(cmd, p, binding)
   elseif cmd == "SET_COLOR_TARGET" then
     -- OS 3.3.2 renamed RATE to LIGHT_COLOR_TARGET_RATE; accept both.
     self:set_color(p.LIGHT_COLOR_TARGET_X, p.LIGHT_COLOR_TARGET_Y, num(p.LIGHT_COLOR_TARGET_MODE, 0),
-      num(p.LIGHT_COLOR_TARGET_RATE, num(p.RATE, 0)))
+      num(p.LIGHT_COLOR_TARGET_RATE, num(p.RATE, s.color_rate_default or 0)))
   elseif cmd == "SET_COLOR_STOP" then
     self:cancel_timer("color")
     self:notify_color_done()
@@ -529,6 +529,10 @@ function Light:handle(cmd, p, binding)
   elseif cmd == "SET_MAX_ON_LEVEL" then s.max_on = U.clamp(num(p.LEVEL, 100), 1, 100); self:notify("MAX_ON_LEVEL", tostring(s.max_on))
   elseif cmd == "SET_COLD_START_LEVEL" then s.cold_start_level = num(p.LEVEL, 0); self:notify("COLD_START_LEVEL", tostring(s.cold_start_level))
   elseif cmd == "SET_COLD_START_TIME" then s.cold_start_time = num(p.TIME, 0); self:notify("COLD_START_TIME", tostring(s.cold_start_time))
+  elseif cmd == "UPDATE_COLOR_RATE_DEFAULT" or cmd == "SET_COLOR_RATE_DEFAULT" then
+    -- Composer's Default Color Rate: used when a color change arrives with no rate.
+    s.color_rate_default = num(p.RATE, num(p.LIGHT_COLOR_RATE_DEFAULT, 0))
+    self:save()
   elseif cmd == "UPDATE_BRIGHTNESS_RATE_DEFAULT" or cmd == "SET_BRIGHTNESS_RATE_DEFAULT" then
     s.rate_default = num(p.RATE, num(p.BRIGHTNESS_RATE_DEFAULT, 0))
   elseif cmd == "GET_CONNECTED_STATE" then self:notify("ONLINE_CHANGED", { STATE = self.online })

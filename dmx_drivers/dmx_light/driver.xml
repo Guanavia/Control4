@@ -6,7 +6,7 @@
   <model>DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>11</version>
+  <version>12</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -33,6 +33,10 @@
     <supports_color_correlated_temperature>True</supports_color_correlated_temperature>
     <color_correlated_temperature_min>2700</color_correlated_temperature_min>
     <color_correlated_temperature_max>6500</color_correlated_temperature_max>
+    <!-- color_rate_behavior 2 = brightness and color ramp at separate rates (what the light does).
+         Left out, it defaults to 0 ("unchangeable") with a 0-0 color rate range, and Composer
+         throws "default color rate ... out of range" (bench, 2026-10-10). Also sent dynamically. -->
+    <color_rate_behavior>2</color_rate_behavior>
     <color_rate_min>0</color_rate_min>
     <color_rate_max>6553500</color_rate_max>
     <brightness_rate_min>0</brightness_rate_min>

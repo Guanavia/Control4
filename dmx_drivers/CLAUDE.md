@@ -205,6 +205,13 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
   * Migration on load: old type labels ("Color Par / Wash", "Strobe / Effect", "Dimmer") resolve
     from the existing channels; the Channel Map text is the source of truth (it was the only record
     of a chosen built-in); a brand-new fixture starts from RGBW's map.
+  * **Composer "default color rate ... DefaultColorRateMinimum 0 / Maximum 0 ... out of range"
+    (bench, 2026-10-10):** we never declared `color_rate_behavior` (default 0 = unchangeable, with
+    a 0-0 range, per the proxy's documented defaults) and our DYNAMIC_CAPABILITIES_CHANGED omitted
+    the rate ranges. Fixed (light/mover build 12): `color_rate_behavior` 2 in driver.xml AND every
+    dynamic update restates behavior + color/brightness rate min/max; `UPDATE_COLOR_RATE_DEFAULT`
+    now handled. **Rule: a dynamic capability update should restate the rate ranges every time.**
+    Colour output re-checked byte-identical. UNVERIFIED: that this clears the dialog.
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 
