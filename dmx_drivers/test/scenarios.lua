@@ -348,6 +348,10 @@ do
   sim:call(par2, "ReceivedFromProxy", 5001, "GET_EXTRAS_SETUP", {})
   T.ok(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED") ~= nil, "GET_EXTRAS_SETUP answered even when unchanged")
   T.ok(sim:last_notify(par2, "EXTRAS_STATE_CHANGED") ~= nil, "...with the current state")
+  sim:action(par2, "SHOW_PROXY_CAPS")
+  local log = table.concat(par2.errorlog, "\n")
+  T.like(log, "proxy 202 holds: <DynamicCapabilities>.*<has_extras>true</has_extras>", "Show Proxy Capabilities reads the proxy variable")
+  T.like(log, "last sent: .*has_extras=true", "...next to what the driver sent")
 end
 
 ---------------------------------------------------------------------------------------------

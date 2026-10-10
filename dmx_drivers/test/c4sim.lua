@@ -75,6 +75,17 @@ function Sim:make_c4(dev)
 
   function api:ErrorLog(msg) dev.errorlog[#dev.errorlog + 1] = tostring(msg) end
   function api:GetDeviceID() return dev.id end
+  -- Documented (API 25_proxy / 36_variable). The sim's proxy is the device itself; variable 6661
+  -- echoes the last DYNAMIC_CAPABILITIES_CHANGED as the light proxy's XML would.
+  function api:GetProxyDevices() return dev.id end
+  function api:GetDeviceVariable(id, var)
+    if tonumber(var) == 6661 and dev.proxy_caps then
+      local parts = { "<DynamicCapabilities>" }
+      for k, v in pairs(dev.proxy_caps) do parts[#parts + 1] = "<" .. k .. ">" .. tostring(v) .. "</" .. k .. ">" end
+      return table.concat(parts) .. "</DynamicCapabilities>"
+    end
+    return nil
+  end
   function api:GetDeviceDisplayName(id)
     local d = world.devices[tonumber(id)]
     return d and d.name or ""
@@ -96,6 +107,11 @@ function Sim:make_c4(dev)
   function api:SetPropertyAttribs(name, hidden) dev.hidden[name] = hidden == 1 end
 
   function api:SendToProxy(binding, cmd, params, kind)
+    if cmd == "DYNAMIC_CAPABILITIES_CHANGED" then
+      -- The proxy merges each update into what it holds.
+      dev.proxy_caps = dev.proxy_caps or {}
+      for k, v in pairs(params or {}) do dev.proxy_caps[k] = v end
+    end
     dev.notifies[#dev.notifies + 1] = { binding = binding, cmd = cmd, params = copy(params), t = world.clock }
   end
   function api:SendToDevice(id, cmd, params)

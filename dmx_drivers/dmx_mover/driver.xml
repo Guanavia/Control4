@@ -6,7 +6,7 @@
   <model>DMX Moving Head</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>14</version>
+  <version>15</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -383,6 +383,10 @@
       <action>
         <name>Re-register with Node</name>
         <command>REREGISTER</command>
+      </action>
+      <action>
+        <name>Show Proxy Capabilities</name>
+        <command>SHOW_PROXY_CAPS</command>
       </action>
       <action>
         <name>Home Position</name>

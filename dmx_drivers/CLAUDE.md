@@ -224,6 +224,14 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     logged in Debug. If the tab is still missing: force-quit/reopen the app (has_extras is a
     capability the UI may have cached), then try a section with only a list object (the one shape
     confirmed by several shipping drivers) to split "slider XML" from "Extras at all".
+  * **Build 14 bench: still no Extras tab**, although the log proves a well-formed setup is sent
+    and updated, and Navigator NEVER sent GET_EXTRAS_SETUP. Suspect: has_extras never reaches the
+    proxy (static driver.xml says False; only our dynamic update says True, and NO dynamic
+    capability has yet been confirmed applied on hardware). Build 15 adds the **Show Proxy
+    Capabilities** action: reads light_v2 proxy variable 6661 ("Light Dynamic Capabilities") via
+    `C4:GetDeviceVariable(C4:GetProxyDevices(), 6661)` and prints it beside what we last sent. If
+    has_extras reads False there, the dynamic path is not applied and the fix is static
+    `<has_extras>True</has_extras>` (structural: batch with color_rate_behavior, one restart).
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply

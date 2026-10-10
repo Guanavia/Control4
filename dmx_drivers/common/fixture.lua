@@ -321,6 +321,26 @@ function F.apply_config(reason)
   return true
 end
 
+-- Diagnostic: what the light PROXY actually holds (light_v2 variable 6661, "Light Dynamic
+-- Capabilities"), as opposed to what this driver sent. Settles whether DYNAMIC_CAPABILITIES_CHANGED
+-- is being applied at all (has_extras, the color rate ranges...). Logged unsilenceably.
+F.PROXY_CAPS_VARIABLE = 6661
+
+function F.show_proxy_caps()
+  local ok, proxy = pcall(function() return C4:GetProxyDevices() end)
+  local id = ok and (tonumber(proxy) or (type(proxy) == "table" and tonumber(next(proxy)))) or nil
+  if not id then
+    F.critical("Show Proxy Capabilities: could not find this driver's proxy (GetProxyDevices returned %s)", tostring(proxy))
+    return
+  end
+  local ok2, xml = pcall(function() return C4:GetDeviceVariable(id, F.PROXY_CAPS_VARIABLE) end)
+  F.critical("Show Proxy Capabilities: proxy %d holds: %s", id, ok2 and tostring(xml) or ("error " .. tostring(xml)))
+  local sent = {}
+  for k, v in pairs(F.last_caps or {}) do sent[#sent + 1] = k .. "=" .. tostring(v) end
+  table.sort(sent)
+  F.critical("Show Proxy Capabilities: this driver last sent: %s", table.concat(sent, ", "))
+end
+
 function F.push_capabilities()
   local lay = F.layout
   if not lay or not F.light then return end
@@ -344,6 +364,7 @@ function F.push_capabilities()
     caps.color_correlated_temperature_min = lay.cct_min
     caps.color_correlated_temperature_max = lay.cct_max
   end
+  F.last_caps = caps
   F.light:capabilities(caps)
 end
 
@@ -867,6 +888,7 @@ function F.install(opts)
         if action == "IDENTIFY" then F.identify()
         elseif action == "REREGISTER" then F.find_node(); F.register("re-register action")
         elseif action == "RESET_MOTORS" then F.reset_motors()
+        elseif action == "SHOW_PROXY_CAPS" then F.show_proxy_caps()
         elseif not (F.ext.action and F.ext.action(action, tParams)) then
           F.debug("unhandled action %s", tostring(action))
         end
