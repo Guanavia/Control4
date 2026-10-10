@@ -212,6 +212,12 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     dynamic update restates behavior + color/brightness rate min/max; `UPDATE_COLOR_RATE_DEFAULT`
     now handled. **Rule: a dynamic capability update should restate the rate ranges every time.**
     Colour output re-checked byte-identical. UNVERIFIED: that this clears the dialog.
+  * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
+    on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
+    takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply
+    together, one restart, back up first): add `<color_rate_behavior>2</color_rate_behavior>` to
+    the static capabilities of dmx_light and dmx_mover. Before shipping any build, diff its
+    capabilities/connections/proxies against the installed build to know which kind of update it is.
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 
