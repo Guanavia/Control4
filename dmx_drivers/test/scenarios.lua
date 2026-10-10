@@ -164,6 +164,48 @@ do
   T.eq(sim:slots(1, 4), { 0, 0, 0, 0 }, "click BOTTOM -> off")
 end
 
+T.section("par: button LED colors (device screen + linked keypad)")
+do
+  local sim, node, par1 = rig()
+  -- A keypad bound to the par's Toggle Button Link (provider 302).
+  local keypad = { id = 900, name = "keypad", errorlog = {}, printed = {}, notifies = {} }
+  sim.devices[900] = keypad
+  sim.bindings[#sim.bindings + 1] = { consumer = 900, cbinding = 1, provider = par1.id, pbinding = 302 }
+  local function sent(binding, cmd)
+    local last
+    for _, n in ipairs(par1.notifies) do if n.binding == binding and n.cmd == cmd then last = n end end
+    return last
+  end
+  local function info(id)
+    local last
+    for _, n in ipairs(par1.notifies) do
+      if n.binding == 5001 and n.cmd == "BUTTON_INFO" and tonumber(n.params.BUTTON_ID) == id then last = n end
+    end
+    return last and last.params
+  end
+  sim:clear(par1)
+  sim:call(par1, "ReceivedFromProxy", 5001, "SET_BUTTON_COLOR", { BUTTON_ID = "2", ON_COLOR = "ff8800", OFF_COLOR = "001122" })
+  T.eq(info(2).ON_COLOR, "ff8800", "SET_BUTTON_COLOR reported to the proxy (device screen)")
+  T.eq(info(2).CURRENT_COLOR, "001122", "light off -> Toggle shows its OFF color")
+  T.eq(sent(302, "BUTTON_COLORS").params.ON_COLOR, "ff8800", "colors pushed down the linked Toggle Button Link")
+  T.eq(sent(302, "MATCH_LED_STATE").params.STATE, false, "linked LED told the load is off")
+  T.ok(not sent(300, "BUTTON_COLORS"), "nothing sent down an unbound link")
+  sim:clear(par1)
+  sim:proxy(par1, "ON")
+  sim:advance(1000)
+  T.eq(sent(302, "MATCH_LED_STATE").params.STATE, true, "linked LED follows the load on")
+  T.eq(info(2).CURRENT_COLOR, "ff8800", "device screen Toggle shows its ON color")
+  T.eq(info(1).CURRENT_COLOR, "000000", "Off button is dark while the load is on (lit blue only when off)")
+  sim:clear(par1)
+  sim:call(par1, "ReceivedFromProxy", 302, "REQUEST_BUTTON_COLORS", {})
+  T.eq(sent(302, "BUTTON_COLORS").params.OFF_COLOR, "001122", "keypad request answered on its own link")
+  -- Colors survive a reload.
+  sim:call(par1, "ReceivedFromProxy", 5001, "SET_BUTTON_COLOR", { BUTTON_ID = "0", ON_COLOR = "#00FF00" })
+  T.eq(info(0).ON_COLOR, "00ff00", "hex normalised")
+  sim:call(par1, "ReceivedFromProxy", 5001, "SET_BUTTON_COLOR", { BUTTON_ID = "0", ON_COLOR = "nonsense" })
+  T.eq(info(0).ON_COLOR, "00ff00", "invalid color ignored, previous kept")
+end
+
 T.section("par: 8ch layout, Extras and the real dimmer channel")
 do
   local sim, node, _, par2 = rig()

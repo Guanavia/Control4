@@ -779,7 +779,7 @@ function F.install(opts)
       local extra = X.object_for_command(strCommand)
       if extra then
         F.on_extra(extra, tParams.value or tParams.VALUE)
-      elseif not F.light:handle(strCommand, tParams) then
+      elseif not F.light:handle(strCommand, tParams, idBinding) then
         F.debug("unhandled proxy command %s", strCommand)
       end
     end)

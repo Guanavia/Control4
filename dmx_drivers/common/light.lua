@@ -44,6 +44,7 @@ function Light.new(opts)
     cold_start_level = 0, cold_start_time = 0,
     last_on_level = 100,
     scenes = {},
+    button_colors = Light.default_button_colors(),
   }
   self.s = s
   self.fade = nil          -- { from, to, t0, dur } for the brightness ramp in progress
@@ -65,6 +66,7 @@ function Light:restore(t)
   if type(t) ~= "table" then return end
   for k, v in pairs(t) do self.s[k] = v end
   self.s.scenes = self.s.scenes or {}
+  self.s.button_colors = self.s.button_colors or Light.default_button_colors()
 end
 
 function Light:save()
@@ -93,14 +95,78 @@ function Light:level_state()
   return self.s.level > 0
 end
 
+---------------------------------------------------------------------------------------------
+-- Button LED colors (has_leds). Composer's LED color settings arrive as SET_BUTTON_COLOR; the
+-- driver owns them and reports them two ways: BUTTON_INFO to the light proxy (colors the On/Off/
+-- Toggle buttons on the device screen) and BUTTON_COLORS + MATCH_LED_STATE down each BUTTON_LINK
+-- (colors a keypad button bound to that link: what the keypad's "follow connection" shows).
+-- Button ids: 0 = On (top), 1 = Off (bottom), 2 = Toggle. Colors are 6-char hex strings.
+---------------------------------------------------------------------------------------------
+function Light.default_button_colors()
+  -- Lit while the button's own state is true: On and Toggle light when the load is on, Off lights
+  -- when it is off. Blue/black is Control4's default keypad pairing.
+  return {
+    ["0"] = { on = "0000ff", off = "000000" },
+    ["1"] = { on = "000000", off = "0000ff" },
+    ["2"] = { on = "0000ff", off = "000000" },
+  }
+end
+
+function Light:button_colors(id)
+  local c = self.s.button_colors[tostring(id)]
+  if not c then
+    c = Light.default_button_colors()[tostring(id)] or { on = "0000ff", off = "000000" }
+    self.s.button_colors[tostring(id)] = c
+  end
+  return c
+end
+
+local function link_bound(binding)
+  local bound = C4:GetBoundConsumerDevices(0, binding)
+  return bound and next(bound) ~= nil
+end
+
+-- Report one button's colors to the proxy and, if a keypad is linked, down its BUTTON_LINK.
+function Light:report_button(id, to_link)
+  local c = self:button_colors(id)
+  local state = self:level_state()
+  self:notify("BUTTON_INFO", { BUTTON_ID = id, ON_COLOR = c.on, OFF_COLOR = c.off,
+    CURRENT_COLOR = state and c.on or c.off })
+  local binding = self.button_base + id
+  if to_link and link_bound(binding) then
+    C4:SendToProxy(binding, "BUTTON_COLORS", { ON_COLOR = c.on, OFF_COLOR = c.off }, "NOTIFY")
+    C4:SendToProxy(binding, "MATCH_LED_STATE", { STATE = state })
+  end
+end
+
+function Light:report_all_buttons()
+  for i = 0, 2 do self:report_button(i, true) end
+end
+
+local function hex6(v)
+  v = v and tostring(v):gsub("^#", ""):lower()
+  if v and v:match("^%x%x%x%x%x%x$") then return v end
+end
+
+function Light:set_button_color(id, on, off)
+  if id == nil or id < 0 or id > 2 then return end
+  local c = self:button_colors(id)
+  c.on = hex6(on) or c.on
+  c.off = hex6(off) or c.off
+  self:save()
+  self:report_button(id, true)
+end
+
 function Light:match_leds()
   local state = self:level_state()
   if state == self.led_state then return end
   self.led_state = state
   for i = 0, 2 do
+    local c = self:button_colors(i)
+    self:notify("BUTTON_INFO", { BUTTON_ID = i, ON_COLOR = c.on, OFF_COLOR = c.off,
+      CURRENT_COLOR = state and c.on or c.off })
     local binding = self.button_base + i
-    local bound = C4:GetBoundConsumerDevices(0, binding)
-    if bound and next(bound) then
+    if link_bound(binding) then
       C4:SendToProxy(binding, "MATCH_LED_STATE", { STATE = state })
     end
   end
@@ -417,7 +483,7 @@ local function num(v, default)
   return n
 end
 
-function Light:handle(cmd, p)
+function Light:handle(cmd, p, binding)
   p = p or {}
   local s = self.s
   -- Any direct command interrupts a running (e.g. flashing) scene.
@@ -442,6 +508,14 @@ function Light:handle(cmd, p)
   elseif cmd == "SET_COLOR_STOP" then
     self:cancel_timer("color")
     self:notify_color_done()
+  elseif cmd == "SET_BUTTON_COLOR" then
+    local id = tonumber(p.BUTTON_ID)
+    if id == nil and binding then id = binding - self.button_base end
+    self:set_button_color(id, p.ON_COLOR, p.OFF_COLOR)
+  elseif cmd == "REQUEST_BUTTON_COLORS" then
+    -- Arrives on the BUTTON_LINK binding of the keypad that is asking.
+    local id = binding and (binding - self.button_base)
+    if id and id >= 0 and id <= 2 then self:report_button(id, true) else self:report_all_buttons() end
   elseif cmd == "BUTTON_ACTION" then
     self:button_action(num(p.BUTTON_ID, 2), num(p.ACTION, 2))
   elseif cmd == "SET_PRESET_LEVEL" then
@@ -489,6 +563,7 @@ function Light:announce()
   if self.s.x and self.s.y then self:notify_color_done() end
   self.led_state = nil
   self:match_leds()
+  self:report_all_buttons()
 end
 
 return Light

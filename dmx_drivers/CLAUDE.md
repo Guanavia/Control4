@@ -168,6 +168,24 @@ fade, keepalive/reboot restore all depend on the master), and our `artnet_node` 
 and tested, so it saves no work. If ever wanted, the cheap way in is a spy driver: declare an
 `ArtNet_DMX_CIRCUIT` provider, bind their Dimmer V2 to it, and log what arrives.
 
+## Light driver bench feedback (2026-10-08/10)
+
+- **Color picker, CCT and dimming work flawlessly on the par. Protect them**: any redesign of the
+  fixture section must leave the color engine (`color.lua`, the mixed-emitter path) untouched, and
+  the scenario checks on wire bytes are the guard.
+- **`has_leds` KEPT (Dave's instinct, confirmed by the keypad BUTTON_LINK protocol).** The light's
+  LED colors are what a keypad button bound to its On/Off/Toggle Button Link shows: the light sends
+  `BUTTON_COLORS {ON_COLOR, OFF_COLOR}` + `MATCH_LED_STATE` down the link and answers
+  `REQUEST_BUTTON_COLORS`. **Our light implemented none of the color half** (only MATCH_LED_STATE),
+  and never sent `BUTTON_INFO {BUTTON_ID, ON_COLOR, OFF_COLOR, CURRENT_COLOR}` to the proxy, which
+  is the likely reason the device screen's buttons were black. Fixed in light build 7: handles
+  `SET_BUTTON_COLOR` / `REQUEST_BUTTON_COLORS`, persists colors, reports both ways. Defaults: On and
+  Toggle blue-when-on, Off blue-when-off. Param names read from Snap One's template (facts only,
+  decision 7). UNVERIFIED on hardware: that the black buttons were these, and keypad follow.
+- **Fixture section redesign: proposed, awaiting Dave** (see conversation 2026-10-10): Fixture Type
+  becomes how the fixture maps onto Control4's controls, not a model; per-channel functions stay;
+  non-color channels already go to Extras.
+
 ## Carried-over lessons applied (from YAS209)
 
 Repeating timers pass `bRepeat=true`; every C4 call used was checked against Snap One's published
