@@ -6,7 +6,7 @@
   <model>DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>15</version>
+  <version>16</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -247,6 +247,20 @@
         <name>Diagnostics</name>
         <type>LABEL</type>
         <default>Diagnostics</default>
+      </property>
+      <property>
+        <name>Extras Test</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>List (Snap One sample shape)</item>
+          <item>Slider: attributes</item>
+          <item>Slider: child elements</item>
+          <item>Slider: both</item>
+          <item>Button</item>
+        </items>
+        <default>Off</default>
+        <tooltip>Diagnostic. Replaces this light's Extras tab with one fixed test object, to find which Extras shapes Navigator displays. Returns to Off on reload.</tooltip>
       </property>
       <property>
         <name>Debug Mode</name>

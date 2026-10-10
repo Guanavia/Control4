@@ -187,13 +187,13 @@ do
     for _, n in ipairs(par1.notifies) do
       if n.binding == 5001 and n.cmd == "BUTTON_INFO" and tonumber(n.params.BUTTON_ID) == id then last = n end
     end
-    return last and last.params
+    return last and last.raw   -- hex colors are strings on the wire (raw, not number-normalised)
   end
   sim:clear(par1)
   sim:call(par1, "ReceivedFromProxy", 5001, "SET_BUTTON_COLOR", { BUTTON_ID = "2", ON_COLOR = "ff8800", OFF_COLOR = "001122" })
   T.eq(info(2).ON_COLOR, "ff8800", "SET_BUTTON_COLOR reported to the proxy (device screen)")
   T.eq(info(2).CURRENT_COLOR, "001122", "light off -> Toggle shows its OFF color")
-  T.eq(sent(302, "BUTTON_COLORS").params.ON_COLOR, "ff8800", "colors pushed down the linked Toggle Button Link")
+  T.eq(sent(302, "BUTTON_COLORS").raw.ON_COLOR, "ff8800", "colors pushed down the linked Toggle Button Link")
   T.eq(sent(302, "MATCH_LED_STATE").params.STATE, false, "linked LED told the load is off")
   T.ok(not sent(300, "BUTTON_COLORS"), "nothing sent down an unbound link")
   sim:clear(par1)
@@ -204,7 +204,7 @@ do
   T.eq(info(1).CURRENT_COLOR, "000000", "Off button is dark while the load is on (lit blue only when off)")
   sim:clear(par1)
   sim:call(par1, "ReceivedFromProxy", 302, "REQUEST_BUTTON_COLORS", {})
-  T.eq(sent(302, "BUTTON_COLORS").params.OFF_COLOR, "001122", "keypad request answered on its own link")
+  T.eq(sent(302, "BUTTON_COLORS").raw.OFF_COLOR, "001122", "keypad request answered on its own link")
   -- Colors survive a reload.
   sim:call(par1, "ReceivedFromProxy", 5001, "SET_BUTTON_COLOR", { BUTTON_ID = "0", ON_COLOR = "#00FF00" })
   T.eq(info(0).ON_COLOR, "00ff00", "hex normalised")
@@ -281,8 +281,8 @@ do
   -- Every capability update restates the rate ranges (proxy defaults are a 0-0 range, which made
   -- Composer throw "default color rate out of range").
   for _, d in ipairs({ old, olddim, fresh, manual, onoff }) do
-    local k = lastcaps(sim, d)
-    T.ok(k.color_rate_behavior == 2 and k.color_rate_max == 6553500 and k.brightness_rate_max == 6553500,
+    local k = sim:last_notify(d, "DYNAMIC_CAPABILITIES_CHANGED").raw
+    T.ok(k.color_rate_behavior == "2" and k.color_rate_max == "6553500" and k.brightness_rate_max == "6553500",
       d.name .. ": rate ranges sent with capabilities")
   end
   T.eq(c.supports_color, true, "RGBW: color picker")
@@ -348,6 +348,20 @@ do
   sim:call(par2, "ReceivedFromProxy", 5001, "GET_EXTRAS_SETUP", {})
   T.ok(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED") ~= nil, "GET_EXTRAS_SETUP answered even when unchanged")
   T.ok(sim:last_notify(par2, "EXTRAS_STATE_CHANGED") ~= nil, "...with the current state")
+  -- Extras Test: one fixed object per setting; Navigator's commands are logged.
+  for setting, want in pairs({ ["Slider: attributes"] = '<object type="slider" id="t_slider_a"[^>]*min="0"[^>]*/>',
+      ["Slider: child elements"] = 'id="t_slider_e"[^>]*value="0"><min>0</min>',
+      ["List (Snap One sample shape)"] = '<object type="list" id="t_list"' }) do
+    sim:set_property(par2, "Extras Test", setting)
+    local x = sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML
+    T.like(x, want, "Extras Test '" .. setting .. "' sends exactly that object")
+    T.ok(not x:find("r_strobe"), "...and nothing else")
+  end
+  T.ok(not sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML:find('id="t_slider_e"[^>]*min="'), "elements form has no min attribute")
+  sim:proxy(par2, "EXTRA_t_list", { value = "2" })
+  T.like(par2.errorlog[#par2.errorlog], "Extras Test: Navigator sent t_list = 2", "test command logged")
+  sim:set_property(par2, "Extras Test", "Off")
+  T.like(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML, "r_strobe", "Off restores the real Extras")
   sim:action(par2, "SHOW_PROXY_CAPS")
   local log = table.concat(par2.errorlog, "\n")
   T.like(log, "proxy 202 holds: <DynamicCapabilities>.*<has_extras>true</has_extras>", "Show Proxy Capabilities reads the proxy variable")

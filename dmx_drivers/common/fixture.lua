@@ -350,7 +350,7 @@ function F.push_capabilities()
     supports_brightness_stop = true,
     supports_color = lay.supports_color,
     supports_color_correlated_temperature = lay.supports_cct,
-    has_extras = (#lay.extras > 0) or (F.ext.has_extras and F.ext.has_extras()) or false,
+    has_extras = (#lay.extras > 0) or (F.ext.has_extras and F.ext.has_extras()) or F.extras_test() ~= nil,
     -- ALWAYS restate the rate ranges: the proxy's own defaults are behavior 0 with a 0-0 range,
     -- and Composer's rate controls throw out-of-range when a default rate exceeds that
     -- (bench, 2026-10-10). Must match driver.xml.
@@ -554,7 +554,25 @@ function F.role_object(ch)
     value = F.extra[ch.role] or 0 }
 end
 
+-- EXTRAS TEST (diagnostic, bench 2026-10-10): the proxy holds has_extras=True and a well-formed
+-- setup, yet Navigator shows no Extras tab. Each setting replaces the whole setup with ONE fixed
+-- object, so one bench pass splits "this object's XML" from "Extras at all". Forced Off on load.
+local EXTRAS_TESTS = {
+  ["List (Snap One sample shape)"] = { type = "list", id = "t_list", label = "Test List",
+    items = { { text = "One", value = "1" }, { text = "Two", value = "2" } } },
+  ["Slider: attributes"] = { type = "slider", id = "t_slider_a", label = "Test Slider (attributes)", form = "attr" },
+  ["Slider: child elements"] = { type = "slider", id = "t_slider_e", label = "Test Slider (elements)", form = "elem" },
+  ["Slider: both"] = { type = "slider", id = "t_slider_b", label = "Test Slider (both)" },
+  ["Button"] = { type = "button", id = "t_button", label = "Test Button", text = "Press" },
+}
+
+function F.extras_test()
+  return EXTRAS_TESTS[Properties["Extras Test"] or "Off"]
+end
+
 function F.extras_sections()
+  local test = F.extras_test()
+  if test then return { { label = "Extras Test", objects = { test } } } end
   local by = {}
   for _, name in ipairs(SECTION_ORDER) do by[name] = {} end
   if F.layout then
@@ -642,6 +660,13 @@ function F.on_extra(id, value)
   if id == "a_reset" then
     F.reset_motors()
     F.push_extras_state({ { id = id } })
+    return
+  end
+  if id:match("^t_") then
+    -- Extras Test object: log every arrival unsilenceably (proves commands flow, and whether a
+    -- slider sends while dragging or only on release).
+    F.critical("Extras Test: Navigator sent %s = %s", id, tostring(value))
+    F.push_extras_state({ { id = id, value = value } })
     return
   end
   if F.ext.on_extra and F.ext.on_extra(id, value) then return end
@@ -748,6 +773,12 @@ function F.on_property(name)
   elseif name == "Start Address" or name == "CCT Min (K)" or name == "CCT Max (K)"
       or name == "Reset Value" or name == "Reset Hold (ms)" then
     F.apply_config(name .. " changed")
+  elseif name == "Extras Test" then
+    F.critical("Extras Test: %s", tostring(value))
+    F.last_extras_setup = nil
+    F.push_capabilities()
+    F.push_extras_setup()
+    F.push_extras_setup_state()
   elseif name == "White Mix (%)" or name == "Dimming Curve" then
     F.refresh(0)
   elseif F.ext.on_property then
@@ -824,6 +855,7 @@ function F.install(opts)
       persist = F.schedule_persist,
     })
     F.restore()
+    F.set_prop("Extras Test", "Off")   -- a diagnostic never survives a reload
     F.reconcile_config()
     F.refresh_lists()
     F.init_done = true

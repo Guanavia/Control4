@@ -77,6 +77,20 @@ end
 -- Notifies
 ---------------------------------------------------------------------------------------------
 function Light:notify(cmd, params)
+  -- Whole numbers go as integer STRINGS: a Lua number reached the proxy as "6.5535e+06" (bench,
+  -- 2026-10-10, Show Proxy Capabilities), which integer parsers in Composer/Navigator can reject.
+  -- Fractions (color x/y) stay numbers.
+  if type(params) == "table" then
+    local out = {}
+    for k, v in pairs(params) do
+      if type(v) == "number" and v == math.floor(v) and math.abs(v) < 2^53 then
+        out[k] = string.format("%d", v)
+      else
+        out[k] = v
+      end
+    end
+    params = out
+  end
   C4:SendToProxy(self.binding, cmd, params or {}, "NOTIFY")
 end
 

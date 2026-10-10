@@ -232,6 +232,18 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     `C4:GetDeviceVariable(C4:GetProxyDevices(), 6661)` and prints it beside what we last sent. If
     has_extras reads False there, the dynamic path is not applied and the fix is static
     `<has_extras>True</has_extras>` (structural: batch with color_rate_behavior, one restart).
+  * **Show Proxy Capabilities result (bench, build 15): the DYNAMIC PATH WORKS.** The proxy held
+    has_extras=True and color_rate_behavior=2, so runtime capabilities are applied (the colour-rate
+    fix is confirmed at the proxy) and Extras is NOT blocked by the proxy. **Found a new bug the
+    same way:** our numeric capabilities arrived as `6.5535e+06` (the static XML values read
+    `6553500`). Lua numbers through SendToProxy can be float-formatted. Build 16: `Light:notify`
+    sends every whole number as an integer string. **Rule: send integers to a proxy as strings.**
+    (Harness: notifies now keep `raw` (as sent) beside number-normalised `params`.)
+  * **Navigator still shows no Extras tab with the proxy saying has_extras=True.** Build 16 adds a
+    temporary **Extras Test** property (Diagnostics; forced Off on load): replaces the setup with ONE
+    fixed object (Snap One sample list / slider as attributes / as elements / both / button) and
+    logs every command Navigator sends back. One bench pass then says which shape renders. Remove
+    the property once settled.
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply

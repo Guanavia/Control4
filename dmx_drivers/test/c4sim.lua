@@ -112,7 +112,17 @@ function Sim:make_c4(dev)
       dev.proxy_caps = dev.proxy_caps or {}
       for k, v in pairs(params or {}) do dev.proxy_caps[k] = v end
     end
-    dev.notifies[#dev.notifies + 1] = { binding = binding, cmd = cmd, params = copy(params), t = world.clock }
+    -- params: integer strings read back as numbers (what most checks compare); raw: exactly as
+    -- sent, for checks on the wire FORMAT (e.g. "6553500", never "6.5535e+06").
+    local norm = {}
+    if type(params) == "table" then
+      for k, v in pairs(params) do
+        norm[k] = (type(v) == "string" and v:match("^%-?%d+$")) and tonumber(v) or v
+      end
+    else
+      norm = params
+    end
+    dev.notifies[#dev.notifies + 1] = { binding = binding, cmd = cmd, params = norm, raw = copy(params), t = world.clock }
   end
   function api:SendToDevice(id, cmd, params)
     world.queue[#world.queue + 1] = { from = dev.id, to = tonumber(id), cmd = cmd, params = stringify(params) }

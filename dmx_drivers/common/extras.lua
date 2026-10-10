@@ -29,11 +29,13 @@ local function object_xml(o)
   local head = '<object' .. attr("type", o.type) .. attr("id", o.id) .. attr("label", o.label)
     .. attr("command", X.COMMAND_PREFIX .. o.id) .. attr("hidden", o.hidden and "true" or nil)
   if o.type == "slider" then
+    -- o.form: "attr" | "elem" | nil (both). Only the Extras Test property sets it.
     local min, max, res = U.int(o.min or 0), U.int(o.max or 255), U.int(o.resolution or 1)
-    return head .. attr("min", min) .. attr("max", max) .. attr("resolution", res)
-      .. attr("value", U.int(o.value or 0)) .. ">"
-      .. "<min>" .. min .. "</min><max>" .. max .. "</max><resolution>" .. res .. "</resolution>"
-      .. "</object>"
+    local s = head
+    if o.form ~= "elem" then s = s .. attr("min", min) .. attr("max", max) .. attr("resolution", res) end
+    s = s .. attr("value", U.int(o.value or 0))
+    if o.form == "attr" then return s .. "/>" end
+    return s .. "><min>" .. min .. "</min><max>" .. max .. "</max><resolution>" .. res .. "</resolution></object>"
   elseif o.type == "button" then
     return head .. "><buttontext>" .. U.xml_escape(o.text or o.label) .. "</buttontext></object>"
   elseif o.type == "list" then
