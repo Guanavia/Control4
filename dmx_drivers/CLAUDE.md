@@ -244,12 +244,23 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     fixed object (Snap One sample list / slider as attributes / as elements / both / button) and
     logs every command Navigator sends back. One bench pass then says which shape renders. Remove
     the property once settled.
+  * **Extras Test result (bench, build 16): NOTHING renders, not even Snap One's sample list shape**,
+    after force-quit / restart / app update. So it is NOT our XML and NOT the proxy flag (proxy
+    variable 6661 says has_extras=True). The 6.5535e+06 persisted after we sent "6553500": that
+    formatting is the PROXY's own, harmless, not ours. Remaining suspect: Navigator decides on the
+    Extras tab from the STATIC capability at device load and ignores the dynamic one (our static
+    was False; the mover's is True; Control4's own DMX Light declares True statically).
+    **Build 17 = the structural batch** (one Director restart, back up first): dmx_light static
+    `has_extras` True, plus `color_rate_behavior` 2 on both drivers. If the tab then appears, keep
+    static True and let the dynamic value drive it; if not, Extras for lights may not render in the
+    Control4 app at all, and the next check is a touch screen or a known-good Extras driver.
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply
     together, one restart, back up first): add `<color_rate_behavior>2</color_rate_behavior>` to
     the static capabilities of dmx_light and dmx_mover. Before shipping any build, diff its
     capabilities/connections/proxies against the installed build to know which kind of update it is.
+    (Batch APPLIED in build 17.)
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 
