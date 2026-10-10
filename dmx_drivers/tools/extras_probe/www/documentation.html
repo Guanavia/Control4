@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Extras Probe</title></head>
+<body>
+<h1>Extras Probe (test only)</h1>
+<p>A diagnostic light with no output. It exists to answer one question: can a light driver show an <b>Extras</b> tab on this system's Navigators at all?</p>
+<ol>
+<li>Add it to any room. It loads as a dimmer and immediately offers one Extras checkbox.</li>
+<li>Open the light on a Navigator (app or touch screen) and look for an Extras tab.</li>
+<li>If nothing appears, try the Actions <b>Send: Switch (Hue shape)</b> and <b>Send: List</b>, checking after each.</li>
+<li>The Lua output logs every message the proxy or a UI sends, including whether a UI ever asks for Extras, and any Extras value Navigator sends back.</li>
+<li>Delete the device afterwards.</li>
+</ol>
+<table border="1">
+<tr><th>Property / Action</th><th>Purpose</th></tr>
+<tr><td>Probe Status</td><td>What was last sent, or "Extras WORK" once Navigator sends a value back.</td></tr>
+<tr><td>Send: Checkbox (Snap One sample shape)</td><td>Offer one checkbox.</td></tr>
+<tr><td>Send: Switch (Hue shape)</td><td>Offer one switch.</td></tr>
+<tr><td>Send: List</td><td>Offer one list.</td></tr>
+</table>
+</body></html>

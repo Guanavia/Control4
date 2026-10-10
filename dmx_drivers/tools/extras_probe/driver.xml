@@ -1,0 +1,89 @@
+<devicedata>
+  <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
+  <creator>David Woychek</creator>
+  <manufacturer>DMX</manufacturer>
+  <name>Extras Probe (test only)</name>
+  <model>Extras Probe</model>
+  <created>2026-10-10</created>
+  <modified>2026-10-10</modified>
+  <version>1</version>
+  <small image_source="c4z">www/icons/device_sm.png</small>
+  <large image_source="c4z">www/icons/device_lg.png</large>
+  <control>lua_gen</control>
+  <controlmethod></controlmethod>
+  <driver>DriverWorks</driver>
+  <minimum_os_version>3.3.2</minimum_os_version>
+  <composer_categories>
+    <category>Lights</category>
+  </composer_categories>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" name="Extras Probe" image_source="c4z"
+           small_image="www/icons/device_sm.png" large_image="www/icons/device_lg.png">light_v2</proxy>
+  </proxies>
+  <!-- DIAGNOSTIC ONLY (dmx_drivers, 2026-10-10). A bare light whose one job is to answer: can a
+       light_v2 driver show an Extras tab on this system at all? No DMX, no node, no color engine.
+       Add it, look in Navigator, delete it. -->
+  <capabilities>
+    <dimmer>True</dimmer>
+    <set_level>True</set_level>
+    <supports_target>True</supports_target>
+    <supports_color>False</supports_color>
+    <supports_color_correlated_temperature>False</supports_color_correlated_temperature>
+    <brightness_rate_min>0</brightness_rate_min>
+    <brightness_rate_max>60000</brightness_rate_max>
+    <click_rates>True</click_rates>
+    <click_rate_min>0</click_rate_min>
+    <click_rate_max>60000</click_rate_max>
+    <hold_rates>True</hold_rates>
+    <hold_rate_min>1000</hold_rate_min>
+    <hold_rate_max>60000</hold_rate_max>
+    <cold_start>False</cold_start>
+    <has_leds>False</has_leds>
+    <has_button_events>False</has_button_events>
+    <has_extras>True</has_extras>
+  </capabilities>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>LIGHT_V2</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <hidden>True</hidden>
+      <classes>
+        <class>
+          <classname>LIGHT_V2</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <script file="driver.lua" jit="1"/>
+    <documentation file="www/documentation.html"/>
+    <properties>
+      <property>
+        <name>Probe Status</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default></default>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Send: Checkbox (Snap One sample shape)</name>
+        <command>SEND_CHECKBOX</command>
+      </action>
+      <action>
+        <name>Send: Switch (Hue shape)</name>
+        <command>SEND_SWITCH</command>
+      </action>
+      <action>
+        <name>Send: List</name>
+        <command>SEND_LIST</command>
+      </action>
+    </actions>
+  </config>
+</devicedata>

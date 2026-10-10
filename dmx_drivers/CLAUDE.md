@@ -254,6 +254,16 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     `has_extras` True, plus `color_rate_behavior` 2 on both drivers. If the tab then appears, keep
     static True and let the dynamic value drive it; if not, Extras for lights may not render in the
     Control4 app at all, and the next check is a touch screen or a known-good Extras driver.
+  * **Build 17 result (after the Director restart): still no Extras tab, on the phone app AND a
+    T4.** Navigator has never once sent GET_EXTRAS_SETUP to the driver: it does not ask and fail, it
+    never asks. Every driver-side cause found is ruled out, and no working light Extras example has
+    ever been seen on this system (Control4's own DMX Light declares has_extras but sends nothing).
+    **Decisive test = `tools/extras_probe/`** (Dave approved): a bare light_v2 dimmer, static +
+    dynamic has_extras, ONE object (Snap One sample checkbox / Hue-shape switch / list, one Action
+    each), logs every proxy/UI message. Packaged by hand to `dist/extras_probe.c4z` (zip the folder's
+    contents), sim-checked. Tab appears -> something in dmx_light blocks it, bisect. Nothing -> light
+    Extras do not render on this system: stop, record it, and give extended channels another home
+    (Set Control already works; properties need Set; a separate device was ruled out by Dave).
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply
