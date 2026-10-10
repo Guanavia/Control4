@@ -241,7 +241,7 @@ function F.update_status()
     if F.conflict ~= "" then lines[#lines + 1] = "Note: " .. F.conflict end
     if not F.node_online then lines[#lines + 1] = "Note: the node reports its Art-Net device is not reachable" end
   end
-  if F.layout and not F.layout.verified then
+  if F.layout and not F.layout.verified and F.layout.id ~= L.CUSTOM_ID then
     lines[#lines + 1] = "Layout '" .. F.layout.label .. "' has not been verified against the fixture yet"
   end
   local text = table.concat(lines, " | ")
@@ -560,6 +560,7 @@ function F.push_extras_setup()
   if xml ~= F.last_extras_setup then
     F.last_extras_setup = xml
     F.light:notify("EXTRAS_SETUP_CHANGED", { XML = xml })
+    F.debug("Extras setup sent: %s", xml)
   end
 end
 
@@ -838,7 +839,13 @@ function F.install(opts)
     tParams = tParams or {}
     local ok, err = pcall(function()
       local extra = X.object_for_command(strCommand)
-      if extra then
+      if strCommand == "GET_EXTRAS_SETUP" or strCommand == "GET_EXTRAS_STATE" then
+        -- A UI (re)loading asks for both; answer even if nothing changed since the last push.
+        F.debug("%s requested", strCommand)
+        F.last_extras_setup = nil
+        F.push_extras_setup()
+        F.push_extras_setup_state()
+      elseif extra then
         F.on_extra(extra, tParams.value or tParams.VALUE)
       elseif not F.light:handle(strCommand, tParams, idBinding) then
         F.debug("unhandled proxy command %s", strCommand)

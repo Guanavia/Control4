@@ -335,6 +335,22 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+T.section("Extras: XML shape and the UI asking for it")
+do
+  local sim, node, par1, par2 = rig()
+  local xml = sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML
+  T.like(xml, "<buttontext>Restore</buttontext>", "button text is a child element (Snap One sample)")
+  T.ok(not xml:find('buttontext="'), "no buttontext attribute")
+  T.like(xml, '<object type="slider" id="r_strobe"[^>]* min="0" max="255"', "slider range as attributes")
+  T.like(xml, "<min>0</min><max>255</max><resolution>1</resolution>", "...and as child elements")
+  T.ok(not status(par1):find("verified"), "no 'unverified layout' note on a channel-map light")
+  sim:clear(par2)
+  sim:call(par2, "ReceivedFromProxy", 5001, "GET_EXTRAS_SETUP", {})
+  T.ok(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED") ~= nil, "GET_EXTRAS_SETUP answered even when unchanged")
+  T.ok(sim:last_notify(par2, "EXTRAS_STATE_CHANGED") ~= nil, "...with the current state")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("configuration errors: refused, reverted, explained")
 do
   local sim, node, par1, par2 = rig()

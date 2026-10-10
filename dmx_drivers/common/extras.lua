@@ -1,12 +1,14 @@
 -- extras.lua -- builds the light_v2 Extras tab XML (EXTRAS_SETUP_CHANGED / EXTRAS_STATE_CHANGED).
 --
 -- Snap One's own Extras library is not published, so this builds the XML directly, as working
--- third-party light drivers do. The shape of <extras_setup>/<section>/<object type="list"> with a
--- <list><item text value/></list> is confirmed by a shipping driver. The ATTRIBUTE NAMES for
--- slider (min/max/resolution) and button (buttontext) come from the documented field names of
--- Snap One's ExtrasSlider/ExtrasButton classes, not from a captured XML sample, so they are
--- UNVERIFIED. They live only in object_xml() below: if the bench shows a slider or button
--- rendering wrong, that function is the one place to fix.
+-- third-party light drivers do. CONFIRMED against Snap One's own sample (docs-driverworks
+-- sample_drivers/thermostat_v2/"get extras setup.xml") and shipping drivers: the
+-- <extras_setup>/<extra>/<section label>/<object type id label command value hidden> shape, list
+-- items, and that a BUTTON's text is a CHILD ELEMENT <buttontext>, not an attribute (we had it as
+-- an attribute: bench 2026-10-10, no Extras tab appeared).
+-- STILL UNVERIFIED: the slider. Snap One's ExtrasSlider class has min/max/resolution fields but no
+-- published XML shows whether they are attributes or child elements, so both are written; a
+-- reader looking for either finds it. Settle it on the bench, then drop the unused form.
 --
 -- The UI sends each object's `command` as a proxy command with a `value` (and possibly `id`)
 -- parameter. Every object here uses a command of the form EXTRA_<id>, so the handler knows which
@@ -27,10 +29,13 @@ local function object_xml(o)
   local head = '<object' .. attr("type", o.type) .. attr("id", o.id) .. attr("label", o.label)
     .. attr("command", X.COMMAND_PREFIX .. o.id) .. attr("hidden", o.hidden and "true" or nil)
   if o.type == "slider" then
-    return head .. attr("min", U.int(o.min or 0)) .. attr("max", U.int(o.max or 255))
-      .. attr("resolution", U.int(o.resolution or 1)) .. attr("value", U.int(o.value or 0)) .. "/>"
+    local min, max, res = U.int(o.min or 0), U.int(o.max or 255), U.int(o.resolution or 1)
+    return head .. attr("min", min) .. attr("max", max) .. attr("resolution", res)
+      .. attr("value", U.int(o.value or 0)) .. ">"
+      .. "<min>" .. min .. "</min><max>" .. max .. "</max><resolution>" .. res .. "</resolution>"
+      .. "</object>"
   elseif o.type == "button" then
-    return head .. attr("buttontext", o.text or o.label) .. "/>"
+    return head .. "><buttontext>" .. U.xml_escape(o.text or o.label) .. "</buttontext></object>"
   elseif o.type == "list" then
     local items = {}
     for _, it in ipairs(o.items or {}) do

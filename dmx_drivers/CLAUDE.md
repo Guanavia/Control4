@@ -212,6 +212,18 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     dynamic update restates behavior + color/brightness rate min/max; `UPDATE_COLOR_RATE_DEFAULT`
     now handled. **Rule: a dynamic capability update should restate the rate ranges every time.**
     Colour output re-checked byte-identical. UNVERIFIED: that this clears the dialog.
+  * **Extras live in NAVIGATOR only** (app / touch screen), never Composer (Snap One: "Extras Tab
+    located on the main Navigator screen for the Proxy"). In Composer the only route is the `Set
+    Control` programming command, which Dave confirmed lists Strobe. **First bench run: no Extras
+    tab in Navigator.** Evidence gathered (light build 14): Snap One's own sample
+    (`docs-driverworks/sample_drivers/thermostat_v2/get extras setup.xml`) shows a button's text as
+    a CHILD ELEMENT `<buttontext>`, which we had as an attribute: fixed. No public sample of a
+    slider exists anywhere searched (Snap One docs, templates, GitHub code search, local drivers);
+    its min/max/resolution are now written as BOTH attributes and child elements. Also answering
+    `GET_EXTRAS_SETUP`/`GET_EXTRAS_STATE` (a public YeeLight driver does), and the setup XML is
+    logged in Debug. If the tab is still missing: force-quit/reopen the app (has_extras is a
+    capability the UI may have cached), then try a section with only a list object (the one shape
+    confirmed by several shipping drivers) to split "slider XML" from "Extras at all".
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply
