@@ -1,7 +1,10 @@
 # dmx_drivers — Art-Net DMX driver set for Control4
 
-**Status: OPEN, v0.1.0 — BUILT AND OFFLINE-TESTED (2026-09-24). Nothing has run on a controller
-or touched a fixture yet.** Next step is the bench session below, when the hardware is on site.
+**Status: OPEN, v0.1.0 — ON THE BENCH (2026-10-11).** Node + one RGBW par proven on the real
+controller (output, ping, channel test, colour picker, CCT, dimming, Max Brightness). Light Extras
+proven NOT to render on this system; controls re-homed to Composer + programming. **Next bench
+session (Dave, 2026-10-11 evening): several fixtures on one node output at different addresses,
+then the moving head** (first time the mover driver is installed). See "Next bench session" below.
 
 Spec: `dmx-artnet-driver-set-brief.md` (Dave's brief, v2). This file records status and every
 decision; where it and the brief disagree, **this file wins** (several brief items were changed
@@ -147,6 +150,22 @@ output), reboot behaviour, keepalive holding the look; all need a fixture driver
 7. **What the CR011R does when Art-Net stops** (hold vs blackout): reboot the controller and
    watch for a jump.
 8. Reboot restore, keepalive ~1 Hz (Wireshark/DMX-Workshop), frame-rate cap, overlap warning.
+
+## Next bench session: multiple fixtures, then the moving head
+
+1. **Several fixtures on ONE node output** (open item from bench item 2). Bind every fixture's Art-Net
+   Node input to the node's single Fixtures output. If Composer refuses a second binding, the node
+   needs numbered outputs: a STRUCTURAL change, so stop and report rather than work around it.
+   The node's **Patch** should list every fixture with its range.
+2. **Addresses:** each fixture's Start Address matches its DIP/menu address; Footprint shows the
+   range. Lights may share channels (both told, Patch says shared); anything overlapping the mover
+   is refused, and Status names the collision.
+3. **Moving head (dmx_mover, first install: add it new, no restart issue):** set **Pan/Tilt
+   Min/Max soft limits before moving it**; choose the ColorKey layout matching the fixture's DMX
+   mode (16ch preferred, both UNVERIFIED); then Aim Pan/Tilt, Nudge, Home, save a preset, Recall
+   Preset from programming, link a preset to a scene. Check bench item 6 facts: strobe 0 = no
+   strobe? speed direction? reset hold time?
+4. If anything misbehaves: Debug Mode on, Lua output, plus the node's Patch and the fixture's Status.
 
 ## Control4's "Artnet DMX via Enttec" driver set — evaluated as a master, NOT adopted (2026-10-08)
 
