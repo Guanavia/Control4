@@ -348,20 +348,6 @@ do
   sim:call(par2, "ReceivedFromProxy", 5001, "GET_EXTRAS_SETUP", {})
   T.ok(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED") ~= nil, "GET_EXTRAS_SETUP answered even when unchanged")
   T.ok(sim:last_notify(par2, "EXTRAS_STATE_CHANGED") ~= nil, "...with the current state")
-  -- Extras Test: one fixed object per setting; Navigator's commands are logged.
-  for setting, want in pairs({ ["Slider: attributes"] = '<object type="slider" id="t_slider_a"[^>]*min="0"[^>]*/>',
-      ["Slider: child elements"] = 'id="t_slider_e"[^>]*value="0"><min>0</min>',
-      ["List (Snap One sample shape)"] = '<object type="list" id="t_list"' }) do
-    sim:set_property(par2, "Extras Test", setting)
-    local x = sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML
-    T.like(x, want, "Extras Test '" .. setting .. "' sends exactly that object")
-    T.ok(not x:find("r_strobe"), "...and nothing else")
-  end
-  T.ok(not sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML:find('id="t_slider_e"[^>]*min="'), "elements form has no min attribute")
-  sim:proxy(par2, "EXTRA_t_list", { value = "2" })
-  T.like(par2.errorlog[#par2.errorlog], "Extras Test: Navigator sent t_list = 2", "test command logged")
-  sim:set_property(par2, "Extras Test", "Off")
-  T.like(sim:last_notify(par2, "EXTRAS_SETUP_CHANGED").params.XML, "r_strobe", "Off restores the real Extras")
   sim:action(par2, "SHOW_PROXY_CAPS")
   local log = table.concat(par2.errorlog, "\n")
   T.like(log, "proxy 202 holds: <DynamicCapabilities>.*<has_extras>true</has_extras>", "Show Proxy Capabilities reads the proxy variable")
@@ -607,6 +593,70 @@ do
   sim:set_property(mover, "Presets Export/Import", "{broken")
   T.like(mover.errorlog[#mover.errorlog], "Presets Import: not valid JSON", "bad import explained, presets kept")
   T.eq(M.presets:get(1).name, "Stage Left", "bad import changed nothing")
+end
+
+T.section("mover: setup from Composer only (Aim, Nudge, Save Mode, scene links)")
+do
+  -- Light Extras do not render on this system (2026-10-11): everything a dealer needs must work
+  -- from Composer properties and Actions alone. No EXTRA_* command is used in this section.
+  local sim, node, _, _, mover = rig()
+  local base = 20
+  local M = mover.env.DMX_MOVER
+  local function pan() local s = sim:slots(base, base + 1); return (s[1] * 256 + s[2]) / 65535 * 100 end
+  local function tilt() local s = sim:slots(base + 2, base + 3); return (s[1] * 256 + s[2]) / 65535 * 100 end
+
+  sim:set_property(mover, "Aim Pan (%)", "25")
+  sim:set_property(mover, "Aim Tilt (%)", "80")
+  sim:advance(400)
+  T.near(pan(), 25, 0.1, "Aim Pan moves the head")
+  T.near(tilt(), 80, 0.1, "Aim Tilt moves the head")
+
+  sim:set_property(mover, "Nudge Size", "Coarse (5%)")
+  sim:action(mover, "NUDGE_RIGHT")
+  sim:action(mover, "NUDGE_UP")
+  sim:advance(300)
+  T.near(pan(), 30, 0.1, "Nudge Right by the Coarse step")
+  T.eq(mover.env.Properties["Aim Pan (%)"], "30", "Aim Pan follows a nudge")
+
+  sim:set_property(mover, "Pan Max (%)", "28")
+  sim:advance(600)
+  T.eq(mover.env.Properties["Aim Pan (%)"], "28", "Aim Pan shows the clamped position, not the request")
+  sim:set_property(mover, "Aim Pan (%)", "90")
+  sim:advance(400)
+  T.near(pan(), 28, 0.1, "Aim cannot pass a soft limit")
+  T.eq(mover.env.Properties["Aim Pan (%)"], "28", "...and says so")
+  sim:set_property(mover, "Pan Max (%)", "100")
+  sim:command(mover, "Set Position", { ["Pan %"] = 60, ["Tilt %"] = 40, ["Fade (s)"] = 0 })
+  sim:advance(50)
+  T.eq(mover.env.Properties["Aim Pan (%)"], "60", "Aim follows programming moves too")
+
+  -- Save Mode "Position only", saved and named through properties + Actions.
+  sim:set_property(mover, "Selected Preset", mover.env.Properties["Selected Preset"])
+  local labels = mover.env.DMX_MOVER.presets:labels(true)
+  sim:set_property(mover, "Selected Preset", labels[3])
+  sim:set_property(mover, "Save Mode", "Position only")
+  sim:set_property(mover, "Preset Name", "Podium")
+  sim:action(mover, "SAVE_PRESET")
+  T.like(mover.env.Properties["Selected Preset"], "^3: Podium", "saved to slot 3 with its name")
+  T.eq(M.presets:get(3).scope.color, nil, "Save Mode 'Position only' stored no color")
+  sim:set_property(mover, "Aim Pan (%)", "10")
+  sim:advance(400)
+  sim:action(mover, "RECALL_PRESET")
+  sim:advance(2000)
+  T.near(pan(), 60, 0.1, "Recall Selected Preset returns to the aimed spot")
+
+  -- Scene links through Actions.
+  sim:proxy(mover, "PUSH_SCENE", { SCENE_ID = 9, ELEMENTS = "<element><delay>0</delay><rate>0</rate><level>50</level></element>", FLASH = "False", IGNORE_RAMP = "False" })
+  sim:action(mover, "LINK_SCENE")
+  T.like(mover.errorlog[#mover.errorlog], "no lighting scene has been activated yet", "linking before any scene is explained")
+  sim:proxy(mover, "ACTIVATE_SCENE", { SCENE_ID = 9 })
+  sim:action(mover, "LINK_SCENE")
+  T.eq(M.presets.links[9], 3, "Link Selected Preset to Last Scene")
+  T.like(mover.env.Properties["Scene Links"], "scene 9 %-> 3", "Scene Links shows it")
+  sim:action(mover, "UNLINK_SCENE")
+  T.eq(M.presets.links[9], nil, "Unlink Last Scene")
+  sim:action(mover, "UNLINK_SCENE")
+  T.like(mover.errorlog[#mover.errorlog], "has no preset linked", "unlinking nothing is explained")
 end
 
 T.section("mover: a position preset linked to a lighting scene (full ALS)")

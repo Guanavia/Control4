@@ -12,7 +12,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </head>
 <body>
 <h1>DMX Moving Head (Art-Net)</h1>
-<p>A moving head as <b>one Control4 light</b>: one driver, one load. Intensity and color are the native light (slider, color picker, scenes, keypads, voice, Room Off). Position, beam, effects and presets are on the light's <b>Extras</b> tab and in Composer programming. There is no separate "position" load.</p>
+<p>A moving head as <b>one Control4 light</b>: one driver, one load. Intensity and color are the native light (slider, color picker, scenes, keypads, voice, Room Off). Position, beam, effects and presets are set up in Composer (the Aim properties and the preset Actions) and driven by programming (Recall Preset, Set Position, Set Control), so clients use them through scenes, keypads and Custom/Experience buttons. There is no separate "position" load.</p>
 <p>It outputs through an <b>Art-Net Node</b> driver (same driver set).</p>
 
 <h2>Quick start</h2>
@@ -21,7 +21,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <li>Add this driver, choose the <b>Fixture Type</b> and <b>Layout</b>, and set the <b>Start Address</b> set on the fixture.</li>
 <li>In Connections, bind this driver's <b>Art-Net Node</b> input to the node driver's <b>Fixtures</b> output.</li>
 <li>Set the <b>Pan/Tilt Min/Max</b> soft limits so the head cannot point anywhere it should not (into eyes, at a wall).</li>
-<li>Aim the head from the Extras tab and save presets.</li>
+<li>Aim the head with <b>Aim Pan</b> / <b>Aim Tilt</b> (or the Nudge Actions), then save presets with the preset Actions.</li>
 </ol>
 <p class="warn">A moving head needs its channels to itself. If any other fixture overlaps it, the later one is <b>refused</b> and outputs nothing; Status says what it collides with.</p>
 
@@ -48,15 +48,14 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <h3>Custom layouts</h3>
 <p>As for the DMX Light: set Layout to <b>Custom</b> (it starts from the running layout) and edit <b>Channel Count</b> / <b>Channel N Function</b> / <b>Channel N Default</b>, or the <b>Channel Map</b>, e.g. <code>pan,pan_fine,tilt,tilt_fine,pt_speed,dimmer,strobe,red,green,blue,white,reset</code>. With a Reset/Control channel, set <b>Reset Value</b> and <b>Reset Hold (ms)</b> from the fixture manual. A layout needs at least a Pan or a Tilt channel.</p>
 
-<h2>Extras tab</h2>
-<table>
-<tr><th>Section</th><th>Controls</th></tr>
-<tr><td>Position</td><td><b>Pan</b> and <b>Tilt</b> sliders (percent of full travel, clamped to the soft limits), <b>Nudge Size</b> (Fine 0.5%, Medium 2%, Coarse 5%), <b>Nudge Left / Right / Up / Down</b>, <b>Home</b> (centre of the soft limits), and the layout's Pan/Tilt Speed.</td></tr>
-<tr><td>Color / Beam / Effects</td><td>Every other channel in the layout: Amber/UV sliders, strobe, zoom, gobo, macros, programs. Built-in layouts show named steps.</td></tr>
-<tr><td>Presets</td><td>Pick a <b>Preset</b> slot, <b>Recall</b>; type a <b>Name</b>, choose what to <b>Save</b> (Position only / Position + Color / Everything), <b>Save</b>; <b>Link Preset to Last Scene</b> / <b>Unlink Last Scene</b>.</td></tr>
-<tr><td>Maintenance</td><td>Reset Motors, Restore Defaults.</td></tr>
-</table>
-<p>Positioning is by sliders and nudges. There is no press-and-hold joystick: the Extras tab can only send taps.</p>
+<h2>Aiming and presets in Composer</h2>
+<p class="warn"><b>Navigator does not show an Extras tab for lights</b> on current Control4 systems (tested on the app and a T4, OS 4.1, with a minimal test driver). The driver still offers Extras in case a later OS shows them, but nothing depends on them: everything is done from Composer and programming.</p>
+<ol>
+<li><b>Aim:</b> set <b>Aim Pan (%)</b> and <b>Aim Tilt (%)</b> (percent of full travel; each Set moves the head). For fine work, choose a <b>Nudge Size</b> and use the <b>Nudge Left / Nudge Right / Nudge Up / Nudge Down</b> Actions; <b>Home Position</b> centres it in the soft limits. The Aim properties always show where the head actually is, after limits, nudges, presets and programming.</li>
+<li><b>Save:</b> pick the <b>Selected Preset</b> slot, type a <b>Preset Name</b>, choose <b>Save Mode</b>, and run <b>Save Current Look to Selected Preset</b>.</li>
+<li><b>Use:</b> recall presets from programming (<b>Recall Preset</b>) on keypads, scenes and Custom/Experience buttons, or link them to lighting scenes (below).</li>
+</ol>
+<p>Beam and effect channels (strobe, zoom, gobo, macros, programs, Amber/UV) are driven with the <b>Set Control</b> programming command.</p>
 
 <h2>Presets</h2>
 <p>Up to 32 presets, saved on the controller and kept across reboots. A preset stores, depending on what was chosen at Save:</p>
@@ -72,10 +71,10 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <ol>
 <li>Put this light in the scene as normal (its brightness and color come from the scene).</li>
 <li>Activate the scene once (from Navigator, a keypad, anywhere).</li>
-<li>On the Extras tab, aim the head, select a Preset slot and <b>Save</b> (Position only is usual).</li>
-<li>Press <b>Link Preset to Last Scene</b>.</li>
+<li>Aim the head, select a Preset slot and <b>Save</b> (Save Mode "Position only" is usual).</li>
+<li>Run the Action <b>Link Selected Preset to Last Scene</b>.</li>
 </ol>
-<p>From then on, every time that scene activates, the head also moves to the preset. The scene still owns intensity and color, and keypad LED tracking for the scene works as normal. Linked scenes are listed in <b>Scene Links</b>. Unlink by activating the scene and pressing <b>Unlink Last Scene</b>.</p>
+<p>From then on, every time that scene activates, the head also moves to the preset. The scene still owns intensity and color, and keypad LED tracking for the scene works as normal. Linked scenes are listed in <b>Scene Links</b>. Unlink by activating the scene and running the Action <b>Unlink Last Scene</b>.</p>
 <p>For a keypad button without a scene, use the <b>Recall Preset</b> programming command.</p>
 
 <h2>Properties</h2>
@@ -97,11 +96,13 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Reset Value / Reset Hold (ms)</td><td>Custom layouts with a Reset/Control channel: the value Reset Motors sends and how long it holds it.</td></tr>
 <tr><td>Pan Min (%) / Pan Max (%) / Tilt Min (%) / Tilt Max (%)</td><td>Soft limits in percent of full travel. Every move (sliders, nudges, presets, programming) is clamped to them. Home is the centre of the window.</td></tr>
 <tr><td>Invert Pan / Invert Tilt</td><td>Reverse an axis, e.g. for a head hung upside down.</td></tr>
+<tr><td>Aim Pan (%) / Aim Tilt (%)</td><td>Sliders that move the head (each Set moves it) and always show its current position.</td></tr>
+<tr><td>Nudge Size</td><td>Step for the Nudge Actions: Fine 0.5%, Medium 2%, Coarse 5%.</td></tr>
 <tr><td>Selected Preset</td><td>The slot the preset Actions work on.</td></tr>
 <tr><td>Preset Name</td><td>Name used by the Save and Rename Actions (cleared after use).</td></tr>
+<tr><td>Save Mode</td><td>What Save stores: Position only, Position + Color, or Everything.</td></tr>
 <tr><td>Scene Links</td><td>Which lighting scenes (by id) recall which preset.</td></tr>
 <tr><td>Presets Export/Import</td><td>Export Presets writes this fixture's presets here as text. Paste that text into another moving head's field to copy them (replaces its presets).</td></tr>
-<tr><td>Extras Test</td><td>Diagnostic. Replaces the Extras tab with one fixed test object (a list, a slider written three ways, or a button) to find which shapes Navigator displays. Every value Navigator sends back is logged. Returns to Off on reload.</td></tr>
 <tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Problems are always logged.</td></tr>
 </table>
 
@@ -114,9 +115,12 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Home Position</td><td>Moves to the centre of the soft limits.</td></tr>
 <tr><td>Reset Motors</td><td>Sends the layout's reset value for its hold time, then returns to normal. Fires Reset Started / Reset Finished.</td></tr>
 <tr><td>Recall Selected Preset</td><td>Recalls the Selected Preset.</td></tr>
-<tr><td>Save Current Look to Selected Preset</td><td>Saves everything (position, color, beam, effects) to the Selected Preset, named from Preset Name.</td></tr>
+<tr><td>Nudge Left / Nudge Right / Nudge Up / Nudge Down</td><td>Move the head one Nudge Size step.</td></tr>
+<tr><td>Save Current Look to Selected Preset</td><td>Saves the current look to the Selected Preset (what is stored follows Save Mode), named from Preset Name.</td></tr>
 <tr><td>Rename Selected Preset</td><td>Renames the Selected Preset to Preset Name.</td></tr>
 <tr><td>Delete Selected Preset</td><td>Deletes it and any scene links to it.</td></tr>
+<tr><td>Link Selected Preset to Last Scene</td><td>Links the Selected Preset to the lighting scene activated most recently (see Positions in lighting scenes).</td></tr>
+<tr><td>Unlink Last Scene</td><td>Removes the link from the scene activated most recently.</td></tr>
 <tr><td>Export Presets</td><td>Writes all presets into Presets Export/Import.</td></tr>
 </table>
 
@@ -129,7 +133,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Nudge Position</td><td>Direction (Left/Right/Up/Down), Amount % (1-25).</td></tr>
 <tr><td>Set Position</td><td>Pan %, Tilt % (of full travel, clamped to the soft limits), Fade (s).</td></tr>
 <tr><td>Reset Motors</td><td>none</td></tr>
-<tr><td>Set Control</td><td>Control (any Extras channel), Value 0-255.</td></tr>
+<tr><td>Set Control</td><td>Control (any beam, effect or extra color channel), Value 0-255.</td></tr>
 <tr><td>Restore Control Defaults</td><td>none</td></tr>
 <tr><td>Identify</td><td>none</td></tr>
 </table>

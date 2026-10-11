@@ -12,7 +12,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </head>
 <body>
 <h1>DMX Light (Art-Net)</h1>
-<p>Any DMX fixture that does not move (a single-color dimmer, tunable white, RGB, RGBW or RGB + tunable white fixture, or a high-end multi-emitter fixture) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and puts the fixture's other channels (strobe, programs, macros, UV...) on the light's <b>Extras</b> tab.</p>
+<p>Any DMX fixture that does not move (a single-color dimmer, tunable white, RGB, RGBW or RGB + tunable white fixture, or a high-end multi-emitter fixture) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and drives the fixture's other channels (strobe, programs, macros, UV...) with the <b>Set Control</b> programming command, so clients reach them through scenes, keypads and Custom/Experience buttons.</p>
 <p>It outputs through an <b>Art-Net Node</b> driver (same driver set). One DMX Light controls one circuit: several physical fixtures set to the same DMX address are one circuit.</p>
 
 <h2>Quick start</h2>
@@ -40,14 +40,14 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>RGB</td><td>Brightness, color picker, color temperature (mixed from R/G/B)</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, Amber, UV, Lime, Cyan</td></tr>
 <tr><td>RGBW</td><td>Brightness, color picker, color temperature (mixed from R/G/B/W)</td><td>as RGB, plus White</td></tr>
 <tr><td>RGB + Tunable White</td><td>Brightness, color picker, color temperature (from the warm/cool whites)</td><td>as RGB, plus Warm White, Cool White, White, CCT</td></tr>
-<tr><td>Manual Color</td><td>Brightness drives the <b>Dimmer channel only</b>. No color picker: every color channel is its own Extras slider. For fixtures whose color space does not fit Control4's model (e.g. high-end multi-emitter fixtures). Needs a Dimmer channel.</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, White, Warm White, Cool White, CCT, Amber, UV, Lime, Cyan</td></tr>
+<tr><td>Manual Color</td><td>Brightness drives the <b>Dimmer channel only</b>. No color picker: every color channel is set with Set Control. For fixtures whose color space does not fit Control4's model (e.g. high-end multi-emitter fixtures). Needs a Dimmer channel.</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, White, Warm White, Cool White, CCT, Amber, UV, Lime, Cyan</td></tr>
 </table>
-<p>Every type can also use the extended functions, which appear on the <b>Extras</b> tab: Strobe/Shutter, Strobe Duration, Zoom, Focus, Iris, Frost, Color Macro, Macro Speed, Program/Auto, Sound Sensitivity. Amber, UV, Lime and Cyan are Extras sliders on the RGB types too. Every type can use <b>Fixed Value</b> (always outputs its Default) and <b>Unused</b>.</p>
+<p>Every type can also use the extended functions, driven by <b>Set Control</b>: Strobe/Shutter, Strobe Duration, Zoom, Focus, Iris, Frost, Color Macro, Macro Speed, Program/Auto, Sound Sensitivity. Amber, UV, Lime and Cyan are Set Control channels on the RGB types too. Every type can use <b>Fixed Value</b> (always outputs its Default) and <b>Unused</b>.</p>
 <p>Changing Fixture Type keeps the channels if they still suit the new type, otherwise it starts from the new type's usual channels.</p>
 
 <h3>Channels</h3>
 <p>Set <b>Channel Count</b> to the number of channels the fixture uses in its current DMX mode, then each <b>Channel N Function</b> (and <b>Channel N Default</b> where needed). Or type or paste the <b>Channel Map</b>, e.g. <code>dimmer,red,green,blue,white,strobe:8,fixed:255</code>: each entry is a function, optionally <code>:default</code>; function names or their labels both work. The two forms mirror each other. Paste the Channel Map into another fixture to copy it.</p>
-<p><b>Channel N Default</b> is the value a channel rests at. Set Strobe/Shutter's Default to the fixture's "open / no strobe" value. Fixed Value channels always output their Default. Extras controls are raw 0-255 sliders.</p>
+<p><b>Channel N Default</b> is the value a channel rests at. Set Strobe/Shutter's Default to the fixture's "open / no strobe" value. Fixed Value channels always output their Default. Set Control values are raw 0-255.</p>
 <p>Channel maps for fixtures checked so far (use the node's Channel Test to confirm a fixture's order):</p>
 <table>
 <tr><th>Fixture</th><th>Fixture Type</th><th>Channel Map</th></tr>
@@ -63,7 +63,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <li>With <b>no Dimmer</b> channel (e.g. a 4-channel RGBW par), brightness scales the color channels (a virtual dimmer), with a 2.2 curve so low levels are usable.</li>
 <li>Colors from the picker are mixed into Red/Green/Blue. The part common to all three moves to <b>White</b> when the fixture has one (see White Mix).</li>
 <li>Color temperature uses a CCT channel, or mixes Warm/Cool White, or makes the white from the color channels.</li>
-<li>Amber, UV, Lime and Cyan have no place in the color picker. They are sliders on the Extras tab.</li>
+<li>Amber, UV, Lime and Cyan have no place in the color picker. Drive them with Set Control.</li>
 <li>All fades run on the Art-Net Node, so scenes across many fixtures stay in step.</li>
 </ul>
 
@@ -82,12 +82,11 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>CCT Min (K) / CCT Max (K)</td><td>The fixture's color-temperature range, for fixtures with a CCT channel or Warm/Cool White. Also the range offered in Navigator.</td></tr>
 <tr><td>Channel Count</td><td>Number of channels the fixture uses in its current DMX mode, 1-32.</td></tr>
 <tr><td>Channel N Function / Channel N Default</td><td>Each channel's function and resting value. Only the channels in use are shown.</td></tr>
-<tr><td>Extras Test</td><td>Diagnostic. Replaces the Extras tab with one fixed test object (a list, a slider written three ways, or a button) to find which shapes Navigator displays. Every value Navigator sends back is logged. Returns to Off on reload.</td></tr>
 <tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Problems are always logged, whatever this is set to.</td></tr>
 </table>
 
-<h2>Extras tab</h2>
-<p>Every channel that is not brightness or picker color appears on the light's Extras tab, as a 0-255 slider (for Manual Color, that includes every color channel). <b>Restore Defaults</b> returns every Extras control to its channel default.</p>
+<h2>Extended channels</h2>
+<p class="warn"><b>Navigator does not show an Extras tab for lights</b> on current Control4 systems (tested on the app and a T4, OS 4.1, with a minimal test driver). The driver still offers Extras in case a later OS shows them, but nothing depends on them: every channel that is not brightness or picker color (and, for Manual Color, every color channel) is driven with the <b>Set Control</b> programming command, value 0-255. Build client controls as Custom or Experience buttons, keypad buttons or scenes that run Set Control (e.g. "Strobe Fast", "Strobe Off"). <b>Channel N Default</b> sets each channel's resting value; <b>Restore Control Defaults</b> returns them all to it. To try values by hand, use the Art-Net Node's Channel Test.</p>
 
 <h2>Actions</h2>
 <table>
@@ -101,8 +100,8 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <p>All normal light programming works (on, off, ramp, color, scenes). Additional commands:</p>
 <table>
 <tr><th>Command</th><th>Parameters</th></tr>
-<tr><td>Set Control</td><td>Control (any Extras channel), Value 0-255. Fades over Default Fade (ms).</td></tr>
-<tr><td>Restore Control Defaults</td><td>Returns every Extras control to its default.</td></tr>
+<tr><td>Set Control</td><td>Control (any extended channel), Value 0-255. Fades over Default Fade (ms).</td></tr>
+<tr><td>Restore Control Defaults</td><td>Returns every extended channel to its Channel N Default.</td></tr>
 <tr><td>Identify</td><td>Flashes the fixture three times.</td></tr>
 </table>
 

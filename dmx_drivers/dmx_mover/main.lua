@@ -1,6 +1,8 @@
 -- dmx_mover -- a moving head as ONE light_v2 load (Dave, 2026-09-24: one fixture = one driver =
--- one load). Intensity and color are the native light; position, beam, effects and presets are
--- on the load's Extras tab and in Composer programming.
+-- one load). Intensity and color are the native light. Position, beam, effects and presets are
+-- driven by Composer programming (Recall Preset, Set Position, Set Control...) and set up from
+-- Composer properties/Actions (Aim, Nudge, presets). Light Extras do not render on this system
+-- (2026-10-11), so the Extras setup is still sent but nothing depends on it.
 --
 -- FULL Advanced Lighting Scene support (not reduced), because ACTIVATE_SCENE carries the scene
 -- id: that is what lets a position preset be linked to a lighting scene without a second load.
@@ -68,9 +70,35 @@ local function position_state()
   }
 end
 
+-- Keep the Aim properties showing where the head actually is (after limits, nudges, presets).
+local function sync_aim()
+  local pan, tilt = M.pos:percent()
+  F.set_prop("Aim Pan (%)", U.int(pan))
+  F.set_prop("Aim Tilt (%)", U.int(tilt))
+end
+
 local function move(fade_ms)
   F.refresh(fade_ms or 0)
   F.push_extras_state(position_state())
+  sync_aim()
+end
+
+local function label_index(list, label, default)
+  for i, item in ipairs(list) do if item.label == label then return i end end
+  return default
+end
+
+local function link_selected(slot)
+  local ok, err = M.presets:link(F.light.last_scene, slot)
+  if not ok then F.critical("Link Preset: %s", err) else persist_presets(); refresh_preset_lists() end
+end
+
+local function unlink_last()
+  if M.presets:unlink(F.light.last_scene) then
+    persist_presets(); refresh_preset_lists()
+  else
+    F.critical("Unlink: the last activated scene (%s) has no preset linked", tostring(F.light.last_scene))
+  end
 end
 
 ---------------------------------------------------------------------------------------------
@@ -225,11 +253,10 @@ function ext.on_extra(id, value)
     M.pending_name = ""
     F.push_extras_state({ { id = id }, { id = "ps_name", value = "" } })
   elseif id == "a_link" then
-    local ok, err = M.presets:link(F.light.last_scene, M.selected)
-    if not ok then F.critical("Link Preset: %s", err) else persist_presets(); refresh_preset_lists() end
+    link_selected(M.selected)
     F.push_extras_state({ { id = id } })
   elseif id == "a_unlink" then
-    if M.presets:unlink(F.light.last_scene) then persist_presets(); refresh_preset_lists() end
+    unlink_last()
     F.push_extras_state({ { id = id } })
   else
     return false
@@ -270,13 +297,30 @@ function ext.late_init()
   C4:AddVariable("CURRENT_PRESET", "0", "NUMBER")
   C4:AddVariable("CURRENT_PRESET_NAME", "", "STRING")
   refresh_preset_lists()
+  -- The properties are the source of truth for nudge size and save mode now.
+  M.save_mode = label_index(Presets.SAVE_MODES, Properties["Save Mode"], M.save_mode)
+  local n = Pos.NUDGE_SIZES[label_index(Pos.NUDGE_SIZES, Properties["Nudge Size"], 2)]
+  M.pos.nudge_pct = n.pct
+  sync_aim()
   F.push_extras_setup()
 end
+
+M.AIM_FADE_MS = 300
 
 function ext.on_property(name, value)
   if name:match("^Pan M") or name:match("^Tilt M") or name == "Invert Pan" or name == "Invert Tilt" then
     apply_limits()
     move(500)
+  elseif name == "Aim Pan (%)" then
+    M.pos:set(tonumber(value), nil)
+    move(M.AIM_FADE_MS)
+  elseif name == "Aim Tilt (%)" then
+    M.pos:set(nil, tonumber(value))
+    move(M.AIM_FADE_MS)
+  elseif name == "Nudge Size" then
+    M.pos.nudge_pct = Pos.NUDGE_SIZES[label_index(Pos.NUDGE_SIZES, value, 2)].pct
+  elseif name == "Save Mode" then
+    M.save_mode = label_index(Presets.SAVE_MODES, value, 3)
   elseif name == "Presets Export/Import" then
     if U.trim(value) == "" then return end
     local imported, err = Presets.import_json(value)
@@ -318,9 +362,17 @@ end
 
 function ext.action(action)
   local slot = selected_slot()
+  local NUDGE = { ["NUDGE_LEFT"] = "Left", ["NUDGE_RIGHT"] = "Right", ["NUDGE_UP"] = "Up", ["NUDGE_DOWN"] = "Down" }
   if action == "HOME" then
     M.pos:home()
     move(500)
+  elseif NUDGE[action] then
+    M.pos:nudge(NUDGE[action])
+    move(100)
+  elseif action == "LINK_SCENE" then
+    link_selected(slot)
+  elseif action == "UNLINK_SCENE" then
+    unlink_last()
   elseif action == "RECALL_PRESET" then
     M.recall(slot)
   elseif action == "SAVE_PRESET" then

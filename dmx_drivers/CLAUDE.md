@@ -274,6 +274,15 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     surface (pan/tilt sliders, nudges, presets) was designed for Extras** and must be re-homed
     before the mover's bench session. Extended light channels (strobe, program, speed) need a home
     too; `Set Control` in programming is confirmed working. Decision pending with Dave.
+  * **RE-HOMED (Dave's call, 2026-10-11; build 19): options 1 + 2.** Clients reach extended
+    channels and mover presets through PROGRAMMING (Set Control, Recall Preset, Set Position) on
+    Custom/Experience buttons, keypads and scenes; dealers set up in COMPOSER. Mover gained `Aim Pan
+    (%)` / `Aim Tilt (%)` (SCROLL; each Set moves the head; they always show the real, clamped
+    position), `Nudge Size` + four Nudge Actions, `Save Mode` (was an Extras list), and Actions
+    `Link Selected Preset to Last Scene` / `Unlink Last Scene` (were Extras buttons). The Extras
+    Test property is removed; the Extras code stays, unused. A scenario section drives the mover
+    with NO Extras command at all. Docs rewritten for both drivers. Option 3 (extra light proxies as
+    live sliders) not taken; option 4 (driver-hosted web page) is for discussion only, not built.
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply

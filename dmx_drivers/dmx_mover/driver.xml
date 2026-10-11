@@ -6,7 +6,7 @@
   <model>DMX Moving Head</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>17</version>
+  <version>19</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -335,6 +335,35 @@
         </items>
         <default>No</default>
       </property>
+      <!-- AIM (2026-10-11): light Extras do not render on this system (CLAUDE.md), so the position
+           controls that were on Extras live here, for setup in Composer. SCROLL renders as a slider. -->
+      <property>
+        <name>Aim Pan (%)</name>
+        <type>SCROLL</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>50</default>
+        <tooltip>Moves the head (percent of full pan travel, clamped to the soft limits). Also shows where the head is after any move. Aim, then save the look to a preset.</tooltip>
+      </property>
+      <property>
+        <name>Aim Tilt (%)</name>
+        <type>SCROLL</type>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+        <default>50</default>
+        <tooltip>Moves the head (percent of full tilt travel, clamped to the soft limits).</tooltip>
+      </property>
+      <property>
+        <name>Nudge Size</name>
+        <type>LIST</type>
+        <items>
+          <item>Fine (0.5%)</item>
+          <item>Medium (2%)</item>
+          <item>Coarse (5%)</item>
+        </items>
+        <default>Medium (2%)</default>
+        <tooltip>Step used by the Nudge Actions.</tooltip>
+      </property>
       <property>
         <name>Presets</name>
         <type>LABEL</type>
@@ -352,6 +381,17 @@
         <tooltip>Name used by the Save and Rename Actions. Cleared after use.</tooltip>
       </property>
       <property>
+        <name>Save Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Position only</item>
+          <item>Position + Color</item>
+          <item>Everything</item>
+        </items>
+        <default>Everything</default>
+        <tooltip>What Save Current Look to Selected Preset stores. Position only presets leave color and effects alone when recalled.</tooltip>
+      </property>
+      <property>
         <name>Scene Links</name>
         <type>STRING</type>
         <readonly>true</readonly>
@@ -367,20 +407,6 @@
         <name>Diagnostics</name>
         <type>LABEL</type>
         <default>Diagnostics</default>
-      </property>
-      <property>
-        <name>Extras Test</name>
-        <type>LIST</type>
-        <items>
-          <item>Off</item>
-          <item>List (Snap One sample shape)</item>
-          <item>Slider: attributes</item>
-          <item>Slider: child elements</item>
-          <item>Slider: both</item>
-          <item>Button</item>
-        </items>
-        <default>Off</default>
-        <tooltip>Diagnostic. Replaces this light's Extras tab with one fixed test object, to find which Extras shapes Navigator displays. Returns to Off on reload.</tooltip>
       </property>
       <property>
         <name>Debug Mode</name>
@@ -410,6 +436,22 @@
         <command>HOME</command>
       </action>
       <action>
+        <name>Nudge Left</name>
+        <command>NUDGE_LEFT</command>
+      </action>
+      <action>
+        <name>Nudge Right</name>
+        <command>NUDGE_RIGHT</command>
+      </action>
+      <action>
+        <name>Nudge Up</name>
+        <command>NUDGE_UP</command>
+      </action>
+      <action>
+        <name>Nudge Down</name>
+        <command>NUDGE_DOWN</command>
+      </action>
+      <action>
         <name>Reset Motors</name>
         <command>RESET_MOTORS</command>
       </action>
@@ -428,6 +470,14 @@
       <action>
         <name>Delete Selected Preset</name>
         <command>DELETE_PRESET</command>
+      </action>
+      <action>
+        <name>Link Selected Preset to Last Scene</name>
+        <command>LINK_SCENE</command>
+      </action>
+      <action>
+        <name>Unlink Last Scene</name>
+        <command>UNLINK_SCENE</command>
       </action>
       <action>
         <name>Export Presets</name>
