@@ -293,6 +293,36 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 
+## Option 4: driver-hosted web page — RESEARCHED, NOT BUILT (2026-10-11, discussion only)
+
+Dave asked whether Control4's own rich config pages (Core5, Lux keypads) are web pages, whether we
+can build drivers like that, and whether they really show in Navigator. Findings, from Snap One's
+published docs (uibutton proxy protocol, DriverWorks API/fundamentals):
+- **Composer: no.** Those Core5 / keypad editors are Composer's own compiled UI (managed .NET
+  `Control4.Designer.*` modules; see better_composer/CLAUDE.md), not driver pages. A third-party
+  driver cannot add a pane to Composer. Its Composer surface is properties (incl. SCROLL, TRACK,
+  LINK), Actions and programming. A `LINK` property opens a URL in the dealer's browser, so a
+  driver CAN host its own setup page (`C4:CreateServer`, OS 2.10+, TCP/HTTP on the controller) and
+  link to it from Composer: a real, if unusual, route to a rich dealer UI. LAN only.
+- **Navigator: yes, documented and long-standing.** The **`uibutton` proxy ("Experience button")**
+  supports an HTML WebView: capability `web_view_url` (OS 2.10+), and with
+  `controller://driver/<c4z name>/...` the page is served from the driver's own `www/` folder in the
+  .c4z. **JavaScript API** (Navigator 321.46+, OS 3.1.3+): the page can `sendCommand` to its own
+  driver, `subscribeToDataToUi`, `subscribeToVariable`, over the normal channels, so it works
+  remotely in the mobile app too (`mobile_web_view_enabled`). T4 browser: Gecko/Firefox 96.
+  4-tap on the header opens a JS console.
+- **Rules Snap One attaches:** uncertified, the developer self-certifies on T3/T4/mobile browsers
+  and owns all support; Snap One may decline to list it and support may tell a dealer to remove it.
+  For our own installs that is acceptable.
+- **What it would mean here:** a live pan/tilt pad (including press-and-hold, which Extras could
+  never do), live strobe/effects, preset buttons, per-fixture panels. Crucially it need not be one
+  per fixture: ONE separate "DMX Control" uibutton driver per room/system could address every
+  fixture via SendToDevice, which keeps decision 1 (one fixture = one load) intact and adds one
+  Experience button, not one per light. UNVERIFIED on this system: nothing web-view has been run
+  here. **Positive control first, before any build:** add Snap One's
+  `docs-driverworks/JS Demo Driver/JavascriptAPIDemo.c4z` and check it on the T4 and the app
+  (the Extras saga is the lesson: confirm the UI path with a known-good driver before writing ours).
+
 ## Carried-over lessons applied (from YAS209)
 
 Repeating timers pass `bRepeat=true`; every C4 call used was checked against Snap One's published
