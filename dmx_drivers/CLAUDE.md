@@ -290,6 +290,19 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     the static capabilities of dmx_light and dmx_mover. Before shipping any build, diff its
     capabilities/connections/proxies against the installed build to know which kind of update it is.
     (Batch APPLIED in build 17.)
+  * **MAX BRIGHTNESS (Dave: "the light wasn't as bright as it should be", 2026-10-11; build 20).**
+    Root cause, measured on the wire: white extraction moved the common R/G/B part to the W
+    emitter and normalised, so pure white ran W ALONE with R/G/B at 0 (one emitter of four), and
+    pale colours left R/G/B headroom unused; a WW/CW pair ran constant-sum (50%/50% mid-range). New
+    `Max Brightness` property (On default; shown for RGB+W or WW/CW): once W is full, the remaining
+    white also comes from R=G=B (scale s = min(2/(w+maxc), 1/maxc)); WW/CW normalised to peak.
+    **Proven:** Off is byte-identical to build 19 on the A/B script; On changes ONLY whitish rows
+    (D65 0,0,0,255 -> 255,255,255,255; 4600K default brighter) and leaves primaries, the pastel,
+    warm CCTs and dimming identical. Unit sweep: chromaticity preserved exactly under the engine's
+    model (W == R+G+B white), never over full, never dimmer than Off, saturated colours unchanged.
+    **Warm whites cannot get brighter while staying warm** (red is already pegged, the W LED is
+    cooler): an inherent limit of an RGBW fixture, not a bug. Real W LEDs are not exactly D65, so
+    very pale colours may tint slightly with On: that is what the Off setting is for.
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 

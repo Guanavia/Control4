@@ -6,7 +6,7 @@
   <model>DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>19</version>
+  <version>20</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -226,6 +226,16 @@
         </items>
         <default>Auto</default>
         <tooltip>Auto = 2.2 when the fixture has no dimmer channel (brightness scales the color channels), linear when it has one.</tooltip>
+      </property>
+      <property>
+        <name>Max Brightness</name>
+        <type>LIST</type>
+        <items>
+          <item>On</item>
+          <item>Off</item>
+        </items>
+        <default>On</default>
+        <tooltip>On: whites and pale colours use every emitter that can help (white LED plus red, green and blue), up to twice as bright; saturated colours are unchanged. Off: the white LED alone makes the white part (strictest color, dimmer). Also lets a warm/cool white pair run both LEDs at full mid-range.</tooltip>
       </property>
       <property>
         <name>White Mix (%)</name>

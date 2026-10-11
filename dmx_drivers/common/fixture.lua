@@ -173,6 +173,7 @@ function F.refresh_visibility()
   F.show_prop("CCT Min (K)", cct)
   F.show_prop("CCT Max (K)", cct)
   F.show_prop("White Mix (%)", lay and lay.has_white and lay.has_rgb or false)
+  F.show_prop("Max Brightness", lay and ((lay.has_white and lay.has_rgb) or lay.has_ww_cw) or false)
   local has_reset = custom and lay and lay.roles.reset ~= nil or false
   F.show_prop("Reset Value", has_reset)
   F.show_prop("Reset Hold (ms)", has_reset)
@@ -391,6 +392,7 @@ function F.compute()
   end
   local mix = C.mix(lay, state, {
     white_mix = (tonumber(Properties["White Mix (%)"]) or 100) / 100,
+    max_brightness = Properties["Max Brightness"] ~= "Off",
     gamma = F.gamma(),
   })
   for _, ch in ipairs(lay.channels) do
@@ -748,7 +750,7 @@ function F.on_property(name)
   elseif name == "Start Address" or name == "CCT Min (K)" or name == "CCT Max (K)"
       or name == "Reset Value" or name == "Reset Hold (ms)" then
     F.apply_config(name .. " changed")
-  elseif name == "White Mix (%)" or name == "Dimming Curve" then
+  elseif name == "White Mix (%)" or name == "Dimming Curve" or name == "Max Brightness" then
     F.refresh(0)
   elseif F.ext.on_property then
     F.ext.on_property(name, value)

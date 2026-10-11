@@ -63,11 +63,21 @@ function C.resolve_gamma(setting, has_dimmer)
 end
 
 -- The core mix. layout: a compiled layout (layouts.lua). state: { level = 0..100, x, y, mode }.
--- opts: { white_mix = 0..1, gamma = number }.
+-- opts: { white_mix = 0..1, gamma = number, max_brightness = bool (default true) }.
+--
+-- MAX BRIGHTNESS (Dave, 2026-10-11: "the light wasn't as bright as it should be"). With it OFF the
+-- mix is exactly the original: white extraction moves the common part of R/G/B to the White
+-- emitter and normalises, so pure white ran the W LED alone with R/G/B idle (about a quarter of the
+-- fixture's emitters), and a WW/CW pair ran constant-sum (each at 50% mid-range). With it ON, once
+-- W is full the remaining white is ALSO made by R=G=B together, and a WW/CW pair is normalised to
+-- its peak. Under the engine's own model (W == R+G+B white) the chromaticity is unchanged; only
+-- whites and pale colours get brighter (up to 2x), saturated colours are byte-identical. Real W
+-- LEDs are rarely exactly D65, so very pale colours may tint slightly: hence the property.
 -- Returns { role = fraction } for every intensity/color role the layout has.
 function C.mix(layout, state, opts)
   opts = opts or {}
   local white_mix = U.clamp(tonumber(opts.white_mix) or 1.0, 0, 1)
+  local max_bright = opts.max_brightness ~= false
   local gamma = tonumber(opts.gamma) or C.resolve_gamma(nil, layout.has_dimmer)
   local level = U.clamp((state.level or 0) / 100, 0, 1)
   local out = {}
@@ -99,6 +109,9 @@ function C.mix(layout, state, opts)
       local t = U.clamp((mw - m) / (mw - mc), 0, 1)
       e.warm_white, e.cool_white = 1 - t, t
       local peak = math.max(e.warm_white, e.cool_white)
+      if max_bright and peak > 0 then
+        e.warm_white, e.cool_white = e.warm_white / peak, e.cool_white / peak
+      end
       -- ...except when a CCT channel is also present, the WW/CW pair then runs full and the
       -- fixture's CCT channel sets the temperature.
       if layout.has_cct then e.warm_white, e.cool_white = 1, 1 end
@@ -121,8 +134,20 @@ function C.mix(layout, state, opts)
         -- 2. White extraction: take the common part of R, G and B out to the white emitter.
         local w = math.min(r, g, b) * white_mix
         r, g, b = r - w, g - w, b - w
-        local peak = math.max(r, g, b, w)
-        if peak > 0 then r, g, b, w = r / peak, g / peak, b / peak, w / peak end
+        if max_bright then
+          -- Largest scale s such that the chroma part (r,g,b)*s fits AND the white part w*s can be
+          -- made by W (up to 1) plus a common R=G=B top-up k in the headroom left by the chroma.
+          local maxc = math.max(r, g, b)
+          local s = (w + maxc) > 0 and 2 / (w + maxc) or 0
+          if maxc > 0 then s = math.min(s, 1 / maxc) end
+          local white_total = w * s
+          local W = math.min(1, white_total)
+          local k = white_total - W
+          r, g, b, w = r * s + k, g * s + k, b * s + k, W
+        else
+          local peak = math.max(r, g, b, w)
+          if peak > 0 then r, g, b, w = r / peak, g / peak, b / peak, w / peak end
+        end
         e.white = w
       end
       e.red, e.green, e.blue = r, g, b

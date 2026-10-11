@@ -108,11 +108,17 @@ do
   sim:proxy(par1, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 0 })
   sim:advance(50)
   T.eq(sim:slots(1, 4), { 255, 0, 0, 0 }, "full red on a 4ch par (virtual dimmer)")
-  -- D65 white goes to the white emitter.
+  -- D65 white: Max Brightness On (default) runs every emitter; Off puts it on the white LED alone.
   sim:proxy(par1, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.3127, LIGHT_COLOR_TARGET_Y = 0.3290, LIGHT_COLOR_TARGET_MODE = 0 })
   sim:advance(50)
   local s = sim:slots(1, 4)
-  T.ok(s[4] >= 250 and s[1] <= 6 and s[2] <= 6 and s[3] <= 6, "white point -> white emitter " .. T.show(s))
+  T.ok(s[1] >= 250 and s[2] >= 250 and s[3] >= 250 and s[4] >= 250, "Max Brightness On: white point -> all four emitters full " .. T.show(s))
+  sim:set_property(par1, "Max Brightness", "Off")
+  sim:advance(50)
+  s = sim:slots(1, 4)
+  T.ok(s[4] >= 250 and s[1] <= 6 and s[2] <= 6 and s[3] <= 6, "Max Brightness Off: white point -> white emitter only " .. T.show(s))
+  sim:set_property(par1, "Max Brightness", "On")
+  sim:advance(50)
   -- 50% on a virtual dimmer applies the 2.2 curve.
   sim:proxy(par1, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 50, RATE = 0 })
   sim:advance(50)

@@ -136,14 +136,40 @@ do
   T.near(g.green, 1, 0.02, "green primary -> green")
   local b = C.mix(rgbw, { level = 100, x = 0.15, y = 0.06, mode = C.MODE_FULL })
   T.near(b.blue, 1, 0.02, "blue primary -> blue")
-  -- D65 white is all white emitter after extraction.
-  local w = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
-  T.near(w.white, 1, 0.03, "D65 -> white emitter"); T.near(w.red, 0, 0.03, "D65: red extracted")
+  -- Max Brightness OFF = the original accurate mix: D65 white is all white emitter after extraction.
+  local ACC = { max_brightness = false }
+  local w = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, ACC)
+  T.near(w.white, 1, 0.03, "Off: D65 -> white emitter"); T.near(w.red, 0, 0.03, "Off: D65 red extracted")
+  -- Max Brightness ON (default): pure white runs all four emitters at full.
+  local wb = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
+  T.ok(wb.white > 0.99 and wb.red > 0.99 and wb.green > 0.99 and wb.blue > 0.99, "On: D65 -> R, G, B and W all full")
+  -- ON preserves chromaticity (W counts as R=G=B white), never exceeds full, never dims, and
+  -- leaves saturated colours byte-identical. Sweep the gamut.
+  local worst_hue, dimmer, over, changed_sat = 0, 0, 0, 0
+  for _, pt in ipairs({ {0.64,0.33}, {0.30,0.60}, {0.15,0.06}, {0.3127,0.3290}, {0.25,0.25}, {0.40,0.40},
+      {0.35,0.30}, {0.28,0.33}, {0.45,0.41}, {0.20,0.30}, {0.33,0.45}, {0.50,0.35}, {0.30,0.32} }) do
+    local st = { level = 100, x = pt[1], y = pt[2], mode = C.MODE_FULL }
+    local on, acc = C.mix(rgbw, st), C.mix(rgbw, st, ACC)
+    local r0, g0, b0 = C.xy_to_rgb(pt[1], pt[2])
+    local er, eg, eb = on.red + on.white, on.green + on.white, on.blue + on.white
+    local m = math.max(er, eg, eb)
+    worst_hue = math.max(worst_hue, math.abs(er / m - r0), math.abs(eg / m - g0), math.abs(eb / m - b0))
+    for _, v in pairs(on) do if v > 1 + 1e-9 then over = over + 1 end end
+    local lum = function(t) return t.red + t.green + t.blue + 3 * t.white end
+    if lum(on) < lum(acc) - 1e-9 then dimmer = dimmer + 1 end
+    if math.min(r0, g0, b0) < 0.02 then
+      for k, v in pairs(acc) do if math.abs(on[k] - v) > 0.004 then changed_sat = changed_sat + 1 end end
+    end
+  end
+  T.ok(worst_hue < 1e-6, "On keeps every colour's chromaticity (worst error " .. worst_hue .. ")")
+  T.eq(over, 0, "On never drives an emitter past full")
+  T.eq(dimmer, 0, "On is never dimmer than Off")
+  T.eq(changed_sat, 0, "On leaves saturated colours unchanged")
   local half = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { gamma = 1 })
   T.near(half.white, 0.5, 0.02, "virtual dimmer scales emitters (gamma 1)")
   local halfg = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
   T.near(halfg.white, 0.5 ^ 2.2, 0.02, "virtual dimmer default gamma 2.2")
-  local wm = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { white_mix = 0 })
+  local wm = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { white_mix = 0, max_brightness = false })
   T.near(wm.white, 0, 0.001, "White Mix 0 disables extraction")
   local d = C.mix(drgbw, { level = 40, x = 0.64, y = 0.33, mode = C.MODE_FULL })
   T.near(d.dimmer, 0.4, 0.001, "real dimmer carries brightness (gamma 1 auto)")
@@ -158,8 +184,11 @@ do
   local cool = C.mix(tw, { level = 100, x = cx, y = cy, mode = C.MODE_CCT })
   T.near(cool.cool_white, 1, 0.03, "6500K -> all cool")
   local mx, my = C.kelvin_to_xy(4000)
-  local mid = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT })
-  T.near(mid.warm_white + mid.cool_white, 1, 0.001, "constant-sum WW/CW")
+  local mid = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT }, { max_brightness = false })
+  T.near(mid.warm_white + mid.cool_white, 1, 0.001, "Off: constant-sum WW/CW")
+  local midb = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT })
+  T.near(math.max(midb.warm_white, midb.cool_white), 1, 0.001, "On: WW/CW mid-range runs the stronger LED at full")
+  T.near(midb.warm_white / midb.cool_white, mid.warm_white / mid.cool_white, 1e-9, "On: same warm/cool ratio (same temperature)")
   T.near(C.xy_to_kelvin(C.kelvin_to_xy(3000)), 3000, 60, "Kelvin round trip 3000")
   T.near(C.xy_to_kelvin(C.kelvin_to_xy(5600)), 5600, 80, "Kelvin round trip 5600")
   T.eq({ C.to_16(1) }, { 255, 255 }, "16-bit full")
