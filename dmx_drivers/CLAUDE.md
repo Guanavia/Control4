@@ -264,6 +264,16 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
     contents), sim-checked. Tab appears -> something in dmx_light blocks it, bisect. Nothing -> light
     Extras do not render on this system: stop, record it, and give extended channels another home
     (Set Control already works; properties need Set; a separate device was ruled out by Dave).
+  * **SETTLED (2026-10-11): LIGHT EXTRAS DO NOT RENDER ON THIS SYSTEM. DO NOT RE-INVESTIGATE.**
+    `extras_probe` (bare light_v2, static + dynamic has_extras, one object each in Snap One's sample
+    checkbox / Hue switch / list shapes) showed NO Extras and no sub-menus on the phone app or the
+    T4 (OS 4.1 Director). Its log shows the UIs NEVER sent GET_EXTRAS_SETUP: only
+    SET_BRIGHTNESS_TARGET. So the documented light Extras path is dead here regardless of driver.
+    Everything built for it is correct per the docs and stays (harmless; may work on a later OS),
+    but nothing user-facing may DEPEND on it. **This breaks decision 2: the mover's whole control
+    surface (pan/tilt sliders, nudges, presets) was designed for Extras** and must be re-homed
+    before the mover's bench session. Extended light channels (strobe, program, speed) need a home
+    too; `Set Control` in programming is confirmed working. Decision pending with Dave.
   * **Any edit to static `<capabilities>` makes Composer demand a Director restart** (Dave hit it
     on build 12: the only structural diff was one added `<color_rate_behavior>` line). Build 13
     takes it back out; the dynamic update carries the value. **PENDING STRUCTURAL BATCH** (apply
