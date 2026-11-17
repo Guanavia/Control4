@@ -25,6 +25,13 @@ needed; skip the full breakdown unless asked. He will ask for detail when he wan
 
 ## Repo conventions
 
+- **Driver naming (ALWAYS, owner's rule, 2026-11-17).** Every driver we create ends its display
+  name (`driver.xml` `<name>`) with **`(LensShift)`**, e.g. `Adv DMX Light (LensShift)`, so it is
+  identifiable in Composer next to Control4's and other vendors' drivers (Chowmain does the same).
+  Package files are prefixed **`lensshift_`** (e.g. `lensshift_dmx_light.c4z`) so a generic file
+  name can never collide: Composer keys drivers by FILE name, and a file rename makes a different
+  driver, so pick the name before the first client install.
+
 - **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
 - **Per-project context persistence (ALWAYS).** Each Control4 project must be workable independently. For EVERY conversation about a given project, save the conversation's decisions, design threads, and project status **inside that project's own folder** — never mixed with another project's, and never left only in chat/local memory. Practically: durable project status/decisions belong in that folder's docs (its own `CLAUDE.md`/`FINDINGS.md`/notes); the root `CLAUDE.md` keeps only the short per-project pointer under `## Drivers`. When a conversation produces new design thinking, write it to a file in the relevant project folder before ending. This keeps the many Control4 projects from getting confused with each other.
 - **Scoped commits (ALWAYS).** This is a monorepo, but every project is versioned independently *by convention*. Each commit must touch **only one project's subfolder** (never span two projects), and its message must be **project-prefixed** — e.g. `better_composer: add version-validation note`, `nv_shield_tv: fix volume ramp`. This keeps each project's history cleanly filterable (`git log -- better_composer/`) and pushable on its own. The ONLY exception is a genuinely repo-wide change (this root `CLAUDE.md`, `.gitignore`, shared build scripts), which is prefixed `repo:`. Never bundle unrelated projects into one commit; stage per-folder and commit separately.
