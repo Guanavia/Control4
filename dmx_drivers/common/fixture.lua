@@ -323,6 +323,9 @@ function F.update_status()
     else
       lines[#lines + 1] = string.format("OK: %s on DMX gateway line %d", L.footprint_text(F.start, F.layout.count, F.layout.pixel_count), line)
       if F.gw_online == false then lines[#lines + 1] = "Note: the gateway reports it is offline" end
+      if not F.gw_lines then
+        lines[#lines + 1] = "Note: the gateway has not reported its DMX lines yet, so line " .. line .. " is assumed (its driver sends them when it connects: run its 'Connect to Edidio' action)"
+      end
     end
   elseif not F.node_id then
     if F.has_gateway_input() then
@@ -625,8 +628,11 @@ end
 
 function F.refresh_gateway_list()
   if not F.has_gateway_input() then return end
+  -- Until the gateway reports its lines, list only the current setting: never offer lines that
+  -- may not exist (bench, 2026-11-17: the old {1, 2} placeholder showed a line 2 that was not there).
   local items = {}
-  for _, l in ipairs(F.gw_lines or { 1, 2 }) do items[#items + 1] = U.int(l) end
+  local known = F.gw_lines or { tonumber(Properties["Gateway Line"]) or 1 }
+  for _, l in ipairs(known) do items[#items + 1] = U.int(l) end
   local current = Properties["Gateway Line"]
   local found = false
   for _, it in ipairs(items) do if it == current then found = true end end
@@ -672,6 +678,14 @@ end
 -- accepts both, so we do too). Returns true if it was one.
 function F.on_gateway(cmd, p)
   p = p or {}
+  -- Every gateway message except level replies is logged regardless of Debug Mode: this protocol
+  -- is read from Control4's light driver, not documented, so the first bench runs need to see it.
+  if cmd ~= P.GW_LEVELS then
+    local parts = {}
+    for k, v in pairs(p) do parts[#parts + 1] = tostring(k) .. "=" .. tostring(v) end
+    table.sort(parts)
+    F.critical("from gateway: %s {%s}", tostring(cmd), table.concat(parts, ", "))
+  end
   if cmd == P.GW_LINES then
     local lines = {}
     for k, v in pairs(p) do

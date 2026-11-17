@@ -1053,10 +1053,12 @@ do
   sim:init(ref); sim:init(bar); sim:init(node)
   sim:advance(100)
   local P = bar.env.Properties
-  T.like(status(bar), "^OK: DMX 101%-172 %(72 ch, 18 pixels%) on DMX gateway line 1$", "status names the gateway line")
+  T.like(status(bar), "^OK: DMX 101%-172 %(72 ch, 18 pixels%) on DMX gateway line 1 |", "status names the gateway line")
   T.ok(not node.env.Properties["Patch"]:find("Pixel Bar"), "the Art-Net node never hears of it")
   T.ok(sim:last_notify(bar, "ONLINE_CHANGED").params.STATE == true, "the light is online")
   T.eq(bar.hidden["Gateway Line"], false, "Gateway Line always shown")
+  T.eq(bar.lists["Gateway Line"], "1", "before the gateway reports its lines, only the current line is listed (no phantom line 2)")
+  T.like(status(bar), "Note: the gateway has not reported its DMX lines yet", "and Status says so")
   local first = sim:last_notify(bar, "DMX_LEVEL")
   T.eq({ first.params.LINE, first.params.DEVICE_ID }, { 1, 210 }, "every message carries LINE and DEVICE_ID")
   T.eq(gw_slots(bar, 1, 101, 104), { 0, 0, 0, 0 }, "the whole footprint was sent dark on load")
@@ -1105,6 +1107,9 @@ do
   -- The gateway reports two DMX lines: the property lists them; moving lines darkens the old one.
   gw_from(sim, bar, "LINES_INFO", { ["1"] = "DMX", ["2"] = "DMX" })
   T.eq(bar.lists["Gateway Line"], "1,2", "Gateway Line offers both DMX lines")
+  local logged = false
+  for _, l in ipairs(bar.errorlog) do if l:find("from gateway: LINES_INFO {1=DMX, 2=DMX}", 1, true) then logged = true end end
+  T.ok(logged, "gateway messages are logged unsilenceably")
   T.eq(bar.hidden["Gateway Line"], false, "and is shown")
   sim:set_property(bar, "Gateway Line", "2")
   sim:advance(50)

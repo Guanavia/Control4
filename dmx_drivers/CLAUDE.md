@@ -433,6 +433,13 @@ is bound decides the output. Adding a connection is STRUCTURAL (Director restart
   with both an Art-Net node and a gateway must not get both inputs bound by Composer). Property
   **`Gateway Line`** (DYNAMIC_LIST from LINES_INFO's DMX lines; persisted). **ALWAYS shown (Dave):**
   like Control4's DMX Light it lists only valid lines but always shows what the fixture is on.
+  **Bench (2026-11-17): it listed lines 1 AND 2 on a gateway with no line 2.** Cause: LINES_INFO
+  never arrived, and the "unknown" fallback was a hard-coded {1, 2}. Fixed: until LINES_INFO arrives
+  only the current setting is listed, Status says the lines are not reported yet, and EVERY gateway
+  message (bar level replies) is logged unsilenceably. OPEN: when Control4's eDIDIO driver sends
+  LINES_INFO. Its own light never asks, so the gateway pushes it, apparently on connecting to the
+  eDIDIO; a light bound afterwards may wait until the next connect. Test: run the gateway's
+  `Connect to Edidio` action and read the Lua output. Gateway Line now sits ABOVE Start Address.
 - **Both inputs bound = refused** in Status; nothing is sent to either. Unbinding one hands over to
   the other with the current look.
 - Each change is ONE `DMX_LEVEL` with absolute channels and `TIME` = the fade (the gateway fades;

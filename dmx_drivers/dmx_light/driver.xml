@@ -6,7 +6,7 @@
   <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>38</version>
+  <version>39</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -189,18 +189,18 @@
         <tooltip>How the fixture maps onto Control4's lighting controls. RGB, RGBW and RGB + Tunable White use the color picker and the color temperature slider; Tunable White uses the temperature slider; Manual Color puts every color channel on the Extras tab and the brightness slider drives only the Dimmer channel. Changing type keeps the channel map if it still fits, otherwise starts from the type's usual map.</tooltip>
       </property>
       <property>
+        <name>Gateway Line</name>
+        <type>DYNAMIC_LIST</type>
+        <default>1</default>
+        <tooltip>Which DMX line (output) of the bound DMX gateway the fixture is wired to. Lists only the lines the gateway reports as DMX; with one, it is selected automatically. Until the gateway reports them, only the current setting is listed. Applies only when the DMX Gateway input is bound. Set it before the Start Address.</tooltip>
+      </property>
+      <property>
         <name>Start Address</name>
         <type>RANGED_INTEGER</type>
         <minimum>1</minimum>
         <maximum>512</maximum>
         <default>1</default>
         <tooltip>The fixture's DMX address, as set on its DIP switches or menu. For one zone of a pixel fixture split across several drivers, the address of the zone's first channel.</tooltip>
-      </property>
-      <property>
-        <name>Gateway Line</name>
-        <type>DYNAMIC_LIST</type>
-        <default>1</default>
-        <tooltip>Which DMX line (output) of the bound DMX gateway the fixture is wired to. Lists only the lines the gateway reports as DMX; with one, it is selected automatically. Applies only when the DMX Gateway input is bound.</tooltip>
       </property>
       <property>
         <name>Footprint</name>
