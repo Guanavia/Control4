@@ -20,6 +20,9 @@ living. Say "update the driver and run X"; give the findings, the decisions and 
 for, not the click path. Surface a Composer mechanism ONLY when it is itself the finding (e.g.
 "the local driver DB and the controller hold separate copies, which is why the version lagged").
 
+**Keep replies brief, must-know first (Dave, 2026-11-17).** Lead with the answer and the decision
+needed; skip the full breakdown unless asked. He will ask for detail when he wants it.
+
 ## Repo conventions
 
 - **One subfolder per project.** All of a project's source, docs, and research notes live in its folder (e.g. `nv_shield_tv/`, `sonoff_snzb02p/`, `better_composer/`).
