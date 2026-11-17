@@ -966,7 +966,7 @@ regenerate the cert via LINKPLAY_RE.md, then `./build.sh`). `research/DESIGN.md`
 described the dead v1 YXC premise) and now carries the per-project status, the two-surface
 explanation, the build/fallback procedure, and the bringup checklist.
 
-### dmx_drivers — OPEN, v0.1.0 built + offline-tested 2026-09-24, NOT yet on hardware
+### dmx_drivers — OPEN, v0.1.0, node + par proven on the bench; pixel fixtures added 2026-11-17 (offline-tested)
 Art-Net DMX driver set (`artnet_node` gateway + `dmx_light` + `dmx_mover`) for theatrical
 fixtures via a Pknight CR011R, separate from Control4's own Vibrant DMX. One fixture = one
 driver = one light_v2 load; mover controls live on the light's Extras tab. Our own light_v2
