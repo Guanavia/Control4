@@ -398,8 +398,8 @@ do
   local sim2 = Sim.new()
   local lonely = sim2:load("dmx_light", 400, "Lonely Par", par(MAP4))
   sim2:init(lonely)
-  T.like(status(lonely), "no Art%-Net node bound", "unbound fixture says so")
-  T.like(lonely.errorlog[#lonely.errorlog], "no Art%-Net node bound", "...unsilenceably")
+  T.like(status(lonely), "nothing bound %(Connections: bind this fixture.s .Art%-Net Node. input", "unbound fixture says so")
+  T.like(lonely.errorlog[#lonely.errorlog], "nothing bound %(Connections: bind this fixture.s .Art%-Net Node. input", "...unsilenceably")
   local claimed = false
   for _, n in ipairs(sim2:notifies(lonely, "ONLINE_CHANGED")) do if n.params.STATE == true then claimed = true end end
   T.ok(not claimed, "never claimed online")
@@ -1005,6 +1005,157 @@ do
   sim2:set_property(mover, "Layout", "Custom")
   sim2:set_property(mover, "Channel Map", "pan,tilt,4x(red,green,blue)")
   T.like(status(mover), "Channel Map: a moving head cannot have pixels", "mover refuses a pixel map")
+end
+
+---------------------------------------------------------------------------------------------
+-- Output through a Control4 DMX gateway (Creative Lighting eDIDIO) instead of an Art-Net Node:
+-- the light's second input, class DMX_DLG, speaking what Control4's own DMX Light Driver speaks.
+-- The fake gateway below only records DMX_LEVEL messages and replays them into per-line channel
+-- tables, which is all a gateway is from the light's side.
+local function fake_gateway(sim, id)
+  local gw = { id = id, name = "eDIDIO", env = {}, errorlog = {}, notifies = {} }
+  return gw
+end
+-- Replay every DMX_LEVEL the light sent: lines[line][channel] = value.
+local function gateway_lines(light)
+  local lines = {}
+  for _, n in ipairs(light.notifies) do
+    if n.cmd == "DMX_LEVEL" then
+      T.eq(n.binding, 2, "DMX_LEVEL goes out on the DMX Gateway binding")
+      local line = tonumber(n.params.LINE)
+      lines[line] = lines[line] or {}
+      for k, v in pairs(n.params) do
+        if type(k) == "number" then lines[line][k] = tonumber(v) end
+      end
+    end
+  end
+  return lines
+end
+local function gw_slots(light, line, first, last)
+  local l = gateway_lines(light)[line] or {}
+  local out = {}
+  for ch = first, last do out[#out + 1] = l[ch] or 0 end
+  return out
+end
+local function gw_from(sim, light, cmd, params)
+  sim:call(light, "ReceivedFromProxy", 2, cmd, params)
+end
+
+T.section("gateway: a light outputs through a DMX gateway driver")
+do
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
+  local ref = sim:load("dmx_light", 201, "Reference Par", par(MAP4, { ["Start Address"] = "501" }))
+  local bar = sim:load("dmx_light", 210, "Pixel Bar", { ["Fixture Type"] = "RGBW", ["Channel Map"] = "18x(red,green,blue,white)", ["Start Address"] = "101" })
+  local gw = fake_gateway(sim, 400)
+  sim:bind(ref, 1, node, 1, true)
+  sim:bind(bar, 2, gw, 7, true)     -- already bound when the project loads
+  sim:init(ref); sim:init(bar); sim:init(node)
+  sim:advance(100)
+  local P = bar.env.Properties
+  T.like(status(bar), "^OK: DMX 101%-172 %(72 ch, 18 pixels%) on DMX gateway line 1$", "status names the gateway line")
+  T.ok(not node.env.Properties["Patch"]:find("Pixel Bar"), "the Art-Net node never hears of it")
+  T.ok(sim:last_notify(bar, "ONLINE_CHANGED").params.STATE == true, "the light is online")
+  T.eq(bar.hidden["Gateway Line"], false, "Gateway Line shown while the gateway has not said which lines it has")
+  local first = sim:last_notify(bar, "DMX_LEVEL")
+  T.eq({ first.params.LINE, first.params.DEVICE_ID }, { 1, 210 }, "every message carries LINE and DEVICE_ID")
+  T.eq(gw_slots(bar, 1, 101, 104), { 0, 0, 0, 0 }, "the whole footprint was sent dark on load")
+
+  -- Same commands to the bar (gateway) and the reference par (node): identical channel values.
+  for _, d in ipairs({ ref, bar }) do
+    sim:proxy(d, "SET_COLOR_TARGET", color(0.38, 0.36))
+    sim:proxy(d, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 60, RATE = 0 })
+  end
+  sim:advance(50)
+  local want = sim:slots(501, 504)
+  T.ok(want[1] > 0, "reference par is lit " .. T.show(want))
+  local bad = {}
+  for p = 1, 18 do
+    local a = 101 + (p - 1) * 4
+    local got = gw_slots(bar, 1, a, a + 3)
+    if table.concat(got, ",") ~= table.concat(want, ",") then bad[#bad + 1] = p .. "=" .. T.show(got) end
+  end
+  T.eq(bad, {}, "every pixel on the gateway matches the par on the node")
+
+  -- The gateway runs the fade: ONE message carrying the time, not a stream.
+  sim:clear(bar)
+  sim:proxy(bar, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 2000 })
+  sim:advance(3000)
+  local fades = sim:notifies(bar, "DMX_LEVEL")
+  T.eq(#fades, 1, "a 2 s fade is one DMX_LEVEL")
+  T.eq(fades[1] and fades[1].params.TIME, 2000, "with TIME = 2000 ms")
+  T.ok(sim:last_notify(bar, "LIGHT_BRIGHTNESS_CHANGED") ~= nil, "the light still reports the change")
+end
+
+T.section("gateway: lines, moves, offline, both inputs")
+do
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
+  local bar = sim:load("dmx_light", 210, "Bar", { ["Fixture Type"] = "RGBW", ["Channel Map"] = "red,green,blue,white", ["Start Address"] = "11" })
+  local gw = fake_gateway(sim, 400)
+  sim:init(bar); sim:init(node); sim:advance(50)
+  sim:bind(bar, 2, gw, 7)           -- bound in Connections while running
+  sim:advance(50)
+  T.like(status(bar), "^OK: DMX 11%-14 %(4 ch%) on DMX gateway line 1", "binding the gateway starts output")
+  sim:proxy(bar, "SET_COLOR_TARGET", color(0.64, 0.33))
+  sim:proxy(bar, "ON", {})
+  sim:advance(50)
+  T.eq(gw_slots(bar, 1, 11, 14), { 255, 0, 0, 0 }, "red on line 1")
+
+  -- The gateway reports two DMX lines: the property lists them; moving lines darkens the old one.
+  gw_from(sim, bar, "LINES_INFO", { ["1"] = "DMX", ["2"] = "DMX" })
+  T.eq(bar.lists["Gateway Line"], "1,2", "Gateway Line offers both DMX lines")
+  T.eq(bar.hidden["Gateway Line"], false, "and is shown")
+  sim:set_property(bar, "Gateway Line", "2")
+  sim:advance(50)
+  T.eq(gw_slots(bar, 1, 11, 14), { 0, 0, 0, 0 }, "the old line is released to 0")
+  T.eq(gw_slots(bar, 2, 11, 14), { 255, 0, 0, 0 }, "the look moves to line 2")
+  T.like(status(bar), "on DMX gateway line 2", "status follows")
+
+  -- Only one DMX line: chosen automatically, property hidden.
+  gw_from(sim, bar, "LINES_INFO", { ["1"] = "DALI", ["2"] = "DMX" })
+  T.eq(bar.hidden["Gateway Line"], true, "one DMX line: Gateway Line hidden")
+  T.like(status(bar), "on DMX gateway line 2", "and used")
+  -- A DALI-only line set: refused, explained.
+  gw_from(sim, bar, "LINES_INFO", { ["1"] = "DALI" })
+  T.like(status(bar), "NOT OUTPUTTING: the gateway reports no DMX lines", "no DMX line: not outputting, says why")
+  -- The gateway driver may also send it with SendToDevice (Control4's light accepts both).
+  sim:command(bar, "LINES_INFO", { ["1"] = "DMX", ["2"] = "DMX" })
+  sim:set_property(bar, "Gateway Line", "1")
+  T.like(status(bar), "on DMX gateway line 1", "LINES_INFO via ExecuteCommand works too")
+
+  -- Moving the Start Address releases channels no longer driven.
+  sim:clear(bar)
+  sim:set_property(bar, "Start Address", "13")
+  sim:advance(50)
+  local l1 = gateway_lines(bar)[1]
+  T.eq({ l1[11], l1[12] }, { 0, 0 }, "11-12 released after moving to 13")
+  T.eq({ l1[13], l1[14], l1[15], l1[16] }, { 255, 0, 0, 0 }, "13-16 carry the look")
+
+  -- Gateway offline then back: the whole look is resent.
+  gw_from(sim, bar, "NETWORK_STATUS", { STATUS = "false" })
+  T.like(status(bar), "gateway reports it is offline", "offline noted")
+  T.ok(sim:last_notify(bar, "ONLINE_CHANGED").params.STATE == false, "light goes offline")
+  sim:clear(bar)
+  gw_from(sim, bar, "NETWORK_STATUS", { STATUS = "true" })
+  local resend = sim:last_notify(bar, "DMX_LEVEL")
+  T.ok(resend and resend.params[13] == 255 and resend.params[16] == 0, "back online: full footprint resent")
+  T.ok(sim:last_notify(bar, "ONLINE_CHANGED").params.STATE == true, "light back online")
+
+  -- Both inputs bound: refused, nothing sent anywhere.
+  sim:bind(bar, 1, node, 1)
+  sim:advance(50)
+  T.like(status(bar), "NOT OUTPUTTING: both inputs are bound", "both bound: refused")
+  sim:clear(bar)
+  sim:proxy(bar, "SET_COLOR_TARGET", color(0.15, 0.06))
+  sim:advance(50)
+  T.eq(#sim:notifies(bar, "DMX_LEVEL"), 0, "nothing to the gateway while both are bound")
+  T.ok(not node.env.Properties["Patch"]:find("Bar"), "and the node did not accept it")
+  -- Unbind the gateway: the node takes over with the current look.
+  sim:unbind(bar, 2, gw, 7)
+  sim:advance(50)
+  T.like(status(bar), "^OK: DMX 13%-16 %(4 ch%) on 'Stage Node'", "node output after unbinding the gateway")
+  T.eq(sim:slots(13, 16), { 0, 0, 255, 0 }, "blue on the Art-Net wire")
 end
 
 ---------------------------------------------------------------------------------------------

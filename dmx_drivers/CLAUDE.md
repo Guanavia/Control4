@@ -52,7 +52,17 @@ build.sh     -> build/<name>/ (staged) and dist/<name>.c4z (both gitignored)
 - Versioning per repo rule: `VERSION` = product (0.x until release), integer `<version>`
   auto-bumped per driver only when its package changes (rebuild is idempotent, verified), both
   stamped into `@BUILD@` and logged unsilenceably on load.
-- c4z names are load-bearing (`GetDevicesByC4iName("artnet_node.c4z")`): never suffix them.
+- **Package files are `lensshift_artnet_node.c4z`, `lensshift_dmx_light.c4z`,
+  `lensshift_dmx_mover.c4z` (Dave, 2026-11-17)**, so no generic name can collide with another
+  vendor's in Composer, which keys drivers by file name. Source folders keep the short names;
+  `build.sh`'s `PKG_PREFIX` makes the package name. **The file name IS the driver's identity: a new
+  name is a different driver, so installed copies cannot update across a rename** (Dave removed the
+  old bench instances to switch). The node finds duplicate copies of itself with
+  `GetDevicesByC4iName(P.NODE_C4Z)`: change `PKG_PREFIX` and `P.NODE_C4Z` together (a wrong name is
+  caught by the duplicate-node scenarios, mutation-checked). Lights and the node otherwise find
+  each other only through bindings.
+- **Display name (Dave, 2026-11-17): `Adv DMX Light (LensShift)`** (`<name>`; `<model>` Adv DMX Light),
+  to tell it apart from Control4's own "DMX Light" driver, Chowmain-style suffix.
 
 ## Decisions (all Dave's calls unless noted)
 
@@ -373,6 +383,70 @@ mover pixel map). Mutation: treating pixel copies as repeats is caught by 12 che
 **Bench next (Alcon):** confirm 18 pixels and RGBW order with the node's Channel Test (start 1, 8
 channels; then the last pixel at 69-72 and nothing past it), then mark the docs row verified. Zones
 are free: one driver per zone by Start Address.
+
+## eDIDIO gateway as an output — RESEARCHED, NOT BUILT (2026-11-17)
+
+The Alcon job's light is wired to a **Creative Lighting eDIDIO S10** (Control4's "Vibrant
+DALI/DMX gateway"), not the CR011R. Our light never touches the network (it only talks to its
+bound node), so supporting the eDIDIO is a GATEWAY-side change; dmx_light needs nothing.
+- **Control4's own driver (`edidio_dmx_dali.c4z`, catalog v127424, Snap One): `driver.lua` is
+  ENCRYPTED** (`encryption="2"`). It connects over SSL 443, creates DMX/DALI connections
+  dynamically for Control4's "DMX Light" drivers, and auto-pushes a Control4-variant firmware
+  (`edidio_firmware_4P_C4 ... 1.0.83`). The message protocol to its lights is undocumented, so
+  binding our light to it is not viable (same conclusion as the ExtraVeg Enttec master).
+- **Creative Lighting publishes the gateway protocol** (github.com/CreativeLightingAdmin/
+  Control-Freak-Protocol-Public-Release, proto v1.3.2): TCP 23 or TLS 443; frame = `0xCD`, 2-byte
+  big-endian length, protobuf `EdidioMessage`; keepalive within 20 s or the device drops the
+  connection. **`DMXMessage` = zone 1, universe_mask 2, channel 3 (1-based start), repeat 4, level 5
+  (repeated), fade_time_by_10ms 6**: the GATEWAY fades. nanopb bound 256 levels per message. TCP
+  client slots: **4, or 3 while Art-Net/sACN holds one**, so a second client beside Control4's driver
+  fits. If the device's **Secure Session** is on, a client must log in (NONCE + secure_login, role
+  CONTROL); whether Control4's driver turns it on is UNKNOWN.
+- **Art-Net/sACN:** Creative Lighting's spec sheet lists the S10 as an "Art-Net 4 Node", and the
+  proto's slot comment confirms Art-Net/sACN exist in firmware, but nothing public documents
+  enabling it or the universe-to-line mapping, and whether the Control4-variant firmware keeps it is
+  unknown. Not in the user manual (pdftotext found no mention).
+- **Open on site:** does Control4's eDIDIO driver also run other DMX loads on that line, and does it
+  rewrite the whole universe (which would clobber another client) or only its own channels?
+Options put to Dave: (1) zero-code test, point `artnet_node` at the eDIDIO's IP and use Channel
+Test; (2) build a native eDIDIO output driver speaking DMXMessage, with the same fixture binding as
+the node so any light binds to either; (3) bind to Control4's driver: not viable.
+**CORRECTION, same day: (3) IS viable.** Control4's own **DMX Light Driver (`control4_dmx_light.c4z`,
+OS 3.3.0+) is NOT encrypted**, so the gateway protocol is readable from the light side (protocol
+facts only; the code is Snap One copyright, decision 7 applies):
+- Light connection id **1 "DMX Device"**, control (type 1), consumer, class **`DMX_DLG`**,
+  `autobind` True. **The gateway is chosen by this BINDING in Connections**, which is why the light
+  has no gateway property (Dave noticed). Autobind presumably binds it when there is only one
+  gateway: with two, check the binding by hand. **Line** is the `Gateway Line` property, a list
+  built from the gateway's DMX lines and auto-picked when there is only one.
+- Light -> gateway, `C4:SendToProxy(1, cmd, params)`, every message carries `LINE` and
+  `DEVICE_ID`: **`DMX_LEVEL {TIME = fade ms, [channel] = value, ...}`** (the gateway fades) and
+  **`DMX_QUERY {[channel] = true, ...}`**.
+- Gateway -> light: **`LINES_INFO {[line] = "DMX"|"DALI"|...}`**, **`NETWORK_STATUS {STATUS}`**
+  (online), **`DMX_LEVELS {[channel] = value}`** (query reply; arrives via ExecuteCommand).
+- UNVERIFIED: that `[channel]` is the absolute DMX address 1-512 (likely: their per-color Channel
+  properties are absolute), and that the gateway merges per channel with Control4's own lights.
+So the cleanest design: dmx_light gains a SECOND input, `DMX Gateway` (DMX_DLG); whichever input
+is bound decides the output. Adding a connection is STRUCTURAL (Director restart).
+**BUILT (Dave approved, 2026-11-17; light build 34) — offline-tested, NOT on hardware.**
+- Connection **id 2 "DMX Gateway"**, class DMX_DLG, consumer, NO autobind (deliberate: a project
+  with both an Art-Net node and a gateway must not get both inputs bound by Composer). Property
+  **`Gateway Line`** (DYNAMIC_LIST from LINES_INFO's DMX lines; hidden when bound to a one-DMX-line
+  gateway; persisted).
+- **Both inputs bound = refused** in Status; nothing is sent to either. Unbinding one hands over to
+  the other with the current look.
+- Each change is ONE `DMX_LEVEL` with absolute channels and `TIME` = the fade (the gateway fades;
+  no streaming). Line/address/footprint changes send 0 to channels no longer driven
+  (`gw_written`, persisted). `NETWORK_STATUS` false -> light offline; back true -> full resend.
+  Gateway messages accepted via the binding AND ExecuteCommand, as Control4's light does.
+- **No overlap policy on a gateway** (the node's refusal/sharing logic cannot see it): documented.
+- 16-bit pairs fade as two independent channels on the gateway (a possible low-end step on a 16-bit
+  dimmer; irrelevant to the Alcon, which is 8-bit).
+- Tests: 2 gateway scenario sections (fake gateway replays DMX_LEVEL per line; every pixel on the
+  gateway matches a reference par on the node); par A/B still byte-identical; mutations (no release
+  of old channels, no resend on reconnect) both caught. 186 unit + 388 scenario.
+- **Bench check first:** that `[channel]` is the absolute address (a test light at a known address
+  on the same line as a Control4 DMX Light), and that our light and Control4's coexist on one line.
 
 ## Option 4: driver-hosted web page — RESEARCHED, NOT BUILT (2026-10-11, discussion only)
 

@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# Build the Art-Net DMX driver set: artnet_node.c4z, dmx_light.c4z, dmx_mover.c4z -> dist/
+# Build the Art-Net DMX driver set -> dist/lensshift_artnet_node.c4z, lensshift_dmx_light.c4z,
+# lensshift_dmx_mover.c4z. Source folders keep the short names; only the PACKAGE is prefixed.
 #
 #   ./build.sh            build all three, then run the unit tests and the harness scenarios
 #   ./build.sh dmx_light  build one driver (tests still run against whatever is staged)
 #
 # Per driver: compile + scope-check every source, bundle main.lua + modules into one driver.lua,
 # expand driver.xml, cross-check properties/actions, bump the integer <version> if the package
-# changed, stamp @BUILD@, zip. The c4z NAMES are load-bearing (the node finds its peers with
-# GetDevicesByC4iName("artnet_node.c4z")), so they are never suffixed.
+# changed, stamp @BUILD@, zip. The c4z FILE NAMES are the drivers' identity in Composer (a new name
+# is a different driver) and the node finds its peers with GetDevicesByC4iName(P.NODE_C4Z): change
+# PKG_PREFIX only together with protocol.lua's P.NODE_C4Z.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -16,10 +18,12 @@ DRIVERS=("${@:-artnet_node dmx_light dmx_mover}")
 DRIVERS=(${DRIVERS[@]})
 PRODUCT_VERSION="$(tr -d '[:space:]' < VERSION)"
 command -v luajit >/dev/null || { echo "ERROR: luajit is required (brew install luajit): Director runs drivers under LuaJIT"; exit 1; }
+PKG_PREFIX="lensshift_"
 mkdir -p dist build
 
 for NAME in "${DRIVERS[@]}"; do
-  echo "=== $NAME"
+  PKG="$PKG_PREFIX$NAME"
+  echo "=== $NAME -> $PKG.c4z"
   STAGE="build/$NAME"
   rm -rf "$STAGE"
   mkdir -p "$STAGE"
@@ -86,10 +90,10 @@ PYEOF
 
   # 5. Version: bump the integer <version> in the SOURCE driver.xml if the package content changed
   #    since the last build (Composer refuses an update whose version is unchanged).
-  python3 - "$NAME" "$STAGE" "$PRODUCT_VERSION" <<'PYEOF'
+  python3 - "$NAME" "$STAGE" "$PRODUCT_VERSION" "$PKG" <<'PYEOF'
 import sys, os, re, zipfile, hashlib
-name, stage, product = sys.argv[1], sys.argv[2], sys.argv[3]
-out = os.path.join('dist', name + '.c4z')
+name, stage, product, pkg = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+out = os.path.join('dist', pkg + '.c4z')
 def digest(files):
     h = hashlib.sha256()
     for k in sorted(files):
@@ -148,9 +152,9 @@ print('stamped "%s"' % stamp)
 PYEOF
 
   # 7. Package: files at the zip root.
-  rm -f "dist/$NAME.c4z"
-  ( cd "$STAGE" && zip -qr "../../dist/$NAME.c4z" . -x '*.DS_Store' )
-  echo "dist/$NAME.c4z ($(wc -c < "dist/$NAME.c4z" | tr -d ' ') bytes)"
+  rm -f "dist/$PKG.c4z"
+  ( cd "$STAGE" && zip -qr "../../dist/$PKG.c4z" . -x '*.DS_Store' )
+  echo "dist/$PKG.c4z ($(wc -c < "dist/$PKG.c4z" | tr -d ' ') bytes)"
 done
 
 echo "=== tests"

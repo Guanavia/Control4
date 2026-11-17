@@ -354,7 +354,7 @@ end
 ---------------------------------------------------------------------------------------------
 function N.peer_ids()
   local ids = {}
-  local ok, devs = pcall(function() return C4:GetDevicesByC4iName("artnet_node.c4z") end)
+  local ok, devs = pcall(function() return C4:GetDevicesByC4iName(P.NODE_C4Z) end)
   if ok and type(devs) == "table" then
     for k, v in pairs(devs) do
       local id = tonumber(k) or tonumber(v)

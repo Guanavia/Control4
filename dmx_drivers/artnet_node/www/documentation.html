@@ -12,7 +12,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </head>
 <body>
 <h1>Art-Net Node</h1>
-<p>Part of the <b>DMX over Art-Net</b> driver set: <b>Art-Net Node</b> (this driver), <b>DMX Light (Art-Net)</b> and <b>DMX Moving Head (Art-Net)</b>.</p>
+<p>Part of the <b>DMX over Art-Net</b> driver set: <b>Art-Net Node</b> (this driver), <b>Adv DMX Light (LensShift)</b> and <b>DMX Moving Head (Art-Net)</b>.</p>
 <p>One Art-Net Node driver owns <b>one DMX universe on one Art-Net node</b> (for example a Pknight CR011R). Fixture drivers bind to it in Connections. The node driver merges every fixture's channels into a single 512-channel frame, runs all fades, and sends it to the node as Art-Net (ArtDmx, unicast, UDP 6454).</p>
 <p>This set is independent of Control4's own DMX system (Vibrant DALI/DMX gateway + DMX Light Driver). Use a separate universe.</p>
 
@@ -20,7 +20,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <ol>
 <li>On the node, set <b>Art-Net &rarr; DMX output</b> mode, a <b>static IP</b> on the Control4 LAN, and its Net / Sub-Net / Universe.</li>
 <li>Add this driver and set <b>Node IP Address</b>, <b>Art-Net Net</b>, <b>Art-Net Sub-Net</b> and <b>Art-Net Universe</b> to match the node exactly.</li>
-<li>Add a <b>DMX Light (Art-Net)</b> or <b>DMX Moving Head (Art-Net)</b> per fixture circuit and, in Connections, bind each fixture's <b>Art-Net Node</b> input to this driver's <b>Fixtures</b> output.</li>
+<li>Add an <b>Adv DMX Light (LensShift)</b> or <b>DMX Moving Head (Art-Net)</b> per fixture circuit and, in Connections, bind each fixture's <b>Art-Net Node</b> input to this driver's <b>Fixtures</b> output.</li>
 <li>Check <b>Status</b> and <b>Patch</b>.</li>
 </ol>
 <p class="warn"><b>Use a static IP (or a DHCP reservation) for the node.</b> Art-Net is sent unicast to the address in Node IP Address. If the node's address changes, the lights stop responding and nothing else will tell you why.</p>

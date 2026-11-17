@@ -149,7 +149,7 @@ function Sim:make_c4(dev)
   function api:GetDevicesByC4iName(name)
     local out = {}
     for id, d in pairs(world.devices) do
-      if d.driver .. ".c4z" == name then out[id] = d.name end
+      if "lensshift_" .. d.driver .. ".c4z" == name then out[id] = d.name end
     end
     return out
   end

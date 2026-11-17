@@ -2,11 +2,11 @@
   <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
   <creator>David Woychek</creator>
   <manufacturer>DMX</manufacturer>
-  <name>DMX Light (Art-Net)</name>
-  <model>DMX Light</model>
+  <name>Adv DMX Light (LensShift)</name>
+  <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>27</version>
+  <version>37</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -88,6 +88,21 @@
       <classes>
         <class>
           <classname>ARTNET_DMX</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>6</facing>
+      <connectionname>DMX Gateway</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>DMX_DLG</classname>
         </class>
       </classes>
     </connection>
@@ -180,6 +195,12 @@
         <maximum>512</maximum>
         <default>1</default>
         <tooltip>The fixture's DMX address, as set on its DIP switches or menu. For one zone of a pixel fixture split across several drivers, the address of the zone's first channel.</tooltip>
+      </property>
+      <property>
+        <name>Gateway Line</name>
+        <type>DYNAMIC_LIST</type>
+        <default>1</default>
+        <tooltip>Which DMX line (output) of the bound DMX gateway the fixture is wired to. Shown only when the DMX Gateway input is bound and the gateway has more than one DMX line; with one line it is chosen automatically.</tooltip>
       </property>
       <property>
         <name>Footprint</name>

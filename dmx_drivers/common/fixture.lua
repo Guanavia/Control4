@@ -19,7 +19,7 @@ local Light = require "light"
 -- Declared only by dmx_mover's driver.xml; nil (and defaulted) in dmx_light:
 -- @optional-properties: Reset Value, Reset Hold (ms), Layout
 -- Declared only by dmx_light's driver.xml (pixels); nil in dmx_mover, which never has pixels:
--- @optional-properties: Pixel Count, Channels Per Pixel, Fixture Channels Before Pixels, Layout Summary
+-- @optional-properties: Pixel Count, Channels Per Pixel, Fixture Channels Before Pixels, Layout Summary, Gateway Line
 
 local F = {
   kind = "light",
@@ -28,6 +28,10 @@ local F = {
   sent = {},             -- offset -> value the node currently holds for us
   extra = {},            -- role -> 0..255 raw value for Extras-controlled roles
   node_id = nil,
+  gw_id = nil,           -- bound DMX gateway driver (second input; dmx_light only)
+  gw_lines = nil,        -- DMX-capable gateway lines from LINES_INFO, e.g. {1, 2}; nil = not told yet
+  gw_online = nil,       -- gateway's NETWORK_STATUS; nil = not told yet
+  gw_written = nil,      -- {line, first, last}: the absolute channels we last drove on the gateway
   node_name = nil,
   node_online = false,
   accepted = false,
@@ -195,6 +199,7 @@ function F.refresh_lists()
     for i = 1, L.MAX_PIXEL_CHANNELS do fill("Pixel Channel " .. i .. " Function") end
   end
   if F.ext.refresh_lists then F.ext.refresh_lists() end
+  F.refresh_gateway_list()
   F.refresh_visibility()
 end
 
@@ -303,8 +308,28 @@ function F.update_status()
   if not F.layout then
     lines[#lines + 1] = "NOT OUTPUTTING: no valid layout"
     problem = true
+  elseif F.output() == "both" then
+    lines[#lines + 1] = "NOT OUTPUTTING: both inputs are bound (Art-Net Node AND DMX Gateway). Unbind one in Connections"
+    problem = true
+  elseif F.output() == "gateway" then
+    local line = F.gateway_line()
+    if not line then
+      if F.gw_lines and #F.gw_lines == 0 then
+        lines[#lines + 1] = "NOT OUTPUTTING: the gateway reports no DMX lines (only DALI or empty): choose the Gateway Line once one is set to DMX"
+      else
+        lines[#lines + 1] = "NOT OUTPUTTING: choose the Gateway Line this fixture is wired to"
+      end
+      problem = true
+    else
+      lines[#lines + 1] = string.format("OK: %s on DMX gateway line %d", L.footprint_text(F.start, F.layout.count, F.layout.pixel_count), line)
+      if F.gw_online == false then lines[#lines + 1] = "Note: the gateway reports it is offline" end
+    end
   elseif not F.node_id then
-    lines[#lines + 1] = "NOT OUTPUTTING: no Art-Net node bound (Connections: bind this fixture's 'Art-Net Node' input to an Art-Net Node driver)"
+    if F.has_gateway_input() then
+      lines[#lines + 1] = "NOT OUTPUTTING: nothing bound (Connections: bind this fixture's 'Art-Net Node' input to an Art-Net Node driver, OR its 'DMX Gateway' input to a DMX gateway driver such as the eDIDIO)"
+    else
+      lines[#lines + 1] = "NOT OUTPUTTING: no Art-Net node bound (Connections: bind this fixture's 'Art-Net Node' input to an Art-Net Node driver)"
+    end
     problem = true
   elseif not F.accepted then
     lines[#lines + 1] = "NOT OUTPUTTING: " .. (F.conflict ~= "" and F.conflict or "waiting for the node to accept registration")
@@ -325,7 +350,7 @@ function F.update_status()
     if problem then F.critical("%s", text) else F.debug("%s", text) end
   end
   if F.light then
-    local online = F.layout ~= nil and F.node_id ~= nil and F.accepted
+    local online = F.outputting()
     if online ~= F.light.online then F.light:set_online(online) end
   end
 end
@@ -512,7 +537,13 @@ function F.refresh(fade_ms, force_all)
     end
   end
   if #offsets == 0 then return end
-  if not F.node_id then return end
+  local dest = F.output()
+  if dest == "gateway" then
+    F.send_gateway(offsets, values, fade_ms, force_all)
+    F.schedule_persist()
+    return
+  end
+  if dest ~= "node" then return end
   local changed = {}
   for _, off in ipairs(offsets) do changed[off] = true end
   local pair_list = {}
@@ -545,7 +576,122 @@ function F.find_node()
     F.node_id = id
     F.node_name = F.node_name or name
   end
+  if F.has_gateway_input() then
+    local gw = first_device(C4:GetBoundProviderDevice(0, P.GATEWAY_INPUT_BINDING))
+    if gw and gw ~= 0 then F.gw_id = gw end
+  end
   return F.node_id
+end
+
+---------------------------------------------------------------------------------------------
+-- Gateway output (dmx_light's second input). The gateway driver owns the network link and runs
+-- the fades; this driver sends absolute channel values with a fade time. No overlap policy: the
+-- node's refusal of lights on a mover's channels cannot apply to a gateway it does not run.
+---------------------------------------------------------------------------------------------
+function F.has_gateway_input()
+  return Properties and Properties["Gateway Line"] ~= nil
+end
+
+-- "node", "gateway", "both" (refused) or nil.
+function F.output()
+  local node, gw = F.node_id ~= nil, F.gw_id ~= nil
+  if node and gw then return "both" end
+  if gw then return "gateway" end
+  if node then return "node" end
+  return nil
+end
+
+function F.outputting()
+  if not F.layout then return false end
+  local out = F.output()
+  if out == "node" then return F.accepted and true or false end
+  if out == "gateway" then return F.gateway_line() ~= nil and F.gw_online ~= false end
+  return false
+end
+
+-- The line to drive: the only DMX line if the gateway has one, else the property (which must be
+-- one of the gateway's DMX lines once the gateway has said which they are).
+function F.gateway_line()
+  local lines = F.gw_lines
+  if lines and #lines == 1 then return lines[1] end
+  local chosen = tonumber(Properties["Gateway Line"])
+  if not chosen then return nil end
+  if lines then
+    for _, l in ipairs(lines) do if l == chosen then return chosen end end
+    return nil
+  end
+  return chosen
+end
+
+function F.refresh_gateway_list()
+  if not F.has_gateway_input() then return end
+  local items = {}
+  for _, l in ipairs(F.gw_lines or { 1, 2 }) do items[#items + 1] = U.int(l) end
+  local current = Properties["Gateway Line"]
+  local found = false
+  for _, it in ipairs(items) do if it == current then found = true end end
+  if not found then current = items[1] or "" end
+  C4:UpdatePropertyList("Gateway Line", table.concat(items, ","), current)
+  Properties["Gateway Line"] = current
+  F.show_prop("Gateway Line", F.gw_id ~= nil and not (F.gw_lines and #F.gw_lines == 1))
+end
+
+local function gateway_message(line, fade_ms)
+  return { LINE = U.int(line), DEVICE_ID = U.int(C4:GetDeviceID()), TIME = U.int(fade_ms or 0) }
+end
+
+-- Before a full resend: zero what we drove last time and no longer drive (moved address, smaller
+-- footprint, another line), so the old channels do not stay lit.
+local function gateway_release_old(line, first, last)
+  local w = F.gw_written
+  if not w then return end
+  local params, any = gateway_message(w.line, 0), false
+  for ch = w.first, w.last do
+    if w.line ~= line or ch < first or ch > last then
+      params[ch] = 0
+      any = true
+    end
+  end
+  if any then C4:SendToProxy(P.GATEWAY_INPUT_BINDING, P.GW_LEVEL, params) end
+end
+
+function F.send_gateway(offsets, values, fade_ms, force_all)
+  local line = F.gateway_line()
+  if not line then return end
+  local first, last = F.start, F.start + F.layout.count - 1
+  if force_all then gateway_release_old(line, first, last) end
+  local params = gateway_message(line, fade_ms)
+  for i, off in ipairs(offsets) do params[F.start + off] = values[i] end
+  C4:SendToProxy(P.GATEWAY_INPUT_BINDING, P.GW_LEVEL, params)
+  F.gw_written = { line = line, first = first, last = last }
+end
+
+-- Messages from the gateway driver (via the binding, or ExecuteCommand: Control4's own light
+-- accepts both, so we do too). Returns true if it was one.
+function F.on_gateway(cmd, p)
+  p = p or {}
+  if cmd == P.GW_LINES then
+    local lines = {}
+    for k, v in pairs(p) do
+      if tonumber(k) and tostring(v):upper() == "DMX" then lines[#lines + 1] = tonumber(k) end
+    end
+    table.sort(lines)
+    F.gw_lines = lines
+    F.debug("gateway DMX lines: %s", table.concat(lines, ","))
+    F.refresh_gateway_list()
+    F.register("gateway reported its lines")
+    F.schedule_persist()
+    return true
+  elseif cmd == P.GW_STATUS then
+    local was = F.gw_online
+    F.gw_online = U.toboolean(p.STATUS)
+    -- Back online (e.g. the gateway rebooted): restore the whole look.
+    if F.gw_online and was == false then F.register("gateway back online") else F.update_status() end
+    return true
+  elseif cmd == P.GW_LEVELS then
+    return true    -- reply to a query we never send; nothing to do
+  end
+  return false
 end
 
 function F.fixture_name()
@@ -556,8 +702,14 @@ end
 
 function F.register(reason)
   if not F.layout then F.update_status(); return end
-  if not F.node_id then F.find_node() end
-  if not F.node_id then F.update_status(); return end
+  if not F.node_id and not F.gw_id then F.find_node() end
+  if F.output() == "gateway" then
+    F.debug("sending the whole footprint to the gateway (%s)", reason or "")
+    F.refresh(0, true)
+    F.update_status()
+    return
+  end
+  if F.output() ~= "node" then F.update_status(); return end
   F.debug("registering with node %s (%s)", tostring(F.node_id), reason or "")
   C4:SendToDevice(F.node_id, P.REGISTER, {
     FIXTURE_ID = U.int(C4:GetDeviceID()),
@@ -597,7 +749,8 @@ function F.schedule_persist()
 end
 
 function F.persist_now()
-  local state = { light = F.light and F.light:snapshot() or nil, extra = F.extra }
+  local state = { light = F.light and F.light:snapshot() or nil, extra = F.extra, gw_lines = F.gw_lines,
+    gw_written = F.gw_written }
   if F.ext.snapshot then state.ext = F.ext.snapshot() end
   C4:PersistSetValue(F.PERSIST_KEY, state)
 end
@@ -607,6 +760,8 @@ function F.restore()
   if type(state) ~= "table" then return end
   if state.light and F.light then F.light:restore(state.light) end
   if type(state.extra) == "table" then F.extra = state.extra end
+  if type(state.gw_lines) == "table" then F.gw_lines = state.gw_lines end
+  if type(state.gw_written) == "table" then F.gw_written = state.gw_written end
   if state.ext and F.ext.restore then F.ext.restore(state.ext) end
 end
 
@@ -890,6 +1045,8 @@ function F.on_property(name)
     F.set_prop("Channel Map", map_from_props())
     F.refresh_visibility()
     F.apply_config("custom channel edited")
+  elseif name == "Gateway Line" then
+    F.register("gateway line changed")
   elseif name == "Start Address" or name == "CCT Min (K)" or name == "CCT Max (K)"
       or name == "Reset Value" or name == "Reset Hold (ms)" then
     F.apply_config(name .. " changed")
@@ -973,6 +1130,7 @@ function F.install(opts)
     F.refresh_lists()
     F.init_done = true
     F.find_node()
+    F.refresh_gateway_list()
     F.apply_config("driver loaded")
     F.light:announce()
     F.push_extras_setup_state()
@@ -989,21 +1147,40 @@ function F.install(opts)
   end
 
   function OnBindingChanged(idBinding, strClass, bIsBound, otherDeviceId, otherBindingId)
-    if idBinding ~= P.FIXTURE_INPUT_BINDING then return end
-    if bIsBound then
-      F.node_id = tonumber(otherDeviceId)
-      F.node_name = nil
-      F.register("node bound")
-    else
-      F.unregister()
-      F.node_id, F.accepted, F.conflict, F.node_name = nil, false, "", nil
-      F.update_status()
-    end
+    local ok, err = pcall(function()
+      if idBinding == P.GATEWAY_INPUT_BINDING then
+        if bIsBound then
+          F.gw_id = tonumber(otherDeviceId)
+          F.refresh_gateway_list()
+          F.register("gateway bound")
+        else
+          F.gw_id, F.gw_online, F.gw_written = nil, nil, nil
+          F.refresh_gateway_list()
+          F.register("gateway unbound")
+        end
+        return
+      end
+      if idBinding ~= P.FIXTURE_INPUT_BINDING then return end
+      if bIsBound then
+        F.node_id = tonumber(otherDeviceId)
+        F.node_name = nil
+        F.register("node bound")
+      else
+        F.unregister()
+        F.node_id, F.accepted, F.conflict, F.node_name = nil, false, "", nil
+        F.register("node unbound")
+      end
+    end)
+    if not ok then F.critical("binding change failed: %s", tostring(err)) end
   end
 
   function ReceivedFromProxy(idBinding, strCommand, tParams)
     tParams = tParams or {}
     local ok, err = pcall(function()
+      if idBinding == P.GATEWAY_INPUT_BINDING then
+        if not F.on_gateway(strCommand, tParams) then F.debug("unhandled gateway message %s", strCommand) end
+        return
+      end
       local extra = X.object_for_command(strCommand)
       if strCommand == "GET_EXTRAS_SETUP" or strCommand == "GET_EXTRAS_STATE" then
         -- A UI (re)loading asks for both; answer even if nothing changed since the last push.
@@ -1025,6 +1202,8 @@ function F.install(opts)
     local ok, err = pcall(function()
       if strCommand == P.NODE_STATE then
         F.on_node_state(tParams)
+      elseif F.has_gateway_input() and F.on_gateway(strCommand, tParams) then
+        -- LINES_INFO / NETWORK_STATUS / DMX_LEVELS sent by the gateway driver with SendToDevice
       elseif strCommand == P.NODE_RESYNC then
         if tParams.NODE_ID then F.node_id = tonumber(tParams.NODE_ID) or F.node_id end
         F.register("node asked for resync")

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>DMX Light (Art-Net)</title>
+<title>Adv DMX Light (LensShift)</title>
 <style>
 body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.45; margin: 16px; color: #222; }
 h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 22px; border-bottom: 1px solid #ccc; } h3 { font-size: 14px; }
@@ -11,23 +11,24 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </style>
 </head>
 <body>
-<h1>DMX Light (Art-Net)</h1>
+<h1>Adv DMX Light (LensShift)</h1>
 <p>Any DMX fixture that does not move (a single-color dimmer, tunable white, RGB, RGBW or RGB + tunable white fixture, a high-end multi-emitter fixture, or a <b>pixel fixture</b> such as a pixel bar, a segmented wash or pixel tape) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and drives the fixture's other channels (strobe, programs, macros, UV...) with the <b>Set Control</b> programming command, so clients reach them through scenes, keypads and Custom/Experience buttons.</p>
-<p>It outputs through an <b>Art-Net Node</b> driver (same driver set). One DMX Light controls one circuit: several physical fixtures set to the same DMX address are one circuit.</p>
+<p>It outputs through either an <b>Art-Net Node</b> driver (same driver set) or a <b>Control4 DMX gateway</b> such as the Creative Lighting eDIDIO, through that gateway's own Control4 driver. Bind one or the other. One DMX Light controls one circuit: several physical fixtures set to the same DMX address are one circuit.</p>
 
 <h2>Quick start</h2>
 <ol>
-<li>Add an <b>Art-Net Node</b> driver for the universe first.</li>
+<li>Have an output in the project: an <b>Art-Net Node</b> driver, or the gateway's driver (e.g. <i>Creative Lighting eDIDIO DMX/DALI</i>).</li>
 <li>Add this driver, choose the <b>Fixture Type</b> and set the <b>Start Address</b> set on the fixture. Then describe its channels (see <a href="#describe">Describing a fixture</a>): for most fixtures that means <b>Channel Count</b> and each channel's function; for a pixel fixture it also means <b>Pixel Count</b>. Choosing a type fills in its usual channels as a starting point.</li>
 <li>Read <b>Layout Summary</b> against the channel table in the fixture's manual.</li>
-<li>In Connections, bind this driver's <b>Art-Net Node</b> input to the node driver's <b>Fixtures</b> output.</li>
-<li>Status should read <code>OK: DMX 1-4 on 'Node name'</code>. Use <b>Identify</b> to flash the fixture.</li>
+<li>In Connections, bind <b>one</b> input: <b>Art-Net Node</b> to the node driver's Fixtures output, <b>or</b> <b>DMX Gateway</b> to the gateway driver's DMX connection. If the gateway has two DMX lines, set <b>Gateway Line</b>.</li>
+<li>Status should read <code>OK: DMX 1-4 (4 ch) on 'Node name'</code> or <code>... on DMX gateway line 1</code>. Use <b>Identify</b> to flash the fixture.</li>
 </ol>
 
 <h2>Connections</h2>
 <table>
 <tr><th>Connection</th><th>Purpose</th></tr>
 <tr><td>Art-Net Node</td><td>Control input. Bind to an Art-Net Node driver's Fixtures output.</td></tr>
+<tr><td>DMX Gateway</td><td>Control input (class DMX_DLG, the same one Control4's own DMX Light driver uses). Bind to a Control4 DMX gateway driver, such as Creative Lighting eDIDIO DMX/DALI. Bind this OR Art-Net Node, never both.</td></tr>
 <tr><td>On / Off / Toggle Button Link</td><td>Standard light button links for keypad buttons.</td></tr>
 </table>
 
@@ -74,6 +75,16 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </ol>
 <p>If the colors shift along the fixture (pixel 2 lights green when red is raised), <b>Channels Per Pixel</b> is wrong. If only part of the fixture lights, <b>Pixel Count</b> is too low, or the fixture is in a different DMX mode from the one in its manual.</p>
 
+<h2>Output through a DMX gateway (eDIDIO)</h2>
+<p>Bind the <b>DMX Gateway</b> input to the gateway's Control4 driver. The gateway driver owns the network link; this driver sends channel values to it, and the gateway runs the fades. It sits on the gateway beside Control4's own DMX Light drivers.</p>
+<ul>
+<li><b>Which gateway</b> is chosen by the binding in Connections. With several gateways in the project, check the binding.</li>
+<li><b>Gateway Line</b> picks the gateway's DMX output the fixture is wired to. It is listed from the lines the gateway reports as DMX, chosen automatically and hidden when there is only one, and shown otherwise.</li>
+<li><b>Start Address</b> is the address on that line. Changing the address or the line returns the channels no longer used to 0.</li>
+<li>If the gateway goes offline the light shows offline; when it returns, the whole look is sent again.</li>
+<li><b>Not checked on a gateway:</b> overlap with other fixtures. The Art-Net Node refuses a light on a moving head's channels and reports shared channels; a gateway does not. Keep addresses apart from Control4's own DMX lights on the same line.</li>
+</ul>
+
 <h2>Fixture types</h2>
 <p>The type says <b>how the fixture maps onto Control4's lighting controls</b>, not which product it is. Choose it by the fixture's emitters, then describe its channels.</p>
 <table>
@@ -114,6 +125,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th colspan="2">Fixture (Composer section)</th></tr>
 <tr><td>Fixture Type</td><td>How the fixture maps onto Control4's controls (see Fixture types). Decides which channel functions are offered. A type from an older version of this driver is converted automatically on load, keeping the channels.</td></tr>
 <tr><td>Start Address</td><td>The fixture's DMX start address, 1-512. For one zone of a pixel fixture, where that zone's first channel is.</td></tr>
+<tr><td>Gateway Line</td><td>Only with the DMX Gateway input bound: the gateway's DMX line (output) the fixture is wired to. Hidden when the gateway has a single DMX line.</td></tr>
 <tr><td>Footprint</td><td>The channels the fixture occupies, e.g. <code>DMX 17-24 (8 ch)</code> or <code>DMX 1-72 (72 ch, 18 pixels)</code>.</td></tr>
 <tr><td>Layout Summary</td><td>Read-only. What is on each channel, numbered like the manual (Ch 1 = Start Address), e.g. <code>Ch 1 Dimmer | Ch 2-13 4 pixels x 3 ch: Red, Green, Blue | Ch 14 Strobe/Shutter</code>.</td></tr>
 <tr><td>Channel Map</td><td>The whole layout as text (see Channel Map text).</td></tr>
@@ -161,7 +173,10 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <h2>Troubleshooting</h2>
 <table>
 <tr><th>Symptom</th><th>Check</th></tr>
-<tr><td>Status: no Art-Net node bound</td><td>Bind the Art-Net Node input in Connections.</td></tr>
+<tr><td>Status: nothing bound</td><td>Bind the Art-Net Node input or the DMX Gateway input in Connections.</td></tr>
+<tr><td>Status: both inputs are bound</td><td>Unbind one: a fixture outputs through one path only.</td></tr>
+<tr><td>Status: choose the Gateway Line / gateway reports no DMX lines</td><td>Set Gateway Line. If none are listed, the gateway has no line configured as DMX (check its driver's Lines Info).</td></tr>
+<tr><td>On a gateway, nothing lights though Status is OK</td><td>Wrong Gateway Line, or the Start Address does not match the fixture's address on that line. Compare with a Control4 DMX Light on the same line.</td></tr>
 <tr><td>Status: REFUSED: overlaps moving fixture</td><td>Change this fixture's or the moving head's Start Address.</td></tr>
 <tr><td>Wrong colors</td><td>The channel order differs from the fixture's. Compare with the fixture manual; use the node's Channel Test to drive each channel by hand.</td></tr>
 <tr><td>Color changes but brightness does nothing</td><td>The fixture has a Dimmer channel the channel map does not have (it sits at 0).</td></tr>
