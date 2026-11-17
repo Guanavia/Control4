@@ -2,11 +2,11 @@
   <copyright>Copyright 2026 David Woychek / Property Renewal LLC. All rights reserved.</copyright>
   <creator>David Woychek</creator>
   <manufacturer>Yamaha</manufacturer>
-  <name>Yamaha YAS-209</name>
+  <name>Yamaha YAS-209 (LensShift)</name>
   <model>YAS-209</model>
   <created>2026-07-25</created>
   <modified>2026-07-29</modified>
-  <version>60</version>
+  <version>61</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
