@@ -633,7 +633,9 @@ function F.refresh_gateway_list()
   if not found then current = items[1] or "" end
   C4:UpdatePropertyList("Gateway Line", table.concat(items, ","), current)
   Properties["Gateway Line"] = current
-  F.show_prop("Gateway Line", F.gw_id ~= nil and not (F.gw_lines and #F.gw_lines == 1))
+  -- Always shown (Dave): like Control4's own DMX Light, the list holds only the gateway's DMX
+  -- lines, so it cannot be set wrong, but it always says what the fixture is on.
+  F.show_prop("Gateway Line", true)
 end
 
 local function gateway_message(line, fade_ms)

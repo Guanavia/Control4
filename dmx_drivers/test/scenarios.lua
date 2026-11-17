@@ -1056,7 +1056,7 @@ do
   T.like(status(bar), "^OK: DMX 101%-172 %(72 ch, 18 pixels%) on DMX gateway line 1$", "status names the gateway line")
   T.ok(not node.env.Properties["Patch"]:find("Pixel Bar"), "the Art-Net node never hears of it")
   T.ok(sim:last_notify(bar, "ONLINE_CHANGED").params.STATE == true, "the light is online")
-  T.eq(bar.hidden["Gateway Line"], false, "Gateway Line shown while the gateway has not said which lines it has")
+  T.eq(bar.hidden["Gateway Line"], false, "Gateway Line always shown")
   local first = sim:last_notify(bar, "DMX_LEVEL")
   T.eq({ first.params.LINE, first.params.DEVICE_ID }, { 1, 210 }, "every message carries LINE and DEVICE_ID")
   T.eq(gw_slots(bar, 1, 101, 104), { 0, 0, 0, 0 }, "the whole footprint was sent dark on load")
@@ -1114,7 +1114,8 @@ do
 
   -- Only one DMX line: chosen automatically, property hidden.
   gw_from(sim, bar, "LINES_INFO", { ["1"] = "DALI", ["2"] = "DMX" })
-  T.eq(bar.hidden["Gateway Line"], true, "one DMX line: Gateway Line hidden")
+  T.eq(bar.hidden["Gateway Line"], false, "one DMX line: still shown")
+  T.eq({ bar.lists["Gateway Line"], bar.env.Properties["Gateway Line"] }, { "2", "2" }, "listing only line 2, and showing it")
   T.like(status(bar), "on DMX gateway line 2", "and used")
   -- A DALI-only line set: refused, explained.
   gw_from(sim, bar, "LINES_INFO", { ["1"] = "DALI" })

@@ -431,8 +431,8 @@ is bound decides the output. Adding a connection is STRUCTURAL (Director restart
 **BUILT (Dave approved, 2026-11-17; light build 34) — offline-tested, NOT on hardware.**
 - Connection **id 2 "DMX Gateway"**, class DMX_DLG, consumer, NO autobind (deliberate: a project
   with both an Art-Net node and a gateway must not get both inputs bound by Composer). Property
-  **`Gateway Line`** (DYNAMIC_LIST from LINES_INFO's DMX lines; hidden when bound to a one-DMX-line
-  gateway; persisted).
+  **`Gateway Line`** (DYNAMIC_LIST from LINES_INFO's DMX lines; persisted). **ALWAYS shown (Dave):**
+  like Control4's DMX Light it lists only valid lines but always shows what the fixture is on.
 - **Both inputs bound = refused** in Status; nothing is sent to either. Unbinding one hands over to
   the other with the current look.
 - Each change is ONE `DMX_LEVEL` with absolute channels and `TIME` = the fade (the gateway fades;

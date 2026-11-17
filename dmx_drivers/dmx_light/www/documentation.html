@@ -79,7 +79,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <p>Bind the <b>DMX Gateway</b> input to the gateway's Control4 driver. The gateway driver owns the network link; this driver sends channel values to it, and the gateway runs the fades. It sits on the gateway beside Control4's own DMX Light drivers.</p>
 <ul>
 <li><b>Which gateway</b> is chosen by the binding in Connections. With several gateways in the project, check the binding.</li>
-<li><b>Gateway Line</b> picks the gateway's DMX output the fixture is wired to. It is listed from the lines the gateway reports as DMX, chosen automatically and hidden when there is only one, and shown otherwise.</li>
+<li><b>Gateway Line</b> picks the gateway's DMX output the fixture is wired to. It is always shown and lists only the lines the gateway reports as DMX, so it always says which line the fixture is on; with one DMX line it is selected automatically.</li>
 <li><b>Start Address</b> is the address on that line. Changing the address or the line returns the channels no longer used to 0.</li>
 <li>If the gateway goes offline the light shows offline; when it returns, the whole look is sent again.</li>
 <li><b>Not checked on a gateway:</b> overlap with other fixtures. The Art-Net Node refuses a light on a moving head's channels and reports shared channels; a gateway does not. Keep addresses apart from Control4's own DMX lights on the same line.</li>
@@ -125,7 +125,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th colspan="2">Fixture (Composer section)</th></tr>
 <tr><td>Fixture Type</td><td>How the fixture maps onto Control4's controls (see Fixture types). Decides which channel functions are offered. A type from an older version of this driver is converted automatically on load, keeping the channels.</td></tr>
 <tr><td>Start Address</td><td>The fixture's DMX start address, 1-512. For one zone of a pixel fixture, where that zone's first channel is.</td></tr>
-<tr><td>Gateway Line</td><td>Only with the DMX Gateway input bound: the gateway's DMX line (output) the fixture is wired to. Hidden when the gateway has a single DMX line.</td></tr>
+<tr><td>Gateway Line</td><td>The gateway's DMX line (output) the fixture is wired to. Always shown; lists only the gateway's DMX lines (selected automatically when there is one). Applies only with the DMX Gateway input bound.</td></tr>
 <tr><td>Footprint</td><td>The channels the fixture occupies, e.g. <code>DMX 17-24 (8 ch)</code> or <code>DMX 1-72 (72 ch, 18 pixels)</code>.</td></tr>
 <tr><td>Layout Summary</td><td>Read-only. What is on each channel, numbered like the manual (Ch 1 = Start Address), e.g. <code>Ch 1 Dimmer | Ch 2-13 4 pixels x 3 ch: Red, Green, Blue | Ch 14 Strobe/Shutter</code>.</td></tr>
 <tr><td>Channel Map</td><td>The whole layout as text (see Channel Map text).</td></tr>
