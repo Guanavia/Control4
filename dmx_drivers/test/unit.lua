@@ -290,4 +290,98 @@ do
   T.ok(bad == nil and err, "bad json reports an error")
 end
 
+---------------------------------------------------------------------------------------------
+T.section("pixels: map text, compile, expansion")
+do
+  local function px(map, type_id)
+    local c, p = L.parse_map(map)
+    assert(c, p)
+    return assert(L.compile({ channels = c, pixels = p }, type_id or "rgbw")), c, p
+  end
+  -- The Alcon 11260 3ft: 18 RGBW pixels, nothing else.
+  local alcon, c, p = px("18x(red,green,blue,white)")
+  T.eq({ #c, p.count, p.at, #p.channels }, { 0, 18, 0, 4 }, "18x(rgbw) parses to 0 fixture channels + 18 x 4")
+  T.eq(alcon.count, 72, "footprint is 72 channels")
+  T.eq({ alcon.pixel_count, alcon.pixel_size, alcon.pixel_at }, { 18, 4, 0 }, "pixel shape recorded")
+  T.eq(alcon.channels[5].role, "red", "ch 5 is pixel 2's red")
+  T.eq(alcon.channels[5].pixel, 2, "ch 5 belongs to pixel 2")
+  T.eq(alcon.channels[72].role, "white", "ch 72 is the last pixel's white")
+  T.eq(#alcon.offsets.red, 18, "red occupies 18 offsets")
+  T.eq(alcon.roles.red, 0, "first occurrence is pixel 1")
+  T.ok(alcon.has_rgb and alcon.has_white and alcon.supports_color, "capabilities from the pixel group")
+  T.eq(#alcon.extras, 0, "no Extras on a plain RGBW pixel bar")
+  T.eq(L.format_map(c, p), "18x(red,green,blue,white)", "format round-trip")
+  T.eq(L.footprint_text(1, 72, 18), "DMX 1-72 (72 ch, 18 pixels)", "footprint names the pixels")
+  T.eq(L.summary(alcon), "Ch 1-72 18 pixels x 4 ch: Red, Green, Blue, White", "summary")
+
+  -- Master channels around the pixels, defaults inside and outside the group.
+  local bar, c2, p2 = px("dimmer,strobe,4x(red,green,blue,fixed:7),program", "rgb")
+  T.eq(p2.at, 2, "two fixture channels before the pixels")
+  T.eq(bar.count, 19, "2 + 4x4 + 1")
+  T.eq({ bar.channels[1].role, bar.channels[2].role, bar.channels[3].role, bar.channels[19].role },
+    { "dimmer", "strobe", "red", "program" }, "wire order: masters, pixels, tail")
+  T.eq(bar.channels[18].default, 7, "a fixed value repeats in every pixel")
+  T.eq(L.format_map(c2, p2), "dimmer,strobe,4x(red,green,blue,fixed:7),program", "format keeps position + defaults")
+  T.eq(L.summary(bar), "Ch 1 Dimmer | Ch 2 Strobe/Shutter | Ch 3-18 4 pixels x 4 ch: Red, Green, Blue, Fixed 7 | Ch 19 Program/Auto", "summary numbers the tail after the pixels")
+  T.eq(#bar.extras, 2, "strobe + program are Extras/Set Control once, not per pixel")
+
+  -- Spellings a dealer might type.
+  local s1 = L.format_map(L.parse_map(" Dimmer , 6 X ( Red , Green , Blue ) "))
+  T.eq(s1, "dimmer,6x(red,green,blue)", "spaces, labels and an upper-case X accepted")
+  T.eq(L.format_map(L.parse_map("6*(red,green,blue)")), "6x(red,green,blue)", "6*(...) accepted")
+  -- One pixel is no pixels: inlined, and the original text format comes back.
+  local c1, p1 = L.parse_map("dimmer,1x(red,green,blue,white),strobe")
+  T.eq(p1, nil, "1x(...) means no pixels")
+  T.eq(L.format_map(c1), "dimmer,red,green,blue,white,strobe", "1x(...) inlined in place")
+
+  -- 16-bit dimmer per pixel: one node fade pair per pixel.
+  local fine = px("10x(dimmer,dimmer_fine)", "dimmer")
+  T.eq(#fine.pairs, 10, "one coarse/fine pair per pixel")
+  T.eq({ fine.pairs[3].coarse, fine.pairs[3].fine }, { 4, 5 }, "pair 3 at offsets 4/5")
+
+  -- Refusals, each explained.
+  local function refuses(map, pattern, label, type_id)
+    local c3, p3 = L.parse_map(map)
+    local e3 = p3
+    if c3 then
+      local ok3
+      ok3, e3 = L.compile({ channels = c3, pixels = p3 }, type_id or "rgbw")
+      if ok3 then e3 = nil end
+    end
+    T.like(e3 or "(accepted)", pattern, label)
+  end
+  refuses("130x(red,green,blue,white)", "520 channels, more than a DMX universe", "over 512 refused with the arithmetic")
+  refuses("2x(red,green),3x(blue)", "only one pixel group", "two groups refused")
+  refuses("dimmer18x(red)", "separate the pixel group", "missing comma refused")
+  refuses("4x()", "pixel group has no channels", "empty group refused")
+  refuses("4x(red,green", "pixel group not understood", "unclosed group refused")
+  refuses("dimmer,2x(red,green,blue,white,dimmer)", "pixel channel 5: 'Dimmer' is already on channel 1", "a role in both places refused")
+  refuses("dimmer,4x(red,green,blue,white,dimmer_fine)", "must both be pixel channels or both fixture", "split coarse/fine refused")
+  refuses("2x(red,green,blue,white,pan)", "pixel channel 5: 'Pan' is not available", "type rules apply inside the group")
+  refuses("4x(red,green,blue)", "not available for Fixture Type", "RGB pixels need an RGB type, not Single Color", "dimmer")
+  local _, merr = L.compile({ channels = {}, pixels = { count = 2, at = 0, channels = { { role = "red" } } } }, "mover_wash")
+  T.like(merr, "moving head cannot have pixels", "movers refuse pixels")
+  -- The NEEDS rule sees the pixel group: an RGBW type is satisfied by RGBW pixels.
+  T.ok(L.map_fits(L.type_by_id("rgbw"), {}, { channels = L.parse_map("red,green,blue,white") }), "pixel group satisfies the type")
+  T.ok(not L.map_fits(L.type_by_id("rgbw"), {}, { channels = L.parse_map("red,green,blue") }), "a missing white still fails RGBW")
+end
+
+T.section("pixels: turning pixels on guesses the repeating group")
+do
+  local function split(map, type_id)
+    local f, p = L.split_for_pixels(assert(L.parse_map(map)), L.type_by_id(type_id or "rgbw"))
+    p.count = 6
+    return L.format_map(f, p)
+  end
+  T.eq(split("red,green,blue,white"), "6x(red,green,blue,white)", "a 4ch par map becomes 6 RGBW pixels")
+  T.eq(split("dimmer,red,green,blue,white,strobe,program,macro_speed"),
+    "dimmer,6x(red,green,blue,white),strobe,program,macro_speed", "masters stay put around the color run")
+  T.eq(split("red,green,blue,amber,uv", "rgb"), "6x(red,green,blue,amber,uv)", "Amber/UV count as pixel color")
+  T.eq(split("dimmer,dimmer_fine,strobe", "dimmer"), "6x(dimmer,dimmer_fine),strobe", "single color: the dimmer repeats, with its fine")
+  T.eq(split("dimmer,strobe"), "dimmer,strobe,6x(red,green,blue,white)", "no color run: the type's starting map becomes the pixel")
+  -- And back: flatten undoes the split exactly.
+  local f, p = L.split_for_pixels(L.parse_map("dimmer,red,green,blue,white,strobe"), L.type_by_id("rgbw"))
+  T.eq(L.format_map(L.flatten(f, p)), "dimmer,red,green,blue,white,strobe", "flatten restores the original order")
+end
+
 T.finish()

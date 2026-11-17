@@ -12,13 +12,14 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 </head>
 <body>
 <h1>DMX Light (Art-Net)</h1>
-<p>Any DMX fixture that does not move (a single-color dimmer, tunable white, RGB, RGBW or RGB + tunable white fixture, or a high-end multi-emitter fixture) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and drives the fixture's other channels (strobe, programs, macros, UV...) with the <b>Set Control</b> programming command, so clients reach them through scenes, keypads and Custom/Experience buttons.</p>
+<p>Any DMX fixture that does not move (a single-color dimmer, tunable white, RGB, RGBW or RGB + tunable white fixture, a high-end multi-emitter fixture, or a <b>pixel fixture</b> such as a pixel bar, a segmented wash or pixel tape) as <b>one native Control4 light</b>. It has the normal brightness slider and color picker, works in Advanced Lighting scenes, keypads, voice and Room Off, and drives the fixture's other channels (strobe, programs, macros, UV...) with the <b>Set Control</b> programming command, so clients reach them through scenes, keypads and Custom/Experience buttons.</p>
 <p>It outputs through an <b>Art-Net Node</b> driver (same driver set). One DMX Light controls one circuit: several physical fixtures set to the same DMX address are one circuit.</p>
 
 <h2>Quick start</h2>
 <ol>
 <li>Add an <b>Art-Net Node</b> driver for the universe first.</li>
-<li>Add this driver, choose the <b>Fixture Type</b>, set the <b>Start Address</b> set on the fixture, then <b>Channel Count</b> and each channel's function (or paste the <b>Channel Map</b>). Choosing a type fills in its usual channels as a starting point.</li>
+<li>Add this driver, choose the <b>Fixture Type</b> and set the <b>Start Address</b> set on the fixture. Then describe its channels (see <a href="#describe">Describing a fixture</a>): for most fixtures that means <b>Channel Count</b> and each channel's function; for a pixel fixture it also means <b>Pixel Count</b>. Choosing a type fills in its usual channels as a starting point.</li>
+<li>Read <b>Layout Summary</b> against the channel table in the fixture's manual.</li>
 <li>In Connections, bind this driver's <b>Art-Net Node</b> input to the node driver's <b>Fixtures</b> output.</li>
 <li>Status should read <code>OK: DMX 1-4 on 'Node name'</code>. Use <b>Identify</b> to flash the fixture.</li>
 </ol>
@@ -29,6 +30,49 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Art-Net Node</td><td>Control input. Bind to an Art-Net Node driver's Fixtures output.</td></tr>
 <tr><td>On / Off / Toggle Button Link</td><td>Standard light button links for keypad buttons.</td></tr>
 </table>
+
+<h2 id="describe">Describing a fixture</h2>
+<p>Work from the DMX channel table in the fixture's manual, for the DMX mode the fixture is set to. Fixtures come in two shapes.</p>
+
+<h3>1. One color for the whole fixture (most fixtures)</h3>
+<p>Pars, washes, single-color tape and most bars: the manual lists each channel once, e.g. <i>1 Dimmer, 2 Red, 3 Green, 4 Blue, 5 White, 6 Strobe</i>. Leave <b>Pixel Count</b> at <b>1</b>, set <b>Channel Count</b> to the number of channels, and set each <b>Channel N Function</b> in order. Channel N is the manual's channel N.</p>
+
+<h3>2. Pixel fixtures: the same group of channels, repeated</h3>
+<p>Pixel bars, segmented fixtures and pixel tape give every pixel (or segment) its own channels, and the manual lists one group and repeats it: <i>1 Red 1, 2 Green 1, 3 Blue 1, 4 White 1, 5 Red 2, 6 Green 2 ...</i>. Some also have a few master channels that act on the whole fixture (a master dimmer, a strobe, a program channel), usually before the first pixel.</p>
+<ol>
+<li>Choose the <b>Fixture Type</b> by what ONE pixel has (RGB, RGBW, RGB + Tunable White, Single Color...).</li>
+<li>Set <b>Pixel Count</b> to the number of pixels or segments. The driver splits the current channels for you: the color channels become one pixel's group, anything else (master dimmer, strobe...) stays a fixture channel.</li>
+<li>Check <b>Channels Per Pixel</b> and each <b>Pixel Channel N Function</b>, in the manual's order for one pixel.</li>
+<li>Under <b>Fixture Channels</b>, list the master channels (<b>Channel Count</b> is 0 if there are none), and set <b>Fixture Channels Before Pixels</b> to how many of them come before the first pixel. The rest come after the last pixel.</li>
+<li>Read <b>Layout Summary</b>: it numbers every channel the way the manual does.</li>
+</ol>
+<p><b>Every pixel shows the same color and brightness.</b> The fixture is one Control4 light: one brightness slider, one color, one scene member. Chases, gradients and other per-pixel effects are outside what this driver does.</p>
+<p><b>Zones:</b> to control parts of one pixel fixture separately, add one DMX Light per part. Give each its own <b>Start Address</b> (where that part's first pixel starts) and <b>Pixel Count</b>. Example: an 18-pixel RGBW bar at address 1 as two halves, one driver at address 1 with 9 pixels and one at address 37 with 9 pixels. If the fixture has master channels, give them to one of the zones only.</p>
+
+<h3>Examples</h3>
+<table>
+<tr><th>Fixture</th><th>Manual says</th><th>Fixture Type</th><th>Pixel Count</th><th>Channel Map</th></tr>
+<tr><td>RGBW par, 4ch mode</td><td>R, G, B, W</td><td>RGBW</td><td>1</td><td><code>red,green,blue,white</code></td></tr>
+<tr><td>RGBW par, 8ch mode</td><td>Dimmer, R, G, B, W, Strobe, Program, Speed</td><td>RGBW</td><td>1</td><td><code>dimmer,red,green,blue,white,strobe,program,macro_speed</code></td></tr>
+<tr><td>Alcon Lighting 11260, 3 ft, 2-inch pixel control (unverified)</td><td>R1, G1, B1, W1, R2 ... W18 (72 ch)</td><td>RGBW</td><td>18</td><td><code>18x(red,green,blue,white)</code></td></tr>
+<tr><td>4-segment RGB bar with master channels</td><td>Dimmer, Strobe, then R, G, B for segments 1-4 (14 ch)</td><td>RGB</td><td>4</td><td><code>dimmer,strobe,4x(red,green,blue)</code></td></tr>
+<tr><td>Pixel bar with masters after the pixels</td><td>R, G, B for pixels 1-8, then Dimmer, Strobe (26 ch)</td><td>RGB</td><td>8</td><td><code>8x(red,green,blue),dimmer,strobe</code></td></tr>
+<tr><td>RGB + warm/cool white pixel tape, 10 pixels</td><td>R, G, B, WW, CW per pixel (50 ch)</td><td>RGB + Tunable White</td><td>10</td><td><code>10x(red,green,blue,warm_white,cool_white)</code></td></tr>
+<tr><td>Single-color pixel tape, 16-bit, 24 pixels</td><td>Dim coarse, Dim fine per pixel (48 ch)</td><td>Single Color Dimmable</td><td>24</td><td><code>24x(dimmer,dimmer_fine)</code></td></tr>
+<tr><td>DazzlingStage Mini Par RGBW, 4ch (unverified)</td><td>R, G, B, W</td><td>RGBW</td><td>1</td><td><code>red,green,blue,white</code></td></tr>
+<tr><td>DazzlingStage Mini Par RGBW, 8ch (unverified; order varies by batch)</td><td>Dimmer, R, G, B, W, Strobe, Program, Speed</td><td>RGBW</td><td>1</td><td><code>dimmer,red,green,blue,white,strobe,program,macro_speed</code></td></tr>
+</table>
+<p>Paste a Channel Map from this table into <b>Channel Map</b> to set up every property at once (Pixel Count included), then set the Start Address.</p>
+
+<h3>Checking a fixture against the manual</h3>
+<p>Manufacturer documentation for pixel fixtures is often wrong about how many pixels there are and in which order their channels run. Confirm it with the Art-Net Node's <b>Channel Test</b> before trusting a setup:</p>
+<ol>
+<li>Set the node's <b>Test Start Channel</b> to this fixture's Start Address and <b>Test Channels</b> to two pixels' worth (8 for RGBW).</li>
+<li>Raise each Test Ch slider in turn. The first group should light only the first pixel, in the manual's color order; the second group only the next pixel.</li>
+<li>Move <b>Test Start Channel</b> to the last pixel (Start Address + Footprint - Channels Per Pixel) and confirm it is the last pixel, and that nothing past it lights.</li>
+<li>Turn Channel Test Off.</li>
+</ol>
+<p>If the colors shift along the fixture (pixel 2 lights green when red is raised), <b>Channels Per Pixel</b> is wrong. If only part of the fixture lights, <b>Pixel Count</b> is too low, or the fixture is in a different DMX mode from the one in its manual.</p>
 
 <h2>Fixture types</h2>
 <p>The type says <b>how the fixture maps onto Control4's lighting controls</b>, not which product it is. Choose it by the fixture's emitters, then describe its channels.</p>
@@ -42,20 +86,14 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>RGB + Tunable White</td><td>Brightness, color picker, color temperature (from the warm/cool whites)</td><td>as RGB, plus Warm White, Cool White, White, CCT</td></tr>
 <tr><td>Manual Color</td><td>Brightness drives the <b>Dimmer channel only</b>. No color picker: every color channel is set with Set Control. For fixtures whose color space does not fit Control4's model (e.g. high-end multi-emitter fixtures). Needs a Dimmer channel.</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, White, Warm White, Cool White, CCT, Amber, UV, Lime, Cyan</td></tr>
 </table>
+<p>On a pixel fixture the type describes one pixel, and the channels it needs (for RGBW: red, green, blue and white) may be pixel channels, fixture channels, or both.</p>
 <p>Every type can also use the extended functions, driven by <b>Set Control</b>: Strobe/Shutter, Strobe Duration, Zoom, Focus, Iris, Frost, Color Macro, Macro Speed, Program/Auto, Sound Sensitivity. Amber, UV, Lime and Cyan are Set Control channels on the RGB types too. Every type can use <b>Fixed Value</b> (always outputs its Default) and <b>Unused</b>.</p>
-<p>Changing Fixture Type keeps the channels if they still suit the new type, otherwise it starts from the new type's usual channels.</p>
+<p>Changing Fixture Type keeps the channels if they still suit the new type, otherwise it starts from the new type's usual channels. On a pixel fixture the pixel count is kept, the pixel group becomes the new type's usual channels, and the master channels the new type still allows are kept.</p>
 
-<h3>Channels</h3>
-<p>Set <b>Channel Count</b> to the number of channels the fixture uses in its current DMX mode, then each <b>Channel N Function</b> (and <b>Channel N Default</b> where needed). Or type or paste the <b>Channel Map</b>, e.g. <code>dimmer,red,green,blue,white,strobe:8,fixed:255</code>: each entry is a function, optionally <code>:default</code>; function names or their labels both work. The two forms mirror each other. Paste the Channel Map into another fixture to copy it.</p>
-<p><b>Channel N Default</b> is the value a channel rests at. Set Strobe/Shutter's Default to the fixture's "open / no strobe" value. Fixed Value channels always output their Default. Set Control values are raw 0-255.</p>
-<p>Channel maps for fixtures checked so far (use the node's Channel Test to confirm a fixture's order):</p>
-<table>
-<tr><th>Fixture</th><th>Fixture Type</th><th>Channel Map</th></tr>
-<tr><td>Generic master dimmer + RGBW (5ch)</td><td>RGBW</td><td><code>dimmer,red,green,blue,white</code></td></tr>
-<tr><td>DazzlingStage Mini Par RGBW, 4ch mode (unverified)</td><td>RGBW</td><td><code>red,green,blue,white</code></td></tr>
-<tr><td>DazzlingStage Mini Par RGBW, 8ch mode (unverified; order varies by batch)</td><td>RGBW</td><td><code>dimmer,red,green,blue,white,strobe,program,macro_speed</code></td></tr>
-</table>
-<p class="warn">An invalid change is refused and explained in Status, and the fixture keeps running its previous channels. A <b>Start Address</b> that would run past channel 512 is reverted to the last good address.</p>
+<h3>Channel Map text</h3>
+<p>The <b>Channel Map</b> is the whole layout as one line, kept in step with the Channel and Pixel properties in both directions. Each entry is a function, optionally <code>:default</code>, e.g. <code>dimmer,red,green,blue,white,strobe:8,fixed:255</code>; function names or their Composer labels both work. A pixel group is written <code>count x (channels)</code>, e.g. <code>18x(red,green,blue,white)</code>, and sits where its channels sit on the wire: <code>dimmer,strobe,4x(red,green,blue),program</code> is Dimmer, Strobe, four RGB pixels, then Program. Only one pixel group is allowed. Paste the Channel Map into another fixture to copy it.</p>
+<p><b>Channel N Default</b> / <b>Pixel Channel N Default</b> is the value a channel rests at. Set Strobe/Shutter's Default to the fixture's "open / no strobe" value. Fixed Value channels always output their Default. Set Control values are raw 0-255.</p>
+<p class="warn">An invalid change is refused and explained in Status, and the fixture keeps running its previous channels. A <b>Start Address</b> that would run past channel 512 is reverted to the last good address. A layout of more than 512 channels (for example 130 RGBW pixels) is refused with the arithmetic.</p>
 
 <h2>Brightness and color</h2>
 <ul>
@@ -64,7 +102,8 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <li>Colors from the picker are mixed into Red/Green/Blue. The part common to all three moves to <b>White</b> when the fixture has one (see White Mix).</li>
 <li>Color temperature uses a CCT channel, or mixes Warm/Cool White, or makes the white from the color channels.</li>
 <li>Amber, UV, Lime and Cyan have no place in the color picker. Drive them with Set Control.</li>
-<li>All fades run on the Art-Net Node, so scenes across many fixtures stay in step.</li>
+<li>On a pixel fixture every pixel gets exactly the color and level a single fixture would; a master dimmer, when there is one, carries the brightness.</li>
+<li>All fades run on the Art-Net Node, so scenes across many fixtures, and every pixel of one fixture, stay in step.</li>
 </ul>
 
 <h2>Properties</h2>
@@ -72,22 +111,32 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th>Property</th><th>Description</th></tr>
 <tr><td>Driver Version</td><td>Product version, build number and content fingerprint (also logged on load).</td></tr>
 <tr><td>Status</td><td>OK with the DMX range and node, or exactly why the fixture is not outputting (no node bound, refused for overlapping a moving head, configuration error). Also notes channel sharing.</td></tr>
+<tr><th colspan="2">Fixture (Composer section)</th></tr>
 <tr><td>Fixture Type</td><td>How the fixture maps onto Control4's controls (see Fixture types). Decides which channel functions are offered. A type from an older version of this driver is converted automatically on load, keeping the channels.</td></tr>
-<tr><td>Start Address</td><td>The fixture's DMX start address, 1-512.</td></tr>
-<tr><td>Footprint</td><td>The channels the fixture occupies, e.g. <code>DMX 17-24 (8 ch)</code>.</td></tr>
-<tr><td>Channel Map</td><td>The channels as text (see Channels).</td></tr>
+<tr><td>Start Address</td><td>The fixture's DMX start address, 1-512. For one zone of a pixel fixture, where that zone's first channel is.</td></tr>
+<tr><td>Footprint</td><td>The channels the fixture occupies, e.g. <code>DMX 17-24 (8 ch)</code> or <code>DMX 1-72 (72 ch, 18 pixels)</code>.</td></tr>
+<tr><td>Layout Summary</td><td>Read-only. What is on each channel, numbered like the manual (Ch 1 = Start Address), e.g. <code>Ch 1 Dimmer | Ch 2-13 4 pixels x 3 ch: Red, Green, Blue | Ch 14 Strobe/Shutter</code>.</td></tr>
+<tr><td>Channel Map</td><td>The whole layout as text (see Channel Map text).</td></tr>
+<tr><th colspan="2">Pixels (Composer section)</th></tr>
+<tr><td>Pixel Count</td><td>1 (default) for a fixture that is one color throughout. More than 1 for a fixture that repeats a channel group per pixel or segment. Changing it from 1 splits the current channels into fixture channels and one pixel's group; changing it back to 1 puts one copy back in place. Up to 512 (the universe is the real limit).</td></tr>
+<tr><td>Channels Per Pixel</td><td>Channels in one pixel's group, 1-12. Shown when Pixel Count is above 1.</td></tr>
+<tr><td>Pixel Channel N Function / Pixel Channel N Default</td><td>Each channel of one pixel, in the manual's order; every pixel repeats them. Only the rows in use are shown.</td></tr>
+<tr><th colspan="2">Fixture Channels (Composer section)</th></tr>
+<tr><td>Channel Count</td><td>Channels that act on the whole fixture, 0-32. With Pixel Count 1 that is every channel the fixture uses in its current DMX mode. With pixels, only the master channels outside the pixel groups (often 0).</td></tr>
+<tr><td>Fixture Channels Before Pixels</td><td>How many of the fixture channels come before the first pixel; the rest follow the last pixel. Shown when there are pixels and fixture channels. When every fixture channel is before the pixels, a channel added later joins them.</td></tr>
+<tr><td>Channel N Function / Channel N Default</td><td>Each fixture channel's function and resting value, in wire order (those before the pixels first). Only the channels in use are shown.</td></tr>
+<tr><th colspan="2">Output (Composer section)</th></tr>
 <tr><td>Default Fade (ms)</td><td>Fade used by the Set Control programming command.</td></tr>
 <tr><td>Dimming Curve</td><td>Auto (2.2 without a dimmer channel, linear with one), or a fixed curve.</td></tr>
 <tr><td>Max Brightness</td><td>On (default): whites and pale colours use every emitter that can help, the white LED plus red, green and blue, so pure white runs all four at full (about twice as bright); saturated colours are unchanged. A warm/cool white pair runs both LEDs at full mid-range. Off: the white LED alone makes the white part: strictest color, dimmer. Very pale colours may tint slightly with On, because a real white LED is rarely exactly the same white as red+green+blue.</td></tr>
 <tr><td>White Mix (%)</td><td>How much of the common R/G/B part moves to the White channel. 100 = maximum white use; 0 = never use White for colors. Shown when the fixture has RGB and White.</td></tr>
 <tr><td>CCT Min (K) / CCT Max (K)</td><td>The fixture's color-temperature range, for fixtures with a CCT channel or Warm/Cool White. Also the range offered in Navigator.</td></tr>
-<tr><td>Channel Count</td><td>Number of channels the fixture uses in its current DMX mode, 1-32.</td></tr>
-<tr><td>Channel N Function / Channel N Default</td><td>Each channel's function and resting value. Only the channels in use are shown.</td></tr>
+<tr><th colspan="2">Diagnostics (Composer section)</th></tr>
 <tr><td>Debug Mode</td><td>Extra detail in the Lua output window. Problems are always logged, whatever this is set to.</td></tr>
 </table>
 
 <h2>Extended channels</h2>
-<p class="warn"><b>Navigator does not show an Extras tab for lights</b> on current Control4 systems (tested on the app and a T4, OS 4.1, with a minimal test driver). The driver still offers Extras in case a later OS shows them, but nothing depends on them: every channel that is not brightness or picker color (and, for Manual Color, every color channel) is driven with the <b>Set Control</b> programming command, value 0-255. Build client controls as Custom or Experience buttons, keypad buttons or scenes that run Set Control (e.g. "Strobe Fast", "Strobe Off"). <b>Channel N Default</b> sets each channel's resting value; <b>Restore Control Defaults</b> returns them all to it. To try values by hand, use the Art-Net Node's Channel Test.</p>
+<p class="warn"><b>Navigator does not show an Extras tab for lights</b> on current Control4 systems (tested on the app and a T4, OS 4.1, with a minimal test driver). The driver still offers Extras in case a later OS shows them, but nothing depends on them: every channel that is not brightness or picker color (and, for Manual Color, every color channel) is driven with the <b>Set Control</b> programming command, value 0-255. Build client controls as Custom or Experience buttons, keypad buttons or scenes that run Set Control (e.g. "Strobe Fast", "Strobe Off"). <b>Channel N Default</b> sets each channel's resting value; <b>Restore Control Defaults</b> returns them all to it. A control that is a pixel channel (a per-pixel strobe, say) appears once in Set Control and is applied to every pixel. To try values by hand, use the Art-Net Node's Channel Test.</p>
 
 <h2>Actions</h2>
 <table>
@@ -116,6 +165,9 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Status: REFUSED: overlaps moving fixture</td><td>Change this fixture's or the moving head's Start Address.</td></tr>
 <tr><td>Wrong colors</td><td>The channel order differs from the fixture's. Compare with the fixture manual; use the node's Channel Test to drive each channel by hand.</td></tr>
 <tr><td>Color changes but brightness does nothing</td><td>The fixture has a Dimmer channel the channel map does not have (it sits at 0).</td></tr>
+<tr><td>Colors shift along a pixel fixture</td><td>Channels Per Pixel or the pixel channel order is wrong. See Checking a fixture against the manual.</td></tr>
+<tr><td>Only part of a pixel fixture lights</td><td>Pixel Count is too low, or the fixture is in a different DMX mode (or pixel-control setting) from the one described.</td></tr>
+<tr><td>Status: more than a DMX universe holds</td><td>Pixel Count x Channels Per Pixel plus the fixture channels exceeds 512. Use a lower-resolution DMX mode on the fixture, or a second universe (a second Art-Net Node driver).</td></tr>
 <tr><td>The light shows offline in Navigator</td><td>It is not bound, not accepted by the node, or has no valid channel map. Status says which.</td></tr>
 </table>
 </body>

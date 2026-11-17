@@ -826,6 +826,188 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+-- Pixels. A pixel fixture is ONE light whose color repeats in every pixel; the reference is a
+-- plain 4ch RGBW par given the same commands, so "every pixel matches the par" proves the pixel
+-- path adds nothing to the color engine's output.
+local function pixel_rig(bar_props, extra)
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
+  local ref = sim:load("dmx_light", 201, "Reference Par", par(MAP4, { ["Start Address"] = "501" }))
+  local bar = sim:load("dmx_light", 210, "Pixel Bar", bar_props)
+  local devs = { ref, bar }
+  for _, d in ipairs(extra or {}) do devs[#devs + 1] = sim:load(d[1], d[2], d[3], d[4]) end
+  for _, d in ipairs(devs) do sim:bind(d, 1, node, 1, true) end
+  for _, d in ipairs(devs) do sim:init(d) end
+  sim:init(node)
+  sim:advance(100)
+  return sim, node, ref, bar, devs
+end
+local function both(sim, devs, cmd, p) for _, d in ipairs(devs) do sim:proxy(d, cmd, p) end; sim:advance(50) end
+local function color(x, y) return { LIGHT_COLOR_TARGET_X = x, LIGHT_COLOR_TARGET_Y = y, LIGHT_COLOR_TARGET_MODE = 0 } end
+-- Does every 4-channel pixel from `first` match the reference par's 4 bytes?
+local function pixels_match(sim, first, pixels, label)
+  local ref = sim:slots(501, 504)
+  local bad = {}
+  for p = 1, pixels do
+    local a = first + (p - 1) * 4
+    local got = sim:slots(a, a + 3)
+    if table.concat(got, ",") ~= table.concat(ref, ",") then bad[#bad + 1] = p .. "=" .. T.show(got) end
+  end
+  T.eq(bad, {}, label .. " (reference " .. T.show(ref) .. ")")
+  return ref
+end
+
+T.section("pixels: an 18-pixel RGBW bar (Alcon 11260 3ft) is one light")
+do
+  local sim, node, ref, bar = pixel_rig({ ["Fixture Type"] = "RGBW", ["Channel Map"] = "18x(red,green,blue,white)", ["Start Address"] = "101" })
+  local P = bar.env.Properties
+  T.like(status(bar), "^OK: DMX 101%-172 %(72 ch, 18 pixels%)", "registered as 72 channels")
+  T.eq(P["Footprint"], "DMX 101-172 (72 ch, 18 pixels)", "Footprint")
+  T.eq(P["Layout Summary"], "Ch 1-72 18 pixels x 4 ch: Red, Green, Blue, White", "Layout Summary")
+  T.eq({ P["Pixel Count"], P["Channels Per Pixel"], P["Channel Count"] }, { "18", "4", "0" }, "the map text filled in the pixel properties on load")
+  T.eq({ P["Pixel Channel 1 Function"], P["Pixel Channel 4 Function"] }, { "Red", "White" }, "pixel rows")
+  T.like(node.env.Properties["Patch"], "DMX 101%-172  Pixel Bar", "node patch lists the bar")
+  T.eq(bar.hidden["Channel 1 Function"], true, "no fixture-channel rows shown (Channel Count 0)")
+  T.eq(bar.hidden["Pixel Channel 4 Function"], false, "4 pixel rows shown")
+  T.eq(bar.hidden["Pixel Channel 5 Function"], true, "pixel row 5 hidden")
+  T.eq(bar.hidden["Fixture Channels Before Pixels"], true, "'Before Pixels' hidden with no fixture channels")
+  local devs = { ref, bar }
+  both(sim, devs, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 0 })
+  local s = pixels_match(sim, 101, 18, "full: every pixel matches the par")
+  T.ok(s[1] + s[2] + s[3] + s[4] > 0, "and the par is actually lit")
+  for _, c in ipairs({ { 0.64, 0.33, "red" }, { 0.15, 0.06, "blue" }, { 0.3127, 0.3290, "D65" }, { 0.38, 0.36, "pastel" } }) do
+    both(sim, devs, "SET_COLOR_TARGET", color(c[1], c[2]))
+    pixels_match(sim, 101, 18, c[3] .. ": every pixel matches the par")
+  end
+  both(sim, devs, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0, LIGHT_COLOR_TARGET_Y = 0, LIGHT_COLOR_TARGET_CCT = 2700, LIGHT_COLOR_TARGET_MODE = 1 })
+  pixels_match(sim, 101, 18, "2700K: every pixel matches the par")
+  both(sim, devs, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 50, RATE = 0 })
+  pixels_match(sim, 101, 18, "50% (virtual dimmer gamma): every pixel matches the par")
+  T.eq(sim:slots(173, 173)[1], 0, "nothing written past the last pixel")
+  -- A fade runs on the node and stays in step across all 72 channels.
+  both(sim, devs, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 2000 })
+  sim:advance(950)
+  local mid = pixels_match(sim, 101, 18, "mid-fade: every pixel in step with the par")
+  sim:advance(2000)
+  local done = pixels_match(sim, 101, 18, "fade end: every pixel matches")
+  T.ok(table.concat(mid, ",") ~= table.concat(done, ","), "the mid-fade sample really was mid-fade")
+  -- Identify flashes the whole bar.
+  sim:action(bar, "IDENTIFY")
+  sim:advance(510)
+  T.eq(sim:slots(101, 172), (function() local z = {} for i = 1, 72 do z[i] = 0 end return z end)(), "Identify: the whole bar goes dark together")
+  sim:advance(3000)
+  both(sim, devs, "OFF", {})
+  T.eq(sim:slots(101, 104), { 0, 0, 0, 0 }, "OFF")
+  pixels_match(sim, 101, 18, "OFF: every pixel dark")
+end
+
+T.section("pixels: set up from Composer, one property at a time")
+do
+  local sim, node, ref, bar = pixel_rig({ ["Fixture Type"] = "RGBW", ["Channel Map"] = "red,green,blue,white", ["Start Address"] = "101" })
+  local P = bar.env.Properties
+  T.eq(P["Pixel Count"], "1", "a new light starts as one cell")
+  T.eq(bar.hidden["Channels Per Pixel"], true, "pixel rows hidden at Pixel Count 1")
+  T.eq(P["Layout Summary"], "Ch 1 Red | Ch 2 Green | Ch 3 Blue | Ch 4 White", "summary of a plain par")
+  -- The Alcon setup is TWO edits: type RGBW (the default) and Pixel Count 18.
+  sim:set_property(bar, "Pixel Count", "18")
+  T.eq(P["Channel Map"], "18x(red,green,blue,white)", "Pixel Count 18 turns the RGBW map into 18 RGBW pixels")
+  T.eq({ P["Channel Count"], P["Channels Per Pixel"] }, { "0", "4" }, "no fixture channels left, 4 per pixel")
+  T.eq(bar.hidden["Pixel Channel 1 Function"], false, "pixel rows appear")
+  T.like(status(bar), "^OK: DMX 101%-172", "re-registered at 72 channels")
+  both(sim, { ref, bar }, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 0 })
+  pixels_match(sim, 101, 18, "output on every pixel")
+  -- Back to one cell restores the original map exactly.
+  sim:set_property(bar, "Pixel Count", "1")
+  T.eq(P["Channel Map"], "red,green,blue,white", "Pixel Count 1 puts one copy back")
+  T.like(status(bar), "^OK: DMX 101%-104 %(4 ch%)", "and re-registers at 4 channels")
+  T.eq(bar.hidden["Pixel Channel 1 Function"], true, "pixel rows hidden again")
+
+  -- A bar with master channels: the masters stay fixture channels around the color run.
+  sim:set_property(bar, "Channel Map", "dimmer,red,green,blue,white,strobe")
+  sim:set_property(bar, "Pixel Count", "4")
+  T.eq(P["Channel Map"], "dimmer,4x(red,green,blue,white),strobe", "masters kept around the pixels")
+  T.eq(P["Fixture Channels Before Pixels"], "1", "one fixture channel before the pixels")
+  T.eq(bar.hidden["Fixture Channels Before Pixels"], false, "'Before Pixels' shown")
+  T.eq(P["Layout Summary"], "Ch 1 Dimmer | Ch 2-17 4 pixels x 4 ch: Red, Green, Blue, White | Ch 18 Strobe/Shutter", "summary reads like the manual")
+  -- The manual actually puts strobe first too: move it before the pixels.
+  sim:set_property(bar, "Fixture Channels Before Pixels", "2")
+  T.eq(P["Channel Map"], "dimmer,strobe,4x(red,green,blue,white)", "Before Pixels 2 moves strobe ahead of the pixels")
+  sim:command(bar, "Set Control", { Control = "Strobe/Shutter", Value = "77" })
+  sim:advance(50)
+  T.eq(sim:slots(102, 102)[1], 77, "Set Control drives the one strobe channel at Ch 2")
+  sim:proxy(bar, "SET_COLOR_TARGET", color(0.64, 0.33))
+  sim:proxy(bar, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 0 })
+  sim:advance(50)
+  T.eq(sim:slots(101, 101)[1], 255, "the master dimmer carries brightness")
+  local reds = {}
+  for p = 1, 4 do reds[p] = sim:slots(103 + (p - 1) * 4, 103 + (p - 1) * 4)[1] end
+  T.eq(reds, { 255, 255, 255, 255 }, "every pixel's red is full")
+  -- Adding a fixture channel while all are before the pixels: the new one joins them.
+  sim:set_property(bar, "Channel Count", "3")
+  sim:set_property(bar, "Channel 3 Function", "Program/Auto")
+  T.eq(P["Channel Map"], "dimmer,strobe,program,4x(red,green,blue,white)", "a new master row lands before the pixels too")
+  -- Growing the pixel: a 5th channel per pixel (new rows start Unused, then get a function).
+  sim:set_property(bar, "Channels Per Pixel", "5")
+  T.eq(bar.hidden["Pixel Channel 5 Function"], false, "pixel row 5 appears")
+  sim:set_property(bar, "Pixel Channel 5 Function", "Fixed Value")
+  sim:set_property(bar, "Pixel Channel 5 Default", "9")
+  T.eq(P["Channel Map"], "dimmer,strobe,program,4x(red,green,blue,white,fixed:9)", "the map follows the pixel rows")
+  T.like(P["Footprint"], "%(23 ch, 4 pixels%)", "3 + 4 x 5 channels")
+  sim:advance(50)
+  T.eq(sim:slots(108, 108)[1], 9, "pixel 1's fixed channel is on the wire at Ch 8")
+end
+
+T.section("pixels: changing the type keeps pixels and masters")
+do
+  local sim, node, ref, bar = pixel_rig({ ["Fixture Type"] = "RGBW", ["Channel Map"] = "dimmer,strobe,18x(red,green,blue,white)", ["Start Address"] = "101" })
+  local P = bar.env.Properties
+  sim:set_property(bar, "Fixture Type", "RGB")
+  T.eq(P["Channel Map"], "dimmer,strobe,18x(red,green,blue)", "RGB: pixels become RGB, count and masters kept")
+  sim:set_property(bar, "Fixture Type", "RGB + Tunable White")
+  T.eq(P["Channel Map"], "dimmer,strobe,18x(red,green,blue,warm_white,cool_white)", "RGB + TW pixels")
+  sim:set_property(bar, "Fixture Type", "Single Color Dimmable")
+  T.eq(P["Channel Map"], "strobe,18x(dimmer)", "single color: the dimmer repeats per pixel, so the master dimmer goes; strobe stays")
+  T.like(status(bar), "^OK: DMX 101%-119 %(19 ch, 18 pixels%)", "and the result is a working layout")
+end
+
+T.section("pixels: zones, overlaps and limits")
+do
+  -- One 18-pixel bar split into two Control4 lights of 9 pixels each.
+  local sim, node, ref, left, devs = pixel_rig(
+    { ["Fixture Type"] = "RGBW", ["Channel Map"] = "9x(red,green,blue,white)", ["Start Address"] = "101" },
+    { { "dmx_light", 211, "Bar Right", { ["Fixture Type"] = "RGBW", ["Channel Map"] = "9x(red,green,blue,white)", ["Start Address"] = "137" } } })
+  local right = devs[3]
+  T.like(status(left), "^OK: DMX 101%-136 %(36 ch, 9 pixels%) on 'Stage Node'$", "left zone, no overlap note")
+  T.like(status(right), "^OK: DMX 137%-172 %(36 ch, 9 pixels%) on 'Stage Node'$", "right zone, no overlap note")
+  sim:proxy(left, "SET_COLOR_TARGET", color(0.64, 0.33)); sim:proxy(left, "ON", {})
+  sim:proxy(right, "SET_COLOR_TARGET", color(0.15, 0.06)); sim:proxy(right, "ON", {})
+  sim:advance(50)
+  T.eq(sim:slots(133, 140), { 255, 0, 0, 0, 0, 0, 255, 0 }, "the color changes exactly at the zone boundary")
+
+  -- A pixel bar landing on a moving head is refused like any light.
+  local sim2 = Sim.new()
+  local node2 = sim2:load("artnet_node", 100, "N", { ["Node IP Address"] = IP })
+  local mover = sim2:load("dmx_mover", 301, "Mover", { ["Layout"] = CK16, ["Start Address"] = "60" })
+  local bar = sim2:load("dmx_light", 210, "Pixel Bar", { ["Fixture Type"] = "RGBW", ["Channel Map"] = "18x(red,green,blue,white)", ["Start Address"] = "1" })
+  for _, d in ipairs({ mover, bar }) do sim2:bind(d, 1, node2, 1, true) end
+  sim2:init(mover); sim2:init(bar); sim2:init(node2); sim2:advance(100)
+  T.like(status(bar), "REFUSED: overlaps moving fixture 'Mover'", "72 channels reaching the mover at 60 are refused")
+
+  -- Too many pixels for the universe: refused with the arithmetic, previous layout kept running.
+  sim:set_property(left, "Pixel Count", "200")
+  T.like(status(left), "CONFIG ERROR: 200 pixels x 4 channels = 800 channels, more than a DMX universe holds", "over 512 explained")
+  T.like(status(left), "still running the previous layout", "and the old layout keeps running")
+  -- Fits the universe but not from this address: the address check names the end.
+  sim:set_property(left, "Pixel Count", "120")
+  T.like(status(left), "would end at 580, past the end of the universe", "480 channels from address 101 explained")
+
+  -- A pasted map with pixels is refused on a moving head (it has no pixel properties).
+  sim2:set_property(mover, "Layout", "Custom")
+  sim2:set_property(mover, "Channel Map", "pan,tilt,4x(red,green,blue)")
+  T.like(status(mover), "Channel Map: a moving head cannot have pixels", "mover refuses a pixel map")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("negative controls: the checks above can fail")
 do
   -- If the frame decoder or the slot helper were broken, every "reaches the wire" check would be

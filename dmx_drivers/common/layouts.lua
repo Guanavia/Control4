@@ -157,16 +157,27 @@ local NEEDS = {
 }
 
 -- Does a map suit type t: every channel allowed, and the channels the type depends on present?
--- Used to keep a map across a type change.
-function L.map_fits(t, channels)
-  if not channels or #channels == 0 then return false end
+-- Used to keep a map across a type change. Pixel channels count as part of the map.
+function L.map_fits(t, channels, pixels)
+  local all = L.all_channels(channels, pixels)
+  if #all == 0 then return false end
   local h = {}
-  for _, ch in ipairs(channels) do
+  for _, ch in ipairs(all) do
     if not t.allowed[ch.role] then return false end
     h[ch.role] = true
   end
   local need = NEEDS[t.id]
   return need == nil or need(h) and true or false
+end
+
+-- Every channel row of a definition: the fixture channels plus ONE copy of the pixel group.
+function L.all_channels(channels, pixels)
+  local out = {}
+  for _, ch in ipairs(channels or {}) do out[#out + 1] = ch end
+  if pixels then
+    for _, ch in ipairs(pixels.channels or {}) do out[#out + 1] = ch end
+  end
+  return out
 end
 
 function L.default_channels(t)
@@ -243,7 +254,10 @@ builtin("colorkey_miniwash_quad4_mk2_14", { label = "ColorKey MiniWash Quad 4 MK
 
 L.CUSTOM_ID = "custom"
 L.CUSTOM_LABEL = "Custom"
-L.MAX_CHANNELS = 32
+L.MAX_CHANNELS = 32         -- fixture-channel rows (Channel N in Composer)
+L.MAX_PIXEL_CHANNELS = 12   -- rows in one pixel's group (Pixel Channel N)
+L.MAX_PIXELS = 512          -- the universe is the real limit; this only bounds the property
+L.UNIVERSE = 512
 L.DEFAULT_CCT_MIN = 2700
 L.DEFAULT_CCT_MAX = 6500
 
@@ -283,39 +297,167 @@ function L.role_from_text(s)
   return LABEL_TO_ROLE[string.lower(U.trim(s))]
 end
 
-function L.parse_map(text)
-  local channels = {}
-  for i, item in ipairs(U.split(text, ",")) do
+-- Pixels: ONE group written "18x(red,green,blue,white)" (also "18 x (...)" or "18*(...)")
+-- repeats its channels 18 times, in place. Channels before the group come before the pixels on
+-- the wire, channels after it come after the last pixel:
+--   "dimmer,strobe,4x(red,green,blue),program"  =  Dimmer, Strobe, 4 x RGB, Program
+-- Returns channels (the fixture channels), pixels ({count, at, channels} or nil). `at` = how many
+-- fixture channels come before the pixels. "1x(...)" is no pixels: inlined, pixels = nil.
+
+-- Parse one comma list. `what` names the row kind in errors ("channel", "pixel channel").
+local function parse_items(text, what, number_from, out)
+  local items = U.split(text, ",")
+  for i, item in ipairs(items) do
+    local n = number_from + i - 1
     item = U.trim(item)
-    if item == "" then return nil, string.format("channel %d is empty", i) end
+    if item == "" then return nil, string.format("%s %d is empty", what, n) end
     local name, default = item:match("^([^:]+):(.+)$")
     name = name or item
     local role = L.role_from_text(name)
-    if not role then return nil, string.format("channel %d: unknown function '%s'", i, name) end
+    if not role then return nil, string.format("%s %d: unknown function '%s'", what, n, name) end
     local ch = { role = role }
     if default then
       local d = tonumber(U.trim(default))
       if not d or d < 0 or d > 255 or d ~= math.floor(d) then
-        return nil, string.format("channel %d: default '%s' is not 0-255", i, default)
+        return nil, string.format("%s %d: default '%s' is not 0-255", what, n, default)
       end
       ch.default = d
     end
-    channels[#channels + 1] = ch
+    out[#out + 1] = ch
   end
-  if #channels == 0 then return nil, "the channel map is empty" end
-  return channels
+  return out
 end
 
-function L.format_map(channels)
-  local parts = {}
-  for _, ch in ipairs(channels) do
+-- Strip the comma that joins a section to the pixel group; "" stays "".
+local function strip_joint(s, side)
+  s = U.trim(s)
+  if side == "before" then
+    if s == "" then return s end
+    if s:sub(-1) ~= "," then return nil end
+    return U.trim(s:sub(1, -2))
+  end
+  if s == "" then return s end
+  if s:sub(1, 1) ~= "," then return nil end
+  return U.trim(s:sub(2))
+end
+
+function L.parse_map(text)
+  text = tostring(text or "")
+  local _, opens = text:gsub("%(", "")
+  if opens > 1 then return nil, "only one pixel group is allowed, e.g. dimmer,18x(red,green,blue)" end
+  if opens == 0 then
+    local channels, err = parse_items(text, "channel", 1, {})
+    if not channels then return nil, err end
+    if #channels == 0 then return nil, "the channel map is empty" end
+    return channels
+  end
+
+  local pre, count, inner, post = text:match("^(.-)(%d+)%s*[xX%*]%s*%((.-)%)(.*)$")
+  if not pre then
+    return nil, "pixel group not understood: write it as a count, x, and the pixel's channels in brackets, e.g. 18x(red,green,blue,white)"
+  end
+  local before, after = strip_joint(pre, "before"), strip_joint(post, "after")
+  if not before or not after then
+    return nil, "separate the pixel group from the other channels with commas, e.g. dimmer,18x(red,green,blue),strobe"
+  end
+  count = tonumber(count)
+  if count < 1 or count > L.MAX_PIXELS then
+    return nil, string.format("pixel count %d is outside 1-%d", count, L.MAX_PIXELS)
+  end
+
+  local channels, err = parse_items(before, "channel", 1, {})
+  if not channels then return nil, err end
+  local at = #channels
+  local pixel_channels
+  pixel_channels, err = parse_items(inner, "pixel channel", 1, {})
+  if not pixel_channels then return nil, err end
+  if #pixel_channels == 0 then return nil, "the pixel group has no channels" end
+  channels, err = parse_items(after, "channel", at + 1, channels)
+  if not channels then return nil, err end
+
+  if count == 1 then
+    return L.flatten(channels, { count = 1, at = at, channels = pixel_channels })
+  end
+  return channels, { count = count, at = at, channels = pixel_channels }
+end
+
+local function format_items(channels, parts, first, last)
+  for i = first, last do
+    local ch = channels[i]
     if ch.default and ch.default ~= 0 then
       parts[#parts + 1] = ch.role .. ":" .. U.int(ch.default)
     else
       parts[#parts + 1] = ch.role
     end
   end
+  return parts
+end
+
+-- Without pixels this is the original format, character for character (installed projects store
+-- it, and it is the copy-between-projects text).
+function L.format_map(channels, pixels)
+  if not pixels or (pixels.count or 1) < 2 then
+    if pixels then channels = L.flatten(channels, pixels) end
+    return table.concat(format_items(channels, {}, 1, #channels), ",")
+  end
+  local at = U.clamp(pixels.at or #channels, 0, #channels)
+  local parts = format_items(channels, {}, 1, at)
+  parts[#parts + 1] = string.format("%dx(%s)", pixels.count,
+    table.concat(format_items(pixels.channels, {}, 1, #pixels.channels), ","))
+  format_items(channels, parts, at + 1, #channels)
   return table.concat(parts, ",")
+end
+
+-- One pixel is no pixels: the group's channels inlined where the group sat.
+function L.flatten(channels, pixels)
+  if not pixels then return channels end
+  local at = U.clamp(pixels.at or #channels, 0, #channels)
+  local out = {}
+  for i = 1, at do out[#out + 1] = channels[i] end
+  for _, ch in ipairs(pixels.channels or {}) do out[#out + 1] = ch end
+  for i = at + 1, #channels do out[#out + 1] = channels[i] end
+  return out
+end
+
+-- Turning pixels ON for an existing single-cell map: guess which channels repeat per pixel.
+-- The repeating part is the longest run of color channels (emitters, CCT, Amber/UV/...), or for a
+-- single-color type the dimmer (with its fine channel); everything else stays a fixture channel.
+-- So "dimmer,red,green,blue,white,strobe" becomes Dimmer + N x RGBW + Strobe, and a 4ch par map
+-- becomes N x RGBW. With no such run the type's starting map becomes the pixel group.
+local PIXEL_GROUPS = { color = true, color_extra = true }
+function L.split_for_pixels(channels, t)
+  local best_first, best_len, first = nil, 0, nil
+  for i = 1, #channels + 1 do
+    local ch = channels[i]
+    local ok = ch and PIXEL_GROUPS[L.ROLES[ch.role].group]
+    if ok and not first then first = i end
+    if not ok and first then
+      if i - first > best_len then best_first, best_len = first, i - first end
+      first = nil
+    end
+  end
+  if not best_first and (t.id == "dimmer" or t.mix_as == "dimmer") then
+    for i, ch in ipairs(channels) do
+      if ch.role == "dimmer" then
+        best_first, best_len = i, (channels[i + 1] and channels[i + 1].role == "dimmer_fine") and 2 or 1
+        break
+      end
+    end
+  end
+  if not best_first then
+    local pix = L.default_channels(t)
+    local taken, fixture = {}, {}
+    for _, ch in ipairs(pix) do taken[ch.role] = true end
+    for _, ch in ipairs(channels) do
+      if not taken[ch.role] and ch.role ~= "unused" then fixture[#fixture + 1] = ch end
+    end
+    return fixture, { at = #fixture, channels = pix }
+  end
+  local fixture, pix = {}, {}
+  for i, ch in ipairs(channels) do
+    if i >= best_first and i < best_first + best_len then pix[#pix + 1] = ch else fixture[#fixture + 1] = ch end
+  end
+  return fixture, { at = best_first - 1, channels = pix }
 end
 
 ---------------------------------------------------------------------------------------------
@@ -327,9 +469,25 @@ function L.compile(def, type_id, opts)
   local t = L.type_by_id(type_id or def.type)
   if not t then return nil, "unknown fixture type '" .. tostring(type_id or def.type) .. "'" end
   local channels = def.channels or {}
-  if #channels < 1 then return nil, "the layout has no channels" end
+  local px = def.pixels
+  if px and (px.count or 1) < 2 then        -- one pixel is no pixels
+    channels, px = L.flatten(channels, px), nil
+  end
+  if px and t.driver == "mover" then return nil, "a moving head cannot have pixels" end
+  if px and #(px.channels or {}) == 0 then return nil, "the pixel group has no channels" end
+  if px and #px.channels > L.MAX_PIXEL_CHANNELS then
+    return nil, string.format("a pixel has %d channels; the maximum is %d", #px.channels, L.MAX_PIXEL_CHANNELS)
+  end
+  if #channels < 1 and not px then return nil, "the layout has no channels" end
   if #channels > L.MAX_CHANNELS then
-    return nil, string.format("the layout has %d channels; the maximum is %d", #channels, L.MAX_CHANNELS)
+    return nil, string.format("the layout has %d %schannels; the maximum is %d", #channels,
+      px and "fixture " or "", L.MAX_CHANNELS)
+  end
+  local at = px and U.clamp(math.floor(tonumber(px.at) or #channels), 0, #channels) or #channels
+  local total = #channels + (px and px.count * #px.channels or 0)
+  if total > L.UNIVERSE then
+    return nil, string.format("%d pixels x %d channels%s = %d channels, more than a DMX universe holds (%d)",
+      px.count, #px.channels, #channels > 0 and (" + " .. #channels .. " fixture channels") or "", total, L.UNIVERSE)
   end
 
   local layout = {
@@ -342,40 +500,78 @@ function L.compile(def, type_id, opts)
     driver = t.driver,
     verified = def.verified or def.generic or false,
     channels = {},
-    count = #channels,
-    roles = {},                     -- role -> 0-based offset (first occurrence)
+    count = total,
+    roles = {},                     -- role -> 0-based offset (first occurrence; pixel 1's copy)
+    offsets = {},                   -- role -> every offset it occupies (all pixel copies)
+    fixture_count = #channels,
+    pixel_count = px and px.count or 0,
+    pixel_size = px and #px.channels or 0,
+    pixel_at = px and at or nil,    -- offset of pixel 1's first channel
+    pixel_channels = px and px.channels or nil,
+    pixel_def = px and { count = px.count, at = at, channels = px.channels } or nil,
+    fixture_channels = channels,
     pan_degrees = def.pan_degrees,
     tilt_degrees = def.tilt_degrees,
     cct_min = opts.cct_min or def.cct_min or L.DEFAULT_CCT_MIN,
     cct_max = opts.cct_max or def.cct_max or L.DEFAULT_CCT_MAX,
   }
 
-  for i, src in ipairs(channels) do
-    local role = src.role
+  -- Validate the ROWS (each fixture channel once, the pixel group once): a role may appear once
+  -- across both. Errors name the row as Composer shows it.
+  local rows, where = {}, {}       -- where[role] = "channel 3" / "pixel channel 2"
+  for i, src in ipairs(channels) do rows[#rows + 1] = { src = src, name = "channel " .. i, pixel = false } end
+  if px then
+    for j, src in ipairs(px.channels) do rows[#rows + 1] = { src = src, name = "pixel channel " .. j, pixel = true } end
+  end
+  local in_pixel = {}
+  for _, row in ipairs(rows) do
+    local role = row.src.role
     local r = L.ROLES[role]
-    if not r then return nil, string.format("channel %d: unknown function '%s'", i, tostring(role)) end
+    if not r then return nil, string.format("%s: unknown function '%s'", row.name, tostring(role)) end
     if not t.allowed[role] then
-      return nil, string.format("channel %d: '%s' is not available for Fixture Type %s", i, r.label, t.label)
+      return nil, string.format("%s: '%s' is not available for Fixture Type %s", row.name, r.label, t.label)
     end
-    if layout.roles[role] and not r.repeatable then
-      return nil, string.format("channel %d: '%s' is already on channel %d", i, r.label, layout.roles[role] + 1)
+    if where[role] and not r.repeatable then
+      return nil, string.format("%s: '%s' is already on %s", row.name, r.label, where[role])
     end
+    where[role] = where[role] or row.name
+    in_pixel[role] = row.pixel
+  end
+  for role, name in pairs(where) do
+    local coarse = L.ROLES[role].fine_of
+    if coarse and not where[coarse] then
+      return nil, string.format("%s: '%s' needs a '%s' channel", name, L.ROLES[role].label, L.ROLES[coarse].label)
+    end
+    if coarse and in_pixel[coarse] ~= in_pixel[role] then
+      return nil, string.format("%s: '%s' and '%s' must both be pixel channels or both fixture channels",
+        name, L.ROLES[role].label, L.ROLES[coarse].label)
+    end
+  end
+
+  -- Expand onto the wire: fixture channels before the pixels, every pixel, the rest.
+  local function add(src, pixel)
+    local i = #layout.channels + 1
     local ch = U.copy(src)
+    local r = L.ROLES[ch.role]
     ch.offset = i - 1
     ch.default = ch.default or 0
     ch.label = r.label
     ch.group = r.group
+    ch.pixel = pixel
     layout.channels[i] = ch
-    if not layout.roles[role] then layout.roles[role] = i - 1 end
-  end
-
-  for role, offset in pairs(layout.roles) do
-    local coarse = L.ROLES[role].fine_of
-    if coarse and not layout.roles[coarse] then
-      return nil, string.format("channel %d: '%s' needs a '%s' channel", offset + 1,
-        L.ROLES[role].label, L.ROLES[coarse].label)
+    if not layout.roles[ch.role] then layout.roles[ch.role] = i - 1 end
+    if not r.repeatable then
+      layout.offsets[ch.role] = layout.offsets[ch.role] or {}
+      table.insert(layout.offsets[ch.role], i - 1)
     end
   end
+  for i = 1, at do add(channels[i]) end
+  if px then
+    for p = 1, px.count do
+      for _, src in ipairs(px.channels) do add(src, p) end
+    end
+  end
+  for i = at + 1, #channels do add(channels[i]) end
   if layout.cct_min >= layout.cct_max then
     return nil, string.format("CCT Min (%dK) must be below CCT Max (%dK)", layout.cct_min, layout.cct_max)
   end
@@ -383,12 +579,16 @@ function L.compile(def, type_id, opts)
     return nil, "a moving head layout needs at least a Pan or Tilt channel"
   end
 
-  -- Coarse/fine pairs the node must fade as one 16-bit value (brief 3.2 PAIRS).
+  -- Coarse/fine pairs the node must fade as one 16-bit value (brief 3.2 PAIRS). One per pixel
+  -- when the pair repeats (both are in the same group, checked above).
   layout.pairs = {}
   for _, coarse in ipairs({ "dimmer", "pan", "tilt" }) do
     local fine = coarse .. "_fine"
     if layout.roles[coarse] and layout.roles[fine] then
-      layout.pairs[#layout.pairs + 1] = { coarse = layout.roles[coarse], fine = layout.roles[fine], role = coarse }
+      local cs, fs = layout.offsets[coarse], layout.offsets[fine]
+      for k = 1, #cs do
+        layout.pairs[#layout.pairs + 1] = { coarse = cs[k], fine = fs[k], role = coarse }
+      end
     end
   end
 
@@ -426,10 +626,43 @@ function L.compile(def, type_id, opts)
   return layout
 end
 
--- Footprint text for Composer, e.g. "DMX 17-32 (16 ch)".
-function L.footprint_text(start, count)
+-- Footprint text for Composer, e.g. "DMX 17-32 (16 ch)", "DMX 1-72 (72 ch, 18 pixels)".
+function L.footprint_text(start, count, pixels)
+  local px = (pixels and pixels > 1) and string.format(", %d pixels", pixels) or ""
   if count == 1 then return string.format("DMX %d (1 ch)", start) end
-  return string.format("DMX %d-%d (%d ch)", start, start + count - 1, count)
+  return string.format("DMX %d-%d (%d ch%s)", start, start + count - 1, count, px)
+end
+
+-- Layout Summary for Composer: what is on each channel, numbered as fixture manuals number them
+-- (Ch 1 = the Start Address), so it can be read against the manual line by line.
+--   "Ch 1 Dimmer | Ch 2 Strobe/Shutter | Ch 3-74 18 pixels x 4 ch: Red, Green, Blue, White | Ch 75 Program/Auto"
+local function channel_text(ch)
+  if ch.role == "fixed" then return "Fixed " .. U.int(ch.default or 0) end
+  return ch.label
+end
+
+function L.summary(layout)
+  if not layout then return "" end
+  local parts = {}
+  local function fixture_part(ch)
+    parts[#parts + 1] = string.format("Ch %d %s", ch.offset + 1, channel_text(ch))
+  end
+  local i = 1
+  while i <= #layout.channels do
+    local ch = layout.channels[i]
+    if ch.pixel then
+      local first, last = ch.offset + 1, ch.offset + layout.pixel_count * layout.pixel_size
+      local names = {}
+      for j = i, i + layout.pixel_size - 1 do names[#names + 1] = channel_text(layout.channels[j]) end
+      parts[#parts + 1] = string.format("Ch %d-%d %d pixels x %d ch: %s", first, last,
+        layout.pixel_count, layout.pixel_size, table.concat(names, ", "))
+      i = i + layout.pixel_count * layout.pixel_size
+    else
+      fixture_part(ch)
+      i = i + 1
+    end
+  end
+  return table.concat(parts, " | ")
 end
 
 function L.check_start(start, count)

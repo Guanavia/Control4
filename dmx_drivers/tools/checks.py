@@ -66,7 +66,7 @@ doc = os.path.join(source, 'www', 'documentation.html')
 if os.path.exists(doc):
     text = open(doc, encoding='utf-8').read()
     names = [p.findtext('name') for p in root.iter('property')
-             if p.findtext('type') != 'LABEL' and not re.match(r'Channel \d+ |Test Ch \d+$', p.findtext('name'))]
+             if p.findtext('type') != 'LABEL' and not re.match(r'(Pixel )?Channel \d+ |Test Ch \d+$', p.findtext('name'))]
     # Numbered families are documented once as a range; require the family's first member.
     names += ['Test Ch 1'] if 'Test Ch 1' in props else []
     names += [n for n, _ in actions]

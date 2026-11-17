@@ -57,6 +57,26 @@ if marker in s:
         <default>0</default>
       </property>''' % (i, i))
     s = s.replace(marker, '\n      '.join(block))
+# dmx_light only: the 12 rows of one pixel's channel group.
+marker = '<!-- @PIXEL_CHANNELS@ -->'
+if marker in s:
+    block = []
+    for i in range(1, 13):
+        block.append('''<property>
+        <name>Pixel Channel %d Function</name>
+        <type>DYNAMIC_LIST</type>
+        <default>Unused</default>
+        <tooltip>What channel %d of every pixel does. Every pixel repeats the same functions in the same order.</tooltip>
+      </property>
+      <property>
+        <name>Pixel Channel %d Default</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>0</default>
+        <tooltip>Value sent when nothing else sets this channel. Only matters for Fixed Value and Unused, and for controls set from programming.</tooltip>
+      </property>''' % (i, i, i))
+    s = s.replace(marker, '\n      '.join(block))
 open(out, 'w', encoding='utf-8').write(s)
 PYEOF
   cp -R "$NAME/www" "$STAGE/"

@@ -1,5 +1,9 @@
 # dmx_drivers — Art-Net DMX driver set for Control4
 
+**2026-11-17: dmx_light now handles PIXEL fixtures** (Alcon 11260 for a client job): see "Pixel
+fixtures in dmx_light". Built + offline-tested, not yet on hardware. The multi-fixture/mover bench
+plan below is paused, not dropped.
+
 **Status: OPEN, v0.1.0 — ON THE BENCH (2026-10-11).** Node + one RGBW par proven on the real
 controller (output, ping, channel test, colour picker, CCT, dimming, Max Brightness). Light Extras
 proven NOT to render on this system; controls re-homed to Composer + programming. **Next bench
@@ -13,7 +17,8 @@ by Dave's calls, listed below).
 Three c4z's from one shared codebase:
 - **`artnet_node`**: one universe on one node. Merges fixtures, runs every fade, sends ArtDmx
   unicast on UDP 6454, 1 Hz keepalive, frame-rate cap, ping health check, patch display.
-- **`dmx_light`**: any non-moving fixture as ONE light_v2 load; non-light channels on Extras.
+- **`dmx_light`**: any non-moving fixture as ONE light_v2 load, including pixel fixtures (a repeated
+  channel group, all pixels the same color); non-light channels via Set Control.
 - **`dmx_mover`**: a moving head as ONE light_v2 load; position, beam, effects and presets on
   Extras; presets linkable to lighting scenes.
 
@@ -325,6 +330,50 @@ and tested, so it saves no work. If ever wanted, the cheap way in is a spy drive
   * **dmx_mover still has Layout + its ColorKey presets** (shared code treats Layout as optional).
     Revisit when the mover reaches the bench.
 
+## Pixel fixtures in dmx_light (2026-11-17, light build 27) — BUILT + offline-tested, NOT on hardware
+
+**Why:** Dave's client job uses an **Alcon Lighting 11260 RGBW, 3 ft**, whose LEDs are
+individually addressable: factory address 1, RGBW per pixel in order (ch1-4 = pixel 1, ch5-8 =
+pixel 2...). With "2-inch" pixel control that is believed to be **18 pixels / 72 channels:
+UNVERIFIED** (Alcon's docs are unreliable: their "single pixel control" product turned out to mean
+the whole fixture is one pixel). Control4's stock DMX driver needs one driver per pixel. Dave's ask:
+one flexible light driver for pars, this bar, pixel tape, any RGBWW pixel layout; **movers and
+animation explicitly out of scope** (still).
+**Model (my design, Dave asked for a clear UX):** a fixture = **fixture channels** (the existing
+Channel N rows; masters like dimmer/strobe/program) + an optional **pixel group** repeated
+`Pixel Count` times, placed after `Fixture Channels Before Pixels` of the fixture channels. **Pixel
+Count 1 = no pixels = exactly the old driver.** Every pixel gets the same values: still ONE light_v2
+load. Composer sections: **Fixture** (Type, Start Address, Footprint, new read-only **Layout
+Summary** numbered like a manual, Channel Map) / **Pixels** (Pixel Count, Channels Per Pixel 1-12,
+Pixel Channel 1-12 Function/Default) / **Fixture Channels** (Channel Count now 0-32, Before
+Pixels, Channel 1-32). Rows hide unless in use.
+- **Channel Map text** carries the whole layout: `dimmer,strobe,18x(red,green,blue,white),program`
+  (`Nx(...)`, also `N x (...)`, `N*(...)`; one group; `1x(...)` = inlined). Without a group the text
+  format is unchanged character for character. Pasting it sets Pixel Count too. A pixel map on the
+  mover is refused (it has no pixel properties).
+- **Pixel Count 1 -> N auto-splits** the map: the longest run of color/color_extra channels becomes
+  the pixel group (single-color types: dimmer + its fine), the rest stay fixture channels around it.
+  So the Alcon is two edits: RGBW + Pixel Count 18. **N -> 1 flattens** one copy back in place.
+- Type change on a pixel fixture keeps the count; pixel group -> the type's default map; masters the
+  type allows AND that do not clash with the group are kept (single color: the master dimmer goes,
+  because the dimmer now repeats per pixel).
+- Validation is per ROW (fixture rows + one pixel group): a role once across both; coarse/fine must
+  be in the same group; total over 512 refused with the arithmetic. 16-bit pairs are emitted per
+  pixel. Extras / Set Control list a pixel role ONCE and apply it to every pixel.
+- Engine change is small: `layouts.compile` expands the group into `layout.channels` (each copy
+  tagged `pixel = p`, `layout.offsets[role]` = all offsets); `fixture.compute` no longer treats
+  pixel copies as "repeated role -> default". **color.lua untouched.** Node needed no change.
+**Proven offline:** the par A/B (8 light configs x 38 frames incl. colors, CCTs, levels, a fade, Set
+Control, Manual Color) is **byte-identical** to build 20; every one of 18 pixels matches a reference
+4ch par on the wire across colors, CCT, gamma, a mid-fade sample and OFF; Composer flows (1->18->1,
+masters split, Before Pixels move, Channel Count growth, Channels Per Pixel growth, type changes);
+zones (two drivers on one bar, exact boundary); refusals (mover overlap, >512, past universe end,
+mover pixel map). Mutation: treating pixel copies as repeats is caught by 12 checks. Tests now
+186 unit + 302 scenario.
+**Bench next (Alcon):** confirm 18 pixels and RGBW order with the node's Channel Test (start 1, 8
+channels; then the last pixel at 69-72 and nothing past it), then mark the docs row verified. Zones
+are free: one driver per zone by Start Address.
+
 ## Option 4: driver-hosted web page — RESEARCHED, NOT BUILT (2026-10-11, discussion only)
 
 Dave asked whether Control4's own rich config pages (Core5, Lux keypads) are web pages, whether we
@@ -365,5 +414,5 @@ structural changes (proxies/connections) must be batched and backed up before in
 ## Out of scope (brief 13)
 
 QLC+ link, sACN, ArtPoll discovery, multi-element scenes beyond what full ALS gives the mover,
-Amber/Lime/Cyan in color mixing (they are Extras sliders), pixel mapping, Control4-generated
-chases.
+Amber/Lime/Cyan in color mixing (they are Extras sliders), per-pixel color / pixel mapping
+(pixel FIXTURES are supported, all pixels one color), Control4-generated chases.

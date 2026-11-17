@@ -6,7 +6,7 @@
   <model>DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>20</version>
+  <version>27</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -179,26 +179,70 @@
         <minimum>1</minimum>
         <maximum>512</maximum>
         <default>1</default>
+        <tooltip>The fixture's DMX address, as set on its DIP switches or menu. For one zone of a pixel fixture split across several drivers, the address of the zone's first channel.</tooltip>
       </property>
       <property>
         <name>Footprint</name>
         <type>STRING</type>
         <readonly>true</readonly>
         <default></default>
+        <tooltip>The DMX addresses this fixture occupies in the universe.</tooltip>
       </property>
       <property>
-        <name>Channel Count</name>
-        <type>RANGED_INTEGER</type>
-        <minimum>1</minimum>
-        <maximum>32</maximum>
-        <default>4</default>
-        <tooltip>How many DMX channels the fixture uses in its current mode. One Channel N Function appears per channel.</tooltip>
+        <name>Layout Summary</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default></default>
+        <tooltip>What is on each channel, numbered the way fixture manuals number them (Ch 1 = the Start Address). Read it against the manual's channel table to check the setup.</tooltip>
       </property>
       <property>
         <name>Channel Map</name>
         <type>STRING</type>
         <default></default>
-        <tooltip>The channel functions as text, e.g. red,green,blue,white or dimmer,red,green,blue,white,strobe:8 (function:default). Paste to copy a fixture between projects. Kept in step with the Channel N Function settings.</tooltip>
+        <tooltip>The whole layout as one line of text: copy it to set up an identical fixture, or paste a layout here. Examples: red,green,blue,white | dimmer,red,green,blue,white,strobe:8 (function:default) | 18x(red,green,blue,white) for 18 RGBW pixels | dimmer,strobe,8x(red,green,blue) for master channels followed by 8 RGB pixels.</tooltip>
+      </property>
+      <property>
+        <name>Pixels</name>
+        <type>LABEL</type>
+        <default>Pixels</default>
+      </property>
+      <property>
+        <name>Pixel Count</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>512</maximum>
+        <default>1</default>
+        <tooltip>1 for most fixtures (pars, washes, single-color tape): the whole fixture is one color. More than 1 for pixel bars, segmented fixtures and pixel tape, where the manual repeats the same group of channels for each pixel or segment. Every pixel shows the same color: the fixture is still ONE Control4 light.</tooltip>
+      </property>
+      <property>
+        <name>Channels Per Pixel</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>12</maximum>
+        <default>4</default>
+        <tooltip>How many channels one pixel uses, e.g. 3 for RGB, 4 for RGBW, 5 for RGB + warm and cool white. Set what each one does below, in the manual's order.</tooltip>
+      </property>
+      <!-- @PIXEL_CHANNELS@ -->
+      <property>
+        <name>Fixture Channels</name>
+        <type>LABEL</type>
+        <default>Fixture Channels</default>
+      </property>
+      <property>
+        <name>Channel Count</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>32</maximum>
+        <default>4</default>
+        <tooltip>Channels that act on the whole fixture. With Pixel Count 1 that is every channel the fixture uses (a par: dimmer, red, green, blue...). With pixels, only the channels outside the repeating pixel groups, such as a master dimmer, strobe or program channel; often 0.</tooltip>
+      </property>
+      <property>
+        <name>Fixture Channels Before Pixels</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>32</maximum>
+        <default>0</default>
+        <tooltip>How many of the fixture channels come BEFORE the first pixel on the wire; the rest come after the last pixel. Most fixtures put them all first (set this to the Channel Count). 0 = the pixels start on Ch 1. Check the result in Layout Summary.</tooltip>
       </property>
       <!-- @CUSTOM_CHANNELS@ -->
       <property>

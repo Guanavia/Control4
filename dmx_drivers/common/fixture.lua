@@ -18,6 +18,8 @@ local Light = require "light"
 
 -- Declared only by dmx_mover's driver.xml; nil (and defaulted) in dmx_light:
 -- @optional-properties: Reset Value, Reset Hold (ms), Layout
+-- Declared only by dmx_light's driver.xml (pixels); nil in dmx_mover, which never has pixels:
+-- @optional-properties: Pixel Count, Channels Per Pixel, Fixture Channels Before Pixels, Layout Summary
 
 local F = {
   kind = "light",
@@ -87,14 +89,46 @@ local function custom_mode()
   return not has_layout_prop() or Properties["Layout"] == L.CUSTOM_LABEL
 end
 
+-- Channel Count may be 0 on a pixel fixture whose every channel is in the pixel group.
 local function custom_channels_from_props()
-  local count = U.clamp(tonumber(Properties["Channel Count"]) or 1, 1, L.MAX_CHANNELS)
+  local count = U.clamp(tonumber(Properties["Channel Count"]) or 1, 0, L.MAX_CHANNELS)
   local channels = {}
   for i = 1, count do
     local role = L.role_from_text(Properties["Channel " .. i .. " Function"] or "") or "unused"
     channels[i] = { role = role, default = tonumber(Properties["Channel " .. i .. " Default"]) or 0 }
   end
   return channels
+end
+
+-- Pixels exist only in dmx_light (the properties are absent in dmx_mover), and only when
+-- Pixel Count is 2 or more: one pixel IS a plain fixture.
+local function has_pixel_props()
+  return Properties["Pixel Count"] ~= nil
+end
+
+local function pixel_count_prop()
+  return U.clamp(math.floor(tonumber(Properties["Pixel Count"]) or 1), 1, L.MAX_PIXELS)
+end
+
+local function pixels_from_props(fixture_count)
+  if not has_pixel_props() then return nil end
+  local count = pixel_count_prop()
+  if count < 2 then return nil end
+  local size = U.clamp(tonumber(Properties["Channels Per Pixel"]) or 1, 1, L.MAX_PIXEL_CHANNELS)
+  local channels = {}
+  for i = 1, size do
+    local role = L.role_from_text(Properties["Pixel Channel " .. i .. " Function"] or "") or "unused"
+    channels[i] = { role = role, default = tonumber(Properties["Pixel Channel " .. i .. " Default"]) or 0 }
+  end
+  local at = U.clamp(tonumber(Properties["Fixture Channels Before Pixels"]) or fixture_count, 0, fixture_count)
+  return { count = count, at = at, channels = channels }
+end
+
+-- The running layout as Channel Map text (fixture channels + pixel group).
+local function layout_map_text(layout)
+  if not layout then return "" end
+  if layout.pixel_def then return L.format_map(layout.fixture_channels, layout.pixel_def) end
+  return L.format_map(layout.channels)
 end
 
 -- Channel-specific extras defaults for Custom layouts come from Channel N Default; reset
@@ -113,7 +147,8 @@ local function layout_def_from_props()
       ch.reset_hold_ms = tonumber(Properties["Reset Hold (ms)"]) or 5000
     end
   end
-  return { id = L.CUSTOM_ID, label = L.CUSTOM_LABEL, type = t.id, channels = channels }, t
+  return { id = L.CUSTOM_ID, label = L.CUSTOM_LABEL, type = t.id, channels = channels,
+    pixels = pixels_from_props(#channels) }, t
 end
 
 function F.layout_items(t)
@@ -147,14 +182,17 @@ function F.refresh_lists()
   end
   local roles = F.role_items(t)
   local role_list = table.concat(roles, ",")
-  for i = 1, L.MAX_CHANNELS do
-    local name = "Channel " .. i .. " Function"
+  local function fill(name)
     local value = Properties[name]
     local ok = false
     for _, r in ipairs(roles) do if r == value then ok = true end end
     if not ok then value = L.ROLES.unused.label end
     C4:UpdatePropertyList(name, role_list, value)
     Properties[name] = value
+  end
+  for i = 1, L.MAX_CHANNELS do fill("Channel " .. i .. " Function") end
+  if has_pixel_props() then
+    for i = 1, L.MAX_PIXEL_CHANNELS do fill("Pixel Channel " .. i .. " Function") end
   end
   if F.ext.refresh_lists then F.ext.refresh_lists() end
   F.refresh_visibility()
@@ -167,6 +205,18 @@ function F.refresh_visibility()
   for i = 1, L.MAX_CHANNELS do
     F.show_prop("Channel " .. i .. " Function", custom and i <= count)
     F.show_prop("Channel " .. i .. " Default", custom and i <= count)
+  end
+  -- Pixel rows only while there ARE pixels; "Before Pixels" only when there is something to
+  -- place before them.
+  if has_pixel_props() then
+    local on = pixel_count_prop() >= 2
+    local size = tonumber(Properties["Channels Per Pixel"]) or 1
+    F.show_prop("Channels Per Pixel", on)
+    F.show_prop("Fixture Channels Before Pixels", on and count > 0)
+    for i = 1, L.MAX_PIXEL_CHANNELS do
+      F.show_prop("Pixel Channel " .. i .. " Function", on and i <= size)
+      F.show_prop("Pixel Channel " .. i .. " Default", on and i <= size)
+    end
   end
   local lay = F.layout
   local cct = lay and (lay.has_cct or lay.has_ww_cw) or false
@@ -181,14 +231,35 @@ end
 
 -- Write a channel list into the Custom properties + the Channel Map mirror (no callbacks fire:
 -- UpdateProperty does not raise OnPropertyChanged).
-function F.write_custom_props(channels)
+-- `pixels` (dmx_light only) writes the pixel rows too; nil means "no pixels" (Pixel Count 1).
+-- With no pixels the pixel rows are left as they were: hidden, and ignored.
+function F.write_custom_props(channels, pixels)
+  if pixels and (pixels.count or 1) < 2 then channels, pixels = L.flatten(channels, pixels), nil end
   F.set_prop("Channel Count", U.int(#channels))
   for i = 1, L.MAX_CHANNELS do
     local ch = channels[i]
     F.set_prop("Channel " .. i .. " Function", ch and L.ROLES[ch.role].label or L.ROLES.unused.label)
     F.set_prop("Channel " .. i .. " Default", U.int(ch and ch.default or 0))
   end
-  F.set_prop("Channel Map", L.format_map(channels))
+  if has_pixel_props() then
+    F.set_prop("Pixel Count", U.int(pixels and pixels.count or 1))
+    if pixels then
+      F.set_prop("Channels Per Pixel", U.int(#pixels.channels))
+      F.set_prop("Fixture Channels Before Pixels", U.int(U.clamp(pixels.at or #channels, 0, #channels)))
+      for i = 1, L.MAX_PIXEL_CHANNELS do
+        local ch = pixels.channels[i]
+        F.set_prop("Pixel Channel " .. i .. " Function", ch and L.ROLES[ch.role].label or L.ROLES.unused.label)
+        F.set_prop("Pixel Channel " .. i .. " Default", U.int(ch and ch.default or 0))
+      end
+    end
+  end
+  F.set_prop("Channel Map", L.format_map(channels, pixels))
+end
+
+-- The Channel Map text as the current Channel / Pixel rows describe it.
+local function map_from_props()
+  local channels = custom_channels_from_props()
+  return L.format_map(channels, pixels_from_props(#channels))
 end
 
 -- On load, for a driver without a Layout property (dmx_light):
@@ -199,13 +270,15 @@ end
 --   * a brand-new fixture (every channel Unused) starts from its type's default map.
 function F.reconcile_config()
   if has_layout_prop() then return end
-  local channels = L.parse_map(Properties["Channel Map"] or "")
+  local channels, pixels = L.parse_map(Properties["Channel Map"] or "")
   if not channels then
     channels = custom_channels_from_props()
+    pixels = pixels_from_props(#channels)
     local any = false
-    for _, ch in ipairs(channels) do if ch.role ~= "unused" then any = true end end
-    if not any then channels = nil end
+    for _, ch in ipairs(L.all_channels(channels, pixels)) do if ch.role ~= "unused" then any = true end end
+    if not any then channels, pixels = nil, nil end
   end
+  if pixels and not has_pixel_props() then pixels = nil end
   local label = Properties["Fixture Type"]
   local t = L.type_by_label(label)
   if not t or t.driver ~= F.kind then
@@ -214,7 +287,7 @@ function F.reconcile_config()
     F.set_prop("Fixture Type", t.label)
   end
   if not channels then channels = L.default_channels(t) end
-  F.write_custom_props(channels)
+  F.write_custom_props(channels, pixels)
 end
 
 ---------------------------------------------------------------------------------------------
@@ -237,7 +310,7 @@ function F.update_status()
     lines[#lines + 1] = "NOT OUTPUTTING: " .. (F.conflict ~= "" and F.conflict or "waiting for the node to accept registration")
     problem = true
   else
-    lines[#lines + 1] = string.format("OK: %s on %s", L.footprint_text(F.start, F.layout.count),
+    lines[#lines + 1] = string.format("OK: %s on %s", L.footprint_text(F.start, F.layout.count, F.layout.pixel_count),
       F.node_name and ("'" .. F.node_name .. "'") or "the node")
     if F.conflict ~= "" then lines[#lines + 1] = "Note: " .. F.conflict end
     if not F.node_online then lines[#lines + 1] = "Note: the node reports its Art-Net device is not reachable" end
@@ -299,7 +372,8 @@ function F.apply_config(reason)
     or L.format_map(old.channels) ~= L.format_map(layout.channels)
   F.layout = layout
   F.start = start
-  F.set_prop("Footprint", L.footprint_text(start, layout.count))
+  F.set_prop("Footprint", L.footprint_text(start, layout.count, layout.pixel_count))
+  F.set_prop("Layout Summary", L.summary(layout))
   -- Extras values: keep what the user set for roles that still exist, default the rest.
   local extra = {}
   for _, ch in ipairs(layout.extras) do
@@ -398,8 +472,9 @@ function F.compute()
   for _, ch in ipairs(lay.channels) do
     local role, off = ch.role, ch.offset
     local v = ch.default or 0
-    if lay.roles[role] ~= off and role ~= "fixed" and role ~= "unused" then
-      v = ch.default or 0         -- a repeated role only drives its first channel
+    if lay.roles[role] ~= off and not ch.pixel and role ~= "fixed" and role ~= "unused" then
+      v = ch.default or 0         -- a repeated role only drives its first channel (pixel copies
+                                  -- are not repeats: every pixel gets the same value)
     elseif role == "dimmer" and lay.roles.dimmer_fine then
       v = C.to_16(mix.dimmer or 0)
     elseif role == "dimmer_fine" then
@@ -415,7 +490,9 @@ function F.compute()
   end
   if F.ext.compute then F.ext.compute(out, lay) end
   for role, v in pairs(F.overrides) do
-    if role ~= "level" and lay.roles[role] then out[lay.roles[role]] = v end
+    if role ~= "level" and lay.offsets[role] then
+      for _, o in ipairs(lay.offsets[role]) do out[o] = v end
+    end
   end
   return out
 end
@@ -700,6 +777,7 @@ end
 -- Property changes
 ---------------------------------------------------------------------------------------------
 local CHANNEL_PROP = "^Channel (%d+) (%a+)$"
+local PIXEL_PROP = "^Pixel Channel (%d+) (%a+)$"
 
 function F.on_property(name)
   if not F.init_done then return end
@@ -712,10 +790,37 @@ function F.on_property(name)
       -- default (Dave: picking a type fills in a sensible starting map).
       local t = type_from_props()
       local channels = custom_channels_from_props()
-      if not (L.map_fits(t, channels) and L.compile({ channels = channels }, t.id)) then
-        channels = L.default_channels(t)
+      local pixels = pixels_from_props(#channels)
+      local function fits(c, p)
+        return L.map_fits(t, c, p) and L.compile({ channels = c, pixels = p }, t.id) and true or false
       end
-      F.write_custom_props(channels)
+      if not fits(channels, pixels) then
+        if pixels then
+          -- Pixels stay pixels: the type's starting map becomes the pixel group, and the fixture
+          -- channels the new type still allows (master dimmer, strobe...) are kept.
+          local group = L.default_channels(t)
+          local in_group = {}
+          for _, ch in ipairs(group) do
+            in_group[ch.role] = true
+            if L.ROLES[ch.role .. "_fine"] then in_group[ch.role .. "_fine"] = true end
+          end
+          local kept, before = {}, 0
+          for i, ch in ipairs(channels) do
+            if t.allowed[ch.role] and not in_group[ch.role] then
+              kept[#kept + 1] = ch
+              if i <= pixels.at then before = before + 1 end
+            end
+          end
+          pixels = { count = pixels.count, at = before, channels = group }
+          channels = kept
+          if not fits(channels, pixels) then
+            channels, pixels.at = {}, 0
+          end
+        else
+          channels = L.default_channels(t)
+        end
+      end
+      F.write_custom_props(channels, pixels)
     end
     F.refresh_lists()
     if has_layout_prop() and Properties["Layout"] == L.CUSTOM_LABEL then F.write_custom_props(custom_channels_from_props()) end
@@ -731,20 +836,58 @@ function F.on_property(name)
     F.refresh_visibility()
     F.apply_config("layout changed")
   elseif name == "Channel Map" then
-    local channels, err = L.parse_map(value)
-    if not channels then
+    local channels, pixels_or_err = L.parse_map(value)
+    local err = not channels and pixels_or_err or nil
+    if channels and pixels_or_err and not has_pixel_props() then
+      err = "a moving head cannot have pixels"
+    end
+    if err then
       F.config_error = "Channel Map: " .. err
-      F.set_prop("Channel Map", F.layout and L.format_map(F.layout.channels) or "")
+      F.set_prop("Channel Map", F.layout and layout_map_text(F.layout) or "")
       F.update_status()
       return
     end
     -- Editing the map implies a Custom layout.
     if Properties["Layout"] ~= L.CUSTOM_LABEL then F.set_prop("Layout", L.CUSTOM_LABEL) end
-    F.write_custom_props(channels)
+    F.write_custom_props(channels, pixels_or_err)
     F.refresh_visibility()
     F.apply_config("channel map edited")
-  elseif name == "Channel Count" or name:match(CHANNEL_PROP) then
-    F.set_prop("Channel Map", L.format_map(custom_channels_from_props()))
+  elseif name == "Pixel Count" then
+    -- Turning pixels on splits the single-cell map into fixture channels + one pixel's group
+    -- (the run of color channels); turning them off puts one copy back in place. The Channel Map
+    -- text still describes the configuration BEFORE this edit, so it says which way we are going.
+    local old_channels, old_pixels = L.parse_map(Properties["Channel Map"] or "")
+    if not old_channels then
+      old_channels = custom_channels_from_props()
+      old_pixels = nil
+    end
+    local count = pixel_count_prop()
+    if count >= 2 and not old_pixels then
+      local fixture, group = L.split_for_pixels(old_channels, type_from_props())
+      group.count = count
+      F.write_custom_props(fixture, group)
+    elseif count >= 2 then
+      old_pixels.count = count
+      F.write_custom_props(old_channels, old_pixels)
+    elseif old_pixels then
+      F.write_custom_props(L.flatten(old_channels, old_pixels), nil)
+    else
+      F.write_custom_props(old_channels, nil)
+    end
+    F.refresh_visibility()
+    F.apply_config("pixel count changed")
+  elseif name == "Channel Count" or name:match(CHANNEL_PROP) or name:match(PIXEL_PROP)
+      or name == "Channels Per Pixel" or name == "Fixture Channels Before Pixels" then
+    if name == "Channel Count" and has_pixel_props() then
+      -- "Before Pixels" stays inside the new count, and if every fixture channel came before the
+      -- pixels (the usual case: master dimmer and strobe first), new rows join them there.
+      local n = U.clamp(tonumber(value) or 0, 0, L.MAX_CHANNELS)
+      local before = tonumber(Properties["Fixture Channels Before Pixels"]) or n
+      local was_channels, was_pixels = L.parse_map(Properties["Channel Map"] or "")
+      if was_channels and was_pixels and was_pixels.at == #was_channels then before = n end
+      F.set_prop("Fixture Channels Before Pixels", U.int(math.min(before, n)))
+    end
+    F.set_prop("Channel Map", map_from_props())
     F.refresh_visibility()
     F.apply_config("custom channel edited")
   elseif name == "Start Address" or name == "CCT Min (K)" or name == "CCT Max (K)"
