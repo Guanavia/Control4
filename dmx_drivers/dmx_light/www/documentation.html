@@ -41,7 +41,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <h3>2. Pixel fixtures: the same group of channels, repeated</h3>
 <p>Pixel bars, segmented fixtures and pixel tape give every pixel (or segment) its own channels, and the manual lists one group and repeats it: <i>1 Red 1, 2 Green 1, 3 Blue 1, 4 White 1, 5 Red 2, 6 Green 2 ...</i>. Some also have a few master channels that act on the whole fixture (a master dimmer, a strobe, a program channel), usually before the first pixel.</p>
 <ol>
-<li>Choose the <b>Fixture Type</b> by what ONE pixel has (RGB, RGBW, RGB + Tunable White, Single Color...).</li>
+<li>Choose the <b>Fixture Type</b> by what ONE pixel has (RGB, RGBW, RGBWW, Single Color...).</li>
 <li>Set <b>Pixel Count</b> to the number of pixels or segments. The driver splits the current channels for you: the color channels become one pixel's group, anything else (master dimmer, strobe...) stays a fixture channel.</li>
 <li>Check <b>Channels Per Pixel</b> and each <b>Pixel Channel N Function</b>, in the manual's order for one pixel.</li>
 <li>Under <b>Fixture Channels</b>, list the master channels (<b>Channel Count</b> is 0 if there are none), and set <b>Fixture Channels Before Pixels</b> to how many of them come before the first pixel. The rest come after the last pixel.</li>
@@ -58,7 +58,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Alcon Lighting 11260, 3 ft, 2-inch pixel control (unverified)</td><td>R1, G1, B1, W1, R2 ... W18 (72 ch)</td><td>RGBW</td><td>18</td><td><code>18x(red,green,blue,white)</code></td></tr>
 <tr><td>4-segment RGB bar with master channels</td><td>Dimmer, Strobe, then R, G, B for segments 1-4 (14 ch)</td><td>RGB</td><td>4</td><td><code>dimmer,strobe,4x(red,green,blue)</code></td></tr>
 <tr><td>Pixel bar with masters after the pixels</td><td>R, G, B for pixels 1-8, then Dimmer, Strobe (26 ch)</td><td>RGB</td><td>8</td><td><code>8x(red,green,blue),dimmer,strobe</code></td></tr>
-<tr><td>RGB + warm/cool white pixel tape, 10 pixels</td><td>R, G, B, WW, CW per pixel (50 ch)</td><td>RGB + Tunable White</td><td>10</td><td><code>10x(red,green,blue,warm_white,cool_white)</code></td></tr>
+<tr><td>RGB + warm/cool white pixel tape, 10 pixels</td><td>R, G, B, WW, CW per pixel (50 ch)</td><td>RGBWW</td><td>10</td><td><code>10x(red,green,blue,warm_white,cool_white)</code></td></tr>
 <tr><td>Single-color pixel tape, 16-bit, 24 pixels</td><td>Dim coarse, Dim fine per pixel (48 ch)</td><td>Single Color Dimmable</td><td>24</td><td><code>24x(dimmer,dimmer_fine)</code></td></tr>
 <tr><td>DazzlingStage Mini Par RGBW, 4ch (unverified)</td><td>R, G, B, W</td><td>RGBW</td><td>1</td><td><code>red,green,blue,white</code></td></tr>
 <tr><td>DazzlingStage Mini Par RGBW, 8ch (unverified; order varies by batch)</td><td>Dimmer, R, G, B, W, Strobe, Program, Speed</td><td>RGBW</td><td>1</td><td><code>dimmer,red,green,blue,white,strobe,program,macro_speed</code></td></tr>
@@ -92,9 +92,10 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Single Color (On/Off)</td><td>On/off only. Any level outputs full; nothing fades.</td><td>Dimmer, Dimmer Fine</td></tr>
 <tr><td>Single Color Dimmable</td><td>Brightness</td><td>Dimmer, Dimmer Fine</td></tr>
 <tr><td>Tunable White</td><td>Brightness, color temperature</td><td>Dimmer, Dimmer Fine, Warm White, Cool White, CCT</td></tr>
-<tr><td>RGB</td><td>Brightness, color picker, color temperature (mixed from R/G/B)</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, Amber, UV, Lime, Cyan</td></tr>
-<tr><td>RGBW</td><td>Brightness, color picker, color temperature (mixed from R/G/B/W)</td><td>as RGB, plus White</td></tr>
-<tr><td>RGB + Tunable White</td><td>Brightness, color picker, color temperature (from the warm/cool whites)</td><td>as RGB, plus Warm White, Cool White, White, CCT</td></tr>
+<tr><td>RGB</td><td>Brightness, color picker. No temperature slider (as Control4).</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, Amber, UV, Lime, Cyan</td></tr>
+<tr><td>RGBW</td><td>Brightness, color picker. No temperature slider: <b>white on the picker is the white LED alone</b>, and pale colours add it to R/G/B (as Control4).</td><td>as RGB, plus White</td></tr>
+<tr><td>RGBWW</td><td>Brightness, color picker (from R/G/B), color temperature (from the warm/cool white LEDs). Same as RGBTW: Control4 calls it RGBTW, most manufacturers RGBWW. See Tunable White Mode.</td><td>as RGB, plus Warm White, Cool White, White, CCT</td></tr>
+<tr><td>Extended Range / High Color Gamut</td><td>Brightness, color picker, color temperature (when there is a CCT channel). <b>The fixture does the mixing</b> from its own hue/saturation/intensity/temperature (HSIC) channels. See Extended Range fixtures.</td><td>Dimmer (intensity), Dimmer Fine, Hue, Hue Fine, Saturation, CCT, and the extended functions</td></tr>
 <tr><td>Manual Color</td><td>Brightness drives the <b>Dimmer channel only</b>. No color picker: every color channel is set with Set Control. For fixtures whose color space does not fit Control4's model (e.g. high-end multi-emitter fixtures). Needs a Dimmer channel.</td><td>Dimmer, Dimmer Fine, Red, Green, Blue, White, Warm White, Cool White, CCT, Amber, UV, Lime, Cyan</td></tr>
 </table>
 <p>On a pixel fixture the type describes one pixel, and the channels it needs (for RGBW: red, green, blue and white) may be pixel channels, fixture channels, or both.</p>
@@ -111,10 +112,21 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <li>With a <b>Dimmer</b> channel, brightness drives the dimmer and the color channels stay at full color.</li>
 <li>With <b>no Dimmer</b> channel (e.g. a 4-channel RGBW par), brightness scales the color channels (a virtual dimmer), with a 2.2 curve so low levels are usable.</li>
 <li>Colors from the picker are mixed into Red/Green/Blue. The part common to all three moves to <b>White</b> when the fixture has one (see White Mix).</li>
-<li>Color temperature uses a CCT channel, or mixes Warm/Cool White, or makes the white from the color channels.</li>
+<li>Color temperature is offered only where the fixture can make it natively: a CCT channel or warm + cool white LEDs, as in Control4's own DMX Light. A warm/cool pair runs its stronger LED at full.</li>
+<li><b>Tunable White Mode</b> (RGBWW only): <i>Standard Tunable White Fixture</i> (default, as Control4) makes temperature from the white LEDs alone and colours from RGB alone. <i>RGB White Mixing</i> adds R/G/B at the same temperature on top of the whites: brighter, but the white is only as accurate as the RGB mix.</li>
 <li>Amber, UV, Lime and Cyan have no place in the color picker. Drive them with Set Control.</li>
 <li>On a pixel fixture every pixel gets exactly the color and level a single fixture would; a master dimmer, when there is one, carries the brightness.</li>
 <li>All fades run on the Art-Net Node, so scenes across many fixtures, and every pixel of one fixture, stay in step.</li>
+</ul>
+
+<h2>Extended Range fixtures (wide gamut, 7-8 emitters)</h2>
+<p>For fixtures that mix many emitters themselves (ETC-class fixtures and similar), use the fixture's <b>HSIC</b> DMX mode (hue, saturation, intensity, color temperature) and the <b>Extended Range / High Color Gamut</b> type. The driver converts Control4's color to hue and saturation and the fixture maps it onto its own calibrated emitters, which is more accurate than any generic mix.</p>
+<ul>
+<li>Channels: <b>Dimmer</b> (intensity, required), <b>Hue</b> (required, add <b>Hue Fine</b> for 16-bit), <b>Saturation</b> (required), <b>CCT</b> (optional; enables the temperature slider). Order them as the manual's HSIC mode.</li>
+<li><b>Color Space</b>: <i>sRGB</i> matches Control4's own HSIC mode. <i>Rec. 2020</i> or <i>Custom</i> (the fixture's red, green and blue x,y from its spec sheet) measure saturation against a wider gamut, so the fixture can reach colors beyond sRGB.</li>
+<li><b>Hue Offset</b>: if the fixture's hue 0 is not red, pick red in the app and adjust until the fixture shows red.</li>
+<li><b>CCT In Color Mode</b>: the value on the CCT channel while a color is selected (255 as Control4); a white temperature request sends saturation 0 and moves the CCT channel instead. CCT Min / CCT Max are the temperatures at CCT channel 0 and 255.</li>
+<li>Limits: the app's color picker may not offer colors beyond sRGB (not documented by Control4). Color fades run on the hue channel itself, so a fade between distant hues passes through the hues between them.</li>
 </ul>
 
 <h2>Properties</h2>
@@ -140,7 +152,10 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><th colspan="2">Output (Composer section)</th></tr>
 <tr><td>Default Fade (ms)</td><td>Fade used by the Set Control programming command.</td></tr>
 <tr><td>Dimming Curve</td><td>Auto (2.2 without a dimmer channel, linear with one), or a fixed curve.</td></tr>
-<tr><td>Max Brightness</td><td>On (default): whites and pale colours use every emitter that can help, the white LED plus red, green and blue, so pure white runs all four at full (about twice as bright); saturated colours are unchanged. A warm/cool white pair runs both LEDs at full mid-range. Off: the white LED alone makes the white part: strictest color, dimmer. Very pale colours may tint slightly with On, because a real white LED is rarely exactly the same white as red+green+blue.</td></tr>
+<tr><td>Tunable White Mode</td><td>RGBWW only. Standard Tunable White Fixture (default, as Control4) or RGB White Mixing (see Brightness and color).</td></tr>
+<tr><td>Color Space / Custom Primaries</td><td>Extended Range only. sRGB (Control4 standard), Rec. 2020 (wide gamut) or Custom with the fixture's primaries as rx,ry,gx,gy,bx,by. A bad Custom entry is explained in Status and sRGB is used until it is fixed.</td></tr>
+<tr><td>Hue Offset (deg)</td><td>Extended Range only. Rotates the hue sent to the fixture, -180 to 180.</td></tr>
+<tr><td>CCT In Color Mode</td><td>Extended Range only, with a CCT channel. CCT channel value while a color is selected (default 255).</td></tr>
 <tr><td>White Mix (%)</td><td>How much of the common R/G/B part moves to the White channel. 100 = maximum white use; 0 = never use White for colors. Shown when the fixture has RGB and White.</td></tr>
 <tr><td>CCT Min (K) / CCT Max (K)</td><td>The fixture's color-temperature range, for fixtures with a CCT channel or Warm/Cool White. Also the range offered in Navigator.</td></tr>
 <tr><th colspan="2">Diagnostics (Composer section)</th></tr>

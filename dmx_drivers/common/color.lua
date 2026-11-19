@@ -54,6 +54,87 @@ function C.xy_to_kelvin(x, y)
   return 449 * n ^ 3 + 3525 * n ^ 2 + 6823.3 * n + 5520.33
 end
 
+---------------------------------------------------------------------------------------------
+-- Colour spaces for the Extended Range type: xy -> linear RGB in a chosen gamut, so hue and
+-- saturation can be expressed relative to sRGB (what Control4's own HSIC mode does) or to a wider
+-- gamut (Rec. 2020, or a fixture's own primaries). White point D65 throughout.
+---------------------------------------------------------------------------------------------
+C.D65 = { 0.3127, 0.3290 }
+C.SPACES = {
+  srgb    = { 0.640, 0.330, 0.300, 0.600, 0.150, 0.060 },
+  rec2020 = { 0.708, 0.292, 0.170, 0.797, 0.131, 0.046 },
+}
+
+local function xyz(x, y) return x / y, 1, (1 - x - y) / y end
+
+local function inverse3(m)
+  local a, b, c = m[1][1], m[1][2], m[1][3]
+  local d, e, f = m[2][1], m[2][2], m[2][3]
+  local g, h, i = m[3][1], m[3][2], m[3][3]
+  local A, B, Cc = e * i - f * h, -(d * i - f * g), d * h - e * g
+  local det = a * A + b * B + c * Cc
+  if math.abs(det) < 1e-12 then return nil end
+  return {
+    { A / det, -(b * i - c * h) / det, (b * f - c * e) / det },
+    { B / det, (a * i - c * g) / det, -(a * f - c * d) / det },
+    { Cc / det, -(a * h - b * g) / det, (a * e - b * d) / det },
+  }
+end
+
+-- XYZ -> linear RGB matrix for primaries {rx, ry, gx, gy, bx, by}, D65 white. nil if degenerate.
+function C.space_matrix(p)
+  local R, G, B = { xyz(p[1], p[2]) }, { xyz(p[3], p[4]) }, { xyz(p[5], p[6]) }
+  local m = { { R[1], G[1], B[1] }, { R[2], G[2], B[2] }, { R[3], G[3], B[3] } }
+  local inv = inverse3(m)
+  if not inv then return nil end
+  local Wx, Wy, Wz = xyz(C.D65[1], C.D65[2])
+  local S = {}
+  for k = 1, 3 do S[k] = inv[k][1] * Wx + inv[k][2] * Wy + inv[k][3] * Wz end
+  local M = {}
+  for r = 1, 3 do M[r] = { m[r][1] * S[1], m[r][2] * S[2], m[r][3] * S[3] } end
+  return inverse3(M)
+end
+
+-- Parse "rx,ry,gx,gy,bx,by"; nil, reason when unusable.
+function C.parse_primaries(text)
+  local v = {}
+  for n in tostring(text or ""):gmatch("[^,%s]+") do v[#v + 1] = tonumber(n) end
+  if #v ~= 6 then return nil, "Custom Primaries needs six numbers: red x,y, green x,y, blue x,y" end
+  for _, n in ipairs(v) do
+    if not n or n <= 0 or n >= 1 then return nil, "Custom Primaries values must be CIE x/y between 0 and 1" end
+  end
+  if not C.space_matrix(v) then return nil, "Custom Primaries do not form a triangle" end
+  return v
+end
+
+local function srgb_encode(c)
+  if c <= 0.0031308 then return 12.92 * c end
+  return 1.055 * c ^ (1 / 2.4) - 0.055
+end
+
+-- xy -> hue (0..360) and saturation (0..1) in the given colour space, the usual HSV definition on
+-- transfer-encoded RGB (what apps and Control4's conversions mean by hue/saturation). Colours
+-- outside the space are clipped to its edge, i.e. full saturation at that hue.
+function C.xy_to_hs(x, y, primaries)
+  local M = C.space_matrix(primaries or C.SPACES.srgb)
+  if not M or not x or not y or y <= 0 then return 0, 0 end
+  local X, Y, Z = xyz(x, y)
+  local rgb = {}
+  for k = 1, 3 do rgb[k] = math.max(0, M[k][1] * X + M[k][2] * Y + M[k][3] * Z) end
+  local m = math.max(rgb[1], rgb[2], rgb[3])
+  if m <= 0 then return 0, 0 end
+  local r, g, b = srgb_encode(rgb[1] / m), srgb_encode(rgb[2] / m), srgb_encode(rgb[3] / m)
+  local mx, mn = math.max(r, g, b), math.min(r, g, b)
+  local d = mx - mn
+  local sat = mx > 0 and d / mx or 0
+  if d <= 1e-9 then return 0, 0 end
+  local h
+  if mx == r then h = ((g - b) / d) % 6
+  elseif mx == g then h = (b - r) / d + 2
+  else h = (r - g) / d + 4 end
+  return (h * 60) % 360, U.clamp(sat, 0, 1)
+end
+
 -- Gamma used for the intensity path. "Auto" = 2.2 when dimming is virtual (emitters scaled), 1.0
 -- when the fixture has its own dimmer channel (the fixture applies its own curve).
 function C.resolve_gamma(setting, has_dimmer)
@@ -63,21 +144,20 @@ function C.resolve_gamma(setting, has_dimmer)
 end
 
 -- The core mix. layout: a compiled layout (layouts.lua). state: { level = 0..100, x, y, mode }.
--- opts: { white_mix = 0..1, gamma = number, max_brightness = bool (default true) }.
+-- opts: { white_mix = 0..1, gamma = number, rgb_white_mix = bool (default false),
+--         space = primaries (Extended), hue_offset = degrees (Extended), cct_in_color = 0..1 }.
 --
--- MAX BRIGHTNESS (Dave, 2026-10-11: "the light wasn't as bright as it should be"). With it OFF the
--- mix is exactly the original: white extraction moves the common part of R/G/B to the White
--- emitter and normalises, so pure white ran the W LED alone with R/G/B idle (about a quarter of the
--- fixture's emitters), and a WW/CW pair ran constant-sum (each at 50% mid-range). With it ON, once
--- W is full the remaining white is ALSO made by R=G=B together, and a WW/CW pair is normalised to
--- its peak. Under the engine's own model (W == R+G+B white) the chromaticity is unchanged; only
--- whites and pale colours get brighter (up to 2x), saturated colours are byte-identical. Real W
--- LEDs are rarely exactly D65, so very pale colours may tint slightly: hence the property.
+-- 2026-11-18 (Dave): RGB / RGBW / RGBWW behave as Control4's own DMX Light. Tunable white pairs
+-- are normalised to their peak (Control4's ColorCCTtoMaxChannels); RGBW makes white from the W
+-- LED alone (no R=G=B top-up); RGBWW makes colour from RGB and white from the whites. The one
+-- departure is opt-in: rgb_white_mix adds R/G/B at the same colour temperature to an RGBWW's
+-- white. (Max Brightness, the property this replaced, made RGBW whites from W + R=G=B; retired.)
+--
 -- Returns { role = fraction } for every intensity/color role the layout has.
 function C.mix(layout, state, opts)
   opts = opts or {}
   local white_mix = U.clamp(tonumber(opts.white_mix) or 1.0, 0, 1)
-  local max_bright = opts.max_brightness ~= false
+  local rgb_white = opts.rgb_white_mix == true
   local gamma = tonumber(opts.gamma) or C.resolve_gamma(nil, layout.has_dimmer)
   local level = U.clamp((state.level or 0) / 100, 0, 1)
   local out = {}
@@ -88,14 +168,30 @@ function C.mix(layout, state, opts)
   local mode = state.mode or C.MODE_CCT
   local x, y = state.x, state.y
   if not x or not y then
-    x, y = C.kelvin_to_xy((layout.cct_min + layout.cct_max) / 2)
-    mode = C.MODE_CCT
+    if layout.supports_cct then
+      x, y = C.kelvin_to_xy((layout.cct_min + layout.cct_max) / 2)
+      mode = C.MODE_CCT
+    else
+      x, y, mode = C.D65[1], C.D65[2], C.MODE_FULL     -- no temperature control: plain white
+    end
   end
 
   local kelvin = U.clamp(C.xy_to_kelvin(x, y), layout.cct_min, layout.cct_max)
 
   if layout.type == "dimmer" then
     -- nothing to mix
+  elseif layout.extended then
+    -- The fixture mixes. Colour: hue + saturation in the chosen space, CCT channel at its
+    -- colour-mode value. CCT request: saturation 0 and the CCT channel carries the temperature.
+    if mode == C.MODE_CCT and layout.has_cct then
+      out.saturation = 0
+      cct_fraction = (kelvin - layout.cct_min) / (layout.cct_max - layout.cct_min)
+    else
+      local h, sat = C.xy_to_hs(x, y, opts.space)
+      out.hue = ((h + (tonumber(opts.hue_offset) or 0)) % 360) / 360
+      out.saturation = sat
+      cct_fraction = U.clamp(tonumber(opts.cct_in_color) or 1, 0, 1)
+    end
   elseif (mode == C.MODE_CCT or not layout.has_rgb) and (layout.has_cct or layout.has_ww_cw) then
     -- CCT request, or a white-only fixture handed a full-color point: both resolve to a Kelvin
     -- value on this fixture's range.
@@ -109,8 +205,12 @@ function C.mix(layout, state, opts)
       local t = U.clamp((mw - m) / (mw - mc), 0, 1)
       e.warm_white, e.cool_white = 1 - t, t
       local peak = math.max(e.warm_white, e.cool_white)
-      if max_bright and peak > 0 then
+      if peak > 0 then
         e.warm_white, e.cool_white = e.warm_white / peak, e.cool_white / peak
+      end
+      if rgb_white and layout.has_rgb then
+        -- RGB White Mixing: R/G/B add the same colour temperature on top of the white LEDs.
+        e.red, e.green, e.blue = C.xy_to_rgb(C.kelvin_to_xy(kelvin))
       end
       -- ...except when a CCT channel is also present, the WW/CW pair then runs full and the
       -- fixture's CCT channel sets the temperature.
@@ -134,20 +234,9 @@ function C.mix(layout, state, opts)
         -- 2. White extraction: take the common part of R, G and B out to the white emitter.
         local w = math.min(r, g, b) * white_mix
         r, g, b = r - w, g - w, b - w
-        if max_bright then
-          -- Largest scale s such that the chroma part (r,g,b)*s fits AND the white part w*s can be
-          -- made by W (up to 1) plus a common R=G=B top-up k in the headroom left by the chroma.
-          local maxc = math.max(r, g, b)
-          local s = (w + maxc) > 0 and 2 / (w + maxc) or 0
-          if maxc > 0 then s = math.min(s, 1 / maxc) end
-          local white_total = w * s
-          local W = math.min(1, white_total)
-          local k = white_total - W
-          r, g, b, w = r * s + k, g * s + k, b * s + k, W
-        else
-          local peak = math.max(r, g, b, w)
-          if peak > 0 then r, g, b, w = r / peak, g / peak, b / peak, w / peak end
-        end
+        -- Control4's RGBW: the white part is the white LED alone; normalise to the peak.
+        local peak = math.max(r, g, b, w)
+        if peak > 0 then r, g, b, w = r / peak, g / peak, b / peak, w / peak end
         e.white = w
       end
       e.red, e.green, e.blue = r, g, b

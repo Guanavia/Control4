@@ -6,7 +6,7 @@
   <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>39</version>
+  <version>41</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -182,11 +182,12 @@
           <item>Tunable White</item>
           <item>RGB</item>
           <item>RGBW</item>
-          <item>RGB + Tunable White</item>
+          <item>RGBWW</item>
+          <item>Extended Range / High Color Gamut</item>
           <item>Manual Color</item>
         </items>
         <default>RGBW</default>
-        <tooltip>How the fixture maps onto Control4's lighting controls. RGB, RGBW and RGB + Tunable White use the color picker and the color temperature slider; Tunable White uses the temperature slider; Manual Color puts every color channel on the Extras tab and the brightness slider drives only the Dimmer channel. Changing type keeps the channel map if it still fits, otherwise starts from the type's usual map.</tooltip>
+        <tooltip>How the fixture maps onto Control4's lighting controls, the same way Control4's own DMX Light does. RGB and RGBW: color picker only (an RGBW's white is its white LED). Tunable White: temperature only. RGBWW (= RGBTW): color from RGB, temperature from the warm/cool white LEDs. Extended Range / High Color Gamut: the fixture mixes, from hue/saturation/intensity/temperature channels. Manual Color: brightness drives only the Dimmer channel; every color channel is set with Set Control. Changing type keeps the channel map if it still fits, otherwise starts from the type's usual map.</tooltip>
       </property>
       <property>
         <name>Gateway Line</name>
@@ -293,14 +294,47 @@
         <tooltip>Auto = 2.2 when the fixture has no dimmer channel (brightness scales the color channels), linear when it has one.</tooltip>
       </property>
       <property>
-        <name>Max Brightness</name>
+        <name>Tunable White Mode</name>
         <type>LIST</type>
         <items>
-          <item>On</item>
-          <item>Off</item>
+          <item>Standard Tunable White Fixture</item>
+          <item>RGB White Mixing</item>
         </items>
-        <default>On</default>
-        <tooltip>On: whites and pale colours use every emitter that can help (white LED plus red, green and blue), up to twice as bright; saturated colours are unchanged. Off: the white LED alone makes the white part (strictest color, dimmer). Also lets a warm/cool white pair run both LEDs at full mid-range.</tooltip>
+        <default>Standard Tunable White Fixture</default>
+        <tooltip>RGBWW only. Standard (as Control4): color temperature comes from the warm and cool white LEDs alone, colors from RGB alone. RGB White Mixing: the RGB LEDs add the same color temperature on top of the whites (brighter whites; the color is only as accurate as the RGB mix).</tooltip>
+      </property>
+      <property>
+        <name>Color Space</name>
+        <type>LIST</type>
+        <items>
+          <item>sRGB (Control4 standard)</item>
+          <item>Rec. 2020 (wide gamut)</item>
+          <item>Custom (fixture primaries)</item>
+        </items>
+        <default>sRGB (Control4 standard)</default>
+        <tooltip>Extended Range only. The color space hue and saturation are measured in before they are sent to the fixture. sRGB matches Control4's own HSIC mode. Rec. 2020 or the fixture's own primaries let saturated colors use the fixture's wider gamut.</tooltip>
+      </property>
+      <property>
+        <name>Custom Primaries</name>
+        <type>STRING</type>
+        <default>0.708,0.292,0.170,0.797,0.131,0.046</default>
+        <tooltip>CIE 1931 x,y of the fixture's red, green and blue corners, from its spec sheet: rx,ry,gx,gy,bx,by. Used when Color Space is Custom.</tooltip>
+      </property>
+      <property>
+        <name>Hue Offset (deg)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>-180</minimum>
+        <maximum>180</maximum>
+        <default>0</default>
+        <tooltip>Extended Range only. Rotates the hue sent to the fixture, for fixtures whose hue 0 is not red. Pick red in the app and adjust until the fixture shows red.</tooltip>
+      </property>
+      <property>
+        <name>CCT In Color Mode</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>0</minimum>
+        <maximum>255</maximum>
+        <default>255</default>
+        <tooltip>Extended Range only. The value on the fixture's CCT channel while a color (not a white temperature) is selected. 255 as Control4's own HSIC mode; check the fixture manual.</tooltip>
       </property>
       <property>
         <name>White Mix (%)</name>

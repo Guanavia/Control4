@@ -20,6 +20,7 @@ local Light = require "light"
 -- @optional-properties: Reset Value, Reset Hold (ms), Layout
 -- Declared only by dmx_light's driver.xml (pixels); nil in dmx_mover, which never has pixels:
 -- @optional-properties: Pixel Count, Channels Per Pixel, Fixture Channels Before Pixels, Layout Summary, Gateway Line
+-- @optional-properties: Tunable White Mode, Color Space, Custom Primaries, Hue Offset (deg), CCT In Color Mode
 
 local F = {
   kind = "light",
@@ -228,7 +229,12 @@ function F.refresh_visibility()
   F.show_prop("CCT Min (K)", cct)
   F.show_prop("CCT Max (K)", cct)
   F.show_prop("White Mix (%)", lay and lay.has_white and lay.has_rgb or false)
-  F.show_prop("Max Brightness", lay and ((lay.has_white and lay.has_rgb) or lay.has_ww_cw) or false)
+  F.show_prop("Tunable White Mode", lay and lay.type_id == "rgb_tw" or false)
+  local ext = lay and lay.extended or false
+  F.show_prop("Color Space", ext)
+  F.show_prop("Custom Primaries", ext and Properties["Color Space"] == F.CUSTOM_SPACE)
+  F.show_prop("Hue Offset (deg)", ext)
+  F.show_prop("CCT In Color Mode", ext and lay.has_cct or false)
   local has_reset = custom and lay and lay.roles.reset ~= nil or false
   F.show_prop("Reset Value", has_reset)
   F.show_prop("Reset Hold (ms)", has_reset)
@@ -480,6 +486,22 @@ function F.gamma()
   return C.resolve_gamma(g, F.layout and F.layout.has_dimmer)
 end
 
+-- Extended Range colour space -> primaries for color.lua. A bad Custom entry falls back to sRGB
+-- (Status says so, from the property handler).
+F.RGB_WHITE_MIXING = "RGB White Mixing"
+F.CUSTOM_SPACE = "Custom (fixture primaries)"
+local SPACE_BY_LABEL = {
+  ["sRGB (Control4 standard)"] = C.SPACES.srgb,
+  ["Rec. 2020 (wide gamut)"] = C.SPACES.rec2020,
+}
+function F.color_space()
+  local label = Properties["Color Space"]
+  if label == F.CUSTOM_SPACE then
+    return C.parse_primaries(Properties["Custom Primaries"]) or C.SPACES.srgb
+  end
+  return SPACE_BY_LABEL[label] or C.SPACES.srgb
+end
+
 -- The complete footprint from current intent. Returns offset -> value (0..255).
 function F.compute()
   local lay = F.layout
@@ -494,7 +516,10 @@ function F.compute()
   end
   local mix = C.mix(lay, state, {
     white_mix = (tonumber(Properties["White Mix (%)"]) or 100) / 100,
-    max_brightness = Properties["Max Brightness"] ~= "Off",
+    rgb_white_mix = Properties["Tunable White Mode"] == F.RGB_WHITE_MIXING,
+    space = F.color_space(),
+    hue_offset = tonumber(Properties["Hue Offset (deg)"]) or 0,
+    cct_in_color = (tonumber(Properties["CCT In Color Mode"]) or 255) / 255,
     gamma = F.gamma(),
   })
   for _, ch in ipairs(lay.channels) do
@@ -507,6 +532,12 @@ function F.compute()
       v = C.to_16(mix.dimmer or 0)
     elseif role == "dimmer_fine" then
       v = select(2, C.to_16(mix.dimmer or 0))
+    elseif role == "hue" and lay.roles.hue_fine and mix.hue ~= nil then
+      v = C.to_16(mix.hue)
+    elseif role == "hue_fine" and mix.hue ~= nil then
+      v = select(2, C.to_16(mix.hue))
+    elseif (role == "hue" or role == "saturation") and mix[role] ~= nil then
+      v = C.to_byte(mix[role])
     elseif mix[role] ~= nil and (role == "dimmer" or (not lay.manual and (L.MIXED_EMITTERS[role] or role == "cct"))) then
       v = C.to_byte(mix[role])
     elseif F.overrides[role] ~= nil then
@@ -1066,7 +1097,18 @@ function F.on_property(name)
   elseif name == "Start Address" or name == "CCT Min (K)" or name == "CCT Max (K)"
       or name == "Reset Value" or name == "Reset Hold (ms)" then
     F.apply_config(name .. " changed")
-  elseif name == "White Mix (%)" or name == "Dimming Curve" or name == "Max Brightness" then
+  elseif name == "White Mix (%)" or name == "Dimming Curve" or name == "Tunable White Mode"
+      or name == "Hue Offset (deg)" or name == "CCT In Color Mode" then
+    F.refresh(0)
+  elseif name == "Color Space" or name == "Custom Primaries" then
+    local _, err = C.parse_primaries(Properties["Custom Primaries"])
+    if Properties["Color Space"] == F.CUSTOM_SPACE and err then
+      F.config_error = err .. " (using sRGB until fixed)"
+    elseif F.config_error and F.config_error:find("Custom Primaries", 1, true) then
+      F.config_error = nil
+    end
+    F.refresh_visibility()
+    F.update_status()
     F.refresh(0)
   elseif F.ext.on_property then
     F.ext.on_property(name, value)

@@ -545,3 +545,31 @@ Dave asked whether Control4's colour picker is locked to RGBWW, given 7-8 emitte
   chromaticity and output, and has many valid solutions per colour; it is a real project, not a
   property. The practical routes: (1) an HSIC/xy fixture-mode type that sends the fixture's own
   colour channels; (2) n-emitter mixing from published emitter data.
+
+## Fixture types follow Control4 + RGBWW option + Extended Range (2026-11-18) — BUILT, offline-tested
+
+Dave's decision after the RGBW and wide-gamut research above (supersedes the 2026-10-10 "RGBW keeps
+the temperature slider" decision and the 2026-10-11 Max Brightness property):
+- **RGB, RGBW, RGBWW, Tunable White behave like Control4's own DMX Light.** Temperature slider only
+  with a CCT channel or warm + cool whites (`supports_cct = has_cct or has_ww_cw`). RGBW: picker
+  only; the picker's white is the W LED alone (white extraction, normalised to peak, no R=G=B
+  top-up). Tunable white pairs always run the stronger LED at full (Control4's
+  ColorCCTtoMaxChannels). RGBWW: colour from RGB only, temperature from whites only. A light with
+  no colour yet starts at D65 (plain white) when it has no temperature control, not at 4600K.
+- **Max Brightness RETIRED** (property removed from light and mover). **`Tunable White Mode`**
+  (RGBWW only): Standard Tunable White Fixture (default) / RGB White Mixing (RGB adds the same
+  temperature on top of the whites; colours untouched).
+- **RGBWW = RGBTW (Dave's rule, root CLAUDE.md).** Composer label is "RGBWW"; the old label
+  "RGB + Tunable White" migrates on load (legacy_type), channels kept.
+- **New type `Extended Range / High Color Gamut`** (route 1 from the research: the FIXTURE mixes).
+  Roles Hue, Hue Fine (16-bit, fades as a pair), Saturation added; needs Dimmer + Hue + Saturation,
+  CCT optional. Colour -> HSV hue/sat (transfer-encoded RGB, the usual HSV) in a chosen space:
+  `Color Space` sRGB (Control4 standard) / Rec. 2020 / Custom (`Custom Primaries` rx,ry,...; bad
+  entry -> Status + sRGB), matrix built from primaries + D65 (unit-checked against the published
+  sRGB matrix). `Hue Offset (deg)`; `CCT In Color Mode` (255 as Control4). CCT request -> sat 0 +
+  CCT channel. Limits documented: picker gamut unknown; hue-channel fades sweep through hues.
+- **A/B vs build 34:** 35 of 38 rows byte-identical. The 3 that differ are intended: RGBW/RGB
+  default-colour and D65-white rows (W LED alone; plain white instead of 4600K). Tests 218 unit +
+  407 scenario.
+- UNVERIFIED on hardware: everything above; and real HSIC hue conventions vary per fixture (hence
+  Hue Offset).

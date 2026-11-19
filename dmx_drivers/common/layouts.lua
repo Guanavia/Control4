@@ -29,6 +29,9 @@ L.ROLES = {
   warm_white      = { label = "Warm White",        group = "color" },
   cool_white      = { label = "Cool White",        group = "color" },
   cct             = { label = "CCT",               group = "color" },
+  hue             = { label = "Hue",               group = "color" },
+  hue_fine        = { label = "Hue Fine",          group = "color", fine_of = "hue" },
+  saturation      = { label = "Saturation",        group = "color" },
   amber           = { label = "Amber",             group = "color_extra" },
   uv              = { label = "UV",                group = "color_extra" },
   lime            = { label = "Lime",              group = "color_extra" },
@@ -64,6 +67,7 @@ L.MIXED_EMITTERS = { red = true, green = true, blue = true, white = true, warm_w
 -- Display order for any list of roles (Composer dropdowns, Extras sections).
 L.ROLE_ORDER = {
   "dimmer", "dimmer_fine", "red", "green", "blue", "white", "warm_white", "cool_white", "cct",
+  "hue", "hue_fine", "saturation",
   "amber", "uv", "lime", "cyan", "strobe", "strobe_duration", "zoom", "focus", "iris", "frost",
   "prism", "color_wheel", "gobo_wheel", "gobo_rotation", "color_macro", "macro_speed", "program",
   "sound_sens", "movement_macro", "pan", "pan_fine", "tilt", "tilt_fine", "pt_speed", "reset",
@@ -115,10 +119,18 @@ L.TYPES = {
   { id = "rgbw",          label = "RGBW",                  driver = "light",
     roles = concat(INTENSITY, { "red", "green", "blue", "white" }, EXTRA_EMITTERS, EXTENDED),
     default = { "red", "green", "blue", "white" } },
-  { id = "rgb_tw",        label = "RGB + Tunable White",   driver = "light",
+  -- RGBWW = RGBTW (Dave, 2026-11-17): the same thing; Composer shows RGBWW. Pre-rename projects
+  -- store "RGB + Tunable White", resolved by legacy_type.
+  { id = "rgb_tw",        label = "RGBWW",                 driver = "light",
     roles = concat(INTENSITY, { "red", "green", "blue", "warm_white", "cool_white", "white", "cct" },
       EXTRA_EMITTERS, EXTENDED),
     default = { "red", "green", "blue", "warm_white", "cool_white" } },
+  -- The FIXTURE mixes: Control4's xy colour is sent as the fixture's own hue / saturation /
+  -- intensity (+ colour temperature) channels, in a chosen colour space. For 7-8 emitter and other
+  -- wide-gamut fixtures (ETC-class), which map HSIC onto their calibrated emitters.
+  { id = "extended",      label = "Extended Range / High Color Gamut", driver = "light", extended = true,
+    roles = concat(INTENSITY, { "hue", "hue_fine", "saturation", "cct" }, EXTENDED),
+    default = { "dimmer", "cct", "saturation", "hue" } },
   { id = "manual",        label = "Manual Color",          driver = "light", manual = true,
     roles = concat(INTENSITY, { "red", "green", "blue", "white", "warm_white", "cool_white", "cct" },
       EXTRA_EMITTERS, EXTENDED),
@@ -134,6 +146,7 @@ L.TYPES = {
 -- the channels the fixture already has, so an update never changes what a fixture outputs.
 function L.legacy_type(label, channels)
   if label == "Dimmer" then return L.type_by_id("dimmer") end
+  if label == "RGB + Tunable White" then return L.type_by_id("rgb_tw") end
   if label ~= "Color Par / Wash" and label ~= "Strobe / Effect" then return nil end
   local has = {}
   for _, ch in ipairs(channels or {}) do has[ch.role] = true end
@@ -154,6 +167,7 @@ local NEEDS = {
   rgbw = function(h) return h.red and h.green and h.blue and h.white end,
   rgb_tw = function(h) return h.red and h.green and h.blue and ((h.warm_white and h.cool_white) or h.cct) end,
   manual = function(h) return h.dimmer end,
+  extended = function(h) return h.dimmer and h.hue and h.saturation end,
 }
 
 -- Does a map suit type t: every channel allowed, and the channels the type depends on present?
@@ -497,6 +511,7 @@ function L.compile(def, type_id, opts)
     type_id = t.id,
     switch = t.switch or false,
     manual = t.manual or false,
+    extended = t.extended or false,
     driver = t.driver,
     verified = def.verified or def.generic or false,
     channels = {},
@@ -582,7 +597,7 @@ function L.compile(def, type_id, opts)
   -- Coarse/fine pairs the node must fade as one 16-bit value (brief 3.2 PAIRS). One per pixel
   -- when the pair repeats (both are in the same group, checked above).
   layout.pairs = {}
-  for _, coarse in ipairs({ "dimmer", "pan", "tilt" }) do
+  for _, coarse in ipairs({ "dimmer", "pan", "tilt", "hue" }) do
     local fine = coarse .. "_fine"
     if layout.roles[coarse] and layout.roles[fine] then
       local cs, fs = layout.offsets[coarse], layout.offsets[fine]
@@ -599,11 +614,21 @@ function L.compile(def, type_id, opts)
   layout.has_white = has("white")
   layout.has_ww_cw = has("warm_white") and has("cool_white")
   layout.has_cct = has("cct")
+  -- As Control4's own DMX Light: colour temperature only where the fixture has a real way to make
+  -- it (a CCT channel or warm + cool whites). RGB and RGBW get the colour picker only, and RGBW's
+  -- white is its white LED (Dave, 2026-11-18).
   layout.supports_color = layout.has_rgb
-  layout.supports_cct = layout.has_cct or layout.has_ww_cw or layout.has_rgb or layout.has_white
+  layout.supports_cct = layout.has_cct or layout.has_ww_cw
+  if t.extended then
+    layout.supports_color = has("hue") and has("saturation")
+    layout.supports_cct = layout.has_cct
+  end
   if t.id == "dimmer" or t.switch or t.manual then
     layout.supports_color = false
     layout.supports_cct = false
+  end
+  if t.extended and not (layout.has_dimmer and has("hue") and has("saturation")) then
+    return nil, "Extended Range needs Dimmer (intensity), Hue and Saturation channels"
   end
   if t.manual and not layout.has_dimmer then
     return nil, "Manual Color needs a Dimmer channel: it is the only channel the brightness controls drive"

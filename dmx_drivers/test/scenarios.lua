@@ -108,17 +108,11 @@ do
   sim:proxy(par1, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 100, RATE = 0 })
   sim:advance(50)
   T.eq(sim:slots(1, 4), { 255, 0, 0, 0 }, "full red on a 4ch par (virtual dimmer)")
-  -- D65 white: Max Brightness On (default) runs every emitter; Off puts it on the white LED alone.
+  -- D65 white: the white LED alone (Control4's RGBW behaviour).
   sim:proxy(par1, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.3127, LIGHT_COLOR_TARGET_Y = 0.3290, LIGHT_COLOR_TARGET_MODE = 0 })
   sim:advance(50)
   local s = sim:slots(1, 4)
-  T.ok(s[1] >= 250 and s[2] >= 250 and s[3] >= 250 and s[4] >= 250, "Max Brightness On: white point -> all four emitters full " .. T.show(s))
-  sim:set_property(par1, "Max Brightness", "Off")
-  sim:advance(50)
-  s = sim:slots(1, 4)
-  T.ok(s[4] >= 250 and s[1] <= 6 and s[2] <= 6 and s[3] <= 6, "Max Brightness Off: white point -> white emitter only " .. T.show(s))
-  sim:set_property(par1, "Max Brightness", "On")
-  sim:advance(50)
+  T.ok(s[4] >= 250 and s[1] <= 6 and s[2] <= 6 and s[3] <= 6, "white point -> white LED only " .. T.show(s))
   -- 50% on a virtual dimmer applies the 2.2 curve.
   sim:proxy(par1, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 50, RATE = 0 })
   sim:advance(50)
@@ -282,7 +276,7 @@ do
   T.eq(fresh.env.Properties["Fixture Type"], "RGBW", "new fixture defaults to RGBW")
   T.eq(fresh.env.Properties["Channel Map"], "red,green,blue,white", "...with the RGBW starting map")
 
-  -- RGBW keeps BOTH the color picker and the color temperature slider (Dave's par, 2026-10-10).
+  -- RGBW: colour picker only, as Control4's own DMX Light (Dave, 2026-11-18; replaces 2026-10-10).
   local c = lastcaps(sim, old)
   -- Every capability update restates the rate ranges (proxy defaults are a 0-0 range, which made
   -- Composer throw "default color rate out of range").
@@ -292,12 +286,12 @@ do
       d.name .. ": rate ranges sent with capabilities")
   end
   T.eq(c.supports_color, true, "RGBW: color picker")
-  T.eq(c.supports_color_correlated_temperature, true, "RGBW: color temperature slider kept")
+  T.eq(c.supports_color_correlated_temperature, false, "RGBW: no temperature slider (as Control4)")
   sim:proxy(old, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.4578, LIGHT_COLOR_TARGET_Y = 0.4101, LIGHT_COLOR_TARGET_MODE = 1 })
   sim:proxy(old, "SET_LEVEL", { LEVEL = 100 })
   sim:advance(200)
   local w = sim:slots(1, 5)
-  T.ok(w[1] == 255 and w[5] > 0, "RGBW: a 2700K request drives the dimmer and the white emitter")
+  T.ok(w[1] == 255 and w[5] > 0, "RGBW: a stray 2700K request (old scene) still drives dimmer + white")
 
   -- Manual Color: no picker; brightness drives only the Dimmer; color channels are Extras.
   c = lastcaps(sim, manual)
@@ -334,7 +328,7 @@ do
   c = lastcaps(sim, fresh)
   T.eq(c.supports_color, false, "Tunable White: no color picker")
   T.eq(c.supports_color_correlated_temperature, true, "Tunable White: temperature slider")
-  sim:set_property(fresh, "Fixture Type", "RGB + Tunable White")
+  sim:set_property(fresh, "Fixture Type", "RGBWW")
   T.eq(fresh.env.Properties["Channel Map"], "red,green,blue,warm_white,cool_white", "RGB + Tunable White starting map")
   c = lastcaps(sim, fresh)
   T.eq(c.supports_color and c.supports_color_correlated_temperature, true, "RGB + Tunable White: picker and temperature")
@@ -963,7 +957,7 @@ do
   local P = bar.env.Properties
   sim:set_property(bar, "Fixture Type", "RGB")
   T.eq(P["Channel Map"], "dimmer,strobe,18x(red,green,blue)", "RGB: pixels become RGB, count and masters kept")
-  sim:set_property(bar, "Fixture Type", "RGB + Tunable White")
+  sim:set_property(bar, "Fixture Type", "RGBWW")
   T.eq(P["Channel Map"], "dimmer,strobe,18x(red,green,blue,warm_white,cool_white)", "RGB + TW pixels")
   sim:set_property(bar, "Fixture Type", "Single Color Dimmable")
   T.eq(P["Channel Map"], "strobe,18x(dimmer)", "single color: the dimmer repeats per pixel, so the master dimmer goes; strobe stays")
@@ -1162,6 +1156,62 @@ do
   sim:advance(50)
   T.like(status(bar), "^OK: DMX 13%-16 %(4 ch%) on 'Stage Node'", "node output after unbinding the gateway")
   T.eq(sim:slots(13, 16), { 0, 0, 255, 0 }, "blue on the Art-Net wire")
+end
+
+---------------------------------------------------------------------------------------------
+T.section("RGBWW, Extended Range and the RGB + Tunable White rename")
+do
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "Stage Node", { ["Node IP Address"] = IP })
+  -- An old project stores the pre-rename label: it loads as RGBWW, channels kept.
+  local tw = sim:load("dmx_light", 220, "RGBWW Tape", { ["Fixture Type"] = "RGB + Tunable White",
+    ["Channel Map"] = "red,green,blue,warm_white,cool_white", ["Start Address"] = "1" })
+  local ex = sim:load("dmx_light", 221, "ETC-ish", { ["Fixture Type"] = "Extended Range / High Color Gamut",
+    ["Channel Map"] = "dimmer,cct,saturation,hue,hue_fine", ["Start Address"] = "11" })
+  for _, d in ipairs({ tw, ex }) do sim:bind(d, 1, node, 1, true) end
+  sim:init(tw); sim:init(ex); sim:init(node); sim:advance(100)
+  T.eq(tw.env.Properties["Fixture Type"], "RGBWW", "old 'RGB + Tunable White' loads as RGBWW")
+  T.eq(tw.env.Properties["Channel Map"], "red,green,blue,warm_white,cool_white", "channels kept")
+  T.eq(tw.hidden["Tunable White Mode"], false, "Tunable White Mode shown for RGBWW")
+  T.eq(ex.hidden["Tunable White Mode"], true, "...and only for RGBWW")
+  T.eq({ ex.hidden["Color Space"], ex.hidden["Hue Offset (deg)"], ex.hidden["Custom Primaries"] },
+    { false, false, true }, "Extended options shown, Custom Primaries only for Custom")
+
+  -- RGBWW: 4000K standard = whites only; RGB White Mixing adds RGB.
+  local kx, ky = C.kelvin_to_xy(4000)
+  sim:proxy(tw, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = kx, LIGHT_COLOR_TARGET_Y = ky, LIGHT_COLOR_TARGET_MODE = 1 })
+  sim:proxy(tw, "SET_LEVEL", { LEVEL = 100 })
+  sim:advance(100)
+  local a = sim:slots(1, 5)
+  T.ok(a[1] == 0 and a[2] == 0 and a[3] == 0 and math.max(a[4], a[5]) == 255, "standard: whites only " .. T.show(a))
+  sim:set_property(tw, "Tunable White Mode", "RGB White Mixing")
+  sim:advance(100)
+  local b = sim:slots(1, 5)
+  T.ok(b[1] > 200 and b[2] > 120 and b[3] > 60 and b[4] == a[4] and b[5] == a[5], "RGB White Mixing: RGB added, whites unchanged " .. T.show(b))
+
+  -- Extended: blue -> hue 240 (16-bit), full saturation, CCT channel at 255, intensity on dimmer.
+  local caps = sim:last_notify(ex, "DYNAMIC_CAPABILITIES_CHANGED").params
+  T.ok(caps.supports_color == true and caps.supports_color_correlated_temperature == true, "Extended: picker + temperature")
+  sim:proxy(ex, "SET_COLOR_TARGET", color(0.15, 0.06))
+  sim:proxy(ex, "SET_LEVEL", { LEVEL = 100 })
+  sim:advance(100)
+  local e = sim:slots(11, 15)
+  local hue16 = e[4] * 256 + e[5]
+  T.eq({ e[1], e[2], e[3] }, { 255, 255, 255 }, "dimmer full, CCT at colour-mode 255, saturation full")
+  T.ok(math.abs(hue16 - 65535 * 240 / 360) < 200, "16-bit hue ~240 deg (" .. hue16 .. ")")
+  -- Temperature request: saturation 0, CCT channel positioned.
+  sim:proxy(ex, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = kx, LIGHT_COLOR_TARGET_Y = ky, LIGHT_COLOR_TARGET_MODE = 1 })
+  sim:advance(100)
+  e = sim:slots(11, 15)
+  T.eq(e[3], 0, "CCT request: saturation 0")
+  T.ok(math.abs(e[2] - 255 * (4000 - 2700) / (6500 - 2700)) < 6, "CCT channel at 4000K's position (" .. e[2] .. ")")
+  -- A bad Custom Primaries entry is explained and sRGB is used meanwhile.
+  sim:set_property(ex, "Color Space", "Custom (fixture primaries)")
+  T.eq(ex.hidden["Custom Primaries"], false, "Custom Primaries appears")
+  sim:set_property(ex, "Custom Primaries", "0.7,0.3")
+  T.like(status(ex), "Custom Primaries needs six numbers.*using sRGB until fixed", "bad primaries explained")
+  sim:set_property(ex, "Custom Primaries", "0.708,0.292,0.170,0.797,0.131,0.046")
+  T.ok(not status(ex):find("CONFIG ERROR"), "fixed primaries clear the error")
 end
 
 ---------------------------------------------------------------------------------------------

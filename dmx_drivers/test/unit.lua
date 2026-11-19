@@ -107,11 +107,11 @@ do
   T.eq(#par4.extras, 0, "4ch par has no Extras")
   local par8 = lay("dimmer,red,green,blue,white,strobe,program,macro_speed", "rgbw")
   T.eq(#par8.extras, 3, "8ch par extras: strobe, program, speed")
-  T.ok(par8.supports_color and par8.supports_cct, "par supports color + CCT")
+  T.ok(par8.supports_color and not par8.supports_cct, "RGBW par: color, no CCT (as Control4)")
   local dim = lay("dimmer", "dimmer")
   T.ok(not dim.supports_color and not dim.supports_cct, "dimmer type has no color")
   T.eq(L.types_for_driver("mover")[1].id, "mover_wash", "mover types filtered")
-  T.eq(#L.types_for_driver("light"), 7, "light types")
+  T.eq(#L.types_for_driver("light"), 8, "light types")
   -- Type fit: what keeps a map across a type change.
   T.ok(L.map_fits(L.type_by_id("rgbw"), L.parse_map("dimmer,red,green,blue,white,strobe")), "RGBW map fits RGBW")
   T.ok(not L.map_fits(L.type_by_id("rgb_tw"), L.parse_map("warm_white,cool_white")), "white-only map does not fit RGB + TW")
@@ -136,40 +136,30 @@ do
   T.near(g.green, 1, 0.02, "green primary -> green")
   local b = C.mix(rgbw, { level = 100, x = 0.15, y = 0.06, mode = C.MODE_FULL })
   T.near(b.blue, 1, 0.02, "blue primary -> blue")
-  -- Max Brightness OFF = the original accurate mix: D65 white is all white emitter after extraction.
-  local ACC = { max_brightness = false }
-  local w = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, ACC)
-  T.near(w.white, 1, 0.03, "Off: D65 -> white emitter"); T.near(w.red, 0, 0.03, "Off: D65 red extracted")
-  -- Max Brightness ON (default): pure white runs all four emitters at full.
-  local wb = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
-  T.ok(wb.white > 0.99 and wb.red > 0.99 and wb.green > 0.99 and wb.blue > 0.99, "On: D65 -> R, G, B and W all full")
-  -- ON preserves chromaticity (W counts as R=G=B white), never exceeds full, never dims, and
-  -- leaves saturated colours byte-identical. Sweep the gamut.
-  local worst_hue, dimmer, over, changed_sat = 0, 0, 0, 0
+  -- Control4's RGBW (Dave, 2026-11-18): white is the white LED alone, no R=G=B top-up.
+  local w = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
+  T.near(w.white, 1, 0.03, "D65 -> white LED"); T.near(w.red, 0, 0.03, "D65: red extracted")
+  T.ok(w.red < 0.03 and w.green < 0.03 and w.blue < 0.03, "D65: R, G, B idle (white LED only)")
+  -- Chromaticity preserved (W counts as R=G=B white), nothing past full, across the gamut.
+  local worst_hue, over = 0, 0
   for _, pt in ipairs({ {0.64,0.33}, {0.30,0.60}, {0.15,0.06}, {0.3127,0.3290}, {0.25,0.25}, {0.40,0.40},
       {0.35,0.30}, {0.28,0.33}, {0.45,0.41}, {0.20,0.30}, {0.33,0.45}, {0.50,0.35}, {0.30,0.32} }) do
-    local st = { level = 100, x = pt[1], y = pt[2], mode = C.MODE_FULL }
-    local on, acc = C.mix(rgbw, st), C.mix(rgbw, st, ACC)
+    local on = C.mix(rgbw, { level = 100, x = pt[1], y = pt[2], mode = C.MODE_FULL })
     local r0, g0, b0 = C.xy_to_rgb(pt[1], pt[2])
     local er, eg, eb = on.red + on.white, on.green + on.white, on.blue + on.white
     local m = math.max(er, eg, eb)
     worst_hue = math.max(worst_hue, math.abs(er / m - r0), math.abs(eg / m - g0), math.abs(eb / m - b0))
     for _, v in pairs(on) do if v > 1 + 1e-9 then over = over + 1 end end
-    local lum = function(t) return t.red + t.green + t.blue + 3 * t.white end
-    if lum(on) < lum(acc) - 1e-9 then dimmer = dimmer + 1 end
-    if math.min(r0, g0, b0) < 0.02 then
-      for k, v in pairs(acc) do if math.abs(on[k] - v) > 0.004 then changed_sat = changed_sat + 1 end end
-    end
   end
-  T.ok(worst_hue < 1e-6, "On keeps every colour's chromaticity (worst error " .. worst_hue .. ")")
-  T.eq(over, 0, "On never drives an emitter past full")
-  T.eq(dimmer, 0, "On is never dimmer than Off")
-  T.eq(changed_sat, 0, "On leaves saturated colours unchanged")
+  T.ok(worst_hue < 1e-6, "RGBW keeps every colour's chromaticity (worst error " .. worst_hue .. ")")
+  T.eq(over, 0, "RGBW never drives an emitter past full")
+  T.ok(not rgbw.supports_cct and rgbw.supports_color, "RGBW: colour picker, no temperature (as Control4)")
+  T.ok(not lay("red,green,blue", "rgb").supports_cct, "RGB: no temperature (as Control4)")
   local half = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { gamma = 1 })
   T.near(half.white, 0.5, 0.02, "virtual dimmer scales emitters (gamma 1)")
   local halfg = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
   T.near(halfg.white, 0.5 ^ 2.2, 0.02, "virtual dimmer default gamma 2.2")
-  local wm = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { white_mix = 0, max_brightness = false })
+  local wm = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { white_mix = 0 })
   T.near(wm.white, 0, 0.001, "White Mix 0 disables extraction")
   local d = C.mix(drgbw, { level = 40, x = 0.64, y = 0.33, mode = C.MODE_FULL })
   T.near(d.dimmer, 0.4, 0.001, "real dimmer carries brightness (gamma 1 auto)")
@@ -184,11 +174,30 @@ do
   local cool = C.mix(tw, { level = 100, x = cx, y = cy, mode = C.MODE_CCT })
   T.near(cool.cool_white, 1, 0.03, "6500K -> all cool")
   local mx, my = C.kelvin_to_xy(4000)
-  local mid = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT }, { max_brightness = false })
-  T.near(mid.warm_white + mid.cool_white, 1, 0.001, "Off: constant-sum WW/CW")
   local midb = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT })
-  T.near(math.max(midb.warm_white, midb.cool_white), 1, 0.001, "On: WW/CW mid-range runs the stronger LED at full")
-  T.near(midb.warm_white / midb.cool_white, mid.warm_white / mid.cool_white, 1e-9, "On: same warm/cool ratio (same temperature)")
+  T.near(math.max(midb.warm_white, midb.cool_white), 1, 0.001, "WW/CW mid-range: stronger LED at full (Control4's max-channel mix)")
+  local mw, mc, m = 1e6 / 2700, 1e6 / 6500, 1e6 / 4000
+  local t = (mw - m) / (mw - mc)
+  T.near(midb.cool_white / midb.warm_white, t / (1 - t), 0.03, "warm/cool ratio by mired")
+
+  -- RGBWW: colour from RGB only, temperature from the whites only (Control4); RGB White Mixing
+  -- adds R/G/B at the same temperature.
+  local rgbww = lay("red,green,blue,warm_white,cool_white", "rgb_tw")
+  T.ok(rgbww.supports_color and rgbww.supports_cct, "RGBWW: picker and temperature")
+  local col = C.mix(rgbww, { level = 100, x = 0.64, y = 0.33, mode = C.MODE_FULL })
+  T.ok(col.red > 0.98 and col.warm_white == 0 and col.cool_white == 0, "RGBWW colour: RGB only")
+  local pale = C.mix(rgbww, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
+  T.ok(pale.warm_white == 0 and pale.cool_white == 0, "RGBWW full-colour white: still RGB only (as Control4)")
+  local std = C.mix(rgbww, { level = 100, x = mx, y = my, mode = C.MODE_CCT })
+  T.ok(std.red == 0 and std.green == 0 and std.blue == 0, "RGBWW standard: temperature from whites only")
+  T.near(math.max(std.warm_white, std.cool_white), 1, 0.001, "and normalised like Tunable White")
+  local mixd = C.mix(rgbww, { level = 100, x = mx, y = my, mode = C.MODE_CCT }, { rgb_white_mix = true })
+  local r4, g4, b4 = C.xy_to_rgb(C.kelvin_to_xy(4000))
+  T.ok(math.abs(mixd.red - r4) < 0.01 and math.abs(mixd.blue - b4) < 0.01 and mixd.green > 0,
+    "RGB White Mixing: RGB adds the same 4000K")
+  T.near(mixd.warm_white, std.warm_white, 1e-9, "and the whites are unchanged")
+  local twcol = C.mix(rgbww, { level = 100, x = 0.64, y = 0.33, mode = C.MODE_FULL }, { rgb_white_mix = true })
+  T.ok(twcol.warm_white == 0 and twcol.cool_white == 0, "RGB White Mixing does not touch colours")
   T.near(C.xy_to_kelvin(C.kelvin_to_xy(3000)), 3000, 60, "Kelvin round trip 3000")
   T.near(C.xy_to_kelvin(C.kelvin_to_xy(5600)), 5600, 80, "Kelvin round trip 5600")
   T.eq({ C.to_16(1) }, { 255, 255 }, "16-bit full")
@@ -382,6 +391,47 @@ do
   -- And back: flatten undoes the split exactly.
   local f, p = L.split_for_pixels(L.parse_map("dimmer,red,green,blue,white,strobe"), L.type_by_id("rgbw"))
   T.eq(L.format_map(L.flatten(f, p)), "dimmer,red,green,blue,white,strobe", "flatten restores the original order")
+end
+
+
+---------------------------------------------------------------------------------------------
+T.section("extended range: hue / saturation / intensity / CCT")
+do
+  local ex = assert(L.compile({ channels = assert(L.parse_map("dimmer,cct,saturation,hue")) }, "extended"))
+  T.ok(ex.supports_color and ex.supports_cct, "picker + temperature (CCT channel present)")
+  local _, err = L.compile({ channels = L.parse_map("dimmer,hue") }, "extended")
+  T.like(err or "", "needs Dimmer %(intensity%), Hue and Saturation", "refused without saturation")
+  T.eq(L.type_by_label("Extended Range / High Color Gamut").id, "extended", "type label")
+  T.eq(L.legacy_type("RGB + Tunable White").id, "rgb_tw", "old RGB + Tunable White label -> RGBWW")
+  -- sRGB space: primaries land on hues 0/120/240 at full saturation; D65 is unsaturated.
+  local function hs(x, y, sp) return C.xy_to_hs(x, y, sp) end
+  local h, s = hs(0.64, 0.33); T.near(h, 0, 0.5, "sRGB red hue 0"); T.near(s, 1, 0.01, "sRGB red sat 1")
+  h, s = hs(0.30, 0.60); T.near(h, 120, 0.5, "sRGB green hue 120"); T.near(s, 1, 0.01, "sRGB green sat 1")
+  h, s = hs(0.15, 0.06); T.near(h, 240, 0.5, "sRGB blue hue 240")
+  h, s = hs(0.3127, 0.3290); T.near(s, 0, 0.001, "D65 is unsaturated")
+  -- The same space math reproduces the published sRGB matrix (catches a matrix bug).
+  local M = C.space_matrix(C.SPACES.srgb)
+  T.near(M[1][1], 3.2406, 0.002, "sRGB matrix r/X"); T.near(M[2][2], 1.8758, 0.002, "sRGB matrix g/Y")
+  -- Wide gamut: sRGB green is NOT full saturation in Rec. 2020; Rec. 2020 green is.
+  h, s = hs(0.30, 0.60, C.SPACES.rec2020)
+  T.ok(s < 0.9, "sRGB green is inside Rec. 2020 (sat " .. s .. ")")
+  h, s = hs(0.170, 0.797, C.SPACES.rec2020); T.near(s, 1, 0.01, "Rec. 2020 green: full saturation")
+  -- Custom primaries parsing.
+  T.ok(C.parse_primaries("0.7,0.29,0.17,0.79,0.13,0.05") ~= nil, "custom primaries parse")
+  T.like(select(2, C.parse_primaries("0.7,0.29")) or "", "six numbers", "too few refused")
+  T.like(select(2, C.parse_primaries("0.3,0.3,0.3,0.3,0.3,0.3")) or "", "triangle", "degenerate refused")
+  -- Mix: colour -> hue/sat + CCT-in-colour value; CCT request -> sat 0 + CCT position.
+  local m = C.mix(ex, { level = 100, x = 0.15, y = 0.06, mode = C.MODE_FULL }, { cct_in_color = 1 })
+  T.near(m.hue, 240 / 360, 0.003, "blue -> hue 240/360"); T.near(m.saturation, 1, 0.01, "full sat")
+  T.eq(m.cct, 1, "CCT channel at its colour-mode value"); T.near(m.dimmer, 1, 1e-9, "intensity")
+  local off = C.mix(ex, { level = 100, x = 0.64, y = 0.33, mode = C.MODE_FULL }, { hue_offset = 30 })
+  T.near(off.hue, 30 / 360, 0.003, "Hue Offset rotates the hue")
+  local kx, ky = C.kelvin_to_xy(4600)
+  local w = C.mix(ex, { level = 100, x = kx, y = ky, mode = C.MODE_CCT })
+  T.eq(w.saturation, 0, "CCT request: saturation 0")
+  T.near(w.cct, (4600 - 2700) / (6500 - 2700), 0.02, "CCT channel carries the temperature")
+  local ex16 = assert(L.compile({ channels = L.parse_map("dimmer,hue,hue_fine,saturation") }, "extended"))
+  T.eq(#ex16.pairs, 1, "16-bit hue fades as one pair")
 end
 
 T.finish()
