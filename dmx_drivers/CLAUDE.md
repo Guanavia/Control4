@@ -526,3 +526,22 @@ be the white LED alone, dimmed, not tuned. Findings:
   with the default.
 - Comparison test available on site: a Control4 DMX Light in RGBW mode on the same gateway line
   shows exactly what Navigator offers without a temperature capability.
+
+## Wide-gamut / multi-emitter fixtures (ETC x7-style) — RESEARCHED (2026-11-18), nothing built
+
+Dave asked whether Control4's colour picker is locked to RGBWW, given 7-8 emitter fixtures (ETC).
+- **Not locked.** Light V2 carries colour as **CIE 1931 xy** (+ a mode flag: 0 full colour, 1 CCT).
+  No capability declares a gamut, emitter count or RGB/RGBW type (Snap One Light V2 proxy docs:
+  snap-one.github.io/docs-driverworks-proxyprotocol-lightv2). Mapping xy onto emitters is entirely
+  the driver's job. The docs warn that hue/saturation (presets) "is confined to the sRGB gamut",
+  and C4's conversion helpers take a gamut ("srgb", "rec2020", "custom").
+- **Not documented: what xy range Navigator's picker can actually produce** (it may be sRGB-bound
+  even though the protocol is not). Check on site: pick the most saturated green/cyan and log the
+  xy our driver receives (Debug Mode).
+- **Control4's own DMX Light** handles such fixtures by letting the FIXTURE mix: HSIC and IC modes
+  send hue/saturation/intensity/colour-temperature channels, which ETC-class fixtures accept.
+- **Ours today:** colour mixing uses R/G/B/W/WW/CW only; Amber, UV, Lime, Cyan are Set Control
+  channels (brief: out of scope). True n-emitter mixing from xy needs each emitter's measured
+  chromaticity and output, and has many valid solutions per colour; it is a real project, not a
+  property. The practical routes: (1) an HSIC/xy fixture-mode type that sends the fixture's own
+  colour channels; (2) n-emitter mixing from published emitter data.
