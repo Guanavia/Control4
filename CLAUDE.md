@@ -25,6 +25,9 @@ needed; skip the full breakdown unless asked. He will ask for detail when he wan
 
 ## Repo conventions
 
+- **RGBWW = RGBTW (owner's rule, 2026-11-18).** Same thing: RGB plus warm and cool white. Control4/
+  Snap One say RGBTW, most manufacturers RGBWW. Treat them as interchangeable everywhere; in what we
+  build, **use "RGBWW"**.
 - **Driver naming (ALWAYS, owner's rule, 2026-11-17).** Every driver we create ends its display
   name (`driver.xml` `<name>`) with **`(LensShift)`**, e.g. `Adv DMX Light (LensShift)`, so it is
   identifiable in Composer next to Control4's and other vendors' drivers (Chowmain does the same).
