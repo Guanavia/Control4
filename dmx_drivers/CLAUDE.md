@@ -497,3 +497,32 @@ structural changes (proxies/connections) must be batched and backed up before in
 QLC+ link, sACN, ArtPoll discovery, multi-element scenes beyond what full ALS gives the mover,
 Amber/Lime/Cyan in color mixing (they are Extras sliders), per-pixel color / pixel mapping
 (pixel FIXTURES are supported, all pixels one color), Control4-generated chases.
+
+## White handling on RGBW vs tunable white — RESEARCHED (2026-11-18), decision pending
+
+Dave on the Alcon (RGBW): the temperature slider "works" only by mixing R/G/B into the white,
+which is not accurate without a spectrometer; his instinct is that an RGBW fixture's white should
+be the white LED alone, dimmed, not tuned. Findings:
+- **Control4's own DMX Light Driver (`control4_dmx_light.c4z`, readable) declares
+  `supports_color_correlated_temperature = false` for RGB AND RGBW.** Colour temperature is only
+  declared for modes with real warm/cool white emitters: Tunable White, RGB + Tunable White, RGBW
+  with Tunable White, the table-based RGBTW, and HSIC/IC. So Control4 does NOT offer a temperature
+  slider on an RGBW fixture at all.
+- **Its RGBW white comes from the colour picker:** `ColorXYtoRGBW` converts the picked xy to
+  hue/saturation (`C4:ColorXYtoHSV`), puts `W = 255 x (1 - saturation)` and scales R/G/B by
+  saturation, then `White Mixing Ratio` scales W. At the picker's white point (saturation 0) the
+  output is **the white LED alone**, R/G/B at 0; dimming then moves only W. Dave's instinct matches
+  Control4's behaviour exactly.
+- **Ours differs in two ways:** (1) RGB/RGBW types keep the temperature slider (decision recorded
+  2026-10-10 because the par mixed CCT "beautifully"); CCT on RGBW = kelvin -> xy -> R/G/B, then the
+  common part moves to W. (2) The engine assumes the W LED IS the D65 white of R+G+B. A real W LED
+  is usually 3000-6500 K, so "white" picks get R/G/B added to bend W towards D65, and Max Brightness
+  On adds R=G=B on purpose. That is the inaccuracy Dave sees.
+- **Proposed (not built): a per-fixture choice, `White Control` = Mixed (tunable, today's
+  behaviour, default so the par is unchanged) / White LED only (Control4's behaviour): no
+  temperature slider (supports_cct false, a DYNAMIC capability, no restart), and the picker's white
+  point drives W alone.** Optionally a `White LED Temp (K)` so the engine treats the W LED's real
+  colour, not D65, as white (needs the Alcon's W spec). Guard: the par A/B must stay byte-identical
+  with the default.
+- Comparison test available on site: a Control4 DMX Light in RGBW mode on the same gateway line
+  shows exactly what Navigator offers without a temperature capability.
