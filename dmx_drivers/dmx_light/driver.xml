@@ -6,7 +6,7 @@
   <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>44</version>
+  <version>45</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -56,8 +56,10 @@
     <has_leds>True</has_leds>
     <has_button_events>False</has_button_events>
     <load_group_support>False</load_group_support>
-    <reduced_als_support>True</reduced_als_support>
-    <advanced_scene_support>False</advanced_scene_support>
+    <!-- FULL ALS (bench, 2026-11-21): reduced ALS let the agent compute a scene's OFF, and it sent
+         brightness 100. Control4's own DMX Light declares exactly this pair. -->
+    <reduced_als_support>False</reduced_als_support>
+    <advanced_scene_support>True</advanced_scene_support>
     <!-- STATIC True (2026-10-10): with only the dynamic capability set, the proxy held has_extras=True
          yet Navigator showed no Extras tab for ANY setup, even Snap One's sample shape. Navigator is
          suspected to read this at device load. The dynamic value still follows the channels. -->

@@ -1228,6 +1228,31 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+T.section("light: lighting scenes turn it on AND off (full ALS)")
+do
+  local sim, node, par1 = rig()
+  local xml = assert(io.open("build/dmx_light/driver.xml")):read("*a")
+  T.ok(xml:find("<advanced_scene_support>True</advanced_scene_support>", 1, true) and
+    xml:find("<reduced_als_support>False</reduced_als_support>", 1, true), "light declares full ALS, as Control4's DMX Light")
+  -- The agent pushes the scene and its off-toggle side, then fires them by id. Element fields as
+  -- Control4's own DMX Light parses them.
+  local on = "<element><delay>0</delay><rate>750</rate><level>100</level><brightnessEnabled>True</brightnessEnabled><colorEnabled>True</colorEnabled><colorRate>750</colorRate><colorX>0.3127</colorX><colorY>0.329</colorY><colorMode>0</colorMode></element>"
+  local off = "<element><delay>0</delay><rate>750</rate><level>0</level><brightnessEnabled>True</brightnessEnabled><colorEnabled>False</colorEnabled></element>"
+  sim:proxy(par1, "PUSH_SCENE", { SCENE_ID = 0, ELEMENTS = on, FLASH = "False", IGNORE_RAMP = "False" })
+  sim:proxy(par1, "PUSH_SCENE", { SCENE_ID = 1, ELEMENTS = off, FLASH = "False", IGNORE_RAMP = "False" })
+  sim:proxy(par1, "ALL_SCENES_PUSHED", {})
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 0 })
+  sim:advance(1500)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 100, "scene on: 100")
+  local s = sim:slots(1, 4)
+  T.ok(s[4] >= 250 and s[1] <= 6, "scene on: D65 = the white LED " .. T.show(s))
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 1 })
+  sim:advance(1500)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 0, "off-toggle scene: 0")
+  T.eq(sim:slots(1, 4), { 0, 0, 0, 0 }, "scene off: dark on the wire")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("negative controls: the checks above can fail")
 do
   -- If the frame decoder or the slot helper were broken, every "reaches the wire" check would be

@@ -596,3 +596,19 @@ scenario feeds a stale value and checks it is replaced. **The trustworthy build 
 "loaded v0.1.0 (build N, ...)" line in the Lua output.**
 The same update RESTARTED Director: build 42 (`on_off` in static `<capabilities>`) was the
 structural change, and it was first installed in this update.
+
+## Scenes turned the light ON but never OFF (bench, 2026-11-21) — dmx_light now FULL ALS, structural
+
+Debug log of a scene Off: `SET_BRIGHTNESS_TARGET {LIGHT_BRIGHTNESS_TARGET=100, RATE=750}`. Under
+reduced ALS the lighting agent computes a scene's off side itself (the project stores NO levels for
+an OffToggleScene: better_composer capture 17->18), and for our light it computed 100. Our
+reports back to the proxy were checked in the sim and are correct (100 + exact xy on arrival, 0
+after an off), so the fault was not state tracking. **Supersedes decision 3 ("dmx_light stays
+reduced ALS"):** the light now declares `advanced_scene_support` True / `reduced_als_support`
+False, exactly as Control4's own DMX Light, so the agent pushes each scene (off side included) with
+PUSH_SCENE and fires it with ACTIVATE_SCENE; light.lua runs the elements (the mover's path).
+Element field names cross-checked against Control4's own parser (delay, rate|brightnessRate,
+level|brightness, brightnessEnabled, colorEnabled, colorRate, colorX/Y/Mode); its brightness/
+colour PRESET ids (brightnessPresetID, colorPresetID) are NOT resolved by us yet: if a pushed
+scene uses presets, the Debug log's PUSH_SCENE ELEMENTS will show it. **Structural: Director
+restart on update.** Scenario: push an on scene and an off scene, fire both, wire goes dark.
