@@ -20,6 +20,7 @@ Light.__index = Light
 
 Light.BUTTON_TOP, Light.BUTTON_BOTTOM, Light.BUTTON_TOGGLE = 0, 1, 2
 Light.ACTION_RELEASE_HOLD, Light.ACTION_PRESS, Light.ACTION_RELEASE_CLICK = 0, 1, 2
+Light.ORIGIN_DEVICE, Light.ORIGIN_GLOBAL = 1, 2     -- colour preset origins
 Light.HOLD_DEBOUNCE_MS = 250
 
 local function now_ms()
@@ -48,6 +49,13 @@ function Light.new(opts)
     last_on_level = 100,
     scenes = {},
     button_colors = Light.default_button_colors(),
+    -- Control4 DMX Light parity (2026-11-21): what the proxy tells the light about presets.
+    on_mode = nil,             -- { id, level }: UPDATE_BRIGHTNESS_ON_MODE (the level ON goes to)
+    color_on_mode = nil,       -- { on = {x,y,mode}, dim = {x,y,mode} }: UPDATE_COLOR_ON_MODE
+    default_on_color = nil,    -- colour preset 1 ("On"), from UPDATE_COLOR_PRESET / GET_SETUP
+    default_off_color = nil,   -- colour preset 2 ("Off"/dim)
+    brightness_presets = {},   -- id -> level (UPDATE_BRIGHTNESS_PRESET / GET_SETUP)
+    color_presets = {},        -- "origin:id" -> {x,y,mode}
   }
   self.s = s
   self.fade = nil          -- { from, to, t0, dur } for the brightness ramp in progress
@@ -70,6 +78,8 @@ function Light:restore(t)
   for k, v in pairs(t) do self.s[k] = v end
   self.s.scenes = self.s.scenes or {}
   self.s.button_colors = self.s.button_colors or Light.default_button_colors()
+  self.s.brightness_presets = self.s.brightness_presets or {}
+  self.s.color_presets = self.s.color_presets or {}
 end
 
 function Light:save()
@@ -227,12 +237,24 @@ function Light:go(level, ms, color_ms)
   local current = self:current_level()
   local was_off = current <= 0
 
-  if level > 0 and was_off and self.next_on_color then
-    local c = self.next_on_color
-    self.s.x, self.s.y, self.s.mode = c.x, c.y, c.mode
-    self.next_on_color = nil
-    color_ms = color_ms or ms
+  -- Control4's DMX Light: turning ON (from off) takes the next-on colour (picked while off) or the
+  -- On colour (colour on-mode preset, else colour preset 1); turning OFF (from on) takes the dim
+  -- colour (colour on-mode dim/fade preset, else colour preset 2). Only when this command does
+  -- not carry its own colour, and only on a light that has colour or temperature control.
+  if color_ms == nil and self.color_capable then
+    local off_color, on_color = self:default_colors()
+    local c
+    if level > 0 and was_off then
+      c = self.next_on_color or on_color
+    elseif level <= 0 and not was_off then
+      c = off_color
+    end
+    if c then
+      self.s.x, self.s.y, self.s.mode = c.x, c.y, c.mode or 0
+      color_ms = ms
+    end
   end
+  if level > 0 then self.next_on_color = nil end
   local change_color = color_ms ~= nil
   if change_color then color_ms = math.max(0, U.round(tonumber(color_ms) or 0)) end
 
@@ -288,8 +310,49 @@ function Light:ramp_toward(target, full_scale_ms)
   self:go(target, ms)
 end
 
+local function valid_color(c)
+  return c and tonumber(c.x) and tonumber(c.y) and { x = tonumber(c.x), y = tonumber(c.y), mode = tonumber(c.mode) or 0 } or nil
+end
+
+-- (dim/off colour, on colour), as Control4's GetDefaultColors: the colour on-mode presets when the
+-- proxy has set them and at least one is valid, else colour presets 2 and 1.
+function Light:default_colors()
+  local m = self.s.color_on_mode
+  if m and m.on then
+    local on, dim = valid_color(m.on), valid_color(m.dim)
+    if on or dim then return dim, on end
+  end
+  return valid_color(self.s.default_off_color), valid_color(self.s.default_on_color)
+end
+
+-- Learn presets from the proxy's GET_SETUP (on load) so On/Off colours and scene presets work
+-- before the proxy pushes any update.
+function Light:seed_presets(xml)
+  local brightness, colors = Light.parse_presets(xml)
+  local any = false
+  for id, level in pairs(brightness) do self.s.brightness_presets[tostring(id)] = level; any = true end
+  for origin, list in pairs(colors) do
+    for id, c in pairs(list) do
+      self.s.color_presets[origin .. ":" .. id] = c
+      any = true
+      if origin == Light.ORIGIN_DEVICE and id == 1 then self.s.default_on_color = c end
+      if origin == Light.ORIGIN_DEVICE and id == 2 then self.s.default_off_color = c end
+    end
+  end
+  if any then self:save() end
+  return any
+end
+
+-- ON goes to the brightness on-mode preset when the proxy has set one, else the preset level
+-- (Control4's GetPresetLevel).
+function Light:on_level()
+  local m = self.s.on_mode
+  if m and tonumber(m.level) and tonumber(m.level) > 0 then return tonumber(m.level) end
+  return self.s.preset_level > 0 and self.s.preset_level or 100
+end
+
 function Light:on(ms)
-  self:go(self.s.preset_level > 0 and self.s.preset_level or 100, ms or 0)
+  self:go(self:on_level(), ms or 0)
 end
 
 function Light:off(ms)
@@ -466,6 +529,16 @@ function Light:resolve_presets(elements)
   if not uses then return elements end
   local ok, xml = pcall(function() return self.get_setup and self.get_setup() end)
   local brightness, colors = Light.parse_presets(ok and xml or "")
+  -- Anything GET_SETUP did not list: what the proxy pushed (UPDATE_*_PRESET) or seeded earlier.
+  for id, level in pairs(self.s.brightness_presets) do
+    if brightness[tonumber(id)] == nil then brightness[tonumber(id)] = level end
+  end
+  for key, c in pairs(self.s.color_presets) do
+    local origin, id = key:match("^(%d+):(%d+)$")
+    origin, id = tonumber(origin), tonumber(id)
+    colors[origin] = colors[origin] or {}
+    if colors[origin][id] == nil then colors[origin][id] = c end
+  end
   local out = {}
   for i, el in ipairs(elements) do
     local r = U.copy(el)
@@ -601,6 +674,71 @@ function Light:handle(cmd, p, binding)
     if id and id >= 0 and id <= 2 then self:report_button(id, true) else self:report_all_buttons() end
   elseif cmd == "BUTTON_ACTION" then
     self:button_action(num(p.BUTTON_ID, 2), num(p.ACTION, 2))
+  elseif cmd == "UPDATE_BRIGHTNESS_ON_MODE" then
+    s.on_mode = { id = num(p.BRIGHTNESS_PRESET_ID, 0), level = num(p.BRIGHTNESS_PRESET_LEVEL, 0) }
+    self:save()
+  elseif cmd == "UPDATE_BRIGHTNESS_PRESET" then
+    local id, level, what = num(p.ID, 0), num(p.LEVEL, 0), tostring(p.COMMAND or "")
+    if what == "DELETED" then s.brightness_presets[tostring(id)] = nil else s.brightness_presets[tostring(id)] = level end
+    if s.on_mode and s.on_mode.id == id then
+      if what == "DELETED" then s.on_mode = nil else s.on_mode.level = level end
+    end
+    self:save()
+  elseif cmd == "UPDATE_COLOR_ON_MODE" then
+    local function preset(prefix)
+      local origin = num(p[prefix .. "_ORIGIN"], 0)
+      if origin == 0 then return nil end           -- origin 0 = invalid (no preset)
+      return { id = num(p[prefix .. "_ID"], 0), origin = origin, x = tonumber(p[prefix .. "_COLOR_X"]),
+        y = tonumber(p[prefix .. "_COLOR_Y"]), mode = tonumber(p[prefix .. "_COLOR_MODE"]) }
+    end
+    s.color_on_mode = { on = preset("COLOR_PRESET"), dim = preset("COLOR_FADE_PRESET") }
+    self:save()
+  elseif cmd == "UPDATE_COLOR_PRESET" then
+    local id, what = num(p.ID, 0), tostring(p.COMMAND or "")
+    local c = { x = tonumber(p.COLOR_X), y = tonumber(p.COLOR_Y), mode = tonumber(p.COLOR_MODE) or 0 }
+    local key = Light.ORIGIN_DEVICE .. ":" .. id
+    if what == "DELETED" then
+      s.color_presets[key] = nil
+    elseif what == "MODIFIED" or what == "ADDED" then
+      s.color_presets[key] = c
+      if id == 1 then s.default_on_color = c end
+      if id == 2 then s.default_off_color = c end
+      local m = s.color_on_mode
+      for _, slot in ipairs({ "on", "dim" }) do
+        local pr = m and m[slot]
+        if pr and pr.id == id and pr.origin == Light.ORIGIN_DEVICE then pr.x, pr.y, pr.mode = c.x, c.y, c.mode end
+      end
+    end
+    self:save()
+  elseif cmd == "COLOR_SEQUENCE_COMMAND" then
+    local x, y, mode, ms = tonumber(p.X), tonumber(p.Y), num(p.COLOR_MODE, 0), num(p.TIME, 0)
+    if x and y then
+      if p.BRIGHTNESS ~= nil and p.BRIGHTNESS ~= "" then
+        self:go_with_color(num(p.BRIGHTNESS, 0), x, y, mode, ms, ms)
+      else
+        self:set_color(x, y, mode, ms)
+      end
+    end
+  elseif cmd == "SET_ALL_LED" then
+    local color = hex6(p.COLOR)
+    if color then
+      for i = 0, 2 do
+        local c = self:button_colors(i)
+        c.on, c.off = color, color
+      end
+      self:save()
+      self:report_all_buttons()
+    end
+  elseif cmd == "DO_PUSH" or cmd == "DO_CLICK" or cmd == "DO_RELEASE" then
+    -- A press on a button-link binding (300 On / 301 Off / 302 Toggle).
+    local id = binding and (binding - self.button_base)
+    if id and id >= 0 and id <= 2 then
+      local action = cmd == "DO_PUSH" and Light.ACTION_PRESS
+        or cmd == "DO_CLICK" and Light.ACTION_RELEASE_CLICK or Light.ACTION_RELEASE_HOLD
+      self:button_action(id, action)
+    end
+  elseif cmd == "PROTOCOL_COMMAND" then
+    self.log("PROTOCOL_COMMAND (ignored)")
   elseif cmd == "SET_PRESET_LEVEL" then
     s.preset_level = U.clamp(num(p.LEVEL, 100), 0, 100)
     self:notify("PRESET_LEVEL", tostring(s.preset_level))

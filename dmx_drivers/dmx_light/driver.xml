@@ -6,7 +6,7 @@
   <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>48</version>
+  <version>57</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -32,6 +32,22 @@
          declares both. -->
     <on_off>True</on_off>
     <ramp_level>True</ramp_level>
+    <!-- Control4 DMX Light parity (2026-11-21): the rest of the capability set it declares. The
+         on-mode and preset commands they enable are handled in light.lua. Load groups are NOT
+         (load_group_support stays False). -->
+    <level_target>True</level_target>
+    <has_preset>True</has_preset>
+    <supports_default_on>True</supports_default_on>
+    <min_max>False</min_max>
+    <buttons_are_virtual>True</buttons_are_virtual>
+    <num_buttons>0</num_buttons>
+    <hide_proxy_events>False</hide_proxy_events>
+    <hide_proxy_properties>False</hide_proxy_properties>
+    <brightness_on_mode_preset>True</brightness_on_mode_preset>
+    <brightness_on_mode_previous>True</brightness_on_mode_previous>
+    <color_on_mode_previous>True</color_on_mode_previous>
+    <color_on_mode_preset>True</color_on_mode_preset>
+    <color_on_mode_fade>True</color_on_mode_fade>
     <set_level>True</set_level>
     <supports_target>True</supports_target>
     <supports_brightness_stop>True</supports_brightness_stop>

@@ -1300,6 +1300,85 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+T.section("light: Control4 DMX Light parity (on-modes, presets, sequences, LEDs, link presses)")
+do
+  local sim = Sim.new()
+  local node = sim:load("artnet_node", 100, "N", { ["Node IP Address"] = IP })
+  local l = sim:load("dmx_light", 230, "Parity", { ["Fixture Type"] = "RGBWW", ["Channel Map"] = "red,green,blue,warm_white,cool_white", ["Start Address"] = "1" })
+  -- The proxy's presets as GET_SETUP lists them: On colour = red (to make it visible), Off/dim = blue.
+  l.proxy_setup = '<setup><brightnesses><brightness id="1" level="100"/><brightness id="2" level="30"/></brightnesses><colors>' ..
+    '<color origin="1" id="1" color_x="0.64" color_y="0.33" color_mode="0"/>' ..
+    '<color origin="1" id="2" color_x="0.15" color_y="0.06" color_mode="0"/></colors></setup>'
+  sim:bind(l, 1, node, 1, true); sim:init(l); sim:init(node); sim:advance(100)
+  local function lvl() local n = sim:last_notify(l, "LIGHT_BRIGHTNESS_CHANGED"); return n and n.params.LIGHT_BRIGHTNESS_CURRENT or -1 end
+  local function cx() local n = sim:last_notify(l, "LIGHT_COLOR_CHANGED"); return n and n.params.LIGHT_COLOR_CURRENT_X or -1 end
+  -- Capabilities declared as Control4's DMX Light.
+  local xml = assert(io.open("build/dmx_light/driver.xml")):read("*a")
+  for _, cap in ipairs({ "level_target", "has_preset", "brightness_on_mode_preset", "brightness_on_mode_previous",
+      "color_on_mode_preset", "color_on_mode_previous", "color_on_mode_fade", "supports_default_on" }) do
+    T.ok(xml:find("<" .. cap .. ">True</" .. cap .. ">", 1, true) ~= nil, cap .. " declared")
+  end
+  -- Turning ON from off takes the On colour preset (seeded from GET_SETUP on load).
+  sim:proxy(l, "ON", {}); sim:advance(100)
+  T.near(cx(), 0.64, 0.001, "ON: colour preset 1 ('On') applied")
+  -- Turning OFF takes the Off/dim colour preset.
+  sim:proxy(l, "OFF", {}); sim:advance(100)
+  T.near(cx(), 0.15, 0.001, "OFF: colour preset 2 ('Off') applied"); T.eq(lvl(), 0, "and dark")
+  -- Brightness on-mode: ON goes to its level.
+  sim:proxy(l, "UPDATE_BRIGHTNESS_ON_MODE", { BRIGHTNESS_PRESET_ID = 2, BRIGHTNESS_PRESET_LEVEL = 30 })
+  sim:proxy(l, "ON", {}); sim:advance(100)
+  T.eq(lvl(), 30, "ON goes to the brightness on-mode preset (30)")
+  sim:proxy(l, "UPDATE_BRIGHTNESS_PRESET", { COMMAND = "MODIFIED", ID = 2, LEVEL = 45 })
+  sim:proxy(l, "OFF", {}); sim:proxy(l, "ON", {}); sim:advance(100)
+  T.eq(lvl(), 45, "an edited on-mode preset level follows")
+  -- Colour on-mode presets override presets 1/2.
+  sim:proxy(l, "OFF", {}); sim:advance(50)
+  local kx, ky = C.kelvin_to_xy(3000)
+  sim:proxy(l, "UPDATE_COLOR_ON_MODE", { COLOR_PRESET_ID = 7, COLOR_PRESET_ORIGIN = 2, COLOR_PRESET_COLOR_X = kx, COLOR_PRESET_COLOR_Y = ky, COLOR_PRESET_COLOR_MODE = 1,
+    COLOR_FADE_PRESET_ID = 0, COLOR_FADE_PRESET_ORIGIN = 0 })
+  sim:proxy(l, "ON", {}); sim:advance(100)
+  T.near(cx(), kx, 0.001, "colour on-mode preset (3000K) used on turn-on")
+  local w = sim:slots(1, 5)
+  T.ok(w[1] == 0 and w[4] > 0, "RGBWW: 3000K from the white LEDs " .. T.show(w))
+  -- A colour picked while off is used on the next ON instead of the on-mode colour.
+  sim:proxy(l, "OFF", {}); sim:advance(50)
+  sim:proxy(l, "SET_COLOR_TARGET", color(0.30, 0.60)); sim:proxy(l, "ON", {}); sim:advance(100)
+  T.near(cx(), 0.30, 0.001, "colour picked while off wins on the next ON")
+  -- Colour sequences (proxy-driven): brightness + colour, or colour only.
+  sim:proxy(l, "COLOR_SEQUENCE_COMMAND", { X = 0.15, Y = 0.06, BRIGHTNESS = 80, TIME = 0, COLOR_MODE = 0 }); sim:advance(50)
+  T.eq(lvl(), 80, "sequence step: brightness"); T.near(cx(), 0.15, 0.001, "sequence step: colour")
+  sim:proxy(l, "COLOR_SEQUENCE_COMMAND", { X = 0.64, Y = 0.33, TIME = 0, COLOR_MODE = 0 }); sim:advance(50)
+  T.near(cx(), 0.64, 0.001, "colour-only sequence step"); T.eq(lvl(), 80, "brightness kept")
+  -- SET_ALL_LED: every button LED to one colour.
+  sim:clear(l)
+  sim:proxy(l, "SET_ALL_LED", { COLOR = "ff0000" })
+  local infos = sim:notifies(l, "BUTTON_INFO")
+  T.eq(#infos, 3, "BUTTON_INFO for all three buttons")
+  T.ok(infos[1].raw.ON_COLOR == "ff0000" and infos[3].raw.OFF_COLOR == "ff0000", "all LEDs ff0000")
+  -- A press on the Off button link binding (301).
+  sim:call(l, "ReceivedFromProxy", 301, "DO_CLICK", {}); sim:advance(1000)
+  T.eq(lvl(), 0, "DO_CLICK on the Off link turns it off")
+  sim:call(l, "ReceivedFromProxy", 302, "DO_CLICK", {}); sim:advance(1000)
+  T.ok(lvl() > 0, "DO_CLICK on the Toggle link turns it back on")
+  -- The app's button-link binding requests.
+  local ui = rawget(l.env, "UIRequest")
+  T.eq(ui("GET_BUTTON_LINK_BINDING_TOGGLE", {}), "<BUTTON_LINK_BINDING_TOGGLE><ID>302</ID></BUTTON_LINK_BINDING_TOGGLE>", "UIRequest: toggle link = 302")
+  T.eq(ui("GET_BUTTON_LINK_BINDING_UP", {}), "<BUTTON_LINK_BINDING_UP><ID>300</ID></BUTTON_LINK_BINDING_UP>", "UIRequest: on link = 300")
+  -- Scene presets resolve from what the proxy PUSHED when GET_SETUP has nothing.
+  l.proxy_setup = ""
+  sim:proxy(l, "UPDATE_BRIGHTNESS_PRESET", { COMMAND = "ADDED", ID = 6, LEVEL = 55 })
+  sim:proxy(l, "PUSH_SCENE", { SCENE_ID = 8, ELEMENTS = "<element><delay>0</delay><rate>0</rate><level>100</level><brightnessEnabled>True</brightnessEnabled><brightnessPresetID>6</brightnessPresetID></element>", FLASH = "False", IGNORE_RAMP = "False" })
+  sim:proxy(l, "ACTIVATE_SCENE", { SCENE_ID = 8 }); sim:advance(100)
+  T.eq(lvl(), 55, "scene preset from a pushed UPDATE_BRIGHTNESS_PRESET")
+  -- A light with no colour control is untouched by colour presets.
+  local d = sim:load("dmx_light", 231, "Plain", { ["Fixture Type"] = "Single Color Dimmable", ["Channel Map"] = "dimmer", ["Start Address"] = "20" })
+  d.proxy_setup = l.proxy_setup
+  sim:bind(d, 1, node, 1, true); sim:init(d); sim:advance(50)
+  sim:proxy(d, "ON", {}); sim:advance(50)
+  T.eq(sim:slots(20, 20)[1], 255, "dimmer ON")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("negative controls: the checks above can fail")
 do
   -- If the frame decoder or the slot helper were broken, every "reaches the wire" check would be

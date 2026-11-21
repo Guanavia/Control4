@@ -622,3 +622,31 @@ element's own values + unsilenceable log line. Debug Mode logs the GET_SETUP XML
 hardware: the exact GET_SETUP attribute names (taken from Control4's parser). Scenarios: preset
 scene on, 'Off' preset scene off, edited preset without re-push, unknown preset; mutation (no
 resolution) caught.
+
+## Control4 DMX Light parity (Dave: "emulate exactly how C4's DMX light works, with our channel
+## topology"), 2026-11-21, light build 49 — BUILT, offline-tested, structural
+
+Inventory of Control4's `control4_dmx_light.c4z` (readable; facts only, decision 7) vs ours, then
+the gaps closed in light.lua (shared, so the mover gets them too):
+- **Commands added:** UPDATE_BRIGHTNESS_ON_MODE (ON goes to its level: Control4's GetPresetLevel),
+  UPDATE_BRIGHTNESS_PRESET (cache; on-mode level follows; DELETED clears), UPDATE_COLOR_ON_MODE
+  (on preset + dim/fade preset; origin 0 = none), UPDATE_COLOR_PRESET (ids 1/2 = default On/Off
+  colours; updates matching on-mode presets), COLOR_SEQUENCE_COMMAND (X Y [BRIGHTNESS] TIME
+  COLOR_MODE), SET_ALL_LED (COLOR to every button LED), DO_PUSH/DO_CLICK/DO_RELEASE on link
+  bindings 300-302, PROTOCOL_COMMAND (ignored), UIRequest GET_BUTTON_LINK_BINDING_UP/DOWN/TOGGLE
+  (`<BUTTON_LINK_BINDING_TOGGLE><ID>302</ID>...`).
+- **Turn-on / turn-off colours (Control4's SetBrightnessTarget):** a level command with no colour of
+  its own takes, when turning ON from off, the colour picked while off, else the colour on-mode
+  preset, else colour preset 1; when turning OFF from on, the dim preset, else colour preset 2.
+  Only on lights with colour or temperature. Presets seeded from GET_SETUP on load.
+- **Capabilities added (static, light + mover):** level_target, has_preset, supports_default_on,
+  min_max False, buttons_are_virtual, num_buttons 0, hide_proxy_events/properties False,
+  brightness_on_mode_preset/previous, color_on_mode_previous/preset/fade.
+- **Deliberately NOT matched:** load groups (Control4 declares load_group_support True and forwards
+  commands to group devices: not built); its driver-specific programming commands (Random/3-colour
+  colour sequences: animation, out of scope) and warm dimming (CCT follows brightness, properties).
+  Colour preset scenes: we resolve at fire time, Control4 at push.
+- **Behaviour change Dave should expect:** after an OFF, the next ON returns to the On colour preset
+  (Control4's default) unless Color On Mode is set to Previous in Composer.
+- Tests: 457 scenario (new parity section), mutations caught (no colour transitions; no on-mode
+  level; no link presses). UNVERIFIED on hardware: all of it, and the GET_SETUP attribute names.

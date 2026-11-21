@@ -476,6 +476,8 @@ function F.push_capabilities()
     caps.color_correlated_temperature_max = lay.cct_max
   end
   F.last_caps = caps
+  -- On/Off colour presets (Control4 parity) apply only where colour or temperature exists.
+  F.light.color_capable = (lay.supports_color or lay.supports_cct) and true or false
   F.light:capabilities(caps)
 end
 
@@ -1206,6 +1208,10 @@ function F.install(opts)
     F.refresh_gateway_list()
     F.apply_config("driver loaded")
     F.light:announce()
+    -- Seed presets (On/Off colours, brightness/colour presets for scenes) from the proxy, as
+    -- Control4's DMX Light reads them, before the proxy pushes any update.
+    local ok, xml = pcall(function() return F.light.get_setup() end)
+    if ok and xml and xml ~= "" then F.light:seed_presets(xml) end
     F.push_extras_setup_state()
     if F.ext.late_init then F.ext.late_init() end
   end
@@ -1304,6 +1310,16 @@ function F.install(opts)
       end
     end)
     if not ok then F.critical("command %s failed: %s", strCommand, tostring(err)) end
+  end
+
+  -- The app asks which binding is each button link (Control4's DMX Light answers these).
+  function UIRequest(sRequest, tParams)
+    local ids = { GET_BUTTON_LINK_BINDING_UP = 0, GET_BUTTON_LINK_BINDING_DOWN = 1, GET_BUTTON_LINK_BINDING_TOGGLE = 2 }
+    local tag = { [0] = "BUTTON_LINK_BINDING_UP", [1] = "BUTTON_LINK_BINDING_DOWN", [2] = "BUTTON_LINK_BINDING_TOGGLE" }
+    local id = ids[sRequest]
+    F.debug("UIRequest %s", tostring(sRequest))
+    if id == nil then return "" end
+    return string.format("<%s><ID>%d</ID></%s>", tag[id], F.BUTTON_BASE + id, tag[id])
   end
 
   function GetCommandParamList(commandName, paramName)
