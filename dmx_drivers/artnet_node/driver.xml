@@ -6,7 +6,7 @@
   <model>Art-Net Node (1 universe)</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>17</version>
+  <version>18</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>

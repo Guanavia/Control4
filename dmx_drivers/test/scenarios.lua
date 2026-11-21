@@ -87,6 +87,14 @@ do
   T.eq(sim.packets[#sim.packets].port, 6454, "port 6454")
   T.eq(sim:slots(20, 35)[16], 0, "mover reset channel at its default")
   T.like(par1.errorlog[1], "loaded v0%.1%.0 %(build %d+, %x+%)", "build stamp logged unsilenceably")
+  -- An UPDATE keeps stored property values: Driver Version must be written on every load.
+  local sim2 = Sim.new()
+  local stale = sim2:load("dmx_light", 299, "Stale", { ["Driver Version"] = "v0.1.0 (build 37, deadbeef)" })
+  local nd = sim2:load("artnet_node", 199, "Stale Node", { ["Driver Version"] = "v0.1.0 (build 1, deadbeef)" })
+  sim2:init(stale); sim2:init(nd)
+  T.like(stale.env.Properties["Driver Version"], "^v0%.1%.0 %(build %d+, %x+%)$", "light: Driver Version rewritten on load")
+  T.ok(not stale.env.Properties["Driver Version"]:find("deadbeef"), "light: the stale value is gone")
+  T.ok(not nd.env.Properties["Driver Version"]:find("deadbeef"), "node: the stale value is gone")
 end
 
 T.section("boot: node loads first")

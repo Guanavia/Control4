@@ -1176,6 +1176,10 @@ function F.install(opts)
 
   function OnDriverLateInit()
     F.critical("loaded %s", "@BUILD@")
+    -- A property's driver.xml default applies only on FIRST install: an update keeps the stored
+    -- value, so without this the Driver Version shown stays at the first build forever (bench,
+    -- 2026-11-21: read "build 37" while 43 was running).
+    C4:UpdateProperty("Driver Version", "@BUILD@")
     F.light = Light.new({
       binding = F.PROXY_BINDING, button_base = F.BUTTON_BASE, full_als = opts.full_als,
       apply = function(state, level_ms, color_ms)

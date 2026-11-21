@@ -396,6 +396,7 @@ end
 
 function OnDriverLateInit()
   critical("loaded %s", "@BUILD@")
+  C4:UpdateProperty("Driver Version", "@BUILD@")   -- defaults apply on first install only
   N.init_done = true
   -- A channel test never survives a reload: it would silently override the fixtures.
   set_prop("Test Channels", "Off")

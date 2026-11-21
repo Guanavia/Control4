@@ -585,3 +585,14 @@ DYNAMIC_CAPABILITIES_CHANGED. **Static capability edit = Director restart on upd
 first). Scenario checks both declarations. Other Control4 capabilities we still do not declare
 (`supports_default_on`, `has_preset`, `brightness_on_mode_*`, `load_group_support`) are not needed
 for On/Off; revisit only if a specific control is missing.
+
+## Driver Version showed a stale build (bench, 2026-11-21) — FIXED
+
+Dave read "build 37" in Composer while build 43 was installed. Cause: a property's driver.xml
+`<default>` applies only on FIRST install; updates keep the stored value, and our drivers never
+wrote Driver Version at runtime (YAS209 does, with UpdateProp). So every update since the first
+lensshift_ install (build 37) displayed 37. Now light, mover and node write it on every load;
+scenario feeds a stale value and checks it is replaced. **The trustworthy build number is the
+"loaded v0.1.0 (build N, ...)" line in the Lua output.**
+The same update RESTARTED Director: build 42 (`on_off` in static `<capabilities>`) was the
+structural change, and it was first installed in this update.
