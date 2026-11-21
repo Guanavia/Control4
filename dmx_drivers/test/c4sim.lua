@@ -78,6 +78,13 @@ function Sim:make_c4(dev)
   -- Documented (API 25_proxy / 36_variable). The sim's proxy is the device itself; variable 6661
   -- echoes the last DYNAMIC_CAPABILITIES_CHANGED as the light proxy's XML would.
   function api:GetProxyDevices() return dev.id end
+  -- Documented (API: C4:SendUIRequest). Only GET_SETUP to a device's own proxy is modelled: the
+  -- test sets dev.proxy_setup to the XML the light_v2 proxy would return.
+  function api:SendUIRequest(id, request, params)
+    local d = world.devices[tonumber(id)]
+    if request == "GET_SETUP" and d then return d.proxy_setup or "" end
+    return ""
+  end
   function api:GetDeviceVariable(id, var)
     if tonumber(var) == 6661 and dev.proxy_caps then
       local parts = { "<DynamicCapabilities>" }

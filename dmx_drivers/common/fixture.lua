@@ -1187,6 +1187,15 @@ function F.install(opts)
       end,
       on_scene_activated = F.ext.on_scene_activated,
       log = F.debug,
+      warn = function(msg) F.critical("%s", msg) end,
+      get_setup = function()
+        local proxy = C4:GetProxyDevices()
+        local id = tonumber(proxy) or (type(proxy) == "table" and tonumber(next(proxy))) or nil
+        if not id then return nil end
+        local xml = C4:SendUIRequest(id, "GET_SETUP", {})
+        F.debug("proxy GET_SETUP: %s", tostring(xml))
+        return xml
+      end,
       persist = F.schedule_persist,
     })
     F.restore()

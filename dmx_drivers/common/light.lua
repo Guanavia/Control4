@@ -34,6 +34,9 @@ function Light.new(opts)
   self.apply = opts.apply
   self.on_scene_activated = opts.on_scene_activated
   self.log = opts.log or function() end
+  self.warn = opts.warn or self.log
+  -- Returns the proxy's GET_SETUP XML (brightness + colour presets); nil when unavailable.
+  self.get_setup = opts.get_setup
   self.persist = opts.persist
   self.timers = {}
   self.online = false
@@ -411,8 +414,72 @@ function Light.parse_elements(xml)
       color_enabled = U.toboolean(e.colorEnabled),
       color_rate = tonumber(e.colorRate) or 0,
       x = tonumber(e.colorX), y = tonumber(e.colorY), mode = tonumber(e.colorMode) or 0,
+      -- Scenes built from presets carry the preset ids; the level/colour values beside them are
+      -- not authoritative (Control4's own DMX Light ignores them and looks the preset up).
+      brightness_preset = tonumber(e.brightnessPresetID) or 0,
+      color_preset = tonumber(e.colorPresetID) or 0,
+      color_origin = tonumber(e.colorPresetOrigin) or 0,
     }
     out[#out + 1] = el
+  end
+  return out
+end
+
+-- The proxy's presets, from GET_SETUP: <brightnesses><brightness id level .../></brightnesses> and
+-- <colors><color origin id color_x color_y [color_mode] .../></colors> (attributes, as Control4's
+-- own DMX Light reads them). Returns brightness[id] = level, colors[origin][id] = {x, y, mode}.
+local function attrs(tag)
+  local a = {}
+  for k, v in tag:gmatch('([%w_]+)%s*=%s*"([^"]*)"') do a[k] = v end
+  for k, v in tag:gmatch("([%w_]+)%s*=%s*'([^']*)'") do a[k] = v end
+  return a
+end
+
+function Light.parse_presets(xml)
+  local brightness, colors = {}, {}
+  xml = tostring(xml or "")
+  local b = xml:match("<brightnesses[^>]*>(.-)</brightnesses>") or ""
+  for tag in b:gmatch("<brightness%s([^>]*)>") do
+    local a = attrs(tag)
+    local id, level = tonumber(a.id), tonumber(a.level)
+    if id and level then brightness[id] = level end
+  end
+  local c = xml:match("<colors[^>]*>(.-)</colors>") or ""
+  for tag in c:gmatch("<color%s([^>]*)>") do
+    local a = attrs(tag)
+    local origin, id = tonumber(a.origin), tonumber(a.id)
+    local x, y = tonumber(a.color_x), tonumber(a.color_y)
+    if origin and id and x and y then
+      colors[origin] = colors[origin] or {}
+      colors[origin][id] = { x = x, y = y, mode = tonumber(a.color_mode) }
+    end
+  end
+  return brightness, colors
+end
+
+-- A copy of a scene's elements with every preset id replaced by the preset's current value.
+function Light:resolve_presets(elements)
+  local uses = false
+  for _, el in ipairs(elements) do
+    if el.brightness_preset > 0 or el.color_preset > 0 then uses = true end
+  end
+  if not uses then return elements end
+  local ok, xml = pcall(function() return self.get_setup and self.get_setup() end)
+  local brightness, colors = Light.parse_presets(ok and xml or "")
+  local out = {}
+  for i, el in ipairs(elements) do
+    local r = U.copy(el)
+    if el.brightness_preset > 0 then
+      local level = brightness[el.brightness_preset]
+      if level then r.level = level
+      else self.warn("scene uses brightness preset " .. el.brightness_preset .. ", which the proxy does not list; using the level in the scene (" .. tostring(el.level) .. ")") end
+    end
+    if el.color_preset > 0 then
+      local c = colors[el.color_origin] and colors[el.color_origin][el.color_preset]
+      if c then r.x, r.y, r.mode = c.x, c.y, c.mode or el.mode
+      else self.warn("scene uses color preset " .. el.color_preset .. " (origin " .. el.color_origin .. "), which the proxy does not list; using the color in the scene") end
+    end
+    out[i] = r
   end
   return out
 end
@@ -475,7 +542,9 @@ function Light:activate_scene(id)
     self.log("ACTIVATE_SCENE " .. tostring(id) .. ": scene was never pushed to this driver")
   else
     self:stop_scene()
-    self.scene_run = { scene = scene, state = 0 }
+    -- Presets resolved when the scene FIRES, so editing a preset needs no re-push.
+    local run_scene = { elements = self:resolve_presets(scene.elements), flash = scene.flash, ignore_ramp = scene.ignore_ramp }
+    self.scene_run = { scene = run_scene, state = 0 }
     self:run_scene_step()
   end
   if self.on_scene_activated then self.on_scene_activated(tonumber(id)) end

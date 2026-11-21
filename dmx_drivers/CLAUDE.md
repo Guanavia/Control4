@@ -612,3 +612,13 @@ level|brightness, brightnessEnabled, colorEnabled, colorRate, colorX/Y/Mode); it
 colour PRESET ids (brightnessPresetID, colorPresetID) are NOT resolved by us yet: if a pushed
 scene uses presets, the Debug log's PUSH_SCENE ELEMENTS will show it. **Structural: Director
 restart on update.** Scenario: push an on scene and an off scene, fire both, wire goes dark.
+**Presets (Dave: "all scenes use brightness and colour presets"), same day, light build 46.** Pushed
+elements carry `brightnessPresetID`, `colorPresetID`, `colorPresetOrigin`; their level/colour
+values are not authoritative. As Control4's own DMX Light does, the light asks its proxy
+`C4:SendUIRequest(proxy, "GET_SETUP", {})` and reads `<brightnesses><brightness id level/>` and
+`<colors><color origin id color_x color_y [color_mode]/>` (ATTRIBUTES). Ours resolves when the
+scene FIRES (Control4's resolves at push), so an edited preset needs no re-push. Unknown preset ->
+element's own values + unsilenceable log line. Debug Mode logs the GET_SETUP XML. UNVERIFIED on
+hardware: the exact GET_SETUP attribute names (taken from Control4's parser). Scenarios: preset
+scene on, 'Off' preset scene off, edited preset without re-push, unknown preset; mutation (no
+resolution) caught.

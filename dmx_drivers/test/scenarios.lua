@@ -1253,6 +1253,53 @@ do
 end
 
 ---------------------------------------------------------------------------------------------
+T.section("light: scenes built from brightness and colour presets")
+do
+  local sim, node, par1 = rig()
+  -- What the light_v2 proxy answers to GET_SETUP (attributes, as Control4's DMX Light reads them).
+  local function setup(dim_level, red_x)
+    return '<setup><brightnesses><brightness id="1" name="On" level="100"/><brightness id="2" name="Dim" level="' ..
+      dim_level .. '"/><brightness id="3" name="Off" level="0"/></brightnesses><colors>' ..
+      '<color origin="2" id="5" name="Red" color_x="' .. red_x .. '" color_y="0.33" color_mode="0"/>' ..
+      '<color origin="1" id="1" name="Daylight" color_x="0.3127" color_y="0.329" color_mode="0"/></colors></setup>'
+  end
+  par1.proxy_setup = setup(40, 0.64)
+  -- The element's own level/colour (100, blue) must be IGNORED in favour of the presets.
+  local function el(bp, cp, origin)
+    return string.format("<element><delay>0</delay><rate>0</rate><level>100</level><brightnessEnabled>True</brightnessEnabled><colorEnabled>%s</colorEnabled><colorRate>0</colorRate><colorX>0.15</colorX><colorY>0.06</colorY><colorMode>0</colorMode><brightnessPresetID>%d</brightnessPresetID><colorPresetID>%d</colorPresetID><colorPresetOrigin>%d</colorPresetOrigin></element>",
+      cp > 0 and "True" or "False", bp, cp, origin)
+  end
+  sim:proxy(par1, "PUSH_SCENE", { SCENE_ID = 3, ELEMENTS = el(2, 5, 2), FLASH = "False", IGNORE_RAMP = "False" })
+  sim:proxy(par1, "PUSH_SCENE", { SCENE_ID = 4, ELEMENTS = el(3, 0, 0), FLASH = "False", IGNORE_RAMP = "False" })
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 3 })
+  sim:advance(200)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 40, "brightness preset 'Dim' = 40 (element's 100 ignored)")
+  local c = sim:last_notify(par1, "LIGHT_COLOR_CHANGED").params
+  T.near(c.LIGHT_COLOR_CURRENT_X, 0.64, 0.001, "colour preset 'Red' (element's blue ignored)")
+  local s = sim:slots(1, 4)
+  T.ok(s[1] > 0 and s[3] == 0, "red on the wire " .. T.show(s))
+  -- The scene's off side, built from the 'Off' brightness preset.
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 4 })
+  sim:advance(200)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 0, "'Off' preset scene turns it off")
+  T.eq(sim:slots(1, 4), { 0, 0, 0, 0 }, "dark on the wire")
+  -- Editing a preset takes effect the next time the scene fires, with no re-push.
+  par1.proxy_setup = setup(70, 0.60)
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 3 })
+  sim:advance(200)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 70, "edited 'Dim' preset (70) used without a re-push")
+  -- An unknown preset falls back to the element's own values and says so unsilenceably.
+  sim:proxy(par1, "PUSH_SCENE", { SCENE_ID = 5, ELEMENTS = el(9, 0, 0), FLASH = "False", IGNORE_RAMP = "False" })
+  sim:clear(par1)
+  sim:proxy(par1, "ACTIVATE_SCENE", { SCENE_ID = 5 })
+  sim:advance(200)
+  T.eq(sim:last_notify(par1, "LIGHT_BRIGHTNESS_CHANGED").params.LIGHT_BRIGHTNESS_CURRENT, 100, "unknown preset: element level used")
+  local warned = false
+  for _, l in ipairs(par1.errorlog) do if l:find("brightness preset 9", 1, true) then warned = true end end
+  T.ok(warned, "and the missing preset is logged regardless of Debug Mode")
+end
+
+---------------------------------------------------------------------------------------------
 T.section("negative controls: the checks above can fail")
 do
   -- If the frame decoder or the slot helper were broken, every "reaches the wire" check would be
