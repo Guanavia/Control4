@@ -6,7 +6,7 @@
   <model>DMX Moving Head</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>37</version>
+  <version>38</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -26,6 +26,12 @@
        lighting scene without a second load. Not a dynamic capability before OS 4.2.1. -->
   <capabilities>
     <dimmer>True</dimmer>
+    <!-- on_off / ramp_level (bench, 2026-11-21): undeclared, the proxy offered no On/Off, so the
+         device switch and lighting scenes that turn the light OFF did nothing. Both commands were
+         always handled (light.lua); only the declaration was missing. Control4's own DMX Light
+         declares both. -->
+    <on_off>True</on_off>
+    <ramp_level>True</ramp_level>
     <set_level>True</set_level>
     <supports_target>True</supports_target>
     <supports_brightness_stop>True</supports_brightness_stop>

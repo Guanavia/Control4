@@ -286,6 +286,11 @@ do
       d.name .. ": rate ranges sent with capabilities")
   end
   T.eq(c.supports_color, true, "RGBW: color picker")
+  T.eq(c.on_off, true, "On/Off declared in the capability update (switch + scene OFF)")
+  local xml = assert(io.open("build/dmx_light/driver.xml")):read("*a")
+  T.ok(xml:find("<on_off>True</on_off>", 1, true) ~= nil, "and statically in driver.xml")
+  local mxml = assert(io.open("build/dmx_mover/driver.xml")):read("*a")
+  T.ok(mxml:find("<on_off>True</on_off>", 1, true) ~= nil, "mover declares On/Off too")
   T.eq(c.supports_color_correlated_temperature, false, "RGBW: no temperature slider (as Control4)")
   sim:proxy(old, "SET_COLOR_TARGET", { LIGHT_COLOR_TARGET_X = 0.4578, LIGHT_COLOR_TARGET_Y = 0.4101, LIGHT_COLOR_TARGET_MODE = 1 })
   sim:proxy(old, "SET_LEVEL", { LEVEL = 100 })

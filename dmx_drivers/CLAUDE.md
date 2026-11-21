@@ -573,3 +573,15 @@ the temperature slider" decision and the 2026-10-11 Max Brightness property):
   407 scenario.
 - UNVERIFIED on hardware: everything above; and real HSIC hue conventions vary per fixture (hence
   Hue Offset).
+
+## On/Off did not work (bench, 2026-11-21) — FIXED, structural
+
+Dave: the light dimmed to 0 but the device On/Off switch did nothing, so lighting scenes that
+turn it OFF (they use On/Off, not dim-to-0) could not turn it off. Cause: **`<on_off>` was never
+declared** (light_v2 treats it as absent), although ON/OFF/TOGGLE/RAMP_TO_LEVEL were always handled
+in light.lua. Compared with Control4's own DMX Light, which declares `on_off` and `ramp_level`.
+Fixed in dmx_light AND dmx_mover: both declared statically in `<capabilities>` and in every
+DYNAMIC_CAPABILITIES_CHANGED. **Static capability edit = Director restart on update** (back up
+first). Scenario checks both declarations. Other Control4 capabilities we still do not declare
+(`supports_default_on`, `has_preset`, `brightness_on_mode_*`, `load_group_support`) are not needed
+for On/Off; revisit only if a specific control is missing.

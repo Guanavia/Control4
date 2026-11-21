@@ -456,6 +456,8 @@ function F.push_capabilities()
   local caps = {
     dimmer = lay.controllable and not lay.switch,   -- On/Off shows a switch, not a slider
     supports_target = true,
+    on_off = true,                                  -- also static in driver.xml (needed for OFF)
+    ramp_level = true,
     supports_brightness_stop = true,
     supports_color = lay.supports_color,
     supports_color_correlated_temperature = lay.supports_cct,
