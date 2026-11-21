@@ -650,3 +650,11 @@ the gaps closed in light.lua (shared, so the mover gets them too):
   (Control4's default) unless Color On Mode is set to Previous in Composer.
 - Tests: 457 scenario (new parity section), mutations caught (no colour transitions; no on-mode
   level; no link presses). UNVERIFIED on hardware: all of it, and the GET_SETUP attribute names.
+**Bench, same day: the scene OFF still sent 100.** Show Proxy Capabilities: the proxy held
+`advanced_scene_support=False` although driver.xml declares True, so the static change did not
+reach the proxy (static capabilities are read at instantiation; an update evidently does not
+re-read them, restart or not). It IS in the proxy's dynamic set, so every
+DYNAMIC_CAPABILITIES_CHANGED now carries `advanced_scene_support` / `reduced_als_support` (light
+build 58). **Rule: anything the proxy must see changed on an EXISTING device goes in the dynamic
+capability update too, not only driver.xml.** Also fixed: every ExecuteCommand (e.g. LUA_ACTION)
+was logged as "from gateway".

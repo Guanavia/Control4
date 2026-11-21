@@ -457,6 +457,11 @@ function F.push_capabilities()
     dimmer = lay.controllable and not lay.switch,   -- On/Off shows a switch, not a slider
     supports_target = true,
     on_off = true,                                  -- also static in driver.xml (needed for OFF)
+    -- Scene support, restated at runtime (bench, 2026-11-21): after the static change to full ALS
+    -- the proxy still held advanced_scene_support=False (Show Proxy Capabilities), so the agent
+    -- kept computing scene OFFs itself (and sent 100). It is in the proxy's dynamic set.
+    advanced_scene_support = F.full_als and true or false,
+    reduced_als_support = not F.full_als,
     ramp_level = true,
     supports_brightness_stop = true,
     supports_color = lay.supports_color,
@@ -715,7 +720,7 @@ function F.on_gateway(cmd, p)
   p = p or {}
   -- Every gateway message except level replies is logged regardless of Debug Mode: this protocol
   -- is read from Control4's light driver, not documented, so the first bench runs need to see it.
-  if cmd ~= P.GW_LEVELS then
+  if cmd ~= P.GW_LEVELS and (cmd == P.GW_LINES or cmd == P.GW_STATUS or F.gw_message_via_binding) then
     local parts = {}
     for k, v in pairs(p) do parts[#parts + 1] = tostring(k) .. "=" .. tostring(v) end
     table.sort(parts)
@@ -1168,6 +1173,7 @@ end
 ---------------------------------------------------------------------------------------------
 function F.install(opts)
   F.kind = opts.kind
+  F.full_als = opts.full_als and true or false
   F.ext = opts.ext or {}
   F.ext.on_layout = F.ext.on_layout or function() end
 
@@ -1265,7 +1271,10 @@ function F.install(opts)
     end
     local ok, err = pcall(function()
       if idBinding == P.GATEWAY_INPUT_BINDING then
-        if not F.on_gateway(strCommand, tParams) then F.debug("unhandled gateway message %s", strCommand) end
+        F.gw_message_via_binding = true
+        local handled = F.on_gateway(strCommand, tParams)
+        F.gw_message_via_binding = false
+        if not handled then F.debug("unhandled gateway message %s", strCommand) end
         return
       end
       local extra = X.object_for_command(strCommand)

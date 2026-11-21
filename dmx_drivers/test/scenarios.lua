@@ -1232,6 +1232,8 @@ T.section("light: lighting scenes turn it on AND off (full ALS)")
 do
   local sim, node, par1 = rig()
   local xml = assert(io.open("build/dmx_light/driver.xml")):read("*a")
+  local dc = sim:last_notify(par1, "DYNAMIC_CAPABILITIES_CHANGED").params
+  T.ok(dc.advanced_scene_support == true and dc.reduced_als_support == false, "full ALS also sent at runtime (the proxy kept the old static value)")
   T.ok(xml:find("<advanced_scene_support>True</advanced_scene_support>", 1, true) and
     xml:find("<reduced_als_support>False</reduced_als_support>", 1, true), "light declares full ALS, as Control4's DMX Light")
   -- The agent pushes the scene and its off-toggle side, then fires them by id. Element fields as
@@ -1360,6 +1362,11 @@ do
   T.eq(lvl(), 0, "DO_CLICK on the Off link turns it off")
   sim:call(l, "ReceivedFromProxy", 302, "DO_CLICK", {}); sim:advance(1000)
   T.ok(lvl() > 0, "DO_CLICK on the Toggle link turns it back on")
+  -- An Action is not a gateway message (it was logged as "from gateway: LUA_ACTION").
+  sim:action(l, "SHOW_PROXY_CAPS")
+  local noise = false
+  for _, line in ipairs(l.errorlog) do if line:find("from gateway: LUA_ACTION", 1, true) then noise = true end end
+  T.ok(not noise, "Actions are not logged as gateway messages")
   -- The app's button-link binding requests.
   local ui = rawget(l.env, "UIRequest")
   T.eq(ui("GET_BUTTON_LINK_BINDING_TOGGLE", {}), "<BUTTON_LINK_BINDING_TOGGLE><ID>302</ID></BUTTON_LINK_BINDING_TOGGLE>", "UIRequest: toggle link = 302")
