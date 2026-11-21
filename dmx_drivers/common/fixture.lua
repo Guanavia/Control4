@@ -1236,6 +1236,14 @@ function F.install(opts)
 
   function ReceivedFromProxy(idBinding, strCommand, tParams)
     tParams = tParams or {}
+    -- Debug Mode: every command the proxy delivers, with its binding and parameters, so a control
+    -- that "does nothing" shows whether anything arrived and what (bench, 2026-11-21: On/Off).
+    if Properties["Debug Mode"] == "On" then
+      local parts = {}
+      for k, v in pairs(tParams) do parts[#parts + 1] = tostring(k) .. "=" .. tostring(v) end
+      table.sort(parts)
+      F.debug("proxy -> %s on binding %s {%s}", tostring(strCommand), tostring(idBinding), table.concat(parts, ", "))
+    end
     local ok, err = pcall(function()
       if idBinding == P.GATEWAY_INPUT_BINDING then
         if not F.on_gateway(strCommand, tParams) then F.debug("unhandled gateway message %s", strCommand) end
