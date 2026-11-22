@@ -121,10 +121,10 @@ do
   sim:advance(50)
   local s = sim:slots(1, 4)
   T.ok(s[4] >= 250 and s[1] <= 6 and s[2] <= 6 and s[3] <= 6, "white point -> white LED only " .. T.show(s))
-  -- 50% on a virtual dimmer applies the 2.2 curve.
+  -- 50% on a virtual dimmer: linear, as Control4 (was a 2.2 curve before 2026-11-22).
   sim:proxy(par1, "SET_BRIGHTNESS_TARGET", { LIGHT_BRIGHTNESS_TARGET = 50, RATE = 0 })
   sim:advance(50)
-  T.near(sim:slots(4, 4)[1], math.floor(255 * 0.5 ^ 2.2 + 0.5), 2, "virtual dimmer gamma 2.2 at 50%")
+  T.near(sim:slots(4, 4)[1], 128, 1, "50% = half output, linear as Control4")
   -- OFF
   sim:proxy(par1, "OFF", {})
   sim:advance(50)

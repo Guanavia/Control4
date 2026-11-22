@@ -140,25 +140,28 @@ do
   local w = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
   T.near(w.white, 1, 0.03, "D65 -> white LED"); T.near(w.red, 0, 0.03, "D65: red extracted")
   T.ok(w.red < 0.03 and w.green < 0.03 and w.blue < 0.03, "D65: R, G, B idle (white LED only)")
-  -- Chromaticity preserved (W counts as R=G=B white), nothing past full, across the gamut.
-  local worst_hue, over = 0, 0
-  for _, pt in ipairs({ {0.64,0.33}, {0.30,0.60}, {0.15,0.06}, {0.3127,0.3290}, {0.25,0.25}, {0.40,0.40},
-      {0.35,0.30}, {0.28,0.33}, {0.45,0.41}, {0.20,0.30}, {0.33,0.45}, {0.50,0.35}, {0.30,0.32} }) do
-    local on = C.mix(rgbw, { level = 100, x = pt[1], y = pt[2], mode = C.MODE_FULL })
-    local r0, g0, b0 = C.xy_to_rgb(pt[1], pt[2])
-    local er, eg, eb = on.red + on.white, on.green + on.white, on.blue + on.white
-    local m = math.max(er, eg, eb)
-    worst_hue = math.max(worst_hue, math.abs(er / m - r0), math.abs(eg / m - g0), math.abs(eb / m - b0))
-    for _, v in pairs(on) do if v > 1 + 1e-9 then over = over + 1 end end
+  -- Control4's ColorXYtoRGBW (HSV: W = 1 - saturation), reference values from its formula.
+  local function bytes(m) return { C.to_byte(m.red), C.to_byte(m.green), C.to_byte(m.blue), C.to_byte(m.white) } end
+  local kx, ky = C.kelvin_to_xy(3000)
+  local w3 = bytes(C.mix(rgbw, { level = 100, x = kx, y = ky, mode = C.MODE_FULL }))
+  T.ok(math.abs(w3[1] - 255) <= 1 and math.abs(w3[2] - 130) <= 3 and w3[3] <= 1 and math.abs(w3[4] - 192) <= 3,
+    "3000K as Control4: R255 G130 B0 W192 " .. T.show(w3))
+  kx, ky = C.kelvin_to_xy(4000)
+  local w4 = bytes(C.mix(rgbw, { level = 100, x = kx, y = ky, mode = C.MODE_FULL }))
+  T.ok(math.abs(w4[1] - 139) <= 3 and math.abs(w4[4] - 255) <= 1, "4000K as Control4: R139 .. W255 " .. T.show(w4))
+  local over = 0
+  for _, pt in ipairs({ {0.64,0.33}, {0.30,0.60}, {0.15,0.06}, {0.25,0.25}, {0.40,0.40}, {0.45,0.41}, {0.20,0.30} }) do
+    for _, v in pairs(C.mix(rgbw, { level = 100, x = pt[1], y = pt[2], mode = C.MODE_FULL })) do
+      if v > 1 + 1e-9 then over = over + 1 end
+    end
   end
-  T.ok(worst_hue < 1e-6, "RGBW keeps every colour's chromaticity (worst error " .. worst_hue .. ")")
   T.eq(over, 0, "RGBW never drives an emitter past full")
   T.ok(not rgbw.supports_cct and rgbw.supports_color, "RGBW: colour picker, no temperature (as Control4)")
   T.ok(not lay("red,green,blue", "rgb").supports_cct, "RGB: no temperature (as Control4)")
   local half = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { gamma = 1 })
   T.near(half.white, 0.5, 0.02, "virtual dimmer scales emitters (gamma 1)")
   local halfg = C.mix(rgbw, { level = 50, x = 0.3127, y = 0.3290, mode = C.MODE_FULL })
-  T.near(halfg.white, 0.5 ^ 2.2, 0.02, "virtual dimmer default gamma 2.2")
+  T.near(halfg.white, 0.5, 0.02, "Auto dimming is linear, as Control4 (50% = half)")
   local wm = C.mix(rgbw, { level = 100, x = 0.3127, y = 0.3290, mode = C.MODE_FULL }, { white_mix = 0 })
   T.near(wm.white, 0, 0.001, "White Mix 0 disables extraction")
   local d = C.mix(drgbw, { level = 40, x = 0.64, y = 0.33, mode = C.MODE_FULL })
@@ -176,9 +179,8 @@ do
   local mx, my = C.kelvin_to_xy(4000)
   local midb = C.mix(tw, { level = 100, x = mx, y = my, mode = C.MODE_CCT })
   T.near(math.max(midb.warm_white, midb.cool_white), 1, 0.001, "WW/CW mid-range: stronger LED at full (Control4's max-channel mix)")
-  local mw, mc, m = 1e6 / 2700, 1e6 / 6500, 1e6 / 4000
-  local t = (mw - m) / (mw - mc)
-  T.near(midb.cool_white / midb.warm_white, t / (1 - t), 0.03, "warm/cool ratio by mired")
+  T.near(midb.warm_white, 1, 1e-9, "4000K (below mid 4600K): warm full, as Control4")
+  T.near(midb.cool_white, (4000 - 2700) / (4600 - 2700), 0.01, "cool linear in Kelvin (Control4 ColorCCTtoMaxChannels)")
 
   -- RGBWW: colour from RGB only, temperature from the whites only (Control4); RGB White Mixing
   -- adds R/G/B at the same temperature.
@@ -192,8 +194,9 @@ do
   T.ok(std.red == 0 and std.green == 0 and std.blue == 0, "RGBWW standard: temperature from whites only")
   T.near(math.max(std.warm_white, std.cool_white), 1, 0.001, "and normalised like Tunable White")
   local mixd = C.mix(rgbww, { level = 100, x = mx, y = my, mode = C.MODE_CCT }, { rgb_white_mix = true })
-  local r4, g4, b4 = C.xy_to_rgb(C.kelvin_to_xy(4000))
-  T.ok(math.abs(mixd.red - r4) < 0.01 and math.abs(mixd.blue - b4) < 0.01 and mixd.green > 0,
+  local r4, g4, b4 = C.c4_xy_to_rgb(C.c4_cct_to_xy(4000))
+  r4, g4, b4 = r4 / 255, g4 / 255, b4 / 255
+  T.ok(math.abs(mixd.red - r4) < 0.02 and math.abs(mixd.blue - b4) < 0.02 and mixd.green > 0,
     "RGB White Mixing: RGB adds the same 4000K")
   T.near(mixd.warm_white, std.warm_white, 1e-9, "and the whites are unchanged")
   local twcol = C.mix(rgbww, { level = 100, x = 0.64, y = 0.33, mode = C.MODE_FULL }, { rgb_white_mix = true })

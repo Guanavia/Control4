@@ -135,12 +135,118 @@ function C.xy_to_hs(x, y, primaries)
   return (h * 60) % 360, U.clamp(sat, 0, 1)
 end
 
+---------------------------------------------------------------------------------------------
+-- Control4's own colour conversions (Dave, 2026-11-22: "emulate exactly how C4's DMX light
+-- works"). Control4's DMX Light converts with Director's C4:ColorXYtoRGB / ColorXYtoHSV /
+-- ColorHSVtoRGB / ColorXYtoCCT / ColorCCTtoXY (OS 3.3.0+). On the controller we call THOSE, so
+-- the numbers are Control4's own; off the controller (tests) the equivalents below stand in:
+-- sRGB with its transfer curve, 0-255, normalised to the brightest channel.
+---------------------------------------------------------------------------------------------
+local function c4fn(name)
+  local ok, f = pcall(function() return C4 and C4[name] end)
+  if ok and type(f) == "function" then return f end
+end
+
+local function srgb_encode_(c)
+  if c <= 0.0031308 then return 12.92 * c end
+  return 1.055 * c ^ (1 / 2.4) - 0.055
+end
+
+-- xy -> r, g, b on 0..255 (encoded sRGB, brightest channel 255), as C4:ColorXYtoRGB.
+function C.c4_xy_to_rgb(x, y)
+  local f = c4fn("ColorXYtoRGB")
+  if f then
+    local ok, r, g, b = pcall(f, C4, x, y)
+    if ok and r and g and b then return tonumber(r), tonumber(g), tonumber(b) end
+  end
+  local lr, lg, lb = C.xy_to_rgb(x, y)
+  local r, g, b = srgb_encode_(lr), srgb_encode_(lg), srgb_encode_(lb)
+  local m = math.max(r, g, b)
+  if m <= 0 then return 0, 0, 0 end
+  return 255 * r / m, 255 * g / m, 255 * b / m
+end
+
+-- xy -> hue 0..360, saturation 0..100, as C4:ColorXYtoHSV.
+function C.c4_xy_to_hsv(x, y)
+  local f = c4fn("ColorXYtoHSV")
+  if f then
+    local ok, h, sat = pcall(f, C4, x, y)
+    if ok and h and sat then return tonumber(h), tonumber(sat) end
+  end
+  local r, g, b = C.c4_xy_to_rgb(x, y)
+  local mx, mn = math.max(r, g, b), math.min(r, g, b)
+  local d = mx - mn
+  if mx <= 0 or d <= 1e-9 then return 0, 0 end
+  local h
+  if mx == r then h = ((g - b) / d) % 6
+  elseif mx == g then h = (b - r) / d + 2
+  else h = (r - g) / d + 4 end
+  return (h * 60) % 360, 100 * d / mx
+end
+
+-- Hue at full saturation and value -> 0..255 RGB, as C4:ColorHSVtoRGB(h, 100, 100).
+function C.c4_hue_to_rgb(h)
+  local f = c4fn("ColorHSVtoRGB")
+  if f then
+    local ok, r, g, b = pcall(f, C4, h, 100, 100)
+    if ok and r and g and b then return tonumber(r), tonumber(g), tonumber(b) end
+  end
+  local hp = (h % 360) / 60
+  local xv = 255 * (1 - math.abs(hp % 2 - 1))
+  if hp < 1 then return 255, xv, 0 elseif hp < 2 then return xv, 255, 0
+  elseif hp < 3 then return 0, 255, xv elseif hp < 4 then return 0, xv, 255
+  elseif hp < 5 then return xv, 0, 255 end
+  return 255, 0, xv
+end
+
+function C.c4_xy_to_cct(x, y)
+  local f = c4fn("ColorXYtoCCT")
+  if f then
+    local ok, k = pcall(f, C4, x, y)
+    if ok and tonumber(k) then return tonumber(k) end
+  end
+  return C.xy_to_kelvin(x, y)
+end
+
+function C.c4_cct_to_xy(k)
+  local f = c4fn("ColorCCTtoXY")
+  if f then
+    local ok, x, y = pcall(f, C4, k)
+    if ok and tonumber(x) and tonumber(y) then return tonumber(x), tonumber(y) end
+  end
+  return C.kelvin_to_xy(k)
+end
+
+-- Control4's ColorXYtoRGBW: W = 255 x (1 - saturation), R/G/B = the hue at full saturation x
+-- saturation, everything scaled so the brightest is 255, then W x the White Mixing Ratio.
+-- Returns 0..1 fractions.
+function C.c4_xy_to_rgbw(x, y, wmr)
+  local hue, sat = C.c4_xy_to_hsv(x, y)
+  local r, g, b = C.c4_hue_to_rgb(hue)
+  sat = sat / 100
+  local w = 255 * (1 - sat)
+  r, g, b = r * sat, g * sat, b * sat
+  local m = math.max(r, g, b, w)
+  if m <= 0 then return 0, 0, 0, 0 end
+  return r / m, g / m, b / m, w / m * U.clamp(wmr or 1, 0, 1)
+end
+
+-- Control4's ColorCCTtoMaxChannels: linear in Kelvin either side of the range's middle; the
+-- nearer white runs full. Returns cold, warm (0..1).
+function C.c4_cct_to_cold_warm(k, kmin, kmax)
+  local mid = (kmax + kmin) / 2
+  if k <= mid then return U.clamp((k - kmin) / (mid - kmin), 0, 1), 1 end
+  return 1, U.clamp((k - kmax) / (mid - kmax), 0, 1)
+end
+
 -- Gamma used for the intensity path. "Auto" = 2.2 when dimming is virtual (emitters scaled), 1.0
 -- when the fixture has its own dimmer channel (the fixture applies its own curve).
+-- Auto = LINEAR, as Control4's DMX Light (ScaleByte: value x brightness / 100). Was 2.2 without
+-- a dimmer channel until 2026-11-22, which made 50% send 22% (Dave: "significantly dimmer").
 function C.resolve_gamma(setting, has_dimmer)
   local g = tonumber(setting)
   if g and g > 0 then return g end
-  return has_dimmer and 1.0 or 2.2
+  return 1.0
 end
 
 -- The core mix. layout: a compiled layout (layouts.lua). state: { level = 0..100, x, y, mode }.
@@ -176,7 +282,7 @@ function C.mix(layout, state, opts)
     end
   end
 
-  local kelvin = U.clamp(C.xy_to_kelvin(x, y), layout.cct_min, layout.cct_max)
+  local kelvin = U.clamp(C.c4_xy_to_cct(x, y), layout.cct_min, layout.cct_max)
 
   if layout.type == "dimmer" then
     -- nothing to mix
@@ -187,7 +293,14 @@ function C.mix(layout, state, opts)
       out.saturation = 0
       cct_fraction = (kelvin - layout.cct_min) / (layout.cct_max - layout.cct_min)
     else
-      local h, sat = C.xy_to_hs(x, y, opts.space)
+      local h, sat
+      if opts.space == nil or opts.space == C.SPACES.srgb then
+        -- Control4's own HSIC conversion (C4:ColorXYtoHSV), exactly.
+        h, sat = C.c4_xy_to_hsv(x, y)
+        sat = sat / 100
+      else
+        h, sat = C.xy_to_hs(x, y, opts.space)
+      end
       out.hue = ((h + (tonumber(opts.hue_offset) or 0)) % 360) / 360
       out.saturation = sat
       cct_fraction = U.clamp(tonumber(opts.cct_in_color) or 1, 0, 1)
@@ -201,16 +314,13 @@ function C.mix(layout, state, opts)
     if layout.has_ww_cw then
       -- Mix by mired between the fixture's warm and cool ends. Constant-sum, so the light does
       -- not get brighter in the middle of the range; brightness stays with the dimmer path.
-      local mw, mc, m = 1e6 / layout.cct_min, 1e6 / layout.cct_max, 1e6 / kelvin
-      local t = U.clamp((mw - m) / (mw - mc), 0, 1)
-      e.warm_white, e.cool_white = 1 - t, t
+      -- Control4's ColorCCTtoMaxChannels (linear in Kelvin, nearer white at full).
+      e.cool_white, e.warm_white = C.c4_cct_to_cold_warm(kelvin, layout.cct_min, layout.cct_max)
       local peak = math.max(e.warm_white, e.cool_white)
-      if peak > 0 then
-        e.warm_white, e.cool_white = e.warm_white / peak, e.cool_white / peak
-      end
       if rgb_white and layout.has_rgb then
         -- RGB White Mixing: R/G/B add the same colour temperature on top of the white LEDs.
-        e.red, e.green, e.blue = C.xy_to_rgb(C.kelvin_to_xy(kelvin))
+        local r, g, b = C.c4_xy_to_rgb(C.c4_cct_to_xy(kelvin))
+        e.red, e.green, e.blue = r / 255, g / 255, b / 255
       end
       -- ...except when a CCT channel is also present, the WW/CW pair then runs full and the
       -- fixture's CCT channel sets the temperature.
@@ -223,20 +333,14 @@ function C.mix(layout, state, opts)
       if not layout.has_white and layout.has_rgb then e.red, e.green, e.blue = 1, 1, 1 end
     end
   else
-    local r, g, b
-    if mode == C.MODE_CCT then
-      r, g, b = C.xy_to_rgb(C.kelvin_to_xy(kelvin))
-    else
-      r, g, b = C.xy_to_rgb(x, y)
-    end
+    if mode == C.MODE_CCT then x, y = C.c4_cct_to_xy(kelvin) end
+    local r, g, b = C.c4_xy_to_rgb(x, y)
+    r, g, b = r / 255, g / 255, b / 255
     if layout.has_rgb then
       if layout.has_white then
-        -- 2. White extraction: take the common part of R, G and B out to the white emitter.
-        local w = math.min(r, g, b) * white_mix
-        r, g, b = r - w, g - w, b - w
-        -- Control4's RGBW: the white part is the white LED alone; normalise to the peak.
-        local peak = math.max(r, g, b, w)
-        if peak > 0 then r, g, b, w = r / peak, g / peak, b / peak, w / peak end
+        -- Control4's RGBW (ColorXYtoRGBW): white from the W LED, by saturation.
+        local w
+        r, g, b, w = C.c4_xy_to_rgbw(x, y, white_mix)
         e.white = w
       end
       e.red, e.green, e.blue = r, g, b

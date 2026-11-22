@@ -665,3 +665,22 @@ detail: preset resolution edge cases, colour on-mode presets, colour sequences.
 everything tested on the bench works. **Only untested: Gateway Line on a TWO-DMX-line gateway**
 (no such unit available). Offline coverage: scenarios list both lines, move the look between them
 and release the old line; check on site when one is installed.
+
+## Output maths now Control4's too (Dave, 2026-11-22: "significantly dimmer than expected")
+
+The parity pass the day before matched the proxy BEHAVIOUR (commands, capabilities, scenes,
+presets) but **left our own output maths in place, and I did not flag that as a deviation. Dave's
+correction, keep it: brightness and luminosity are integral to a light's capabilities, scenes and
+presets; "emulate Control4" includes the output, not just the protocol.** Measured vs Control4's
+formulas, ours was far dimmer: white at 50% W55 vs W128; 3000K at 100% R255 G98 W47 vs R255 G130
+W192. Two causes, both fixed (light build 6x / mover):
+1. **Dimming Curve Auto was 2.2 without a dimmer channel** -> now LINEAR, Control4's ScaleByte.
+   1.8/2.2/2.6 remain as options.
+2. **Colour -> LEDs used our linear-light extraction** -> now Control4's own: RGB via
+   C4:ColorXYtoRGB; RGBW via ColorXYtoRGBW (C4:ColorXYtoHSV + ColorHSVtoRGB(h,100,100), W = 1 -
+   saturation, scaled to the brightest, then W x White Mixing Ratio); tunable white via
+   ColorCCTtoMaxChannels (linear in K around the mid, nearer white full); CCT via
+   C4:ColorXYtoCCT/ColorCCTtoXY; Extended in sRGB via C4:ColorXYtoHSV. **On the controller the
+   driver calls Director's own functions**, so values are Control4's exactly; off-controller,
+   encoded-sRGB equivalents stand in (they reproduce the reference values within a byte or two).
+Unchanged: pixels, channel layouts, Extended wide-gamut spaces, RGBWW RGB White Mixing option.

@@ -110,8 +110,8 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <h2>Brightness and color</h2>
 <ul>
 <li>With a <b>Dimmer</b> channel, brightness drives the dimmer and the color channels stay at full color.</li>
-<li>With <b>no Dimmer</b> channel (e.g. a 4-channel RGBW par), brightness scales the color channels (a virtual dimmer), with a 2.2 curve so low levels are usable.</li>
-<li>Colors from the picker are mixed into Red/Green/Blue. The part common to all three moves to <b>White</b> when the fixture has one (see White Mix).</li>
+<li>With <b>no Dimmer</b> channel (e.g. a 4-channel RGBW par), brightness scales the color channels linearly (a virtual dimmer), as Control4 does.</li>
+<li>Colors from the picker are converted exactly as Control4's own DMX Light converts them (Director's own color functions). On RGBW the white part, by saturation, goes to the <b>White</b> LED (see White Mix).</li>
 <li>Color temperature is offered only where the fixture can make it natively: a CCT channel or warm + cool white LEDs, as in Control4's own DMX Light. A warm/cool pair runs its stronger LED at full.</li>
 <li><b>Tunable White Mode</b> (RGBWW only): <i>Standard Tunable White Fixture</i> (default, as Control4) makes temperature from the white LEDs alone and colours from RGB alone. <i>RGB White Mixing</i> adds R/G/B at the same temperature on top of the whites: brighter, but the white is only as accurate as the RGB mix.</li>
 <li>Amber, UV, Lime and Cyan have no place in the color picker. Drive them with Set Control.</li>
@@ -151,7 +151,7 @@ th { background: #f2f2f2; } code { background: #f4f4f4; padding: 0 3px; } .warn 
 <tr><td>Channel N Function / Channel N Default</td><td>Each fixture channel's function and resting value, in wire order (those before the pixels first). Only the channels in use are shown.</td></tr>
 <tr><th colspan="2">Output (Composer section)</th></tr>
 <tr><td>Default Fade (ms)</td><td>Fade used by the Set Control programming command.</td></tr>
-<tr><td>Dimming Curve</td><td>Auto (2.2 without a dimmer channel, linear with one), or a fixed curve.</td></tr>
+<tr><td>Dimming Curve</td><td>Auto (default) is linear, exactly as Control4's own DMX Light: 50% brightness is half output. 1.8, 2.2 and 2.6 are optional curves for finer low-level control, at the cost of output below full.</td></tr>
 <tr><td>Tunable White Mode</td><td>RGBWW only. Standard Tunable White Fixture (default, as Control4) or RGB White Mixing (see Brightness and color).</td></tr>
 <tr><td>Color Space / Custom Primaries</td><td>Extended Range only. sRGB (Control4 standard), Rec. 2020 (wide gamut) or Custom with the fixture's primaries as rx,ry,gx,gy,bx,by. A bad Custom entry is explained in Status and sRGB is used until it is fixed.</td></tr>
 <tr><td>Hue Offset (deg)</td><td>Extended Range only. Rotates the hue sent to the fixture, -180 to 180.</td></tr>

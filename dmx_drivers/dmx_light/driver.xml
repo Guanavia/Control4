@@ -6,7 +6,7 @@
   <model>Adv DMX Light</model>
   <created>2026-09-24</created>
   <modified>2026-09-24</modified>
-  <version>58</version>
+  <version>60</version>
   <small image_source="c4z">www/icons/device_sm.png</small>
   <large image_source="c4z">www/icons/device_lg.png</large>
   <control>lua_gen</control>
@@ -315,7 +315,7 @@
           <item>2.6</item>
         </items>
         <default>Auto</default>
-        <tooltip>Auto = 2.2 when the fixture has no dimmer channel (brightness scales the color channels), linear when it has one.</tooltip>
+        <tooltip>Auto = linear, exactly as Control4's own DMX Light (50% brightness = half output). The curves are optional: higher values give finer control at low levels but less output below full.</tooltip>
       </property>
       <property>
         <name>Tunable White Mode</name>
