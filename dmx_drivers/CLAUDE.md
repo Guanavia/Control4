@@ -687,3 +687,12 @@ Unchanged: pixels, channel layouts, Extended wide-gamut spaces, RGBWW RGB White 
 **Fixture fact (Dave, 2026-11-22): the Alcon 11260's white LED is 2700K.** No code change: with
 Control4's RGBW maths the W LED is used by saturation, not by its colour temperature. (Under
 Control4's model D65 "white" = W alone, so on this bar the picker's white shows as 2700K.)
+
+**BUILD 60 GAVE NO VISIBLE BRIGHTNESS CHANGE (Dave, 2026-11-22), AND THE DRIVER IS NOT CAPPING.**
+Wire dump at 100% (offline sim, 18x RGBW): white = `0,0,0,255`, red = `255,0,0,0`, amber =
+`255,126,0,0`, 2700K = `255,129,0,136`. Every channel the colour uses reaches 255, so there is no
+headroom left in the driver. At white only the W LED is lit (Control4's RGBW rule, same as the
+reference strip). The remaining gap is on the FIXTURE side: Alcon output, its own mode/master level,
+supply or voltage drop. Next step is a positive control, not more maths: run the Alcon's first
+4 channels on Control4's own DMX Light (or the reference strip on ours). Same brightness = the
+fixture; different = us.
