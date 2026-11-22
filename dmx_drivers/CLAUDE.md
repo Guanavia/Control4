@@ -661,3 +661,7 @@ was logged as "from gateway".
 **CONFIRMED ON HARDWARE (Dave, 2026-11-21, light build 58): scenes now turn the light on AND off;
 "working as expected".** Full ALS via the dynamic capability is the fix. Still unverified in
 detail: preset resolution edge cases, colour on-mode presets, colour sequences.
+**Also confirmed (Dave, 2026-11-21):** colour on-modes, edited presets re-firing in scenes,
+everything tested on the bench works. **Only untested: Gateway Line on a TWO-DMX-line gateway**
+(no such unit available). Offline coverage: scenarios list both lines, move the look between them
+and release the old line; check on site when one is installed.
