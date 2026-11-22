@@ -658,3 +658,6 @@ DYNAMIC_CAPABILITIES_CHANGED now carries `advanced_scene_support` / `reduced_als
 build 58). **Rule: anything the proxy must see changed on an EXISTING device goes in the dynamic
 capability update too, not only driver.xml.** Also fixed: every ExecuteCommand (e.g. LUA_ACTION)
 was logged as "from gateway".
+**CONFIRMED ON HARDWARE (Dave, 2026-11-21, light build 58): scenes now turn the light on AND off;
+"working as expected".** Full ALS via the dynamic capability is the fix. Still unverified in
+detail: preset resolution edge cases, colour on-mode presets, colour sequences.
