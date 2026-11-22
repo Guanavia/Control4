@@ -684,3 +684,6 @@ W192. Two causes, both fixed (light build 6x / mover):
    driver calls Director's own functions**, so values are Control4's exactly; off-controller,
    encoded-sRGB equivalents stand in (they reproduce the reference values within a byte or two).
 Unchanged: pixels, channel layouts, Extended wide-gamut spaces, RGBWW RGB White Mixing option.
+**Fixture fact (Dave, 2026-11-22): the Alcon 11260's white LED is 2700K.** No code change: with
+Control4's RGBW maths the W LED is used by saturation, not by its colour temperature. (Under
+Control4's model D65 "white" = W alone, so on this bar the picker's white shows as 2700K.)
